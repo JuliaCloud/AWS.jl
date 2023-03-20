@@ -44,21 +44,8 @@ We cannot call `HTTP.escapeuri(request.uri)` because this will escape `/` charac
 are used in the filepathing for sub-directories.
 """
 function _clean_s3_uri(uri::AbstractString)
-    chars_to_clean = (
-        ' ' => "%20",
-        '!' => "%21",
-        ''' => "%27",
-        '(' => "%28",
-        ')' => "%29",
-        '*' => "%2A",
-        '+' => "%2B",
-        ',' => "%2C",
-        ':' => "%3A",
-        '=' => "%3D",
-        '@' => "%40",
-    )
     parsed_uri = URIs.URI(uri)
-    cleaned_path = reduce(replace, chars_to_clean; init=parsed_uri.path)
+    cleaned_path = URIs.escapepath(parsed_uri.path)
     return string(URIs.URI(parsed_uri; path=cleaned_path))
 end
 

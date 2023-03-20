@@ -279,7 +279,7 @@ end
     describe_organization_configuration()
     describe_organization_configuration(params::Dict{String,<:Any})
 
-Describe Amazon Inspector configuration settings for an Amazon Web Services organization
+Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
 
 """
 function describe_organization_configuration(;

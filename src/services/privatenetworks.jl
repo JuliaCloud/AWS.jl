@@ -579,9 +579,9 @@ end
 
 Lists device identifiers. Add filters to your request to return a more specific list of
 results. Use filters to match the Amazon Resource Name (ARN) of an order, the status of
-device identifiers, or the ARN of the traffic group.  &lt;p&gt;If you specify multiple
-filters, filters are joined with an OR, and the request  returns results that match all of
-the specified filters.
+device identifiers, or the ARN of the traffic group. If you specify multiple filters,
+filters are joined with an OR, and the request returns results that match all of the
+specified filters.
 
 # Arguments
 - `network_arn`: The Amazon Resource Name (ARN) of the network.
@@ -848,6 +848,66 @@ function ping(
 )
     return privatenetworks(
         "GET", "/ping", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    start_network_resource_update(network_resource_arn, update_type)
+    start_network_resource_update(network_resource_arn, update_type, params::Dict{String,<:Any})
+
+Starts an update of the specified network resource. After you submit a request to replace
+or return a network resource, the status of the network resource is
+CREATING_SHIPPING_LABEL. The shipping label is available when the status of the network
+resource is PENDING_RETURN. After the network resource is successfully returned, its status
+is DELETED. For more information, see Return a radio unit.
+
+# Arguments
+- `network_resource_arn`: The Amazon Resource Name (ARN) of the network resource.
+- `update_type`: The update type.    REPLACE - Submits a request to replace a defective
+  radio unit. We provide a shipping label that you can use for the return process and we ship
+  a replacement radio unit to you.    RETURN - Submits a request to replace a radio unit that
+  you no longer need. We provide a shipping label that you can use for the return process.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"returnReason"`: The reason for the return. Providing a reason for a return is optional.
+- `"shippingAddress"`: The shipping address. If you don't provide a shipping address when
+  replacing or returning a network resource, we use the address from the original order for
+  the network resource.
+"""
+function start_network_resource_update(
+    networkResourceArn, updateType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return privatenetworks(
+        "POST",
+        "/v1/network-resources/update",
+        Dict{String,Any}(
+            "networkResourceArn" => networkResourceArn, "updateType" => updateType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_network_resource_update(
+    networkResourceArn,
+    updateType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return privatenetworks(
+        "POST",
+        "/v1/network-resources/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "networkResourceArn" => networkResourceArn, "updateType" => updateType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 

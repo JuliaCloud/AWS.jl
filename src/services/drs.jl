@@ -913,6 +913,49 @@ function retry_data_replication(
 end
 
 """
+    reverse_replication(recovery_instance_id)
+    reverse_replication(recovery_instance_id, params::Dict{String,<:Any})
+
+Start replication to origin / target region - applies only to protected instances that
+originated in EC2. For recovery instances on target region - starts replication back to
+origin region. For failback instances on origin region - starts replication to target
+region to re-protect them.
+
+# Arguments
+- `recovery_instance_id`: The ID of the Recovery Instance that we want to reverse the
+  replication for.
+
+"""
+function reverse_replication(
+    recoveryInstanceID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/ReverseReplication",
+        Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function reverse_replication(
+    recoveryInstanceID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/ReverseReplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_failback_launch(recovery_instance_ids)
     start_failback_launch(recovery_instance_ids, params::Dict{String,<:Any})
 
@@ -1000,6 +1043,44 @@ function start_recovery(
 end
 
 """
+    start_replication(source_server_id)
+    start_replication(source_server_id, params::Dict{String,<:Any})
+
+Starts replication for a stopped Source Server. This action would make the Source Server
+protected again and restart billing for it.
+
+# Arguments
+- `source_server_id`: The ID of the Source Server to start replication for.
+
+"""
+function start_replication(
+    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/StartReplication",
+        Dict{String,Any}("sourceServerID" => sourceServerID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_replication(
+    sourceServerID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/StartReplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_failback(recovery_instance_id)
     stop_failback(recovery_instance_id, params::Dict{String,<:Any})
 
@@ -1033,6 +1114,42 @@ function stop_failback(
             mergewith(
                 _merge, Dict{String,Any}("recoveryInstanceID" => recoveryInstanceID), params
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_replication(source_server_id)
+    stop_replication(source_server_id, params::Dict{String,<:Any})
+
+Stops replication for a Source Server. This action would make the Source Server
+unprotected, delete its existing snapshots and stop billing for it.
+
+# Arguments
+- `source_server_id`: The ID of the Source Server to stop replication for.
+
+"""
+function stop_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config())
+    return drs(
+        "POST",
+        "/StopReplication",
+        Dict{String,Any}("sourceServerID" => sourceServerID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_replication(
+    sourceServerID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/StopReplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

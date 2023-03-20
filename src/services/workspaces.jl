@@ -328,6 +328,52 @@ function create_ip_group(
 end
 
 """
+    create_standby_workspaces(primary_region, standby_workspaces)
+    create_standby_workspaces(primary_region, standby_workspaces, params::Dict{String,<:Any})
+
+Creates a standby WorkSpace in a secondary Region.
+
+# Arguments
+- `primary_region`: The Region of the primary WorkSpace.
+- `standby_workspaces`: Information about the standby WorkSpace to be created.
+
+"""
+function create_standby_workspaces(
+    PrimaryRegion, StandbyWorkspaces; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "CreateStandbyWorkspaces",
+        Dict{String,Any}(
+            "PrimaryRegion" => PrimaryRegion, "StandbyWorkspaces" => StandbyWorkspaces
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_standby_workspaces(
+    PrimaryRegion,
+    StandbyWorkspaces,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateStandbyWorkspaces",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PrimaryRegion" => PrimaryRegion,
+                    "StandbyWorkspaces" => StandbyWorkspaces,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_tags(resource_id, tags)
     create_tags(resource_id, tags, params::Dict{String,<:Any})
 
@@ -373,7 +419,7 @@ end
 Creates a new updated WorkSpace image based on the specified source image. The new updated
 WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces
 components. To determine which WorkSpace images need to be updated with the latest Amazon
-WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10, Windows Sever
+WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10, Windows Server
 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this
 time.   Microsoft Windows updates and other application updates are not included in the
 update process.   The source WorkSpace image is not deleted. You can delete the source
@@ -557,7 +603,9 @@ end
     create_workspaces(workspaces, params::Dict{String,<:Any})
 
 Creates one or more WorkSpaces. This operation is asynchronous and returns before the
-WorkSpaces are created.
+WorkSpaces are created.  The MANUAL running mode value is only supported by Amazon
+WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more
+information, see Amazon WorkSpaces Core.
 
 # Arguments
 - `workspaces`: The WorkSpaces to create. You can specify up to 25 WorkSpaces.
@@ -1562,11 +1610,14 @@ images, see  Bring Your Own Windows Desktop Licenses.
 - `image_description`: The description of the WorkSpace image.
 - `image_name`: The name of the WorkSpace image.
 - `ingestion_process`: The ingestion process to be used when importing the image, depending
-  on which protocol you want to use for your BYOL Workspace image, either PCoIP or WorkSpaces
-  Streaming Protocol (WSP). To use WSP, specify a value that ends in _WSP. To use PCoIP,
-  specify a value that does not end in _WSP.  For non-GPU-enabled bundles (bundles other than
-  Graphics or GraphicsPro), specify BYOL_REGULAR or BYOL_REGULAR_WSP, depending on the
-  protocol.
+  on which protocol you want to use for your BYOL Workspace image, either PCoIP, WorkSpaces
+  Streaming Protocol (WSP), or bring your own protocol (BYOP). To use WSP, specify a value
+  that ends in _WSP. To use PCoIP, specify a value that does not end in _WSP. To use BYOP,
+  specify a value that ends in _BYOP. For non-GPU-enabled bundles (bundles other than
+  Graphics or GraphicsPro), specify BYOL_REGULAR, BYOL_REGULAR_WSP, or BYOL_REGULAR_BYOP,
+  depending on the protocol.  The BYOL_REGULAR_BYOP and BYOL_GRAPHICS_G4DN_BYOP values are
+  only supported by Amazon WorkSpaces Core. Contact your account team to be allow-listed to
+  use these values. For more information, see Amazon WorkSpaces Core.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1751,6 +1802,48 @@ function modify_account(
 )
     return workspaces(
         "ModifyAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    modify_certificate_based_auth_properties(resource_id)
+    modify_certificate_based_auth_properties(resource_id, params::Dict{String,<:Any})
+
+Modifies the properties of the certificate-based authentication you want to use with your
+WorkSpaces.
+
+# Arguments
+- `resource_id`: The resource identifiers, in the form of directory IDs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CertificateBasedAuthProperties"`: The properties of the certificate-based
+  authentication.
+- `"PropertiesToDelete"`: The properties of the certificate-based authentication you want
+  to delete.
+"""
+function modify_certificate_based_auth_properties(
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ModifyCertificateBasedAuthProperties",
+        Dict{String,Any}("ResourceId" => ResourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_certificate_based_auth_properties(
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ModifyCertificateBasedAuthProperties",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1993,7 +2086,9 @@ end
     modify_workspace_properties(workspace_id, workspace_properties, params::Dict{String,<:Any})
 
 Modifies the specified WorkSpace properties. For important information about how to modify
-the size of the root and user volumes, see  Modify a WorkSpace.
+the size of the root and user volumes, see  Modify a WorkSpace.   The MANUAL running mode
+value is only supported by Amazon WorkSpaces Core. Contact your account team to be
+allow-listed to use this value. For more information, see Amazon WorkSpaces Core.
 
 # Arguments
 - `workspace_id`: The identifier of the WorkSpace.

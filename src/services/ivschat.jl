@@ -8,10 +8,16 @@ using AWS.UUIDs
     create_chat_token(room_identifier, user_id)
     create_chat_token(room_identifier, user_id, params::Dict{String,<:Any})
 
-Creates an encrypted token that is used to establish an individual WebSocket connection to
-a room. The token is valid for one minute, and a connection (session) established with the
-token is valid for the specified duration. Encryption keys are owned by Amazon IVS Chat and
-never used directly by your application.
+Creates an encrypted token that is used by a chat participant to establish an individual
+WebSocket chat connection to a room. When the token is used to connect to chat, the
+connection is valid for the session duration specified in the request. The token becomes
+invalid at the token-expiration timestamp included in the response. Use the capabilities
+field to permit an end user to send messages or moderate a room. The attributes field
+securely attaches structured data to the chat session; the data is included within each
+message sent by the end user and received by other participants in the room. Common use
+cases for attributes include passing end-user profile data like an icon, display name,
+colors, badges, and other display features. Encryption keys are owned by Amazon IVS Chat
+and never used directly by your application.
 
 # Arguments
 - `room_identifier`: Identifier of the room that the client is trying to access. Currently
@@ -62,6 +68,56 @@ function create_chat_token(
 end
 
 """
+    create_logging_configuration(destination_configuration)
+    create_logging_configuration(destination_configuration, params::Dict{String,<:Any})
+
+Creates a logging configuration that allows clients to store and record sent messages.
+
+# Arguments
+- `destination_configuration`: A complex type that contains a destination configuration for
+  where chat content will be logged. There can be only one type of destination
+  (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"name"`: Logging-configuration name. The value does not need to be unique.
+- `"tags"`: Tags to attach to the resource. Array of maps, each of the form string:string
+  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
+  tags and \"Tag naming limits and requirements\"; Amazon IVS Chat has no constraints on tags
+  beyond what is documented there.
+"""
+function create_logging_configuration(
+    destinationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivschat(
+        "POST",
+        "/CreateLoggingConfiguration",
+        Dict{String,Any}("destinationConfiguration" => destinationConfiguration);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_logging_configuration(
+    destinationConfiguration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ivschat(
+        "POST",
+        "/CreateLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("destinationConfiguration" => destinationConfiguration),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_room()
     create_room(params::Dict{String,<:Any})
 
@@ -69,6 +125,8 @@ Creates a room that allows clients to connect and pass messages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"loggingConfigurationIdentifiers"`: Array of logging-configuration identifiers attached
+  to the room.
 - `"maximumMessageLength"`: Maximum number of characters in a single message. Messages are
   expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count,
   not number of bytes. Default: 500.
@@ -93,6 +151,43 @@ function create_room(
         "POST",
         "/CreateRoom",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_logging_configuration(identifier)
+    delete_logging_configuration(identifier, params::Dict{String,<:Any})
+
+Deletes the specified logging configuration.
+
+# Arguments
+- `identifier`: Identifier of the logging configuration to be deleted.
+
+"""
+function delete_logging_configuration(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivschat(
+        "POST",
+        "/DeleteLoggingConfiguration",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_logging_configuration(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ivschat(
+        "POST",
+        "/DeleteLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -233,6 +328,43 @@ function disconnect_user(
 end
 
 """
+    get_logging_configuration(identifier)
+    get_logging_configuration(identifier, params::Dict{String,<:Any})
+
+Gets the specified logging configuration.
+
+# Arguments
+- `identifier`: Identifier of the logging configuration to be retrieved.
+
+"""
+function get_logging_configuration(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivschat(
+        "POST",
+        "/GetLoggingConfiguration",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_logging_configuration(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ivschat(
+        "POST",
+        "/GetLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_room(identifier)
     get_room(identifier, params::Dict{String,<:Any})
 
@@ -269,6 +401,39 @@ function get_room(
 end
 
 """
+    list_logging_configurations()
+    list_logging_configurations(params::Dict{String,<:Any})
+
+Gets summary information about all your logging configurations in the AWS region where the
+API request is processed.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Maximum number of logging configurations to return. Default: 50.
+- `"nextToken"`: The first logging configurations to retrieve. This is used for pagination;
+  see the nextToken response field.
+"""
+function list_logging_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ivschat(
+        "POST",
+        "/ListLoggingConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_logging_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivschat(
+        "POST",
+        "/ListLoggingConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_rooms()
     list_rooms(params::Dict{String,<:Any})
 
@@ -277,6 +442,7 @@ processed. Results are sorted in descending order of updateTime.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"loggingConfigurationIdentifier"`: Logging-configuration identifier.
 - `"maxResults"`: Maximum number of rooms to return. Default: 50.
 - `"messageReviewHandlerUri"`: Filters the list to match the specified message review
   handler URI.
@@ -391,9 +557,10 @@ Adds or updates tags for the AWS resource with the specified ARN.
 
 # Arguments
 - `resource_arn`: The ARN of the resource to be tagged. The ARN must be URL-encoded.
-- `tags`: Array of tags to be added or updated. See Tagging AWS Resources for details,
-  including restrictions that apply to tags and \"Tag naming limits and requirements\";
-  Amazon IVS Chat has no constraints beyond what is documented there.
+- `tags`: Array of tags to be added or updated. Array of maps, each of the form
+  string:string (key:value). See Tagging AWS Resources for details, including restrictions
+  that apply to tags and \"Tag naming limits and requirements\"; Amazon IVS Chat has no
+  constraints beyond what is documented there.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -428,9 +595,10 @@ Removes tags from the resource with the specified ARN.
 
 # Arguments
 - `resource_arn`: The ARN of the resource to be untagged. The ARN must be URL-encoded.
-- `tag_keys`: Array of tags to be removed. See Tagging AWS Resources for details, including
-  restrictions that apply to tags and \"Tag naming limits and requirements\"; Amazon IVS Chat
-  has no constraints beyond what is documented there.
+- `tag_keys`: Array of tags to be removed. Array of maps, each of the form string:string
+  (key:value). See Tagging AWS Resources for details, including restrictions that apply to
+  tags and \"Tag naming limits and requirements\"; Amazon IVS Chat has no constraints beyond
+  what is documented there.
 
 """
 function untag_resource(
@@ -460,6 +628,49 @@ function untag_resource(
 end
 
 """
+    update_logging_configuration(identifier)
+    update_logging_configuration(identifier, params::Dict{String,<:Any})
+
+Updates a specified logging configuration.
+
+# Arguments
+- `identifier`: Identifier of the logging configuration to be updated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"destinationConfiguration"`: A complex type that contains a destination configuration
+  for where chat content will be logged. There can be only one type of destination
+  (cloudWatchLogs, firehose, or s3) in a destinationConfiguration.
+- `"name"`: Logging-configuration name. The value does not need to be unique.
+"""
+function update_logging_configuration(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivschat(
+        "POST",
+        "/UpdateLoggingConfiguration",
+        Dict{String,Any}("identifier" => identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_logging_configuration(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ivschat(
+        "POST",
+        "/UpdateLoggingConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("identifier" => identifier), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_room(identifier)
     update_room(identifier, params::Dict{String,<:Any})
 
@@ -470,6 +681,8 @@ Updates a room’s configuration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"loggingConfigurationIdentifiers"`: Array of logging-configuration identifiers attached
+  to the room.
 - `"maximumMessageLength"`: The maximum number of characters in a single message. Messages
   are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point
   count, not number of bytes. Default: 500.

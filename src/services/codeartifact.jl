@@ -16,9 +16,9 @@ connection.
 - `domain`: The name of the domain that contains the repository.
 - `external-connection`:  The name of the external connection to add to the repository. The
   following values are supported:     public:npmjs - for the npm public repository.
-  public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.
-    public:maven-googleandroid - for the Google Android repository.
-  public:maven-gradleplugins - for the Gradle plugins repository.
+  public:nuget-org - for the NuGet Gallery.     public:pypi - for the Python Package Index.
+    public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google
+  Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.
   public:maven-commonsware - for the CommonsWare Android repository.
 - `repository`:  The name of the repository to which the external connection is added.
 
@@ -103,7 +103,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of a Maven package version is its groupId. The namespace is required when copying Maven
   package versions.     The namespace of an npm package version is its scope.     Python and
   NuGet package versions do not contain a corresponding component, package versions of those
-  formats do not have a namespace.
+  formats do not have a namespace.     The namespace of a generic package is it’s
+  namespace.
 - `"versionRevisions"`:  A list of key-value pairs. The keys are package versions and the
   values are package version revisions. A CopyPackageVersion operation succeeds if the
   specified versions in the source repository match the specified package version revision.
@@ -345,6 +346,73 @@ function delete_domain_permissions_policy(
 end
 
 """
+    delete_package(domain, format, package, repository)
+    delete_package(domain, format, package, repository, params::Dict{String,<:Any})
+
+Deletes a package and all associated package versions. A deleted package cannot be
+restored. To delete one or more package versions, use the DeletePackageVersions API.
+
+# Arguments
+- `domain`: The name of the domain that contains the package to delete.
+- `format`: The format of the requested package to delete.
+- `package`: The name of the package to delete.
+- `repository`: The name of the repository that contains the package to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"namespace"`: The namespace of the package to delete. The package component that
+  specifies its namespace depends on its type. For example:    The namespace of a Maven
+  package is its groupId. The namespace is required when deleting Maven package versions.
+  The namespace of an npm package is its scope.     Python and NuGet packages do not contain
+  corresponding components, packages of those formats do not have a namespace.
+"""
+function delete_package(
+    domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "DELETE",
+        "/v1/package",
+        Dict{String,Any}(
+            "domain" => domain,
+            "format" => format,
+            "package" => package,
+            "repository" => repository,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_package(
+    domain,
+    format,
+    package,
+    repository,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "DELETE",
+        "/v1/package",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "domain" => domain,
+                    "format" => format,
+                    "package" => package,
+                    "repository" => repository,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_package_versions(domain, format, package, repository, versions)
     delete_package_versions(domain, format, package, repository, versions, params::Dict{String,<:Any})
 
@@ -352,7 +420,7 @@ end
 your repository. If you want to remove a package version from your repository and be able
 to restore it later, set its status to Archived. Archived packages cannot be downloaded
 from a repository and don't show up with list package APIs (for example,
-ListackageVersions), but you can restore them using UpdatePackageVersionsStatus.
+ListPackageVersions), but you can restore them using UpdatePackageVersionsStatus.
 
 # Arguments
 - `domain`:  The name of the domain that contains the package to delete.
@@ -371,7 +439,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of a Maven package version is its groupId. The namespace is required when deleting Maven
   package versions.     The namespace of an npm package version is its scope.     Python and
   NuGet package versions do not contain a corresponding component, package versions of those
-  formats do not have a namespace.
+  formats do not have a namespace.     The namespace of a generic package is it’s
+  namespace.
 """
 function delete_package_versions(
     domain,
@@ -584,7 +653,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifies its namespace depends on its type. For example:    The namespace of a Maven
   package is its groupId. The namespace is required when requesting Maven packages.     The
   namespace of an npm package is its scope.     Python and NuGet packages do not contain a
-  corresponding component, packages of those formats do not have a namespace.
+  corresponding component, packages of those formats do not have a namespace.     The
+  namespace of a generic package is it’s namespace.
 """
 function describe_package(
     domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()
@@ -653,7 +723,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component that specifies its namespace depends on its type. For example:    The namespace
   of a Maven package version is its groupId.     The namespace of an npm package version is
   its scope.     Python and NuGet package versions do not contain a corresponding component,
-  package versions of those formats do not have a namespace.
+  package versions of those formats do not have a namespace.     The namespace of a generic
+  package is it’s namespace.
 """
 function describe_package_version(
     domain,
@@ -845,7 +916,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component that specifies its namespace depends on its type. For example:    The namespace
   of a Maven package version is its groupId.     The namespace of an npm package version is
   its scope.     Python and NuGet package versions do not contain a corresponding component,
-  package versions of those formats do not have a namespace.
+  package versions of those formats do not have a namespace.     The namespace of a generic
+  package is it’s namespace.
 - `"versionRevisions"`:  The revisions of the package versions you want to dispose.
 """
 function dispose_package_versions(
@@ -1017,7 +1089,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   package version component that specifies its namespace depends on its type. For example:
   The namespace of a Maven package version is its groupId.     The namespace of an npm
   package version is its scope.     Python and NuGet package versions do not contain a
-  corresponding component, package versions of those formats do not have a namespace.
+  corresponding component, package versions of those formats do not have a namespace.     The
+  namespace of a generic package is it’s namespace.
 - `"revision"`:  The name of the package version revision that contains the requested
   asset.
 """
@@ -1081,11 +1154,9 @@ end
     get_package_version_readme(domain, format, package, repository, version)
     get_package_version_readme(domain, format, package, repository, version, params::Dict{String,<:Any})
 
- Gets the readme file or descriptive text for a package version. For packages that do not
-contain a readme file, CodeArtifact extracts a description from a metadata file. For
-example, from the &lt;description&gt; element in the pom.xml file of a Maven package.   The
-returned text might contain formatting. For example, it might contain formatting for
-Markdown or reStructuredText.
+ Gets the readme file or descriptive text for a package version.   The returned text might
+contain formatting. For example, it might contain formatting for Markdown or
+reStructuredText.
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository that contains the package
@@ -1318,7 +1389,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type. For example:    The namespace of a Maven package version is its groupId.     The
   namespace of an npm package version is its scope.     Python and NuGet package versions do
   not contain a corresponding component, package versions of those formats do not have a
-  namespace.
+  namespace.     The namespace of a generic package is it’s namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -1400,7 +1471,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   package version component that specifies its namespace depends on its type. For example:
   The namespace of a Maven package version is its groupId.     The namespace of an npm
   package version is its scope.     Python and NuGet package versions do not contain a
-  corresponding component, package versions of those formats do not have a namespace.
+  corresponding component, package versions of those formats do not have a namespace.     The
+  namespace of a generic package is it’s namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -1461,12 +1533,13 @@ end
     list_package_versions(domain, format, package, repository, params::Dict{String,<:Any})
 
  Returns a list of PackageVersionSummary objects for package versions in a repository that
-match the request parameters.
+match the request parameters. Package versions of all statuses will be returned by default
+when calling list-package-versions with no --status parameter.
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository that contains the
   requested package versions.
-- `format`:  The format of the returned package versions.
+- `format`:  The format of the package versions you want to list.
 - `package`:  The name of the package for which you want to request package versions.
 - `repository`:  The name of the repository that contains the requested package versions.
 
@@ -1479,7 +1552,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The package component that specifies its namespace depends on its type. For example:    The
   namespace of a Maven package is its groupId.     The namespace of an npm package is its
   scope.     Python and NuGet packages do not contain a corresponding component, packages of
-  those formats do not have a namespace.
+  those formats do not have a namespace.     The namespace of a generic package is it’s
+  namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 - `"originType"`: The originType used to filter package versions. Only package versions
@@ -1550,11 +1624,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"format"`: The format used to filter requested packages. Only packages from the provided
   format will be returned.
 - `"max-results"`:  The maximum number of results to return per page.
-- `"namespace"`: The namespace used to filter requested packages. Only packages with the
-  provided namespace will be returned. The package component that specifies its namespace
-  depends on its type. For example:    The namespace of a Maven package is its groupId.
-  The namespace of an npm package is its scope.     Python and NuGet packages do not contain
-  a corresponding component, packages of those formats do not have a namespace.
+- `"namespace"`: The namespace prefix used to filter requested packages. Only packages with
+  a namespace that starts with the provided string value are returned. Note that although
+  this option is called --namespace and not --namespace-prefix, it has prefix-matching
+  behavior. Each package format uses namespace as follows:    The namespace of a Maven
+  package is its groupId.     The namespace of an npm package is its scope.     Python and
+  NuGet packages do not contain a corresponding component, packages of those formats do not
+  have a namespace.     The namespace of a generic package is it’s namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 - `"package-prefix"`:  A prefix used to filter requested packages. Only packages with names
@@ -1715,6 +1791,108 @@ function list_tags_for_resource(
 end
 
 """
+    publish_package_version(asset, asset_content, domain, format, package, repository, version, x-amz-content-sha256)
+    publish_package_version(asset, asset_content, domain, format, package, repository, version, x-amz-content-sha256, params::Dict{String,<:Any})
+
+Creates a new package version containing one or more assets (or files). The unfinished flag
+can be used to keep the package version in the Unfinished state until all of it’s assets
+have been uploaded (see Package version status in the CodeArtifact user guide). To set the
+package version’s status to Published, omit the unfinished flag when uploading the final
+asset, or set the status using UpdatePackageVersionStatus. Once a package version’s
+status is set to Published, it cannot change back to Unfinished.  Only generic packages can
+be published using this API.
+
+# Arguments
+- `asset`: The name of the asset to publish. Asset names can include Unicode letters and
+  numbers, and the following special characters: ~ ! @ ^ &amp; ( ) - ` _ + [ ] { } ; , . `
+- `asset_content`: The content of the asset to publish.
+- `domain`: The name of the domain that contains the repository that contains the package
+  version to publish.
+- `format`: A format that specifies the type of the package version with the requested
+  asset file.
+- `package`: The name of the package version to publish.
+- `repository`: The name of the repository that the package version will be published to.
+- `version`: The package version to publish (for example, 3.5.2).
+- `x-amz-content-sha256`: The SHA256 hash of the assetContent to publish. This value must
+  be calculated by the caller and provided with the request. This value is used as an
+  integrity check to verify that the assetContent has not changed after it was originally
+  sent.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`: The 12-digit account number of the AWS account that owns the domain. It
+  does not include dashes or spaces.
+- `"namespace"`: The namespace of the package version to publish.
+- `"unfinished"`: Specifies whether the package version should remain in the unfinished
+  state. If omitted, the package version status will be set to Published (see Package version
+  status in the CodeArtifact User Guide). Valid values: unfinished
+"""
+function publish_package_version(
+    asset,
+    assetContent,
+    domain,
+    format,
+    package,
+    repository,
+    version,
+    x_amz_content_sha256;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "POST",
+        "/v1/package/version/publish",
+        Dict{String,Any}(
+            "asset" => asset,
+            "assetContent" => assetContent,
+            "domain" => domain,
+            "format" => format,
+            "package" => package,
+            "repository" => repository,
+            "version" => version,
+            "headers" => Dict{String,Any}("x-amz-content-sha256" => x_amz_content_sha256),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function publish_package_version(
+    asset,
+    assetContent,
+    domain,
+    format,
+    package,
+    repository,
+    version,
+    x_amz_content_sha256,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "POST",
+        "/v1/package/version/publish",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "asset" => asset,
+                    "assetContent" => assetContent,
+                    "domain" => domain,
+                    "format" => format,
+                    "package" => package,
+                    "repository" => repository,
+                    "version" => version,
+                    "headers" =>
+                        Dict{String,Any}("x-amz-content-sha256" => x_amz_content_sha256),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_domain_permissions_policy(domain, policy_document)
     put_domain_permissions_policy(domain, policy_document, params::Dict{String,<:Any})
 
@@ -1804,7 +1982,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifies its namespace depends on its type. For example:    The namespace of a Maven
   package is its groupId.     The namespace of an npm package is its scope.     Python and
   NuGet packages do not contain a corresponding component, packages of those formats do not
-  have a namespace.
+  have a namespace.     The namespace of a generic package is it’s namespace.
 """
 function put_package_origin_configuration(
     domain,
@@ -2041,7 +2219,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component that specifies its namespace depends on its type. For example:    The namespace
   of a Maven package version is its groupId.     The namespace of an npm package version is
   its scope.     Python and NuGet package versions do not contain a corresponding component,
-  package versions of those formats do not have a namespace.
+  package versions of those formats do not have a namespace.     The namespace of a generic
+  package is it’s namespace.
 - `"versionRevisions"`:  A map of package versions and package version revisions. The map
   key is the package version (for example, 3.5.2), and the map value is the package version
   revision.

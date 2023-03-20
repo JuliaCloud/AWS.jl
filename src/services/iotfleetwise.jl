@@ -142,14 +142,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If
   it's not specified, SNAPPY is used.  Default: SNAPPY
 - `"dataExtraDimensions"`:  (Optional) A list of vehicle attributes to associate with a
-  campaign.  Default: An empty array
+  campaign.  Enrich the data with specified vehicle attributes. For example, add make and
+  model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with
+  those attributes as dimensions in Amazon Timestream. You can then query the data against
+  make and model. Default: An empty array
 - `"description"`: An optional description of the campaign to help identify its purpose.
 - `"diagnosticsMode"`:  (Optional) Option for a vehicle to send diagnostic trouble codes to
   Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use
   SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
 - `"expiryTime"`:  (Optional) The time the campaign expires, in seconds since epoch
   (January 1, 1970 at midnight UTC time). Vehicle data won't be collected after the campaign
-  expires.  Default: 253402243200 (December 31, 9999, 00:00:00 UTC)
+  expires.  Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
 - `"postTriggerCollectionDuration"`:  (Optional) How long (in milliseconds) to collect raw
   data after a triggering event initiates the collection. If it's not specified, 0 is used.
   Default: 0

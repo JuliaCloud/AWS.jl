@@ -143,7 +143,9 @@ Creates a batch import job.
 # Arguments
 - `event_type_name`: The name of the event type.
 - `iam_role_arn`: The ARN of the IAM role created for Amazon S3 bucket that holds your data
-  file. The IAM role must have read and write permissions to both input and output S3 buckets.
+  file. The IAM role must have read permissions to your input S3 bucket and write permissions
+  to your output S3 bucket. For more information about bucket permissions, see User policy
+  examples in the Amazon S3 User Guide.
 - `input_path`: The URI that points to the Amazon S3 location of your data file.
 - `job_id`: The ID of the batch import job. The ID cannot be of a past job, unless the job
   exists in CREATE_FAILED state.
@@ -212,7 +214,10 @@ Creates a batch prediction job.
 # Arguments
 - `detector_name`: The name of the detector.
 - `event_type_name`: The name of the event type.
-- `iam_role_arn`: The ARN of the IAM role to use for this job request.
+- `iam_role_arn`: The ARN of the IAM role to use for this job request. The IAM Role must
+  have read permissions to your input S3 bucket and write permissions to your output S3
+  bucket. For more information about bucket permissions, see User policy examples in the
+  Amazon S3 User Guide.
 - `input_path`: The Amazon S3 location of your training file.
 - `job_id`: The ID of the batch prediction job.
 - `output_path`: The Amazon S3 location of your output file.
@@ -326,6 +331,45 @@ function create_detector_version(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_list(name)
+    create_list(name, params::Dict{String,<:Any})
+
+ Creates a list.  List is a set of input data for a variable in your event dataset. You use
+the input data in a rule that's associated with your detector. For more information, see
+Lists.
+
+# Arguments
+- `name`:  The name of the list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`:  The description of the list.
+- `"elements"`:  The names of the elements, if providing. You can also create an empty list
+  and add elements later using the UpdateList API.
+- `"tags"`:  A collection of the key and value pairs.
+- `"variableType"`:  The variable type of the list. You can only assign the variable type
+  with String data type. For more information, see Variable types.
+"""
+function create_list(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return frauddetector(
+        "CreateList",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_list(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "CreateList",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -938,6 +982,36 @@ function delete_label(
 )
     return frauddetector(
         "DeleteLabel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_list(name)
+    delete_list(name, params::Dict{String,<:Any})
+
+ Deletes the list, provided it is not used in a rule.   When you delete a list, Amazon
+Fraud Detector permanently deletes that list and the elements in the list.
+
+# Arguments
+- `name`:  The name of the list to delete.
+
+"""
+function delete_list(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return frauddetector(
+        "DeleteList",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_list(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "DeleteList",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1718,6 +1792,64 @@ function get_labels(
 end
 
 """
+    get_list_elements(name)
+    get_list_elements(name, params::Dict{String,<:Any})
+
+ Gets all the elements in the specified list.
+
+# Arguments
+- `name`:  The name of the list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:  The maximum number of objects to return for the request.
+- `"nextToken"`:  The next token for the subsequent request.
+"""
+function get_list_elements(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return frauddetector(
+        "GetListElements",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_list_elements(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "GetListElements",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_lists_metadata()
+    get_lists_metadata(params::Dict{String,<:Any})
+
+ Gets the metadata of either all the lists under the account or the specified list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:  The maximum number of objects to return for the request.
+- `"name"`:  The name of the list.
+- `"nextToken"`:  The next token for the subsequent request.
+"""
+function get_lists_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
+    return frauddetector(
+        "GetListsMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_lists_metadata(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "GetListsMetadata", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     get_model_version(model_id, model_type, model_version_number)
     get_model_version(model_id, model_type, model_version_number, params::Dict{String,<:Any})
 
@@ -2214,7 +2346,8 @@ end
 Specifies the KMS key to be used to encrypt content in Amazon Fraud Detector.
 
 # Arguments
-- `kms_encryption_key_arn`: The KMS encryption key ARN.
+- `kms_encryption_key_arn`: The KMS encryption key ARN. The KMS key must be single-Region
+  key. Amazon Fraud Detector does not support multi-Region KMS key.
 
 """
 function put_kmsencryption_key(
@@ -2607,7 +2740,7 @@ INACTIVE to ACTIVE.
 # Arguments
 - `detector_id`: The detector ID.
 - `detector_version_id`: The detector version ID.
-- `status`: The new status.
+- `status`: The new status. The only supported values are ACTIVE and INACTIVE
 
 """
 function update_detector_version_status(
@@ -2704,6 +2837,47 @@ function update_event_label(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_list(name)
+    update_list(name, params::Dict{String,<:Any})
+
+ Updates a list.
+
+# Arguments
+- `name`:  The name of the list to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`:  The new description.
+- `"elements"`:  One or more list elements to add or replace. If you are providing the
+  elements, make sure to specify the updateMode to use.  If you are deleting all elements
+  from the list, use REPLACE for the updateMode and provide an empty list (0 elements).
+- `"updateMode"`:  The update mode (type).    Use APPEND if you are adding elements to the
+  list.   Use REPLACE if you replacing existing elements in the list.   Use REMOVE if you are
+  removing elements from the list.
+- `"variableType"`:  The variable type you want to assign to the list.   You cannot update
+  a variable type of a list that already has a variable type assigned to it. You can assign a
+  variable type to a list only if the list does not already have a variable type.
+"""
+function update_list(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return frauddetector(
+        "UpdateList",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_list(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return frauddetector(
+        "UpdateList",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

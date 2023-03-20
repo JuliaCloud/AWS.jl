@@ -49,27 +49,31 @@ end
     create_configuration_profile(application_id, location_uri, name, params::Dict{String,<:Any})
 
 Creates a configuration profile, which is information that enables AppConfig to access the
-configuration source. Valid configuration sources include the AppConfig hosted
-configuration store, Amazon Web Services Systems Manager (SSM) documents, SSM Parameter
-Store parameters, Amazon S3 objects, or any integration source action supported by
-CodePipeline. A configuration profile includes the following information:   The URI
-location of the configuration data.   The Identity and Access Management (IAM) role that
-provides access to the configuration data.   A validator for the configuration data.
-Available validators include either a JSON Schema or an Amazon Web Services Lambda
-function.   For more information, see Create a Configuration and a Configuration Profile in
-the AppConfig User Guide.
+configuration source. Valid configuration sources include the following:   Configuration
+data in YAML, JSON, and other formats stored in the AppConfig hosted configuration store
+Configuration data stored as objects in an Amazon Simple Storage Service (Amazon S3) bucket
+  Pipelines stored in CodePipeline   Secrets stored in Secrets Manager   Standard and
+secure string parameters stored in Amazon Web Services Systems Manager Parameter Store
+Configuration data in SSM documents stored in the Systems Manager document store   A
+configuration profile includes the following information:   The URI location of the
+configuration data.   The Identity and Access Management (IAM) role that provides access to
+the configuration data.   A validator for the configuration data. Available validators
+include either a JSON Schema or an Amazon Web Services Lambda function.   For more
+information, see Create a Configuration and a Configuration Profile in the AppConfig User
+Guide.
 
 # Arguments
 - `application_id`: The application ID.
-- `location_uri`: A URI to locate the configuration. You can specify the AppConfig hosted
-  configuration store, Systems Manager (SSM) document, an SSM Parameter Store parameter, or
-  an Amazon S3 object. For the hosted configuration store and for feature flags, specify
-  hosted. For an SSM document, specify either the document name in the format
-  ssm-document://&lt;Document_name&gt; or the Amazon Resource Name (ARN). For a parameter,
-  specify either the parameter name in the format ssm-parameter://&lt;Parameter_name&gt; or
-  the ARN. For an Amazon S3 object, specify the URI in the following format:
+- `location_uri`: A URI to locate the configuration. You can specify the following:   For
+  the AppConfig hosted configuration store and for feature flags, specify hosted.   For an
+  Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter
+  name in the format ssm-parameter://&lt;parameter name&gt; or the ARN.   For an Secrets
+  Manager secret, specify the URI in the following format: secrets-manager://&lt;secret
+  name&gt;.   For an Amazon S3 object, specify the URI in the following format:
   s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example:
-  s3://my-bucket/my-app/us-east-1/my-config.json
+  s3://my-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the
+  document name in the format ssm-document://&lt;document name&gt; or the Amazon Resource
+  Name (ARN).
 - `name`: A name for the configuration profile.
 
 # Optional Parameters
@@ -264,8 +268,8 @@ end
 
 Creates an AppConfig extension. An extension augments your ability to inject logic or
 behavior at different points during the AppConfig workflow of creating or deploying a
-configuration. You can create your own extensions or use the Amazon Web Services-authored
-extensions provided by AppConfig. For most use-cases, to create your own extension, you
+configuration. You can create your own extensions or use the Amazon Web Services authored
+extensions provided by AppConfig. For most use cases, to create your own extension, you
 must create an Lambda function to perform any computation and processing defined in the
 extension. For more information about extensions, see Working with AppConfig extensions in
 the AppConfig User Guide.
@@ -321,10 +325,10 @@ end
     create_extension_association(extension_identifier, resource_identifier)
     create_extension_association(extension_identifier, resource_identifier, params::Dict{String,<:Any})
 
-When you create an extension or configure an Amazon Web Services-authored extension, you
+When you create an extension or configure an Amazon Web Services authored extension, you
 associate the extension with an AppConfig application, environment, or configuration
 profile. For example, you can choose to run the AppConfig deployment events to Amazon SNS
-Amazon Web Services-authored extension and receive notifications on an Amazon SNS topic
+Amazon Web Services authored extension and receive notifications on an Amazon SNS topic
 anytime a configuration deployment is started for a specific application. Defining which
 extension to associate with an AppConfig resource is called an extension association. An
 extension association is a specified relationship between an extension and an AppConfig
@@ -408,6 +412,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   overwriting configuration updates when creating a new version. To ensure your data is not
   overwritten when creating multiple hosted configuration versions in rapid succession,
   specify the version number of the latest hosted configuration version.
+- `"VersionLabel"`: An optional, user-defined label for the AppConfig hosted configuration
+  version. This value must contain at least one non-numeric character. For example,
+  \"v2.2.0\".
 """
 function create_hosted_configuration_version(
     ApplicationId,
@@ -749,20 +756,10 @@ end
     get_configuration(application, configuration, environment, client_id)
     get_configuration(application, configuration, environment, client_id, params::Dict{String,<:Any})
 
-Retrieves the latest deployed configuration.  Note the following important information.
-This API action has been deprecated. Calls to receive configuration data should use the
-StartConfigurationSession and GetLatestConfiguration APIs instead.     GetConfiguration is
-a priced call. For more information, see Pricing.   AppConfig uses the value of the
-ClientConfigurationVersion parameter to identify the configuration version on your clients.
-If you don’t send ClientConfigurationVersion with each call to GetConfiguration, your
-clients receive the current configuration. You are charged each time your clients receive a
-configuration. To avoid excess charges, we recommend you use the StartConfigurationSession
-and GetLatestConfiguration APIs, which track the client configuration version on your
-behalf. If you choose to continue using GetConfiguration, we recommend that you include the
-ClientConfigurationVersion value with every call to GetConfiguration. The value to use for
-ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by
-GetConfiguration when there is new or updated data, and should be saved for subsequent
-calls to GetConfiguration.
+(Deprecated) Retrieves the latest deployed configuration.  Note the following important
+information.   This API action is deprecated. Calls to receive configuration data should
+use the StartConfigurationSession and GetLatestConfiguration APIs instead.
+GetConfiguration is a priced call. For more information, see Pricing.
 
 # Arguments
 - `application`: The application to get. Specify either the application name or the
@@ -782,11 +779,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter to identify the configuration version on your clients. If you don’t send
   ClientConfigurationVersion with each call to GetConfiguration, your clients receive the
   current configuration. You are charged each time your clients receive a configuration. To
-  avoid excess charges, we recommend that you include the ClientConfigurationVersion value
-  with every call to GetConfiguration. This value must be saved on your client. Subsequent
-  calls to GetConfiguration must pass this value by using the ClientConfigurationVersion
-  parameter.   For more information about working with configurations, see Retrieving the
-  Configuration in the AppConfig User Guide.
+  avoid excess charges, we recommend you use the StartConfigurationSession and
+  GetLatestConfiguration APIs, which track the client configuration version on your behalf.
+  If you choose to continue using GetConfiguration, we recommend that you include the
+  ClientConfigurationVersion value with every call to GetConfiguration. The value to use for
+  ClientConfigurationVersion comes from the ConfigurationVersion attribute returned by
+  GetConfiguration when there is new or updated data, and should be saved for subsequent
+  calls to GetConfiguration.  For more information about working with configurations, see
+  Retrieving the Configuration in the AppConfig User Guide.
 """
 function get_configuration(
     Application,
@@ -1325,7 +1325,7 @@ end
     list_extensions()
     list_extensions(params::Dict{String,<:Any})
 
-Lists all custom and Amazon Web Services-authored AppConfig extensions in the account. For
+Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For
 more information about extensions, see Working with AppConfig extensions in the AppConfig
 User Guide.
 
@@ -1364,6 +1364,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max_results"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
 - `"next_token"`: A token to start the list. Use this token to get the next set of results.
+- `"version_label"`: An optional filter that can be used to specify the version label of an
+  AppConfig hosted configuration version. This parameter supports filtering by prefix using a
+  wildcard, for example \"v2*\". If you don't specify an asterisk at the end of the value,
+  only an exact match is returned.
 """
 function list_hosted_configuration_versions(
     ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1433,13 +1437,16 @@ Starts a deployment.
 # Arguments
 - `application_id`: The application ID.
 - `configuration_profile_id`: The configuration profile ID.
-- `configuration_version`: The configuration version to deploy.
+- `configuration_version`: The configuration version to deploy. If deploying an AppConfig
+  hosted configuration version, you can specify either the version number or version label.
 - `deployment_strategy_id`: The deployment strategy ID.
 - `environment_id`: The environment ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the deployment.
+- `"KmsKeyIdentifier"`: The KMS key identifier (key ID, key alias, or key ARN). AppConfig
+  uses this ID to encrypt the configuration data using a customer managed key.
 - `"Tags"`: Metadata to assign to the deployment. Tags help organize and categorize your
   AppConfig resources. Each tag consists of a key and an optional value, both of which you
   define.

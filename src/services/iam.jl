@@ -627,10 +627,10 @@ OIDC provider   A list of thumbprints of one or more server certificates that th
 Services.  Amazon Web Services secures communication with some OIDC identity providers
 (IdPs) through our library of trusted certificate authorities (CAs) instead of using a
 certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include
-Google, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint.
-In these cases, your legacy thumbprint remains in your configuration, but is no longer used
-for validation.   The trust for the OIDC provider is derived from the IAM provider that
-this operation creates. Therefore, it is best to limit access to the
+Google, Auth0, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS)
+endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no
+longer used for validation.   The trust for the OIDC provider is derived from the IAM
+provider that this operation creates. Therefore, it is best to limit access to the
 CreateOpenIDConnectProvider operation to highly privileged users.
 
 # Arguments
@@ -880,7 +880,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxSessionDuration"`: The maximum session duration (in seconds) that you want to set
   for the specified role. If you do not specify a value for this setting, the default value
   of one hour is applied. This setting can have a value from 1 hour to 12 hours. Anyone who
-  assumes the role from the or API can use the DurationSeconds API parameter or the
+  assumes the role from the CLI or API can use the DurationSeconds API parameter or the
   duration-seconds CLI parameter to request a longer session. The MaxSessionDuration setting
   determines the maximum duration that can be requested using the DurationSeconds parameter.
   If users don't specify a value for the DurationSeconds parameter, their security
@@ -895,8 +895,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   forward slashes. In addition, it can contain any ASCII character from the ! (u0021) through
   the DEL character (u007F), including most punctuation characters, digits, and upper and
   lowercased letters.
-- `"PermissionsBoundary"`: The ARN of the policy that is used to set the permissions
-  boundary for the role.
+- `"PermissionsBoundary"`: The ARN of the managed policy that is used to set the
+  permissions boundary for the role. A permissions boundary policy defines the maximum
+  permissions that identity-based policies can grant to an entity, but does not grant
+  permissions. Permissions boundaries do not define the maximum permissions that a
+  resource-based policy can grant to an entity. To learn more, see Permissions boundaries for
+  IAM entities in the IAM User Guide. For more information about policy types, see Policy
+  types  in the IAM User Guide.
 - `"Tags"`: A list of tags that you want to attach to the new role. Each tag consists of a
   key name and an associated value. For more information about tagging, see Tagging IAM
   resources in the IAM User Guide.  If any one of the tags is invalid or if you exceed the
@@ -1140,8 +1145,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and end with forward slashes. In addition, it can contain any ASCII character from the !
   (u0021) through the DEL character (u007F), including most punctuation characters, digits,
   and upper and lowercased letters.
-- `"PermissionsBoundary"`: The ARN of the policy that is used to set the permissions
-  boundary for the user.
+- `"PermissionsBoundary"`: The ARN of the managed policy that is used to set the
+  permissions boundary for the user. A permissions boundary policy defines the maximum
+  permissions that identity-based policies can grant to an entity, but does not grant
+  permissions. Permissions boundaries do not define the maximum permissions that a
+  resource-based policy can grant to an entity. To learn more, see Permissions boundaries for
+  IAM entities in the IAM User Guide. For more information about policy types, see Policy
+  types  in the IAM User Guide.
 - `"Tags"`: A list of tags that you want to attach to the new user. Each tag consists of a
   key name and an associated value. For more information about tagging, see Tagging IAM
   resources in the IAM User Guide.  If any one of the tags is invalid or if you exceed the
@@ -1531,15 +1541,15 @@ end
     delete_login_profile(user_name)
     delete_login_profile(user_name, params::Dict{String,<:Any})
 
-Deletes the password for the specified IAM user, which terminates the user's ability to
-access Amazon Web Services services through the Amazon Web Services Management Console. You
-can use the CLI, the Amazon Web Services API, or the Users page in the IAM console to
-delete a password for any IAM user. You can use ChangePassword to update, but not delete,
-your own password in the My Security Credentials page in the Amazon Web Services Management
-Console.   Deleting a user's password does not prevent a user from accessing Amazon Web
-Services through the command line interface or the API. To prevent all user access, you
-must also either make any access keys inactive or delete them. For more information about
-making keys inactive or deleting them, see UpdateAccessKey and DeleteAccessKey.
+Deletes the password for the specified IAM user, For more information, see Managing
+passwords for IAM users. You can use the CLI, the Amazon Web Services API, or the Users
+page in the IAM console to delete a password for any IAM user. You can use ChangePassword
+to update, but not delete, your own password in the My Security Credentials page in the
+Amazon Web Services Management Console.  Deleting a user's password does not prevent a user
+from accessing Amazon Web Services through the command line interface or the API. To
+prevent all user access, you must also either make any access keys inactive or delete them.
+For more information about making keys inactive or deleting them, see UpdateAccessKey and
+DeleteAccessKey.
 
 # Arguments
 - `user_name`: The name of the user whose password you want to delete. This parameter
@@ -1717,11 +1727,16 @@ end
     delete_role(role_name)
     delete_role(role_name, params::Dict{String,<:Any})
 
-Deletes the specified role. The role must not have any policies attached. For more
-information about roles, see Working with roles.  Make sure that you do not have any Amazon
-EC2 instances running with the role you are about to delete. Deleting a role or instance
-profile that is associated with a running instance will break any applications running on
-the instance.
+Deletes the specified role. Unlike the Amazon Web Services Management Console, when you
+delete a role programmatically, you must delete the items attached to the role manually, or
+the deletion fails. For more information, see Deleting an IAM role. Before attempting to
+delete a role, remove the following attached items:    Inline policies (DeleteRolePolicy)
+Attached managed policies (DetachRolePolicy)   Instance profile
+(RemoveRoleFromInstanceProfile)   Optional – Delete instance profile after detaching from
+role for resource clean up (DeleteInstanceProfile)    Make sure that you do not have any
+Amazon EC2 instances running with the role you are about to delete. Deleting a role or
+instance profile that is associated with a running instance will break any applications
+running on the instance.
 
 # Arguments
 - `role_name`: The name of the role to delete. This parameter allows (through its regex
@@ -5667,8 +5682,12 @@ policy to the role. To learn how the effective permissions for a role are evalua
 IAM JSON policy evaluation logic in the IAM User Guide.
 
 # Arguments
-- `permissions_boundary`: The ARN of the policy that is used to set the permissions
-  boundary for the role.
+- `permissions_boundary`: The ARN of the managed policy that is used to set the permissions
+  boundary for the role. A permissions boundary policy defines the maximum permissions that
+  identity-based policies can grant to an entity, but does not grant permissions. Permissions
+  boundaries do not define the maximum permissions that a resource-based policy can grant to
+  an entity. To learn more, see Permissions boundaries for IAM entities in the IAM User
+  Guide. For more information about policy types, see Policy types  in the IAM User Guide.
 - `role_name`: The name (friendly name, not ARN) of the IAM role for which you want to set
   the permissions boundary.
 
@@ -5796,8 +5815,12 @@ permissions for a user are evaluated, see IAM JSON policy evaluation logic in th
 Guide.
 
 # Arguments
-- `permissions_boundary`: The ARN of the policy that is used to set the permissions
-  boundary for the user.
+- `permissions_boundary`: The ARN of the managed policy that is used to set the permissions
+  boundary for the user. A permissions boundary policy defines the maximum permissions that
+  identity-based policies can grant to an entity, but does not grant permissions. Permissions
+  boundaries do not define the maximum permissions that a resource-based policy can grant to
+  an entity. To learn more, see Permissions boundaries for IAM entities in the IAM User
+  Guide. For more information about policy types, see Policy types  in the IAM User Guide.
 - `user_name`: The name (friendly name, not ARN) of the IAM user for which you want to set
   the permissions boundary.
 
@@ -6305,8 +6328,13 @@ Web Services and its services and which provide details about the context of an 
 request. You can use the Condition element of an IAM policy to evaluate context keys. To
 get the list of context keys that the policies require for correct simulation, use
 GetContextKeysForCustomPolicy. If the output is long, you can use MaxItems and Marker
-parameters to paginate the results. For more information about using the policy simulator,
-see Testing IAM policies with the IAM policy simulator in the IAM User Guide.
+parameters to paginate the results.  The IAM policy simulator evaluates statements in the
+identity-based policy and the inputs that you provide during simulation. The policy
+simulator results can differ from your live Amazon Web Services environment. We recommend
+that you check your policies against your live Amazon Web Services environment after
+testing using the policy simulator to confirm that you have the desired results. For more
+information about using the policy simulator, see Testing IAM policies with the IAM policy
+simulator in the IAM User Guide.
 
 # Arguments
 - `action_names`: A list of names of API operations to evaluate in the simulation. Each
@@ -6371,7 +6399,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include the policy as a string in the ResourcePolicy parameter. If you include a
   ResourcePolicy, then it must be applicable to all of the resources included in the
   simulation or you receive an invalid input error. For more information about ARNs, see
-  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.  Simulation of
+  resource-based policies isn't supported for IAM roles.
 - `"ResourceHandlingOption"`: Specifies the type of simulation to run. Different API
   operations that support resource-based policies require different combinations of
   resources. By specifying the type of simulation to run, you enable the policy simulator to
@@ -6409,6 +6438,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   space character (u0020) through the end of the ASCII character range   The printable
   characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
   special characters tab (u0009), line feed (u000A), and carriage return (u000D)
+  Simulation of resource-based policies isn't supported for IAM roles.
 """
 function simulate_custom_policy(
     ActionNames, PolicyInputList; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6456,18 +6486,23 @@ belongs to. You can simulate resources that don't exist in your account. You can
 include a list of one or more additional policies specified as strings to include in the
 simulation. If you want to simulate only policies specified as strings, use
 SimulateCustomPolicy instead. You can also optionally include one resource-based policy to
-be evaluated with each of the resources included in the simulation. The simulation does not
-perform the API operations; it only checks the authorization to determine if the simulated
-policies allow or deny the operations.  Note: This operation discloses information about
-the permissions granted to other users. If you do not want users to see other user's
-permissions, then consider allowing them to use SimulateCustomPolicy instead. Context keys
-are variables maintained by Amazon Web Services and its services that provide details about
-the context of an API query request. You can use the Condition element of an IAM policy to
-evaluate context keys. To get the list of context keys that the policies require for
-correct simulation, use GetContextKeysForPrincipalPolicy. If the output is long, you can
-use the MaxItems and Marker parameters to paginate the results. For more information about
-using the policy simulator, see Testing IAM policies with the IAM policy simulator in the
-IAM User Guide.
+be evaluated with each of the resources included in the simulation for IAM users only. The
+simulation does not perform the API operations; it only checks the authorization to
+determine if the simulated policies allow or deny the operations.  Note: This operation
+discloses information about the permissions granted to other users. If you do not want
+users to see other user's permissions, then consider allowing them to use
+SimulateCustomPolicy instead. Context keys are variables maintained by Amazon Web Services
+and its services that provide details about the context of an API query request. You can
+use the Condition element of an IAM policy to evaluate context keys. To get the list of
+context keys that the policies require for correct simulation, use
+GetContextKeysForPrincipalPolicy. If the output is long, you can use the MaxItems and
+Marker parameters to paginate the results.  The IAM policy simulator evaluates statements
+in the identity-based policy and the inputs that you provide during simulation. The policy
+simulator results can differ from your live Amazon Web Services environment. We recommend
+that you check your policies against your live Amazon Web Services environment after
+testing using the policy simulator to confirm that you have the desired results. For more
+information about using the policy simulator, see Testing IAM policies with the IAM policy
+simulator in the IAM User Guide.
 
 # Arguments
 - `action_names`: A list of names of API operations to evaluate in the simulation. Each
@@ -6540,6 +6575,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources. If you want to include a resource policy in the simulation, then you must
   include the policy as a string in the ResourcePolicy parameter. For more information about
   ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
+  Simulation of resource-based policies isn't supported for IAM roles.
 - `"ResourceHandlingOption"`: Specifies the type of simulation to run. Different API
   operations that support resource-based policies require different combinations of
   resources. By specifying the type of simulation to run, you enable the policy simulator to
@@ -6574,6 +6610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   space character (u0020) through the end of the ASCII character range   The printable
   characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
   special characters tab (u0009), line feed (u000A), and carriage return (u000D)
+  Simulation of resource-based policies isn't supported for IAM roles.
 """
 function simulate_principal_policy(
     ActionNames, PolicySourceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -7791,12 +7828,12 @@ change, any attempt to assume an IAM role that specifies the OIDC provider as a 
 fails until the certificate thumbprint is updated.  Amazon Web Services secures
 communication with some OIDC identity providers (IdPs) through our library of trusted
 certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP
-server certificate. These OIDC IdPs include Google, and those that use an Amazon S3 bucket
-to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint remains
-in your configuration, but is no longer used for validation.   Trust for the OIDC provider
-is derived from the provider certificate and is validated by the thumbprint. Therefore, it
-is best to limit access to the UpdateOpenIDConnectProviderThumbprint operation to highly
-privileged users.
+server certificate. These OIDC IdPs include Google, Auth0, and those that use an Amazon S3
+bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint
+remains in your configuration, but is no longer used for validation.   Trust for the OIDC
+provider is derived from the provider certificate and is validated by the thumbprint.
+Therefore, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint
+operation to highly privileged users.
 
 # Arguments
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OIDC provider

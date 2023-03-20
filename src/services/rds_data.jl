@@ -37,7 +37,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with no parameters, use one of the following options:   Specify one or more empty parameter
   sets.   Use the ExecuteStatement operation instead of the BatchExecuteStatement operation.
     Array parameters are not supported.
-- `"schema"`: The name of the database schema.
+- `"schema"`: The name of the database schema.  Currently, the schema parameter isn't
+  supported.
 - `"transactionId"`: The identifier of a transaction that was started by using the
   BeginTransaction operation. Specify the transaction ID of the transaction that you want to
   include the SQL statement in. If the SQL statement is not part of a transaction, don't set

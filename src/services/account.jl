@@ -65,6 +65,113 @@ function delete_alternate_contact(
 end
 
 """
+    disable_region(region_name)
+    disable_region(region_name, params::Dict{String,<:Any})
+
+Disables (opts-out) a particular Region for an account.
+
+# Arguments
+- `region_name`: Specifies the Region-code for a given Region name (for example,
+  af-south-1). When you disable a Region, Amazon Web Services performs actions to deactivate
+  that Region in your account, such as destroying IAM resources in the Region. This process
+  takes a few minutes for most accounts, but this can take several hours. You cannot enable
+  the Region until the disabling process is fully completed.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
+  account that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the organization's
+  management account or a delegated administrator account. The specified account ID must also
+  be a member account in the same organization. The organization must have all features
+  enabled, and the organization must have trusted access enabled for the Account Management
+  service, and optionally a delegated admin account assigned.  The management account can't
+  specify its own AccountId. It must call the operation in standalone context by not
+  including the AccountId parameter.  To call this operation on an account that is not a
+  member of an organization, don't specify this parameter. Instead, call the operation using
+  an identity belonging to the account whose contacts you wish to retrieve or modify.
+"""
+function disable_region(RegionName; aws_config::AbstractAWSConfig=global_aws_config())
+    return account(
+        "POST",
+        "/disableRegion",
+        Dict{String,Any}("RegionName" => RegionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disable_region(
+    RegionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return account(
+        "POST",
+        "/disableRegion",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RegionName" => RegionName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    enable_region(region_name)
+    enable_region(region_name, params::Dict{String,<:Any})
+
+Enables (opts-in) a particular Region for an account.
+
+# Arguments
+- `region_name`: Specifies the Region-code for a given Region name (for example,
+  af-south-1). When you enable a Region, Amazon Web Services performs actions to prepare your
+  account in that Region, such as distributing your IAM resources to the Region. This process
+  takes a few minutes for most accounts, but it can take several hours. You cannot use the
+  Region until this process is complete. Furthermore, you cannot disable the Region until the
+  enabling process is fully completed.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
+  account that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the organization's
+  management account or a delegated administrator account. The specified account ID must also
+  be a member account in the same organization. The organization must have all features
+  enabled, and the organization must have trusted access enabled for the Account Management
+  service, and optionally a delegated admin account assigned.  The management account can't
+  specify its own AccountId. It must call the operation in standalone context by not
+  including the AccountId parameter.  To call this operation on an account that is not a
+  member of an organization, don't specify this parameter. Instead, call the operation using
+  an identity belonging to the account whose contacts you wish to retrieve or modify.
+"""
+function enable_region(RegionName; aws_config::AbstractAWSConfig=global_aws_config())
+    return account(
+        "POST",
+        "/enableRegion",
+        Dict{String,Any}("RegionName" => RegionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function enable_region(
+    RegionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return account(
+        "POST",
+        "/enableRegion",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RegionName" => RegionName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_alternate_contact(alternate_contact_type)
     get_alternate_contact(alternate_contact_type, params::Dict{String,<:Any})
 
@@ -161,6 +268,111 @@ function get_contact_information(
     return account(
         "POST",
         "/getContactInformation",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_region_opt_status(region_name)
+    get_region_opt_status(region_name, params::Dict{String,<:Any})
+
+Retrieves the opt-in status of a particular Region.
+
+# Arguments
+- `region_name`: Specifies the Region-code for a given Region name (for example,
+  af-south-1). This function will return the status of whatever Region you pass into this
+  parameter.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
+  account that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the organization's
+  management account or a delegated administrator account. The specified account ID must also
+  be a member account in the same organization. The organization must have all features
+  enabled, and the organization must have trusted access enabled for the Account Management
+  service, and optionally a delegated admin account assigned.  The management account can't
+  specify its own AccountId. It must call the operation in standalone context by not
+  including the AccountId parameter.  To call this operation on an account that is not a
+  member of an organization, don't specify this parameter. Instead, call the operation using
+  an identity belonging to the account whose contacts you wish to retrieve or modify.
+"""
+function get_region_opt_status(
+    RegionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return account(
+        "POST",
+        "/getRegionOptStatus",
+        Dict{String,Any}("RegionName" => RegionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_region_opt_status(
+    RegionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return account(
+        "POST",
+        "/getRegionOptStatus",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RegionName" => RegionName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_regions()
+    list_regions(params::Dict{String,<:Any})
+
+Lists all the Regions for a given account and their respective opt-in statuses. Optionally,
+this list can be filtered by the region-opt-status-contains parameter.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: Specifies the 12-digit account ID number of the Amazon Web Services
+  account that you want to access or modify with this operation. If you don't specify this
+  parameter, it defaults to the Amazon Web Services account of the identity used to call the
+  operation. To use this parameter, the caller must be an identity in the organization's
+  management account or a delegated administrator account. The specified account ID must also
+  be a member account in the same organization. The organization must have all features
+  enabled, and the organization must have trusted access enabled for the Account Management
+  service, and optionally a delegated admin account assigned.  The management account can't
+  specify its own AccountId. It must call the operation in standalone context by not
+  including the AccountId parameter.  To call this operation on an account that is not a
+  member of an organization, don't specify this parameter. Instead, call the operation using
+  an identity belonging to the account whose contacts you wish to retrieve or modify.
+- `"MaxResults"`: The total number of items to return in the command’s output. If the
+  total number of items available is more than the value specified, a NextToken is provided
+  in the command’s output. To resume pagination, provide the NextToken value in the
+  starting-token argument of a subsequent command. Do not use the NextToken response element
+  directly outside of the Amazon Web Services CLI. For usage examples, see Pagination in the
+  Amazon Web Services Command Line Interface User Guide.
+- `"NextToken"`: A token used to specify where to start paginating. This is the NextToken
+  from a previously truncated response. For usage examples, see Pagination in the Amazon Web
+  Services Command Line Interface User Guide.
+- `"RegionOptStatusContains"`: A list of Region statuses (Enabling, Enabled, Disabling,
+  Disabled, Enabled_by_default) to use to filter the list of Regions for a given account. For
+  example, passing in a value of ENABLING will only return a list of Regions with a Region
+  status of ENABLING.
+"""
+function list_regions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return account(
+        "POST", "/listRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_regions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return account(
+        "POST",
+        "/listRegions",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -8,7 +8,7 @@ using AWS.UUIDs
     add_tags_to_resource(resource_arn, tags)
     add_tags_to_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds metadata tags to an DMS resource, including replication instance, endpoint, security
+Adds metadata tags to an DMS resource, including replication instance, endpoint, subnet
 group, and migration task. These tags can also be used with cost allocation reporting to
 track cost associated with DMS resources, or used in a Condition statement in an IAM policy
 for DMS. For more information, see  Tag  data type description.
@@ -111,6 +111,37 @@ function apply_pending_maintenance_action(
 end
 
 """
+    batch_start_recommendations()
+    batch_start_recommendations(params::Dict{String,<:Any})
+
+Starts the analysis of up to 20 source databases to recommend target engines for each
+source database. This is a batch version of StartRecommendations. The result of analysis of
+each source database is reported individually in the response. Because the batch request
+can result in a combination of successful and unsuccessful actions, you should check for
+batch errors even when the call returns an HTTP status code of 200.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Data"`: Provides information about source databases to analyze. After this analysis,
+  Fleet Advisor recommends target engines for each source database.
+"""
+function batch_start_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "BatchStartRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function batch_start_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "BatchStartRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_replication_task_assessment_run(replication_task_assessment_run_arn)
     cancel_replication_task_assessment_run(replication_task_assessment_run_arn, params::Dict{String,<:Any})
 
@@ -173,9 +204,9 @@ the database only when you specify the schema in the table-mapping rules of the 
 - `endpoint_type`: The type of endpoint. Valid values are source and target.
 - `engine_name`: The type of engine for the endpoint. Valid values, depending on the
   EndpointType value, include \"mysql\", \"oracle\", \"postgres\", \"mariadb\", \"aurora\",
-  \"aurora-postgresql\", \"opensearch\", \"redshift\", \"s3\", \"db2\", \"azuredb\",
-  \"sybase\", \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\",
-  \"docdb\", \"sqlserver\", and \"neptune\".
+  \"aurora-postgresql\", \"opensearch\", \"redshift\", \"s3\", \"db2\", \"db2-zos\",
+  \"azuredb\", \"sybase\", \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\",
+  \"elasticsearch\", \"docdb\", \"sqlserver\", \"neptune\", and \"babelfish\".
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -473,7 +504,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the replication instance.
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor engine upgrades are
   applied automatically to the replication instance during the maintenance window. This
-  parameter defaults to true. Default: true
+  parameter defaults to true. Default: true  When AutoMinorVersionUpgrade is enabled, DMS
+  uses the current default engine version when you create a replication instance. For
+  example, if you set EngineVersion to a lower version number than the current default
+  version, DMS uses the default version. If AutoMinorVersionUpgrade isn’t enabled when you
+  create a replication instance, DMS uses the engine version specified by the EngineVersion
+  parameter.
 - `"AvailabilityZone"`: The Availability Zone where the replication instance will be
   created. The default value is a random, system-chosen Availability Zone in the endpoint's
   Amazon Web Services Region, for example: us-east-1d
@@ -492,6 +528,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services Region.
 - `"MultiAZ"`:  Specifies whether the replication instance is a Multi-AZ deployment. You
   can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
+- `"NetworkType"`: The type of IP address protocol used by a replication instance, such as
+  IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet
+  supported.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi  Default: A
   30-minute window selected at random from an 8-hour block of time per Amazon Web Services
@@ -658,7 +697,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time. Server time example:
   --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example:
-  --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
+  --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
 - `"ReplicationTaskSettings"`: Overall settings for the task, in JSON format. For more
   information, see Specifying Task Settings for Database Migration Service Tasks in the
   Database Migration Service User Guide.
@@ -1769,6 +1808,82 @@ function describe_pending_maintenance_actions(
 end
 
 """
+    describe_recommendation_limitations()
+    describe_recommendation_limitations(params::Dict{String,<:Any})
+
+Returns a paginated list of limitations for recommendations of target Amazon Web Services
+engines.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the limitations described in the form of key-value pairs.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the
+  response so that you can retrieve the remaining results.
+- `"NextToken"`: Specifies the unique pagination token that makes it possible to display
+  the next page of results. If this parameter is specified, the response includes only
+  records beyond the marker, up to the value specified by MaxRecords. If NextToken is
+  returned by a previous response, there are more results available. The value of NextToken
+  is a unique pagination token for each page. Make the call again using the returned token to
+  retrieve the next page. Keep all other arguments unchanged.
+"""
+function describe_recommendation_limitations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeRecommendationLimitations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_recommendation_limitations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeRecommendationLimitations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_recommendations()
+    describe_recommendations(params::Dict{String,<:Any})
+
+Returns a paginated list of target engine recommendations for your source databases.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the target engine recommendations described in the form
+  of key-value pairs.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, Fleet Advisor includes a pagination token in the
+  response so that you can retrieve the remaining results.
+- `"NextToken"`: Specifies the unique pagination token that makes it possible to display
+  the next page of results. If this parameter is specified, the response includes only
+  records beyond the marker, up to the value specified by MaxRecords. If NextToken is
+  returned by a previous response, there are more results available. The value of NextToken
+  is a unique pagination token for each page. Make the call again using the returned token to
+  retrieve the next page. Keep all other arguments unchanged.
+"""
+function describe_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "DescribeRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_refresh_schemas_status(endpoint_arn)
     describe_refresh_schemas_status(endpoint_arn, params::Dict{String,<:Any})
 
@@ -2237,7 +2352,7 @@ end
     list_tags_for_resource(params::Dict{String,<:Any})
 
 Lists all metadata tags attached to an DMS resource, including replication instance,
-endpoint, security group, and migration task. For more information, see  Tag  data type
+endpoint, subnet group, and migration task. For more information, see  Tag  data type
 description.
 
 # Optional Parameters
@@ -2307,11 +2422,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   letter and must contain only ASCII letters, digits, and hyphens. They can't end with a
   hyphen or contain two consecutive hyphens.
 - `"EndpointType"`: The type of endpoint. Valid values are source and target.
-- `"EngineName"`: The type of engine for the endpoint. Valid values, depending on the
-  EndpointType, include \"mysql\", \"oracle\", \"postgres\", \"mariadb\", \"aurora\",
-  \"aurora-postgresql\", \"opensearch\", \"redshift\", \"s3\", \"db2\", \"azuredb\",
-  \"sybase\", \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\",
-  \"documentdb\", \"sqlserver\", and \"neptune\".
+- `"EngineName"`: The database engine name. Valid values, depending on the EndpointType,
+  include \"mysql\", \"oracle\", \"postgres\", \"mariadb\", \"aurora\",
+  \"aurora-postgresql\", \"redshift\", \"s3\", \"db2\", \"db2-zos\", \"azuredb\", \"sybase\",
+  \"dynamodb\", \"mongodb\", \"kinesis\", \"kafka\", \"elasticsearch\", \"documentdb\",
+  \"sqlserver\", \"neptune\", and \"babelfish\".
 - `"ExactSettings"`: If this attribute is Y, the current call to ModifyEndpoint replaces
   all existing endpoint settings with the exact settings that you specify in this call. If
   this attribute is N, the current call to ModifyEndpoint does two things:    It replaces any
@@ -2477,11 +2592,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   change is asynchronously applied as soon as possible.  An outage does result if these
   factors apply:    This parameter is set to true during the maintenance window.   A newer
   minor version is available.    DMS has enabled automatic patching for the given engine
-  version.
+  version.    When AutoMinorVersionUpgrade is enabled, DMS uses the current default engine
+  version when you modify a replication instance. For example, if you set EngineVersion to a
+  lower version number than the current default version, DMS uses the default version. If
+  AutoMinorVersionUpgrade isn’t enabled when you modify a replication instance, DMS uses
+  the engine version specified by the EngineVersion parameter.
 - `"EngineVersion"`: The engine version number of the replication instance. When modifying
   a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
 - `"MultiAZ"`:  Specifies whether the replication instance is a Multi-AZ deployment. You
   can't set the AvailabilityZone parameter if the Multi-AZ parameter is set to true.
+- `"NetworkType"`: The type of IP address protocol used by a replication instance, such as
+  IPv4 only or Dual-stack that supports both IPv4 and IPv6 addressing. IPv6 only is not yet
+  supported.
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which system
   maintenance can occur, which might result in an outage. Changing this parameter does not
   result in an outage, except in the following situation, and the change is asynchronously
@@ -2614,7 +2736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time. Server time example:
   --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example:
-  --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
+  --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
 - `"MigrationType"`: The migration type. Valid values: full-load | cdc | full-load-and-cdc
 - `"ReplicationTaskIdentifier"`: The replication task identifier. Constraints:   Must
   contain 1-255 alphanumeric characters or hyphens.   First character must be a letter.
@@ -2865,7 +2987,7 @@ end
     remove_tags_from_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Removes metadata tags from an DMS resource, including replication instance, endpoint,
-security group, and migration task. For more information, see  Tag  data type description.
+subnet group, and migration task. For more information, see  Tag  data type description.
 
 # Arguments
 - `resource_arn`: An DMS resource from which you want to remove tag(s). The value for this
@@ -2927,6 +3049,55 @@ function run_fleet_advisor_lsa_analysis(
 end
 
 """
+    start_recommendations(database_id, settings)
+    start_recommendations(database_id, settings, params::Dict{String,<:Any})
+
+Starts the analysis of your source database to provide recommendations of target engines.
+You can create recommendations for multiple source databases using
+BatchStartRecommendations.
+
+# Arguments
+- `database_id`: The identifier of the source database to analyze and provide
+  recommendations for.
+- `settings`: The settings in JSON format that Fleet Advisor uses to determine target
+  engine recommendations. These parameters include target instance sizing and availability
+  and durability settings. For target instance sizing, Fleet Advisor supports the following
+  two options: total capacity and resource utilization. For availability and durability,
+  Fleet Advisor supports the following two options: production (Multi-AZ deployments) and
+  Dev/Test (Single-AZ deployments).
+
+"""
+function start_recommendations(
+    DatabaseId, Settings; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "StartRecommendations",
+        Dict{String,Any}("DatabaseId" => DatabaseId, "Settings" => Settings);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_recommendations(
+    DatabaseId,
+    Settings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseId" => DatabaseId, "Settings" => Settings),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_replication_task(replication_task_arn, start_replication_task_type)
     start_replication_task(replication_task_arn, start_replication_task_type, params::Dict{String,<:Any})
 
@@ -2938,10 +3109,13 @@ Migration Tasks  in the Database Migration Service User Guide.
   started.
 - `start_replication_task_type`: The type of replication task to start. When the migration
   type is full-load or full-load-and-cdc, the only valid value for the first run of the task
-  is start-replication. You use reload-target to restart the task and resume-processing to
-  resume the task. When the migration type is cdc, you use start-replication to start or
-  restart the task, and resume-processing to resume the task. reload-target is not a valid
-  value for a task with migration type of cdc.
+  is start-replication. This option will start the migration. You can also use ReloadTables
+  to reload specific tables that failed during migration instead of restarting the task. The
+  resume-processing option isn't applicable for a full-load task, because you can't resume
+  partially loaded tables during the full load phase. For a full-load-and-cdc task, DMS
+  migrates table data, and then applies data changes that occur on the source. To load all
+  the tables again, and start capturing source changes, use reload-target. Otherwise use
+  resume-processing, to replicate the changes from the last stop position.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2964,7 +3138,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time. Server time example:
   --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example:
-  --cdc-stop-position “commit_time: 2018-02-09T12:12:12 “
+  --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
 """
 function start_replication_task(
     ReplicationTaskArn,

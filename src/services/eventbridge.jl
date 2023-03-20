@@ -196,7 +196,8 @@ for authorization with an API destination HTTP endpoint.
 # Arguments
 - `auth_parameters`: A CreateConnectionAuthRequestParameters object that contains the
   authorization parameters to use to authorize with the endpoint.
-- `authorization_type`: The type of authorization to use for the connection.
+- `authorization_type`: The type of authorization to use for the connection.  OAUTH tokens
+  are refreshed when a 401 or 407 response is returned.
 - `name`: The name for the connection to create.
 
 # Optional Parameters
@@ -267,7 +268,9 @@ reports a \"healthy\" state.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the global endpoint.
-- `"ReplicationConfig"`: Enable or disable event replication.
+- `"ReplicationConfig"`: Enable or disable event replication. The default state is ENABLED
+  which means you must supply a RoleArn. If you don't have a RoleArn or you don't want event
+  replication enabled, set the state to DISABLED.
 - `"RoleArn"`: The ARN of the role used for replication.
 """
 function create_endpoint(
@@ -316,10 +319,11 @@ use to receive events from your custom applications and services, or it can be a
 event bus which can be matched to a partner event source.
 
 # Arguments
-- `name`: The name of the new event bus.  Event bus names cannot contain the / character.
-  You can't use the name default for a custom event bus, as this name is already used for
-  your account's default event bus. If this is a partner event bus, the name must exactly
-  match the name of the partner event source that this event bus is matched to.
+- `name`: The name of the new event bus.  Custom event bus names can't contain the /
+  character, but you can use the / character in partner event bus names. In addition, for
+  partner event buses, the name must exactly match the name of the partner event source that
+  this event bus is matched to. You can't use the name default for a custom event bus, as
+  this name is already used for your account's default event bus.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1526,8 +1530,8 @@ will only process nested JSON up to 1100 levels deep.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EndpointId"`: The URL subdomain of the endpoint. For example, if the URL for Endpoint
-  is abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When using
-  Java, you must include auth-crt on the class path.
+  is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When
+  using Java, you must include auth-crt on the class path.
 """
 function put_events(Entries; aws_config::AbstractAWSConfig=global_aws_config())
     return eventbridge(
@@ -1684,8 +1688,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the rule.
 - `"EventBusName"`: The name or ARN of the event bus to associate with this rule. If you
   omit this, the default event bus is used.
-- `"EventPattern"`: The event pattern. For more information, see EventBridge event patterns
-  in the Amazon EventBridge User Guide.
+- `"EventPattern"`: The event pattern. For more information, see Amazon EventBridge event
+  patterns in the Amazon EventBridge User Guide.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role associated with the rule. If
   you're setting an event bus in another account as the target and that account granted
   permission to your account through an organization instead of directly by the account ID,
@@ -1728,50 +1732,51 @@ API call   EC2 Image Builder   EC2 RebootInstances API call   EC2 StopInstances 
 EC2 TerminateInstances API call   ECS task    Event bus in a different account or Region
  Event bus in the same account and Region    Firehose delivery stream   Glue workflow
 Incident Manager response plan    Inspector assessment template   Kinesis stream   Lambda
-function   Redshift cluster   SageMaker Pipeline   SNS topic   SQS queue   Step Functions
-state machine   Systems Manager Automation   Systems Manager OpsItem   Systems Manager Run
-Command   Creating rules with built-in targets is supported only in the Amazon Web Services
-Management Console. The built-in targets are EC2 CreateSnapshot API call, EC2
-RebootInstances API call, EC2 StopInstances API call, and EC2 TerminateInstances API call.
-For some target types, PutTargets provides target-specific parameters. If the target is a
-Kinesis data stream, you can optionally specify which shard the event goes to by using the
-KinesisParameters argument. To invoke a command on multiple EC2 instances with one rule,
-you can use the RunCommandParameters field. To be able to make API calls against the
-resources that you own, Amazon EventBridge needs the appropriate permissions. For Lambda
-and Amazon SNS resources, EventBridge relies on resource-based policies. For EC2 instances,
-Kinesis Data Streams, Step Functions state machines and API Gateway REST APIs, EventBridge
-relies on IAM roles that you specify in the RoleARN argument in PutTargets. For more
-information, see Authentication and Access Control in the Amazon EventBridge User Guide. If
-another Amazon Web Services account is in the same region and has granted you permission
-(using PutPermission), you can send events to that account. Set that account's event bus as
-a target of the rules in your account. To send the matched events to the other account,
-specify that account's event bus as the Arn value when you run PutTargets. If your account
-sends events to another account, your account is charged for each sent event. Each event
-sent to another account is charged as a custom event. The account receiving the event is
-not charged. For more information, see Amazon EventBridge Pricing.   Input, InputPath, and
-InputTransformer are not available with PutTarget if the target is an event bus of a
-different Amazon Web Services account.  If you are setting the event bus of another account
-as the target, and that account granted permission to your account through an organization
-instead of directly by the account ID, then you must specify a RoleArn with proper
-permissions in the Target structure. For more information, see Sending and Receiving Events
-Between Amazon Web Services Accounts in the Amazon EventBridge User Guide. For more
-information about enabling cross-account events, see PutPermission.  Input, InputPath, and
-InputTransformer are mutually exclusive and optional parameters of a target. When a rule is
-triggered due to a matched event:   If none of the following arguments are specified for a
-target, then the entire event is passed to the target in JSON format (unless the target is
-Amazon EC2 Run Command or Amazon ECS task, in which case nothing from the event is passed
-to the target).   If Input is specified in the form of valid JSON, then the matched event
-is overridden with this constant.   If InputPath is specified in the form of JSONPath (for
-example, .detail), then only the part of the event specified in the path is passed to the
-target (for example, only the detail part of the event is passed).   If InputTransformer is
-specified, then one or more specified JSONPaths are extracted from the event and used as
-values in a template that you specify as the input to the target.   When you specify
-InputPath or InputTransformer, you must use JSON dot notation, not bracket notation. When
-you add targets to a rule and the associated rule triggers soon after, new or updated
-targets might not be immediately invoked. Allow a short period of time for changes to take
-effect. This action can partially fail if too many requests are made at the same time. If
-that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries
-provides the ID of the failed target and the error code.
+function   Redshift cluster   Redshift Serverless workgroup   SageMaker Pipeline   SNS
+topic   SQS queue   Step Functions state machine   Systems Manager Automation   Systems
+Manager OpsItem   Systems Manager Run Command   Creating rules with built-in targets is
+supported only in the Amazon Web Services Management Console. The built-in targets are EC2
+CreateSnapshot API call, EC2 RebootInstances API call, EC2 StopInstances API call, and EC2
+TerminateInstances API call.  For some target types, PutTargets provides target-specific
+parameters. If the target is a Kinesis data stream, you can optionally specify which shard
+the event goes to by using the KinesisParameters argument. To invoke a command on multiple
+EC2 instances with one rule, you can use the RunCommandParameters field. To be able to make
+API calls against the resources that you own, Amazon EventBridge needs the appropriate
+permissions. For Lambda and Amazon SNS resources, EventBridge relies on resource-based
+policies. For EC2 instances, Kinesis Data Streams, Step Functions state machines and API
+Gateway APIs, EventBridge relies on IAM roles that you specify in the RoleARN argument in
+PutTargets. For more information, see Authentication and Access Control in the Amazon
+EventBridge User Guide. If another Amazon Web Services account is in the same region and
+has granted you permission (using PutPermission), you can send events to that account. Set
+that account's event bus as a target of the rules in your account. To send the matched
+events to the other account, specify that account's event bus as the Arn value when you run
+PutTargets. If your account sends events to another account, your account is charged for
+each sent event. Each event sent to another account is charged as a custom event. The
+account receiving the event is not charged. For more information, see Amazon EventBridge
+Pricing.   Input, InputPath, and InputTransformer are not available with PutTarget if the
+target is an event bus of a different Amazon Web Services account.  If you are setting the
+event bus of another account as the target, and that account granted permission to your
+account through an organization instead of directly by the account ID, then you must
+specify a RoleArn with proper permissions in the Target structure. For more information,
+see Sending and Receiving Events Between Amazon Web Services Accounts in the Amazon
+EventBridge User Guide. For more information about enabling cross-account events, see
+PutPermission.  Input, InputPath, and InputTransformer are mutually exclusive and optional
+parameters of a target. When a rule is triggered due to a matched event:   If none of the
+following arguments are specified for a target, then the entire event is passed to the
+target in JSON format (unless the target is Amazon EC2 Run Command or Amazon ECS task, in
+which case nothing from the event is passed to the target).   If Input is specified in the
+form of valid JSON, then the matched event is overridden with this constant.   If InputPath
+is specified in the form of JSONPath (for example, .detail), then only the part of the
+event specified in the path is passed to the target (for example, only the detail part of
+the event is passed).   If InputTransformer is specified, then one or more specified
+JSONPaths are extracted from the event and used as values in a template that you specify as
+the input to the target.   When you specify InputPath or InputTransformer, you must use
+JSON dot notation, not bracket notation. When you add targets to a rule and the associated
+rule triggers soon after, new or updated targets might not be immediately invoked. Allow a
+short period of time for changes to take effect. This action can partially fail if too many
+requests are made at the same time. If that happens, FailedEntryCount is non-zero in the
+response and each entry in FailedEntries provides the ID of the failed target and the error
+code.
 
 # Arguments
 - `rule`: The name of the rule.
@@ -2230,7 +2235,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ReplicationConfig"`: Whether event replication was enabled or disabled by this request.
 - `"RoleArn"`: The ARN of the role used by event replication for this request.
 - `"RoutingConfig"`: Configure the routing policy, including the health check and secondary
-  Region..
+  Region.
 """
 function update_endpoint(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return eventbridge(

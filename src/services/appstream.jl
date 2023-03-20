@@ -448,6 +448,14 @@ domains.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CertificateBasedAuthProperties"`: The certificate-based authentication properties used
+  to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory
+  domain-joined streaming instances. Fallback is turned on by default when certificate-based
+  authentication is Enabled . Fallback allows users to log in using their AD domain password
+  if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen.
+  Enabled_no_directory_login_fallback enables certificate-based authentication, but does not
+  allow users to log in using their AD domain password. Users will be disconnected to
+  re-authenticate using certificates.
 - `"ServiceAccountCredentials"`: The credentials for the service account used by the fleet
   or image builder to connect to the directory.
 """
@@ -560,16 +568,17 @@ end
     create_fleet(instance_type, name)
     create_fleet(instance_type, name, params::Dict{String,<:Any})
 
-Creates a fleet. A fleet consists of streaming instances that run a specified image when
-using Always-On or On-Demand.
+Creates a fleet. A fleet consists of streaming instances that your users access for their
+applications and desktops.
 
 # Arguments
 - `instance_type`: The instance type to use when launching fleet instances. The following
   instance types are available:   stream.standard.small   stream.standard.medium
-  stream.standard.large   stream.compute.large   stream.compute.xlarge
-  stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge
-  stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge
-   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge
+  stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+  stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge
+  stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large
+  stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge
+  stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge
   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge
   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge
   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge
@@ -578,7 +587,8 @@ using Always-On or On-Demand.
    stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge
   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
   The following instance types are available for Elastic fleets:   stream.standard.small
-  stream.standard.medium
+  stream.standard.medium   stream.standard.large   stream.standard.xlarge
+  stream.standard.2xlarge
 - `name`: A unique name for the fleet.
 
 # Optional Parameters
@@ -2608,6 +2618,14 @@ Directory domains.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CertificateBasedAuthProperties"`: The certificate-based authentication properties used
+  to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory
+  domain-joined streaming instances. Fallback is turned on by default when certificate-based
+  authentication is Enabled . Fallback allows users to log in using their AD domain password
+  if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen.
+  Enabled_no_directory_login_fallback enables certificate-based authentication, but does not
+  allow users to log in using their AD domain password. Users will be disconnected to
+  re-authenticate using certificates.
 - `"OrganizationalUnitDistinguishedNames"`: The distinguished names of the organizational
   units for computer accounts.
 - `"ServiceAccountCredentials"`: The credentials for the service account used by the fleet
@@ -2740,10 +2758,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ImageName"`: The name of the image used to create the fleet.
 - `"InstanceType"`: The instance type to use when launching fleet instances. The following
   instance types are available:   stream.standard.small   stream.standard.medium
-  stream.standard.large   stream.compute.large   stream.compute.xlarge
-  stream.compute.2xlarge   stream.compute.4xlarge   stream.compute.8xlarge
-  stream.memory.large   stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge
-   stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge
+  stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+  stream.compute.large   stream.compute.xlarge   stream.compute.2xlarge
+  stream.compute.4xlarge   stream.compute.8xlarge   stream.memory.large
+  stream.memory.xlarge   stream.memory.2xlarge   stream.memory.4xlarge
+  stream.memory.8xlarge   stream.memory.z1d.large   stream.memory.z1d.xlarge
   stream.memory.z1d.2xlarge   stream.memory.z1d.3xlarge   stream.memory.z1d.6xlarge
   stream.memory.z1d.12xlarge   stream.graphics-design.large   stream.graphics-design.xlarge
   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge
@@ -2752,7 +2771,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge
   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
   The following instance types are available for Elastic fleets:   stream.standard.small
-  stream.standard.medium
+  stream.standard.medium   stream.standard.large   stream.standard.xlarge
+  stream.standard.2xlarge
 - `"MaxConcurrentSessions"`: The maximum number of concurrent sessions for a fleet.
 - `"MaxUserDurationInSeconds"`: The maximum amount of time that a streaming session can
   remain active, in seconds. If users are still connected to a streaming instance five

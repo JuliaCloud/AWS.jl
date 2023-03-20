@@ -100,16 +100,15 @@ each job flow. If your cluster is long-running (such as a Hive data warehouse) o
 you may require more than 256 steps to process your data. You can bypass the 256-step
 limitation in various ways, including using SSH to connect to the master node and
 submitting queries directly to the software running on the master node, such as Hive and
-Hadoop. For more information on how to do this, see Add More than 256 Steps to a Cluster in
-the Amazon EMR Management Guide. A step specifies the location of a JAR file stored either
-on the master node of the cluster or in Amazon S3. Each step is performed by the main
-function of the main class of the JAR file. The main class can be specified either in the
-manifest of the JAR or by using the MainFunction parameter of the step. Amazon EMR executes
-each step in the order listed. For a step to be considered complete, the main function must
-exit with a zero exit code and all Hadoop jobs started while the step was running must have
-completed and run successfully. You can only add steps to a cluster that is in one of the
-following states: STARTING, BOOTSTRAPPING, RUNNING, or WAITING.  The string values passed
-into HadoopJarStep object cannot exceed a total of 10240 characters.
+Hadoop. A step specifies the location of a JAR file stored either on the master node of the
+cluster or in Amazon S3. Each step is performed by the main function of the main class of
+the JAR file. The main class can be specified either in the manifest of the JAR or by using
+the MainFunction parameter of the step. Amazon EMR executes each step in the order listed.
+For a step to be considered complete, the main function must exit with a zero exit code and
+all Hadoop jobs started while the step was running must have completed and run
+successfully. You can only add steps to a cluster that is in one of the following states:
+STARTING, BOOTSTRAPPING, RUNNING, or WAITING.  The string values passed into HadoopJarStep
+object cannot exceed a total of 10240 characters.
 
 # Arguments
 - `job_flow_id`: A string that uniquely identifies the job flow. This identifier is
@@ -297,8 +296,8 @@ end
 Creates a new Amazon EMR Studio.
 
 # Arguments
-- `auth_mode`: Specifies whether the Studio authenticates users using IAM or Amazon Web
-  Services SSO.
+- `auth_mode`: Specifies whether the Studio authenticates users using IAM or IAM Identity
+  Center.
 - `default_s3_location`: The Amazon S3 location to back up Amazon EMR Studio Workspaces and
   notebook files.
 - `engine_security_group_id`: The ID of the Amazon EMR Studio Engine security group. The
@@ -332,8 +331,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pairs that consist of a required key string with a maximum of 128 characters, and
   an optional value string with a maximum of 256 characters.
 - `"UserRole"`: The IAM user role that users and groups assume when logged in to an Amazon
-  EMR Studio. Only specify a UserRole when you use Amazon Web Services SSO authentication.
-  The permissions attached to the UserRole can be scoped down for each user or group using
+  EMR Studio. Only specify a UserRole when you use IAM Identity Center authentication. The
+  permissions attached to the UserRole can be scoped down for each user or group using
   session policies.
 """
 function create_studio(
@@ -404,7 +403,7 @@ end
 
 Maps a user or group to the Amazon EMR Studio specified by StudioId, and applies a session
 policy to refine Studio permissions for that user or group. Use CreateStudioSessionMapping
-to assign users to a Studio when you use Amazon Web Services SSO authentication. For
+to assign users to a Studio when you use IAM Identity Center authentication. For
 instructions on how to assign users to a Studio when you use IAM authentication, see Assign
 a user or group to your EMR Studio.
 
@@ -419,13 +418,13 @@ a user or group to your EMR Studio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"IdentityId"`: The globally unique identifier (GUID) of the user or group from the
-  Amazon Web Services SSO Identity Store. For more information, see UserId and GroupId in the
-  Amazon Web Services SSO Identity Store API Reference. Either IdentityName or IdentityId
-  must be specified, but not both.
+- `"IdentityId"`: The globally unique identifier (GUID) of the user or group from the IAM
+  Identity Center Identity Store. For more information, see UserId and GroupId in the IAM
+  Identity Center Identity Store API Reference. Either IdentityName or IdentityId must be
+  specified, but not both.
 - `"IdentityName"`: The name of the user or group. For more information, see UserName and
-  DisplayName in the Amazon Web Services SSO Identity Store API Reference. Either
-  IdentityName or IdentityId must be specified, but not both.
+  DisplayName in the IAM Identity Center Identity Store API Reference. Either IdentityName or
+  IdentityId must be specified, but not both.
 """
 function create_studio_session_mapping(
     IdentityType,
@@ -547,12 +546,11 @@ Removes a user or group from an Amazon EMR Studio.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IdentityId"`: The globally unique identifier (GUID) of the user or group to remove from
-  the Amazon EMR Studio. For more information, see UserId and GroupId in the Amazon Web
-  Services SSO Identity Store API Reference. Either IdentityName or IdentityId must be
-  specified.
+  the Amazon EMR Studio. For more information, see UserId and GroupId in the IAM Identity
+  Center Identity Store API Reference. Either IdentityName or IdentityId must be specified.
 - `"IdentityName"`: The name of the user name or group to remove from the Amazon EMR
-  Studio. For more information, see UserName and DisplayName in the Amazon Web Services SSO
-  Store API Reference. Either IdentityName or IdentityId must be specified.
+  Studio. For more information, see UserName and DisplayName in the IAM Identity Center Store
+  API Reference. Either IdentityName or IdentityId must be specified.
 """
 function delete_studio_session_mapping(
     IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -890,6 +888,55 @@ function get_block_public_access_configuration(
 end
 
 """
+    get_cluster_session_credentials(cluster_id, execution_role_arn)
+    get_cluster_session_credentials(cluster_id, execution_role_arn, params::Dict{String,<:Any})
+
+Provides temporary, HTTP basic credentials that are associated with a given runtime IAM
+role and used by a cluster with fine-grained access control activated. You can use these
+credentials to connect to cluster endpoints that support username and password
+authentication.
+
+# Arguments
+- `cluster_id`: The unique identifier of the cluster.
+- `execution_role_arn`: The Amazon Resource Name (ARN) of the runtime role for interactive
+  workload submission on the cluster. The runtime role can be a cross-account IAM role. The
+  runtime role ARN is a combination of account ID, role name, and role type using the
+  following format: arn:partition:service:region:account:resource.
+
+"""
+function get_cluster_session_credentials(
+    ClusterId, ExecutionRoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr(
+        "GetClusterSessionCredentials",
+        Dict{String,Any}("ClusterId" => ClusterId, "ExecutionRoleArn" => ExecutionRoleArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_cluster_session_credentials(
+    ClusterId,
+    ExecutionRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr(
+        "GetClusterSessionCredentials",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterId" => ClusterId, "ExecutionRoleArn" => ExecutionRoleArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_managed_scaling_policy(cluster_id)
     get_managed_scaling_policy(cluster_id, params::Dict{String,<:Any})
 
@@ -938,11 +985,11 @@ Fetches mapping details for the specified Amazon EMR Studio and identity (user o
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IdentityId"`: The globally unique identifier (GUID) of the user or group. For more
-  information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API
+  information, see UserId and GroupId in the IAM Identity Center Identity Store API
   Reference. Either IdentityName or IdentityId must be specified.
 - `"IdentityName"`: The name of the user or group to fetch. For more information, see
-  UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference.
-  Either IdentityName or IdentityId must be specified.
+  UserName and DisplayName in the IAM Identity Center Identity Store API Reference. Either
+  IdentityName or IdentityId must be specified.
 """
 function get_studio_session_mapping(
     IdentityType, StudioId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1864,12 +1911,10 @@ of 256 steps are allowed in each job flow. If your cluster is long-running (such
 data warehouse) or complex, you may require more than 256 steps to process your data. You
 can bypass the 256-step limitation in various ways, including using the SSH shell to
 connect to the master node and submitting queries directly to the software running on the
-master node, such as Hive and Hadoop. For more information on how to do this, see Add More
-than 256 Steps to a Cluster in the Amazon EMR Management Guide. For long running clusters,
-we recommend that you periodically store your results.  The instance fleets configuration
-is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. The
-RunJobFlow request can contain InstanceFleets parameters or InstanceGroups parameters, but
-not both.
+master node, such as Hive and Hadoop. For long-running clusters, we recommend that you
+periodically store your results.  The instance fleets configuration is available only in
+Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can
+contain InstanceFleets parameters or InstanceGroups parameters, but not both.
 
 # Arguments
 - `instances`: A specification of the number and type of Amazon EC2 instances.
@@ -1958,7 +2003,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
 - `"SecurityConfiguration"`: The name of a security configuration to apply to the cluster.
 - `"ServiceRole"`: The IAM role that Amazon EMR assumes in order to access Amazon Web
-  Services resources on your behalf.
+  Services resources on your behalf. If you've created a custom service role path, you must
+  specify it for the service role when you launch your cluster.
 - `"StepConcurrencyLevel"`: Specifies the number of steps that can be executed
   concurrently. The default value is 1. The maximum value is 256.
 - `"Steps"`: A list of steps to run.
@@ -2337,11 +2383,11 @@ Studio.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IdentityId"`: The globally unique identifier (GUID) of the user or group. For more
-  information, see UserId and GroupId in the Amazon Web Services SSO Identity Store API
+  information, see UserId and GroupId in the IAM Identity Center Identity Store API
   Reference. Either IdentityName or IdentityId must be specified.
 - `"IdentityName"`: The name of the user or group to update. For more information, see
-  UserName and DisplayName in the Amazon Web Services SSO Identity Store API Reference.
-  Either IdentityName or IdentityId must be specified.
+  UserName and DisplayName in the IAM Identity Center Identity Store API Reference. Either
+  IdentityName or IdentityId must be specified.
 """
 function update_studio_session_mapping(
     IdentityType,

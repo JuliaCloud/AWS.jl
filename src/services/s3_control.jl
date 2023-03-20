@@ -32,11 +32,13 @@ GetAccessPoint     DeleteAccessPoint     ListAccessPoints
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value
   must be URL encoded.
 - `name`: The name you want to assign to this access point.
-- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the bucket for
-  which you want to create an access point.
+- `x-amz-account-id`: The Amazon Web Services account ID for the account that owns the
+  specified access point.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BucketAccountId"`: The Amazon Web Services account ID associated with the S3 bucket
+  associated with this access point.
 - `"PublicAccessBlockConfiguration"`:  The PublicAccessBlock configuration that you want to
   apply to the access point.
 - `"VpcConfiguration"`: If you include this field, Amazon S3 restricts access to this
@@ -381,7 +383,8 @@ CreateAccessPoint     GetAccessPoint     ListAccessPoints
   outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding
   of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap.
   The value must be URL encoded.
-- `x-amz-account-id`: The account ID for the account that owns the specified access point.
+- `x-amz-account-id`: The Amazon Web Services account ID for the account that owns the
+  specified access point.
 
 """
 function delete_access_point(
@@ -1257,7 +1260,8 @@ following actions are related to GetAccessPoint:    CreateAccessPoint     Delete
   outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding
   of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/accesspoint/reports-ap.
   The value must be URL encoded.
-- `x-amz-account-id`: The account ID for the account that owns the specified access point.
+- `x-amz-account-id`: The Amazon Web Services account ID for the account that owns the
+  specified access point.
 
 """
 function get_access_point(
@@ -2167,6 +2171,58 @@ function get_multi_region_access_point_policy_status(
 end
 
 """
+    get_multi_region_access_point_routes(mrap, x-amz-account-id)
+    get_multi_region_access_point_routes(mrap, x-amz-account-id, params::Dict{String,<:Any})
+
+Returns the routing configuration for a Multi-Region Access Point, indicating which Regions
+are active or passive. To obtain routing control changes and failover requests, use the
+Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services
+Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1
+Your Amazon S3 bucket does not need to be in these five Regions.
+
+# Arguments
+- `mrap`: The Multi-Region Access Point ARN.
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
+  Access Point.
+
+"""
+function get_multi_region_access_point_routes(
+    mrap, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/mrap/instances/$(mrap)/routes",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_multi_region_access_point_routes(
+    mrap,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/mrap/instances/$(mrap)/routes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_public_access_block(x-amz-account-id)
     get_public_access_block(x-amz-account-id, params::Dict{String,<:Any})
 
@@ -2219,10 +2275,11 @@ end
     get_storage_lens_configuration(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
 Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your
-storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To
-use this action, you must have permission to perform the s3:GetStorageLensConfiguration
-action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
-Amazon S3 User Guide.
+storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide. For a
+complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the
+Amazon S3 User Guide.  To use this action, you must have permission to perform the
+s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use
+Amazon S3 Storage Lens in the Amazon S3 User Guide.
 
 # Arguments
 - `storagelensid`: The ID of the Amazon S3 Storage Lens configuration.
@@ -2320,21 +2377,21 @@ end
     list_access_points(x-amz-account-id)
     list_access_points(x-amz-account-id, params::Dict{String,<:Any})
 
-Returns a list of the access points currently associated with the specified bucket. You can
-retrieve up to 1000 access points per call. If the specified bucket has more than 1,000
-access points (or the number specified in maxResults, whichever is less), the response will
-include a continuation token that you can use to list the additional access points.  All
-Amazon S3 on Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
-endpoint hostname prefix instead of s3-control. For an example of the request syntax for
-Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
-x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
-following actions are related to ListAccessPoints:    CreateAccessPoint
-DeleteAccessPoint     GetAccessPoint
+Returns a list of the access points owned by the current account associated with the
+specified bucket. You can retrieve up to 1000 access points per call. If the specified
+bucket has more than 1,000 access points (or the number specified in maxResults, whichever
+is less), the response will include a continuation token that you can use to list the
+additional access points.  All Amazon S3 on Outposts REST API requests for this action
+require an additional parameter of x-amz-outpost-id to be passed with the request. In
+addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control.
+For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
+endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN,
+see the Examples section. The following actions are related to ListAccessPoints:
+CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
 
 # Arguments
-- `x-amz-account-id`: The Amazon Web Services account ID for owner of the bucket whose
-  access points you want to list.
+- `x-amz-account-id`: The Amazon Web Services account ID for the account that owns the
+  specified access points.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3367,10 +3424,11 @@ end
     put_storage_lens_configuration(storage_lens_configuration, storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
 Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens,
-see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide.  To use this action,
-you must have permission to perform the s3:PutStorageLensConfiguration action. For more
-information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User
-Guide.
+see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide. For a complete list of
+S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.
+To use this action, you must have permission to perform the s3:PutStorageLensConfiguration
+action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
+Amazon S3 User Guide.
 
 # Arguments
 - `storage_lens_configuration`: The S3 Storage Lens configuration.
@@ -3475,6 +3533,76 @@ function put_storage_lens_configuration_tagging(
                 _merge,
                 Dict{String,Any}(
                     "Tag" => Tag,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    submit_multi_region_access_point_routes(route, mrap, x-amz-account-id)
+    submit_multi_region_access_point_routes(route, mrap, x-amz-account-id, params::Dict{String,<:Any})
+
+Submits an updated route configuration for a Multi-Region Access Point. This API operation
+updates the routing status for the specified Regions from active to passive, or from
+passive to active. A value of 0 indicates a passive status, which means that traffic won't
+be routed to the specified Region. A value of 100 indicates an active status, which means
+that traffic will be routed to the specified Region. At least one Region must be active at
+all times. When the routing configuration is changed, any in-progress operations (uploads,
+copies, deletes, and so on) to formerly active Regions will continue to run to their final
+completion state (success or failure). The routing configurations of any Regions that
+aren’t specified remain unchanged.  Updated routing configurations might not be
+immediately applied. It can take up to 2 minutes for your changes to take effect.  To
+submit routing control changes and failover requests, use the Amazon S3 failover control
+infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1
+us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1     Your Amazon S3 bucket
+does not need to be in these five Regions.
+
+# Arguments
+- `route`: The different routes that make up the new route configuration. Active routes
+  return a value of 100, and passive routes return a value of 0.
+- `mrap`: The Multi-Region Access Point ARN.
+- `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
+  Access Point.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RouteUpdates"`: The different routes that make up the new route configuration. Active
+  routes return a value of 100, and passive routes return a value of 0.
+"""
+function submit_multi_region_access_point_routes(
+    Route, mrap, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3_control(
+        "PATCH",
+        "/v20180820/mrap/instances/$(mrap)/routes",
+        Dict{String,Any}(
+            "Route" => Route,
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function submit_multi_region_access_point_routes(
+    Route,
+    mrap,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "PATCH",
+        "/v20180820/mrap/instances/$(mrap)/routes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Route" => Route,
                     "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
                 ),
                 params,

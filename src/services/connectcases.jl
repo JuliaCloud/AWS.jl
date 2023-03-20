@@ -85,8 +85,12 @@ end
     create_case(domain_id, fields, template_id, params::Dict{String,<:Any})
 
 Creates a case in the specified Cases domain. Case system and custom fields are taken as an
-array id/value pairs with a declared data types.   customer_id is a required field when
-creating a case.
+array id/value pairs with a declared data types.  The following fields are required when
+creating a case:  &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;customer_id&lt;/code&gt; -
+You must provide the full customer profile ARN in this format:
+&lt;code&gt;arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain
+name/profiles/profile ID&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;
+&lt;code&gt;title&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; &lt;/note&gt;
 
 # Arguments
 - `domain_id`: The unique identifier of the Cases domain.
@@ -97,7 +101,8 @@ creating a case.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
 function create_case(
     domainId, fields, templateId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -145,7 +150,8 @@ end
 Creates a domain, which is a container for all case data, such as cases, fields, templates
 and layouts. Each Amazon Connect instance can be associated with only one Cases domain.
 This will not associate your connect instance to Cases domain. Instead, use the Amazon
-Connect CreateIntegrationAssociation API.
+Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully
+associate the Cases domain. For more information, see Onboard to Cases.
 
 # Arguments
 - `name`: The name for your Cases domain. It must be unique for your Amazon Web Services
@@ -319,10 +325,11 @@ end
     create_template(domain_id, name, params::Dict{String,<:Any})
 
 Creates a template in the Cases domain. This template is used to define the case object
-model (that is, define what data can be captured on cases) in a Cases domain. A template
+model (that is, to define what data can be captured on cases) in a Cases domain. A template
 must have a unique name within a domain, and it must reference existing field IDs and
 layout IDs. Additionally, multiple fields with same IDs are not allowed within the same
-Template.
+Template. A template can be either Active or Inactive, as indicated by its status. Inactive
+templates cannot be used to create cases.
 
 # Arguments
 - `domain_id`: The unique identifier of the Cases domain.
@@ -334,6 +341,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"layoutConfiguration"`: Configuration of layouts associated to the template.
 - `"requiredFields"`: A list of fields that must contain a value for a case to be
   successfully created with this template.
+- `"status"`: The status of the template.
 """
 function create_template(domainId, name; aws_config::AbstractAWSConfig=global_aws_config())
     return connectcases(
@@ -354,6 +362,38 @@ function create_template(
         "POST",
         "/domains/$(domainId)/templates",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_domain(domain_id)
+    delete_domain(domain_id, params::Dict{String,<:Any})
+
+Deletes a domain.
+
+# Arguments
+- `domain_id`: The unique identifier of the Cases domain.
+
+"""
+function delete_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config())
+    return connectcases(
+        "DELETE",
+        "/domains/$(domainId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_domain(
+    domainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connectcases(
+        "DELETE",
+        "/domains/$(domainId)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -771,6 +811,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return per page.
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
+- `"status"`: A list of status values to filter on.
 """
 function list_templates(domainId; aws_config::AbstractAWSConfig=global_aws_config())
     return connectcases(
@@ -839,7 +880,9 @@ end
     search_cases(domain_id, params::Dict{String,<:Any})
 
 Searches for cases within their associated Cases domain. Search results are returned as a
-paginated list of abridged case documents.
+paginated list of abridged case documents.  For customer_id you must provide the full
+customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account
+ID:domains/profiles domain name/profiles/profile ID.
 
 # Arguments
 - `domain_id`: The unique identifier of the Cases domain.
@@ -1121,9 +1164,9 @@ end
     update_template(domain_id, template_id, params::Dict{String,<:Any})
 
 Updates the attributes of an existing template. The template attributes that can be
-modified include name, description, layouts, and requiredFields. At least one of these
-attributes must not be null. If a null value is provided for a given attribute, that
-attribute is ignored and its current value is preserved.
+modified include name, description, layoutConfiguration, requiredFields, and status. At
+least one of these attributes must not be null. If a null value is provided for a given
+attribute, that attribute is ignored and its current value is preserved.
 
 # Arguments
 - `domain_id`: The unique identifier of the Cases domain.
@@ -1136,6 +1179,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the template. It must be unique per domain.
 - `"requiredFields"`: A list of fields that must contain a value for a case to be
   successfully created with this template.
+- `"status"`: The status of the template.
 """
 function update_template(
     domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()

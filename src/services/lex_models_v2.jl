@@ -5,6 +5,171 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_create_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id)
+    batch_create_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id, params::Dict{String,<:Any})
+
+Create a batch of custom vocabulary items for a given bot locale's custom vocabulary.
+
+# Arguments
+- `bot_id`: The identifier of the bot associated with this custom vocabulary.
+- `bot_version`: The identifier of the version of the bot associated with this custom
+  vocabulary.
+- `custom_vocabulary_item_list`: A list of new custom vocabulary items. Each entry must
+  contain a phrase and can optionally contain a displayAs and/or a weight.
+- `locale_id`: The identifier of the language and locale where this custom vocabulary is
+  used. The string must match one of the supported locales. For more information, see
+  Supported Languages .
+
+"""
+function batch_create_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchcreate",
+        Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_create_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchcreate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_delete_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id)
+    batch_delete_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id, params::Dict{String,<:Any})
+
+Delete a batch of custom vocabulary items for a given bot locale's custom vocabulary.
+
+# Arguments
+- `bot_id`: The identifier of the bot associated with this custom vocabulary.
+- `bot_version`: The identifier of the version of the bot associated with this custom
+  vocabulary.
+- `custom_vocabulary_item_list`: A list of custom vocabulary items requested to be deleted.
+  Each entry must contain the unique custom vocabulary entry identifier.
+- `locale_id`: The identifier of the language and locale where this custom vocabulary is
+  used. The string must match one of the supported locales. For more information, see
+  Supported Languages .
+
+"""
+function batch_delete_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchdelete",
+        Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_delete_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchdelete",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_update_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id)
+    batch_update_custom_vocabulary_item(bot_id, bot_version, custom_vocabulary_item_list, locale_id, params::Dict{String,<:Any})
+
+Update a batch of custom vocabulary items for a given bot locale's custom vocabulary.
+
+# Arguments
+- `bot_id`: The identifier of the bot associated with this custom vocabulary
+- `bot_version`: The identifier of the version of the bot associated with this custom
+  vocabulary.
+- `custom_vocabulary_item_list`: A list of custom vocabulary items with updated fields.
+  Each entry must contain a phrase and can optionally contain a displayAs and/or a weight.
+- `locale_id`: The identifier of the language and locale where this custom vocabulary is
+  used. The string must match one of the supported locales. For more information, see
+  Supported Languages .
+
+"""
+function batch_update_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchupdate",
+        Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_update_custom_vocabulary_item(
+    botId,
+    botVersion,
+    customVocabularyItemList,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/batchupdate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("customVocabularyItemList" => customVocabularyItemList),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     build_bot_locale(bot_id, bot_version, locale_id)
     build_bot_locale(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
 
@@ -68,9 +233,11 @@ Creates an Amazon Lex conversational bot.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"botMembers"`: The list of bot members in a network to be created.
 - `"botTags"`: A list of tags to add to the bot. You can only add tags when you create a
   bot. You can't use the UpdateBot operation to update tags. To update tags, use the
   TagResource operation.
+- `"botType"`: The type of a bot to create.
 - `"description"`: A description of the bot. It appears in lists to help you identify a
   particular bot.
 - `"testBotAliasTags"`: A list of tags to add to the test alias for a bot. You can only add
@@ -804,8 +971,11 @@ skipResourceInUseCheck parameter to true.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: When true, Amazon Lex doesn't check to see if another
-  resource, such as an alias, is using the bot before it is deleted.
+- `"skipResourceInUseCheck"`: By default, Amazon Lex checks if any other resource, such as
+  an alias or bot network, is using the bot version before it is deleted and throws a
+  ResourceInUseException exception if the bot is being used by another resource. Set this
+  parameter to true to skip this check and remove the bot even if it is being used by another
+  resource.
 """
 function delete_bot(botId; aws_config::AbstractAWSConfig=global_aws_config())
     return lex_models_v2(
@@ -836,8 +1006,11 @@ Deletes the specified bot alias.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: When this parameter is true, Amazon Lex doesn't check to see
-  if any other resource is using the alias before it is deleted.
+- `"skipResourceInUseCheck"`: By default, Amazon Lex checks if any other resource, such as
+  a bot network, is using the bot alias before it is deleted and throws a
+  ResourceInUseException exception if the alias is being used by another resource. Set this
+  parameter to true to skip this check and remove the alias even if it is being used by
+  another resource.
 """
 function delete_bot_alias(
     botAliasId, botId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -908,7 +1081,7 @@ end
     delete_bot_version(bot_id, bot_version)
     delete_bot_version(bot_id, bot_version, params::Dict{String,<:Any})
 
-Deletes a specific version of a bot. To delete all version of a bot, use the DeleteBot
+Deletes a specific version of a bot. To delete all versions of a bot, use the DeleteBot
 operation.
 
 # Arguments
@@ -917,10 +1090,11 @@ operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"skipResourceInUseCheck"`: By default, the DeleteBotVersion operations throws a
-  ResourceInUseException exception if you try to delete a bot version that has an alias
-  pointing at it. Set the skipResourceInUseCheck parameter to true to skip this check and
-  remove the version even if an alias points to it.
+- `"skipResourceInUseCheck"`: By default, Amazon Lex checks if any other resource, such as
+  an alias or bot network, is using the bot version before it is deleted and throws a
+  ResourceInUseException exception if the version is being used by another resource. Set this
+  parameter to true to skip this check and remove the version even if it is being used by
+  another resource.
 """
 function delete_bot_version(
     botId, botVersion; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2170,6 +2344,50 @@ function list_built_in_slot_types(
 end
 
 """
+    list_custom_vocabulary_items(bot_id, bot_version, locale_id)
+    list_custom_vocabulary_items(bot_id, bot_version, locale_id, params::Dict{String,<:Any})
+
+Paginated list of custom vocabulary items for a given bot locale's custom vocabulary.
+
+# Arguments
+- `bot_id`: The identifier of the version of the bot associated with this custom vocabulary.
+- `bot_version`: The bot version of the bot to the list custom vocabulary request.
+- `locale_id`: The identifier of the language and locale where this custom vocabulary is
+  used. The string must match one of the supported locales. For more information, see
+  Supported languages (https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of items returned by the list operation.
+- `"nextToken"`: The nextToken identifier to the list custom vocabulary request.
+"""
+function list_custom_vocabulary_items(
+    botId, botVersion, localeId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_custom_vocabulary_items(
+    botId,
+    botVersion,
+    localeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/customvocabulary/DEFAULT/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_exports()
     list_exports(params::Dict{String,<:Any})
 
@@ -2308,7 +2526,7 @@ end
     list_recommended_intents(bot_id, bot_recommendation_id, bot_version, locale_id, params::Dict{String,<:Any})
 
 Gets a list of recommended intents provided by the bot recommendation that you can use in
-your bot.
+your bot. Intents in the response are ordered by relevance.
 
 # Arguments
 - `bot_id`: The unique identifier of the bot associated with the recommended intents.
@@ -2833,6 +3051,8 @@ Updates the configuration of an existing bot.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"botMembers"`: The list of bot members in the network associated with the update action.
+- `"botType"`: The type of the bot to be updated.
 - `"description"`: A description of the bot.
 """
 function update_bot(

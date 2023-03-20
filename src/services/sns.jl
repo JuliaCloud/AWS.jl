@@ -9,7 +9,9 @@ using AWS.UUIDs
     add_permission(awsaccount_id, action_name, label, topic_arn, params::Dict{String,<:Any})
 
 Adds a statement to a topic's access control policy, granting access for the specified
-Amazon Web Services accounts to the specified actions.
+Amazon Web Services accounts to the specified actions.  To remove the ability to change
+topic permissions, you must deny permissions to the AddPermission, RemovePermission, and
+SetTopicAttributes actions in your IAM policy.
 
 # Arguments
 - `awsaccount_id`: The Amazon Web Services account IDs of the users (principals) who will
@@ -350,19 +352,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with
   SMS subscriptions.    FifoTopic – Set to true to create a FIFO topic.    Policy – The
   policy that defines who can access your topic. By default, only the topic owner can publish
-  or subscribe to the topic.   The following attribute applies only to server-side
-  encryption:    KmsMasterKeyId – The ID of an Amazon Web Services managed customer master
-  key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more
-  examples, see KeyId in the Key Management Service API Reference.    The following
-  attributes apply only to FIFO topics:    FifoTopic – When this is set to true, a FIFO
-  topic is created.    ContentBasedDeduplication – Enables content-based deduplication for
-  FIFO topics.   By default, ContentBasedDeduplication is set to false. If you create a FIFO
-  topic and this attribute is false, you must specify a value for the MessageDeduplicationId
-  parameter for the Publish action.    When you set ContentBasedDeduplication to true, Amazon
-  SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the
-  message (but not the attributes of the message). (Optional) To override the generated
-  value, you can specify a value for the MessageDeduplicationId parameter for the Publish
-  action.
+  or subscribe to the topic.    SignatureVersion – The signature version corresponds to the
+  hashing algorithm used while creating the signature of the notifications, subscription
+  confirmations, or unsubscribe confirmation messages sent by Amazon SNS. By default,
+  SignatureVersion is set to 1.    TracingConfig – Tracing mode of an Amazon SNS topic. By
+  default TracingConfig is set to PassThrough, and the topic passes through the tracing
+  header it receives from an Amazon SNS publisher to its subscriptions. If set to Active,
+  Amazon SNS will vend X-Ray segment data to topic owner account if the sampled flag in the
+  tracing header is true. This is only supported on standard topics.   The following
+  attribute applies only to server-side encryption:    KmsMasterKeyId – The ID of an Amazon
+  Web Services managed customer master key (CMK) for Amazon SNS or a custom CMK. For more
+  information, see Key Terms. For more examples, see KeyId in the Key Management Service API
+  Reference.    The following attributes apply only to FIFO topics:    FifoTopic – When
+  this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables
+  content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set
+  to false. If you create a FIFO topic and this attribute is false, you must specify a value
+  for the MessageDeduplicationId parameter for the Publish action.    When you set
+  ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the
+  MessageDeduplicationId using the body of the message (but not the attributes of the
+  message). (Optional) To override the generated value, you can specify a value for the
+  MessageDeduplicationId parameter for the Publish action.
 - `"DataProtectionPolicy"`: The body of the policy document you want to use for this topic.
   You can only add one policy per topic. The policy must be in JSON string format. Length
   Constraints: Maximum length of 30,720.
@@ -1335,7 +1344,9 @@ end
     remove_permission(label, topic_arn)
     remove_permission(label, topic_arn, params::Dict{String,<:Any})
 
-Removes a statement from a topic's access control policy.
+Removes a statement from a topic's access control policy.  To remove the ability to change
+topic permissions, you must deny permissions to the AddPermission, RemovePermission, and
+SetTopicAttributes actions in your IAM policy.
 
 # Arguments
 - `label`: The unique label of the statement you want to remove.
@@ -1577,19 +1588,23 @@ Allows a subscription owner to set an attribute of the subscription to a new val
   action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed
   deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your
   subscriber receive only a subset of messages, rather than receiving every message published
-  to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to
-  Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON
-  formatting, which is otherwise created for Amazon SNS metadata.    RedrivePolicy – When
-  specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue.
-  Messages that can't be delivered due to client errors (for example, when the subscribed
-  endpoint is unreachable) or server errors (for example, when the service that powers the
-  subscribed endpoint becomes unavailable) are held in the dead-letter queue for further
-  analysis or reprocessing.   The following attribute applies only to Amazon Kinesis Data
-  Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role
-  that has the following:   Permission to write to the Kinesis Data Firehose delivery stream
-   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this attribute is
-  required for Kinesis Data Firehose delivery stream subscriptions. For more information, see
-  Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS Developer Guide.
+  to the topic.    FilterPolicyScope – This attribute lets you choose the filtering scope
+  by using one of the following string value types:    MessageAttributes (default) – The
+  filter is applied on the message attributes.    MessageBody – The filter is applied on
+  the message body.      RawMessageDelivery – When set to true, enables raw message
+  delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to
+  process JSON formatting, which is otherwise created for Amazon SNS metadata.
+  RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS
+  dead-letter queue. Messages that can't be delivered due to client errors (for example, when
+  the subscribed endpoint is unreachable) or server errors (for example, when the service
+  that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue
+  for further analysis or reprocessing.   The following attribute applies only to Amazon
+  Kinesis Data Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of
+  the IAM role that has the following:   Permission to write to the Kinesis Data Firehose
+  delivery stream   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this
+  attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more
+  information, see Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS
+  Developer Guide.
 - `subscription_arn`: The ARN of the subscription to modify.
 
 # Optional Parameters
@@ -1634,26 +1649,76 @@ end
     set_topic_attributes(attribute_name, topic_arn)
     set_topic_attributes(attribute_name, topic_arn, params::Dict{String,<:Any})
 
-Allows a topic owner to set an attribute of the topic to a new value.
+Allows a topic owner to set an attribute of the topic to a new value.  To remove the
+ability to change topic permissions, you must deny permissions to the AddPermission,
+RemovePermission, and SetTopicAttributes actions in your IAM policy.
 
 # Arguments
 - `attribute_name`: A map of attributes with their corresponding values. The following
   lists the names, descriptions, and values of the special request parameters that the
-  SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon
-  SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to
-  use for a topic with SMS subscriptions.    Policy – The policy that defines who can
-  access your topic. By default, only the topic owner can publish or subscribe to the topic.
-   The following attribute applies only to server-side-encryption:    KmsMasterKeyId – The
-  ID of an Amazon Web Services managed customer master key (CMK) for Amazon SNS or a custom
-  CMK. For more information, see Key Terms. For more examples, see KeyId in the Key
-  Management Service API Reference.    The following attribute applies only to FIFO topics:
-   ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By
-  default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this
-  attribute is false, you must specify a value for the MessageDeduplicationId parameter for
-  the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a
-  SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not
-  the attributes of the message). (Optional) To override the generated value, you can specify
-  a value for the MessageDeduplicationId parameter for the Publish action.
+  SetTopicAttributes action uses:    ApplicationSuccessFeedbackRoleArn – Indicates failed
+  message delivery status for an Amazon SNS topic that is subscribed to a platform
+  application endpoint.    DeliveryPolicy – The policy that defines how Amazon SNS retries
+  failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a
+  topic with SMS subscriptions.    Policy – The policy that defines who can access your
+  topic. By default, only the topic owner can publish or subscribe to the topic.
+  TracingConfig – Tracing mode of an Amazon SNS topic. By default TracingConfig is set to
+  PassThrough, and the topic passes through the tracing header it receives from an Amazon SNS
+  publisher to its subscriptions. If set to Active, Amazon SNS will vend X-Ray segment data
+  to topic owner account if the sampled flag in the tracing header is true. This is only
+  supported on standard topics.   HTTP    HTTPSuccessFeedbackRoleArn – Indicates successful
+  message delivery status for an Amazon SNS topic that is subscribed to an HTTP endpoint.
+  HTTPSuccessFeedbackSampleRate – Indicates percentage of successful messages to sample for
+  an Amazon SNS topic that is subscribed to an HTTP endpoint.    HTTPFailureFeedbackRoleArn
+  – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to
+  an HTTP endpoint.     Amazon Kinesis Data Firehose    FirehoseSuccessFeedbackRoleArn –
+  Indicates successful message delivery status for an Amazon SNS topic that is subscribed to
+  an Amazon Kinesis Data Firehose endpoint.    FirehoseSuccessFeedbackSampleRate –
+  Indicates percentage of successful messages to sample for an Amazon SNS topic that is
+  subscribed to an Amazon Kinesis Data Firehose endpoint.    FirehoseFailureFeedbackRoleArn
+  – Indicates failed message delivery status for an Amazon SNS topic that is subscribed to
+  an Amazon Kinesis Data Firehose endpoint.      Lambda    LambdaSuccessFeedbackRoleArn –
+  Indicates successful message delivery status for an Amazon SNS topic that is subscribed to
+  an Lambda endpoint.    LambdaSuccessFeedbackSampleRate – Indicates percentage of
+  successful messages to sample for an Amazon SNS topic that is subscribed to an Lambda
+  endpoint.    LambdaFailureFeedbackRoleArn – Indicates failed message delivery status for
+  an Amazon SNS topic that is subscribed to an Lambda endpoint.      Platform application
+  endpoint    ApplicationSuccessFeedbackRoleArn – Indicates successful message delivery
+  status for an Amazon SNS topic that is subscribed to an Amazon Web Services application
+  endpoint.    ApplicationSuccessFeedbackSampleRate – Indicates percentage of successful
+  messages to sample for an Amazon SNS topic that is subscribed to an Amazon Web Services
+  application endpoint.    ApplicationFailureFeedbackRoleArn – Indicates failed message
+  delivery status for an Amazon SNS topic that is subscribed to an Amazon Web Services
+  application endpoint.    In addition to being able to configure topic attributes for
+  message delivery status of notification messages sent to Amazon SNS application endpoints,
+  you can also configure application attributes for the delivery status of push notification
+  messages sent to push notification services. For example, For more information, see Using
+  Amazon SNS Application Attributes for Message Delivery Status.     Amazon SQS
+  SQSSuccessFeedbackRoleArn – Indicates successful message delivery status for an Amazon
+  SNS topic that is subscribed to an Amazon SQS endpoint.     SQSSuccessFeedbackSampleRate
+  – Indicates percentage of successful messages to sample for an Amazon SNS topic that is
+  subscribed to an Amazon SQS endpoint.     SQSFailureFeedbackRoleArn – Indicates failed
+  message delivery status for an Amazon SNS topic that is subscribed to an Amazon SQS
+  endpoint.       The &lt;ENDPOINT&gt;SuccessFeedbackRoleArn and
+  &lt;ENDPOINT&gt;FailureFeedbackRoleArn attributes are used to give Amazon SNS write access
+  to use CloudWatch Logs on your behalf. The &lt;ENDPOINT&gt;SuccessFeedbackSampleRate
+  attribute is for specifying the sample rate percentage (0-100) of successfully delivered
+  messages. After you configure the &lt;ENDPOINT&gt;FailureFeedbackRoleArn attribute, then
+  all failed message deliveries generate CloudWatch Logs.   The following attribute applies
+  only to server-side-encryption:    KmsMasterKeyId – The ID of an Amazon Web Services
+  managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see
+  Key Terms. For more examples, see KeyId in the Key Management Service API Reference.
+  SignatureVersion – The signature version corresponds to the hashing algorithm used while
+  creating the signature of the notifications, subscription confirmations, or unsubscribe
+  confirmation messages sent by Amazon SNS. By default, SignatureVersion is set to 1.   The
+  following attribute applies only to FIFO topics:    ContentBasedDeduplication – Enables
+  content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set
+  to false. If you create a FIFO topic and this attribute is false, you must specify a value
+  for the MessageDeduplicationId parameter for the Publish action.    When you set
+  ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the
+  MessageDeduplicationId using the body of the message (but not the attributes of the
+  message). (Optional) To override the generated value, you can specify a value for the
+  MessageDeduplicationId parameter for the Publish action.
 - `topic_arn`: The ARN of the topic to modify.
 
 # Optional Parameters
@@ -1719,19 +1784,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed
   deliveries to HTTP/S endpoints.    FilterPolicy – The simple JSON object that lets your
   subscriber receive only a subset of messages, rather than receiving every message published
-  to the topic.    RawMessageDelivery – When set to true, enables raw message delivery to
-  Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to process JSON
-  formatting, which is otherwise created for Amazon SNS metadata.    RedrivePolicy – When
-  specified, sends undeliverable messages to the specified Amazon SQS dead-letter queue.
-  Messages that can't be delivered due to client errors (for example, when the subscribed
-  endpoint is unreachable) or server errors (for example, when the service that powers the
-  subscribed endpoint becomes unavailable) are held in the dead-letter queue for further
-  analysis or reprocessing.   The following attribute applies only to Amazon Kinesis Data
-  Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role
-  that has the following:   Permission to write to the Kinesis Data Firehose delivery stream
-   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this attribute is
-  required for Kinesis Data Firehose delivery stream subscriptions. For more information, see
-  Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS Developer Guide.
+  to the topic.    FilterPolicyScope – This attribute lets you choose the filtering scope
+  by using one of the following string value types:    MessageAttributes (default) – The
+  filter is applied on the message attributes.    MessageBody – The filter is applied on
+  the message body.      RawMessageDelivery – When set to true, enables raw message
+  delivery to Amazon SQS or HTTP/S endpoints. This eliminates the need for the endpoints to
+  process JSON formatting, which is otherwise created for Amazon SNS metadata.
+  RedrivePolicy – When specified, sends undeliverable messages to the specified Amazon SQS
+  dead-letter queue. Messages that can't be delivered due to client errors (for example, when
+  the subscribed endpoint is unreachable) or server errors (for example, when the service
+  that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue
+  for further analysis or reprocessing.   The following attribute applies only to Amazon
+  Kinesis Data Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of
+  the IAM role that has the following:   Permission to write to the Kinesis Data Firehose
+  delivery stream   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this
+  attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more
+  information, see Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS
+  Developer Guide.
 - `"Endpoint"`: The endpoint that you want to receive notifications. Endpoints vary by
   protocol:   For the http protocol, the (public) endpoint is a URL beginning with http://.
   For the https protocol, the (public) endpoint is a URL beginning with https://.   For the
@@ -1834,7 +1903,10 @@ owner of the subscription or the topic's owner can unsubscribe, and an Amazon We
 signature is required. If the Unsubscribe call does not require authentication and the
 requester is not the subscription owner, a final cancellation message is delivered to the
 endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe
-request was unintended. This action is throttled at 100 transactions per second (TPS).
+request was unintended.  Amazon SQS queue subscriptions require authentication for
+deletion. Only the owner of the subscription, or the owner of the topic can unsubscribe
+using the required Amazon Web Services signature.  This action is throttled at 100
+transactions per second (TPS).
 
 # Arguments
 - `subscription_arn`: The ARN of the subscription to be deleted.

@@ -113,6 +113,11 @@ information, see the Amazon Lightsail Developer Guide.
 - `instance_name`: The name of the Lightsail instance where you want to utilize the storage
   disk.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"autoMounting"`: A Boolean value used to determine the automatic mounting of a storage
+  volume to a virtual computer. The default value is False.  This value only applies to
+  Lightsail for Research resources.
 """
 function attach_disk(
     diskName, diskPath, instanceName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -706,8 +711,8 @@ in Amazon Lightsail in the Lightsail Dev Guide.
   container service is typically
   https://&lt;ServiceName&gt;.&lt;RandomGUID&gt;.&lt;AWSRegion&gt;.cs.amazonlightsail.com. If
   the name of your container service is container-service-1, and it's located in the US East
-  (Ohio) AWS region (us-east-2), then the domain for your container service will be like the
-  following example:
+  (Ohio) Amazon Web Services Region (us-east-2), then the domain for your container service
+  will be like the following example:
   https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com  The following
   are the requirements for container service names:   Must be unique within each Amazon Web
   Services Region in your Lightsail account.   Must contain 1 to 63 characters.   Must
@@ -1163,10 +1168,7 @@ operation supports tag-based access control via request tags. For more informati
 Amazon Lightsail Developer Guide.
 
 # Arguments
-- `domain_name`: The domain name to manage (e.g., example.com).  You cannot register a new
-  domain name using Lightsail. You must register a domain name using Amazon Route 53 or
-  another domain name registrar. If you have already registered your domain, you can enter
-  its name in this parameter to manage the DNS records for that domain using Lightsail.
+- `domain_name`: The domain name to manage (e.g., example.com).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1237,6 +1239,44 @@ function create_domain_entry(
                 Dict{String,Any}("domainEntry" => domainEntry, "domainName" => domainName),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_guisession_access_details(resource_name)
+    create_guisession_access_details(resource_name, params::Dict{String,<:Any})
+
+Creates two URLs that are used to access a virtual computer’s graphical user interface
+(GUI) session. The primary URL initiates a web-based NICE DCV session to the virtual
+computer's application. The secondary URL initiates a web-based NICE DCV session to the
+virtual computer's operating session.  Use StartGUISession to open the session.
+
+# Arguments
+- `resource_name`: The resource name.
+
+"""
+function create_guisession_access_details(
+    resourceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "CreateGUISessionAccessDetails",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_guisession_access_details(
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "CreateGUISessionAccessDetails",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1723,10 +1763,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created for your new database if automated backups are enabled. The default is a 30-minute
   window selected at random from an 8-hour block of time for each AWS Region. For more
   information about the preferred backup window time blocks for each region, see the Working
-  With Backups guide in the Amazon Relational Database Service (Amazon RDS) documentation.
-  Constraints:   Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in
-  Coordinated Universal Time (UTC).   Must not conflict with the preferred maintenance
-  window.   Must be at least 30 minutes.
+  With Backups guide in the Amazon Relational Database Service documentation. Constraints:
+  Must be in the hh24:mi-hh24:mi format. Example: 16:00-16:30    Specified in Coordinated
+  Universal Time (UTC).   Must not conflict with the preferred maintenance window.   Must be
+  at least 30 minutes.
 - `"preferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur on your new database. The default is a 30-minute window selected at random from an
   8-hour block of time for each AWS Region, occurring on a random day of the week.
@@ -2268,8 +2308,8 @@ Lightsail Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete the enabled add-ons
-  for the disk.
+- `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete all add-ons for the
+  disk.
 """
 function delete_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config())
     return lightsail(
@@ -2455,8 +2495,8 @@ more information, see the Amazon Lightsail Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete the enabled add-ons
-  for the disk.
+- `"forceDeleteAddOns"`: A Boolean value to indicate whether to delete all add-ons for the
+  instance.
 """
 function delete_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config())
     return lightsail(
@@ -3234,6 +3274,8 @@ due to operating system updates or new application releases.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"appCategory"`: Returns a list of blueprints that are specific to Lightsail for
+  Research.  You must use this parameter to view Lightsail for Research blueprints.
 - `"includeInactive"`: A Boolean value that indicates whether to include inactive
   (unavailable) blueprints in the response of your request.
 - `"pageToken"`: The token to advance to the next page of results from your request. To get
@@ -3462,6 +3504,8 @@ quota.  Bundles are referred to as instance plans in the Lightsail console.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"appCategory"`: Returns a list of bundles that are specific to Lightsail for Research.
+  You must use this parameter to view Lightsail for Research bundles.
 - `"includeInactive"`: A Boolean value that indicates whether to include inactive
   (unavailable) bundles in the response of your request.
 - `"pageToken"`: The token to advance to the next page of results from your request. To get
@@ -3652,7 +3696,8 @@ Returns the log events of a container of your Amazon Lightsail container service
 container service has more than one node (i.e., a scale greater than 1), then the log
 events that are returned for the specified container are merged from all nodes on your
 container service.  Container logs are retained for a certain amount of time. For more
-information, see Amazon Lightsail endpoints and quotas in the AWS General Reference.
+information, see Amazon Lightsail endpoints and quotas in the Amazon Web Services General
+Reference.
 
 # Arguments
 - `container_name`: The name of the container that is either running or previously ran on
@@ -3725,7 +3770,7 @@ the settings, such as the ports and launch command, of containers that are deplo
 container service. The deployments are ordered by version in ascending order. The newest
 version is listed at the top of the response.  A set number of deployments are kept before
 the oldest one is replaced with the newest one. For more information, see Amazon Lightsail
-endpoints and quotas in the AWS General Reference.
+endpoints and quotas in the Amazon Web Services General Reference.
 
 # Arguments
 - `service_name`: The name of the container service for which to return deployments.
@@ -3896,6 +3941,63 @@ function get_container_services(
     return lightsail(
         "GetContainerServices",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_cost_estimate(end_time, resource_name, start_time)
+    get_cost_estimate(end_time, resource_name, start_time, params::Dict{String,<:Any})
+
+Retrieves information about the cost estimate for a specified resource. A cost estimate
+will not generate for a resource that has been deleted.
+
+# Arguments
+- `end_time`: The cost estimate end time. Constraints:   Specified in Coordinated Universal
+  Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end
+  time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert
+  a human-friendly time to Unix time format using a converter like Epoch converter.
+- `resource_name`: The resource name.
+- `start_time`: The cost estimate start time. Constraints:   Specified in Coordinated
+  Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use
+  a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You
+  can convert a human-friendly time to Unix time format using a converter like Epoch
+  converter.
+
+"""
+function get_cost_estimate(
+    endTime, resourceName, startTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lightsail(
+        "GetCostEstimate",
+        Dict{String,Any}(
+            "endTime" => endTime, "resourceName" => resourceName, "startTime" => startTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_cost_estimate(
+    endTime,
+    resourceName,
+    startTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetCostEstimate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "endTime" => endTime,
+                    "resourceName" => resourceName,
+                    "startTime" => startTime,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -6451,6 +6553,41 @@ function set_resource_access_for_bucket(
 end
 
 """
+    start_guisession(resource_name)
+    start_guisession(resource_name, params::Dict{String,<:Any})
+
+Initiates a graphical user interface (GUI) session that’s used to access a virtual
+computer’s operating system and application. The session will be active for 1 hour. Use
+this action to resume the session after it expires.
+
+# Arguments
+- `resource_name`: The resource name.
+
+"""
+function start_guisession(resourceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "StartGUISession",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_guisession(
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "StartGUISession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_instance(instance_name)
     start_instance(instance_name, params::Dict{String,<:Any})
 
@@ -6525,6 +6662,40 @@ function start_relational_database(
                 Dict{String,Any}("relationalDatabaseName" => relationalDatabaseName),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_guisession(resource_name)
+    stop_guisession(resource_name, params::Dict{String,<:Any})
+
+Terminates a web-based NICE DCV session that’s used to access a virtual computer’s
+operating system or application. The session will close and any unsaved data will be lost.
+
+# Arguments
+- `resource_name`: The resource name.
+
+"""
+function stop_guisession(resourceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "StopGUISession",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_guisession(
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "StopGUISession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6835,16 +7006,16 @@ end
 
 Updates the bundle, or storage plan, of an existing Amazon Lightsail bucket. A bucket
 bundle specifies the monthly cost, storage space, and data transfer quota for a bucket. You
-can update a bucket's bundle only one time within a monthly AWS billing cycle. To determine
-if you can update a bucket's bundle, use the GetBuckets action. The ableToUpdateBundle
-parameter in the response will indicate whether you can currently update a bucket's bundle.
-Update a bucket's bundle if it's consistently going over its storage space or data transfer
-quota, or if a bucket's usage is consistently in the lower range of its storage space or
-data transfer quota. Due to the unpredictable usage fluctuations that a bucket might
-experience, we strongly recommend that you update a bucket's bundle only as a long-term
-strategy, instead of as a short-term, monthly cost-cutting measure. Choose a bucket bundle
-that will provide the bucket with ample storage space and data transfer for a long time to
-come.
+can update a bucket's bundle only one time within a monthly Amazon Web Services billing
+cycle. To determine if you can update a bucket's bundle, use the GetBuckets action. The
+ableToUpdateBundle parameter in the response will indicate whether you can currently update
+a bucket's bundle. Update a bucket's bundle if it's consistently going over its storage
+space or data transfer quota, or if a bucket's usage is consistently in the lower range of
+its storage space or data transfer quota. Due to the unpredictable usage fluctuations that
+a bucket might experience, we strongly recommend that you update a bucket's bundle only as
+a long-term strategy, instead of as a short-term, monthly cost-cutting measure. Choose a
+bucket bundle that will provide the bucket with ample storage space and data transfer for a
+long time to come.
 
 # Arguments
 - `bucket_name`: The name of the bucket for which to update the bundle.
@@ -7005,10 +7176,10 @@ Updates the bundle of your Amazon Lightsail content delivery network (CDN) distr
 distribution bundle specifies the monthly network transfer quota and monthly cost of your
 distribution. Update your distribution's bundle if your distribution is going over its
 monthly network transfer quota and is incurring an overage fee. You can update your
-distribution's bundle only one time within your monthly AWS billing cycle. To determine if
-you can update your distribution's bundle, use the GetDistributions action. The
-ableToUpdateBundle parameter in the result will indicate whether you can currently update
-your distribution's bundle.
+distribution's bundle only one time within your monthly Amazon Web Services billing cycle.
+To determine if you can update your distribution's bundle, use the GetDistributions action.
+The ableToUpdateBundle parameter in the result will indicate whether you can currently
+update your distribution's bundle.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7247,10 +7418,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   minutes.
 - `"preferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur on your database. The default is a 30-minute window selected at random from an 8-hour
-  block of time for each AWS Region, occurring on a random day of the week. Constraints:
-  Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed, Thu, Fri, Sat,
-  Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal Time (UTC).
-  Example: Tue:17:00-Tue:17:30
+  block of time for each Amazon Web Services Region, occurring on a random day of the week.
+  Constraints:   Must be in the ddd:hh24:mi-ddd:hh24:mi format.   Valid days: Mon, Tue, Wed,
+  Thu, Fri, Sat, Sun.   Must be at least 30 minutes.   Specified in Coordinated Universal
+  Time (UTC).   Example: Tue:17:00-Tue:17:30
 - `"publiclyAccessible"`: Specifies the accessibility options for your database. A value of
   true specifies a database that is available to resources outside of your Lightsail account.
   A value of false specifies a database that is available only to your Lightsail resources in

@@ -154,12 +154,16 @@ Creates a cluster. All nodes in the cluster run the same protocol-compliant engi
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoMinorVersionUpgrade"`: When set to true, the cluster will automatically receive
   minor engine version upgrades after launch.
+- `"DataTiering"`: Enables data tiering. Data tiering is only supported for clusters using
+  the r6gd node type. This parameter must be set when using r6gd nodes. For more information,
+  see Data tiering.
 - `"Description"`: An optional description of the cluster.
 - `"EngineVersion"`: The version number of the Redis engine to be used for the cluster.
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the cluster.
 - `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
   cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H
-  Clock UTC). The minimum maintenance window is a 60 minute period.
+  Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
+     sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
 - `"NumReplicasPerShard"`: The number of replicas to apply to each shard. The default value
   is 1. The maximum is 5.
 - `"NumShards"`: The number of shards the cluster will contain. The default value is 1.
@@ -869,6 +873,94 @@ function describe_parameters(
 end
 
 """
+    describe_reserved_nodes()
+    describe_reserved_nodes(params::Dict{String,<:Any})
+
+Returns information about reserved nodes for this account, or about a specified reserved
+node.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Duration"`: The duration filter value, specified in years or seconds. Use this
+  parameter to show only reservations for this duration.
+- `"MaxResults"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a marker is included in the response so that the
+  remaining results can be retrieved.
+- `"NextToken"`: An optional marker returned from a prior request. Use this marker for
+  pagination of results from this operation. If this parameter is specified, the response
+  includes only records beyond the marker, up to the value specified by MaxRecords.
+- `"NodeType"`: The node type filter value. Use this parameter to show only those
+  reservations matching the specified node type. For more information, see Supported node
+  types.
+- `"OfferingType"`: The offering type filter value. Use this parameter to show only the
+  available offerings matching the specified offering type. Valid values: \"All
+  Upfront\"|\"Partial Upfront\"| \"No Upfront\"
+- `"ReservationId"`: The reserved node identifier filter value. Use this parameter to show
+  only the reservation that matches the specified reservation ID.
+- `"ReservedNodesOfferingId"`: The offering identifier filter value. Use this parameter to
+  show only purchased reservations matching the specified offering identifier.
+"""
+function describe_reserved_nodes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return memorydb(
+        "DescribeReservedNodes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_reserved_nodes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return memorydb(
+        "DescribeReservedNodes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_reserved_nodes_offerings()
+    describe_reserved_nodes_offerings(params::Dict{String,<:Any})
+
+Lists available reserved node offerings.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Duration"`: Duration filter value, specified in years or seconds. Use this parameter to
+  show only reservations for a given duration.
+- `"MaxResults"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a marker is included in the response so that the
+  remaining results can be retrieved.
+- `"NextToken"`: An optional marker returned from a prior request. Use this marker for
+  pagination of results from this operation. If this parameter is specified, the response
+  includes only records beyond the marker, up to the value specified by MaxRecords.
+- `"NodeType"`: The node type for the reserved nodes. For more information, see Supported
+  node types.
+- `"OfferingType"`: The offering type filter value. Use this parameter to show only the
+  available offerings matching the specified offering type. Valid values: \"All
+  Upfront\"|\"Partial Upfront\"| \"No Upfront\"
+- `"ReservedNodesOfferingId"`: The offering identifier filter value. Use this parameter to
+  show only the available offering that matches the specified reservation identifier.
+"""
+function describe_reserved_nodes_offerings(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return memorydb(
+        "DescribeReservedNodesOfferings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_reserved_nodes_offerings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return memorydb(
+        "DescribeReservedNodesOfferings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_service_updates()
     describe_service_updates(params::Dict{String,<:Any})
 
@@ -1010,7 +1102,10 @@ end
     failover_shard(cluster_name, shard_name)
     failover_shard(cluster_name, shard_name, params::Dict{String,<:Any})
 
-Used to failover a shard
+Used to failover a shard. This API is designed for testing the behavior of your application
+in case of MemoryDB failover. It is not designed to be used as a production-level tool for
+initiating a failover to overcome a problem you may have with the cluster. Moreover, in
+certain conditions such as large scale operational events, Amazon may block this API.
 
 # Arguments
 - `cluster_name`: The cluster being failed over
@@ -1116,6 +1211,52 @@ function list_tags(
         "ListTags",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    purchase_reserved_nodes_offering(reserved_nodes_offering_id)
+    purchase_reserved_nodes_offering(reserved_nodes_offering_id, params::Dict{String,<:Any})
+
+Allows you to purchase a reserved node offering. Reserved nodes are not eligible for
+cancellation and are non-refundable.
+
+# Arguments
+- `reserved_nodes_offering_id`: The ID of the reserved node offering to purchase.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NodeCount"`: The number of node instances to reserve.
+- `"ReservationId"`: A customer-specified identifier to track this reservation.
+- `"Tags"`: A list of tags to be added to this resource. A tag is a key-value pair. A tag
+  key must be accompanied by a tag value, although null is accepted.
+"""
+function purchase_reserved_nodes_offering(
+    ReservedNodesOfferingId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return memorydb(
+        "PurchaseReservedNodesOffering",
+        Dict{String,Any}("ReservedNodesOfferingId" => ReservedNodesOfferingId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function purchase_reserved_nodes_offering(
+    ReservedNodesOfferingId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return memorydb(
+        "PurchaseReservedNodesOffering",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReservedNodesOfferingId" => ReservedNodesOfferingId),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1310,7 +1451,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upgrade to a newer engine version, but you cannot downgrade to an earlier engine version.
   If you want to use an earlier engine version, you must delete the existing cluster and
   create it anew with the earlier engine version.
-- `"MaintenanceWindow"`: The maintenance window to update
+- `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
+  cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H
+  Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
+     sun     mon     tue     wed     thu     fri     sat    Example: sun:23:00-mon:01:30
 - `"NodeType"`: A valid node type that you want to scale this cluster up or down to.
 - `"ParameterGroupName"`: The name of the parameter group to update
 - `"ReplicaConfiguration"`: The number of replicas that will reside in each shard

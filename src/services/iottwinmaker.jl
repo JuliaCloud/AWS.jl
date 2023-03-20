@@ -54,6 +54,7 @@ Creates a component type.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"componentTypeName"`: A friendly name for the component type.
 - `"description"`: The description of the component type.
 - `"extendsFrom"`: Specifies the parent component type to extend.
 - `"functions"`: An object that maps strings to the functions in the component type. Each
@@ -62,6 +63,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component of this type.
 - `"propertyDefinitions"`: An object that maps strings to the property definitions in the
   component type. Each string in the mapping must be unique to this object.
+- `"propertyGroups"`:
 - `"tags"`: Metadata that you can use to manage the component type.
 """
 function create_component_type(
@@ -183,6 +185,51 @@ function create_scene(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_sync_job(sync_role, sync_source, workspace_id)
+    create_sync_job(sync_role, sync_source, workspace_id, params::Dict{String,<:Any})
+
+This action creates a SyncJob.
+
+# Arguments
+- `sync_role`: The SyncJob IAM role. This IAM role is used by the sync job to read from the
+  syncSource, and create, update or delete the corresponding resources.
+- `sync_source`: The sync source.  Currently the only supported syncSoucre is SITEWISE .
+- `workspace_id`: The workspace Id.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: The SyncJob tags.
+"""
+function create_sync_job(
+    syncRole, syncSource, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "POST",
+        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)",
+        Dict{String,Any}("syncRole" => syncRole);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_sync_job(
+    syncRole,
+    syncSource,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "POST",
+        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("syncRole" => syncRole), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -350,6 +397,42 @@ function delete_scene(
 end
 
 """
+    delete_sync_job(sync_source, workspace_id)
+    delete_sync_job(sync_source, workspace_id, params::Dict{String,<:Any})
+
+Delete the SyncJob.
+
+# Arguments
+- `sync_source`: The sync source.  Currently the only supported syncSoucre is SITEWISE .
+- `workspace_id`: The workspace Id.
+
+"""
+function delete_sync_job(
+    syncSource, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "DELETE",
+        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_sync_job(
+    syncSource,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "DELETE",
+        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_workspace(workspace_id)
     delete_workspace(workspace_id, params::Dict{String,<:Any})
 
@@ -376,6 +459,57 @@ function delete_workspace(
         "DELETE",
         "/workspaces/$(workspaceId)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    execute_query(query_statement, workspace_id)
+    execute_query(query_statement, workspace_id, params::Dict{String,<:Any})
+
+Run queries to access information from your knowledge graph of entities within individual
+workspaces.
+
+# Arguments
+- `query_statement`: The query statement.
+- `workspace_id`: The ID of the workspace.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
+  Valid Range: Minimum value of 1. Maximum value of 250.
+- `"nextToken"`: The string that specifies the next page of results.
+"""
+function execute_query(
+    queryStatement, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "POST",
+        "/queries/execution",
+        Dict{String,Any}("queryStatement" => queryStatement, "workspaceId" => workspaceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function execute_query(
+    queryStatement,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "POST",
+        "/queries/execution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "queryStatement" => queryStatement, "workspaceId" => workspaceId
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -454,6 +588,30 @@ function get_entity(
 end
 
 """
+    get_pricing_plan()
+    get_pricing_plan(params::Dict{String,<:Any})
+
+Gets the pricing plan.
+
+"""
+function get_pricing_plan(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iottwinmaker(
+        "GET", "/pricingplan"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_pricing_plan(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "GET",
+        "/pricingplan",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_property_value(selected_properties, workspace_id)
     get_property_value(selected_properties, workspace_id, params::Dict{String,<:Any})
 
@@ -470,6 +628,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"componentTypeId"`: The ID of the component type whose property values the operation
   returns.
 - `"entityId"`: The ID of the entity whose property values the operation returns.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
+  Valid Range: Minimum value of 1. Maximum value of 250.
+- `"nextToken"`: The string that specifies the next page of results.
+- `"propertyGroupName"`: The property group name.
+- `"tabularConditions"`: The tabular conditions.
 """
 function get_property_value(
     selectedProperties, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -524,7 +687,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"entityId"`: The ID of the entity.
 - `"interpolation"`: An object that specifies the interpolation type and the interval over
   which to interpolate data.
-- `"maxResults"`: The maximum number of results to return.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 - `"orderByTime"`: The time direction to use in the result order.
 - `"propertyFilters"`: A list of objects that filter the property value history request.
@@ -597,6 +761,41 @@ function get_scene(
 end
 
 """
+    get_sync_job(sync_source)
+    get_sync_job(sync_source, params::Dict{String,<:Any})
+
+Gets the SyncJob.
+
+# Arguments
+- `sync_source`: The sync soucre.  Currently the only supported syncSoucre is SITEWISE .
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"workspace"`: The workspace Id.
+"""
+function get_sync_job(syncSource; aws_config::AbstractAWSConfig=global_aws_config())
+    return iottwinmaker(
+        "GET",
+        "/sync-jobs/$(syncSource)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_sync_job(
+    syncSource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "GET",
+        "/sync-jobs/$(syncSource)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_workspace(workspace_id)
     get_workspace(workspace_id, params::Dict{String,<:Any})
 
@@ -640,7 +839,8 @@ Lists all component types in a workspace.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filters"`: A list of objects that filter the request.
-- `"maxResults"`: The maximum number of results to display.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_component_types(
@@ -680,7 +880,8 @@ Lists all entities in a workspace.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filters"`: A list of objects that filter the request.  Only one object is accepted as a
   valid input.
-- `"maxResults"`: The maximum number of results to display.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_entities(workspaceId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -742,6 +943,85 @@ function list_scenes(
 end
 
 """
+    list_sync_jobs(workspace_id)
+    list_sync_jobs(workspace_id, params::Dict{String,<:Any})
+
+List all SyncJobs.
+
+# Arguments
+- `workspace_id`: The ID of the workspace that contains the sync job.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return at one time. The default is 50.
+  Valid Range: Minimum value of 0. Maximum value of 200.
+- `"nextToken"`: The string that specifies the next page of results.
+"""
+function list_sync_jobs(workspaceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return iottwinmaker(
+        "POST",
+        "/workspaces/$(workspaceId)/sync-jobs-list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_sync_jobs(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "POST",
+        "/workspaces/$(workspaceId)/sync-jobs-list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_sync_resources(sync_source, workspace_id)
+    list_sync_resources(sync_source, workspace_id, params::Dict{String,<:Any})
+
+Lists the sync resources.
+
+# Arguments
+- `sync_source`: The sync soucre.  Currently the only supported syncSoucre is SITEWISE .
+- `workspace_id`: The ID of the workspace that contains the sync job.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: A list of objects that filter the request.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 50.
+  Valid Range: Minimum value of 0. Maximum value of 200.
+- `"nextToken"`: The string that specifies the next page of results.
+"""
+function list_sync_resources(
+    syncSource, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "POST",
+        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)/resources-list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_sync_resources(
+    syncSource,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "POST",
+        "/workspaces/$(workspaceId)/sync-jobs/$(syncSource)/resources-list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -752,7 +1032,8 @@ Lists all tags associated with a resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to display.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_tags_for_resource(
@@ -790,7 +1071,8 @@ Retrieves information about workspaces in the current account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to display.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
+  Valid Range: Minimum value of 1. Maximum value of 250.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function list_workspaces(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -903,10 +1185,11 @@ Updates information in a component type.
 
 # Arguments
 - `component_type_id`: The ID of the component type.
-- `workspace_id`: The ID of the workspace that contains the component type.
+- `workspace_id`: The ID of the workspace.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"componentTypeName"`: The component type name.
 - `"description"`: The description of the component type.
 - `"extendsFrom"`: Specifies the component type that this component type extends.
 - `"functions"`: An object that maps strings to the functions in the component type. Each
@@ -915,6 +1198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component of this type.
 - `"propertyDefinitions"`: An object that maps strings to the property definitions in the
   component type. Each string in the mapping must be unique to this object.
+- `"propertyGroups"`: The property groups
 """
 function update_component_type(
     componentTypeId, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -979,6 +1263,44 @@ function update_entity(
         "PUT",
         "/workspaces/$(workspaceId)/entities/$(entityId)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_pricing_plan(pricing_mode)
+    update_pricing_plan(pricing_mode, params::Dict{String,<:Any})
+
+Update the pricing plan.
+
+# Arguments
+- `pricing_mode`: The pricing mode.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"bundleNames"`: The bundle names.
+"""
+function update_pricing_plan(pricingMode; aws_config::AbstractAWSConfig=global_aws_config())
+    return iottwinmaker(
+        "POST",
+        "/pricingplan",
+        Dict{String,Any}("pricingMode" => pricingMode);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_pricing_plan(
+    pricingMode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "POST",
+        "/pricingplan",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("pricingMode" => pricingMode), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

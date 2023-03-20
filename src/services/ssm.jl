@@ -243,7 +243,8 @@ servers and VMs that are configured for Systems Manager are all called managed n
   assign to the managed node. This IAM role must provide AssumeRole permissions for the
   Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more
   information, see Create an IAM service role for a hybrid environment in the Amazon Web
-  Services Systems Manager User Guide.
+  Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this
+  parameter. You must create a unique role.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -313,10 +314,11 @@ association might instruct State Manager to start the service.
 - `name`: The name of the SSM Command document or Automation runbook that contains the
   configuration information for the managed node. You can specify Amazon Web
   Services-predefined documents, documents you created, or a document that is shared with you
-  from another account. For Systems Manager documents (SSM documents) that are shared with
-  you from other Amazon Web Services accounts, you must specify the complete SSM document
-  ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name
-  For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
+  from another Amazon Web Services account. For Systems Manager documents (SSM documents)
+  that are shared with you from other Amazon Web Services accounts, you must specify the
+  complete SSM document ARN, in the following format:
+  arn:partition:ssm:region:account-id:document/document-name   For example:
+  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web
   Services-predefined documents and SSM documents you created in your account, you only need
   to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
 
@@ -388,10 +390,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter for the PutComplianceItems API operation. In this case, compliance data isn't
   managed by State Manager. It is managed by your direct call to the PutComplianceItems API
   operation. By default, all associations use AUTO mode.
-- `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
-  a resource in different ways, such as by purpose, owner, or environment. For example, you
-  might want to tag an association to identify the type of resource to which it applies, the
-  environment, or the purpose of the association.
+- `"Tags"`: Adds or overwrites one or more tags for a State Manager association. Tags are
+  metadata that you can assign to your Amazon Web Services resources. Tags enable you to
+  categorize your resources in different ways, for example, by purpose, owner, or
+  environment. Each tag consists of a key and an optional value, both of which you define.
 - `"TargetLocations"`: A location is a combination of Amazon Web Services Regions and
   Amazon Web Services accounts where you want to run the association. Use this action to
   create an association in multiple Regions and multiple accounts.
@@ -470,11 +472,13 @@ Web Services Systems Manager Documents in the Amazon Web Services Systems Manage
 Guide.
 
 # Arguments
-- `content`: The content for the new SSM document in JSON or YAML format. We recommend
-  storing the contents for your new document in an external JSON or YAML file and referencing
-  the file in a command. For examples, see the following topics in the Amazon Web Services
-  Systems Manager User Guide.    Create an SSM document (Amazon Web Services API)     Create
-  an SSM document (Amazon Web Services CLI)     Create an SSM document (API)
+- `content`: The content for the new SSM document in JSON or YAML format. The content of
+  the document must not exceed 64KB. This quota also includes the content specified for input
+  parameters at runtime. We recommend storing the contents for your new document in an
+  external JSON or YAML file and referencing the file in a command. For examples, see the
+  following topics in the Amazon Web Services Systems Manager User Guide.    Create an SSM
+  document (Amazon Web Services API)     Create an SSM document (Amazon Web Services CLI)
+  Create an SSM document (API)
 - `name`: A name for the SSM document.  You can't use the following strings as document
   name prefixes. These are reserved by Amazon Web Services for use as document name prefixes:
      aws     amazon     amzn
@@ -663,6 +667,10 @@ Amazon Web Services Systems Manager User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: The target Amazon Web Services account where you want to create an
+  OpsItem. To make this call, your account must be configured to work with OpsItems across
+  accounts. For more information, see Setting up OpsCenter to work with OpsItems across
+  accounts in the Amazon Web Services Systems Manager User Guide.
 - `"ActualEndTime"`: The time a runbook workflow ended. Currently reported only for the
   OpsItem type /aws/changerequest.
 - `"ActualStartTime"`: The time a runbook workflow started. Currently reported only for the
@@ -684,8 +692,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the /aws/automations key in OperationalData to associate an Automation runbook with the
   OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating
   OpsItems manually in the Amazon Web Services Systems Manager User Guide.
-- `"OpsItemType"`: The type of OpsItem to create. Currently, the only valid values are
-  /aws/changerequest and /aws/issue.
+- `"OpsItemType"`: The type of OpsItem to create. Systems Manager supports the following
+  types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created
+  by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for
+  reviewing and approving or rejecting change requests.     /aws/insights  This type of
+  OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
 - `"PlannedEndTime"`: The time specified in a change request for a runbook workflow to end.
   Currently supported only for the OpsItem type /aws/changerequest.
 - `"PlannedStartTime"`: The time specified in a change request for a runbook workflow to
@@ -1285,6 +1296,61 @@ function delete_resource_data_sync(
         "DeleteResourceDataSync",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("SyncName" => SyncName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_policy(policy_hash, policy_id, resource_arn)
+    delete_resource_policy(policy_hash, policy_id, resource_arn, params::Dict{String,<:Any})
+
+Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM
+entity (for example, an Amazon Web Services account) that can manage your Systems Manager
+resources. Currently, OpsItemGroup is the only resource that supports Systems Manager
+resource policies. The resource policy for OpsItemGroup enables Amazon Web Services
+accounts to view and interact with OpsCenter operational work items (OpsItems).
+
+# Arguments
+- `policy_hash`: ID of the current policy version. The hash helps to prevent multiple calls
+  from attempting to overwrite a policy.
+- `policy_id`: The policy ID.
+- `resource_arn`: Amazon Resource Name (ARN) of the resource to which the policies are
+  attached.
+
+"""
+function delete_resource_policy(
+    PolicyHash, PolicyId, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            "PolicyHash" => PolicyHash, "PolicyId" => PolicyId, "ResourceArn" => ResourceArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_policy(
+    PolicyHash,
+    PolicyId,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PolicyHash" => PolicyHash,
+                    "PolicyId" => PolicyId,
+                    "ResourceArn" => ResourceArn,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3435,6 +3501,9 @@ Web Services Systems Manager User Guide.
 # Arguments
 - `ops_item_id`: The ID of the OpsItem that you want to get.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"OpsItemArn"`: The OpsItem Amazon Resource Name (ARN).
 """
 function get_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -3770,6 +3839,47 @@ function get_patch_baseline_for_patch_group(
 end
 
 """
+    get_resource_policies(resource_arn)
+    get_resource_policies(resource_arn, params::Dict{String,<:Any})
+
+Returns an array of the Policy object.
+
+# Arguments
+- `resource_arn`: Amazon Resource Name (ARN) of the resource to which the policies are
+  attached.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of items to return for this call. The call also
+  returns a token that you can specify in a subsequent call to get the next set of results.
+- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+"""
+function get_resource_policies(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm(
+        "GetResourcePolicies",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_policies(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm(
+        "GetResourcePolicies",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_service_setting(setting_id)
     get_service_setting(setting_id, params::Dict{String,<:Any})
 
@@ -3788,7 +3898,8 @@ current service setting for the Amazon Web Services account.
 
 # Arguments
 - `setting_id`: The ID of the service setting to get. The setting ID can be one of the
-  following.    /ssm/automation/customer-script-log-destination
+  following.    /ssm/managed-instance/default-ec2-instance-management-role
+  /ssm/automation/customer-script-log-destination
   /ssm/automation/customer-script-log-group-name
   /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier
      /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier
@@ -4459,9 +4570,9 @@ end
     modify_document_permission(name, permission_type, params::Dict{String,<:Any})
 
 Shares a Amazon Web Services Systems Manager document (SSM document)publicly or privately.
-If you share a document privately, you must specify the Amazon Web Services user account
-IDs for those people who can use the document. If you share a document publicly, you must
-specify All as the account ID.
+If you share a document privately, you must specify the Amazon Web Services user IDs for
+those people who can use the document. If you share a document publicly, you must specify
+All as the account ID.
 
 # Arguments
 - `name`: The name of the document that you want to share.
@@ -4469,12 +4580,12 @@ specify All as the account ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountIdsToAdd"`: The Amazon Web Services user accounts that should have access to the
+- `"AccountIdsToAdd"`: The Amazon Web Services users that should have access to the
   document. The account IDs can either be a group of account IDs or All.
-- `"AccountIdsToRemove"`: The Amazon Web Services user accounts that should no longer have
-  access to the document. The Amazon Web Services user account can either be a group of
-  account IDs or All. This action has a higher priority than AccountIdsToAdd. If you specify
-  an account ID to add and the same ID to remove, the system removes access to the document.
+- `"AccountIdsToRemove"`: The Amazon Web Services users that should no longer have access
+  to the document. The Amazon Web Services user can either be a group of account IDs or All.
+  This action has a higher priority than AccountIdsToAdd. If you specify an ID to add and the
+  same ID to remove, the system removes access to the document.
 - `"SharedDocumentVersion"`: (Optional) The version of the document to share. If it isn't
   specified, the system choose the Default version to share.
 """
@@ -4684,19 +4795,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   text     aws:ec2:image     aws:ssm:integration    When you create a String parameter and
   specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is
   in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is
-  available in your Amazon Web Services account. For more information, see Native parameter
-  support for Amazon Machine Image (AMI) IDs in the Amazon Web Services Systems Manager User
-  Guide.
+  available in your Amazon Web Services account.  If the action is successful, the service
+  sends back an HTTP 200 response which indicates a successful PutParameter call for all
+  cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data
+  type, a successful HTTP 200 response does not guarantee that your parameter was
+  successfully created or updated. The aws:ec2:image value is validated asynchronously, and
+  the PutParameter call returns before the validation is complete. If you submit an invalid
+  AMI value, the PutParameter operation will return success, but the asynchronous validation
+  will fail and the parameter will not be created or updated. To monitor whether your
+  aws:ec2:image parameters are created successfully, see Setting up notifications or trigger
+  actions based on Parameter Store events. For more information about AMI format validation ,
+  see Native parameter support for Amazon Machine Image (AMI) IDs.
 - `"Description"`: Information about the parameter that you want to add to the system.
   Optional but recommended.  Don't enter personally identifiable information in this field.
 - `"KeyId"`: The Key Management Service (KMS) ID that you want to use to encrypt a
-  parameter. Either the default KMS key automatically assigned to your Amazon Web Services
-  account or a custom key. Required for parameters that use the SecureString data type. If
-  you don't specify a key ID, the system uses the default key associated with your Amazon Web
-  Services account.   To use your default KMS key, choose the SecureString data type, and do
-  not specify the Key ID when you create the parameter. The system automatically populates
-  Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data
-  type with the Key ID parameter.
+  parameter. Use a custom key for better security. Required for parameters that use the
+  SecureString data type. If you don't specify a key ID, the system uses the default key
+  associated with your Amazon Web Services account which is not as secure as using a custom
+  key.   To use a custom KMS key, choose the SecureString data type with the Key ID
+  parameter.
 - `"Overwrite"`: Overwrite an existing parameter. The default value is false.
 - `"Policies"`: One or more policies to apply to a parameter. This operation takes a JSON
   array. Parameter Store, a capability of Amazon Web Services Systems Manager supports the
@@ -4779,6 +4896,58 @@ function put_parameter(
         "PutParameter",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Name" => Name, "Value" => Value), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_policy(policy, resource_arn)
+    put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+
+Creates or updates a Systems Manager resource policy. A resource policy helps you to define
+the IAM entity (for example, an Amazon Web Services account) that can manage your Systems
+Manager resources. Currently, OpsItemGroup is the only resource that supports Systems
+Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services
+accounts to view and interact with OpsCenter operational work items (OpsItems).
+
+# Arguments
+- `policy`: A policy you want to associate with a resource.
+- `resource_arn`: Amazon Resource Name (ARN) of the resource to which you want to attach a
+  policy.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PolicyHash"`: ID of the current policy version. The hash helps to prevent a situation
+  where multiple users attempt to overwrite a policy. You must provide this hash when
+  updating or deleting a policy.
+- `"PolicyId"`: The policy ID.
+"""
+function put_resource_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm(
+        "PutResourcePolicy",
+        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5738,15 +5907,14 @@ overwrites the association with null values for those parameters. This is by des
 must specify all optional parameters in the call, even if you are not changing the
 parameters. This includes the Name parameter. Before calling this API action, we recommend
 that you call the DescribeAssociation API operation and make a note of all optional
-parameters required for your UpdateAssociation call. In order to call this API operation,
-your Identity and Access Management (IAM) user account, group, or role must be configured
-with permission to call the DescribeAssociation API operation. If you don't have permission
-to call DescribeAssociation, then you receive the following error: An error occurred
-(AccessDeniedException) when calling the UpdateAssociation operation: User:
-&lt;user_arn&gt; isn't authorized to perform: ssm:DescribeAssociation on resource:
-&lt;resource_arn&gt;   When you update an association, the association immediately runs
-against the specified targets. You can add the ApplyOnlyAtCronInterval parameter to run the
-association during the next schedule run.
+parameters required for your UpdateAssociation call. In order to call this API operation, a
+user, group, or role must be granted permission to call the DescribeAssociation API
+operation. If you don't have permission to call DescribeAssociation, then you receive the
+following error: An error occurred (AccessDeniedException) when calling the
+UpdateAssociation operation: User: &lt;user_arn&gt; isn't authorized to perform:
+ssm:DescribeAssociation on resource: &lt;resource_arn&gt;   When you update an association,
+the association immediately runs against the specified targets. You can add the
+ApplyOnlyAtCronInterval parameter to run the association during the next schedule run.
 
 # Arguments
 - `association_id`: The ID of the association you want to update.
@@ -6336,7 +6504,12 @@ server, edge device, or virtual machines (VM). IAM roles are first assigned to t
 nodes during the activation process. For more information, see CreateActivation.
 
 # Arguments
-- `iam_role`: The IAM role you want to assign or change.
+- `iam_role`: The name of the Identity and Access Management (IAM) role that you want to
+  assign to the managed node. This IAM role must provide AssumeRole permissions for the
+  Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more
+  information, see Create an IAM service role for a hybrid environment in the Amazon Web
+  Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this
+  parameter. You must create a unique role.
 - `instance_id`: The ID of the managed node where you want to update the role.
 
 """
@@ -6412,6 +6585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating
   OpsItems manually in the Amazon Web Services Systems Manager User Guide.
 - `"OperationalDataToDelete"`: Keys that you want to remove from the OperationalData map.
+- `"OpsItemArn"`: The OpsItem Amazon Resource Name (ARN).
 - `"PlannedEndTime"`: The time specified in a change request for a runbook workflow to end.
   Currently supported only for the OpsItem type /aws/changerequest.
 - `"PlannedStartTime"`: The time specified in a change request for a runbook workflow to
@@ -6636,6 +6810,7 @@ service setting for the account.
   example,
   arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enable
   d. The setting ID can be one of the following.
+  /ssm/managed-instance/default-ec2-instance-management-role
   /ssm/automation/customer-script-log-destination
   /ssm/automation/customer-script-log-group-name
   /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier

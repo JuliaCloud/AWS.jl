@@ -58,7 +58,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FilterExpression"`: The filter expression defining criteria by which to group traces.
 - `"InsightsConfiguration"`: The structure containing configurations related to insights.
   The InsightsEnabled boolean can be set to true to enable insights for the new group or
-  false to disable insights for the new group.   The NotifcationsEnabled boolean can be set
+  false to disable insights for the new group.   The NotificationsEnabled boolean can be set
   to true to enable insights notifications for the new group. Notifications may only be
   enabled on a group with InsightsEnabled set to true.
 - `"Tags"`: A map that contains one or more tag keys and tag values to attach to an X-Ray
@@ -170,6 +170,49 @@ function delete_group(
         "POST",
         "/DeleteGroup",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_policy(policy_name)
+    delete_resource_policy(policy_name, params::Dict{String,<:Any})
+
+Deletes a resource policy from the target Amazon Web Services account.
+
+# Arguments
+- `policy_name`: The name of the resource policy to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PolicyRevisionId"`: Specifies a specific policy revision to delete. Provide a
+  PolicyRevisionId to ensure an atomic delete operation. If the provided revision id does not
+  match the latest policy revision id, an InvalidPolicyRevisionIdException exception is
+  returned.
+"""
+function delete_resource_policy(
+    PolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/DeleteResourcePolicy",
+        Dict{String,Any}("PolicyName" => PolicyName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_policy(
+    PolicyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("PolicyName" => PolicyName), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -781,6 +824,36 @@ function get_trace_summaries(
 end
 
 """
+    list_resource_policies()
+    list_resource_policies(params::Dict{String,<:Any})
+
+Returns the list of resource policies in the target Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: Not currently supported.
+"""
+function list_resource_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+    return xray(
+        "POST",
+        "/ListResourcePolicies";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_resource_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/ListResourcePolicies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -859,6 +932,71 @@ function put_encryption_config(
         "POST",
         "/PutEncryptionConfig",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Type" => Type), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_policy(policy_document, policy_name)
+    put_resource_policy(policy_document, policy_name, params::Dict{String,<:Any})
+
+ Sets the resource policy to grant one or more Amazon Web Services services and accounts
+permissions to access X-Ray. Each resource policy will be associated with a specific Amazon
+Web Services account. Each Amazon Web Services account can have a maximum of 5 resource
+policies, and each policy name must be unique within that account. The maximum size of each
+resource policy is 5KB.
+
+# Arguments
+- `policy_document`: The resource policy document, which can be up to 5kb in size.
+- `policy_name`: The name of the resource policy. Must be unique within a specific Amazon
+  Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BypassPolicyLockoutCheck"`: A flag to indicate whether to bypass the resource policy
+  lockout safety check.  Setting this value to true increases the risk that the policy
+  becomes unmanageable. Do not set this value to true indiscriminately.  Use this parameter
+  only when you include a policy in the request and you intend to prevent the principal that
+  is making the request from making a subsequent PutResourcePolicy request. The default value
+  is false.
+- `"PolicyRevisionId"`: Specifies a specific policy revision, to ensure an atomic create
+  operation. By default the resource policy is created if it does not exist, or updated with
+  an incremented revision id. The revision id is unique to each policy in the account. If the
+  policy revision id does not match the latest revision id, the operation will fail with an
+  InvalidPolicyRevisionIdException exception. You can also provide a PolicyRevisionId of 0.
+  In this case, the operation will fail with an InvalidPolicyRevisionIdException exception if
+  a resource policy with the same name already exists.
+"""
+function put_resource_policy(
+    PolicyDocument, PolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return xray(
+        "POST",
+        "/PutResourcePolicy",
+        Dict{String,Any}("PolicyDocument" => PolicyDocument, "PolicyName" => PolicyName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    PolicyDocument,
+    PolicyName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return xray(
+        "POST",
+        "/PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "PolicyDocument" => PolicyDocument, "PolicyName" => PolicyName
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1078,7 +1216,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GroupName"`: The case-sensitive name of the group.
 - `"InsightsConfiguration"`: The structure containing configurations related to insights.
   The InsightsEnabled boolean can be set to true to enable insights for the group or false to
-  disable insights for the group.   The NotifcationsEnabled boolean can be set to true to
+  disable insights for the group.   The NotificationsEnabled boolean can be set to true to
   enable insights notifications for the group. Notifications can only be enabled on a group
   with InsightsEnabled set to true.
 """

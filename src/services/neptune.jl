@@ -515,6 +515,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
 - `"ReplicationSourceIdentifier"`: The Amazon Resource Name (ARN) of the source DB instance
   or DB cluster if this DB cluster is created as a Read Replica.
+- `"ServerlessV2ScalingConfiguration"`:
 - `"StorageEncrypted"`: Specifies whether the DB cluster is encrypted.
 - `"Tags"`: The tags to assign to the new DB cluster.
 - `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this DB
@@ -2693,6 +2694,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a 30-minute window selected at random from an 8-hour block of time for each Amazon Region,
   occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
   Constraints: Minimum 30-minute window.
+- `"ServerlessV2ScalingConfiguration"`:
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the DB cluster will belong to.
 """
 function modify_dbcluster(
@@ -3765,6 +3767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OptionGroupName"`:  (Not supported by Neptune)
 - `"Port"`: The port number on which the new DB cluster accepts connections. Constraints:
   Value must be 1150-65535  Default: The same port as the original DB cluster.
+- `"ServerlessV2ScalingConfiguration"`:
 - `"Tags"`: The tags to be assigned to the restored DB cluster.
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the new DB cluster will
   belong to.
@@ -3874,6 +3877,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the
   source DB cluster.   If you don't specify a RestoreType value, then the new DB cluster is
   restored as a full copy of the source DB cluster.
+- `"ServerlessV2ScalingConfiguration"`:
 - `"Tags"`: The tags to be applied to the restored DB cluster.
 - `"UseLatestRestorableTime"`: A value that is set to true to restore the DB cluster to the
   latest restorable backup time, and false otherwise. Default: false  Constraints: Cannot be

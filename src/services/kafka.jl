@@ -126,6 +126,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"loggingInfo"`:
 - `"openMonitoring"`: 
             The settings for open monitoring.
+- `"storageMode"`: 
+            This controls storage mode for supported storage tiers.
+  
 - `"tags"`: 
             Create tags when creating the cluster.
 """
@@ -1629,6 +1632,58 @@ function update_security(
     return kafka(
         "PATCH",
         "/v1/clusters/$(clusterArn)/security",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_storage(cluster_arn, current_version)
+    update_storage(cluster_arn, current_version, params::Dict{String,<:Any})
+
+Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
+
+# Arguments
+- `cluster_arn`: 
+            The Amazon Resource Name (ARN) of the cluster to be updated.
+  
+- `current_version`: 
+            The version of cluster to update from. A successful
+  operation will then generate a new version.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"provisionedThroughput"`: 
+            EBS volume provisioned throughput information.
+  
+- `"storageMode"`: 
+            Controls storage mode for supported storage tiers.
+- `"volumeSizeGB"`: 
+            size of the EBS volume to update.
+"""
+function update_storage(
+    clusterArn, currentVersion; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(clusterArn)/storage",
+        Dict{String,Any}("currentVersion" => currentVersion);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_storage(
+    clusterArn,
+    currentVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(clusterArn)/storage",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
         );

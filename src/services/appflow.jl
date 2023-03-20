@@ -110,6 +110,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provide for encryption. This is required if you do not want to use the Amazon
   AppFlow-managed KMS key. If you don't provide anything here, Amazon AppFlow uses the Amazon
   AppFlow-managed KMS key.
+- `"metadataCatalogConfig"`: Specifies the configuration that Amazon AppFlow uses when it
+  catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs
+  the data from a flow, it stores metadata in a data catalog.
 - `"tags"`:  The tags used to organize, track, or control access for your flow.
 """
 function create_flow(
@@ -523,6 +526,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   roots for such providers by sending a request without the entitiesPath parameter. If the
   connector supports entities at different roots, this initial request returns the list of
   roots. Otherwise, this request returns all entities supported by the provider.
+- `"maxResults"`: The maximum number of items that the operation returns in the response.
+- `"nextToken"`: A token that was provided by your prior ListConnectorEntities operation if
+  the response was too big for the page size. You specify this token to get the next page of
+  results in paginated response.
 """
 function list_connector_entities(; aws_config::AbstractAWSConfig=global_aws_config())
     return appflow(
@@ -642,8 +649,8 @@ end
     register_connector()
     register_connector(params::Dict{String,<:Any})
 
-Registers a new connector with your Amazon Web Services account. Before you can register
-the connector, you must deploy lambda in your account.
+Registers a new custom connector with your Amazon Web Services account. Before you can
+register the connector, you must deploy the associated AWS lambda function in your account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -789,8 +796,8 @@ end
     unregister_connector(connector_label)
     unregister_connector(connector_label, params::Dict{String,<:Any})
 
-Unregisters the custom connector registered in your account that matches the connectorLabel
-provided in the request.
+Unregisters the custom connector registered in your account that matches the connector
+label provided in the request.
 
 # Arguments
 - `connector_label`: The label of the connector. The label is unique for each
@@ -924,6 +931,50 @@ function update_connector_profile(
 end
 
 """
+    update_connector_registration(connector_label)
+    update_connector_registration(connector_label, params::Dict{String,<:Any})
+
+Updates a custom connector that you've previously registered. This operation updates the
+connector with one of the following:   The latest version of the AWS Lambda function that's
+assigned to the connector   A new AWS Lambda function that you specify
+
+# Arguments
+- `connector_label`: The name of the connector. The name is unique for each connector
+  registration in your AWS account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"connectorProvisioningConfig"`:
+- `"description"`: A description about the update that you're applying to the connector.
+"""
+function update_connector_registration(
+    connectorLabel; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appflow(
+        "POST",
+        "/update-connector-registration",
+        Dict{String,Any}("connectorLabel" => connectorLabel);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_connector_registration(
+    connectorLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/update-connector-registration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("connectorLabel" => connectorLabel), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_flow(destination_flow_config_list, flow_name, source_flow_config, tasks, trigger_config)
     update_flow(destination_flow_config_list, flow_name, source_flow_config, tasks, trigger_config, params::Dict{String,<:Any})
 
@@ -942,6 +993,9 @@ end
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`:  A description of the flow.
+- `"metadataCatalogConfig"`: Specifies the configuration that Amazon AppFlow uses when it
+  catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs
+  the data from a flow, it stores metadata in a data catalog.
 """
 function update_flow(
     destinationFlowConfigList,

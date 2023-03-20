@@ -86,6 +86,100 @@ function associate_third_party_firewall(
 end
 
 """
+    batch_associate_resource(items, resource_set_identifier)
+    batch_associate_resource(items, resource_set_identifier, params::Dict{String,<:Any})
+
+Associate resources to a Firewall Manager resource set.
+
+# Arguments
+- `items`: The uniform resource identifiers (URIs) of resources that should be associated
+  to the resource set. The URIs must be Amazon Resource Names (ARNs).
+- `resource_set_identifier`: A unique identifier for the resource set, used in a TODO to
+  refer to the resource set.
+
+"""
+function batch_associate_resource(
+    Items, ResourceSetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "BatchAssociateResource",
+        Dict{String,Any}(
+            "Items" => Items, "ResourceSetIdentifier" => ResourceSetIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_associate_resource(
+    Items,
+    ResourceSetIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "BatchAssociateResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Items" => Items, "ResourceSetIdentifier" => ResourceSetIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_disassociate_resource(items, resource_set_identifier)
+    batch_disassociate_resource(items, resource_set_identifier, params::Dict{String,<:Any})
+
+Disassociates resources from a Firewall Manager resource set.
+
+# Arguments
+- `items`: The uniform resource identifiers (URI) of resources that should be disassociated
+  from the resource set. The URIs must be Amazon Resource Names (ARNs).
+- `resource_set_identifier`: A unique identifier for the resource set, used in a TODO to
+  refer to the resource set.
+
+"""
+function batch_disassociate_resource(
+    Items, ResourceSetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "BatchDisassociateResource",
+        Dict{String,Any}(
+            "Items" => Items, "ResourceSetIdentifier" => ResourceSetIdentifier
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_disassociate_resource(
+    Items,
+    ResourceSetIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "BatchDisassociateResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Items" => Items, "ResourceSetIdentifier" => ResourceSetIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_apps_list(list_id)
     delete_apps_list(list_id, params::Dict{String,<:Any})
 
@@ -213,6 +307,40 @@ function delete_protocols_list(
     return fms(
         "DeleteProtocolsList",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("ListId" => ListId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_set(identifier)
+    delete_resource_set(identifier, params::Dict{String,<:Any})
+
+Deletes the specified ResourceSet.
+
+# Arguments
+- `identifier`: A unique identifier for the resource set, used in a TODO to refer to the
+  resource set.
+
+"""
+function delete_resource_set(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
+    return fms(
+        "DeleteResourceSet",
+        Dict{String,Any}("Identifier" => Identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_set(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "DeleteResourceSet",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -531,6 +659,40 @@ function get_protocols_list(
 end
 
 """
+    get_resource_set(identifier)
+    get_resource_set(identifier, params::Dict{String,<:Any})
+
+Gets information about a specific resource set.
+
+# Arguments
+- `identifier`: A unique identifier for the resource set, used in a TODO to refer to the
+  resource set.
+
+"""
+function get_resource_set(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
+    return fms(
+        "GetResourceSet",
+        Dict{String,Any}("Identifier" => Identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_set(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "GetResourceSet",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_third_party_firewall_association_status(third_party_firewall)
     get_third_party_firewall_association_status(third_party_firewall, params::Dict{String,<:Any})
 
@@ -723,6 +885,62 @@ function list_compliance_status(
 end
 
 """
+    list_discovered_resources(member_account_ids, resource_type)
+    list_discovered_resources(member_account_ids, resource_type, params::Dict{String,<:Any})
+
+Returns an array of resources in the organization's accounts that are available to be
+associated with a resource set.
+
+# Arguments
+- `member_account_ids`: The Amazon Web Services account IDs to discover resources in. Only
+  one account is supported per request. The account must be a member of your organization.
+- `resource_type`: The type of resources to discover.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return
+  for this request. If more objects are available, in the response, Firewall Manager provides
+  a NextToken value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you requested,
+  Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
+  objects, use the token returned from the prior request in your next request.
+"""
+function list_discovered_resources(
+    MemberAccountIds, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "ListDiscoveredResources",
+        Dict{String,Any}(
+            "MemberAccountIds" => MemberAccountIds, "ResourceType" => ResourceType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_discovered_resources(
+    MemberAccountIds,
+    ResourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "ListDiscoveredResources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MemberAccountIds" => MemberAccountIds, "ResourceType" => ResourceType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_member_accounts()
     list_member_accounts(params::Dict{String,<:Any})
 
@@ -824,6 +1042,78 @@ function list_protocols_lists(
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resource_set_resources(identifier)
+    list_resource_set_resources(identifier, params::Dict{String,<:Any})
+
+Returns an array of resources that are currently associated to a resource set.
+
+# Arguments
+- `identifier`: A unique identifier for the resource set, used in a TODO to refer to the
+  resource set.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return
+  for this request. If more objects are available, in the response, Firewall Manager provides
+  a NextToken value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you requested,
+  Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
+  objects, use the token returned from the prior request in your next request.
+"""
+function list_resource_set_resources(
+    Identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "ListResourceSetResources",
+        Dict{String,Any}("Identifier" => Identifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_resource_set_resources(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "ListResourceSetResources",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Identifier" => Identifier), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resource_sets()
+    list_resource_sets(params::Dict{String,<:Any})
+
+Returns an array of ResourceSetSummary objects.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return
+  for this request. If more objects are available, in the response, Firewall Manager provides
+  a NextToken value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you requested,
+  Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
+  objects, use the token returned from the prior request in your next request.
+"""
+function list_resource_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return fms("ListResourceSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_resource_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "ListResourceSets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1083,6 +1373,47 @@ function put_protocols_list(
         "PutProtocolsList",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ProtocolsList" => ProtocolsList), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_set(resource_set)
+    put_resource_set(resource_set, params::Dict{String,<:Any})
+
+Creates the resource set. An Firewall Manager resource set defines the resources to import
+into an Firewall Manager policy from another Amazon Web Services service.
+
+# Arguments
+- `resource_set`: Details about the resource set to be created or updated.&gt;
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TagList"`: Retrieves the tags associated with the specified resource set. Tags are
+  key:value pairs that you can use to categorize and manage your resources, for purposes like
+  billing. For example, you might set the tag key to \"customer\" and the value to the
+  customer name or ID. You can specify one or more tags to add to each Amazon Web Services
+  resource, up to 50 tags for a resource.
+"""
+function put_resource_set(ResourceSet; aws_config::AbstractAWSConfig=global_aws_config())
+    return fms(
+        "PutResourceSet",
+        Dict{String,Any}("ResourceSet" => ResourceSet);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_set(
+    ResourceSet,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "PutResourceSet",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceSet" => ResourceSet), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

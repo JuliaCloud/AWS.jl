@@ -44,9 +44,9 @@ end
     delete_record(event_time, feature_group_name, record_identifier_value_as_string)
     delete_record(event_time, feature_group_name, record_identifier_value_as_string, params::Dict{String,<:Any})
 
-Deletes a Record from a FeatureGroup. A new record will show up in the OfflineStore when
-the DeleteRecord API is called. This record will have a value of True in the is_deleted
-column.
+Deletes a Record from a FeatureGroup. When the DeleteRecord API is called a new record will
+be added to the OfflineStore and the Record will be removed from the OnlineStore. This
+record will have a value of True in the is_deleted column.
 
 # Arguments
 - `event_time`: Timestamp indicating when the deletion event occurred. EventTime can be
@@ -55,6 +55,11 @@ column.
 - `record_identifier_value_as_string`: The value for the RecordIdentifier that uniquely
   identifies the record, in string format.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TargetStores"`: A list of stores from which you're deleting the record. By default,
+  Feature Store deletes the record from all of the stores that you're using for the
+  FeatureGroup.
 """
 function delete_record(
     EventTime,
@@ -107,7 +112,8 @@ OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, 
 empty result is returned.
 
 # Arguments
-- `feature_group_name`: The name of the feature group in which you want to put the records.
+- `feature_group_name`: The name of the feature group from which you want to retrieve a
+  record.
 - `record_identifier_value_as_string`: The value that corresponds to RecordIdentifier type
   and uniquely identifies the record in the FeatureGroup.
 
@@ -169,6 +175,10 @@ record, it is written only to the OfflineStore.
   retrieve the latest record.   Update the record returned from GetRecord.    Use PutRecord
   to update feature values.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TargetStores"`: A list of stores to which you're adding the record. By default, Feature
+  Store adds the record to all of the stores that you're using for the FeatureGroup.
 """
 function put_record(
     FeatureGroupName, Record; aws_config::AbstractAWSConfig=global_aws_config()
