@@ -169,6 +169,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   might be regional differences because some data sources might not be available in all the
   Amazon Web Services Regions where GuardDuty is presently supported. For more information,
   see Regions and endpoints.
+- `"features"`: A list of features that will be configured for the detector.
 - `"findingPublishingFrequency"`: A value that specifies how frequently updated findings
   are exported.
 - `"tags"`: The tags to be added to a new detector resource.
@@ -204,7 +205,9 @@ end
     create_filter(detector_id, finding_criteria, name)
     create_filter(detector_id, finding_criteria, name, params::Dict{String,<:Any})
 
-Creates a filter using the specified finding criteria.
+Creates a filter using the specified finding criteria. The maximum number of saved filters
+per Amazon Web Services account per Region is 100. For more information, see Quotas for
+GuardDuty.
 
 # Arguments
 - `detector_id`: The ID of the detector belonging to the GuardDuty account that you want to
@@ -258,8 +261,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter.
 - `"clientToken"`: The idempotency token for the create request.
 - `"description"`: The description of the filter. Valid characters include alphanumeric
-  characters, and special characters such as -, ., :, { }, [ ], ( ), /, t, n, x0B, f, r, _,
-  and whitespace.
+  characters, and special characters such as hyphen, period, colon, underscore, parentheses
+  ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed,
+  return, and whitespace.
 - `"rank"`: Specifies the position of the filter in the list of current filters. Also
   specifies the order in which this filter is applied to the findings.
 - `"tags"`: The tags to be added to a new filter resource.
@@ -964,6 +968,14 @@ For more information, see Regions and endpoints.
 - `detector_id`: The ID of the detector to retrieve information about the delegated
   administrator from.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: You can use this parameter to indicate the maximum number of items that
+  you want in the response.
+- `"nextToken"`: You can use this parameter when paginating results. Set the value of this
+  parameter to null on your first call to the list action. For subsequent calls to the
+  action, fill nextToken in the request with the value of NextToken from the previous
+  response to continue listing data.
 """
 function describe_organization_configuration(
     detectorId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2438,6 +2450,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Regions where GuardDuty is presently supported. For more information, see Regions and
   endpoints.
 - `"enable"`: Specifies whether the detector is enabled or not enabled.
+- `"features"`: Provides the features that will be updated for the detector.
 - `"findingPublishingFrequency"`: An enum value that specifies how frequently findings are
   exported, such as to CloudWatch Events.
 """
@@ -2660,6 +2673,7 @@ where GuardDuty is presently supported. For more information, see Regions and en
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"dataSources"`: Describes which data sources will be updated.
+- `"features"`: A list of features that will be updated for the specified member accounts.
 """
 function update_member_detectors(
     accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2706,6 +2720,7 @@ and endpoints.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"dataSources"`: Describes which data sources will be updated.
+- `"features"`: A list of features that will be configured for the organization.
 """
 function update_organization_configuration(
     autoEnable, detectorId; aws_config::AbstractAWSConfig=global_aws_config()

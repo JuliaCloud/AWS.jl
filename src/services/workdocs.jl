@@ -1680,6 +1680,47 @@ function restore_document_versions(
 end
 
 """
+    search_resources()
+    search_resources(params::Dict{String,<:Any})
+
+Searches metadata and the content of folders, documents, document versions, and comments.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AdditionalResponseFields"`: A list of attributes to include in the response. Used to
+  request fields that are not normally returned in a standard response.
+- `"Authentication"`: Amazon WorkDocs authentication token. Not required when using Amazon
+  Web Services administrator credentials to access the API.
+- `"Filters"`: Filters results based on entity metadata.
+- `"Limit"`: Max results count per page.
+- `"Marker"`: The marker for the next set of results.
+- `"OrderBy"`: Order by results in one or more categories.
+- `"OrganizationId"`: Filters based on the resource owner OrgId. This is a mandatory
+  parameter when using Admin SigV4 credentials.
+- `"QueryScopes"`: Filter based on the text field type. A Folder has only a name and no
+  content. A Comment has only content and no name. A Document or Document Version has a name
+  and content
+- `"QueryText"`: The String to search for. Searches across different text fields based on
+  request parameters. Use double quotes around the query string for exact phrase matches.
+"""
+function search_resources(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workdocs(
+        "POST", "/api/v1/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function search_resources(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workdocs(
+        "POST",
+        "/api/v1/search",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_document(document_id)
     update_document(document_id, params::Dict{String,<:Any})
 

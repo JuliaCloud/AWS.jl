@@ -753,12 +753,14 @@ function create_dbcluster_snapshot(
 end
 
 """
-    create_dbinstance(dbinstance_class, dbinstance_identifier, engine)
-    create_dbinstance(dbinstance_class, dbinstance_identifier, engine, params::Dict{String,<:Any})
+    create_dbinstance(dbcluster_identifier, dbinstance_class, dbinstance_identifier, engine)
+    create_dbinstance(dbcluster_identifier, dbinstance_class, dbinstance_identifier, engine, params::Dict{String,<:Any})
 
 Creates a new DB instance.
 
 # Arguments
+- `dbcluster_identifier`: The identifier of the DB cluster that the instance will belong
+  to. For information on creating a DB cluster, see CreateDBCluster. Type: String
 - `dbinstance_class`: The compute and memory capacity of the DB instance, for example,
   db.m4.large. Not all DB instance classes are available in all Amazon Regions.
 - `dbinstance_identifier`: The DB instance identifier. This parameter is stored as a
@@ -785,8 +787,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CharacterSetName"`:  (Not supported by Neptune)
 - `"CopyTagsToSnapshot"`: True to copy all tags from the DB instance to snapshots of the DB
   instance, and otherwise false. The default is false.
-- `"DBClusterIdentifier"`: The identifier of the DB cluster that the instance will belong
-  to. For information on creating a DB cluster, see CreateDBCluster. Type: String
 - `"DBName"`: Not supported.
 - `"DBParameterGroupName"`: The name of the DB parameter group to associate with this DB
   instance. If this argument is omitted, the default DBParameterGroup for the specified
@@ -868,6 +868,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   security group for the DB subnet group's VPC.
 """
 function create_dbinstance(
+    DBClusterIdentifier,
     DBInstanceClass,
     DBInstanceIdentifier,
     Engine;
@@ -876,6 +877,7 @@ function create_dbinstance(
     return neptune(
         "CreateDBInstance",
         Dict{String,Any}(
+            "DBClusterIdentifier" => DBClusterIdentifier,
             "DBInstanceClass" => DBInstanceClass,
             "DBInstanceIdentifier" => DBInstanceIdentifier,
             "Engine" => Engine,
@@ -885,6 +887,7 @@ function create_dbinstance(
     )
 end
 function create_dbinstance(
+    DBClusterIdentifier,
     DBInstanceClass,
     DBInstanceIdentifier,
     Engine,
@@ -897,6 +900,7 @@ function create_dbinstance(
             mergewith(
                 _merge,
                 Dict{String,Any}(
+                    "DBClusterIdentifier" => DBClusterIdentifier,
                     "DBInstanceClass" => DBInstanceClass,
                     "DBInstanceIdentifier" => DBInstanceIdentifier,
                     "Engine" => Engine,

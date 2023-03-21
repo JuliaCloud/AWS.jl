@@ -17,7 +17,8 @@ Creates an Amazon Connect Wisdom assistant.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"description"`: The description of the assistant.
 - `"serverSideEncryptionConfiguration"`: The KMS key used for encryption.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
@@ -71,7 +72,8 @@ only a single association.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_assistant_association(
@@ -137,7 +139,8 @@ asset.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"metadata"`: A key/value map to store attributes without affecting tagging or
   recommendations. For example, when synchronizing data between an external system and
   Wisdom, you can store an external version identifier as metadata to utilize for determining
@@ -190,20 +193,11 @@ end
 
 Creates a knowledge base.  When using this API, you cannot reuse Amazon AppIntegrations
 DataIntegrations with external knowledge bases such as Salesforce and ServiceNow. If you
-do, you'll get an InvalidRequestException error.   &lt;p&gt;For example, you're
-programmatically managing your external knowledge base, and you want to add or remove one
-of the fields that is being ingested from Salesforce. Do the following:&lt;/p&gt;
-&lt;ol&gt; &lt;li&gt; &lt;p&gt;Call &lt;a
-href=&quot;https://docs.aws.amazon.com/wisdom/latest/APIReference/API_DeleteKnowledgeBase.ht
-ml&quot;&gt;DeleteKnowledgeBase&lt;/a&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;Call
-&lt;a
-href=&quot;https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataInt
-egration.html&quot;&gt;DeleteDataIntegration&lt;/a&gt;.&lt;/p&gt; &lt;/li&gt; &lt;li&gt;
-&lt;p&gt;Call &lt;a
-href=&quot;https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataInt
-egration.html&quot;&gt;CreateDataIntegration&lt;/a&gt; to recreate the DataIntegration or a
-create different one.&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;Call
-CreateKnowledgeBase.&lt;/p&gt; &lt;/li&gt; &lt;/ol&gt; &lt;/note&gt;
+do, you'll get an InvalidRequestException error.  For example, you're programmatically
+managing your external knowledge base, and you want to add or remove one of the fields that
+is being ingested from Salesforce. Do the following:   Call DeleteKnowledgeBase.   Call
+DeleteDataIntegration.   Call CreateDataIntegration to recreate the DataIntegration or a
+create different one.   Call CreateKnowledgeBase.
 
 # Arguments
 - `knowledge_base_type`: The type of knowledge base. Only CUSTOM knowledge bases allow you
@@ -214,7 +208,8 @@ CreateKnowledgeBase.&lt;/p&gt; &lt;/li&gt; &lt;/ol&gt; &lt;/note&gt;
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"description"`: The description.
 - `"renderingConfiguration"`: Information about how to render the content.
 - `"serverSideEncryptionConfiguration"`: The KMS key used for encryption.
@@ -277,7 +272,8 @@ Amazon Connect creates a new Wisdom session for each contact on which Wisdom is 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"description"`: The description.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """

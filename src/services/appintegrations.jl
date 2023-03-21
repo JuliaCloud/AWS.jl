@@ -5,38 +5,58 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_data_integration(name)
-    create_data_integration(name, params::Dict{String,<:Any})
+    create_data_integration(kms_key, name, schedule_config, source_uri)
+    create_data_integration(kms_key, name, schedule_config, source_uri, params::Dict{String,<:Any})
 
 Creates and persists a DataIntegration resource.  You cannot create a DataIntegration
 association for a DataIntegration that has been previously associated. Use a different
 DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
 
 # Arguments
+- `kms_key`: The KMS key for the DataIntegration.
 - `name`: The name of the DataIntegration.
+- `schedule_config`: The name of the data and how often it should be pulled from the source.
+- `source_uri`: The URI of the data source.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"Description"`: A description of the DataIntegration.
-- `"KmsKey"`: The KMS key for the DataIntegration.
-- `"ScheduleConfig"`: The name of the data and how often it should be pulled from the
-  source.
-- `"SourceURI"`: The URI of the data source.
-- `"Tags"`: One or more tags.
+- `"FileConfiguration"`: The configuration for what files should be pulled from the source.
+- `"ObjectConfiguration"`: The configuration for what data should be pulled from the source.
+- `"Tags"`: The tags used to organize, track, or control access for this resource. For
+  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
-function create_data_integration(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_data_integration(
+    KmsKey,
+    Name,
+    ScheduleConfig,
+    SourceURI;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
     return appintegrations(
         "POST",
         "/dataIntegrations",
-        Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4()));
+        Dict{String,Any}(
+            "KmsKey" => KmsKey,
+            "Name" => Name,
+            "ScheduleConfig" => ScheduleConfig,
+            "SourceURI" => SourceURI,
+            "ClientToken" => string(uuid4()),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_data_integration(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    KmsKey,
+    Name,
+    ScheduleConfig,
+    SourceURI,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return appintegrations(
         "POST",
@@ -44,7 +64,13 @@ function create_data_integration(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("Name" => Name, "ClientToken" => string(uuid4())),
+                Dict{String,Any}(
+                    "KmsKey" => KmsKey,
+                    "Name" => Name,
+                    "ScheduleConfig" => ScheduleConfig,
+                    "SourceURI" => SourceURI,
+                    "ClientToken" => string(uuid4()),
+                ),
                 params,
             ),
         );
@@ -70,9 +96,11 @@ the EventIntegration control plane.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
-  idempotency of the request.
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"Description"`: The description of the event integration.
-- `"Tags"`: One or more tags.
+- `"Tags"`: The tags used to organize, track, or control access for this resource. For
+  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_event_integration(
     EventBridgeBus, EventFilter, Name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -433,7 +461,8 @@ Adds the specified tags to the specified resource.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
-- `tags`: One or more tags.
+- `tags`: The tags used to organize, track, or control access for this resource. For
+  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())

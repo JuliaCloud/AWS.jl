@@ -60,47 +60,51 @@ Creating tables in the Amazon Keyspaces Developer Guide.
 # Arguments
 - `keyspace_name`: The name of the keyspace that the table is going to be created in.
 - `schema_definition`: The schemaDefinition consists of the following parameters. For each
-  column to be created: • name - The name of the column. • type - An Amazon Keyspaces
-  data type. For more information, see Data types in the Amazon Keyspaces Developer Guide.
-  The primary key of the table consists of the following columns: • partitionKeys - The
+  column to be created:    name - The name of the column.    type - An Amazon Keyspaces data
+  type. For more information, see Data types in the Amazon Keyspaces Developer Guide.   The
+  primary key of the table consists of the following columns:    partitionKeys - The
   partition key can be a single column, or it can be a compound value composed of two or more
   columns. The partition key portion of the primary key is required and determines how Amazon
-  Keyspaces stores your data. • name - The name of each partition key column. •
+  Keyspaces stores your data.    name - The name of each partition key column.
   clusteringKeys - The optional clustering column portion of your primary key determines how
-  the data is clustered and sorted within each partition. • name - The name of the
-  clustering column.  • orderBy - Sets the ascendant (ASC) or descendant (DESC) order
+  the data is clustered and sorted within each partition.    name - The name of the
+  clustering column.     orderBy - Sets the ascendant (ASC) or descendant (DESC) order
   modifier. To define a column as static use staticColumns - Static columns store values that
-  are shared by all rows in the same partition: • name - The name of the column. • type -
+  are shared by all rows in the same partition:    name - The name of the column.    type -
   An Amazon Keyspaces data type.
 - `table_name`: The name of the table.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"capacitySpecification"`: Specifies the read/write throughput capacity mode for the
-  table. The options are: • throughputMode:PAY_PER_REQUEST and  •
+  table. The options are:    throughputMode:PAY_PER_REQUEST and
   throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and
-  writeCapacityUnits as input. The default is throughput_mode:PAY_PER_REQUEST. For more
+  writeCapacityUnits as input.   The default is throughput_mode:PAY_PER_REQUEST. For more
   information, see Read/write capacity modes in the Amazon Keyspaces Developer Guide.
+- `"clientSideTimestamps"`:  Enables client-side timestamps for the table. By default, the
+  setting is disabled. You can enable client-side timestamps with the following option:
+  status: \"enabled\"    Once client-side timestamps are enabled for a table, this setting
+  cannot be disabled.
 - `"comment"`: This parameter allows to enter a description of the table.
 - `"defaultTimeToLive"`: The default Time to Live setting in seconds for the table. For
   more information, see Setting the default TTL value for a table in the Amazon Keyspaces
   Developer Guide.
 - `"encryptionSpecification"`: Specifies how the encryption key for encryption at rest is
-  managed for the table. You can choose one of the following KMS key (KMS key): •
-  type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.  •
+  managed for the table. You can choose one of the following KMS key (KMS key):
+  type:AWS_OWNED_KMS_KEY - This key is owned by Amazon Keyspaces.
   type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your account and is created, owned,
   and managed by you. This option requires the kms_key_identifier of the KMS key in Amazon
-  Resource Name (ARN) format as input. The default is type:AWS_OWNED_KMS_KEY.  For more
+  Resource Name (ARN) format as input.   The default is type:AWS_OWNED_KMS_KEY. For more
   information, see Encryption at rest in the Amazon Keyspaces Developer Guide.
 - `"pointInTimeRecovery"`: Specifies if pointInTimeRecovery is enabled or disabled for the
-  table. The options are: • ENABLED  • DISABLED  If it's not specified, the default is
-  DISABLED. For more information, see Point-in-time recovery in the Amazon Keyspaces
-  Developer Guide.
+  table. The options are:    status=ENABLED     status=DISABLED    If it's not specified, the
+  default is status=DISABLED. For more information, see Point-in-time recovery in the Amazon
+  Keyspaces Developer Guide.
 - `"tags"`: A list of key-value pair tags to be attached to the resource.  For more
   information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon
   Keyspaces Developer Guide.
-- `"ttl"`: Enables Time to Live custom settings for the table. The options are: •
-  status:enabled  • status:disabled  The default is status:disabled. After ttl is enabled,
+- `"ttl"`: Enables Time to Live custom settings for the table. The options are:
+  status:enabled     status:disabled    The default is status:disabled. After ttl is enabled,
   you can't disable it for the table. For more information, see Expiring data by using Amazon
   Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
 """
@@ -422,21 +426,21 @@ end
 Restores the specified table to the specified point in time within the
 earliest_restorable_timestamp and the current time. For more information about restore
 points, see  Time window for PITR continuous backups in the Amazon Keyspaces Developer
-Guide.  Any number of users can execute up to 4 concurrent restores (any type of restore)
-in a given account. When you restore using point in time recovery, Amazon Keyspaces
-restores your source table's schema and data to the state based on the selected timestamp
+Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in
+a given account. When you restore using point in time recovery, Amazon Keyspaces restores
+your source table's schema and data to the state based on the selected timestamp
 (day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored
 to the state based on the selected timestamp. In addition to the table's schema, data, and
 TTL settings, RestoreTable restores the capacity mode, encryption, and point-in-time
 recovery settings from the source table. Unlike the table's schema data and TTL settings,
 which are restored based on the selected timestamp, these settings are always restored
 based on the table's settings as of the current time or when the table was deleted. You can
-also overwrite these settings during restore: • Read/write capacity mode • Provisioned
-throughput capacity settings • Point-in-time (PITR) settings • Tags For more
-information, see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that
-the following settings are not restored, and you must configure them manually for the new
-table: • Automatic scaling policies (for tables that use provisioned capacity mode) •
-Identity and Access Management (IAM) policies • Amazon CloudWatch metrics and alarms
+also overwrite these settings during restore:   Read/write capacity mode   Provisioned
+throughput capacity settings   Point-in-time (PITR) settings   Tags   For more information,
+see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that the following
+settings are not restored, and you must configure them manually for the new table:
+Automatic scaling policies (for tables that use provisioned capacity mode)   Identity and
+Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
 
 # Arguments
 - `source_keyspace_name`: The keyspace name of the source table.
@@ -447,21 +451,21 @@ Identity and Access Management (IAM) policies • Amazon CloudWatch metrics and 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"capacitySpecificationOverride"`: Specifies the read/write throughput capacity mode for
-  the target table. The options are: • throughputMode:PAY_PER_REQUEST  •
+  the target table. The options are:    throughputMode:PAY_PER_REQUEST
   throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and
-  writeCapacityUnits as input. The default is throughput_mode:PAY_PER_REQUEST. For more
+  writeCapacityUnits as input.   The default is throughput_mode:PAY_PER_REQUEST. For more
   information, see Read/write capacity modes in the Amazon Keyspaces Developer Guide.
 - `"encryptionSpecificationOverride"`: Specifies the encryption settings for the target
-  table. You can choose one of the following KMS key (KMS key): • type:AWS_OWNED_KMS_KEY -
-  This key is owned by Amazon Keyspaces.  • type:CUSTOMER_MANAGED_KMS_KEY - This key is
+  table. You can choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY -
+  This key is owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is
   stored in your account and is created, owned, and managed by you. This option requires the
-  kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.  The
+  kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The
   default is type:AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the
   Amazon Keyspaces Developer Guide.
 - `"pointInTimeRecoveryOverride"`: Specifies the pointInTimeRecovery settings for the
-  target table. The options are: • ENABLED  • DISABLED  If it's not specified, the
-  default is DISABLED. For more information, see Point-in-time recovery in the Amazon
-  Keyspaces Developer Guide.
+  target table. The options are:    status=ENABLED     status=DISABLED    If it's not
+  specified, the default is status=DISABLED. For more information, see Point-in-time recovery
+  in the Amazon Keyspaces Developer Guide.
 - `"restoreTimestamp"`: The restore timestamp in ISO 8601 format.
 - `"tagsOverride"`: A list of key-value pair tags to be attached to the restored table.
   For more information, see Adding tags and labels to Amazon Keyspaces resources in the
@@ -614,29 +618,34 @@ one specific table setting per update operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"addColumns"`: For each column to be added to the specified table: • name - The name
-  of the column. • type - An Amazon Keyspaces data type. For more information, see Data
-  types in the Amazon Keyspaces Developer Guide.
+- `"addColumns"`: For each column to be added to the specified table:    name - The name of
+  the column.    type - An Amazon Keyspaces data type. For more information, see Data types
+  in the Amazon Keyspaces Developer Guide.
 - `"capacitySpecification"`: Modifies the read/write throughput capacity mode for the
-  table. The options are: • throughputMode:PAY_PER_REQUEST and  •
+  table. The options are:    throughputMode:PAY_PER_REQUEST and
   throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and
-  writeCapacityUnits as input. The default is throughput_mode:PAY_PER_REQUEST. For more
+  writeCapacityUnits as input.   The default is throughput_mode:PAY_PER_REQUEST. For more
   information, see Read/write capacity modes in the Amazon Keyspaces Developer Guide.
+- `"clientSideTimestamps"`: Enables client-side timestamps for the table. By default, the
+  setting is disabled. You can enable client-side timestamps with the following option:
+  status: \"enabled\"    Once client-side timestamps are enabled for a table, this setting
+  cannot be disabled.
 - `"defaultTimeToLive"`: The default Time to Live setting in seconds for the table. For
   more information, see Setting the default TTL value for a table in the Amazon Keyspaces
   Developer Guide.
 - `"encryptionSpecification"`: Modifies the encryption settings of the table. You can
-  choose one of the following KMS key (KMS key): • type:AWS_OWNED_KMS_KEY - This key is
-  owned by Amazon Keyspaces.  • type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your
+  choose one of the following KMS key (KMS key):    type:AWS_OWNED_KMS_KEY - This key is
+  owned by Amazon Keyspaces.     type:CUSTOMER_MANAGED_KMS_KEY - This key is stored in your
   account and is created, owned, and managed by you. This option requires the
-  kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.  The
+  kms_key_identifier of the KMS key in Amazon Resource Name (ARN) format as input.    The
   default is AWS_OWNED_KMS_KEY. For more information, see Encryption at rest in the Amazon
   Keyspaces Developer Guide.
 - `"pointInTimeRecovery"`: Modifies the pointInTimeRecovery settings of the table. The
-  options are: • ENABLED  • DISABLED  If it's not specified, the default is DISABLED. For
-  more information, see Point-in-time recovery in the Amazon Keyspaces Developer Guide.
-- `"ttl"`: Modifies Time to Live custom settings for the table. The options are: •
-  status:enabled  • status:disabled  The default is status:disabled. After ttl is enabled,
+  options are:    status=ENABLED     status=DISABLED    If it's not specified, the default is
+  status=DISABLED. For more information, see Point-in-time recovery in the Amazon Keyspaces
+  Developer Guide.
+- `"ttl"`: Modifies Time to Live custom settings for the table. The options are:
+  status:enabled     status:disabled    The default is status:disabled. After ttl is enabled,
   you can't disable it for the table. For more information, see Expiring data by using Amazon
   Keyspaces Time to Live (TTL) in the Amazon Keyspaces Developer Guide.
 """

@@ -955,8 +955,7 @@ results. This can occur if the resources were deleted or removed from the rule's
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT
-  and NON_COMPLIANT.
+- `"ComplianceTypes"`: Filters the results by compliance.
 - `"ConfigRuleNames"`: Specify one or more Config rule names to filter the results by rule.
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
@@ -1002,8 +1001,7 @@ the resources were deleted or removed from the rule's scope.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT,
-  NON_COMPLIANT, and INSUFFICIENT_DATA.
+- `"ComplianceTypes"`: Filters the results by compliance.
 - `"Limit"`: The maximum number of evaluation results returned on each page. The default is
   10. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
@@ -1085,8 +1083,9 @@ Returns details about your Config rules.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConfigRuleNames"`: The names of the Config rules for which you want details. If you do
   not specify any names, Config returns details for all your rules.
-- `"Filters"`: Returns a list of Detecive or Proactive Config rules. By default, this API
-  returns an unfiltered list.
+- `"Filters"`: Returns a list of Detective or Proactive Config rules. By default, this API
+  returns an unfiltered list. For more information on Detective or Proactive Config rules,
+  see  Evaluation Mode  in the Config Developer Guide.
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 """
@@ -1199,10 +1198,12 @@ end
     describe_configuration_recorder_status()
     describe_configuration_recorder_status(params::Dict{String,<:Any})
 
-Returns the current status of the specified configuration recorder. If a configuration
-recorder is not specified, this action returns the status of all configuration recorders
-associated with the account.  Currently, you can specify only one configuration recorder
-per region in your account.
+Returns the current status of the specified configuration recorder as well as the status of
+the last recording event for the recorder. If a configuration recorder is not specified,
+this action returns the status of all configuration recorders associated with the account.
+Currently, you can specify only one configuration recorder per region in your account. For
+a detailed status of recording events over time, add your Config events to Amazon
+CloudWatch metrics and use CloudWatch metrics.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2116,8 +2117,9 @@ evaluated, and whether each resource complies with the rule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT,
-  NON_COMPLIANT, and NOT_APPLICABLE.
+- `"ComplianceTypes"`: Filters the results by compliance.  INSUFFICIENT_DATA is a valid
+  ComplianceType that is returned when an Config rule cannot be evaluated. However,
+  INSUFFICIENT_DATA cannot be used as a ComplianceType for filtering results.
 - `"Limit"`: The maximum number of evaluation results returned on each page. The default is
   10. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
@@ -2158,8 +2160,9 @@ invoked, and whether the resource complies with each rule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ComplianceTypes"`: Filters the results by compliance. The allowed values are COMPLIANT,
-  NON_COMPLIANT, and NOT_APPLICABLE.
+- `"ComplianceTypes"`: Filters the results by compliance.  INSUFFICIENT_DATA is a valid
+  ComplianceType that is returned when an Config rule cannot be evaluated. However,
+  INSUFFICIENT_DATA cannot be used as a ComplianceType for filtering results.
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
   next page of results in a paginated response.
 - `"ResourceEvaluationId"`: The unique ID of Amazon Web Services resource execution for
@@ -2644,6 +2647,9 @@ Returns a summary of resource evaluation for the specified resource evaluation I
 proactive rules that were run. The results indicate which evaluation context was used to
 evaluate the rules, which resource details were evaluated, the evaluation mode that was
 run, and whether the resource details comply with the configuration of the proactive rules.
+  To see additional information about the evaluation result, such as which rule flagged a
+resource as NON_COMPLIANT, use the GetComplianceDetailsByResource API. For more
+information, see the Examples section.
 
 # Arguments
 - `resource_evaluation_id`: The unique ResourceEvaluationId of Amazon Web Services resource
@@ -2792,7 +2798,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Filters"`: Filters the results based on the ConformancePackComplianceScoresFilters.
 - `"Limit"`: The maximum number of conformance pack compliance scores returned on each page.
 - `"NextToken"`: The nextToken string in a prior request that you can use to get the
-  paginated response for next set of conformance pack compliance scores.
+  paginated response for the next set of conformance pack compliance scores.
 - `"SortBy"`: Sorts your conformance pack compliance scores in either ascending or
   descending order, depending on SortOrder. By default, conformance pack compliance scores
   are sorted in alphabetical order by name of the conformance pack. Enter SCORE, to sort
@@ -2855,7 +2861,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   next page of results in a paginated response.
 - `"resourceIds"`: The IDs of only those resources that you want Config to list in the
   response. If you do not specify this parameter, Config lists all resources of the specified
-  type that it has discovered.
+  type that it has discovered. You can list a minimum of 1 resourceID and a maximum of 20
+  resourceIds.
 - `"resourceName"`: The custom name of only those resources that you want Config to list in
   the response. If you do not specify this parameter, Config lists all resources of the
   specified type that it has discovered.
@@ -2989,7 +2996,11 @@ end
     put_aggregation_authorization(authorized_account_id, authorized_aws_region, params::Dict{String,<:Any})
 
 Authorizes the aggregator account and region to collect data from the source account and
-region.
+region.    PutAggregationAuthorization is an idempotent API. Subsequent requests won’t
+create a duplicate resource if one was already created. If a following request has
+different tags values, Config will ignore these differences and treat it as an idempotent
+request of the previous. In this case, tags will not be updated, even if they are
+different.
 
 # Arguments
 - `authorized_account_id`: The 12-digit account ID of the account authorized to aggregate
@@ -3045,25 +3056,30 @@ end
 Adds or updates an Config rule to evaluate if your Amazon Web Services resources comply
 with your desired configurations. For information on how many Config rules you can have per
 account, see  Service Limits  in the Config Developer Guide. There are two types of rules:
-Config Custom Rules and Config Managed Rules. You can use PutConfigRule to create both
-Config custom rules and Config managed rules. Custom rules are rules that you can create
-using either Guard or Lambda functions. Guard (Guard GitHub Repository) is a policy-as-code
-language that allows you to write policies that are enforced by Config Custom Policy rules.
-Lambda uses custom code that you upload to evaluate a custom rule. If you are adding a new
-Custom Lambda rule, you first need to create an Lambda function that the rule invokes to
-evaluate your resources. When you use PutConfigRule to add a Custom Lambda rule to Config,
-you must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. You
-specify the ARN in the SourceIdentifier key. This key is part of the Source object, which
-is part of the ConfigRule object.  Managed rules are predefined, customizable rules created
-by Config. For a list of managed rules, see List of Config Managed Rules. If you are adding
-an Config managed rule, you must specify the rule's identifier for the SourceIdentifier
-key. For any new rule that you add, specify the ConfigRuleName in the ConfigRule object. Do
-not specify the ConfigRuleArn or the ConfigRuleId. These values are generated by Config for
-new rules. If you are updating a rule that you added previously, you can specify the rule
-by ConfigRuleName, ConfigRuleId, or ConfigRuleArn in the ConfigRule data type that you use
-in this request. For more information about developing and using Config rules, see
-Evaluating Amazon Web Services resource Configurations with Config in the Config Developer
-Guide.
+Config Managed Rules and Config Custom Rules. You can use PutConfigRule to create both
+Config Managed Rules and Config Custom Rules. Config Managed Rules are predefined,
+customizable rules created by Config. For a list of managed rules, see List of Config
+Managed Rules. If you are adding an Config managed rule, you must specify the rule's
+identifier for the SourceIdentifier key. Config Custom Rules are rules that you create from
+scratch. There are two ways to create Config custom rules: with Lambda functions ( Lambda
+Developer Guide) and with Guard (Guard GitHub Repository), a policy-as-code language.
+Config custom rules created with Lambda are called Config Custom Lambda Rules and Config
+custom rules created with Guard are called Config Custom Policy Rules. If you are adding a
+new Config Custom Lambda rule, you first need to create an Lambda function that the rule
+invokes to evaluate your resources. When you use PutConfigRule to add a Custom Lambda rule
+to Config, you must specify the Amazon Resource Name (ARN) that Lambda assigns to the
+function. You specify the ARN in the SourceIdentifier key. This key is part of the Source
+object, which is part of the ConfigRule object.  For any new Config rule that you add,
+specify the ConfigRuleName in the ConfigRule object. Do not specify the ConfigRuleArn or
+the ConfigRuleId. These values are generated by Config for new rules. If you are updating a
+rule that you added previously, you can specify the rule by ConfigRuleName, ConfigRuleId,
+or ConfigRuleArn in the ConfigRule data type that you use in this request. For more
+information about developing and using Config rules, see Evaluating Resources with Config
+Rules in the Config Developer Guide.   PutConfigRule is an idempotent API. Subsequent
+requests won’t create a duplicate resource if one was already created. If a following
+request has different tags values, Config will ignore these differences and treat it as an
+idempotent request of the previous. In this case, tags will not be updated, even if they
+are different.
 
 # Arguments
 - `config_rule`: The rule that you want to add to your account.
@@ -3111,7 +3127,11 @@ EnableAwsServiceAccess API to enable integration between Config and Organization
 caller is a registered delegated administrator, Config calls ListDelegatedAdministrators
 API to verify whether the caller is a valid delegated administrator. To register a
 delegated administrator, see Register a Delegated Administrator in the Config developer
-guide.
+guide.     PutConfigurationAggregator is an idempotent API. Subsequent requests won’t
+create a duplicate resource if one was already created. If a following request has
+different tags values, Config will ignore these differences and treat it as an idempotent
+request of the previous. In this case, tags will not be updated, even if they are
+different.
 
 # Arguments
 - `configuration_aggregator_name`: The name of the configuration aggregator.
@@ -3416,22 +3436,23 @@ account of your organization. The service-linked role is created only when the r
 not exist in the caller account. Config verifies the existence of role with GetRole action.
 To use this API with delegated administrator, register a delegated administrator by calling
 Amazon Web Services Organization register-delegated-administrator for
-config-multiaccountsetup.amazonaws.com.  There are two types of rules: Config Custom Rules
-and Config Managed Rules. You can use PutOrganizationConfigRule to create both Config
-custom rules and Config managed rules. Custom rules are rules that you can create using
-either Guard or Lambda functions. Guard (Guard GitHub Repository) is a policy-as-code
-language that allows you to write policies that are enforced by Config Custom Policy rules.
-Lambda uses custom code that you upload to evaluate a custom rule. If you are adding a new
-Custom Lambda rule, you first need to create an Lambda function in the management account
-or a delegated administrator that the rule invokes to evaluate your resources. You also
-need to create an IAM role in the managed account that can be assumed by the Lambda
-function. When you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you
-must specify the Amazon Resource Name (ARN) that Lambda assigns to the function. Managed
-rules are predefined, customizable rules created by Config. For a list of managed rules,
-see List of Config Managed Rules. If you are adding an Config managed rule, you must
-specify the rule's identifier for the RuleIdentifier key.  Prerequisite: Ensure you call
-EnableAllFeatures API to enable all features in an organization. Make sure to specify one
-of either OrganizationCustomPolicyRuleMetadata for Custom Policy rules,
+config-multiaccountsetup.amazonaws.com.  There are two types of rules: Config Managed Rules
+and Config Custom Rules. You can use PutOrganizationConfigRule to create both Config
+Managed Rules and Config Custom Rules. Config Managed Rules are predefined, customizable
+rules created by Config. For a list of managed rules, see List of Config Managed Rules. If
+you are adding an Config managed rule, you must specify the rule's identifier for the
+RuleIdentifier key. Config Custom Rules are rules that you create from scratch. There are
+two ways to create Config custom rules: with Lambda functions ( Lambda Developer Guide) and
+with Guard (Guard GitHub Repository), a policy-as-code language. Config custom rules
+created with Lambda are called Config Custom Lambda Rules and Config custom rules created
+with Guard are called Config Custom Policy Rules. If you are adding a new Config Custom
+Lambda rule, you first need to create an Lambda function in the management account or a
+delegated administrator that the rule invokes to evaluate your resources. You also need to
+create an IAM role in the managed account that can be assumed by the Lambda function. When
+you use PutOrganizationConfigRule to add a Custom Lambda rule to Config, you must specify
+the Amazon Resource Name (ARN) that Lambda assigns to the function.  Prerequisite: Ensure
+you call EnableAllFeatures API to enable all features in an organization. Make sure to
+specify one of either OrganizationCustomPolicyRuleMetadata for Custom Policy rules,
 OrganizationCustomRuleMetadata for Custom Lambda rules, or OrganizationManagedRuleMetadata
 for managed rules.
 
@@ -3622,12 +3643,21 @@ end
     put_remediation_exceptions(config_rule_name, resource_keys)
     put_remediation_exceptions(config_rule_name, resource_keys, params::Dict{String,<:Any})
 
-A remediation exception is when a specific resource is no longer considered for
+A remediation exception is when a specified resource is no longer considered for
 auto-remediation. This API adds a new exception or updates an existing exception for a
-specific resource with a specific Config rule.   Config generates a remediation exception
-when a problem occurs executing a remediation action to a specific resource. Remediation
-exceptions blocks auto-remediation until the exception is cleared.   To place an exception
-on an Amazon Web Services resource, ensure remediation is set as manual remediation.
+specified resource with a specified Config rule.   Config generates a remediation exception
+when a problem occurs running a remediation action for a specified resource. Remediation
+exceptions blocks auto-remediation until the exception is cleared.   When placing an
+exception on an Amazon Web Services resource, it is recommended that remediation is set as
+manual remediation until the given Config rule for the specified resource evaluates the
+resource as NON_COMPLIANT. Once the resource has been evaluated as NON_COMPLIANT, you can
+add remediation exceptions and change the remediation type back from Manual to Auto if you
+want to use auto-remediation. Otherwise, using auto-remediation before a NON_COMPLIANT
+evaluation result can delete resources before the exception is applied.   Placing an
+exception can only be performed on resources that are NON_COMPLIANT. If you use this API
+for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will
+not be generated. For more information on the conditions that initiate the possible Config
+evaluation results, see Concepts | Config Rules in the Config Developer Guide.
 
 # Arguments
 - `config_rule_name`: The name of the Config rule for which you want to create remediation
@@ -3806,7 +3836,10 @@ end
 Saves a new query or updates an existing saved query. The QueryName must be unique for a
 single Amazon Web Services account and a single Amazon Web Services Region. You can create
 upto 300 queries in a single Amazon Web Services account and a single Amazon Web Services
-Region.
+Region.   PutStoredQuery is an idempotent API. Subsequent requests won’t create a
+duplicate resource if one was already created. If a following request has different tags
+values, Config will ignore these differences and treat it as an idempotent request of the
+previous. In this case, tags will not be updated, even if they are different.
 
 # Arguments
 - `stored_query`: A list of StoredQuery objects. The mandatory fields are QueryName and
@@ -4093,10 +4126,16 @@ details will comply with configured Config rules. You can also use it for evalua
 purposes. Config recommends using an evaluation context. It runs an execution against the
 resource details with all of the Config rules in your account that match with the specified
 proactive mode and resource type.  Ensure you have the cloudformation:DescribeType role
-setup to validate the resource type schema.
+setup to validate the resource type schema. You can find the Resource type schema in
+\"Amazon Web Services public extensions\" within the CloudFormation registry or with the
+following CLI commmand: aws cloudformation describe-type --type-name \"AWS::S3::Bucket\"
+--type RESOURCE. For more information, see Managing extensions through the CloudFormation
+registry and Amazon Web Services resource and property types reference in the
+CloudFormation User Guide.
 
 # Arguments
-- `evaluation_mode`: The mode of an evaluation. The valid value for this API is Proactive.
+- `evaluation_mode`: The mode of an evaluation. The valid values for this API are DETECTIVE
+  and PROACTIVE.
 - `resource_details`: Returns a ResourceDetails object.
 
 # Optional Parameters
@@ -4193,8 +4232,9 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Associates the specified tags to a resource with the specified resourceArn. If existing
-tags on a resource are not specified in the request parameters, they are not changed. When
-a resource is deleted, the tags associated with that resource are deleted as well.
+tags on a resource are not specified in the request parameters, they are not changed. If
+existing tags are specified, however, then their values will be updated. When a resource is
+deleted, the tags associated with that resource are deleted as well.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource for which to
