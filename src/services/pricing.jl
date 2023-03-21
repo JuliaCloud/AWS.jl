@@ -91,6 +91,55 @@ function get_attribute_values(
 end
 
 """
+    get_price_list_file_url(file_format, price_list_arn)
+    get_price_list_file_url(file_format, price_list_arn, params::Dict{String,<:Any})
+
+  This feature is in preview release and is subject to change. Your use of Amazon Web
+Services Price List API is subject to the Beta Service Participation terms of the Amazon
+Web Services Service Terms (Section 1.10).   This returns the URL that you can retrieve
+your Price List file from. This URL is based on the PriceListArn and FileFormat that you
+retrieve from the  ListPriceLists  response.
+
+# Arguments
+- `file_format`: The format that you want to retrieve your Price List files in. The
+  FileFormat can be obtained from the  ListPriceLists  response.
+- `price_list_arn`: The unique identifier that maps to where your Price List files are
+  located. PriceListArn can be obtained from the  ListPriceLists  response.
+
+"""
+function get_price_list_file_url(
+    FileFormat, PriceListArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pricing(
+        "GetPriceListFileUrl",
+        Dict{String,Any}("FileFormat" => FileFormat, "PriceListArn" => PriceListArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_price_list_file_url(
+    FileFormat,
+    PriceListArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pricing(
+        "GetPriceListFileUrl",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileFormat" => FileFormat, "PriceListArn" => PriceListArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_products(service_code)
     get_products(service_code, params::Dict{String,<:Any})
 
@@ -126,6 +175,83 @@ function get_products(
         "GetProducts",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ServiceCode" => ServiceCode), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_price_lists(currency_code, effective_date, service_code)
+    list_price_lists(currency_code, effective_date, service_code, params::Dict{String,<:Any})
+
+  This feature is in preview release and is subject to change. Your use of Amazon Web
+Services Price List API is subject to the Beta Service Participation terms of the Amazon
+Web Services Service Terms (Section 1.10).   This returns a list of Price List references
+that the requester if authorized to view, given a ServiceCode, CurrencyCode, and an
+EffectiveDate. Use without a RegionCode filter to list Price List references from all
+available Amazon Web Services Regions. Use with a RegionCode filter to get the Price List
+reference that's specific to a specific Amazon Web Services Region. You can use the
+PriceListArn from the response to get your preferred Price List files through the
+GetPriceListFileUrl  API.
+
+# Arguments
+- `currency_code`: The three alphabetical character ISO-4217 currency code that the Price
+  List files are denominated in.
+- `effective_date`: The date that the Price List file prices are effective from.
+- `service_code`: The service code or the Savings Plan service code for the attributes that
+  you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists,
+  use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance
+  (RI) pricing, use the  DescribeServices  API. To retrieve the Compute Savings Plan price
+  lists, use ComputeSavingsPlans. To retrieve Machine Learning Savings Plans price lists, use
+  MachineLearningSavingsPlans.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in the response.
+- `"NextToken"`: The pagination token that indicates the next set of results that you want
+  to retrieve.
+- `"RegionCode"`: This is used to filter the Price List by Amazon Web Services Region. For
+  example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If
+  nothing is specified, you retrieve price lists for all applicable Regions. The available
+  RegionCode list can be retrieved from  GetAttributeValues  API.
+"""
+function list_price_lists(
+    CurrencyCode,
+    EffectiveDate,
+    ServiceCode;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pricing(
+        "ListPriceLists",
+        Dict{String,Any}(
+            "CurrencyCode" => CurrencyCode,
+            "EffectiveDate" => EffectiveDate,
+            "ServiceCode" => ServiceCode,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_price_lists(
+    CurrencyCode,
+    EffectiveDate,
+    ServiceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pricing(
+        "ListPriceLists",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CurrencyCode" => CurrencyCode,
+                    "EffectiveDate" => EffectiveDate,
+                    "ServiceCode" => ServiceCode,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

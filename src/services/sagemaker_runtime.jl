@@ -97,11 +97,11 @@ After you deploy a model into production using Amazon SageMaker hosting services
 client applications use this API to get inferences from the model hosted at the specified
 endpoint in an asynchronous manner. Inference requests sent to this API are enqueued for
 asynchronous processing. The processing of the inference request may or may not complete
-before the you receive a response from this API. The response from this API will not
-contain the result of the inference request but contain information about where you can
-locate it. Amazon SageMaker strips all POST headers except those supported by the API.
-Amazon SageMaker might add additional headers. You should not rely on the behavior of
-headers outside those enumerated in the request syntax. Calls to InvokeEndpointAsync are
+before you receive a response from this API. The response from this API will not contain
+the result of the inference request but contain information about where you can locate it.
+Amazon SageMaker strips all POST headers except those supported by the API. Amazon
+SageMaker might add additional headers. You should not rely on the behavior of headers
+outside those enumerated in the request syntax. Calls to InvokeEndpointAsync are
 authenticated by using Amazon Web Services Signature Version 4. For information, see
 Authenticating Requests (Amazon Web Services Signature Version 4) in the Amazon S3 API
 Reference.
@@ -130,6 +130,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SDKs but not in the Amazon SageMaker Python SDK.
 - `"X-Amzn-SageMaker-Inference-Id"`: The identifier for the inference request. Amazon
   SageMaker will generate an identifier for you if none is specified.
+- `"X-Amzn-SageMaker-InvocationTimeoutSeconds"`: Maximum amount of time in seconds a
+  request can be processed before it is marked as expired.
 - `"X-Amzn-SageMaker-RequestTTLSeconds"`: Maximum age in seconds a request can be in the
   queue before it is marked as expired.
 """

@@ -16,7 +16,7 @@ exposed as the access point's root directory. Applications using the access poin
 access data in the application's own directory and any subdirectories. To learn more, see
 Mounting a file system using EFS access points.  If multiple requests to create access
 points on the same file system are sent in quick succession, and the file system is near
-the limit of 120 access points, you may experience a throttling response for these
+the limit of 1000 access points, you may experience a throttling response for these
 requests. This is to ensure that the file system does not exceed the stated access point
 limit.  This operation requires permissions for the elasticfilesystem:CreateAccessPoint
 action.
@@ -329,12 +329,12 @@ cannot change the KMS key.      The following properties are set by default:    
 mode - The destination file system's performance mode matches that of the source file
 system, unless the destination file system uses EFS One Zone storage. In that case, the
 General Purpose performance mode is used. The performance mode cannot be changed.
-Throughput mode - The destination file system uses the Bursting Throughput mode by default.
-After the file system is created, you can modify the throughput mode.   The following
-properties are turned off by default:    Lifecycle management - EFS lifecycle management
-and EFS Intelligent-Tiering are not enabled on the destination file system. After the
-destination file system is created, you can enable EFS lifecycle management and EFS
-Intelligent-Tiering.    Automatic backups - Automatic daily backups not enabled on the
+Throughput mode - The destination file system's throughput mode matches that of the source
+file system. After the file system is created, you can modify the throughput mode.   The
+following properties are turned off by default:    Lifecycle management - EFS lifecycle
+management and EFS Intelligent-Tiering are not enabled on the destination file system.
+After the destination file system is created, you can enable EFS lifecycle management and
+EFS Intelligent-Tiering.    Automatic backups - Automatic daily backups not enabled on the
 destination file system. After the file system is created, you can change this setting.
 For more information, see Amazon EFS replication in the Amazon EFS User Guide.
 
@@ -818,17 +818,16 @@ CreationToken or the FileSystemId is provided. Otherwise, it returns description
 file systems owned by the caller's Amazon Web Services account in the Amazon Web Services
 Region of the endpoint that you're calling. When retrieving all file system descriptions,
 you can optionally specify the MaxItems parameter to limit the number of descriptions in a
-response. Currently, this number is automatically set to 10. If more file system
-descriptions remain, Amazon EFS returns a NextMarker, an opaque token, in the response. In
-this case, you should send a subsequent request with the Marker request parameter set to
-the value of NextMarker.  To retrieve a list of your file system descriptions, this
-operation is used in an iterative process, where DescribeFileSystems is called first
-without the Marker and then the operation continues to call it with the Marker parameter
-set to the value of the NextMarker from the previous response until the response has no
-NextMarker.   The order of file systems returned in the response of one DescribeFileSystems
-call and the order of file systems returned across the responses of a multi-call iteration
-is unspecified.   This operation requires permissions for the
-elasticfilesystem:DescribeFileSystems action.
+response. This number is automatically set to 100. If more file system descriptions remain,
+Amazon EFS returns a NextMarker, an opaque token, in the response. In this case, you should
+send a subsequent request with the Marker request parameter set to the value of NextMarker.
+ To retrieve a list of your file system descriptions, this operation is used in an
+iterative process, where DescribeFileSystems is called first without the Marker and then
+the operation continues to call it with the Marker parameter set to the value of the
+NextMarker from the previous response until the response has no NextMarker.   The order of
+file systems returned in the response of one DescribeFileSystems call and the order of file
+systems returned across the responses of a multi-call iteration is unspecified.   This
+operation requires permissions for the elasticfilesystem:DescribeFileSystems action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

@@ -285,9 +285,11 @@ Creates an workgroup in Amazon Redshift Serverless.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"baseCapacity"`: The base data warehouse capacity of the workgroup in Redshift
   Processing Units (RPUs).
-- `"configParameters"`: An array of parameters to set for more control over a serverless
-  database. The options are datestyle, enable_user_activity_logging, query_group,
-  search_path, and max_query_execution_time.
+- `"configParameters"`: An array of parameters to set for advanced control over a database.
+  The options are auto_mv, datestyle, enable_case_sensitivity_identifier,
+  enable_user_activity_logging, query_group, search_path, and query monitoring metrics that
+  let you define performance boundaries. For more information about query monitoring rules
+  and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC instead of over the internet.
@@ -1269,7 +1271,8 @@ end
     restore_table_from_snapshot(namespace_name, new_table_name, snapshot_name, source_database_name, source_table_name, workgroup_name)
     restore_table_from_snapshot(namespace_name, new_table_name, snapshot_name, source_database_name, source_table_name, workgroup_name, params::Dict{String,<:Any})
 
-Restores a table from a snapshot to your Amazon Redshift Serverless instance.
+Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use
+this operation to restore tables with interleaved sort keys.
 
 # Arguments
 - `namespace_name`: The namespace of the snapshot to restore from.
@@ -1467,20 +1470,25 @@ end
     update_namespace(namespace_name)
     update_namespace(namespace_name, params::Dict{String,<:Any})
 
-Updates a namespace with the specified settings.
+Updates a namespace with the specified settings. Unless required, you can't update multiple
+parameters in one request. For example, you must specify both adminUsername and
+adminUserPassword to update either field, but you can't update both kmsKeyId and logExports
+in a single request.
 
 # Arguments
-- `namespace_name`: The name of the namespace.
+- `namespace_name`: The name of the namespace to update. You can't update the name of a
+  namespace once it is created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"adminUserPassword"`: The password of the administrator for the first database created
-  in the namespace.
+  in the namespace. This parameter must be updated together with adminUsername.
 - `"adminUsername"`: The username of the administrator for the first database created in
-  the namespace.
+  the namespace. This parameter must be updated together with adminUserPassword.
 - `"defaultIamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to set as a default
-  in the namespace.
-- `"iamRoles"`: A list of IAM roles to associate with the namespace.
+  in the namespace. This parameter must be updated together with iamRoles.
+- `"iamRoles"`: A list of IAM roles to associate with the namespace. This parameter must be
+  updated together with defaultIamRoleArn.
 - `"kmsKeyId"`: The ID of the Amazon Web Services Key Management Service key used to
   encrypt your data.
 - `"logExports"`: The types of logs the namespace can export. The export types are userlog,
@@ -1590,18 +1598,23 @@ end
     update_workgroup(workgroup_name)
     update_workgroup(workgroup_name, params::Dict{String,<:Any})
 
-Updates a workgroup with the specified configuration settings.
+Updates a workgroup with the specified configuration settings. You can't update multiple
+parameters in one request. For example, you can update baseCapacity or port in a single
+request, but you can't update both in the same request.
 
 # Arguments
-- `workgroup_name`: The name of the workgroup to update.
+- `workgroup_name`: The name of the workgroup to update. You can't update the name of a
+  workgroup once it is created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"baseCapacity"`: The new base data warehouse capacity in Redshift Processing Units
   (RPUs).
 - `"configParameters"`: An array of parameters to set for advanced control over a database.
-  The options are datestyle, enable_user_activity_logging, query_group, search_path, and
-  max_query_execution_time.
+  The options are auto_mv, datestyle, enable_case_sensitivity_identifier,
+  enable_user_activity_logging, query_group, search_path, and query monitoring metrics that
+  let you define performance boundaries. For more information about query monitoring rules
+  and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC.

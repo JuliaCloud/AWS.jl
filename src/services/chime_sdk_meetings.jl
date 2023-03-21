@@ -120,7 +120,9 @@ the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Develop
 
 # Arguments
 - `external_user_id`: The Amazon Chime SDK external user ID. An idempotency token. Links
-  the attendee to an identity managed by a builder application.
+  the attendee to an identity managed by a builder application. Pattern:
+  [-_&amp;@+=,(){}[]/«».:|'\"#a-zA-Z0-9À-ÿs]*  Values that begin with aws: are reserved.
+  You can't configure a value that uses this prefix.
 - `meeting_id`: The unique ID of the meeting.
 
 # Optional Parameters
@@ -181,7 +183,9 @@ SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
 # Arguments
 - `client_request_token`: The unique identifier for the client request. Use a different
   token for different meetings.
-- `external_meeting_id`: The external meeting ID.
+- `external_meeting_id`: The external meeting ID. Pattern:
+  [-_&amp;@+=,(){}[]/«».:|'\"#a-zA-Z0-9À-ÿs]*  Values that begin with aws: are reserved.
+  You can't configure a value that uses this prefix. Case insensitive.
 - `media_region`: The Region in which to create the meeting.  Available values: af-south-1,
   ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1,
   eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1,
@@ -209,7 +213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for adding tags. For more information, see the documentation for each service.    Do not
   store personally identifiable information (PII) or other confidential or sensitive
   information in tags. We use tags to provide you with billing and administration services.
-  Tags are not intended to be used for private or sensitive data.   Minimum permissions   In
+  Tags are not intended to be used for private or sensitive data.   Minimum permissions  In
   addition to the tag:TagResources permission required by this operation, you must also have
   the tagging permission defined by the service that created the resource. For example, to
   tag a ChimeSDKMeetings instance using the TagResources operation, you must have both of the
@@ -278,7 +282,9 @@ the Amazon Chime SDK in the Amazon Chime Developer Guide.
 - `attendees`: The attendee information, including attendees' IDs and join tokens.
 - `client_request_token`: The unique identifier for the client request. Use a different
   token for different meetings.
-- `external_meeting_id`: The external meeting ID.
+- `external_meeting_id`: The external meeting ID. Pattern:
+  [-_&amp;@+=,(){}[]/«».:|'\"#a-zA-Z0-9À-ÿs]*  Values that begin with aws: are reserved.
+  You can't configure a value that uses this prefix. Case insensitive.
 - `media_region`: The Region in which to create the meeting.  Available values: af-south-1,
   ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1,
   eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1,
@@ -564,7 +570,11 @@ end
     start_meeting_transcription(meeting_id, transcription_configuration)
     start_meeting_transcription(meeting_id, transcription_configuration, params::Dict{String,<:Any})
 
-Starts transcription for the specified meetingId.
+Starts transcription for the specified meetingId. For more information, refer to  Using
+Amazon Chime SDK live transcription  in the Amazon Chime SDK Developer Guide.  Amazon Chime
+SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject
+to the AWS Service Terms, including the terms specific to the AWS Machine Learning and
+Artificial Intelligence Services.
 
 # Arguments
 - `meeting_id`: The unique ID of the meeting being transcribed.
@@ -610,7 +620,11 @@ end
     stop_meeting_transcription(meeting_id)
     stop_meeting_transcription(meeting_id, params::Dict{String,<:Any})
 
-Stops transcription for the specified meetingId.
+Stops transcription for the specified meetingId. For more information, refer to  Using
+Amazon Chime SDK live transcription  in the Amazon Chime SDK Developer Guide.  Amazon Chime
+SDK live transcription is powered by Amazon Transcribe. Use of Amazon Transcribe is subject
+to the AWS Service Terms, including the terms specific to the AWS Machine Learning and
+Artificial Intelligence Services.
 
 # Arguments
 - `meeting_id`: The unique ID of the meeting for which you stop transcription.

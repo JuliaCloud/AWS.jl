@@ -49,15 +49,17 @@ end
 
 Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development Dev Environment
 that you can use to quickly work on the code stored in the source repositories of your
-project. By default, a Dev Environment is configured to have a 2 core processor, 4GB of
-RAM, and 16GB of persistent storage.
+project.   When created in the Amazon CodeCatalyst console, by default a Dev Environment is
+configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of
+these defaults apply to a Dev Environment created programmatically.
 
 # Arguments
 - `instance_type`: The Amazon EC2 instace type to use for the Dev Environment.
 - `persistent_storage`: Information about the amount of storage allocated to the Dev
-  Environment. By default, a Dev Environment is configured to have 16GB of persistent
-  storage.  Valid values for persistent storage are based on memory sizes in 16GB increments.
-  Valid values are 16, 32, and 64.
+  Environment.   By default, a Dev Environment is configured to have 16GB of persistent
+  storage when created from the Amazon CodeCatalyst console, but there is no default when
+  programmatically creating a Dev Environment. Valid values for persistent storage are based
+  on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
 - `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 
@@ -907,6 +909,48 @@ function stop_dev_environment(
     return codecatalyst(
         "PUT",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_dev_environment_session(id, project_name, session_id, space_name)
+    stop_dev_environment_session(id, project_name, session_id, space_name, params::Dict{String,<:Any})
+
+Stops a session for a specified Dev Environment.
+
+# Arguments
+- `id`: The system-generated unique ID of the Dev Environment. To obtain this ID, use
+  ListDevEnvironments.
+- `project_name`: The name of the project in the space.
+- `session_id`: The system-generated unique ID of the Dev Environment session. This ID is
+  returned by StartDevEnvironmentSession.
+- `space_name`: The name of the space.
+
+"""
+function stop_dev_environment_session(
+    id, projectName, sessionId, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codecatalyst(
+        "DELETE",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/session/$(sessionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_dev_environment_session(
+    id,
+    projectName,
+    sessionId,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "DELETE",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/session/$(sessionId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

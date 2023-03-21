@@ -282,6 +282,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An optional pagination token provided by a previous request. If this
   parameter is specified, the response includes only records beyond the token, up to the
   value specified by MaxRecords.
+- `"PeriodAlignment"`: The returned timestamp which is the start or end time of the time
+  periods. The default value is END_TIME.
 - `"PeriodInSeconds"`: The granularity, in seconds, of the data points returned from
   Performance Insights. A period can be as short as one second, or as long as one day (86400
   seconds). Valid values are:    1 (one second)    60 (one minute)    300 (five minutes)

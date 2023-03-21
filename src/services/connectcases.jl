@@ -85,8 +85,12 @@ end
     create_case(domain_id, fields, template_id, params::Dict{String,<:Any})
 
 Creates a case in the specified Cases domain. Case system and custom fields are taken as an
-array id/value pairs with a declared data types.   customer_id is a required field when
-creating a case.
+array id/value pairs with a declared data types.  The following fields are required when
+creating a case:  &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;customer_id&lt;/code&gt; -
+You must provide the full customer profile ARN in this format:
+&lt;code&gt;arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain
+name/profiles/profile ID&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;
+&lt;code&gt;title&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; &lt;/note&gt;
 
 # Arguments
 - `domain_id`: The unique identifier of the Cases domain.
@@ -146,7 +150,8 @@ end
 Creates a domain, which is a container for all case data, such as cases, fields, templates
 and layouts. Each Amazon Connect instance can be associated with only one Cases domain.
 This will not associate your connect instance to Cases domain. Instead, use the Amazon
-Connect CreateIntegrationAssociation API.
+Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully
+associate the Cases domain. For more information, see Onboard to Cases.
 
 # Arguments
 - `name`: The name for your Cases domain. It must be unique for your Amazon Web Services
@@ -357,6 +362,38 @@ function create_template(
         "POST",
         "/domains/$(domainId)/templates",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_domain(domain_id)
+    delete_domain(domain_id, params::Dict{String,<:Any})
+
+Deletes a domain.
+
+# Arguments
+- `domain_id`: The unique identifier of the Cases domain.
+
+"""
+function delete_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config())
+    return connectcases(
+        "DELETE",
+        "/domains/$(domainId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_domain(
+    domainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connectcases(
+        "DELETE",
+        "/domains/$(domainId)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -843,7 +880,9 @@ end
     search_cases(domain_id, params::Dict{String,<:Any})
 
 Searches for cases within their associated Cases domain. Search results are returned as a
-paginated list of abridged case documents.
+paginated list of abridged case documents.  For customer_id you must provide the full
+customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account
+ID:domains/profiles domain name/profiles/profile ID.
 
 # Arguments
 - `domain_id`: The unique identifier of the Cases domain.

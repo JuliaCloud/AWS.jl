@@ -44,9 +44,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you create them to identify the query.
 - `"WithEvent"`: A value that indicates whether to send an event to the Amazon EventBridge
   event bus after the SQL statements run.
-- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
-  connecting to a serverless workgroup and authenticating using either Secrets Manager or
-  temporary credentials.
+- `"WorkgroupName"`: The serverless workgroup name or Amazon Resource Name (ARN). This
+  parameter is required when connecting to a serverless workgroup and authenticating using
+  either Secrets Manager or temporary credentials.
 """
 function batch_execute_statement(
     Database, Sqls; aws_config::AbstractAWSConfig=global_aws_config()
@@ -197,9 +197,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Table"`: The table name. If no table is specified, then all tables for all matching
   schemas are returned. If no table and no schema is specified, then all tables for all
   schemas in the database are returned
-- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
-  connecting to a serverless workgroup and authenticating using either Secrets Manager or
-  temporary credentials.
+- `"WorkgroupName"`: The serverless workgroup name or Amazon Resource Name (ARN). This
+  parameter is required when connecting to a serverless workgroup and authenticating using
+  either Secrets Manager or temporary credentials.
 """
 function describe_table(Database; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
@@ -262,9 +262,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create it to identify the query.
 - `"WithEvent"`: A value that indicates whether to send an event to the Amazon EventBridge
   event bus after the SQL statement runs.
-- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
-  connecting to a serverless workgroup and authenticating using either Secrets Manager or
-  temporary credentials.
+- `"WorkgroupName"`: The serverless workgroup name or Amazon Resource Name (ARN). This
+  parameter is required when connecting to a serverless workgroup and authenticating using
+  either Secrets Manager or temporary credentials.
 """
 function execute_statement(Database, Sql; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
@@ -379,9 +379,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have been retrieved for the request.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
-- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
-  connecting to a serverless workgroup and authenticating using either Secrets Manager or
-  temporary credentials.
+- `"WorkgroupName"`: The serverless workgroup name or Amazon Resource Name (ARN). This
+  parameter is required when connecting to a serverless workgroup and authenticating using
+  either Secrets Manager or temporary credentials.
 """
 function list_databases(Database; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
@@ -448,9 +448,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character. Only schema name entries matching the search pattern are returned.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
-- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
-  connecting to a serverless workgroup and authenticating using either Secrets Manager or
-  temporary credentials.
+- `"WorkgroupName"`: The serverless workgroup name or Amazon Resource Name (ARN). This
+  parameter is required when connecting to a serverless workgroup and authenticating using
+  either Secrets Manager or temporary credentials.
 """
 function list_schemas(Database; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(
@@ -573,9 +573,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   character. Only table name entries matching the search pattern are returned. If
   TablePattern is not specified, then all tables that match SchemaPatternare returned. If
   neither SchemaPattern or TablePattern are specified, then all tables are returned.
-- `"WorkgroupName"`: The serverless workgroup name. This parameter is required when
-  connecting to a serverless workgroup and authenticating using either Secrets Manager or
-  temporary credentials.
+- `"WorkgroupName"`: The serverless workgroup name or Amazon Resource Name (ARN). This
+  parameter is required when connecting to a serverless workgroup and authenticating using
+  either Secrets Manager or temporary credentials.
 """
 function list_tables(Database; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_data(

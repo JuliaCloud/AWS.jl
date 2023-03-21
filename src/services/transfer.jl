@@ -122,7 +122,7 @@ the AS2 process is identified with the LocalProfileId.
   need to provide read and write access to the parent directory of the files that you intend
   to send with StartFileTransfer.
 - `base_directory`: The landing directory (folder) for files transferred by using the AS2
-  protocol. A BaseDirectory example is DOC-EXAMPLE-BUCKET/home/mydirectory.
+  protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory.
 - `local_profile_id`: A unique identifier for the AS2 local profile.
 - `partner_profile_id`: A unique identifier for the partner profile used in the agreement.
 - `server_id`: A system-assigned unique identifier for a server instance. This is the
@@ -357,7 +357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   these commands, you can replace my-new-server-key with a string of your choice.  If you
   aren't planning to migrate existing users from an existing SFTP-enabled server to a new
   server, don't update the host key. Accidentally changing a server's host key can be
-  disruptive.  For more information, see Update host keys for your SFTP-enabled server in the
+  disruptive.  For more information, see Manage host keys for your SFTP-enabled server in the
   Transfer Family User Guide.
 - `"IdentityProviderDetails"`: Required when IdentityProviderType is set to
   AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information
@@ -409,17 +409,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transporting structured business-to-business data      If you select FTPS, you must choose
   a certificate stored in Certificate Manager (ACM) which is used to identify your server
   when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the
-  EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or
-  API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.
-  If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the
-  IdentityProviderType can be set to SERVICE_MANAGED.   If Protocol includes AS2, then the
+  EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE,
+  AWS_LAMBDA, or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be
+  associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and
+  the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED,
+  AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the
   EndpointType must be VPC, and domain must be Amazon S3.
 - `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
   server.
 - `"Tags"`: Key-value pairs that can be used to group and search for servers.
 - `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
-  execution role that's used for executing the workflow. In additon to a workflow to execute
-  when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and
+  execution role that's used for executing the workflow. In addition to a workflow to execute
+  when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and
   execution role) for a workflow to execute on partial upload. A partial upload occurs when a
   file is open when the session disconnects.
 """
@@ -496,7 +497,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in Amazon EFS determine the level of access your users get when transferring files into and
   out of your Amazon EFS file systems.
 - `"SshPublicKeyBody"`: The public portion of the Secure Shell (SSH) key used to
-  authenticate the user to the server. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
+  authenticate the user to the server. The three standard SSH public key format elements are
+  &lt;key type&gt;, &lt;body base64&gt;, and an optional &lt;comment&gt;, with spaces between
+  each element. Transfer Family accepts RSA, ECDSA, and ED25519 keys.   For RSA keys, the key
+  type is ssh-rsa.   For ED25519 keys, the key type is ssh-ed25519.   For ECDSA keys, the key
+  type is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending
+  on the size of the key you generated.
 - `"Tags"`: Key-value pairs that can be used to group and search for users. Tags are
   metadata attached to users for any purpose.
 """
@@ -544,11 +550,12 @@ and UpdateServer operations.
 
 # Arguments
 - `steps`: Specifies the details for the steps that are in the specified workflow.  The
-  TYPE specifies which of the following actions is being taken for this step.     COPY: Copy
-  the file to another location.    CUSTOM: Perform a custom step with an Lambda function
-  target.    DELETE: Delete the file.    TAG: Add a tag to the file.     Currently, copying
-  and tagging are supported only on S3.    For file location, you specify either the S3
-  bucket and key, or the EFS file system ID and path.
+  TYPE specifies which of the following actions is being taken for this step.      COPY  -
+  Copy the file to another location.     CUSTOM  - Perform a custom step with an Lambda
+  function target.     DECRYPT  - Decrypt a file that was encrypted before it was uploaded.
+    DELETE  - Delete the file.     TAG  - Add a tag to the file.     Currently, copying and
+  tagging are supported only on S3.    For file location, you specify either the Amazon S3
+  bucket and key, or the Amazon EFS file system ID and path.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1415,7 +1422,10 @@ Imports the signing and encryption certificates that you need to create local (A
 profiles and partner profiles.
 
 # Arguments
-- `certificate`: The file that contains the certificate to import.
+- `certificate`:   For the CLI, provide a file path for a certificate in URI format. For
+  example, --certificate file://encryption-cert.pem. Alternatively, you can provide the raw
+  content.   For the SDK, specify the raw content of a certificate file. For example,
+  --certificate \"`cat encryption-cert.pem`\".
 - `usage`: Specifies whether this certificate is used for signing or encryption.
 
 # Optional Parameters
@@ -1425,8 +1435,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   certificate that's being imported.
 - `"Description"`: A short description that helps identify the certificate.
 - `"InactiveDate"`: An optional date that specifies when the certificate becomes inactive.
-- `"PrivateKey"`: The file that contains the private key for the certificate that's being
-  imported.
+- `"PrivateKey"`:   For the CLI, provide a file path for a private key in URI format.For
+  example, --private-key file://encryption-key.pem. Alternatively, you can provide the raw
+  content of the private key file.   For the SDK, specify the raw content of a private key
+  file. For example, --private-key \"`cat encryption-key.pem`\"
 - `"Tags"`: Key-value pairs that can be used to group and search for certificates.
 """
 function import_certificate(
@@ -1466,7 +1478,7 @@ end
 Adds a host key to the server that's specified by the ServerId parameter.
 
 # Arguments
-- `host_key_body`: The public key portion of an SSH key pair. Transfer Family accepts RSA,
+- `host_key_body`: The private key portion of an SSH key pair. Transfer Family accepts RSA,
   ECDSA, and ED25519 keys.
 - `server_id`: The identifier of the server that contains the host key that you are
   importing.
@@ -2692,7 +2704,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   these commands, you can replace my-new-server-key with a string of your choice.  If you
   aren't planning to migrate existing users from an existing SFTP-enabled server to a new
   server, don't update the host key. Accidentally changing a server's host key can be
-  disruptive.  For more information, see Update host keys for your SFTP-enabled server in the
+  disruptive.  For more information, see Manage host keys for your SFTP-enabled server in the
   Transfer Family User Guide.
 - `"IdentityProviderDetails"`: An array containing all of the information required to call
   a customer's authentication API method.
@@ -2729,16 +2741,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transporting structured business-to-business data      If you select FTPS, you must choose
   a certificate stored in Certificate Manager (ACM) which is used to identify your server
   when clients connect to it over FTPS.   If Protocol includes either FTP or FTPS, then the
-  EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or
-  API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be associated.
-  If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the
-  IdentityProviderType can be set to SERVICE_MANAGED.   If Protocol includes AS2, then the
+  EndpointType must be VPC and the IdentityProviderType must be either AWS_DIRECTORY_SERVICE,
+  AWS_LAMBDA, or API_GATEWAY.   If Protocol includes FTP, then AddressAllocationIds cannot be
+  associated.   If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and
+  the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED,
+  AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the
   EndpointType must be VPC, and domain must be Amazon S3.
 - `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
   server.
 - `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
-  execution role that's used for executing the workflow. In additon to a workflow to execute
-  when a file is uploaded completely, WorkflowDeatails can also contain a workflow ID (and
+  execution role that's used for executing the workflow. In addition to a workflow to execute
+  when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and
   execution role) for a workflow to execute on partial upload. A partial upload occurs when a
   file is open when the session disconnects. To remove an associated workflow from a server,
   you can provide an empty OnUpload object, as in the following example.  aws transfer

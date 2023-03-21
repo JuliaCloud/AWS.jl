@@ -100,3 +100,10 @@ end
         @test all(<=(max_backoff), itr)
     end
 end
+
+@testset "_clean_s3_uri" begin
+    @test AWS._clean_s3_uri("/ !'()*+,:=@") == "/%20%21%27%28%29%2A%2B%2C%3A%3D%40"
+    @test AWS._clean_s3_uri("/bucket/!'()*+,:=@ /file") ==
+        "/bucket/%21%27%28%29%2A%2B%2C%3A%3D%40%20/file"
+    @test AWS._clean_s3_uri("/📁/📁") == "/%F0%9F%93%81/%F0%9F%93%81"
+end

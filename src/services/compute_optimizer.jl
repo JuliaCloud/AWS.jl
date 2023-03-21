@@ -351,7 +351,7 @@ service export job in progress per Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`:  The Amazon Web Services account IDs for the export ECS service
+- `"accountIds"`:  The Amazon Web Services account IDs for the export Amazon ECS service
   recommendations.  If your account is the management account or the delegated administrator
   of an organization, use this parameter to specify the member account you want to export
   recommendations to. This parameter can't be specified together with the include member
@@ -364,7 +364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"fileFormat"`:  The format of the export file.  The CSV file is the only export file
   format currently supported.
 - `"filters"`:  An array of objects to specify a filter that exports a more specific set of
-  ECS service recommendations.
+  Amazon ECS service recommendations.
 - `"includeMemberAccounts"`: If your account is the management account or the delegated
   administrator of an organization, this parameter indicates whether to include
   recommendations for resources in all member accounts of the organization. The member
@@ -691,8 +691,8 @@ end
 # Arguments
 - `end_time`:  The timestamp of the last projected metrics data point to return.
 - `period`:  The granularity, in seconds, of the projected metrics data points.
-- `service_arn`:  The ARN that identifies the ECS service.   The following is the format of
-  the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+- `service_arn`:  The ARN that identifies the Amazon ECS service.   The following is the
+  format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
 - `start_time`:  The timestamp of the first projected metrics data point to return.
 - `stat`:  The statistic of the projected metrics.
 
@@ -758,19 +758,20 @@ Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountIds"`:  Return the ECS service recommendations to the specified Amazon Web
-  Services account IDs.  If your account is the management account or the delegated
-  administrator of an organization, use this parameter to return the ECS service
+- `"accountIds"`:  Return the Amazon ECS service recommendations to the specified Amazon
+  Web Services account IDs.  If your account is the management account or the delegated
+  administrator of an organization, use this parameter to return the Amazon ECS service
   recommendations to specific member accounts. You can only specify one account ID per
   request.
 - `"filters"`:  An array of objects to specify a filter that returns a more specific list
-  of ECS service recommendations.
-- `"maxResults"`:  The maximum number of ECS service recommendations to return with a
-  single request.  To retrieve the remaining results, make another request with the returned
-  nextToken value.
-- `"nextToken"`:  The token to advance to the next page of ECS service recommendations.
-- `"serviceArns"`:  The ARN that identifies the ECS service.   The following is the format
-  of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
+  of Amazon ECS service recommendations.
+- `"maxResults"`:  The maximum number of Amazon ECS service recommendations to return with
+  a single request.  To retrieve the remaining results, make another request with the
+  returned nextToken value.
+- `"nextToken"`:  The token to advance to the next page of Amazon ECS service
+  recommendations.
+- `"serviceArns"`:  The ARN that identifies the Amazon ECS service.   The following is the
+  format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
 """
 function get_ecsservice_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
     return compute_optimizer(

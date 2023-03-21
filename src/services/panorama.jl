@@ -68,11 +68,10 @@ end
     create_job_for_devices(device_ids, job_type)
     create_job_for_devices(device_ids, job_type, params::Dict{String,<:Any})
 
-Creates a job to run on one or more devices. A job can update a device's software or reboot
-it.
+Creates a job to run on a device. A job can update a device's software or reboot it.
 
 # Arguments
-- `device_ids`: IDs of target devices.
+- `device_ids`: ID of target device.
 - `job_type`: The type of job to run.
 
 # Optional Parameters

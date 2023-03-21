@@ -410,11 +410,11 @@ end
     cancel_export_task(export_task_identifier)
     cancel_export_task(export_task_identifier, params::Dict{String,<:Any})
 
-Cancels an export task in progress that is exporting a snapshot to Amazon S3. Any data that
-has already been written to the S3 bucket isn't removed.
+Cancels an export task in progress that is exporting a snapshot or cluster to Amazon S3.
+Any data that has already been written to the S3 bucket isn't removed.
 
 # Arguments
-- `export_task_identifier`: The identifier of the snapshot export task to cancel.
+- `export_task_identifier`: The identifier of the snapshot or cluster export task to cancel.
 
 """
 function cancel_export_task(
@@ -540,8 +540,7 @@ cluster snapshot is in \"copying\" status. For more information on copying encry
 Aurora DB cluster snapshots from one Amazon Web Services Region to another, see  Copying a
 Snapshot in the Amazon Aurora User Guide. For more information on Amazon Aurora DB
 clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more information
-on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances
-in the Amazon RDS User Guide.
+on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
 
 # Arguments
 - `source_dbcluster_snapshot_identifier`: The identifier of the DB cluster snapshot to
@@ -1062,9 +1061,11 @@ end
 Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster. You can use the
 ReplicationSourceIdentifier parameter to create an Amazon Aurora DB cluster as a read
 replica of another DB cluster or Amazon RDS MySQL or PostgreSQL DB instance. For more
-information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.
-For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable
-standby DB instances in the Amazon RDS User Guide.
+information about Amazon Aurora, see What is Amazon Aurora? in the Amazon Aurora User
+Guide. You can also use the ReplicationSourceIdentifier parameter to create a Multi-AZ DB
+cluster read replica with an RDS for PostgreSQL DB instance as the source. For more
+information about Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the Amazon
+RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier. This parameter is stored as a
@@ -1337,7 +1338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Multi-AZ DB clusters only
 - `"ReplicationSourceIdentifier"`: The Amazon Resource Name (ARN) of the source DB instance
   or DB cluster if this DB cluster is created as a read replica. Valid for: Aurora DB
-  clusters only
+  clusters and RDS for PostgreSQL Multi-AZ DB clusters
 - `"ScalingConfiguration"`: For DB clusters in serverless DB engine mode, the scaling
   properties of the DB cluster. Valid for: Aurora DB clusters only
 - `"ServerlessV2ScalingConfiguration"`:
@@ -1473,8 +1474,8 @@ for the default database defined by the character_set_database parameter. You ca
 Parameter Groups option of the Amazon RDS console or the DescribeDBClusterParameters
 operation to verify that your DB cluster parameter group has been created or modified.  For
 more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User
-Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two
-readable standby DB instances in the Amazon RDS User Guide.
+Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments
+in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the DB cluster parameter group.
@@ -1549,8 +1550,7 @@ end
 
 Creates a snapshot of a DB cluster. For more information on Amazon Aurora, see  What is
 Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB
-clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon
-RDS User Guide.
+clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The identifier of the DB cluster to create a snapshot for. This
@@ -2049,6 +2049,10 @@ source DB instance must have backup retention enabled.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllocatedStorage"`: The amount of storage (in gibibytes) to allocate initially for the
+  read replica. Follow the allocation rules specified in CreateDBInstance.  Be sure to
+  allocate enough storage for your read replica so that the create operation can succeed. You
+  can also allocate additional storage for future growth.
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor engine upgrades are
   applied automatically to the read replica during the maintenance window. This setting
   doesn't apply to RDS Custom. Default: Inherits from the source DB instance
@@ -2932,7 +2936,8 @@ Blue/Green Deployments for database updates in the Amazon Aurora User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeleteTarget"`: A value that indicates whether to delete the resources in the green
-  environment.
+  environment. You can't specify this option if the blue/green deployment status is
+  SWITCHOVER_COMPLETED.
 """
 function delete_blue_green_deployment(
     BlueGreenDeploymentIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2978,7 +2983,7 @@ Amazon S3 to create CEVs isn't integrated with Amazon Web Services CloudTrail. I
 on data logging for Amazon RDS in CloudTrail, calls to the DeleteCustomDbEngineVersion
 event aren't logged. However, you might see calls from the API gateway that accesses your
 Amazon S3 bucket. These calls originate from the MediaImport service for the
-DeleteCustomDbEngineVersion event.  For more information, see  Deleting a CEV in the Amazon
+DeleteCustomDbEngineVersion event.  For more information, see Deleting a CEV in the Amazon
 RDS User Guide.
 
 # Arguments
@@ -3026,8 +3031,8 @@ The DeleteDBCluster action deletes a previously provisioned DB cluster. When you
 DB cluster, all automated backups for that DB cluster are deleted and can't be recovered.
 Manual DB cluster snapshots of the specified DB cluster are not deleted. For more
 information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.
-For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable
-standby DB instances in the Amazon RDS User Guide.
+For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the
+Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier for the DB cluster to be deleted. This
@@ -3126,8 +3131,7 @@ end
 Deletes a specified DB cluster parameter group. The DB cluster parameter group to be
 deleted can't be associated with any DB clusters. For more information on Amazon Aurora,
 see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on
-Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in
-the Amazon RDS User Guide.
+Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the DB cluster parameter group.
@@ -3173,8 +3177,8 @@ end
 Deletes a DB cluster snapshot. If the snapshot is being copied, the copy operation is
 terminated.  The DB cluster snapshot must be in the available state to be deleted.  For
 more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User
-Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two
-readable standby DB instances in the Amazon RDS User Guide.
+Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments
+in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_snapshot_identifier`: The identifier of the DB cluster snapshot to delete.
@@ -3960,7 +3964,7 @@ Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterG
 parameter is specified, the list will contain only the description of the specified DB
 cluster parameter group. For more information on Amazon Aurora, see  What is Amazon Aurora?
 in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see
-Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
+Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4002,8 +4006,8 @@ end
 
 Returns the detailed parameter list for a particular DB cluster parameter group. For more
 information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.
-For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable
-standby DB instances in the Amazon RDS User Guide.
+For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the
+Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of a specific DB cluster parameter group to
@@ -4110,8 +4114,8 @@ end
 
 Returns information about DB cluster snapshots. This API action supports pagination. For
 more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in the Amazon
-Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments
-with two readable standby DB instances in the Amazon RDS User Guide.
+Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB cluster
+deployments in the Amazon RDS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4182,9 +4186,8 @@ end
 Returns information about Amazon Aurora DB clusters and Multi-AZ DB clusters. This API
 supports pagination. For more information on Amazon Aurora DB clusters, see  What is Amazon
 Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see
-Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
-This operation can also return information for Amazon Neptune DB instances and Amazon
-DocumentDB instances.
+Multi-AZ DB cluster deployments in the Amazon RDS User Guide. This operation can also
+return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5138,20 +5141,21 @@ end
     describe_export_tasks()
     describe_export_tasks(params::Dict{String,<:Any})
 
-Returns information about a snapshot export to Amazon S3. This API operation supports
-pagination.
+Returns information about a snapshot or cluster export to Amazon S3. This API operation
+supports pagination.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExportTaskIdentifier"`: The identifier of the snapshot export task to be described.
-- `"Filters"`: Filters specify one or more snapshot exports to describe. The filters are
-  specified as name-value pairs that define what to include in the output. Filter names and
-  values are case-sensitive. Supported filters include the following:
-  export-task-identifier - An identifier for the snapshot export task.    s3-bucket - The
-  Amazon S3 bucket the snapshot is exported to.    source-arn - The Amazon Resource Name
-  (ARN) of the snapshot exported to Amazon S3    status - The status of the export task. Must
-  be lowercase. Valid statuses are the following:    canceled     canceling     complete
-  failed     in_progress     starting
+- `"ExportTaskIdentifier"`: The identifier of the snapshot or cluster export task to be
+  described.
+- `"Filters"`: Filters specify one or more snapshot or cluster exports to describe. The
+  filters are specified as name-value pairs that define what to include in the output. Filter
+  names and values are case-sensitive. Supported filters include the following:
+  export-task-identifier - An identifier for the snapshot or cluster export task.
+  s3-bucket - The Amazon S3 bucket the data is exported to.    source-arn - The Amazon
+  Resource Name (ARN) of the snapshot or cluster exported to Amazon S3.    status - The
+  status of the export task. Must be lowercase. Valid statuses are the following:    canceled
+      canceling     complete     failed     in_progress     starting
 - `"Marker"`: An optional pagination token provided by a previous DescribeExportTasks
   request. If you specify this parameter, the response includes only records beyond the
   marker, up to the value specified by the MaxRecords parameter.
@@ -5159,7 +5163,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exist than the specified value, a pagination token called a marker is included in the
   response. You can use the marker in a later DescribeExportTasks request to retrieve the
   remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
-- `"SourceArn"`: The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3.
+- `"SourceArn"`: The Amazon Resource Name (ARN) of the snapshot or cluster exported to
+  Amazon S3.
 - `"SourceType"`: The type of source for the export.
 """
 function describe_export_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -5686,8 +5691,8 @@ testing, you can force a failover. Because each instance in a DB cluster has its
 endpoint address, make sure to clean up and re-establish any existing connections that use
 those endpoint addresses when the failover is complete. For more information on Amazon
 Aurora DB clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more
-information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB
-instances in the Amazon RDS User Guide.
+information on Multi-AZ DB clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS
+User Guide.
 
 # Arguments
 - `dbcluster_identifier`: A DB cluster identifier to force a failover for. This parameter
@@ -5845,15 +5850,15 @@ unlocked. A locked policy is read-only, whereas an unlocked policy is read/write
 activity stream is started and locked, you can unlock it, customize your audit policy, and
 then lock your activity stream. Restarting the activity stream isn't required. For more
 information, see  Modifying a database activity stream in the Amazon RDS User Guide.  This
-operation is supported for RDS for Oracle only.
+operation is supported for RDS for Oracle and Microsoft SQL Server.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AuditPolicyState"`: The audit policy state. When a policy is unlocked, it is
   read/write. When it is locked, it is read-only. You can edit your audit policy only when
   the activity stream is unlocked or stopped.
-- `"ResourceArn"`: The Amazon Resource Name (ARN) of the RDS for Oracle DB instance, for
-  example, arn:aws:rds:us-east-1:12345667890:instance:my-orcl-db.
+- `"ResourceArn"`: The Amazon Resource Name (ARN) of the RDS for Oracle or Microsoft SQL
+  Server DB instance. For example, arn:aws:rds:us-east-1:12345667890:instance:my-orcl-db.
 """
 function modify_activity_stream(; aws_config::AbstractAWSConfig=global_aws_config())
     return rds(
@@ -6046,7 +6051,7 @@ Modify the settings for an Amazon Aurora DB cluster or a Multi-AZ DB cluster. Yo
 change one or more settings by specifying these parameters and the new values in the
 request. For more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in
 the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ
-deployments with two readable standby DB instances in the Amazon RDS User Guide.
+DB cluster deployments in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier for the cluster being modified. This
@@ -6367,8 +6372,7 @@ update immediately. The cluster restart might interrupt your workload. In that c
 application must reopen any connections and retry any transactions that were active when
 the parameter changes took effect.  For more information on Amazon Aurora DB clusters, see
 What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB
-clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon
-RDS User Guide.
+clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the DB cluster parameter group to modify.
@@ -7643,7 +7647,7 @@ with the DB cluster, reboot the DB cluster for the changes to take effect. Reboo
 cluster restarts the database engine service. Rebooting a DB cluster results in a momentary
 outage, during which the DB cluster status is set to rebooting. Use this operation only for
 a non-Aurora Multi-AZ DB cluster. For more information on Multi-AZ DB clusters, see
-Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
+Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The DB cluster identifier. This parameter is stored as a
@@ -7811,8 +7815,7 @@ end
 Removes the asssociation of an Amazon Web Services Identity and Access Management (IAM)
 role from a DB cluster. For more information on Amazon Aurora DB clusters, see  What is
 Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB
-clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon
-RDS User Guide.
+clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The name of the DB cluster to disassociate the IAM role from.
@@ -8019,8 +8022,8 @@ updated immediately and static parameters are set to pending-reboot to take effe
 next DB instance restart or RebootDBInstance request. You must call RebootDBInstance for
 every DB instance in your DB cluster that you want the updated static parameter to apply
 to. For more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in the
-Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ
-deployments with two readable standby DB instances in the Amazon RDS User Guide.
+Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ DB
+cluster deployments in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_parameter_group_name`: The name of the DB cluster parameter group to reset.
@@ -8342,8 +8345,7 @@ specifying the identifier of the restored DB cluster in DBClusterIdentifier. You
 DB instances only after the RestoreDBClusterFromSnapshot action has completed and the DB
 cluster is available.  For more information on Amazon Aurora DB clusters, see  What is
 Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB
-clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon
-RDS User Guide.
+clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The name of the DB cluster to create from the DB snapshot or DB
@@ -8543,8 +8545,7 @@ specifying the identifier of the restored DB cluster in DBClusterIdentifier. You
 DB instances only after the RestoreDBClusterToPointInTime action has completed and the DB
 cluster is available.  For more information on Amazon Aurora DB clusters, see  What is
 Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB
-clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon
-RDS User Guide.
+clusters, see  Multi-AZ DB cluster deployments in the Amazon RDS User Guide.
 
 # Arguments
 - `dbcluster_identifier`: The name of the new DB cluster to be created. Constraints:   Must
@@ -8744,6 +8745,10 @@ Aurora PostgreSQL. For Aurora, use RestoreDBClusterFromSnapshot.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllocatedStorage"`: The amount of storage (in gibibytes) to allocate initially for the
+  DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to
+  allocate enough storage for your new DB instance so that the restore operation can succeed.
+  You can also allocate additional storage for future growth.
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor version upgrades are
   applied automatically to the DB instance during the maintenance window. If you restore an
   RDS Custom DB instance, you must disable this parameter.
@@ -8769,14 +8774,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required for the IAM role, see  Configure IAM and your VPC in the Amazon RDS User Guide.
   This setting is required for RDS Custom.
 - `"DBClusterSnapshotIdentifier"`: The identifier for the RDS for MySQL Multi-AZ DB cluster
-  snapshot to restore from. For more information on Multi-AZ DB clusters, see  Multi-AZ
-  deployments with two readable standby DB instances in the Amazon RDS User Guide.
-  Constraints:   Must match the identifier of an existing Multi-AZ DB cluster snapshot.
-  Can't be specified when DBSnapshotIdentifier is specified.   Must be specified when
-  DBSnapshotIdentifier isn't specified.   If you are restoring from a shared manual Multi-AZ
-  DB cluster snapshot, the DBClusterSnapshotIdentifier must be the ARN of the shared
-  snapshot.   Can't be the identifier of an Aurora DB cluster snapshot.   Can't be the
-  identifier of an RDS for PostgreSQL Multi-AZ DB cluster snapshot.
+  snapshot to restore from. For more information on Multi-AZ DB clusters, see  Multi-AZ DB
+  cluster deployments in the Amazon RDS User Guide. Constraints:   Must match the identifier
+  of an existing Multi-AZ DB cluster snapshot.   Can't be specified when DBSnapshotIdentifier
+  is specified.   Must be specified when DBSnapshotIdentifier isn't specified.   If you are
+  restoring from a shared manual Multi-AZ DB cluster snapshot, the
+  DBClusterSnapshotIdentifier must be the ARN of the shared snapshot.   Can't be the
+  identifier of an Aurora DB cluster snapshot.   Can't be the identifier of an RDS for
+  PostgreSQL Multi-AZ DB cluster snapshot.
 - `"DBInstanceClass"`: The compute and memory capacity of the Amazon RDS DB instance, for
   example db.m4.large. Not all DB instance classes are available in all Amazon Web Services
   Regions, or for all database engines. For the full list of DB instance classes, and
@@ -8946,10 +8951,10 @@ MySQL DB Instance in the Amazon RDS User Guide.  This command doesn't apply to R
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllocatedStorage"`: The amount of storage (in gigabytes) to allocate initially for the
+- `"AllocatedStorage"`: The amount of storage (in gibibytes) to allocate initially for the
   DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to
-  allocate enough memory for your new DB instance so that the restore operation can succeed.
-  You can also allocate additional memory for future growth.
+  allocate enough storage for your new DB instance so that the restore operation can succeed.
+  You can also allocate additional storage for future growth.
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor engine upgrades are
   applied automatically to the DB instance during the maintenance window. By default, minor
   engine upgrades are not applied automatically.
@@ -9183,6 +9188,10 @@ PostgreSQL. For Aurora, use RestoreDBClusterToPointInTime.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllocatedStorage"`: The amount of storage (in gibibytes) to allocate initially for the
+  DB instance. Follow the allocation rules specified in CreateDBInstance.  Be sure to
+  allocate enough storage for your new DB instance so that the restore operation can succeed.
+  You can also allocate additional storage for future growth.
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor version upgrades are
   applied automatically to the DB instance during the maintenance window. This setting
   doesn't apply to RDS Custom.
@@ -9416,7 +9425,9 @@ end
     start_activity_stream(kms_key_id, mode, resource_arn, params::Dict{String,<:Any})
 
 Starts a database activity stream to monitor activity on the database. For more
-information, see Database Activity Streams in the Amazon Aurora User Guide.
+information, see  Monitoring Amazon Aurora with Database Activity Streams in the Amazon
+Aurora User Guide or  Monitoring Amazon RDS with Database Activity Streams in the Amazon
+RDS User Guide.
 
 # Arguments
 - `kms_key_id`: The Amazon Web Services KMS key identifier for encrypting messages in the
@@ -9433,8 +9444,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ApplyImmediately"`: Specifies whether or not the database activity stream is to start
   as soon as possible, regardless of the maintenance window for the database.
 - `"EngineNativeAuditFieldsIncluded"`: Specifies whether the database activity stream
-  includes engine-native audit fields. This option only applies to an Oracle DB instance. By
-  default, no engine-native audit fields are included.
+  includes engine-native audit fields. This option applies to an Oracle or Microsoft SQL
+  Server DB instance. By default, no engine-native audit fields are included.
 """
 function start_activity_stream(
     KmsKeyId, Mode, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -9623,36 +9634,43 @@ end
     start_export_task(export_task_identifier, iam_role_arn, kms_key_id, s3_bucket_name, source_arn)
     start_export_task(export_task_identifier, iam_role_arn, kms_key_id, s3_bucket_name, source_arn, params::Dict{String,<:Any})
 
-Starts an export of a snapshot to Amazon S3. The provided IAM role must have access to the
-S3 bucket. This command doesn't apply to RDS Custom.
+Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must
+have access to the S3 bucket. You can't export snapshot data from RDS Custom DB instances.
+You can't export cluster data from Multi-AZ DB clusters. For more information on exporting
+DB snapshot data, see Exporting DB snapshot data to Amazon S3 in the Amazon RDS User Guide
+or Exporting DB cluster snapshot data to Amazon S3 in the Amazon Aurora User Guide. For
+more information on exporting DB cluster data, see Exporting DB cluster data to Amazon S3
+in the Amazon Aurora User Guide.
 
 # Arguments
-- `export_task_identifier`: A unique identifier for the snapshot export task. This ID isn't
-  an identifier for the Amazon S3 bucket where the snapshot is to be exported to.
+- `export_task_identifier`: A unique identifier for the export task. This ID isn't an
+  identifier for the Amazon S3 bucket where the data is to be exported.
 - `iam_role_arn`: The name of the IAM role to use for writing to the Amazon S3 bucket when
-  exporting a snapshot.
-- `kms_key_id`: The ID of the Amazon Web Services KMS key to use to encrypt the snapshot
+  exporting a snapshot or cluster.
+- `kms_key_id`: The ID of the Amazon Web Services KMS key to use to encrypt the data
   exported to Amazon S3. The Amazon Web Services KMS key identifier is the key ARN, key ID,
   alias ARN, or alias name for the KMS key. The caller of this operation must be authorized
   to run the following operations. These can be set in the Amazon Web Services KMS key
   policy:   kms:Encrypt   kms:Decrypt   kms:GenerateDataKey
   kms:GenerateDataKeyWithoutPlaintext   kms:ReEncryptFrom   kms:ReEncryptTo   kms:CreateGrant
     kms:DescribeKey   kms:RetireGrant
-- `s3_bucket_name`: The name of the Amazon S3 bucket to export the snapshot to.
-- `source_arn`: The Amazon Resource Name (ARN) of the snapshot to export to Amazon S3.
+- `s3_bucket_name`: The name of the Amazon S3 bucket to export the snapshot or cluster data
+  to.
+- `source_arn`: The Amazon Resource Name (ARN) of the snapshot or cluster to export to
+  Amazon S3.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ExportOnly"`: The data to be exported from the snapshot. If this parameter is not
-  provided, all the snapshot data is exported. Valid values are the following:    database -
+- `"ExportOnly"`: The data to be exported from the snapshot or cluster. If this parameter
+  is not provided, all of the data is exported. Valid values are the following:    database -
   Export all the data from a specified database.    database.table table-name - Export a
-  table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and
-  Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot.
+  table of the snapshot or cluster. This format is valid only for RDS for MySQL, RDS for
+  MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the
+  snapshot or cluster. This format is valid only for RDS for PostgreSQL and Aurora
+  PostgreSQL.    database.schema.table table-name - Export a table of the database schema.
   This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
-  database.schema.table table-name - Export a table of the database schema. This format is
-  valid only for RDS for PostgreSQL and Aurora PostgreSQL.
 - `"S3Prefix"`: The Amazon S3 bucket prefix to use as the file name and path of the
-  exported snapshot.
+  exported data.
 """
 function start_export_task(
     ExportTaskIdentifier,
@@ -9710,7 +9728,9 @@ end
 
 Stops a database activity stream that was started using the Amazon Web Services console,
 the start-activity-stream CLI command, or the StartActivityStream action. For more
-information, see Database Activity Streams in the Amazon Aurora User Guide.
+information, see  Monitoring Amazon Aurora with Database Activity Streams in the Amazon
+Aurora User Guide or  Monitoring Amazon RDS with Database Activity Streams in the Amazon
+RDS User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the DB cluster for the database

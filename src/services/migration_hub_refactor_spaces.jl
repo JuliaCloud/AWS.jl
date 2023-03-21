@@ -86,7 +86,8 @@ the environment resource, and all Refactor Spaces applications, services, and ro
 created within the environment. They are referred to as the environment owner. The
 environment owner has cross-account visibility and control of Refactor Spaces resources
 that are added to the environment by other accounts that the environment is shared with.
-When creating an environment, Refactor Spaces provisions a transit gateway in your account.
+When creating an environment with a network fabric type of TRANSIT_GATEWAY, Refactor Spaces
+provisions a transit gateway in your account.
 
 # Arguments
 - `name`: The name of the environment.

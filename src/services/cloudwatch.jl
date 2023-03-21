@@ -1860,7 +1860,10 @@ streamed. You can use the StatisticsConfigurations parameter to have the metric 
 additional statistics in the stream. Streaming additional statistics incurs additional
 costs. For more information, see Amazon CloudWatch Pricing.  When you use PutMetricStream
 to create a new metric stream, the stream is created in the running state. If you use it to
-update an existing stream, the state of the stream is not changed.
+update an existing stream, the state of the stream is not changed. If you are using
+CloudWatch cross-account observability and you create a metric stream in a monitoring
+account, you can choose whether to include metrics from source accounts in the stream. For
+more information, see CloudWatch cross-account observability.
 
 # Arguments
 - `firehose_arn`: The ARN of the Amazon Kinesis Data Firehose delivery stream to use for
@@ -1886,6 +1889,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeFilters"`: If you specify this parameter, the stream sends only the metrics from
   the metric namespaces that you specify here. You cannot include IncludeFilters and
   ExcludeFilters in the same operation.
+- `"IncludeLinkedAccountsMetrics"`: If you are creating a metric stream in a monitoring
+  account, specify true to include metrics from source accounts in the metric stream.
 - `"StatisticsConfigurations"`: By default, a metric stream always sends the MAX, MIN, SUM,
   and SAMPLECOUNT statistics for each metric that is streamed. You can use this parameter to
   have the metric stream also send additional statistics in the stream. This array can have

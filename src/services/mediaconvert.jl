@@ -91,7 +91,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   up. Any transcoding outputs that don't have an associated tag will appear in your billing
   report unsorted. If you don't choose a valid value for this field, your job outputs will
   appear on the billing report unsorted.
-- `"clientRequestToken"`: Optional. Idempotency token for CreateJob operation.
+- `"clientRequestToken"`: Prevent duplicate jobs from being created and ensure idempotency
+  for your requests. A client request token can be any string that includes up to 64 ASCII
+  characters. If you reuse a client request token within one minute of a successful request,
+  the API returns the job details of the original request instead. For more information see
+  https://docs.aws.amazon.com/mediaconvert/latest/apireference/idempotency.html.
 - `"hopDestinations"`: Optional. Use queue hopping to avoid overly long waits in the
   backlog of the queue that you submit your job to. Specify an alternate queue and the
   maximum time that your job will wait in the initial queue before hopping. For more

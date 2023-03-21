@@ -35,12 +35,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   generated forecast. For example, if you are generating forecasts for item sales across all
   your stores, and your dataset contains a store_id field, you would specify store_id as a
   dimension to group sales forecasts for each store.
-- `"ForecastFrequency"`: The frequency of predictions in a forecast. Valid intervals are Y
-  (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes),
-  10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, \"Y\" indicates
-  every year and \"5min\" indicates every five minutes. The frequency must be greater than or
-  equal to the TARGET_TIME_SERIES dataset frequency. When a RELATED_TIME_SERIES dataset is
-  provided, the frequency must be equal to the RELATED_TIME_SERIES dataset frequency.
+- `"ForecastFrequency"`: The frequency of predictions in a forecast. Valid intervals are an
+  integer followed by Y (Year), M (Month), W (Week), D (Day), H (Hour), and min (Minute). For
+  example, \"1D\" indicates every day and \"15min\" indicates every 15 minutes. You cannot
+  specify a value that would overlap with the next larger frequency. That means, for example,
+  you cannot specify a frequency of 60 minutes, because that is equivalent to 1 hour. The
+  valid values for each frequency are the following:   Minute - 1-59   Hour - 1-23   Day -
+  1-6   Week - 1-4   Month - 1-11   Year - 1   Thus, if you want every other week forecasts,
+  specify \"2W\". Or, if you want quarterly forecasts, you specify \"3M\". The frequency must
+  be greater than or equal to the TARGET_TIME_SERIES dataset frequency. When a
+  RELATED_TIME_SERIES dataset is provided, the frequency must be equal to the
+  RELATED_TIME_SERIES dataset frequency.
 - `"ForecastHorizon"`: The number of time-steps that the model predicts. The forecast
   horizon is also called the prediction length. The maximum forecast horizon is the lesser of
   500 time-steps or 1/4 of the TARGET_TIME_SERIES dataset length. If you are retraining an
@@ -142,12 +147,16 @@ operation to get the status.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DataFrequency"`: The frequency of data collection. This parameter is required for
-  RELATED_TIME_SERIES datasets. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H
-  (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and
-  1min (1 minute). For example, \"D\" indicates every day and \"15min\" indicates every 15
-  minutes.
-- `"EncryptionConfig"`: An AWS Key Management Service (KMS) key and the AWS Identity and
-  Access Management (IAM) role that Amazon Forecast can assume to access the key.
+  RELATED_TIME_SERIES datasets. Valid intervals are an integer followed by Y (Year), M
+  (Month), W (Week), D (Day), H (Hour), and min (Minute). For example, \"1D\" indicates every
+  day and \"15min\" indicates every 15 minutes. You cannot specify a value that would overlap
+  with the next larger frequency. That means, for example, you cannot specify a frequency of
+  60 minutes, because that is equivalent to 1 hour. The valid values for each frequency are
+  the following:   Minute - 1-59   Hour - 1-23   Day - 1-6   Week - 1-4   Month - 1-11   Year
+  - 1   Thus, if you want every other week forecasts, specify \"2W\". Or, if you want
+  quarterly forecasts, you specify \"3M\".
+- `"EncryptionConfig"`: An Key Management Service (KMS) key and the Identity and Access
+  Management (IAM) role that Amazon Forecast can assume to access the key.
 - `"Tags"`: The optional metadata that you apply to the dataset to help you categorize and
   organize them. Each tag consists of a key and an optional value, both of which you define.
   The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.
@@ -158,10 +167,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
   the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do
   not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as
-  it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can
-  have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast
-  considers it to be a user tag and will count against the limit of 50 tags. Tags with only
-  the key prefix of aws do not count against your tags per resource limit.
+  it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this
+  prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does
+  not, then Forecast considers it to be a user tag and will count against the limit of 50
+  tags. Tags with only the key prefix of aws do not count against your tags per resource
+  limit.
 """
 function create_dataset(
     DatasetName,
@@ -245,11 +255,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allowed characters. Generally allowed characters are: letters, numbers, and spaces
   representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and
   values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination
-  of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag
-  keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix
-  but the key does not, then Forecast considers it to be a user tag and will count against
-  the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags
-  per resource limit.
+  of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit
+  or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as
+  its prefix but the key does not, then Forecast considers it to be a user tag and will count
+  against the limit of 50 tags. Tags with only the key prefix of aws do not count against
+  your tags per resource limit.
 """
 function create_dataset_group(
     DatasetGroupName, Domain; aws_config::AbstractAWSConfig=global_aws_config()
@@ -290,25 +300,26 @@ end
 Imports your training data to an Amazon Forecast dataset. You provide the location of your
 training data in an Amazon Simple Storage Service (Amazon S3) bucket and the Amazon
 Resource Name (ARN) of the dataset that you want to import the data to. You must specify a
-DataSource object that includes an AWS Identity and Access Management (IAM) role that
-Amazon Forecast can assume to access the data, as Amazon Forecast makes a copy of your data
-and processes it in an internal AWS system. For more information, see Set up permissions.
-The training data must be in CSV or Parquet format. The delimiter must be a comma (,). You
-can specify the path to a specific file, the S3 bucket, or to a folder in the S3 bucket.
-For the latter two cases, Amazon Forecast imports all files up to the limit of 10,000
-files. Because dataset imports are not aggregated, your most recent dataset import is the
-one that is used when training a predictor or generating a forecast. Make sure that your
-most recent dataset import contains all of the data you want to model off of, and not just
-the new data collected since the previous import. To get a list of all your dataset import
-jobs, filtered by specified criteria, use the ListDatasetImportJobs operation.
+DataSource object that includes an Identity and Access Management (IAM) role that Amazon
+Forecast can assume to access the data, as Amazon Forecast makes a copy of your data and
+processes it in an internal Amazon Web Services system. For more information, see Set up
+permissions. The training data must be in CSV or Parquet format. The delimiter must be a
+comma (,). You can specify the path to a specific file, the S3 bucket, or to a folder in
+the S3 bucket. For the latter two cases, Amazon Forecast imports all files up to the limit
+of 10,000 files. Because dataset imports are not aggregated, your most recent dataset
+import is the one that is used when training a predictor or generating a forecast. Make
+sure that your most recent dataset import contains all of the data you want to model off
+of, and not just the new data collected since the previous import. To get a list of all
+your dataset import jobs, filtered by specified criteria, use the ListDatasetImportJobs
+operation.
 
 # Arguments
-- `data_source`: The location of the training data to import and an AWS Identity and Access
+- `data_source`: The location of the training data to import and an Identity and Access
   Management (IAM) role that Amazon Forecast can assume to access the data. The training data
   must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an
-  AWS Key Management Service (KMS) key and the IAM role must allow Amazon Forecast permission
-  to access the key. The KMS key and IAM role must match those specified in the
-  EncryptionConfig parameter of the CreateDataset operation.
+  Key Management Service (KMS) key and the IAM role must allow Amazon Forecast permission to
+  access the key. The KMS key and IAM role must match those specified in the EncryptionConfig
+  parameter of the CreateDataset operation.
 - `dataset_arn`: The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you
   want to import data to.
 - `dataset_import_job_name`: The name for the dataset import job. We recommend including
@@ -322,6 +333,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can be formatted in one of two ways:    LAT_LONG - the latitude and longitude in decimal
   format (Example: 47.61_-122.33).    CC_POSTALCODE (US Only) - the country code (US),
   followed by the 5-digit ZIP code (Example: US_98121).
+- `"ImportMode"`: Specifies whether the dataset import job is a FULL or INCREMENTAL import.
+  A FULL dataset import replaces all of the existing data with the newly imported data. An
+  INCREMENTAL import appends the imported data to the existing data.
 - `"Tags"`: The optional metadata that you apply to the dataset import job to help you
   categorize and organize them. Each tag consists of a key and an optional value, both of
   which you define. The following basic restrictions apply to tags:   Maximum number of tags
@@ -332,11 +346,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allowed characters. Generally allowed characters are: letters, numbers, and spaces
   representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and
   values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination
-  of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag
-  keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix
-  but the key does not, then Forecast considers it to be a user tag and will count against
-  the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags
-  per resource limit.
+  of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit
+  or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as
+  its prefix but the key does not, then Forecast considers it to be a user tag and will count
+  against the limit of 50 tags. Tags with only the key prefix of aws do not count against
+  your tags per resource limit.
 - `"TimeZone"`: A single time zone for every item in your dataset. This option is ideal for
   datasets with all timestamps within a single time zone, or if all timestamps are normalized
   to a single time zone.  Refer to the Joda-Time API for a complete list of valid time zone
@@ -440,7 +454,7 @@ timestamp in the range of time points.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DataSource"`:
 - `"EnableVisualization"`: Create an Explainability visualization that is viewable within
-  the AWS console.
+  the Amazon Web Services console.
 - `"EndDateTime"`: If TimePointGranularity is set to SPECIFIC, define the last time point
   for the Explainability. Use the following timestamp format: yyyy-MM-ddTHH:mm:ss (example:
   2015-01-01T20:00:00)
@@ -510,7 +524,7 @@ end
 
 Exports an Explainability resource created by the CreateExplainability operation. Exported
 files are exported to an Amazon Simple Storage Service (Amazon S3) bucket. You must specify
-a DataDestination object that includes an Amazon S3 bucket and an AWS Identity and Access
+a DataDestination object that includes an Amazon S3 bucket and an Identity and Access
 Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For
 more information, see aws-forecast-iam-roles.  The Status of the export job must be ACTIVE
 before you can access the export in your Amazon S3 bucket. To get the status, use the
@@ -624,10 +638,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
   the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do
   not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as
-  it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can
-  have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast
-  considers it to be a user tag and will count against the limit of 50 tags. Tags with only
-  the key prefix of aws do not count against your tags per resource limit.
+  it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this
+  prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does
+  not, then Forecast considers it to be a user tag and will count against the limit of 50
+  tags. Tags with only the key prefix of aws do not count against your tags per resource
+  limit.
 - `"TimeSeriesSelector"`: Defines the set of time series that are used to create the
   forecasts in a TimeSeriesIdentifiers object. The TimeSeriesIdentifiers object needs the
   following information:    DataSource     Format     Schema
@@ -672,18 +687,18 @@ Exports a forecast created by the CreateForecast operation to your Amazon Simple
 Service (Amazon S3) bucket. The forecast file name will match the following conventions:
 &lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt; where the
 &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ). You
-must specify a DataDestination object that includes an AWS Identity and Access Management
-(IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more
-information, see aws-forecast-iam-roles. For more information, see howitworks-forecast. To
-get a list of all your forecast export jobs, use the ListForecastExportJobs operation.  The
-Status of the forecast export job must be ACTIVE before you can access the forecast in your
-Amazon S3 bucket. To get the status, use the DescribeForecastExportJob operation.
+must specify a DataDestination object that includes an Identity and Access Management (IAM)
+role that Amazon Forecast can assume to access the Amazon S3 bucket. For more information,
+see aws-forecast-iam-roles. For more information, see howitworks-forecast. To get a list of
+all your forecast export jobs, use the ListForecastExportJobs operation.  The Status of the
+forecast export job must be ACTIVE before you can access the forecast in your Amazon S3
+bucket. To get the status, use the DescribeForecastExportJob operation.
 
 # Arguments
-- `destination`: The location where you want to save the forecast and an AWS Identity and
+- `destination`: The location where you want to save the forecast and an Identity and
   Access Management (IAM) role that Amazon Forecast can assume to access the location. The
   forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must
-  include an AWS Key Management Service (KMS) key. The IAM role must allow Amazon Forecast
+  include an Key Management Service (KMS) key. The IAM role must allow Amazon Forecast
   permission to access the key.
 - `forecast_arn`: The Amazon Resource Name (ARN) of the forecast that you want to export.
 - `forecast_export_job_name`: The name for the forecast export job.
@@ -701,11 +716,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allowed characters. Generally allowed characters are: letters, numbers, and spaces
   representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and
   values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination
-  of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag
-  keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix
-  but the key does not, then Forecast considers it to be a user tag and will count against
-  the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags
-  per resource limit.
+  of such as a prefix for keys as it is reserved for Amazon Web Services use. You cannot edit
+  or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as
+  its prefix but the key does not, then Forecast considers it to be a user tag and will count
+  against the limit of 50 tags. Tags with only the key prefix of aws do not count against
+  your tags per resource limit.
 """
 function create_forecast_export_job(
     Destination,
@@ -848,12 +863,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:forecast:::algorithm/Deep_AR_Plus     arn:aws:forecast:::algorithm/ETS
   arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
 - `"AutoMLOverrideStrategy"`:   The LatencyOptimized AutoML override strategy is only
-  available in private beta. Contact AWS Support or your account manager to learn more about
-  access privileges.   Used to overide the default AutoML strategy, which is to optimize
-  predictor accuracy. To apply an AutoML strategy that minimizes training time, use
-  LatencyOptimized. This parameter is only valid for predictors trained using AutoML.
-- `"EncryptionConfig"`: An AWS Key Management Service (KMS) key and the AWS Identity and
-  Access Management (IAM) role that Amazon Forecast can assume to access the key.
+  available in private beta. Contact Amazon Web Services Support or your account manager to
+  learn more about access privileges.   Used to overide the default AutoML strategy, which is
+  to optimize predictor accuracy. To apply an AutoML strategy that minimizes training time,
+  use LatencyOptimized. This parameter is only valid for predictors trained using AutoML.
+- `"EncryptionConfig"`: An Key Management Service (KMS) key and the Identity and Access
+  Management (IAM) role that Amazon Forecast can assume to access the key.
 - `"EvaluationParameters"`: Used to override the default evaluation parameters of the
   specified algorithm. Amazon Forecast evaluates a predictor by splitting a dataset into
   training data and testing data. The evaluation parameters define how to perform the split
@@ -893,11 +908,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   characters. Generally allowed characters are: letters, numbers, and spaces representable in
   UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case
   sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a
-  prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this
-  prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does
-  not, then Forecast considers it to be a user tag and will count against the limit of 50
-  tags. Tags with only the key prefix of aws do not count against your tags per resource
-  limit.
+  prefix for keys as it is reserved for Amazon Web Services use. You cannot edit or delete
+  tag keys with this prefix. Values can have this prefix. If a tag value has aws as its
+  prefix but the key does not, then Forecast considers it to be a user tag and will count
+  against the limit of 50 tags. Tags with only the key prefix of aws do not count against
+  your tags per resource limit.
 - `"TrainingParameters"`: The hyperparameters to override for model training. The
   hyperparameters that you can override are listed in the individual algorithms. For the list
   of supported algorithms, see aws-forecast-choosing-recipes.
@@ -957,8 +972,8 @@ CreatePredictor operations. Two folders containing CSV or Parquet files are expo
 your specified S3 bucket.  The export file names will match the following conventions:
 &lt;ExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;.csv  The
 &lt;ExportTimestamp&gt; component is in Java SimpleDate format (yyyy-MM-ddTHH-mm-ssZ). You
-must specify a DataDestination object that includes an Amazon S3 bucket and an AWS Identity
-and Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3
+must specify a DataDestination object that includes an Amazon S3 bucket and an Identity and
+Access Management (IAM) role that Amazon Forecast can assume to access the Amazon S3
 bucket. For more information, see aws-forecast-iam-roles.  The Status of the export job
 must be ACTIVE before you can access the export in your Amazon S3 bucket. To get the
 status, use the DescribePredictorBacktestExportJob operation.
@@ -1038,11 +1053,11 @@ is to understand how a forecast can change given different modifications to the 
 time series. For example, imagine you are a clothing retailer who is considering an end of
 season sale to clear space for new styles. After creating a baseline forecast, you can use
 a what-if analysis to investigate how different sales tactics might affect your goals. You
-could create a scenario where everything is given a 25% markdown and another where
-everything is given a fixed dollar markdown. You can create a scenario where the sale lasts
-for 1 week and another where the sale lasts for 1 month. Your what-if analysis enables you
-to compare many different scenarios against each other. Note that a what-if analysis is
-meant to display what the forecasting model has learned and how it will behave in the
+could create a scenario where everything is given a 25% markdown, and another where
+everything is given a fixed dollar markdown. You could create a scenario where the sale
+lasts for one week and another where the sale lasts for one month. With a what-if analysis,
+you can compare many different scenarios against each other. Note that a what-if analysis
+is meant to display what the forecasting model has learned and how it will behave in the
 scenarios that you are evaluating. Do not blindly use the results of the what-if analysis
 to make business decisions. For instance, forecasts might not be accurate for novel
 scenarios where there is no reference available to determine whether a forecast is good.
@@ -1169,19 +1184,19 @@ Exports a forecast created by the CreateWhatIfForecast operation to your Amazon 
 Storage Service (Amazon S3) bucket. The forecast file name will match the following
 conventions:  ≈&lt;ForecastExportJobName&gt;_&lt;ExportTimestamp&gt;_&lt;PartNumber&gt;
 The &lt;ExportTimestamp&gt; component is in Java SimpleDateFormat (yyyy-MM-ddTHH-mm-ssZ).
-You must specify a DataDestination object that includes an AWS Identity and Access
-Management (IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For
-more information, see aws-forecast-iam-roles. For more information, see
-howitworks-forecast. To get a list of all your what-if forecast export jobs, use the
-ListWhatIfForecastExports operation.  The Status of the forecast export job must be ACTIVE
-before you can access the forecast in your Amazon S3 bucket. To get the status, use the
-DescribeWhatIfForecastExport operation.
+You must specify a DataDestination object that includes an Identity and Access Management
+(IAM) role that Amazon Forecast can assume to access the Amazon S3 bucket. For more
+information, see aws-forecast-iam-roles. For more information, see howitworks-forecast. To
+get a list of all your what-if forecast export jobs, use the ListWhatIfForecastExports
+operation.  The Status of the forecast export job must be ACTIVE before you can access the
+forecast in your Amazon S3 bucket. To get the status, use the DescribeWhatIfForecastExport
+operation.
 
 # Arguments
-- `destination`: The location where you want to save the forecast and an AWS Identity and
+- `destination`: The location where you want to save the forecast and an Identity and
   Access Management (IAM) role that Amazon Forecast can assume to access the location. The
   forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must
-  include an AWS Key Management Service (KMS) key. The IAM role must allow Amazon Forecast
+  include an Key Management Service (KMS) key. The IAM role must allow Amazon Forecast
   permission to access the key.
 - `what_if_forecast_arns`: The list of what-if forecast Amazon Resource Names (ARNs) to
   export.
@@ -3078,10 +3093,11 @@ a resource is deleted, the tags associated with that resource are also deleted.
   Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
   the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do
   not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as
-  it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can
-  have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast
-  considers it to be a user tag and will count against the limit of 50 tags. Tags with only
-  the key prefix of aws do not count against your tags per resource limit.
+  it is reserved for Amazon Web Services use. You cannot edit or delete tag keys with this
+  prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does
+  not, then Forecast considers it to be a user tag and will count against the limit of 50
+  tags. Tags with only the key prefix of aws do not count against your tags per resource
+  limit.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())

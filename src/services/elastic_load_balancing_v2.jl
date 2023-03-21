@@ -352,7 +352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HealthyThresholdCount"`: The number of consecutive health check successes required
   before considering a target healthy. The range is 2-10. If the target group protocol is
   TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 5. For target groups with a protocol
-  of GENEVE, the default is 3. If the target type is lambda, the default is 5.
+  of GENEVE, the default is 5. If the target type is lambda, the default is 5.
 - `"IpAddressType"`: The type of IP address used for this target group. The possible values
   are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type
   defaults to ipv4.
@@ -383,7 +383,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UnhealthyThresholdCount"`: The number of consecutive health check failures required
   before considering a target unhealthy. The range is 2-10. If the target group protocol is
   TCP, TCP_UDP, UDP, TLS, HTTP or HTTPS, the default is 2. For target groups with a protocol
-  of GENEVE, the default is 3. If the target type is lambda, the default is 5.
+  of GENEVE, the default is 2. If the target type is lambda, the default is 5.
 - `"VpcId"`: The identifier of the virtual private cloud (VPC). If the target is a Lambda
   function, this parameter does not apply. Otherwise, this parameter is required.
 """
