@@ -12,7 +12,7 @@ Cancels a network operation. A network operation is any operation that is done t
 network, such as network instance instantiation or termination.
 
 # Arguments
-- `ns_lcm_op_occ_id`: The ID of a network operation occurrence.
+- `ns_lcm_op_occ_id`: The identifier of the network operation.
 
 """
 function cancel_sol_network_operation(
@@ -501,7 +501,7 @@ operation and the status of the tasks. A network operation is any operation that
 your network, such as network instance instantiation or termination.
 
 # Arguments
-- `ns_lcm_op_occ_id`: The identifier of the operation occurrence.
+- `ns_lcm_op_occ_id`: The identifier of the network operation.
 
 """
 function get_sol_network_operation(
@@ -664,6 +664,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dry_run"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
+  consists of a key and an optional value. When you use this API, the tags are transferred to
+  the network operation that is created. Use tags to search and filter your resources or
+  track your Amazon Web Services costs.
 """
 function instantiate_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1024,6 +1028,12 @@ delete it.
 # Arguments
 - `ns_instance_id`: ID of the network instance.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
+  consists of a key and an optional value. When you use this API, the tags are transferred to
+  the network operation that is created. Use tags to search and filter your resources or
+  track your Amazon Web Services costs.
 """
 function terminate_sol_network_instance(
     nsInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1148,6 +1158,10 @@ update, and delete) can be performed.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"modifyVnfInfoData"`: Identifies the network function information parameters and/or the
   configurable properties of the network function to be modified.
+- `"tags"`: A tag is a label that you assign to an Amazon Web Services resource. Each tag
+  consists of a key and an optional value. When you use this API, the tags are transferred to
+  the network operation that is created. Use tags to search and filter your resources or
+  track your Amazon Web Services costs.
 """
 function update_sol_network_instance(
     nsInstanceId, updateType; aws_config::AbstractAWSConfig=global_aws_config()

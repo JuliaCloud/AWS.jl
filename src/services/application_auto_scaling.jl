@@ -844,6 +844,45 @@ function describe_scheduled_actions(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Returns all the tags on the specified Application Auto Scaling scalable target. For general
+information about tags, including the format and syntax, see Tagging Amazon Web Services
+resources in the Amazon Web Services General Reference.
+
+# Arguments
+- `resource_arn`: Specify the ARN of the scalable target. For example:
+  arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef
+  1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
+
+"""
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return application_auto_scaling(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return application_auto_scaling(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace)
     put_scaling_policy(policy_name, resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
 
@@ -866,7 +905,7 @@ tracking policy is ready to scale in, the scale-in activity will not be blocked.
 scale-in activity completes, the target tracking policy could instruct the scalable target
 to scale out again.  For more information, see Target tracking scaling policies and Step
 scaling policies in the Application Auto Scaling User Guide.  If a scalable target is
-deregistered, the scalable target is no longer available to execute scaling policies. Any
+deregistered, the scalable target is no longer available to use scaling policies. Any
 scaling policies that were specified for the scalable target are deleted.
 
 # Arguments
@@ -1009,7 +1048,7 @@ Creates or updates a scheduled action for an Application Auto Scaling scalable t
 Each scalable target is identified by a service namespace, resource ID, and scalable
 dimension. A scheduled action applies to the scalable target identified by those three
 attributes. You cannot create a scheduled action until you have registered the resource as
-a scalable target. When start and end times are specified with a recurring schedule using a
+a scalable target. When you specify start and end times with a recurring schedule using a
 cron expression or rates, they form the boundaries for when the recurring action starts and
 stops. To update a scheduled action, specify the parameters that you want to change. If you
 don't specify start and end times, the old values are deleted. For more information, see
@@ -1161,13 +1200,13 @@ end
     register_scalable_target(resource_id, scalable_dimension, service_namespace)
     register_scalable_target(resource_id, scalable_dimension, service_namespace, params::Dict{String,<:Any})
 
-Registers or updates a scalable target, the resource that you want to scale. Scalable
-targets are uniquely identified by the combination of resource ID, scalable dimension, and
-namespace, which represents some capacity dimension of the underlying service. When you
-register a new scalable target, you must specify values for the minimum and maximum
-capacity. If the specified resource is not active in the target service, this operation
-does not change the resource's current capacity. Otherwise, it changes the resource's
-current capacity to a value that is inside of this range. If you choose to add a scaling
+Registers or updates a scalable target, which is the resource that you want to scale.
+Scalable targets are uniquely identified by the combination of resource ID, scalable
+dimension, and namespace, which represents some capacity dimension of the underlying
+service. When you register a new scalable target, you must specify values for the minimum
+and maximum capacity. If the specified resource is not active in the target service, this
+operation does not change the resource's current capacity. Otherwise, it changes the
+resource's current capacity to a value that is inside of this range. If you add a scaling
 policy, current capacity is adjustable within the specified range when scaling starts.
 Application Auto Scaling scaling policies will not scale capacity to values that are
 outside of the minimum and maximum range. After you register a scalable target, you do not
@@ -1178,11 +1217,15 @@ scalable target, you can deregister it by using DeregisterScalableTarget. To upd
 scalable target, specify the parameters that you want to change. Include the parameters
 that identify the scalable target: resource ID, scalable dimension, and namespace. Any
 parameters that you don't specify are not changed by this update request.   If you call the
-RegisterScalableTarget API to update an existing scalable target, Application Auto Scaling
-retrieves the current capacity of the resource. If it is below the minimum capacity or
-above the maximum capacity, Application Auto Scaling adjusts the capacity of the scalable
-target to place it within these bounds, even if you don't include the MinCapacity or
-MaxCapacity request parameters.
+RegisterScalableTarget API operation to create a scalable target, there might be a brief
+delay until the operation achieves eventual consistency. You might become aware of this
+brief delay if you get unexpected errors when performing sequential operations. The typical
+strategy is to retry the request, and some Amazon Web Services SDKs include automatic
+backoff and retry logic. If you call the RegisterScalableTarget API operation to update an
+existing scalable target, Application Auto Scaling retrieves the current capacity of the
+resource. If it's below the minimum capacity or above the maximum capacity, Application
+Auto Scaling adjusts the capacity of the scalable target to place it within these bounds,
+even if you don't include the MinCapacity or MaxCapacity request parameters.
 
 # Arguments
 - `resource_id`: The identifier of the resource that is associated with the scalable
@@ -1260,7 +1303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is in effect, Application Auto Scaling can scale out (expand) as needed to the maximum
   capacity limit in response to changing demand. This property is required when registering a
   new scalable target. Although you can specify a large maximum capacity, note that service
-  quotas may impose lower limits. Each service has its own default quotas for the maximum
+  quotas might impose lower limits. Each service has its own default quotas for the maximum
   capacity of the resource. If you want to specify a higher limit, you can request an
   increase. For more information, consult the documentation for that service. For information
   about the default quotas for each service, see Service endpoints and quotas in the Amazon
@@ -1293,6 +1336,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ScheduledScalingSuspended, while a suspension is in effect, all scaling activities that
   involve scheduled actions are suspended.    For more information, see Suspending and
   resuming scaling in the Application Auto Scaling User Guide.
+- `"Tags"`: Assigns one or more tags to the scalable target. Use this parameter to tag the
+  scalable target when it is created. To tag an existing scalable target, use the TagResource
+  operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag
+  value are required. You cannot have more than one tag on a scalable target with the same
+  tag key. Use tags to control access to a scalable target. For more information, see Tagging
+  support for Application Auto Scaling in the Application Auto Scaling User Guide.
 """
 function register_scalable_target(
     ResourceId,
@@ -1328,6 +1377,108 @@ function register_scalable_target(
                     "ScalableDimension" => ScalableDimension,
                     "ServiceNamespace" => ServiceNamespace,
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Adds or edits tags on an Application Auto Scaling scalable target. Each tag consists of a
+tag key and a tag value, which are both case-sensitive strings. To add a tag, specify a new
+tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value.
+You can use this operation to tag an Application Auto Scaling scalable target, but you
+cannot tag a scaling policy or scheduled action. You can also add tags to an Application
+Auto Scaling scalable target while creating it (RegisterScalableTarget). For general
+information about tags, including the format and syntax, see Tagging Amazon Web Services
+resources in the Amazon Web Services General Reference. Use tags to control access to a
+scalable target. For more information, see Tagging support for Application Auto Scaling in
+the Application Auto Scaling User Guide.
+
+# Arguments
+- `resource_arn`: Identifies the Application Auto Scaling scalable target that you want to
+  apply tags to. For example:
+  arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef
+  1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
+- `tags`: The tags assigned to the resource. A tag is a label that you assign to an AWS
+  resource. Each tag consists of a tag key and a tag value. You cannot have more than one tag
+  on an Application Auto Scaling scalable target with the same tag key. If you specify an
+  existing tag key with a different tag value, Application Auto Scaling replaces the current
+  tag value with the specified one. For information about the rules that apply to tag keys
+  and tag values, see User-defined tag restrictions in the Amazon Web Services Billing and
+  Cost Management User Guide.
+
+"""
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return application_auto_scaling(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return application_auto_scaling(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Deletes tags from an Application Auto Scaling scalable target. To delete a tag, specify the
+tag key and the Application Auto Scaling scalable target.
+
+# Arguments
+- `resource_arn`: Identifies the Application Auto Scaling scalable target from which to
+  remove tags. For example:
+  arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef
+  1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
+- `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
+
+"""
+function untag_resource(
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return application_auto_scaling(
+        "UntagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return application_auto_scaling(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
                 params,
             ),
         );

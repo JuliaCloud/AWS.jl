@@ -622,16 +622,17 @@ provider. To learn more, see Creating a role for web identity or OpenID connect 
 in the IAM User Guide. When you create the IAM OIDC provider, you specify the following:
 The URL of the OIDC identity provider (IdP) to trust   A list of client IDs (also known as
 audiences) that identify the application or applications allowed to authenticate using the
-OIDC provider   A list of thumbprints of one or more server certificates that the IdP uses
- You get all of this information from the OIDC IdP you want to use to access Amazon Web
-Services.  Amazon Web Services secures communication with some OIDC identity providers
-(IdPs) through our library of trusted certificate authorities (CAs) instead of using a
-certificate thumbprint to verify your IdP server certificate. These OIDC IdPs include
-Google, Auth0, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS)
-endpoint. In these cases, your legacy thumbprint remains in your configuration, but is no
-longer used for validation.   The trust for the OIDC provider is derived from the IAM
-provider that this operation creates. Therefore, it is best to limit access to the
-CreateOpenIDConnectProvider operation to highly privileged users.
+OIDC provider   A list of tags that are attached to the specified IAM OIDC provider   A
+list of thumbprints of one or more server certificates that the IdP uses   You get all of
+this information from the OIDC IdP you want to use to access Amazon Web Services.  Amazon
+Web Services secures communication with some OIDC identity providers (IdPs) through our
+library of trusted certificate authorities (CAs) instead of using a certificate thumbprint
+to verify your IdP server certificate. These OIDC IdPs include Google, Auth0, and those
+that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases,
+your legacy thumbprint remains in your configuration, but is no longer used for validation.
+  The trust for the OIDC provider is derived from the IAM provider that this operation
+creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation
+to highly privileged users.
 
 # Arguments
 - `thumbprint_list`: A list of server certificate thumbprints for the OpenID Connect (OIDC)
@@ -645,7 +646,7 @@ CreateOpenIDConnectProvider operation to highly privileged users.
   stores its keys at https://keys.server.example.com/openid-connect. In that case, the
   thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by
   https://keys.server.example.com.  For more information about obtaining the OIDC provider
-  thumbprint, see Obtaining the thumbprint for an OpenID Connect provider in the IAM User
+  thumbprint, see Obtaining the thumbprint for an OpenID Connect provider in the IAM user
   Guide.
 - `url`: The URL of the identity provider. The URL must begin with https:// and should
   correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC
@@ -872,7 +873,10 @@ create, see IAM and STS quotas in the IAM User Guide.
      Upon success, the response includes the same trust policy in JSON format.
 - `role_name`: The name of the role to create. IAM user, group, role, and policy names must
   be unique within the account. Names are not distinguished by case. For example, you cannot
-  create resources named both \"MyResource\" and \"myresource\".
+  create resources named both \"MyResource\" and \"myresource\". This parameter allows
+  (through its regex pattern) a string of characters consisting of upper and lowercase
+  alphanumeric characters with no spaces. You can also include any of the following
+  characters: _+=,.@-
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1196,10 +1200,10 @@ Services access keys or your passwords. After you provision your virtual device,
 ensure that the information is destroyed following secure procedures.
 
 # Arguments
-- `virtual_mfadevice_name`: The name of the virtual MFA device. Use with path to uniquely
-  identify a virtual MFA device. This parameter allows (through its regex pattern) a string
-  of characters consisting of upper and lowercase alphanumeric characters with no spaces. You
-  can also include any of the following characters: _+=,.@-
+- `virtual_mfadevice_name`: The name of the virtual MFA device, which must be unique. Use
+  with path to uniquely identify a virtual MFA device. This parameter allows (through its
+  regex pattern) a string of characters consisting of upper and lowercase alphanumeric
+  characters with no spaces. You can also include any of the following characters: _+=,.@-
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3269,7 +3273,7 @@ information. For details, see GenerateOrganizationsAccessReport. To call this op
 you must be signed in to the management account in your organization. SCPs must be enabled
 for your organization root. You must have permissions to perform this operation. For more
 information, see Refining permissions using service last accessed data in the IAM User
-Guide. For each service that principals in an account (root users, IAM users, or IAM roles)
+Guide. For each service that principals in an account (root user, IAM users, or IAM roles)
 could access using SCPs, the operation returns details about the most recent access
 attempt. If there was no attempt, the service is listed without details about the most
 recent attempt to access the service. If the operation fails, it returns the reason that it
@@ -6779,15 +6783,15 @@ consists of a key name and an associated value. By assigning tags to your resour
 can do the following:    Administrative grouping and discovery - Attach tags to resources
 to aid in organization and search. For example, you could search for all resources with the
 key name Project and the value MyImportantProject. Or search for all resources with the key
-name Cost Center and the value 41200.     Access control - Include tags in IAM user-based
-and resource-based policies. You can use tags to restrict access to only an OIDC provider
-that has a specified tag attached. For examples of policies that show how to use tags to
-control access, see Control access using IAM tags in the IAM User Guide.      If any one of
-the tags is invalid or if you exceed the allowed maximum number of tags, then the entire
-request fails and the resource is not created. For more information about tagging, see
-Tagging IAM resources in the IAM User Guide.   Amazon Web Services always interprets the
-tag Value as a single string. If you need to store an array, you can store comma-separated
-values in the string. However, you must interpret the value in your code.
+name Cost Center and the value 41200.     Access control - Include tags in IAM
+identity-based and resource-based policies. You can use tags to restrict access to only an
+OIDC provider that has a specified tag attached. For examples of policies that show how to
+use tags to control access, see Control access using IAM tags in the IAM User Guide.
+If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then
+the entire request fails and the resource is not created. For more information about
+tagging, see Tagging IAM resources in the IAM User Guide.   Amazon Web Services always
+interprets the tag Value as a single string. If you need to store an array, you can store
+comma-separated values in the string. However, you must interpret the value in your code.
 
 # Arguments
 - `open_idconnect_provider_arn`: The ARN of the OIDC identity provider in IAM to which you
@@ -7082,8 +7086,8 @@ value. By assigning tags to your resources, you can do the following:    Adminis
 grouping and discovery - Attach tags to resources to aid in organization and search. For
 example, you could search for all resources with the key name Project and the value
 MyImportantProject. Or search for all resources with the key name Cost Center and the value
-41200.     Access control - Include tags in IAM user-based and resource-based policies. You
-can use tags to restrict access to only an IAM requesting user that has a specified tag
+41200.     Access control - Include tags in IAM identity-based and resource-based policies.
+You can use tags to restrict access to only an IAM requesting user that has a specified tag
 attached. You can also restrict access to only those resources that have a certain tag
 attached. For examples of policies that show how to use tags to control access, see Control
 access using IAM tags in the IAM User Guide.    Cost allocation - Use tags to help track

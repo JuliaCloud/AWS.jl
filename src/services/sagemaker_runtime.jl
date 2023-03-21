@@ -131,9 +131,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amzn-SageMaker-Inference-Id"`: The identifier for the inference request. Amazon
   SageMaker will generate an identifier for you if none is specified.
 - `"X-Amzn-SageMaker-InvocationTimeoutSeconds"`: Maximum amount of time in seconds a
-  request can be processed before it is marked as expired.
+  request can be processed before it is marked as expired. The default is 15 minutes, or 900
+  seconds.
 - `"X-Amzn-SageMaker-RequestTTLSeconds"`: Maximum age in seconds a request can be in the
-  queue before it is marked as expired.
+  queue before it is marked as expired. The default is 6 hours, or 21,600 seconds.
 """
 function invoke_endpoint_async(
     EndpointName,
