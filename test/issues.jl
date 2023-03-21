@@ -220,6 +220,10 @@ try
                 end
             end
             logs = logger.logs
+
+            println("Fail two ")
+            println(logs)
+
             # Two successful retries
             @test count(log_is_retry(true), logs) == 2
             # No unsuccessful ones
@@ -247,6 +251,10 @@ try
                 end
             end
             logs = logger.logs
+
+            println("Fail 4")
+            println(logs)
+
             # Three successful retries - from the inner retry loop
             @test count(log_is_retry(true), logs) == 3
             # One unsuccessful one - from the outer loop where we pass it on
