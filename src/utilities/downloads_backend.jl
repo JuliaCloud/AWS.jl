@@ -12,7 +12,7 @@ which is the `Downloads.Downloader` to use. If set to `nothing`, the default,
 then a global downloader object will be used.
 
 Downloads.jl tends to perform better under concurrent operation than HTTP.jl,
-particularly with `@async` / `asyncmap`.
+particularly with `@async` / `asyncmap`. Note that threading (e.g. `@spawn` or `@threads`) with Downloads.jl is broken on Julia releases prior to 1.8 (https://github.com/JuliaLang/Downloads.jl/issues/182#issuecomment-1069269944).
 """
 struct DownloadsBackend <: AWS.AbstractBackend
     downloader::Union{Nothing,Downloads.Downloader}
