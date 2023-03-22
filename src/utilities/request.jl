@@ -111,10 +111,14 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         "RequestThrottledException",
         "TooManyRequestsException",
         "ProvisionedThroughputExceededException",
+        "TransactionInProgressException"
         "LimitExceededException",
+        "RequestLimitExceeded",
+        "BandwidthLimitExceeded",
         "RequestThrottled",
         "PriorRequestNotComplete",
         "SlowDown",
+        "EC2ThrottledException",
     ]
 
     request.headers["User-Agent"] = user_agent[]
