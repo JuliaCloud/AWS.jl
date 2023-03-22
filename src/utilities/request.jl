@@ -111,7 +111,7 @@ function submit_request(aws::AbstractAWSConfig, request::Request; return_headers
         "RequestThrottledException",
         "TooManyRequestsException",
         "ProvisionedThroughputExceededException",
-        "TransactionInProgressException"
+        "TransactionInProgressException",
         "LimitExceededException",
         "RequestLimitExceeded",
         "BandwidthLimitExceeded",
