@@ -109,15 +109,18 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
         end
     end
 
-    # There are times when Errors or Error are returned back
-    info = get(info, "Errors", info)
-    info = get(info, "Error", info)
+    # Sometimes info is a string, in which case there is nothing else to do
+    if info isa AbstractDict
+        # There are times when Errors or Error are returned back
+        info = get(info, "Errors", info)
+        info = get(info, "Error", info)
 
-    code = get(info, "Code", code)
+        code = get(info, "Code", code)
 
-    # There are also times when the response back is (M|m)essage
-    message = get(info, "Message", message)
-    message = get(info, "message", message)
+        # There are also times when the response back is (M|m)essage
+        message = get(info, "Message", message)
+        message = get(info, "message", message)
+    end
 
     streamed_body = !HTTP.isbytes(e.response.body) ? body : nothing
 

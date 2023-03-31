@@ -93,4 +93,32 @@
         _test_exception(ex, expected, "$msg")
         @test ex.info["__type"] == expected["code"]
     end
+
+    @testset "JSON requests can have invalid bodies" begin
+        expected = Dict(
+            "code" => "400",
+            "message" => "AWSException",
+            "headers" => ["Content-Type" => "application/json"],
+            "status_code" => 400,
+        )
+
+        expected["body"] = IOBuffer()
+        expected["streamed_body"] = "\"foo\""
+
+        # This does not actually send a request, just creates the object to test with
+        req = HTTP.Request("GET", "https://aws.com", expected["headers"], expected["body"])
+        resp = HTTP.Response(
+            expected["status_code"], expected["headers"]; body=expected["body"], request=req
+        )
+        status_error = AWS.statuserror(expected["status_code"], resp)
+        ex = AWSException(status_error, expected["streamed_body"])
+
+        @test ex.code == expected["code"]
+        @test ex.info == "foo" # nothing better we can do than just forward the invalid body
+        @test ex.message == expected["message"]
+        @test ex.cause.response.body == expected["body"]
+        @test ex.cause.status == expected["status_code"]
+        @test ex.cause.response.headers == expected["headers"]
+        @test ex.streamed_body == expected["streamed_body"]
+    end
 end
