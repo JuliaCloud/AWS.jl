@@ -110,7 +110,7 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
     end
 
     # Sometimes info is a string, in which case there is nothing else to do
-    if (info isa AbstractDict)
+    if info isa AbstractDict
         # There are times when Errors or Error are returned back
         info = get(info, "Errors", info)
         info = get(info, "Error", info)
