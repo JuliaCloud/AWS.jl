@@ -46,7 +46,7 @@ For example again, to list the objects in an S3 bucket:
 using AWS: @service
 @service S3
 
-S3.list_objects("/your-bucket")
+S3.list_objects("your-bucket") # note: no '/' in front of bucket name
 ```
 
 The high-level function calls are wrapped around the low-level function calls, meaning you can still pass along any low-level `kwargs` such as `aws_config` when making these requests.
