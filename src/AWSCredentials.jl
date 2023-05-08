@@ -424,10 +424,14 @@ function dot_aws_config(profile=nothing)
         settings = _aws_profile_config(ini, p)
         isempty(settings) && return nothing
 
+        credential_process = get(settings, "credential_process", nothing)
         access_key = get(settings, "aws_access_key_id", nothing)
         sso_start_url = get(settings, "sso_start_url", nothing)
 
-        if !isnothing(access_key)
+        if !isnothing(credential_process)
+            cmd = Cmd(Base.shell_split(credential_process))
+            return credential_process_credentials(cmd)
+        elseif !isnothing(access_key)
             access_key, secret_key, token = _aws_get_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token)
         elseif !isnothing(sso_start_url)
@@ -556,6 +560,19 @@ function credentials_from_webtoken()
         assumed_role_user["Arn"];
         expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
         renew=credentials_from_webtoken,
+    )
+end
+
+function credential_process_credentials(cmd::Base.AbstractCmd)
+    nt = open(cmd, "r") do io
+        _read_credential_process(io)
+    end
+    return AWSCredentials(
+        nt.access_key_id,
+        nt.secret_access_key,
+        nt.session_token;
+        expiry=@something(nt.expiration, typemax(DateTime)),
+        renew=() -> credential_process_credentials(cmd),
     )
 end
 

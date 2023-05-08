@@ -212,3 +212,28 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
 
     return (access_key, secret_key, token, expiry)
 end
+
+function _read_credential_process(io::IO)
+    # `JSON.parse` chokes on `Base.Process` I/O streams.
+    json = JSON.parse(read(io, String))
+
+    version = json["Version"]
+    if version != 1
+        error(
+            "Credential process returned unhandled version $version:\n" *
+            sprint(JSON.print, json, 2)
+        )
+    end
+
+    access_key_id = json["AccessKeyId"]
+    secret_access_key = json["SecretAccessKey"]
+    session_token = json["SessionToken"]
+
+    expiration = if haskey(json, "Expiration")
+        parse(DateTime, json["Expiration"], dateformat"yyyy-mm-dd\THH:MM:SS\Z")
+    else
+        nothing
+    end
+
+    return (; access_key_id, secret_access_key, session_token, expiration)
+end
