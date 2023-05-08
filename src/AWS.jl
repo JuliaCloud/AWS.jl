@@ -1,6 +1,6 @@
 module AWS
 
-using Compat: Compat, @something
+using Compat: Compat, @compat, @something
 using Base64
 using Dates
 using Downloads: Downloads, Downloader, Curl

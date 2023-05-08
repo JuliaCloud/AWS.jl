@@ -241,5 +241,5 @@ function _read_credential_process(io::IO)
         nothing
     end
 
-    return (; access_key_id, secret_access_key, session_token, expiration)
+    return @compat (; access_key_id, secret_access_key, session_token, expiration)
 end
