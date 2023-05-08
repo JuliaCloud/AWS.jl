@@ -430,7 +430,7 @@ function dot_aws_config(profile=nothing)
 
         if !isnothing(credential_process)
             cmd = Cmd(Base.shell_split(credential_process))
-            return credential_process_credentials(cmd)
+            return external_process_credentials(cmd)
         elseif !isnothing(access_key)
             access_key, secret_key, token = _aws_get_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token)
@@ -563,7 +563,7 @@ function credentials_from_webtoken()
     )
 end
 
-function credential_process_credentials(cmd::Base.AbstractCmd)
+function external_process_credentials(cmd::Base.AbstractCmd)
     nt = open(cmd, "r") do io
         _read_credential_process(io)
     end
@@ -572,7 +572,7 @@ function credential_process_credentials(cmd::Base.AbstractCmd)
         nt.secret_access_key,
         nt.session_token;
         expiry=@something(nt.expiration, typemax(DateTime)),
-        renew=() -> credential_process_credentials(cmd),
+        renew=() -> external_process_credentials(cmd),
     )
 end
 
