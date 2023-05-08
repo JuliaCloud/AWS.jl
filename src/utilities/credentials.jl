@@ -213,6 +213,12 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
     return (access_key, secret_key, token, expiry)
 end
 
+"""
+    _read_credential_process(io::IO) -> NamedTuple
+
+Parse the AWS CLI external process output out as defined in:
+https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html
+"""
 function _read_credential_process(io::IO)
     # `JSON.parse` chokes on `Base.Process` I/O streams.
     json = JSON.parse(read(io, String))
