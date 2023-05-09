@@ -788,9 +788,7 @@ end
         @test creds.token == temporary_resp["SessionToken"]
         @test creds.expiry == expiration
 
-        unhandled_version_resp = Dict(
-            "Version" => 2,
-        )
+        unhandled_version_resp = Dict("Version" => 2)
         json = JSON.print(unhandled_version_resp, 2)
         ex = ErrorException("Credential process returned unhandled version 2:\n$json")
         @test_throws ex external_process_credentials(gen_process(unhandled_version_resp))
@@ -801,7 +799,7 @@ end
             "SecretAccessKey" => "secret-key",
             "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
         )
-        ex =  KeyError("SessionToken")
+        ex = KeyError("SessionToken")
         @test_throws ex external_process_credentials(gen_process(missing_token_resp))
 
         missing_expiration_resp = Dict(
