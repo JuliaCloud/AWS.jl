@@ -488,6 +488,25 @@ end
                         @test creds.access_key_id == "AKI0"
                     end
                 end
+
+                @testset "Credential file over credential_process" begin
+                    json = Dict(
+                        "Version" => 1,
+                        "AccessKeyId" => "AKI0",
+                        "SecretAccessKey" => "SAK0",
+                    )
+                    write(
+                        config_file,
+                        """
+                        [profile profile1]
+                        credential_process = echo '$(JSON.json(json))'
+                        """
+                    )
+                    write(creds_file, basic_creds_content)
+
+                    creds = AWSCredentials(profile="profile1")
+                    @test creds.access_key_id == "AKI1"
+                end
             end
         end
     end
