@@ -399,6 +399,75 @@ end
             end
         end
     end
+
+    @testset "Precedence" begin
+        mktempdir() do dir
+            config_file = joinpath(dir, "config")
+            creds_file = joinpath(dir, "creds")
+
+            write(
+                creds_file,
+                """
+                [profile1]
+                aws_access_key_id = AKI1
+                aws_secret_access_key = SAK1
+
+                [profile2]
+                aws_access_key_id = AKI2
+                aws_secret_access_key = SAK2
+                """
+            )
+
+            withenv(
+                [k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...,
+                "AWS_SHARED_CREDENTIALS_FILE" => creds_file,
+                "AWS_CONFIG_FILE" => config_file,
+            ) do
+
+                @testset "explicit profile preferred" begin
+                    withenv(
+                        "AWS_PROFILE" => "profile1",
+                    ) do
+                        creds = AWSCredentials(profile="profile2")
+                        @test creds.access_key_id == "AKI2"
+                    end
+
+                    withenv(
+                        "AWS_ACCESS_KEY_ID" => "AKI0",
+                        "AWS_SECRET_ACCESS_KEY" => "SAK0",
+                    ) do
+                        creds = AWSCredentials(profile="profile2")
+                        @test creds.access_key_id == "AKI2"
+                    end
+                end
+
+                @testset "AWS_ACCESS_KEY_ID preferred over AWS_PROFILE" begin
+                    withenv(
+                        "AWS_PROFILE" => "profile1",
+                        "AWS_ACCESS_KEY_ID" => "AKI0",
+                        "AWS_SECRET_ACCESS_KEY" => "SAK0",
+                    ) do
+                        creds = AWSCredentials()
+                        @test creds.access_key_id == "AKI0"
+                    end
+                end
+
+                # The AWS CLI used to use `AWS_DEFAULT_PROFILE` to set the AWS profile via the
+                # command line but this was deprecated in favor of `AWS_PROFILE`. We'll probably
+                # keeps support for this as long as AWS CLI continues to support it.
+                # https://github.com/aws/aws-cli/issues/2597
+                @testset "AWS_PROFILE preferred over AWS_DEFAULT_PROFILE" begin
+                    withenv(
+                        "AWS_DEFAULT_PROFILE" => "profile1",
+                        "AWS_PROFILE" => "profile2",
+                    ) do
+                        creds = AWSCredentials()
+                        @test creds.access_key_id == "AKI2"
+                    end
+                end
+            end
+        end
+    end
 end
 
 @testset "Retrieving AWS Credentials" begin

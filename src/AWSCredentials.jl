@@ -110,12 +110,13 @@ Checks credential locations in the order:
 function AWSCredentials(; profile=nothing, throw_cred_error=true)
     creds = nothing
     credential_function = () -> nothing
+    explicit_profile = !isnothing(profile)
     profile = @something profile _aws_get_profile()
 
     # Define our search options, expected to be callable with no arguments.
     # Throw NoCredentials if none are found
     functions = [
-        env_var_credentials,
+        () -> env_var_credentials(explicit_profile),
         () -> dot_aws_credentials(profile),
         () -> dot_aws_config(profile),
         credentials_from_webtoken,
@@ -355,12 +356,15 @@ function ecs_instance_credentials()
 end
 
 """
-    env_var_credentials() -> Union{AWSCredential, Nothing}
+    env_var_credentials(explicit_profile::Bool=false) -> Union{AWSCredential, Nothing}
 
 Use AWS environmental variables (e.g. AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, etc.)
 to create AWSCredentials.
 """
-function env_var_credentials()
+function env_var_credentials(explicit_profile::Bool=false)
+    # Skip using environmental variables when a profile has been explicitly set
+    explicit_profile && return nothing
+
     if haskey(ENV, "AWS_ACCESS_KEY_ID") && haskey(ENV, "AWS_SECRET_ACCESS_KEY")
         return AWSCredentials(
             ENV["AWS_ACCESS_KEY_ID"],
