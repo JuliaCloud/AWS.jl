@@ -405,9 +405,7 @@ end
             config_file = joinpath(dir, "config")
             creds_file = joinpath(dir, "creds")
 
-            write(
-                creds_file,
-                """
+            basic_creds_content = """
                 [profile1]
                 aws_access_key_id = AKI1
                 aws_secret_access_key = SAK1
@@ -416,7 +414,6 @@ end
                 aws_access_key_id = AKI2
                 aws_secret_access_key = SAK2
                 """
-            )
 
             withenv(
                 [k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...,
@@ -425,6 +422,9 @@ end
             ) do
 
                 @testset "explicit profile preferred" begin
+                    isfile(config_file) && rm(config_file)
+                    write(creds_file, basic_creds_content)
+
                     withenv(
                         "AWS_PROFILE" => "profile1",
                     ) do
@@ -442,6 +442,9 @@ end
                 end
 
                 @testset "AWS_ACCESS_KEY_ID preferred over AWS_PROFILE" begin
+                    isfile(config_file) && rm(config_file)
+                    write(creds_file, basic_creds_content)
+
                     withenv(
                         "AWS_PROFILE" => "profile1",
                         "AWS_ACCESS_KEY_ID" => "AKI0",
@@ -457,12 +460,32 @@ end
                 # keeps support for this as long as AWS CLI continues to support it.
                 # https://github.com/aws/aws-cli/issues/2597
                 @testset "AWS_PROFILE preferred over AWS_DEFAULT_PROFILE" begin
+                    isfile(config_file) && rm(config_file)
+                    write(creds_file, basic_creds_content)
+
                     withenv(
                         "AWS_DEFAULT_PROFILE" => "profile1",
                         "AWS_PROFILE" => "profile2",
                     ) do
                         creds = AWSCredentials()
                         @test creds.access_key_id == "AKI2"
+                    end
+                end
+
+                @testset "SSO preferred over credentials file" begin
+                    write(
+                        config_file,
+                        """
+                        [profile profile1]
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_role_name = role1
+                        """
+                    )
+                    write(creds_file, basic_creds_content)
+
+                    apply(Patches.sso_service_patches("AKI0", "SAK0")) do
+                        creds = AWSCredentials(profile="profile1")
+                        @test creds.access_key_id == "AKI0"
                     end
                 end
             end

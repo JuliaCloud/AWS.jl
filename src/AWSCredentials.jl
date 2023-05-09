@@ -117,6 +117,7 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
     # Throw NoCredentials if none are found
     functions = [
         () -> env_var_credentials(explicit_profile),
+        () -> sso_credentials(profile),
         () -> dot_aws_credentials(profile),
         () -> dot_aws_config(profile),
         credentials_from_webtoken,
@@ -406,6 +407,30 @@ function dot_aws_credentials_file()
     get(ENV, "AWS_SHARED_CREDENTIALS_FILE") do
         joinpath(homedir(), ".aws", "credentials")
     end
+end
+
+function sso_credentials(profile=nothing)
+    config_file = @mock dot_aws_config_file()
+
+    if isfile(config_file)
+        ini = read(Inifile(), config_file)
+        p = @something profile _aws_get_profile()
+
+        # get all the fields for that profile
+        settings = _aws_profile_config(ini, p)
+        isempty(settings) && return nothing
+
+        sso_start_url = get(settings, "sso_start_url", nothing)
+
+        if !isnothing(sso_start_url)
+            access_key, secret_key, token, expiry = _aws_get_sso_credential_details(p, ini)
+            return AWSCredentials(access_key, secret_key, token; expiry=expiry)
+        else
+            return _aws_get_role(p, ini)
+        end
+    end
+
+    return nothing
 end
 
 """
