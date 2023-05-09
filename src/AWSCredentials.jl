@@ -409,6 +409,15 @@ function dot_aws_credentials_file()
     end
 end
 
+"""
+    sso_credentials(profile=nothing) -> Union{AWSCredential, Nothing}
+
+Retrieve credentials via AWS single sign-on settings defined in the `profile` within the AWS
+config file. If no SSO settings are found for the `profile` `nothing` is returned.
+
+# Arguments
+- `profile`: Specific profile used to get `AWSCredential`s, default is `nothing`
+"""
 function sso_credentials(profile=nothing)
     config_file = @mock dot_aws_config_file()
 
@@ -437,8 +446,8 @@ end
     dot_aws_config(profile=nothing) -> Union{AWSCredential, Nothing}
 
 Retrieve AWSCredentials for the default or specified profile from the `~/.aws/config` file.
-Single sign-on profiles are also valid. If this fails, try to retrieve credentials from
-`_aws_get_role()`, otherwise return `nothing`
+If this fails, try to retrieve credentials from `_aws_get_role()`, otherwise return
+`nothing`.
 
 # Arguments
 - `profile`: Specific profile used to get AWSCredentials, default is `nothing`
