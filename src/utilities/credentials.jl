@@ -212,3 +212,38 @@ function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
 
     return (access_key, secret_key, token, expiry)
 end
+
+"""
+    _read_credential_process(io::IO) -> NamedTuple
+
+Parse the AWS CLI external process output out as defined in:
+https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html
+"""
+function _read_credential_process(io::IO)
+    # `JSON.parse` chokes on `Base.Process` I/O streams.
+    json = JSON.parse(read(io, String))
+
+    version = json["Version"]
+    if version != 1
+        error(
+            "Credential process returned unhandled version $version:\n",
+            sprint(JSON.print, json, 2),
+        )
+    end
+
+    access_key_id = json["AccessKeyId"]
+    secret_access_key = json["SecretAccessKey"]
+
+    # The presence of the "Expiration" key determines if the provided credentials are
+    # long-term credentials or temporary credentials. Temporary credentials must include a
+    # session token (https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html)
+    if haskey(json, "Expiration") || haskey(json, "SessionToken")
+        expiration = parse(DateTime, json["Expiration"], dateformat"yyyy-mm-dd\THH:MM:SS\Z")
+        session_token = json["SessionToken"]
+    else
+        expiration = nothing
+        session_token = nothing
+    end
+
+    return @compat (; access_key_id, secret_access_key, session_token, expiration)
+end

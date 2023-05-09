@@ -8,21 +8,22 @@ using ..AWSExceptions
 
 export AWSCredentials,
     aws_account_number,
-    aws_get_region,
     aws_get_profile_settings,
+    aws_get_region,
     aws_user_arn,
     check_credentials,
+    credentials_from_webtoken,
     dot_aws_config,
+    dot_aws_config_file,
     dot_aws_credentials,
     dot_aws_credentials_file,
-    dot_aws_config_file,
     ec2_instance_credentials,
     ecs_instance_credentials,
     env_var_credentials,
+    external_process_credentials,
     localhost_is_ec2,
-    localhost_maybe_ec2,
     localhost_is_lambda,
-    credentials_from_webtoken
+    localhost_maybe_ec2
 
 function localhost_maybe_ec2()
     return localhost_is_ec2() || isfile("/sys/devices/virtual/dmi/id/product_uuid")
@@ -424,10 +425,14 @@ function dot_aws_config(profile=nothing)
         settings = _aws_profile_config(ini, p)
         isempty(settings) && return nothing
 
+        credential_process = get(settings, "credential_process", nothing)
         access_key = get(settings, "aws_access_key_id", nothing)
         sso_start_url = get(settings, "sso_start_url", nothing)
 
-        if !isnothing(access_key)
+        if !isnothing(credential_process)
+            cmd = Cmd(Base.shell_split(credential_process))
+            return external_process_credentials(cmd)
+        elseif !isnothing(access_key)
             access_key, secret_key, token = _aws_get_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token)
         elseif !isnothing(sso_start_url)
@@ -556,6 +561,26 @@ function credentials_from_webtoken()
         assumed_role_user["Arn"];
         expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
         renew=credentials_from_webtoken,
+    )
+end
+
+"""
+    external_process_credentials(cmd::Base.AbstractCmd) -> AWSCredentials
+
+Sources AWS credentials from an external process as defined in the AWS CLI config file.
+See https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html
+for details.
+"""
+function external_process_credentials(cmd::Base.AbstractCmd)
+    nt = open(cmd, "r") do io
+        _read_credential_process(io)
+    end
+    return AWSCredentials(
+        nt.access_key_id,
+        nt.secret_access_key,
+        @something(nt.session_token, "");
+        expiry=@something(nt.expiration, typemax(DateTime)),
+        renew=() -> external_process_credentials(cmd),
     )
 end
 
