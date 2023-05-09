@@ -507,6 +507,27 @@ end
                     creds = AWSCredentials(profile="profile1")
                     @test creds.access_key_id == "AKI1"
                 end
+
+                @testset "credential_process over config credentials" begin
+                    json = Dict(
+                        "Version" => 1,
+                        "AccessKeyId" => "AKI0",
+                        "SecretAccessKey" => "SAK0",
+                    )
+                    write(
+                        config_file,
+                        """
+                        [profile profile1]
+                        aws_access_key_id = AKI1
+                        aws_secret_access_key = SAK1
+                        credential_process = echo '$(JSON.json(json))'
+                        """
+                    )
+                    isfile(creds_file) && rm(creds_file)
+
+                    creds = AWSCredentials(profile="profile1")
+                    @test creds.access_key_id == "AKI0"
+                end
             end
         end
     end
@@ -640,47 +661,22 @@ end
             chmod(credential_process_file, 0o700)
 
             withenv("AWS_CONFIG_FILE" => config_file) do
-                @testset "support" begin
-                    open(config_file, "w") do io
-                        write(
-                            io,
-                            """
-                            [profile $(test_values["Test-Config-Profile"])]
-                            credential_process = $(abspath(credential_process_file))
-                            """,
-                        )
-                    end
-
-                    result = dot_aws_config(test_values["Test-Config-Profile"])
-
-                    @test result.access_key_id == test_values["Test-AccessKeyId"]
-                    @test result.secret_key == test_values["Test-SecretAccessKey"]
-                    @test isempty(result.token)
-                    @test result.expiry == typemax(DateTime)
+                open(config_file, "w") do io
+                    write(
+                        io,
+                        """
+                        [profile $(test_values["Test-Config-Profile"])]
+                        credential_process = $(abspath(credential_process_file))
+                        """,
+                    )
                 end
 
-                # The AWS CLI uses the config file `credential_process` setting over
-                # specifying the config file `aws_access_key_id`/`aws_secret_access_key`.
-                @testset "precedence" begin
-                    open(config_file, "w") do io
-                        write(
-                            io,
-                            """
-                            [profile $(test_values["Test-Config-Profile"])]
-                            aws_access_key_id = invalid
-                            aws_secret_access_key = invalid
-                            credential_process = $(abspath(credential_process_file))
-                            """,
-                        )
-                    end
+                result = dot_aws_config(test_values["Test-Config-Profile"])
 
-                    result = dot_aws_config(test_values["Test-Config-Profile"])
-
-                    @test result.access_key_id == test_values["Test-AccessKeyId"]
-                    @test result.secret_key == test_values["Test-SecretAccessKey"]
-                    @test isempty(result.token)
-                    @test result.expiry == typemax(DateTime)
-                end
+                @test result.access_key_id == test_values["Test-AccessKeyId"]
+                @test result.secret_key == test_values["Test-SecretAccessKey"]
+                @test isempty(result.token)
+                @test result.expiry == typemax(DateTime)
             end
         end
     end
