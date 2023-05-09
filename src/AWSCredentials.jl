@@ -22,7 +22,8 @@ export AWSCredentials,
     localhost_is_ec2,
     localhost_maybe_ec2,
     localhost_is_lambda,
-    credentials_from_webtoken
+    credentials_from_webtoken,
+    external_process_credentials
 
 function localhost_maybe_ec2()
     return localhost_is_ec2() || isfile("/sys/devices/virtual/dmi/id/product_uuid")
@@ -577,7 +578,7 @@ function external_process_credentials(cmd::Base.AbstractCmd)
     return AWSCredentials(
         nt.access_key_id,
         nt.secret_access_key,
-        nt.session_token;
+        @something(nt.session_token, "");
         expiry=@something(nt.expiration, typemax(DateTime)),
         renew=() -> external_process_credentials(cmd),
     )

@@ -511,6 +511,43 @@ end
         end
     end
 
+    @testset "~/.aws/config - Credential Process" begin
+        mktempdir() do dir
+            credential_process_file = joinpath(dir, "cred_process")
+            open(credential_process_file, "w") do io
+                println(io, "#!/bin/sh")
+                println(io, "cat <<EOF")
+                JSON.print(io, Dict(
+                    "Version" => 1,
+                    "AccessKeyId" => test_values["Test-AccessKeyId"],
+                    "SecretAccessKey" => test_values["Test-SecretAccessKey"],
+                ))
+                println(io, "\nEOF")
+            end
+            chmod(credential_process_file, 0o700)
+
+            config_file = joinpath(dir, "config")
+            open(config_file, "w") do io
+                write(
+                    io,
+                    """
+                    [profile $(test_values["Test-Config-Profile"])]
+                    credential_process = $(abspath(credential_process_file))
+                    """,
+                )
+            end
+
+            withenv("AWS_CONFIG_FILE" => config_file) do
+                specified_result = dot_aws_config(test_values["Test-Config-Profile"])
+
+                @test specified_result.access_key_id == test_values["Test-AccessKeyId"]
+                @test specified_result.secret_key == test_values["Test-SecretAccessKey"]
+                @test isempty(specified_result.token)
+                @test specified_result.expiry == typemax(DateTime)
+            end
+        end
+    end
+
     @testset "~/.aws/creds - Default Profile" begin
         mktemp() do creds_file, creds_io
             write(
@@ -694,6 +731,57 @@ end
                 end
             end
         end
+    end
+
+    @testset "Credential Process" begin
+        gen_process(json) = Cmd(["echo", JSON.json(json)])
+
+        long_term_resp = Dict(
+            "Version" => 1,
+            "AccessKeyId" => "access-key",
+            "SecretAccessKey" => "secret-key",
+        )
+        creds = external_process_credentials(gen_process(long_term_resp))
+        @test creds.access_key_id == long_term_resp["AccessKeyId"]
+        @test creds.secret_key == long_term_resp["SecretAccessKey"]
+        @test isempty(creds.token)
+        @test creds.expiry == typemax(DateTime)
+
+        expiration = floor(now(UTC), Second)
+        temporary_resp = Dict(
+            "Version" => 1,
+            "AccessKeyId" => "access-key",
+            "SecretAccessKey" => "secret-key",
+            "SessionToken" => "session-token",
+            "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+        )
+        creds = external_process_credentials(gen_process(temporary_resp))
+        @test creds.access_key_id == temporary_resp["AccessKeyId"]
+        @test creds.secret_key == temporary_resp["SecretAccessKey"]
+        @test creds.token == temporary_resp["SessionToken"]
+        @test creds.expiry == expiration
+
+        unhandled_version_resp = Dict(
+            "Version" => 2,
+        )
+        ex = ErrorException("Credential process returned unhandled version 2:\n{\n  \"Version\": 2\n}\n")
+        @test_throws ex external_process_credentials(gen_process(unhandled_version_resp))
+
+        missing_token_resp = Dict(
+            "Version" => 1,
+            "AccessKeyId" => "access-key",
+            "SecretAccessKey" => "secret-key",
+            "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+        )
+        @test_throws KeyError("SessionToken") external_process_credentials(gen_process(missing_token_resp))
+
+        missing_expiration_resp = Dict(
+            "Version" => 1,
+            "AccessKeyId" => "access-key",
+            "SecretAccessKey" => "secret-key",
+            "SessionToken" => "session-token",
+        )
+        @test_throws KeyError("Expiration") external_process_credentials(gen_process(missing_expiration_resp))
     end
 
     @testset "Credentials Not Found" begin
