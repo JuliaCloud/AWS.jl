@@ -8,22 +8,22 @@ using ..AWSExceptions
 
 export AWSCredentials,
     aws_account_number,
-    aws_get_region,
     aws_get_profile_settings,
+    aws_get_region,
     aws_user_arn,
     check_credentials,
+    credentials_from_webtoken,
     dot_aws_config,
+    dot_aws_config_file,
     dot_aws_credentials,
     dot_aws_credentials_file,
-    dot_aws_config_file,
     ec2_instance_credentials,
     ecs_instance_credentials,
     env_var_credentials,
+    external_process_credentials,
     localhost_is_ec2,
-    localhost_maybe_ec2,
     localhost_is_lambda,
-    credentials_from_webtoken,
-    external_process_credentials
+    localhost_maybe_ec2
 
 function localhost_maybe_ec2()
     return localhost_is_ec2() || isfile("/sys/devices/virtual/dmi/id/product_uuid")
