@@ -226,8 +226,8 @@ function _read_credential_process(io::IO)
     version = json["Version"]
     if version != 1
         error(
-            "Credential process returned unhandled version $version:\n" *
-            sprint(JSON.print, json, 2)
+            "Credential process returned unhandled version $version:\n",
+            sprint(JSON.print, json, 2),
         )
     end
 

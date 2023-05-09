@@ -518,11 +518,12 @@ end
             open(credential_process_file, "w") do io
                 println(io, "#!/bin/sh")
                 println(io, "cat <<EOF")
-                JSON.print(io, Dict(
+                json = Dict(
                     "Version" => 1,
                     "AccessKeyId" => test_values["Test-AccessKeyId"],
                     "SecretAccessKey" => test_values["Test-SecretAccessKey"],
-                ))
+                )
+                JSON.print(io, json)
                 println(io, "\nEOF")
             end
             chmod(credential_process_file, 0o700)
@@ -765,6 +766,7 @@ end
             "Version" => 1,
             "AccessKeyId" => "access-key",
             "SecretAccessKey" => "secret-key",
+            # format trick: using this comment to force use of multiple lines
         )
         creds = external_process_credentials(gen_process(long_term_resp))
         @test creds.access_key_id == long_term_resp["AccessKeyId"]
@@ -789,7 +791,8 @@ end
         unhandled_version_resp = Dict(
             "Version" => 2,
         )
-        ex = ErrorException("Credential process returned unhandled version 2:\n{\n  \"Version\": 2\n}\n")
+        json = JSON.print(unhandled_version_resp, 2)
+        ex = ErrorException("Credential process returned unhandled version 2:\n$json")
         @test_throws ex external_process_credentials(gen_process(unhandled_version_resp))
 
         missing_token_resp = Dict(
@@ -798,7 +801,8 @@ end
             "SecretAccessKey" => "secret-key",
             "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
         )
-        @test_throws KeyError("SessionToken") external_process_credentials(gen_process(missing_token_resp))
+        ex =  KeyError("SessionToken")
+        @test_throws ex external_process_credentials(gen_process(missing_token_resp))
 
         missing_expiration_resp = Dict(
             "Version" => 1,
@@ -806,7 +810,8 @@ end
             "SecretAccessKey" => "secret-key",
             "SessionToken" => "session-token",
         )
-        @test_throws KeyError("Expiration") external_process_credentials(gen_process(missing_expiration_resp))
+        ex = KeyError("Expiration")
+        @test_throws ex external_process_credentials(gen_process(missing_expiration_resp))
     end
 
     @testset "Credentials Not Found" begin
