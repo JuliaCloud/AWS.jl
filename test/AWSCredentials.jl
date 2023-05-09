@@ -789,7 +789,7 @@ end
         @test creds.expiry == expiration
 
         unhandled_version_resp = Dict("Version" => 2)
-        json = JSON.print(unhandled_version_resp, 2)
+        json = sprint(JSON.print, unhandled_version_resp, 2)
         ex = ErrorException("Credential process returned unhandled version 2:\n$json")
         @test_throws ex external_process_credentials(gen_process(unhandled_version_resp))
 
