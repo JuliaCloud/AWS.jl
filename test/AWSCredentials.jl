@@ -725,7 +725,7 @@ end
                         test_values["AccessKeyId"], test_values["SecretAccessKey"]
                     ),
                 ) do
-                    specified_result = dot_aws_config(test_values["Test-SSO-Profile"])
+                    specified_result = sso_credentials(test_values["Test-SSO-Profile"])
 
                     @test specified_result.access_key_id == test_values["AccessKeyId"]
                     @test specified_result.secret_key == test_values["SecretAccessKey"]

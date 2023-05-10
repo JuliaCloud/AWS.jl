@@ -23,7 +23,8 @@ export AWSCredentials,
     external_process_credentials,
     localhost_is_ec2,
     localhost_is_lambda,
-    localhost_maybe_ec2
+    localhost_maybe_ec2,
+    sso_credentials
 
 function localhost_maybe_ec2()
     return localhost_is_ec2() || isfile("/sys/devices/virtual/dmi/id/product_uuid")
