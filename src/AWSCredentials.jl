@@ -435,8 +435,6 @@ function sso_credentials(profile=nothing)
         if !isnothing(sso_start_url)
             access_key, secret_key, token, expiry = _aws_get_sso_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token; expiry=expiry)
-        else
-            return _aws_get_role(p, ini)
         end
     end
 
