@@ -13,6 +13,8 @@ macro test_ecode(error_codes, expr)
     end
 end
 
+const EXPIRATION_FMT = dateformat"yyyy-mm-dd\THH:MM:SS\Z"
+
 @testset "Load Credentials" begin
     user = aws_user_arn(aws)
     @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
@@ -425,12 +427,11 @@ end
                 aws_secret_access_key = SAK2
                 """
 
-            ec2_expiration = floor(now(UTC), Second)
             ec2_json = Dict(
                 "AccessKeyId" => "AKI_EC2",
                 "SecretAccessKey" => "SAK_EC2",
                 "Token" => "TOK_EC2",
-                "Expiration" => Dates.format(ec2_expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+                "Expiration" => Dates.format(now(UTC), EXPIRATION_FMT),
             )
 
             function ec2_metadata(url::AbstractString)
@@ -447,12 +448,11 @@ end
                 end
             end
 
-            ecs_expiration = floor(now(UTC), Second)
             ecs_json = Dict(
                 "AccessKeyId" => "AKI_ECS",
                 "SecretAccessKey" => "SAK_ECS",
                 "Token" => "TOK_ECS",
-                "Expiration" => Dates.format(ecs_expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+                "Expiration" => Dates.format(now(UTC), EXPIRATION_FMT),
             )
 
             function ecs_metadata(url::AbstractString)
@@ -978,7 +978,7 @@ end
             "AccessKeyId" => "access-key",
             "SecretAccessKey" => "secret-key",
             "SessionToken" => "session-token",
-            "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+            "Expiration" => Dates.format(expiration, EXPIRATION_FMT),
         )
         creds = external_process_credentials(gen_process(temporary_resp))
         @test creds.access_key_id == temporary_resp["AccessKeyId"]
@@ -995,7 +995,7 @@ end
             "Version" => 1,
             "AccessKeyId" => "access-key",
             "SecretAccessKey" => "secret-key",
-            "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+            "Expiration" => Dates.format(expiration, EXPIRATION_FMT),
         )
         ex = KeyError("SessionToken")
         @test_throws ex external_process_credentials(gen_process(missing_token_resp))
