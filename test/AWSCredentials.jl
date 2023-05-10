@@ -466,6 +466,14 @@ end
                 end
             end
 
+            function ecs_metadata_localhost(url::AbstractString)
+                if startswith(url, "http://localhost:8080")
+                    return HTTP.Response(200, JSON.json(ecs_json))
+                else
+                    return HTTP.Response(404)
+                end
+            end
+
             function http_request_patcher(funcs)
                 @patch function HTTP.request(method, url, args...; kwargs...)
                     local r
@@ -646,6 +654,15 @@ end
                             @test creds.access_key_id == "AKI1"
                         end
                     end
+
+                    withenv("AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost:8080") do
+                        apply(http_request_patcher([ecs_metadata_localhost])) do
+                            @test isnothing(AWS._aws_get_profile(; default=nothing))
+
+                            creds = AWSCredentials()
+                            @test creds.access_key_id == "AKI1"
+                        end
+                    end
                 end
 
                 @testset "default config credentials over EC2 instance credentials" begin
@@ -673,6 +690,13 @@ end
 
                     withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-creds") do
                         apply(http_request_patcher([ec2_metadata, ecs_metadata])) do
+                            creds = AWSCredentials()
+                            @test creds.access_key_id == "AKI_ECS"
+                        end
+                    end
+
+                    withenv("AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost:8080") do
+                        apply(http_request_patcher([ec2_metadata, ecs_metadata_localhost])) do
                             creds = AWSCredentials()
                             @test creds.access_key_id == "AKI_ECS"
                         end
