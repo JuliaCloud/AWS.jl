@@ -428,23 +428,21 @@ end
                 "AWS_SHARED_CREDENTIALS_FILE" => creds_file,
                 "AWS_CONFIG_FILE" => config_file,
             ) do
-
                 @testset "explicit profile preferred" begin
                     isfile(config_file) && rm(config_file)
                     write(creds_file, basic_creds_content)
 
-                    withenv(
-                        "AWS_PROFILE" => "profile1",
-                    ) do
-                        creds = AWSCredentials(profile="profile2")
+                    withenv("AWS_PROFILE" => "profile1") do
+                        creds = AWSCredentials(; profile="profile2")
                         @test creds.access_key_id == "AKI2"
                     end
 
                     withenv(
                         "AWS_ACCESS_KEY_ID" => "AKI0",
                         "AWS_SECRET_ACCESS_KEY" => "SAK0",
+                        # format trick: using this comment to force use of multiple lines
                     ) do
-                        creds = AWSCredentials(profile="profile2")
+                        creds = AWSCredentials(; profile="profile2")
                         @test creds.access_key_id == "AKI2"
                     end
                 end
@@ -474,6 +472,7 @@ end
                     withenv(
                         "AWS_DEFAULT_PROFILE" => "profile1",
                         "AWS_PROFILE" => "profile2",
+                        # format trick: using this comment to force use of multiple lines
                     ) do
                         creds = AWSCredentials()
                         @test creds.access_key_id == "AKI2"
@@ -487,12 +486,12 @@ end
                         [profile profile1]
                         sso_start_url = https://my-sso-portal.awsapps.com/start
                         sso_role_name = role1
-                        """
+                        """,
                     )
                     write(creds_file, basic_creds_content)
 
                     apply(Patches.sso_service_patches("AKI0", "SAK0")) do
-                        creds = AWSCredentials(profile="profile1")
+                        creds = AWSCredentials(; profile="profile1")
                         @test creds.access_key_id == "AKI0"
                     end
                 end
@@ -502,17 +501,18 @@ end
                         "Version" => 1,
                         "AccessKeyId" => "AKI0",
                         "SecretAccessKey" => "SAK0",
+                        # format trick: using this comment to force use of multiple lines
                     )
                     write(
                         config_file,
                         """
                         [profile profile1]
                         credential_process = echo '$(JSON.json(json))'
-                        """
+                        """,
                     )
                     write(creds_file, basic_creds_content)
 
-                    creds = AWSCredentials(profile="profile1")
+                    creds = AWSCredentials(; profile="profile1")
                     @test creds.access_key_id == "AKI1"
                 end
 
@@ -521,6 +521,7 @@ end
                         "Version" => 1,
                         "AccessKeyId" => "AKI0",
                         "SecretAccessKey" => "SAK0",
+                        # format trick: using this comment to force use of multiple lines
                     )
                     write(
                         config_file,
@@ -529,11 +530,11 @@ end
                         aws_access_key_id = AKI1
                         aws_secret_access_key = SAK1
                         credential_process = echo '$(JSON.json(json))'
-                        """
+                        """,
                     )
                     isfile(creds_file) && rm(creds_file)
 
-                    creds = AWSCredentials(profile="profile1")
+                    creds = AWSCredentials(; profile="profile1")
                     @test creds.access_key_id == "AKI0"
                 end
             end
