@@ -465,7 +465,6 @@ function dot_aws_config(profile=nothing)
 
         credential_process = get(settings, "credential_process", nothing)
         access_key = get(settings, "aws_access_key_id", nothing)
-        sso_start_url = get(settings, "sso_start_url", nothing)
 
         if !isnothing(credential_process)
             cmd = Cmd(Base.shell_split(credential_process))
@@ -473,9 +472,6 @@ function dot_aws_config(profile=nothing)
         elseif !isnothing(access_key)
             access_key, secret_key, token = _aws_get_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token)
-        elseif !isnothing(sso_start_url)
-            access_key, secret_key, token, expiry = _aws_get_sso_credential_details(p, ini)
-            return AWSCredentials(access_key, secret_key, token; expiry=expiry)
         else
             return _aws_get_role(p, ini)
         end
