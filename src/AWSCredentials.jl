@@ -113,8 +113,8 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
     explicit_profile = !isnothing(profile)
     profile = @something profile _aws_get_profile()
 
-    # Define our search options, expected to be callable with no arguments.
-    # Throw NoCredentials if none are found
+    # Define the credential preference order
+    # https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence
     functions = [
         () -> env_var_credentials(explicit_profile),
         () -> sso_credentials(profile),

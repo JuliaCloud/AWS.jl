@@ -406,8 +406,10 @@ end
     # CLI it is recommended you use a set of valid credentials and a set of invalid
     # credentials to determine the precedence.
     #
-    # Documentation on credential preference for the AWS SDK for .NET:
-    # https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/creds-assign.html
+    # Documentation on credential precedence:
+    # - https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence
+    # - https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/creds-assign.html
+    # - https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html
     @testset "Credential Precedence" begin
         mktempdir() do dir
             config_file = joinpath(dir, "config")
@@ -422,6 +424,55 @@ end
                 aws_access_key_id = AKI2
                 aws_secret_access_key = SAK2
                 """
+
+            ec2_expiration = floor(now(UTC), Second)
+            ec2_json = Dict(
+                "AccessKeyId" => "AKI_EC2",
+                "SecretAccessKey" => "SAK_EC2",
+                "Token" => "TOK_EC2",
+                "Expiration" => Dates.format(ec2_expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+            )
+
+            function ec2_metadata(url::AbstractString)
+                name = "local-credentials"
+                metadata_uri = "http://169.254.169.254/latest/meta-data"
+                if url == "$metadata_uri/iam/info"
+                    return HTTP.Response(200, JSON.json("InstanceProfileArn" => "ARN0"))
+                elseif url == "$metadata_uri/iam/security-credentials/"
+                    return HTTP.Response(200, name)
+                elseif url == "$metadata_uri/iam/security-credentials/$name"
+                    return HTTP.Response(200, JSON.json(ec2_json))
+                else
+                    return HTTP.Response(404)
+                end
+            end
+
+            ecs_expiration = floor(now(UTC), Second)
+            ecs_json = Dict(
+                "AccessKeyId" => "AKI_ECS",
+                "SecretAccessKey" => "SAK_ECS",
+                "Token" => "TOK_ECS",
+                "Expiration" => Dates.format(ecs_expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+            )
+
+            function ecs_metadata(url::AbstractString)
+                if startswith(url, "http://169.254.170.2/")
+                    return HTTP.Response(200, JSON.json(ecs_json))
+                else
+                    return HTTP.Response(404)
+                end
+            end
+
+            function http_request_patcher(funcs)
+                @patch function HTTP.request(method, url, args...; kwargs...)
+                    local r
+                    for f in funcs
+                        r = f(string(url))
+                        r.status != 404 && break
+                    end
+                    return r
+                end
+            end
 
             withenv(
                 [k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...,
@@ -536,6 +587,37 @@ end
 
                     creds = AWSCredentials(; profile="profile1")
                     @test creds.access_key_id == "AKI0"
+                end
+
+                @testset "default config credentials over EC2 instance credentials" begin
+                    write(
+                        config_file,
+                        """
+                        [default]
+                        aws_access_key_id = AKI1
+                        aws_secret_access_key = SAK1
+                        """,
+                    )
+                    isfile(creds_file) && rm(creds_file)
+
+                    apply(http_request_patcher([ecs_metadata])) do
+                        @test isnothing(AWS._aws_get_profile(; default=nothing))
+
+                        creds = AWSCredentials()
+                        @test creds.access_key_id == "AKI1"
+                    end
+                end
+
+                # Note: The AWS CLI behavior was not tested here as this scenario is
+                # challenging to test for.
+                @testset "EC2 instance credentials over container credentials" begin
+                    isfile(config_file) && rm(config_file)
+                    isfile(creds_file) && rm(creds_file)
+
+                    apply(http_request_patcher([ec2_metadata, ecs_metadata])) do
+                        creds = AWSCredentials()
+                        @test creds.access_key_id == "AKI_EC2"
+                    end
                 end
             end
         end
