@@ -400,7 +400,15 @@ end
         end
     end
 
-    @testset "Precedence" begin
+    # Verify that the search order for credentials mirrors the behavior of the AWS CLI
+    # (version 2.11.13). Whenever support is added for new credential types new tests should
+    # be added to this test set. To determine the credential preference order used by AWS
+    # CLI it is recommended you use a set of valid credentials and a set of invalid
+    # credentials to determine the precedence.
+    #
+    # Documentation on credential preference for the AWS SDK for .NET:
+    # https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/creds-assign.html
+    @testset "Credential Precedence" begin
         mktempdir() do dir
             config_file = joinpath(dir, "config")
             creds_file = joinpath(dir, "creds")
