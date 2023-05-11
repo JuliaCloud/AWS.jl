@@ -42,20 +42,22 @@ The fields `access_key_id` and `secret_key` hold the access keys used to authent
 [Temporary Security Credentials](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html) require the extra session `token` field.
 The `user_arn` and `account_number` fields are used to cache the result of the [`aws_user_arn`](@ref) and [`aws_account_number`](@ref) functions.
 
-AWS.jl searches for credentials in a series of possible locations and stops as soon as it finds credentials.
-The order of precedence for this search is as follows:
+AWS.jl searches for credentials in multiple locations and stops once credentials are found.
+The credential preference order [mirrors the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence)
+and is as follows:
 
-1. Passing credentials directly to the `AWSCredentials` constructor
+1. Credentials or a profile passed directly to the `AWSCredentials`
 2. [Environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
-3. Shared credential file [(~/.aws/credentials)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
-4. AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html).
-   This includes [Single Sign-On (SSO)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) credentials.
-   SSO users should follow the configuration instructions at the above link, and use `aws sso login` to log in.
-5. Assume Role provider via the aws config file
-6. Instance metadata service on an Amazon EC2 instance that has an IAM role configured
+3. [AWS Single Sign-On (SSO)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) provided via the AWS configuration file
+4. [AWS credentials file](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) (e.g. "~/.aws/credentials")
+5. [External process](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html) set via `credential_process` in the AWS configuration file
+6. [AWS configuration file](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html) set via `aws_access_key_id` in the AWS configuration file
+7. Assume Role provider via the aws config file
+8. [Amazon EC2 instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html)
+9. [Amazon ECS container credentials](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html)
 
 Once the credentials are found, the method by which they were accessed is stored in the `renew` field
-and the DateTime at which they will expire is stored in the `expiry` field.
+and the `DateTime` at which they will expire is stored in the `expiry` field.
 This allows the credentials to be refreshed as needed using [`check_credentials`](@ref).
 If `renew` is set to `nothing`, no attempt will be made to refresh the credentials.
 Any renewal function is expected to return `nothing` on failure or a populated `AWSCredentials` object on success.
