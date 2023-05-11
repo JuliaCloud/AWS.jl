@@ -959,12 +959,16 @@ end
             end
         end
 
+        # When the environmental variable isn't set then the ECS credential provider is
+        # unavailable.
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => nothing) do
             @test ecs_instance_credentials() === nothing
         end
 
+        # Specifying the environmental variable results in us attempting to connect to the
+        # ECS credential provider.
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/invalid") do
-            # Should internally generate a `ConnectError`
+            # Internally throws a `ConnectError` exception
             @test ecs_instance_credentials() === nothing
         end
     end

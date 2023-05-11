@@ -42,8 +42,8 @@ The fields `access_key_id` and `secret_key` hold the access keys used to authent
 [Temporary Security Credentials](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html) require the extra session `token` field.
 The `user_arn` and `account_number` fields are used to cache the result of the [`aws_user_arn`](@ref) and [`aws_account_number`](@ref) functions.
 
-AWS.jl searches for credentials in multiple locations and stops once credentials are found.
-The credential preference order [mirrors the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence)
+AWS.jl searches for credentials in multiple locations and stops once any credentials are found.
+The credential preference order mostly [mirrors the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence)
 and is as follows:
 
 1. Credentials or a profile passed directly to the `AWSCredentials`
@@ -53,8 +53,8 @@ and is as follows:
 5. [AWS credentials file](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) (e.g. "~/.aws/credentials")
 6. [External process](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html) set via `credential_process` in the AWS configuration file
 7. [AWS configuration file](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html) set via `aws_access_key_id` in the AWS configuration file
-8. [Amazon EC2 instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html)
-9. [Amazon ECS container credentials](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html)
+8. [Amazon ECS container credentials](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html)
+9. [Amazon EC2 instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html)
 
 Once the credentials are found, the method by which they were accessed is stored in the `renew` field
 and the `DateTime` at which they will expire is stored in the `expiry` field.
@@ -119,8 +119,9 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
     # Define the credential preference order:
     # https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence
     #
-    # Take note that the AWS CLI in practise preferse to use ECS instance credentials over
-    # EC2 credentials when the `AWS_CONTAINER_*` environmental variables are set.
+    # Note that the AWS CLI documentation states that EC2 instance credentials are preferred
+    # over ECS container credentials. However, in practice when `AWS_CONTAINER_*`
+    # environmental variables are set the ECS container credentials are prefered instead.
     functions = [
         () -> env_var_credentials(explicit_profile),
         credentials_from_webtoken,
@@ -324,8 +325,8 @@ end
 """
     ecs_instance_credentials() -> Union{AWSCredentials, Nothing}
 
-Retrieve credentials from the ECS credential endpoint. Return `nothing` if the ECS
-credential endpoint is not available.
+Retrieve credentials from the ECS credential endpoint. If the ECS credential endpoint is
+unavailable then `nothing` will be returned.
 
 More information can be found at:
 - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
@@ -431,8 +432,9 @@ end
 """
     sso_credentials(profile=nothing) -> Union{AWSCredentials, Nothing}
 
-Retrieve credentials via AWS single sign-on settings defined in the `profile` within the AWS
-config file. If no SSO settings are found for the `profile` `nothing` is returned.
+Retrieve credentials via AWS single sign-on (SSO) settings defined in the `profile` within
+the AWS configuration file. If no SSO settings are found for the `profile` `nothing` is
+returned.
 
 # Arguments
 - `profile`: Specific profile used to get `AWSCredentials`, default is `nothing`
@@ -464,9 +466,9 @@ end
 
 Retrieve `AWSCredentials` from the AWS CLI configuration file. The configuration file
 defaults to "~/.aws/config" but can be specified using the env variable  `AWS_CONFIG_FILE`.
-When no credentials can be found for the given `profile` then the associated
-`source_profile` will be used to recursively look up credentials of parent profiles. If
-still no credentials can be found then `nothing` will be returned.
+When no credentials are found for the given `profile` then the associated `source_profile`
+will be used to recursively look up credentials of source profiles. If still no credentials
+can be found then `nothing` will be returned.
 
 # Arguments
 - `profile`: Specific profile used to get AWSCredentials, default is `nothing`
@@ -493,6 +495,7 @@ function dot_aws_config(profile=nothing)
             access_key, secret_key, token = _aws_get_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token)
         elseif !isnothing(sso_start_url)
+            # Deprecation should only appear if `dot_aws_config` is called directly
             Base.depwarn(
                 "SSO support in `dot_aws_config` is deprecated, use `sso_credentials` instead.",
                 :dot_aws_config,
