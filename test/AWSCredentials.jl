@@ -655,7 +655,9 @@ end
                         end
                     end
 
-                    withenv("AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost:8080") do
+                    withenv(
+                        "AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost:8080"
+                    ) do
                         apply(http_request_patcher([ecs_metadata_localhost])) do
                             @test isnothing(AWS._aws_get_profile(; default=nothing))
 
@@ -695,8 +697,11 @@ end
                         end
                     end
 
-                    withenv("AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost:8080") do
-                        apply(http_request_patcher([ec2_metadata, ecs_metadata_localhost])) do
+                    withenv(
+                        "AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost:8080"
+                    ) do
+                        p = http_request_patcher([ec2_metadata, ecs_metadata_localhost])
+                        apply(p) do
                             creds = AWSCredentials()
                             @test creds.access_key_id == "AKI_ECS"
                         end
@@ -921,8 +926,8 @@ end
 
             metadata_uri = "http://169.254.169.254/latest/meta-data"
             if url == "$metadata_uri/iam/info"
-                instance_profile_arn = test_values["InstanceProfileArn"]
-                return HTTP.Response(200, JSON.json("InstanceProfileArn" => instance_profile_arn))
+                json = JSON.json("InstanceProfileArn" => test_values["InstanceProfileArn"])
+                return HTTP.Response(200, json)
             elseif url == "$metadata_uri/iam/security-credentials/"
                 return HTTP.Response(200, security_credentials)
             elseif url == "$metadata_uri/iam/security-credentials/$security_credentials"
@@ -978,7 +983,7 @@ end
             "RoleArn" => "ROLE_ECS",
         )
 
-        relative_uri_patch = @patch function HTTP.request(method::String, url, headers=[]; kwargs...)
+        rel_uri_patch = @patch function HTTP.request(::String, url, headers=[]; kwargs...)
             url = string(url)
 
             @test url == "http://169.254.170.2/get-credentials"
@@ -992,7 +997,7 @@ end
         end
 
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-credentials") do
-            apply(relative_uri_patch) do
+            apply(rel_uri_patch) do
                 result = ecs_instance_credentials()
                 @test result.access_key_id == json["AccessKeyId"]
                 @test result.secret_key == json["SecretAccessKey"]
@@ -1016,7 +1021,7 @@ end
             @test ecs_instance_credentials() === nothing
         end
 
-        full_uri_patch = @patch function HTTP.request(method::String, url, headers=[]; kwargs...)
+        full_uri_patch = @patch function HTTP.request(::String, url, headers=[]; kwargs...)
             url = string(url)
             authorization = http_header(headers, "Authorization")
 
