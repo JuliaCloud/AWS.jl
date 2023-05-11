@@ -397,7 +397,9 @@ end
 """
     dot_aws_credentials(profile=nothing) -> Union{AWSCredential, Nothing}
 
-Retrieve AWSCredentials from the `~/.aws/credentials` file
+Retrieve `AWSCredentials` from the AWS CLI credentials file. The credential file defaults to
+"~/.aws/credentials" but can be specified using the env variable
+`AWS_SHARED_CREDENTIALS_FILE`.
 
 # Arguments
 - `profile`: Specific profile used to get AWSCredentials, default is `nothing`
@@ -458,9 +460,11 @@ end
 """
     dot_aws_config(profile=nothing) -> Union{AWSCredential, Nothing}
 
-Retrieve AWSCredentials for the default or specified profile from the `~/.aws/config` file.
-If this fails, try to retrieve credentials from `_aws_get_role()`, otherwise return
-`nothing`.
+Retrieve `AWSCredentials` from the AWS CLI configuration file. The configuration file
+defaults to "~/.aws/config" but can be specified using the env variable  `AWS_CONFIG_FILE`.
+When no credentials can be found for the given `profile` then the associated
+`source_profile` will be used to recursively look up credentials of parent profiles. If
+still no credentials can be found then `nothing` will be returned.
 
 # Arguments
 - `profile`: Specific profile used to get AWSCredentials, default is `nothing`
