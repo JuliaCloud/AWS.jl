@@ -320,7 +320,7 @@ function ec2_instance_credentials(profile::AbstractString)
 end
 
 """
-    ecs_instance_credentials() -> Union{AWSCredential, Nothing}
+    ecs_instance_credentials() -> Union{AWSCredentials, Nothing}
 
 Retrieve credentials from the ECS credential endpoint. Return `nothing` if the ECS
 credential endpoint is not available.
@@ -372,7 +372,7 @@ function ecs_instance_credentials()
 end
 
 """
-    env_var_credentials(explicit_profile::Bool=false) -> Union{AWSCredential, Nothing}
+    env_var_credentials(explicit_profile::Bool=false) -> Union{AWSCredentials, Nothing}
 
 Use AWS environmental variables (e.g. AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, etc.)
 to create AWSCredentials.
@@ -395,7 +395,7 @@ function env_var_credentials(explicit_profile::Bool=false)
 end
 
 """
-    dot_aws_credentials(profile=nothing) -> Union{AWSCredential, Nothing}
+    dot_aws_credentials(profile=nothing) -> Union{AWSCredentials, Nothing}
 
 Retrieve `AWSCredentials` from the AWS CLI credentials file. The credential file defaults to
 "~/.aws/credentials" but can be specified using the env variable
@@ -427,13 +427,13 @@ function dot_aws_credentials_file()
 end
 
 """
-    sso_credentials(profile=nothing) -> Union{AWSCredential, Nothing}
+    sso_credentials(profile=nothing) -> Union{AWSCredentials, Nothing}
 
 Retrieve credentials via AWS single sign-on settings defined in the `profile` within the AWS
 config file. If no SSO settings are found for the `profile` `nothing` is returned.
 
 # Arguments
-- `profile`: Specific profile used to get `AWSCredential`s, default is `nothing`
+- `profile`: Specific profile used to get `AWSCredentials`, default is `nothing`
 """
 function sso_credentials(profile=nothing)
     config_file = @mock dot_aws_config_file()
@@ -458,7 +458,7 @@ function sso_credentials(profile=nothing)
 end
 
 """
-    dot_aws_config(profile=nothing) -> Union{AWSCredential, Nothing}
+    dot_aws_config(profile=nothing) -> Union{AWSCredentials, Nothing}
 
 Retrieve `AWSCredentials` from the AWS CLI configuration file. The configuration file
 defaults to "~/.aws/config" but can be specified using the env variable  `AWS_CONFIG_FILE`.
