@@ -48,11 +48,11 @@ and is as follows:
 
 1. Credentials or a profile passed directly to the `AWSCredentials`
 2. [Environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
-3. [AWS Single Sign-On (SSO)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) provided via the AWS configuration file
-4. [AWS credentials file](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) (e.g. "~/.aws/credentials")
-5. [External process](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html) set via `credential_process` in the AWS configuration file
-6. [AWS configuration file](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html) set via `aws_access_key_id` in the AWS configuration file
-7. Assume Role provider via the aws config file
+3. [Web Identity](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html#cli-configure-role-oidc)
+4. [AWS Single Sign-On (SSO)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) provided via the AWS configuration file
+5. [AWS credentials file](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) (e.g. "~/.aws/credentials")
+6. [External process](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html) set via `credential_process` in the AWS configuration file
+7. [AWS configuration file](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html) set via `aws_access_key_id` in the AWS configuration file
 8. [Amazon EC2 instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html)
 9. [Amazon ECS container credentials](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html)
 
@@ -123,10 +123,10 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
     # EC2 credentials when the `AWS_CONTAINER_*` environmental variables are set.
     functions = [
         () -> env_var_credentials(explicit_profile),
+        credentials_from_webtoken,
         () -> sso_credentials(profile),
         () -> dot_aws_credentials(profile),
         () -> dot_aws_config(profile),
-        credentials_from_webtoken,
         ecs_instance_credentials,
         () -> ec2_instance_credentials(profile),
     ]

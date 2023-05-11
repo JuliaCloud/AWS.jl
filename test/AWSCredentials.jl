@@ -530,6 +530,41 @@ end
                     end
                 end
 
+                @testset "Web identity preferred over SSO" begin
+                    write(
+                        config_file,
+                        """
+                        [default]
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_role_name = role1
+                        """,
+                    )
+                    isfile(creds_file) && rm(creds_file)
+
+                    web_identity_file = joinpath(dir, "web_identity")
+                    write(web_identity_file, "webid")
+
+                    patches = [
+                        Patches._assume_role_patch(
+                            "AssumeRoleWithWebIdentity";
+                            access_key="AKI_WEB",
+                            secret_key="SAK_WEB",
+                            session_token="TOK_WEB",
+                        ),
+                        Patches.sso_service_patches("AKI_SSO", "SAK_SSO"),
+                    ]
+
+                    withenv(
+                        "AWS_WEB_IDENTITY_TOKEN_FILE" => web_identity_file,
+                        "AWS_ROLE_ARN" => "webid",
+                    ) do
+                        apply(patches) do
+                            creds = AWSCredentials()
+                            @test creds.access_key_id == "AKI_WEB"
+                        end
+                    end
+                end
+
                 @testset "SSO preferred over credentials file" begin
                     write(
                         config_file,
@@ -541,9 +576,9 @@ end
                     )
                     write(creds_file, basic_creds_content)
 
-                    apply(Patches.sso_service_patches("AKI0", "SAK0")) do
+                    apply(Patches.sso_service_patches("AKI_SSO", "SAK_SSO")) do
                         creds = AWSCredentials(; profile="profile1")
-                        @test creds.access_key_id == "AKI0"
+                        @test creds.access_key_id == "AKI_SSO"
                     end
                 end
 
