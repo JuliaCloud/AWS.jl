@@ -13,6 +13,8 @@ macro test_ecode(error_codes, expr)
     end
 end
 
+const EXPIRATION_FMT = dateformat"yyyy-mm-dd\THH:MM:SS\Z"
+
 @testset "Load Credentials" begin
     user = aws_user_arn(aws)
     @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
@@ -399,6 +401,297 @@ end
             end
         end
     end
+
+    # Verify that the search order for credentials mirrors the behavior of the AWS CLI
+    # (version 2.11.13). Whenever support is added for new credential types new tests should
+    # be added to this test set. To determine the credential preference order used by AWS
+    # CLI it is recommended you use a set of valid credentials and a set of invalid
+    # credentials to determine the precedence.
+    #
+    # Documentation on credential precedence:
+    # - https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence
+    # - https://docs.aws.amazon.com/sdk-for-net/v3/developer-guide/creds-assign.html
+    # - https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html
+    @testset "Credential Precedence" begin
+        mktempdir() do dir
+            config_file = joinpath(dir, "config")
+            creds_file = joinpath(dir, "creds")
+
+            basic_creds_content = """
+                [profile1]
+                aws_access_key_id = AKI1
+                aws_secret_access_key = SAK1
+
+                [profile2]
+                aws_access_key_id = AKI2
+                aws_secret_access_key = SAK2
+                """
+
+            ec2_json = Dict(
+                "AccessKeyId" => "AKI_EC2",
+                "SecretAccessKey" => "SAK_EC2",
+                "Token" => "TOK_EC2",
+                "Expiration" => Dates.format(now(UTC), EXPIRATION_FMT),
+            )
+
+            function ec2_metadata(url::AbstractString)
+                name = "local-credentials"
+                metadata_uri = "http://169.254.169.254/latest/meta-data"
+                if url == "$metadata_uri/iam/info"
+                    return HTTP.Response(200, JSON.json("InstanceProfileArn" => "ARN0"))
+                elseif url == "$metadata_uri/iam/security-credentials/"
+                    return HTTP.Response(200, name)
+                elseif url == "$metadata_uri/iam/security-credentials/$name"
+                    return HTTP.Response(200, JSON.json(ec2_json))
+                else
+                    return HTTP.Response(404)
+                end
+            end
+
+            ecs_json = Dict(
+                "AccessKeyId" => "AKI_ECS",
+                "SecretAccessKey" => "SAK_ECS",
+                "Token" => "TOK_ECS",
+                "Expiration" => Dates.format(now(UTC), EXPIRATION_FMT),
+            )
+
+            function ecs_metadata(url::AbstractString)
+                if startswith(url, "http://169.254.170.2/")
+                    return HTTP.Response(200, JSON.json(ecs_json))
+                else
+                    return HTTP.Response(404)
+                end
+            end
+
+            function http_request_patcher(funcs)
+                @patch function HTTP.request(method, url, args...; kwargs...)
+                    local r
+                    for f in funcs
+                        r = f(string(url))
+                        r.status != 404 && break
+                    end
+                    return r
+                end
+            end
+
+            withenv(
+                [k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...,
+                "AWS_SHARED_CREDENTIALS_FILE" => creds_file,
+                "AWS_CONFIG_FILE" => config_file,
+            ) do
+                @testset "explicit profile preferred" begin
+                    isfile(config_file) && rm(config_file)
+                    write(creds_file, basic_creds_content)
+
+                    withenv("AWS_PROFILE" => "profile1") do
+                        creds = AWSCredentials(; profile="profile2")
+                        @test creds.access_key_id == "AKI2"
+                    end
+
+                    withenv(
+                        "AWS_ACCESS_KEY_ID" => "AKI0",
+                        "AWS_SECRET_ACCESS_KEY" => "SAK0",
+                        # format trick: using this comment to force use of multiple lines
+                    ) do
+                        creds = AWSCredentials(; profile="profile2")
+                        @test creds.access_key_id == "AKI2"
+                    end
+                end
+
+                @testset "AWS_ACCESS_KEY_ID preferred over AWS_PROFILE" begin
+                    isfile(config_file) && rm(config_file)
+                    write(creds_file, basic_creds_content)
+
+                    withenv(
+                        "AWS_PROFILE" => "profile1",
+                        "AWS_ACCESS_KEY_ID" => "AKI0",
+                        "AWS_SECRET_ACCESS_KEY" => "SAK0",
+                    ) do
+                        creds = AWSCredentials()
+                        @test creds.access_key_id == "AKI0"
+                    end
+                end
+
+                # The AWS CLI used to use `AWS_DEFAULT_PROFILE` to set the AWS profile via the
+                # command line but this was deprecated in favor of `AWS_PROFILE`. We'll probably
+                # keeps support for this as long as AWS CLI continues to support it.
+                # https://github.com/aws/aws-cli/issues/2597
+                @testset "AWS_PROFILE preferred over AWS_DEFAULT_PROFILE" begin
+                    isfile(config_file) && rm(config_file)
+                    write(creds_file, basic_creds_content)
+
+                    withenv(
+                        "AWS_DEFAULT_PROFILE" => "profile1",
+                        "AWS_PROFILE" => "profile2",
+                        # format trick: using this comment to force use of multiple lines
+                    ) do
+                        creds = AWSCredentials()
+                        @test creds.access_key_id == "AKI2"
+                    end
+                end
+
+                @testset "Web identity preferred over SSO" begin
+                    write(
+                        config_file,
+                        """
+                        [default]
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_role_name = role1
+                        """,
+                    )
+                    isfile(creds_file) && rm(creds_file)
+
+                    web_identity_file = joinpath(dir, "web_identity")
+                    write(web_identity_file, "webid")
+
+                    patches = [
+                        Patches._assume_role_patch(
+                            "AssumeRoleWithWebIdentity";
+                            access_key="AKI_WEB",
+                            secret_key="SAK_WEB",
+                            session_token="TOK_WEB",
+                        ),
+                        Patches.sso_service_patches("AKI_SSO", "SAK_SSO"),
+                    ]
+
+                    withenv(
+                        "AWS_WEB_IDENTITY_TOKEN_FILE" => web_identity_file,
+                        "AWS_ROLE_ARN" => "webid",
+                    ) do
+                        apply(patches) do
+                            creds = AWSCredentials()
+                            @test creds.access_key_id == "AKI_WEB"
+                        end
+                    end
+                end
+
+                @testset "SSO preferred over credentials file" begin
+                    write(
+                        config_file,
+                        """
+                        [profile profile1]
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
+                        sso_role_name = role1
+                        """,
+                    )
+                    write(creds_file, basic_creds_content)
+
+                    apply(Patches.sso_service_patches("AKI_SSO", "SAK_SSO")) do
+                        creds = AWSCredentials(; profile="profile1")
+                        @test creds.access_key_id == "AKI_SSO"
+                    end
+                end
+
+                @testset "Credential file over credential_process" begin
+                    json = Dict(
+                        "Version" => 1,
+                        "AccessKeyId" => "AKI0",
+                        "SecretAccessKey" => "SAK0",
+                        # format trick: using this comment to force use of multiple lines
+                    )
+                    write(
+                        config_file,
+                        """
+                        [profile profile1]
+                        credential_process = echo '$(JSON.json(json))'
+                        """,
+                    )
+                    write(creds_file, basic_creds_content)
+
+                    creds = AWSCredentials(; profile="profile1")
+                    @test creds.access_key_id == "AKI1"
+                end
+
+                @testset "credential_process over config credentials" begin
+                    json = Dict(
+                        "Version" => 1,
+                        "AccessKeyId" => "AKI0",
+                        "SecretAccessKey" => "SAK0",
+                        # format trick: using this comment to force use of multiple lines
+                    )
+                    write(
+                        config_file,
+                        """
+                        [profile profile1]
+                        aws_access_key_id = AKI1
+                        aws_secret_access_key = SAK1
+                        credential_process = echo '$(JSON.json(json))'
+                        """,
+                    )
+                    isfile(creds_file) && rm(creds_file)
+
+                    creds = AWSCredentials(; profile="profile1")
+                    @test creds.access_key_id == "AKI0"
+                end
+
+                @testset "default config credentials over ECS container credentials ENV variables" begin
+                    write(
+                        config_file,
+                        """
+                        [default]
+                        aws_access_key_id = AKI1
+                        aws_secret_access_key = SAK1
+                        """,
+                    )
+                    isfile(creds_file) && rm(creds_file)
+
+                    withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-creds") do
+                        apply(http_request_patcher([ecs_metadata])) do
+                            @test isnothing(AWS._aws_get_profile(; default=nothing))
+
+                            creds = AWSCredentials()
+                            @test creds.access_key_id == "AKI1"
+                        end
+                    end
+                end
+
+                @testset "default config credentials over EC2 instance credentials" begin
+                    write(
+                        config_file,
+                        """
+                        [default]
+                        aws_access_key_id = AKI1
+                        aws_secret_access_key = SAK1
+                        """,
+                    )
+                    isfile(creds_file) && rm(creds_file)
+
+                    apply(http_request_patcher([ec2_metadata])) do
+                        @test isnothing(AWS._aws_get_profile(; default=nothing))
+
+                        creds = AWSCredentials()
+                        @test creds.access_key_id == "AKI1"
+                    end
+                end
+
+                @testset "ECS container credentials ENV variables over EC2 instance credentials" begin
+                    isfile(config_file) && rm(config_file)
+                    isfile(creds_file) && rm(creds_file)
+
+                    withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-creds") do
+                        apply(http_request_patcher([ec2_metadata, ecs_metadata])) do
+                            creds = AWSCredentials()
+                            @test creds.access_key_id == "AKI_ECS"
+                        end
+                    end
+                end
+
+                # Note: It appears that the ECS container credentials are only used when
+                # a `AWS_CONTAINER_*` environmental variable is set. However, this test
+                # ensures that if we do add implicit support that the documented precedence
+                # order is not violated.
+                @testset "EC2 instance credentials over ECS container credentials" begin
+                    isfile(config_file) && rm(config_file)
+                    isfile(creds_file) && rm(creds_file)
+
+                    apply(http_request_patcher([ec2_metadata, ecs_metadata])) do
+                        creds = AWSCredentials()
+                        @test creds.access_key_id == "AKI_EC2"
+                    end
+                end
+            end
+        end
+    end
 end
 
 @testset "Retrieving AWS Credentials" begin
@@ -426,13 +719,13 @@ end
         uri = test_values["URI"]
         url = string(url)
 
-        if url == "http://169.254.169.254/latest/meta-data/iam/info"
+        metadata_uri = "http://169.254.169.254/latest/meta-data"
+        if url == "$metadata_uri/iam/info"
             instance_profile_arn = test_values["InstanceProfileArn"]
             return HTTP.Response("{\"InstanceProfileArn\": \"$instance_profile_arn\"}")
-        elseif url == "http://169.254.169.254/latest/meta-data/iam/security-credentials/"
+        elseif url == "$metadata_uri/iam/security-credentials/"
             return HTTP.Response(test_values["Security-Credentials"])
-        elseif url ==
-               "http://169.254.169.254/latest/meta-data/iam/security-credentials/$security_credentials" ||
+        elseif url == "$metadata_uri/iam/security-credentials/$security_credentials" ||
             url == "http://169.254.170.2$uri"
             my_dict = JSON.json(test_values)
             response = HTTP.Response(my_dict)
@@ -502,7 +795,7 @@ end
                         test_values["AccessKeyId"], test_values["SecretAccessKey"]
                     ),
                 ) do
-                    specified_result = dot_aws_config(test_values["Test-SSO-Profile"])
+                    specified_result = sso_credentials(test_values["Test-SSO-Profile"])
 
                     @test specified_result.access_key_id == test_values["AccessKeyId"]
                     @test specified_result.secret_key == test_values["SecretAccessKey"]
@@ -529,47 +822,22 @@ end
             chmod(credential_process_file, 0o700)
 
             withenv("AWS_CONFIG_FILE" => config_file) do
-                @testset "support" begin
-                    open(config_file, "w") do io
-                        write(
-                            io,
-                            """
-                            [profile $(test_values["Test-Config-Profile"])]
-                            credential_process = $(abspath(credential_process_file))
-                            """,
-                        )
-                    end
-
-                    result = dot_aws_config(test_values["Test-Config-Profile"])
-
-                    @test result.access_key_id == test_values["Test-AccessKeyId"]
-                    @test result.secret_key == test_values["Test-SecretAccessKey"]
-                    @test isempty(result.token)
-                    @test result.expiry == typemax(DateTime)
+                open(config_file, "w") do io
+                    write(
+                        io,
+                        """
+                        [profile $(test_values["Test-Config-Profile"])]
+                        credential_process = $(abspath(credential_process_file))
+                        """,
+                    )
                 end
 
-                # The AWS CLI uses the config file `credential_process` setting over
-                # specifying the config file `aws_access_key_id`/`aws_secret_access_key`.
-                @testset "precedence" begin
-                    open(config_file, "w") do io
-                        write(
-                            io,
-                            """
-                            [profile $(test_values["Test-Config-Profile"])]
-                            aws_access_key_id = invalid
-                            aws_secret_access_key = invalid
-                            credential_process = $(abspath(credential_process_file))
-                            """,
-                        )
-                    end
+                result = dot_aws_config(test_values["Test-Config-Profile"])
 
-                    result = dot_aws_config(test_values["Test-Config-Profile"])
-
-                    @test result.access_key_id == test_values["Test-AccessKeyId"]
-                    @test result.secret_key == test_values["Test-SecretAccessKey"]
-                    @test isempty(result.token)
-                    @test result.expiry == typemax(DateTime)
-                end
+                @test result.access_key_id == test_values["Test-AccessKeyId"]
+                @test result.secret_key == test_values["Test-SecretAccessKey"]
+                @test isempty(result.token)
+                @test result.expiry == typemax(DateTime)
             end
         end
     end
@@ -690,6 +958,19 @@ end
                 @test result.renew == ecs_instance_credentials
             end
         end
+
+        # When the environmental variable isn't set then the ECS credential provider is
+        # unavailable.
+        withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => nothing) do
+            @test ecs_instance_credentials() === nothing
+        end
+
+        # Specifying the environmental variable results in us attempting to connect to the
+        # ECS credential provider.
+        withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/invalid") do
+            # Internally throws a `ConnectError` exception
+            @test ecs_instance_credentials() === nothing
+        end
     end
 
     @testset "Web Identity File" begin
@@ -780,7 +1061,7 @@ end
             "AccessKeyId" => "access-key",
             "SecretAccessKey" => "secret-key",
             "SessionToken" => "session-token",
-            "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+            "Expiration" => Dates.format(expiration, EXPIRATION_FMT),
         )
         creds = external_process_credentials(gen_process(temporary_resp))
         @test creds.access_key_id == temporary_resp["AccessKeyId"]
@@ -797,7 +1078,7 @@ end
             "Version" => 1,
             "AccessKeyId" => "access-key",
             "SecretAccessKey" => "secret-key",
-            "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+            "Expiration" => Dates.format(expiration, EXPIRATION_FMT),
         )
         ex = KeyError("SessionToken")
         @test_throws ex external_process_credentials(gen_process(missing_token_resp))
@@ -814,7 +1095,9 @@ end
 
     @testset "Credentials Not Found" begin
         patches = [
-            @patch HTTP.request(method::String, url; kwargs...) = nothing
+            @patch function HTTP.request(method::String, url, args...; kwargs...)
+                throw(HTTP.Exceptions.ConnectError(string(url), "host is unreachable"))
+            end
             Patches._cred_file_patch
             Patches._config_file_patch
         ]
