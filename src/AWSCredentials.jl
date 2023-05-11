@@ -338,18 +338,19 @@ More information can be found at:
 - `ParsingError`: Invalid HTTP request target
 """
 function ecs_instance_credentials()
-    # > If your Amazon EC2 instance is using at least version `1.11.0` of the container agent
-    # > and a supported version of the AWS CLI or SDKs, then the SDK client will see that the
-    # > `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` variable is available, and it will use the
-    # > provided credentials to make calls to the AWS APIs
+    # The Amazon ECS agent will automatically populate the environmental variable
+    # `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` when running inside of an ECS task. We're
+    # interpreting this to mean than ECS credential provider should only be used if the
+    # `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` variable is set.
     # – https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
-    if !haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+    if haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+        endpoint = "http://169.254.170.2" * ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
+    else
         return nothing
     end
 
-    path = ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
     response = try
-        @mock HTTP.request("GET", "http://169.254.170.2$path"; retry=false, connect_timeout=5)
+        @mock HTTP.request("GET", endpoint; retry=false, connect_timeout=5)
     catch e
         e isa HTTP.Exceptions.ConnectError && return nothing
         rethrow()
