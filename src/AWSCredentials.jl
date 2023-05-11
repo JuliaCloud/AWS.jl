@@ -346,10 +346,15 @@ function ecs_instance_credentials()
     # interpreting this to mean than ECS credential provider should only be used if any of
     # the `AWS_CONTAINER_CREDENTIALS_*_URI` variables are set.
     # – https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
-    if haskey(ENV, "AWS_CONTAINER_CREDENTIALS_FULL_URI")
-        endpoint = ENV["AWS_CONTAINER_CREDENTIALS_FULL_URI"]
-    elseif haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+    #
+    # > Note: This setting (`AWS_CONTAINER_CREDENTIALS_FULL_URI`) is an alternative to
+    # > `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` and will only be used if
+    # > `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` is not set.
+    # – https://docs.aws.amazon.com/sdkref/latest/guide/feature-container-credentials.html
+    if haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
         endpoint = "http://169.254.170.2" * ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
+    elseif haskey(ENV, "AWS_CONTAINER_CREDENTIALS_FULL_URI")
+        endpoint = ENV["AWS_CONTAINER_CREDENTIALS_FULL_URI"]
     else
         return nothing
     end

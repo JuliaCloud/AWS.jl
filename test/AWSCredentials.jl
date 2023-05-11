@@ -975,12 +975,12 @@ end
 
     @testset "Instance - ECS" begin
         expiration = floor(now(UTC), Second)
-        json = Dict(
-            "AccessKeyId" => "AKI_ECS",
-            "SecretAccessKey" => "SAK_ECS",
-            "Token" => "TOK_ECS",
+        rel_uri_json = Dict(
+            "AccessKeyId" => "AKI_REL_ECS",
+            "SecretAccessKey" => "SAK_REL_ECS",
+            "Token" => "TOK_REL_ECS",
             "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
-            "RoleArn" => "ROLE_ECS",
+            "RoleArn" => "ROLE_REL_ECS",
         )
 
         rel_uri_patch = @patch function HTTP.request(::String, url, headers=[]; kwargs...)
@@ -990,7 +990,7 @@ end
             @test isempty(headers)
 
             if url == "http://169.254.170.2/get-credentials"
-                return HTTP.Response(200, JSON.json(json))
+                return HTTP.Response(200, JSON.json(rel_uri_json))
             else
                 return HTTP.Response(404)
             end
@@ -999,10 +999,10 @@ end
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-credentials") do
             apply(rel_uri_patch) do
                 result = ecs_instance_credentials()
-                @test result.access_key_id == json["AccessKeyId"]
-                @test result.secret_key == json["SecretAccessKey"]
-                @test result.token == json["Token"]
-                @test result.user_arn == json["RoleArn"]
+                @test result.access_key_id == rel_uri_json["AccessKeyId"]
+                @test result.secret_key == rel_uri_json["SecretAccessKey"]
+                @test result.token == rel_uri_json["Token"]
+                @test result.user_arn == rel_uri_json["RoleArn"]
                 @test result.expiry == expiration
                 @test result.renew == ecs_instance_credentials
             end
@@ -1021,6 +1021,14 @@ end
             @test ecs_instance_credentials() === nothing
         end
 
+        full_uri_json = Dict(
+            "AccessKeyId" => "AKI_FULL_ECS",
+            "SecretAccessKey" => "SAK_FULL_ECS",
+            "Token" => "TOK_FULL_ECS",
+            "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+            "RoleArn" => "ROLE_FULL_ECS",
+        )
+
         full_uri_patch = @patch function HTTP.request(::String, url, headers=[]; kwargs...)
             url = string(url)
             authorization = http_header(headers, "Authorization")
@@ -1029,7 +1037,7 @@ end
             @test authorization == "Basic abcd"
 
             if url == "http://localhost/get-credentials" && authorization == "Basic abcd"
-                return HTTP.Response(200, JSON.json(json))
+                return HTTP.Response(200, JSON.json(full_uri_json))
             else
                 return HTTP.Response(403)
             end
@@ -1041,12 +1049,24 @@ end
         ) do
             apply(full_uri_patch) do
                 result = ecs_instance_credentials()
-                @test result.access_key_id == json["AccessKeyId"]
-                @test result.secret_key == json["SecretAccessKey"]
-                @test result.token == json["Token"]
-                @test result.user_arn == json["RoleArn"]
+                @test result.access_key_id == full_uri_json["AccessKeyId"]
+                @test result.secret_key == full_uri_json["SecretAccessKey"]
+                @test result.token == full_uri_json["Token"]
+                @test result.user_arn == full_uri_json["RoleArn"]
                 @test result.expiry == expiration
                 @test result.renew == ecs_instance_credentials
+            end
+        end
+
+        # `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` should be preferred over
+        # `AWS_CONTAINER_CREDENTIALS_FULL_URI`.
+        withenv(
+            "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-credentials",
+            "AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost/get-credentials",
+        ) do
+            apply(rel_uri_patch) do
+                result = ecs_instance_credentials()
+                @test result.access_key_id == rel_uri_json["AccessKeyId"]
             end
         end
     end
