@@ -600,7 +600,7 @@ end
                     )
                     isfile(creds_file) && rm(creds_file)
 
-                    apply(http_request_patcher([ecs_metadata])) do
+                    apply(http_request_patcher([ec2_metadata])) do
                         @test isnothing(AWS._aws_get_profile(; default=nothing))
 
                         creds = AWSCredentials()
@@ -610,7 +610,7 @@ end
 
                 # Note: The AWS CLI behavior was not tested here as this scenario is
                 # challenging to test for.
-                @testset "EC2 instance credentials over container credentials" begin
+                @testset "EC2 instance credentials over ECS container credentials" begin
                     isfile(config_file) && rm(config_file)
                     isfile(creds_file) && rm(creds_file)
 
