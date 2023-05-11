@@ -114,17 +114,19 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
     explicit_profile = !isnothing(profile)
     profile = @something profile _aws_get_profile()
 
-    # Define the credential preference order
+    # Define the credential preference order:
     # https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence
+    #
+    # Take note that the AWS CLI in practise preferse to use ECS instance credentials over
+    # EC2 credentials when the `AWS_CONTAINER_*` environmental variables are set.
     functions = [
         () -> env_var_credentials(explicit_profile),
         () -> sso_credentials(profile),
         () -> dot_aws_credentials(profile),
         () -> dot_aws_config(profile),
         credentials_from_webtoken,
-        () -> ecs_instance_credentials(; require_env=true),
+        ecs_instance_credentials,
         () -> ec2_instance_credentials(profile),
-        () -> ecs_instance_credentials(; require_env=false),
     ]
 
     # Loop through our search locations until we get credentials back
@@ -318,7 +320,7 @@ function ec2_instance_credentials(profile::AbstractString)
 end
 
 """
-    ecs_instance_credentials(; require_env::Bool=true) -> Union{AWSCredential, Nothing}
+    ecs_instance_credentials() -> Union{AWSCredential, Nothing}
 
 Retrieve credentials from the ECS credential endpoint. Return `nothing` if the ECS
 credential endpoint is not available.
@@ -326,10 +328,6 @@ credential endpoint is not available.
 More information can be found at:
 - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
 - https://docs.aws.amazon.com/sdkref/latest/guide/feature-container-credentials.html
-
-# Keywords
-- `require_env::Bool`: Only attempt to connect to the ECS credential endpoint when the
-  environmental variable `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` is set.
 
 # Returns
 - `AWSCredentials`: AWSCredentials from `ECS` credentials URI, `nothing` if the Env Var is
@@ -339,12 +337,17 @@ More information can be found at:
 - `StatusError`: If the response status is >= 300
 - `ParsingError`: Invalid HTTP request target
 """
-function ecs_instance_credentials(; require_env::Bool=true)
-    if require_env && !haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+function ecs_instance_credentials()
+    # > If your Amazon EC2 instance is using at least version `1.11.0` of the container agent
+    # > and a supported version of the AWS CLI or SDKs, then the SDK client will see that the
+    # > `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` variable is available, and it will use the
+    # > provided credentials to make calls to the AWS APIs
+    # – https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+    if !haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
         return nothing
     end
 
-    path = get(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI", "")
+    path = ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
     response = try
         @mock HTTP.request("GET", "http://169.254.170.2$path"; retry=false, connect_timeout=5)
     catch e

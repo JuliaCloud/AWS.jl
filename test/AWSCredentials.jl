@@ -641,8 +641,10 @@ end
                     end
                 end
 
-                # Note: The AWS CLI behavior was not tested here as this scenario is
-                # challenging to test for.
+                # Note: It appears that the ECS container credentials are only used when
+                # a `AWS_CONTAINER_*` environmental variable is set. However, this test
+                # ensures that if we do add implicit support that the documented precedence
+                # order is not violated.
                 @testset "EC2 instance credentials over ECS container credentials" begin
                     isfile(config_file) && rm(config_file)
                     isfile(creds_file) && rm(creds_file)
@@ -689,7 +691,7 @@ end
         elseif url == "$metadata_uri/iam/security-credentials/"
             return HTTP.Response(test_values["Security-Credentials"])
         elseif url == "$metadata_uri/iam/security-credentials/$security_credentials" ||
-            startswith(url, "http://169.254.170.2")
+            url == "http://169.254.170.2$uri"
             my_dict = JSON.json(test_values)
             response = HTTP.Response(my_dict)
             return response
@@ -912,17 +914,7 @@ end
     @testset "Instance - ECS" begin
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => test_values["URI"]) do
             apply(_http_request_patch) do
-                result = ecs_instance_credentials(; require_env=true)
-                @test result.access_key_id == test_values["AccessKeyId"]
-                @test result.secret_key == test_values["SecretAccessKey"]
-                @test result.token == test_values["Token"]
-                @test result.user_arn == test_values["RoleArn"]
-                @test result.expiry == test_values["Expiration"]
-                @test result.renew == ecs_instance_credentials
-
-                # TODO: If supported it would be better to just compare against compare
-                # against the last `result`.
-                result = ecs_instance_credentials(; require_env=false)
+                result = ecs_instance_credentials()
                 @test result.access_key_id == test_values["AccessKeyId"]
                 @test result.secret_key == test_values["SecretAccessKey"]
                 @test result.token == test_values["Token"]
@@ -933,17 +925,12 @@ end
         end
 
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => nothing) do
-            apply(_http_request_patch) do
-                result = ecs_instance_credentials(; require_env=false)
-                @test result.access_key_id == test_values["AccessKeyId"]
-                @test result.secret_key == test_values["SecretAccessKey"]
-                @test result.token == test_values["Token"]
-                @test result.user_arn == test_values["RoleArn"]
-                @test result.expiry == test_values["Expiration"]
-                @test result.renew == ecs_instance_credentials
+            @test ecs_instance_credentials() === nothing
+        end
 
-                @test ecs_instance_credentials(; require_env=true) === nothing
-            end
+        withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/invalid") do
+            # Should internally generate a `ConnectError`
+            @test ecs_instance_credentials() === nothing
         end
     end
 
