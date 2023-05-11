@@ -589,6 +589,27 @@ end
                     @test creds.access_key_id == "AKI0"
                 end
 
+                @testset "default config credentials over ECS container credentials ENV variables" begin
+                    write(
+                        config_file,
+                        """
+                        [default]
+                        aws_access_key_id = AKI1
+                        aws_secret_access_key = SAK1
+                        """,
+                    )
+                    isfile(creds_file) && rm(creds_file)
+
+                    withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-creds") do
+                        apply(http_request_patcher([ecs_metadata])) do
+                            @test isnothing(AWS._aws_get_profile(; default=nothing))
+
+                            creds = AWSCredentials()
+                            @test creds.access_key_id == "AKI1"
+                        end
+                    end
+                end
+
                 @testset "default config credentials over EC2 instance credentials" begin
                     write(
                         config_file,
@@ -605,6 +626,18 @@ end
 
                         creds = AWSCredentials()
                         @test creds.access_key_id == "AKI1"
+                    end
+                end
+
+                @testset "ECS container credentials ENV variables over EC2 instance credentials" begin
+                    isfile(config_file) && rm(config_file)
+                    isfile(creds_file) && rm(creds_file)
+
+                    withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-creds") do
+                        apply(http_request_patcher([ec2_metadata, ecs_metadata])) do
+                            creds = AWSCredentials()
+                            @test creds.access_key_id == "AKI_ECS"
+                        end
                     end
                 end
 
@@ -649,14 +682,14 @@ end
         uri = test_values["URI"]
         url = string(url)
 
-        if url == "http://169.254.169.254/latest/meta-data/iam/info"
+        metadata_uri = "http://169.254.169.254/latest/meta-data"
+        if url == "$metadata_uri/iam/info"
             instance_profile_arn = test_values["InstanceProfileArn"]
             return HTTP.Response("{\"InstanceProfileArn\": \"$instance_profile_arn\"}")
-        elseif url == "http://169.254.169.254/latest/meta-data/iam/security-credentials/"
+        elseif url == "$metadata_uri/iam/security-credentials/"
             return HTTP.Response(test_values["Security-Credentials"])
-        elseif url ==
-               "http://169.254.169.254/latest/meta-data/iam/security-credentials/$security_credentials" ||
-            url == "http://169.254.170.2$uri"
+        elseif url == "$metadata_uri/iam/security-credentials/$security_credentials" ||
+            startswith(url, "http://169.254.170.2")
             my_dict = JSON.json(test_values)
             response = HTTP.Response(my_dict)
             return response
@@ -879,13 +912,37 @@ end
     @testset "Instance - ECS" begin
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => test_values["URI"]) do
             apply(_http_request_patch) do
-                result = ecs_instance_credentials()
+                result = ecs_instance_credentials(; require_env=true)
                 @test result.access_key_id == test_values["AccessKeyId"]
                 @test result.secret_key == test_values["SecretAccessKey"]
                 @test result.token == test_values["Token"]
                 @test result.user_arn == test_values["RoleArn"]
                 @test result.expiry == test_values["Expiration"]
                 @test result.renew == ecs_instance_credentials
+
+                # TODO: If supported it would be better to just compare against compare
+                # against the last `result`.
+                result = ecs_instance_credentials(; require_env=false)
+                @test result.access_key_id == test_values["AccessKeyId"]
+                @test result.secret_key == test_values["SecretAccessKey"]
+                @test result.token == test_values["Token"]
+                @test result.user_arn == test_values["RoleArn"]
+                @test result.expiry == test_values["Expiration"]
+                @test result.renew == ecs_instance_credentials
+            end
+        end
+
+        withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => nothing) do
+            apply(_http_request_patch) do
+                result = ecs_instance_credentials(; require_env=false)
+                @test result.access_key_id == test_values["AccessKeyId"]
+                @test result.secret_key == test_values["SecretAccessKey"]
+                @test result.token == test_values["Token"]
+                @test result.user_arn == test_values["RoleArn"]
+                @test result.expiry == test_values["Expiration"]
+                @test result.renew == ecs_instance_credentials
+
+                @test ecs_instance_credentials(; require_env=true) === nothing
             end
         end
     end
@@ -1012,7 +1069,9 @@ end
 
     @testset "Credentials Not Found" begin
         patches = [
-            @patch HTTP.request(method::String, url; kwargs...) = nothing
+            @patch function HTTP.request(method::String, url, args...; kwargs...)
+                throw(HTTP.Exceptions.ConnectError(url, "host is unreachable"))
+            end
             Patches._cred_file_patch
             Patches._config_file_patch
         ]

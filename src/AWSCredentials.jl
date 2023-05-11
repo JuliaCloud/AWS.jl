@@ -122,8 +122,9 @@ function AWSCredentials(; profile=nothing, throw_cred_error=true)
         () -> dot_aws_credentials(profile),
         () -> dot_aws_config(profile),
         credentials_from_webtoken,
-        ecs_instance_credentials,
+        () -> ecs_instance_credentials(; require_env=true),
         () -> ec2_instance_credentials(profile),
+        () -> ecs_instance_credentials(; require_env=false),
     ]
 
     # Loop through our search locations until we get credentials back
@@ -317,13 +318,18 @@ function ec2_instance_credentials(profile::AbstractString)
 end
 
 """
-    ecs_instance_credentials() -> Union{AWSCredential, Nothing}
+    ecs_instance_credentials(; require_env::Bool=true) -> Union{AWSCredential, Nothing}
 
-Retrieve credentials from the local endpoint. Return `nothing` if not running on an ECS
-instance.
+Retrieve credentials from the ECS credential endpoint. Return `nothing` if the ECS
+credential endpoint is not available.
 
 More information can be found at:
-https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+- https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+- https://docs.aws.amazon.com/sdkref/latest/guide/feature-container-credentials.html
+
+# Keywords
+- `require_env::Bool`: Only attempt to connect to the ECS credential endpoint when the
+  environmental variable `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` is set.
 
 # Returns
 - `AWSCredentials`: AWSCredentials from `ECS` credentials URI, `nothing` if the Env Var is
@@ -333,14 +339,18 @@ https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
 - `StatusError`: If the response status is >= 300
 - `ParsingError`: Invalid HTTP request target
 """
-function ecs_instance_credentials()
-    if !haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+function ecs_instance_credentials(; require_env::Bool=true)
+    if require_env && !haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
         return nothing
     end
 
-    uri = ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
-
-    response = @mock HTTP.request("GET", "http://169.254.170.2$uri")
+    path = get(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI", "")
+    response = try
+        @mock HTTP.request("GET", "http://169.254.170.2$path"; retry=false, connect_timeout=5)
+    catch e
+        e isa HTTP.Exceptions.ConnectError && return nothing
+        rethrow()
+    end
     new_creds = String(response.body)
     new_creds = JSON.parse(new_creds)
 
