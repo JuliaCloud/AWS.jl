@@ -15,6 +15,9 @@ end
 
 const EXPIRATION_FMT = dateformat"yyyy-mm-dd\THH:MM:SS\Z"
 
+http_header(h::Vector, k, d="") = get(Dict(h), k, d)
+http_header(args...) = HTTP.header(args...)
+
 @testset "Load Credentials" begin
     user = aws_user_arn(aws)
     @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
@@ -463,6 +466,14 @@ end
                 end
             end
 
+            function ecs_metadata_localhost(url::AbstractString)
+                if startswith(url, "http://localhost:8080")
+                    return HTTP.Response(200, JSON.json(ecs_json))
+                else
+                    return HTTP.Response(404)
+                end
+            end
+
             function http_request_patcher(funcs)
                 @patch function HTTP.request(method, url, args...; kwargs...)
                     local r
@@ -643,6 +654,17 @@ end
                             @test creds.access_key_id == "AKI1"
                         end
                     end
+
+                    withenv(
+                        "AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost:8080"
+                    ) do
+                        apply(http_request_patcher([ecs_metadata_localhost])) do
+                            @test isnothing(AWS._aws_get_profile(; default=nothing))
+
+                            creds = AWSCredentials()
+                            @test creds.access_key_id == "AKI1"
+                        end
+                    end
                 end
 
                 @testset "default config credentials over EC2 instance credentials" begin
@@ -670,6 +692,16 @@ end
 
                     withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-creds") do
                         apply(http_request_patcher([ec2_metadata, ecs_metadata])) do
+                            creds = AWSCredentials()
+                            @test creds.access_key_id == "AKI_ECS"
+                        end
+                    end
+
+                    withenv(
+                        "AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost:8080"
+                    ) do
+                        p = http_request_patcher([ec2_metadata, ecs_metadata_localhost])
+                        apply(p) do
                             creds = AWSCredentials()
                             @test creds.access_key_id == "AKI_ECS"
                         end
@@ -707,33 +739,11 @@ end
         "InstanceProfileArn" => "Test-Arn",
         "RoleArn" => "Test-Arn",
         "Expiration" => now(UTC),
-        "URI" => "/Test-URI/",
         "Security-Credentials" => "Test-Security-Credentials",
         "Test-SSO-Profile" => "sso-test",
         "Test-SSO-start-url" => "https://test-sso.com/start",
         "Test-SSO-Role" => "SSORoleName",
     )
-
-    _http_request_patch = @patch function HTTP.request(method::String, url; kwargs...)
-        security_credentials = test_values["Security-Credentials"]
-        uri = test_values["URI"]
-        url = string(url)
-
-        metadata_uri = "http://169.254.169.254/latest/meta-data"
-        if url == "$metadata_uri/iam/info"
-            instance_profile_arn = test_values["InstanceProfileArn"]
-            return HTTP.Response("{\"InstanceProfileArn\": \"$instance_profile_arn\"}")
-        elseif url == "$metadata_uri/iam/security-credentials/"
-            return HTTP.Response(test_values["Security-Credentials"])
-        elseif url == "$metadata_uri/iam/security-credentials/$security_credentials" ||
-            url == "http://169.254.170.2$uri"
-            my_dict = JSON.json(test_values)
-            response = HTTP.Response(my_dict)
-            return response
-        else
-            return nothing
-        end
-    end
 
     @testset "~/.aws/config - Default Profile" begin
         mktemp() do config_file, config_io
@@ -902,15 +912,32 @@ end
         secret_key = "secret-key-$(randstring(6))"
         session_token = "session-token-$(randstring(6))"
         session_name = "$role_name-session"
-        patch = Patches._assume_role_patch(
+
+        assume_role_patch = Patches._assume_role_patch(
             "AssumeRole";
             access_key=access_key,
             secret_key=secret_key,
             session_token=session_token,
             role_arn=role_arn,
         )
+        ec2_metadata_patch = @patch function HTTP.request(method::String, url; kwargs...)
+            url = string(url)
+            security_credentials = test_values["Security-Credentials"]
 
-        apply([patch, _http_request_patch]) do
+            metadata_uri = "http://169.254.169.254/latest/meta-data"
+            if url == "$metadata_uri/iam/info"
+                json = JSON.json("InstanceProfileArn" => test_values["InstanceProfileArn"])
+                return HTTP.Response(200, json)
+            elseif url == "$metadata_uri/iam/security-credentials/"
+                return HTTP.Response(200, security_credentials)
+            elseif url == "$metadata_uri/iam/security-credentials/$security_credentials"
+                return HTTP.Response(200, JSON.json(test_values))
+            else
+                return HTTP.Response(404)
+            end
+        end
+
+        apply([assume_role_patch, ec2_metadata_patch]) do
             result = ec2_instance_credentials("default")
             @test result.access_key_id == test_values["AccessKeyId"]
             @test result.secret_key == test_values["SecretAccessKey"]
@@ -947,14 +974,36 @@ end
     end
 
     @testset "Instance - ECS" begin
-        withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => test_values["URI"]) do
-            apply(_http_request_patch) do
+        expiration = floor(now(UTC), Second)
+        rel_uri_json = Dict(
+            "AccessKeyId" => "AKI_REL_ECS",
+            "SecretAccessKey" => "SAK_REL_ECS",
+            "Token" => "TOK_REL_ECS",
+            "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+            "RoleArn" => "ROLE_REL_ECS",
+        )
+
+        rel_uri_patch = @patch function HTTP.request(::String, url, headers=[]; kwargs...)
+            url = string(url)
+
+            @test url == "http://169.254.170.2/get-credentials"
+            @test isempty(headers)
+
+            if url == "http://169.254.170.2/get-credentials"
+                return HTTP.Response(200, JSON.json(rel_uri_json))
+            else
+                return HTTP.Response(404)
+            end
+        end
+
+        withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-credentials") do
+            apply(rel_uri_patch) do
                 result = ecs_instance_credentials()
-                @test result.access_key_id == test_values["AccessKeyId"]
-                @test result.secret_key == test_values["SecretAccessKey"]
-                @test result.token == test_values["Token"]
-                @test result.user_arn == test_values["RoleArn"]
-                @test result.expiry == test_values["Expiration"]
+                @test result.access_key_id == rel_uri_json["AccessKeyId"]
+                @test result.secret_key == rel_uri_json["SecretAccessKey"]
+                @test result.token == rel_uri_json["Token"]
+                @test result.user_arn == rel_uri_json["RoleArn"]
+                @test result.expiry == expiration
                 @test result.renew == ecs_instance_credentials
             end
         end
@@ -970,6 +1019,55 @@ end
         withenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/invalid") do
             # Internally throws a `ConnectError` exception
             @test ecs_instance_credentials() === nothing
+        end
+
+        full_uri_json = Dict(
+            "AccessKeyId" => "AKI_FULL_ECS",
+            "SecretAccessKey" => "SAK_FULL_ECS",
+            "Token" => "TOK_FULL_ECS",
+            "Expiration" => Dates.format(expiration, dateformat"yyyy-mm-dd\THH:MM:SS\Z"),
+            "RoleArn" => "ROLE_FULL_ECS",
+        )
+
+        full_uri_patch = @patch function HTTP.request(::String, url, headers=[]; kwargs...)
+            url = string(url)
+            authorization = http_header(headers, "Authorization")
+
+            @test url == "http://localhost/get-credentials"
+            @test authorization == "Basic abcd"
+
+            if url == "http://localhost/get-credentials" && authorization == "Basic abcd"
+                return HTTP.Response(200, JSON.json(full_uri_json))
+            else
+                return HTTP.Response(403)
+            end
+        end
+
+        withenv(
+            "AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost/get-credentials",
+            "AWS_CONTAINER_AUTHORIZATION_TOKEN" => "Basic abcd",
+        ) do
+            apply(full_uri_patch) do
+                result = ecs_instance_credentials()
+                @test result.access_key_id == full_uri_json["AccessKeyId"]
+                @test result.secret_key == full_uri_json["SecretAccessKey"]
+                @test result.token == full_uri_json["Token"]
+                @test result.user_arn == full_uri_json["RoleArn"]
+                @test result.expiry == expiration
+                @test result.renew == ecs_instance_credentials
+            end
+        end
+
+        # `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` should be preferred over
+        # `AWS_CONTAINER_CREDENTIALS_FULL_URI`.
+        withenv(
+            "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI" => "/get-credentials",
+            "AWS_CONTAINER_CREDENTIALS_FULL_URI" => "http://localhost/get-credentials",
+        ) do
+            apply(rel_uri_patch) do
+                result = ecs_instance_credentials()
+                @test result.access_key_id == rel_uri_json["AccessKeyId"]
+            end
         end
     end
 

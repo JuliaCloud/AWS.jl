@@ -343,17 +343,29 @@ More information can be found at:
 function ecs_instance_credentials()
     # The Amazon ECS agent will automatically populate the environmental variable
     # `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` when running inside of an ECS task. We're
-    # interpreting this to mean than ECS credential provider should only be used if the
-    # `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` variable is set.
+    # interpreting this to mean than ECS credential provider should only be used if any of
+    # the `AWS_CONTAINER_CREDENTIALS_*_URI` variables are set.
     # – https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+    #
+    # > Note: This setting (`AWS_CONTAINER_CREDENTIALS_FULL_URI`) is an alternative to
+    # > `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` and will only be used if
+    # > `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` is not set.
+    # – https://docs.aws.amazon.com/sdkref/latest/guide/feature-container-credentials.html
     if haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
         endpoint = "http://169.254.170.2" * ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
+    elseif haskey(ENV, "AWS_CONTAINER_CREDENTIALS_FULL_URI")
+        endpoint = ENV["AWS_CONTAINER_CREDENTIALS_FULL_URI"]
     else
         return nothing
     end
 
+    headers = Pair{String,String}[]
+    if haskey(ENV, "AWS_CONTAINER_AUTHORIZATION_TOKEN")
+        push!(headers, "Authorization" => ENV["AWS_CONTAINER_AUTHORIZATION_TOKEN"])
+    end
+
     response = try
-        @mock HTTP.request("GET", endpoint; retry=false, connect_timeout=5)
+        @mock HTTP.request("GET", endpoint, headers; retry=false, connect_timeout=5)
     catch e
         e isa HTTP.Exceptions.ConnectError && return nothing
         rethrow()
