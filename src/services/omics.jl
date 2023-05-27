@@ -5,6 +5,43 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    abort_multipart_read_set_upload(sequence_store_id, upload_id)
+    abort_multipart_read_set_upload(sequence_store_id, upload_id, params::Dict{String,<:Any})
+
+ Stops a multipart upload.
+
+# Arguments
+- `sequence_store_id`:  The sequence store ID for the store involved in the multipart
+  upload.
+- `upload_id`:  The ID for the multipart upload.
+
+"""
+function abort_multipart_read_set_upload(
+    sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "DELETE",
+        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/abort";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function abort_multipart_read_set_upload(
+    sequenceStoreId,
+    uploadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "DELETE",
+        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/abort",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_delete_read_set(ids, sequence_store_id)
     batch_delete_read_set(ids, sequence_store_id, params::Dict{String,<:Any})
 
@@ -131,6 +168,46 @@ function cancel_variant_import_job(
 end
 
 """
+    complete_multipart_read_set_upload(parts, sequence_store_id, upload_id)
+    complete_multipart_read_set_upload(parts, sequence_store_id, upload_id, params::Dict{String,<:Any})
+
+ Concludes a multipart upload once you have uploaded all the components.
+
+# Arguments
+- `parts`:  The individual uploads or parts of a multipart upload.
+- `sequence_store_id`:  The sequence store ID for the store involved in the multipart
+  upload.
+- `upload_id`:  The ID for the multipart upload.
+
+"""
+function complete_multipart_read_set_upload(
+    parts, sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "POST",
+        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/complete",
+        Dict{String,Any}("parts" => parts);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function complete_multipart_read_set_upload(
+    parts,
+    sequenceStoreId,
+    uploadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "POST",
+        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/complete",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("parts" => parts), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_annotation_store(store_format)
     create_annotation_store(store_format, params::Dict{String,<:Any})
 
@@ -169,6 +246,83 @@ function create_annotation_store(
         "/annotationStore",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("storeFormat" => storeFormat), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_multipart_read_set_upload(name, reference_arn, sample_id, sequence_store_id, source_file_type, subject_id)
+    create_multipart_read_set_upload(name, reference_arn, sample_id, sequence_store_id, source_file_type, subject_id, params::Dict{String,<:Any})
+
+ Begins a multipart read set upload.
+
+# Arguments
+- `name`:  The name of the read set.
+- `reference_arn`:  The ARN of the reference.
+- `sample_id`:  The source's sample ID.
+- `sequence_store_id`:  The sequence store ID for the store that is the destination of the
+  multipart uploads.
+- `source_file_type`:  The type of file being uploaded.
+- `subject_id`:  The source's subject ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`:  An idempotency token that can be used to avoid triggering multiple
+  multipart uploads.
+- `"description"`:  The description of the read set.
+- `"generatedFrom"`:  Where the source originated.
+- `"tags"`:  Any tags to add to the read set.
+"""
+function create_multipart_read_set_upload(
+    name,
+    referenceArn,
+    sampleId,
+    sequenceStoreId,
+    sourceFileType,
+    subjectId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "POST",
+        "/sequencestore/$(sequenceStoreId)/upload",
+        Dict{String,Any}(
+            "name" => name,
+            "referenceArn" => referenceArn,
+            "sampleId" => sampleId,
+            "sourceFileType" => sourceFileType,
+            "subjectId" => subjectId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_multipart_read_set_upload(
+    name,
+    referenceArn,
+    sampleId,
+    sequenceStoreId,
+    sourceFileType,
+    subjectId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "POST",
+        "/sequencestore/$(sequenceStoreId)/upload",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "referenceArn" => referenceArn,
+                    "sampleId" => sampleId,
+                    "sourceFileType" => sourceFileType,
+                    "subjectId" => subjectId,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -227,6 +381,7 @@ Creates a run group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxCpus"`: The maximum number of CPUs to use in the group.
 - `"maxDuration"`: A maximum run time for the group in minutes.
+- `"maxGpus"`:  The maximum GPUs that can be used by a run group.
 - `"maxRuns"`: The maximum number of concurrent runs for the group.
 - `"name"`: A name for the group.
 - `"tags"`: Tags for the group.
@@ -270,6 +425,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: To ensure that requests don't run multiple times, specify a unique token
   for each request.
 - `"description"`: A description for the store.
+- `"fallbackLocation"`:  An S3 location that is used to store files that have failed a
+  direct upload.
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
 - `"tags"`: Tags for the store.
 """
@@ -347,6 +504,7 @@ Creates a workflow.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accelerators"`:  The computational accelerator specified to run the workflow.
 - `"definitionUri"`: The URI of a definition for the workflow.
 - `"definitionZip"`: A ZIP archive for the workflow.
 - `"description"`: A description for the workflow.
@@ -1294,6 +1452,45 @@ function list_annotation_stores(
 end
 
 """
+    list_multipart_read_set_uploads(sequence_store_id)
+    list_multipart_read_set_uploads(sequence_store_id, params::Dict{String,<:Any})
+
+ Lists all multipart read set uploads and their statuses.
+
+# Arguments
+- `sequence_store_id`:  The Sequence Store ID used for the multipart uploads.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:  The maximum number of multipart uploads returned in a page.
+- `"nextToken"`:  Next token returned in the response of a previous
+  ListMultipartReadSetUploads call. Used to get the next page of results.
+"""
+function list_multipart_read_set_uploads(
+    sequenceStoreId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "POST",
+        "/sequencestore/$(sequenceStoreId)/uploads";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_multipart_read_set_uploads(
+    sequenceStoreId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "POST",
+        "/sequencestore/$(sequenceStoreId)/uploads",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_read_set_activation_jobs(sequence_store_id)
     list_read_set_activation_jobs(sequence_store_id, params::Dict{String,<:Any})
 
@@ -1409,6 +1606,53 @@ function list_read_set_import_jobs(
         "POST",
         "/sequencestore/$(sequenceStoreId)/importjobs",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_read_set_upload_parts(part_source, sequence_store_id, upload_id)
+    list_read_set_upload_parts(part_source, sequence_store_id, upload_id, params::Dict{String,<:Any})
+
+ This operation will list all parts in a requested multipart upload for a sequence store.
+
+# Arguments
+- `part_source`:  The source file for the upload part.
+- `sequence_store_id`:  The Sequence Store ID used for the multipart uploads.
+- `upload_id`:  The ID for the initiated multipart upload.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`:  Attributes used to filter for a specific subset of read set part uploads.
+- `"maxResults"`:  The maximum number of read set upload parts returned in a page.
+- `"nextToken"`:  Next token returned in the response of a previous
+  ListReadSetUploadPartsRequest call. Used to get the next page of results.
+"""
+function list_read_set_upload_parts(
+    partSource, sequenceStoreId, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "POST",
+        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/parts",
+        Dict{String,Any}("partSource" => partSource);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_read_set_upload_parts(
+    partSource,
+    sequenceStoreId,
+    uploadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "POST",
+        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/parts",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("partSource" => partSource), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1632,6 +1876,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"runGroupId"`: Filter the list by run group ID.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
   next page of results.
+- `"status"`:  The status of a run.
 """
 function list_runs(; aws_config::AbstractAWSConfig=global_aws_config())
     return omics("GET", "/run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -1808,6 +2053,7 @@ Starts an annotation import job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"annotationFields"`:  The annotation schema generated by the parsed annotation data.
 - `"formatOptions"`: Formatting options for the annotation file.
 - `"runLeftNormalization"`: The job's left normalization setting.
 """
@@ -2113,6 +2359,7 @@ Starts a variant import job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"annotationFields"`:  The annotation schema generated by the parsed annotation data.
 - `"runLeftNormalization"`: The job's left normalization setting.
 """
 function start_variant_import_job(
@@ -2272,6 +2519,7 @@ Updates a run group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxCpus"`: The maximum number of CPUs to use.
 - `"maxDuration"`: A maximum run time for the group in minutes.
+- `"maxGpus"`:  The maximum GPUs that can be used by a run group.
 - `"maxRuns"`: The maximum number of concurrent runs for the group.
 - `"name"`: A name for the group.
 """
@@ -2351,6 +2599,67 @@ function update_workflow(
         "POST",
         "/workflow/$(id)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    upload_read_set_part(part_number, part_source, payload, sequence_store_id, upload_id)
+    upload_read_set_part(part_number, part_source, payload, sequence_store_id, upload_id, params::Dict{String,<:Any})
+
+ This operation uploads a specific part of a read set. If you upload a new part using a
+previously used part number, the previously uploaded part will be overwritten.
+
+# Arguments
+- `part_number`:  The number of the part being uploaded.
+- `part_source`:  The source file for an upload part.
+- `payload`:  The read set data to upload for a part.
+- `sequence_store_id`:  The Sequence Store ID used for the multipart upload.
+- `upload_id`:  The ID for the initiated multipart upload.
+
+"""
+function upload_read_set_part(
+    partNumber,
+    partSource,
+    payload,
+    sequenceStoreId,
+    uploadId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "PUT",
+        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/part",
+        Dict{String,Any}(
+            "partNumber" => partNumber, "partSource" => partSource, "payload" => payload
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function upload_read_set_part(
+    partNumber,
+    partSource,
+    payload,
+    sequenceStoreId,
+    uploadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "PUT",
+        "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/part",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "partNumber" => partNumber,
+                    "partSource" => partSource,
+                    "payload" => payload,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

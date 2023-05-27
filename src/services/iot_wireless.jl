@@ -415,6 +415,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   client request.
 - `"LoRaWAN"`: The device profile information to use to create the device profile.
 - `"Name"`: The name of the new resource.
+- `"Sidewalk"`: The Sidewalk-related information for creating the Sidewalk device profile.
 - `"Tags"`: The tags to attach to the new device profile. Tags are metadata that you can
   use to manage a resource.
 """
@@ -567,6 +568,8 @@ Creates a new network analyzer configuration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 - `"Description"`:
+- `"MulticastGroups"`: Multicast Group resources to add to the network analyzer
+  configruation. Provide the MulticastGroupId of the resource to add in the input array.
 - `"Tags"`:
 - `"TraceContent"`:
 - `"WirelessDevices"`: Wireless device resources to add to the network analyzer
@@ -666,6 +669,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the new resource.
 - `"Positioning"`: FPort values for the GNSS, stream, and ClockSync functions of the
   positioning information.
+- `"Sidewalk"`: The device configuration information to use to create the Sidewalk device.
 - `"Tags"`: The tags to attach to the new wireless device. Tags are metadata that you can
   use to manage a resource.
 """
@@ -1122,6 +1126,38 @@ function delete_wireless_device(
 end
 
 """
+    delete_wireless_device_import_task(id)
+    delete_wireless_device_import_task(id, params::Dict{String,<:Any})
+
+Delete an import task.
+
+# Arguments
+- `id`: The unique identifier of the import task to be deleted.
+
+"""
+function delete_wireless_device_import_task(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/wireless_device_import_task/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_wireless_device_import_task(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "DELETE",
+        "/wireless_device_import_task/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_wireless_gateway(id)
     delete_wireless_gateway(id, params::Dict{String,<:Any})
 
@@ -1208,6 +1244,44 @@ function delete_wireless_gateway_task_definition(
     return iot_wireless(
         "DELETE",
         "/wireless-gateway-task-definitions/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deregister_wireless_device(identifier)
+    deregister_wireless_device(identifier, params::Dict{String,<:Any})
+
+Deregister a wireless device from AWS IoT Wireless.
+
+# Arguments
+- `identifier`: The identifier of the wireless device to deregister from AWS IoT Wireless.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"WirelessDeviceType"`: The type of wireless device to deregister from AWS IoT Wireless,
+  which can be LoRaWAN or Sidewalk.
+"""
+function deregister_wireless_device(
+    Identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/wireless-devices/$(Identifier)/deregister";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deregister_wireless_device(
+    Identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PATCH",
+        "/wireless-devices/$(Identifier)/deregister",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2080,6 +2154,39 @@ function get_wireless_device(
 end
 
 """
+    get_wireless_device_import_task(id)
+    get_wireless_device_import_task(id, params::Dict{String,<:Any})
+
+Get information about an import task and count of device onboarding summary information for
+the import task.
+
+# Arguments
+- `id`: The identifier of the import task for which information is requested.
+
+"""
+function get_wireless_device_import_task(
+    Id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/wireless_device_import_task/$(Id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_wireless_device_import_task(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/wireless_device_import_task/$(Id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_wireless_device_statistics(id)
     get_wireless_device_statistics(id, params::Dict{String,<:Any})
 
@@ -2345,6 +2452,8 @@ Lists the device profiles registered to your AWS account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"deviceProfileType"`: A filter to list only device profiles that use this type, which
+  can be LoRaWAN or Sidewalk.
 - `"maxResults"`: The maximum number of results to return in this operation.
 - `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
   response; otherwise null to receive the first set of results.
@@ -2361,6 +2470,45 @@ function list_device_profiles(
         "GET",
         "/device-profiles",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_devices_for_wireless_device_import_task(id)
+    list_devices_for_wireless_device_import_task(id, params::Dict{String,<:Any})
+
+List the Sidewalk devices in an import task and their onboarding status.
+
+# Arguments
+- `id`: The identifier of the import task for which wireless devices are listed.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+- `"status"`: The status of the devices in the import task.
+"""
+function list_devices_for_wireless_device_import_task(
+    id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/wireless_device_import_task",
+        Dict{String,Any}("id" => id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_devices_for_wireless_device_import_task(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/wireless_device_import_task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2698,6 +2846,40 @@ function list_tags_for_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_wireless_device_import_tasks()
+    list_wireless_device_import_tasks(params::Dict{String,<:Any})
+
+List wireless devices that have been added to an import task.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`: To retrieve the next set of results, the nextToken value from a previous
+  response; otherwise null to receive the first set of results.
+"""
+function list_wireless_device_import_tasks(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/wireless_device_import_tasks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_wireless_device_import_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/wireless_device_import_tasks",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3209,6 +3391,121 @@ function start_multicast_group_session(
 end
 
 """
+    start_single_wireless_device_import_task(destination_name, sidewalk)
+    start_single_wireless_device_import_task(destination_name, sidewalk, params::Dict{String,<:Any})
+
+Start import task for a single wireless device.
+
+# Arguments
+- `destination_name`: The name of the Sidewalk destination that describes the IoT rule to
+  route messages from the device in the import task that will be onboarded to AWS IoT
+  Wireless.
+- `sidewalk`: The Sidewalk-related parameters for importing a single wireless device.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"DeviceName"`: The name of the wireless device for which an import task is being started.
+- `"Tags"`:
+"""
+function start_single_wireless_device_import_task(
+    DestinationName, Sidewalk; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "POST",
+        "/wireless_single_device_import_task",
+        Dict{String,Any}(
+            "DestinationName" => DestinationName,
+            "Sidewalk" => Sidewalk,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_single_wireless_device_import_task(
+    DestinationName,
+    Sidewalk,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "POST",
+        "/wireless_single_device_import_task",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationName" => DestinationName,
+                    "Sidewalk" => Sidewalk,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_wireless_device_import_task(destination_name, sidewalk)
+    start_wireless_device_import_task(destination_name, sidewalk, params::Dict{String,<:Any})
+
+Start import task for provisioning Sidewalk devices in bulk using an S3 CSV file.
+
+# Arguments
+- `destination_name`: The name of the Sidewalk destination that describes the IoT rule to
+  route messages from the devices in the import task that are onboarded to AWS IoT Wireless.
+- `sidewalk`: The Sidewalk-related parameters for importing wireless devices that need to
+  be provisioned in bulk.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"Tags"`:
+"""
+function start_wireless_device_import_task(
+    DestinationName, Sidewalk; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "POST",
+        "/wireless_device_import_task",
+        Dict{String,Any}(
+            "DestinationName" => DestinationName,
+            "Sidewalk" => Sidewalk,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_wireless_device_import_task(
+    DestinationName,
+    Sidewalk,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "POST",
+        "/wireless_device_import_task",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationName" => DestinationName,
+                    "Sidewalk" => Sidewalk,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(tags, resource_arn)
     tag_resource(tags, resource_arn, params::Dict{String,<:Any})
 
@@ -3520,6 +3817,11 @@ Update network analyzer configuration.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`:
+- `"MulticastGroupsToAdd"`: Multicast group resources to add to the network analyzer
+  configuration. Provide the MulticastGroupId of the resource to add in the input array.
+- `"MulticastGroupsToRemove"`: Multicast group resources to remove from the network
+  analyzer configuration. Provide the MulticastGroupId of the resource to remove in the input
+  array.
 - `"TraceContent"`:
 - `"WirelessDevicesToAdd"`: Wireless device resources to add to the network analyzer
   configuration. Provide the WirelessDeviceId of the resource to add in the input array.
@@ -3789,6 +4091,45 @@ function update_wireless_device(
 end
 
 """
+    update_wireless_device_import_task(id, sidewalk)
+    update_wireless_device_import_task(id, sidewalk, params::Dict{String,<:Any})
+
+Update an import task to add more devices to the task.
+
+# Arguments
+- `id`: The identifier of the import task to be updated.
+- `sidewalk`: The Sidewalk-related parameters of the import task to be updated.
+
+"""
+function update_wireless_device_import_task(
+    Id, Sidewalk; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PATCH",
+        "/wireless_device_import_task/$(Id)",
+        Dict{String,Any}("Sidewalk" => Sidewalk);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_wireless_device_import_task(
+    Id,
+    Sidewalk,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot_wireless(
+        "PATCH",
+        "/wireless_device_import_task/$(Id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Sidewalk" => Sidewalk), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_wireless_gateway(id)
     update_wireless_gateway(id, params::Dict{String,<:Any})
 
@@ -3801,6 +4142,7 @@ Updates properties of a wireless gateway.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A new description of the resource.
 - `"JoinEuiFilters"`:
+- `"MaxEirp"`: The MaxEIRP value.
 - `"Name"`: The new name of the resource.
 - `"NetIdFilters"`:
 """

@@ -138,6 +138,80 @@ function batch_get_query_execution(
 end
 
 """
+    cancel_capacity_reservation(name)
+    cancel_capacity_reservation(name, params::Dict{String,<:Any})
+
+Cancels the capacity reservation with the specified name.
+
+# Arguments
+- `name`: The name of the capacity reservation to cancel.
+
+"""
+function cancel_capacity_reservation(
+    Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "CancelCapacityReservation",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_capacity_reservation(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "CancelCapacityReservation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_capacity_reservation(name, target_dpus)
+    create_capacity_reservation(name, target_dpus, params::Dict{String,<:Any})
+
+Creates a capacity reservation with the specified name and number of requested data
+processing units.
+
+# Arguments
+- `name`: The name of the capacity reservation to create.
+- `target_dpus`: The number of requested data processing units.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tags for the capacity reservation.
+"""
+function create_capacity_reservation(
+    Name, TargetDpus; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "CreateCapacityReservation",
+        Dict{String,Any}("Name" => Name, "TargetDpus" => TargetDpus);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_capacity_reservation(
+    Name,
+    TargetDpus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "CreateCapacityReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "TargetDpus" => TargetDpus), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_data_catalog(name, type)
     create_data_catalog(name, type, params::Dict{String,<:Any})
 
@@ -375,7 +449,8 @@ end
 
 Gets an authentication token and the URL at which the notebook can be accessed. During
 programmatic access, CreatePresignedNotebookUrl must be called every 10 minutes to refresh
-the authentication token.
+the authentication token. For information about granting programmatic access, see Grant
+programmatic access.
 
 # Arguments
 - `session_id`: The session ID.
@@ -410,9 +485,8 @@ end
     create_work_group(name)
     create_work_group(name, params::Dict{String,<:Any})
 
-Creates a workgroup with the specified name. Only one of Configurations or Configuration
-can be specified; Configurations for a workgroup with multi engine support (for example, an
-Apache Spark enabled workgroup) or Configuration for an Athena SQL workgroup.
+Creates a workgroup with the specified name. A workgroup can be an Apache Spark enabled
+workgroup or an Athena SQL workgroup.
 
 # Arguments
 - `name`: The workgroup name.
@@ -420,10 +494,11 @@ Apache Spark enabled workgroup) or Configuration for an Athena SQL workgroup.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Configuration"`: Contains configuration information for creating an Athena SQL
-  workgroup, which includes the location in Amazon S3 where query results are stored, the
-  encryption configuration, if any, used for encrypting query results, whether the Amazon
-  CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned
-  (cutoff) per query, if it is specified, and whether workgroup's settings (specified with
+  workgroup or Spark enabled Athena workgroup. Athena SQL workgroup configuration includes
+  the location in Amazon S3 where query and calculation results are stored, the encryption
+  configuration, if any, used for encrypting query results, whether the Amazon CloudWatch
+  Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff)
+  per query, if it is specified, and whether workgroup's settings (specified with
   EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings.
   See WorkGroupConfigurationEnforceWorkGroupConfiguration.
 - `"Description"`: The workgroup description.
@@ -600,7 +675,7 @@ Deletes the workgroup with the specified name. The primary workgroup cannot be d
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RecursiveDeleteOption"`: The option to delete the workgroup and its contents even if
-  the workgroup contains any named queries or query executions.
+  the workgroup contains any named queries, query executions, or notebooks.
 """
 function delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
@@ -701,7 +776,7 @@ end
     get_calculation_execution_code(calculation_execution_id)
     get_calculation_execution_code(calculation_execution_id, params::Dict{String,<:Any})
 
-Retrieves a pre-signed URL to a copy of the code that was executed for the calculation.
+Retrieves the unencrypted code that was executed for the calculation.
 
 # Arguments
 - `calculation_execution_id`: The calculation execution UUID.
@@ -770,6 +845,75 @@ function get_calculation_execution_status(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_capacity_assignment_configuration(capacity_reservation_name)
+    get_capacity_assignment_configuration(capacity_reservation_name, params::Dict{String,<:Any})
+
+Gets the capacity assignment configuration for a capacity reservation, if one exists.
+
+# Arguments
+- `capacity_reservation_name`: The name of the capacity reservation to retrieve the
+  capacity assignment configuration for.
+
+"""
+function get_capacity_assignment_configuration(
+    CapacityReservationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "GetCapacityAssignmentConfiguration",
+        Dict{String,Any}("CapacityReservationName" => CapacityReservationName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_capacity_assignment_configuration(
+    CapacityReservationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "GetCapacityAssignmentConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CapacityReservationName" => CapacityReservationName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_capacity_reservation(name)
+    get_capacity_reservation(name, params::Dict{String,<:Any})
+
+Returns information about the capacity reservation with the specified name.
+
+# Arguments
+- `name`: The name of the capacity reservation.
+
+"""
+function get_capacity_reservation(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "GetCapacityReservation",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_capacity_reservation(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "GetCapacityReservation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1003,15 +1147,15 @@ end
     get_query_results(query_execution_id, params::Dict{String,<:Any})
 
 Streams the results of a single query execution specified by QueryExecutionId from the
-Athena query results location in Amazon S3. For more information, see Query Results in the
-Amazon Athena User Guide. This request does not execute the query but returns results. Use
-StartQueryExecution to run a query. To stream query results successfully, the IAM principal
-with permission to call GetQueryResults also must have permissions to the Amazon S3
-GetObject action for the Athena query results location.  IAM principals with permission to
-the Amazon S3 GetObject action for the query results location are able to retrieve query
-results from Amazon S3 even if permission to the GetQueryResults action is denied. To
-restrict user or role access, ensure that Amazon S3 permissions to the Athena query
-location are denied.
+Athena query results location in Amazon S3. For more information, see Working with query
+results, recent queries, and output files in the Amazon Athena User Guide. This request
+does not execute the query but returns results. Use StartQueryExecution to run a query. To
+stream query results successfully, the IAM principal with permission to call
+GetQueryResults also must have permissions to the Amazon S3 GetObject action for the Athena
+query results location.  IAM principals with permission to the Amazon S3 GetObject action
+for the query results location are able to retrieve query results from Amazon S3 even if
+permission to the GetQueryResults action is denied. To restrict user or role access, ensure
+that Amazon S3 permissions to the Athena query location are denied.
 
 # Arguments
 - `query_execution_id`: The unique ID of the query execution.
@@ -1308,8 +1452,8 @@ end
     list_application_dpusizes()
     list_application_dpusizes(params::Dict{String,<:Any})
 
-Returns the supported DPU sizes for the supported application runtimes (for example,
-Jupyter 1.0).
+Returns the supported DPU sizes for the supported application runtimes (for example, Athena
+notebook version 1).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1378,6 +1522,34 @@ function list_calculation_executions(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_capacity_reservations()
+    list_capacity_reservations(params::Dict{String,<:Any})
+
+Lists the capacity reservations for the current account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies the maximum number of results to return.
+- `"NextToken"`: A token generated by the Athena service that specifies where to continue
+  pagination if a previous request was truncated.
+"""
+function list_capacity_reservations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return athena(
+        "ListCapacityReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_capacity_reservations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "ListCapacityReservations",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1481,9 +1653,8 @@ end
     list_executors(session_id)
     list_executors(session_id, params::Dict{String,<:Any})
 
-Lists, in descending order, the executors that have been submitted to a session. Newer
-executors are listed first; older executors are listed later. The result can be optionally
-filtered by state.
+Lists, in descending order, the executors that joined a session. Newer executors are listed
+first; older executors are listed later. The result can be optionally filtered by state.
 
 # Arguments
 - `session_id`: The session ID.
@@ -1817,7 +1988,7 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists the tags associated with an Athena workgroup or data catalog resource.
+Lists the tags associated with an Athena resource.
 
 # Arguments
 - `resource_arn`: Lists the tags for the resource with the specified ARN.
@@ -1880,11 +2051,63 @@ function list_work_groups(
 end
 
 """
+    put_capacity_assignment_configuration(capacity_assignments, capacity_reservation_name)
+    put_capacity_assignment_configuration(capacity_assignments, capacity_reservation_name, params::Dict{String,<:Any})
+
+Puts a new capacity assignment configuration for a specified capacity reservation. If a
+capacity assignment configuration already exists for the capacity reservation, replaces the
+existing capacity assignment configuration.
+
+# Arguments
+- `capacity_assignments`: The list of assignments for the capacity assignment configuration.
+- `capacity_reservation_name`: The name of the capacity reservation to put a capacity
+  assignment configuration for.
+
+"""
+function put_capacity_assignment_configuration(
+    CapacityAssignments,
+    CapacityReservationName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "PutCapacityAssignmentConfiguration",
+        Dict{String,Any}(
+            "CapacityAssignments" => CapacityAssignments,
+            "CapacityReservationName" => CapacityReservationName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_capacity_assignment_configuration(
+    CapacityAssignments,
+    CapacityReservationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "PutCapacityAssignmentConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CapacityAssignments" => CapacityAssignments,
+                    "CapacityReservationName" => CapacityReservationName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_calculation_execution(session_id)
     start_calculation_execution(session_id, params::Dict{String,<:Any})
 
 Submits calculations for execution within a session. You can supply the code to run as an
-inline code block within the request or as an Amazon S3 URL.
+inline code block within the request.
 
 # Arguments
 - `session_id`: The session ID.
@@ -2016,9 +2239,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI,
   you must provide this token or the action will fail.
 - `"Description"`: The session description.
-- `"NotebookVersion"`: The notebook version. This value is required only when requesting
-  that a notebook server be started for the session. The only valid notebook version is
-  Jupyter1.0.
+- `"NotebookVersion"`: The notebook version. This value is supplied automatically for
+  notebook sessions in the Athena console and is not required for programmatic session
+  access. The only valid notebook version is Athena notebook version 1. If you specify a
+  value for NotebookVersion, you must also specify a value for NotebookId. See
+  EngineConfigurationAdditionalConfigs.
 - `"SessionIdleTimeoutInMinutes"`: The idle timeout in minutes for the session.
 """
 function start_session(
@@ -2143,21 +2368,20 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds one or more tags to an Athena resource. A tag is a label that you assign to a
-resource. In Athena, a resource can be a workgroup or data catalog. Each tag consists of a
-key and an optional value, both of which you define. For example, you can use tags to
-categorize Athena workgroups or data catalogs by purpose, owner, or environment. Use a
-consistent set of tag keys to make it easier to search and filter workgroups or data
-catalogs in your account. For best practices, see Tagging Best Practices. Tag keys can be
-from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode
-characters. Tags can use letters and numbers representable in UTF-8, and the following
-characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be
-unique per resource. If you specify more than one tag, separate them by commas.
+resource. Each tag consists of a key and an optional value, both of which you define. For
+example, you can use tags to categorize Athena workgroups, data catalogs, or capacity
+reservations by purpose, owner, or environment. Use a consistent set of tag keys to make it
+easier to search and filter the resources in your account. For best practices, see Tagging
+Best Practices. Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can
+be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable
+in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are
+case-sensitive. Tag keys must be unique per resource. If you specify more than one tag,
+separate them by commas.
 
 # Arguments
-- `resource_arn`: Specifies the ARN of the Athena resource (workgroup or data catalog) to
-  which tags are to be added.
+- `resource_arn`: Specifies the ARN of the Athena resource to which tags are to be added.
 - `tags`: A collection of one or more tags, separated by commas, to be added to an Athena
-  workgroup or data catalog resource.
+  resource.
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2228,7 +2452,7 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes one or more tags from a data catalog or workgroup resource.
+Removes one or more tags from an Athena resource.
 
 # Arguments
 - `resource_arn`: Specifies the ARN of the resource from which tags are to be removed.
@@ -2259,6 +2483,46 @@ function untag_resource(
                 _merge,
                 Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_capacity_reservation(name, target_dpus)
+    update_capacity_reservation(name, target_dpus, params::Dict{String,<:Any})
+
+Updates the number of requested data processing units for the capacity reservation with the
+specified name.
+
+# Arguments
+- `name`: The name of the capacity reservation.
+- `target_dpus`: The new number of requested data processing units.
+
+"""
+function update_capacity_reservation(
+    Name, TargetDpus; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "UpdateCapacityReservation",
+        Dict{String,Any}("Name" => Name, "TargetDpus" => TargetDpus);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_capacity_reservation(
+    Name,
+    TargetDpus,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return athena(
+        "UpdateCapacityReservation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Name" => Name, "TargetDpus" => TargetDpus), params
             ),
         );
         aws_config=aws_config,
@@ -2389,7 +2653,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
   Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or
   the Amazon Web Services CLI, you must provide this token or the action will fail.
-- `"SessionId"`: The ID of the session in which the notebook will be updated.
+- `"SessionId"`: The active notebook session ID. Required if the notebook has an active
+  session.
 """
 function update_notebook(
     NotebookId, Payload, Type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2532,9 +2797,7 @@ end
     update_work_group(work_group, params::Dict{String,<:Any})
 
 Updates the workgroup with the specified name. The workgroup's name cannot be changed. Only
-one of ConfigurationsUpdates or ConfigurationUpdates can be specified;
-ConfigurationsUpdates for a workgroup with multi engine support (for example, an Apache
-Spark enabled workgroup) or ConfigurationUpdates for an Athena SQL workgroup.
+ConfigurationUpdates can be specified.
 
 # Arguments
 - `work_group`: The specified workgroup that will be updated.

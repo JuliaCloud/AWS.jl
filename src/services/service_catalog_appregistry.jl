@@ -13,9 +13,9 @@ with the group's attributes. This feature enables applications to be described w
 user-defined details that are machine-readable, such as third-party integrations.
 
 # Arguments
-- `application`: The name or ID of the application.
-- `attribute_group`: The name or ID of the attribute group that holds the attributes to
-  describe the application.
+- `application`:  The name, ID, or ARN of the application.
+- `attribute_group`:  The name, ID, or ARN of the attribute group that holds the attributes
+  to describe the application.
 
 """
 function associate_attribute_group(
@@ -47,11 +47,11 @@ end
     associate_resource(application, resource, resource_type)
     associate_resource(application, resource, resource_type, params::Dict{String,<:Any})
 
-Associates a resource with an application. Both the resource and the application can be
-specified either by ID or name.
+ Associates a resource with an application. The resource can be specified by its ARN or
+name. The application can be specified by ARN, ID, or name.
 
 # Arguments
-- `application`: The name or ID of the application.
+- `application`:  The name, ID, or ARN of the application.
 - `resource`: The name or ID of the resource of which the application will be associated.
 - `resource_type`: The type of resource of which the application will be associated.
 
@@ -200,12 +200,12 @@ end
     delete_application(application)
     delete_application(application, params::Dict{String,<:Any})
 
-Deletes an application that is specified either by its application ID or name. All
+Deletes an application that is specified either by its application ID, name, or ARN. All
 associated attribute groups and resources must be disassociated from it before deleting an
 application.
 
 # Arguments
-- `application`: The name or ID of the application.
+- `application`:  The name, ID, or ARN of the application.
 
 """
 function delete_application(application; aws_config::AbstractAWSConfig=global_aws_config())
@@ -234,11 +234,11 @@ end
     delete_attribute_group(attribute_group)
     delete_attribute_group(attribute_group, params::Dict{String,<:Any})
 
-Deletes an attribute group, specified either by its attribute group ID or name.
+Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
 
 # Arguments
-- `attribute_group`: The name or ID of the attribute group that holds the attributes to
-  describe the application.
+- `attribute_group`:  The name, ID, or ARN of the attribute group that holds the attributes
+  to describe the application.
 
 """
 function delete_attribute_group(
@@ -274,9 +274,9 @@ contained in the attribute group from the application's metadata. This operation
 AssociateAttributeGroup.
 
 # Arguments
-- `application`: The name or ID of the application.
-- `attribute_group`: The name or ID of the attribute group that holds the attributes to
-  describe the application.
+- `application`:  The name, ID, or ARN of the application.
+- `attribute_group`:  The name, ID, or ARN of the attribute group that holds the attributes
+  to describe the application.
 
 """
 function disassociate_attribute_group(
@@ -347,14 +347,14 @@ end
     get_application(application)
     get_application(application, params::Dict{String,<:Any})
 
-Retrieves metadata information about one of your applications. The application can be
-specified either by its unique ID or by its name (which is unique within one account in one
-region at a given point in time). Specify by ID in automated workflows if you want to make
-sure that the exact same application is returned or a ResourceNotFoundException is thrown,
+ Retrieves metadata information about one of your applications. The application can be
+specified by its ARN, ID, or name (which is unique within one account in one region at a
+given point in time). Specify by ARN or ID in automated workflows if you want to make sure
+that the exact same application is returned or a ResourceNotFoundException is thrown,
 avoiding the ABA addressing problem.
 
 # Arguments
-- `application`: The name or ID of the application.
+- `application`:  The name, ID, or ARN of the application.
 
 """
 function get_application(application; aws_config::AbstractAWSConfig=global_aws_config())
@@ -386,7 +386,7 @@ end
 Gets the resource associated with the application.
 
 # Arguments
-- `application`: The name or ID of the application.
+- `application`:  The name, ID, or ARN of the application.
 - `resource`: The name or ID of the resource associated with the application.
 - `resource_type`: The type of resource associated with the application.
 
@@ -421,12 +421,12 @@ end
     get_attribute_group(attribute_group)
     get_attribute_group(attribute_group, params::Dict{String,<:Any})
 
-Retrieves an attribute group, either by its name or its ID. The attribute group can be
-specified either by its unique ID or by its name.
+ Retrieves an attribute group by its ARN, ID, or name. The attribute group can be specified
+by its ARN, ID, or name.
 
 # Arguments
-- `attribute_group`: The name or ID of the attribute group that holds the attributes to
-  describe the application.
+- `attribute_group`:  The name, ID, or ARN of the attribute group that holds the attributes
+  to describe the application.
 
 """
 function get_attribute_group(
@@ -558,7 +558,7 @@ the application, all of the users who can access the application can also view t
 values in all accounts that are associated with it using this API.
 
 # Arguments
-- `application`: The name or ID of the application.
+- `application`:  The name, ID, or ARN of the application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -853,7 +853,7 @@ end
 Updates an existing application with new attributes.
 
 # Arguments
-- `application`: The name or ID of the application that will be updated.
+- `application`:  The name, ID, or ARN of the application that will be updated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -891,8 +891,8 @@ end
 Updates an existing attribute group with new details.
 
 # Arguments
-- `attribute_group`: The name or ID of the attribute group that holds the attributes to
-  describe the application.
+- `attribute_group`:  The name, ID, or ARN of the attribute group that holds the attributes
+  to describe the application.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

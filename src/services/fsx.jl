@@ -215,7 +215,7 @@ along with other information.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: (Optional) A string of up to 64 ASCII characters that Amazon FSx
+- `"ClientRequestToken"`: (Optional) A string of up to 63 ASCII characters that Amazon FSx
   uses to ensure idempotent creation. This string is automatically filled on your behalf when
   you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `"FileSystemId"`: The ID of the file system to back up.
@@ -255,13 +255,13 @@ end
 Creates an Amazon FSx for Lustre data repository association (DRA). A data repository
 association is a link between a directory on the file system and an Amazon S3 bucket or
 prefix. You can have a maximum of 8 data repository associations on a file system. Data
-repository associations are supported only for file systems with the Persistent_2
-deployment type. Each data repository association must have a unique Amazon FSx file system
-directory and a unique S3 bucket or prefix associated with it. You can configure a data
-repository association for automatic import only, for automatic export only, or for both.
-To learn more about linking a data repository to your file system, see Linking your file
-system to an S3 bucket.   CreateDataRepositoryAssociation isn't supported on Amazon File
-Cache resources. To create a DRA on Amazon File Cache, use the CreateFileCache operation.
+repository associations are supported for all file systems except for Scratch_1 deployment
+type. Each data repository association must have a unique Amazon FSx file system directory
+and a unique S3 bucket or prefix associated with it. You can configure a data repository
+association for automatic import only, for automatic export only, or for both. To learn
+more about linking a data repository to your file system, see Linking your file system to
+an S3 bucket.   CreateDataRepositoryAssociation isn't supported on Amazon File Cache
+resources. To create a DRA on Amazon File Cache, use the CreateFileCache operation.
 
 # Arguments
 - `data_repository_path`: The path to the Amazon S3 data repository that will be linked to
@@ -444,7 +444,7 @@ operation, which returns the cache state along with other information.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: An idempotency token for resource creation, in a string of up to
-  64 ASCII characters. This token is automatically filled on your behalf when you use the
+  63 ASCII characters. This token is automatically filled on your behalf when you use the
   Command Line Interface (CLI) or an Amazon Web Services SDK. By using the idempotent
   operation, you can retry a CreateFileCache operation without the risk of creating an extra
   cache. This approach can be useful when an initial call fails in a way that makes it
@@ -576,7 +576,7 @@ along with other information.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
+- `"ClientRequestToken"`: A string of up to 63 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `"FileSystemTypeVersion"`: (Optional) For FSx for Lustre file systems, sets the Lustre
@@ -687,7 +687,7 @@ with other information.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
+- `"ClientRequestToken"`: A string of up to 63 ASCII characters that Amazon FSx uses to
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `"FileSystemTypeVersion"`: Sets the version for the Amazon FSx for Lustre file system
@@ -1013,7 +1013,7 @@ by any means.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
+- `"ClientRequestToken"`: A string of up to 63 ASCII characters that Amazon FSx uses to
   ensure idempotent deletion. This parameter is automatically filled on your behalf when
   using the CLI or SDK.
 """
@@ -1054,7 +1054,7 @@ Deletes a data repository association on an Amazon FSx for Lustre file system. D
 data repository association unlinks the file system from the Amazon S3 bucket. When
 deleting a data repository association, you have the option of deleting the data in the
 file system that corresponds to the data repository association. Data repository
-associations are supported only for file systems with the Persistent_2 deployment type.
+associations are supported for all file systems except for Scratch_1 deployment type.
 
 # Arguments
 - `association_id`: The ID of the data repository association that you want to delete.
@@ -1172,7 +1172,7 @@ also deleted and can't be recovered by any means.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
+- `"ClientRequestToken"`: A string of up to 63 ASCII characters that Amazon FSx uses to
   ensure idempotent deletion. This token is automatically filled on your behalf when using
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `"LustreConfiguration"`:
@@ -1405,9 +1405,9 @@ end
 
 Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data
 repository associations, if one or more AssociationIds values are provided in the request,
-or if filters are used in the request. Data repository associations are supported only for
-Amazon FSx for Lustre file systems with the Persistent_2 deployment type and for Amazon
-File Cache resources. You can use filters to narrow the response to include just data
+or if filters are used in the request. Data repository associations are supported on Amazon
+File Cache resources and all Amazon FSx for Lustre file systems excluding Scratch_1
+deployment types. You can use filters to narrow the response to include just data
 repository associations for specific file systems (use the file-system-id filter with the
 ID of the file system) or caches (use the file-cache-id filter with the ID of the cache),
 or data repository associations for a specific repository type (use the
@@ -2037,8 +2037,8 @@ end
     update_data_repository_association(association_id, params::Dict{String,<:Any})
 
 Updates the configuration of an existing data repository association on an Amazon FSx for
-Lustre file system. Data repository associations are supported only for file systems with
-the Persistent_2 deployment type.
+Lustre file system. Data repository associations are supported for all file systems except
+for Scratch_1 deployment type.
 
 # Arguments
 - `association_id`: The ID of the data repository association that you are updating.
@@ -2143,53 +2143,56 @@ end
     update_file_system(file_system_id, params::Dict{String,<:Any})
 
 Use this operation to update the configuration of an existing Amazon FSx file system. You
-can update multiple properties in a single request. For Amazon FSx for Windows File Server
-file systems, you can update the following properties:    AuditLogConfiguration
+can update multiple properties in a single request. For FSx for Windows File Server file
+systems, you can update the following properties:    AuditLogConfiguration
 AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime
 SelfManagedActiveDirectoryConfiguration     StorageCapacity     ThroughputCapacity
-WeeklyMaintenanceStartTime    For Amazon FSx for Lustre file systems, you can update the
-following properties:    AutoImportPolicy     AutomaticBackupRetentionDays
+WeeklyMaintenanceStartTime    For FSx for Lustre file systems, you can update the following
+properties:    AutoImportPolicy     AutomaticBackupRetentionDays
 DailyAutomaticBackupStartTime     DataCompressionType     LustreRootSquashConfiguration
-StorageCapacity     WeeklyMaintenanceStartTime    For Amazon FSx for NetApp ONTAP file
-systems, you can update the following properties:    AutomaticBackupRetentionDays
+StorageCapacity     WeeklyMaintenanceStartTime    For FSx for ONTAP file systems, you can
+update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays
 DailyAutomaticBackupStartTime     DiskIopsConfiguration     FsxAdminPassword
-StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime    For the Amazon FSx
-for OpenZFS file systems, you can update the following properties:
-AutomaticBackupRetentionDays     CopyTagsToBackups     CopyTagsToVolumes
-DailyAutomaticBackupStartTime     ThroughputCapacity     WeeklyMaintenanceStartTime
+RemoveRouteTableIds     StorageCapacity     ThroughputCapacity
+WeeklyMaintenanceStartTime    For FSx for OpenZFS file systems, you can update the
+following properties:    AutomaticBackupRetentionDays     CopyTagsToBackups
+CopyTagsToVolumes     DailyAutomaticBackupStartTime     DiskIopsConfiguration
+StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime
 
 # Arguments
 - `file_system_id`: The ID of the file system that you are updating.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: A string of up to 64 ASCII characters that Amazon FSx uses to
+- `"ClientRequestToken"`: A string of up to 63 ASCII characters that Amazon FSx uses to
   ensure idempotent updates. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `"LustreConfiguration"`:
 - `"OntapConfiguration"`:
 - `"OpenZFSConfiguration"`: The configuration updates for an Amazon FSx for OpenZFS file
   system.
-- `"StorageCapacity"`: Use this parameter to increase the storage capacity of an Amazon FSx
-  for Windows File Server, Amazon FSx for Lustre, or Amazon FSx for NetApp ONTAP file system.
+- `"StorageCapacity"`: Use this parameter to increase the storage capacity of an FSx for
+  Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system.
   Specifies the storage capacity target value, in GiB, to increase the storage capacity for
   the file system that you're updating.   You can't make a storage capacity increase request
-  if there is an existing storage capacity increase request in progress.  For Windows file
-  systems, the storage capacity target value must be at least 10 percent greater than the
-  current storage capacity value. To increase storage capacity, the file system must have at
-  least 16 MBps of throughput capacity. For more information, see Managing storage capacity
-  in the Amazon FSx for Windows File Server User Guide. For Lustre file systems, the storage
-  capacity target value can be the following:   For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2
-  SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater
-  than the current storage capacity.   For PERSISTENT HDD file systems, valid values are
-  multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB
-  for 40-MBps throughput per TiB file systems. The values must be greater than the current
-  storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.
-  For more information, see Managing storage and throughput capacity in the Amazon FSx for
-  Lustre User Guide. For ONTAP file systems, the storage capacity target value must be at
-  least 10 percent greater than the current storage capacity value. For more information, see
-  Managing storage capacity and provisioned IOPS in the Amazon FSx for NetApp ONTAP User
-  Guide.
+  if there is an existing storage capacity increase request in progress.  For Lustre file
+  systems, the storage capacity target value can be the following:   For SCRATCH_2,
+  PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400
+  GiB. The value must be greater than the current storage capacity.   For PERSISTENT HDD file
+  systems, valid values are multiples of 6000 GiB for 12-MBps throughput per TiB file systems
+  and multiples of 1800 GiB for 40-MBps throughput per TiB file systems. The values must be
+  greater than the current storage capacity.   For SCRATCH_1 file systems, you can't increase
+  the storage capacity.   For more information, see Managing storage and throughput capacity
+  in the FSx for Lustre User Guide. For FSx for OpenZFS file systems, the storage capacity
+  target value must be at least 10 percent greater than the current storage capacity value.
+  For more information, see Managing storage capacity in the FSx for OpenZFS User Guide. For
+  Windows file systems, the storage capacity target value must be at least 10 percent greater
+  than the current storage capacity value. To increase storage capacity, the file system must
+  have at least 16 MBps of throughput capacity. For more information, see Managing storage
+  capacity in the Amazon FSx for Windows File Server User Guide. For ONTAP file systems, the
+  storage capacity target value must be at least 10 percent greater than the current storage
+  capacity value. For more information, see Managing storage capacity and provisioned IOPS in
+  the Amazon FSx for NetApp ONTAP User Guide.
 - `"WindowsConfiguration"`: The configuration updates for an Amazon FSx for Windows File
   Server file system.
 """

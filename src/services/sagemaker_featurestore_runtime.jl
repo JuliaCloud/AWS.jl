@@ -44,9 +44,18 @@ end
     delete_record(event_time, feature_group_name, record_identifier_value_as_string)
     delete_record(event_time, feature_group_name, record_identifier_value_as_string, params::Dict{String,<:Any})
 
-Deletes a Record from a FeatureGroup. When the DeleteRecord API is called a new record will
-be added to the OfflineStore and the Record will be removed from the OnlineStore. This
-record will have a value of True in the is_deleted column.
+Deletes a Record from a FeatureGroup in the OnlineStore. Feature Store supports both
+SOFT_DELETE and HARD_DELETE. For SOFT_DELETE (default), feature columns are set to null and
+the record is no longer retrievable by GetRecord or BatchGetRecord. For HARD_DELETE, the
+complete Record is removed from the OnlineStore. In both cases, Feature Store appends the
+deleted record marker to the OfflineStore with feature values set to null, is_deleted value
+set to True, and EventTime set to the delete input EventTime. Note that the EventTime
+specified in DeleteRecord should be set later than the EventTime of the existing record in
+the OnlineStore for that RecordIdentifer. If it is not, the deletion does not occur:   For
+SOFT_DELETE, the existing (undeleted) record remains in the OnlineStore, though the delete
+record marker is still written to the OfflineStore.    HARD_DELETE returns EventTime: 400
+ValidationException to indicate that the delete operation failed. No delete record marker
+is written to the OfflineStore.
 
 # Arguments
 - `event_time`: Timestamp indicating when the deletion event occurred. EventTime can be
@@ -57,6 +66,8 @@ record will have a value of True in the is_deleted column.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeletionMode"`: The name of the deletion mode for deleting the record. By default, the
+  deletion mode is set to SoftDelete.
 - `"TargetStores"`: A list of stores from which you're deleting the record. By default,
   Feature Store deletes the record from all of the stores that you're using for the
   FeatureGroup.

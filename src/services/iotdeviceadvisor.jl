@@ -95,7 +95,9 @@ Gets information about an Device Advisor endpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"authenticationMethod"`: The authentication method used during the device connection.
 - `"certificateArn"`: The certificate ARN of the device. This is an optional parameter.
+- `"deviceRoleArn"`: The device role ARN of the device. This is an optional parameter.
 - `"thingArn"`: The thing ARN of the device. This is an optional parameter.
 """
 function get_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())

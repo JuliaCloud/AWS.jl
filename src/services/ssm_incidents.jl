@@ -118,27 +118,27 @@ end
     create_timeline_event(event_data, event_time, event_type, incident_record_arn, params::Dict{String,<:Any})
 
 Creates a custom timeline event on the incident details page of an incident record.
-Timeline events are automatically created by Incident Manager, marking key moment during an
-incident. You can create custom timeline events to mark important events that are
-automatically detected by Incident Manager.
+Incident Manager automatically creates timeline events that mark key moments during an
+incident. You can create custom timeline events to mark important events that Incident
+Manager can detect automatically.
 
 # Arguments
 - `event_data`: A short description of the event.
 - `event_time`: The time that the event occurred.
-- `event_type`: The type of the event. You can create timeline events of type Custom Event.
-- `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record to which the
-  event will be added.
+- `event_type`: The type of event. You can create timeline events of type Custom Event.
+- `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record that the
+  action adds the incident to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the action is called only once with the specified
-  details.
-- `"eventReferences"`: Adds one or more references to the TimelineEvent. A reference can be
-  an Amazon Web Services resource involved in the incident or in some way associated with it.
-  When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource. You
-  can also specify a related item. As an example, you could specify the ARN of an Amazon
-  DynamoDB (DynamoDB) table. The table for this example is the resource. You could also
-  specify a Amazon CloudWatch metric for that table. The metric is the related item.
+- `"clientToken"`: A token that ensures that a client calls the action only once with the
+  specified details.
+- `"eventReferences"`: Adds one or more references to the TimelineEvent. A reference is an
+  Amazon Web Services resource involved or associated with the incident. To specify a
+  reference, enter its Amazon Resource Name (ARN). You can also specify a related item
+  associated with a resource. For example, to specify an Amazon DynamoDB (DynamoDB) table as
+  a resource, use the table's ARN. You can also specify an Amazon CloudWatch metric
+  associated with the DynamoDB table as a related item.
 """
 function create_timeline_event(
     eventData,
@@ -337,8 +337,8 @@ end
 Deletes a timeline event from an incident.
 
 # Arguments
-- `event_id`: The ID of the event you are updating. You can find this by using
-  ListTimelineEvents.
+- `event_id`: The ID of the event to update. You can use ListTimelineEvents to find an
+  event's ID.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident that includes the
   timeline event.
 
@@ -569,13 +569,13 @@ Resource Name (ARN) of the incident record you want to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: Filters the list of incident records through which you are searching. You
-  can filter on the following keys:    creationTime     impact     status     createdBy
-  Note the following when deciding how to use Filters:   If you don't specify a Filter, the
-  response includes all incident records.   If you specify more than one filter in a single
-  request, the response returns incident records that match all filters.   If you specify a
-  filter with more than one value, the response returns incident records that match any of
-  the values provided.
+- `"filters"`: Filters the list of incident records you want to search through. You can
+  filter on the following keys:    creationTime     impact     status     createdBy    Note
+  the following when when you use Filters:   If you don't specify a Filter, the response
+  includes all incident records.   If you specify more than one filter in a single request,
+  the response returns incident records that match all filters.   If you specify a filter
+  with more than one value, the response returns incident records that match any of the
+  values provided.
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token to continue to the next page of results.
 """
@@ -749,7 +749,7 @@ Lists timeline events for the specified incident record.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filters"`: Filters the timeline events based on the provided conditional values. You
-  can filter timeline events using the following keys:    eventTime     eventType    Note the
+  can filter timeline events with the following keys:    eventTime     eventType    Note the
   following when deciding how to use Filters:   If you don't specify a Filter, the response
   includes all timeline events.   If you specify more than one filter in a single request,
   the response returns timeline events that match all filters.   If you specify a filter with
@@ -757,7 +757,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided.
 - `"maxResults"`: The maximum number of results per page.
 - `"nextToken"`: The pagination token to continue to the next page of results.
-- `"sortBy"`: Sort by the specified key value pair.
+- `"sortBy"`: Sort timeline events by the specified key value pair.
 - `"sortOrder"`: Sorts the order of timeline events by the value specified in the sortBy
   field.
 """
@@ -858,7 +858,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   customer might aren't impacted by the problem yet.    5 - No impact, customers aren't
   currently impacted but urgent action is needed to avoid impact.
 - `"relatedItems"`: Add related items to the incident for other responders to use. Related
-  items are AWS resources, external links, or files uploaded to an Amazon S3 bucket.
+  items are Amazon Web Services resources, external links, or files uploaded to an Amazon S3
+  bucket.
 - `"title"`: Provide a title for the incident. Providing a title overwrites the title
   provided by the response plan.
 - `"triggerDetails"`: Details of what created the incident record in Incident Manager.
@@ -1041,19 +1042,19 @@ channels, see Interacting through chat.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"chatChannel"`: The Chatbot chat channel where responders can collaborate.
-- `"clientToken"`: A token that ensures that the operation is called only once with the
-  specified details.
-- `"impact"`: Defines the impact of the incident to customers and applications. Providing
-  an impact overwrites the impact provided by the response plan.  Possible impacts:     1 -
-  Critical impact, full application failure that impacts many to all customers.     2 - High
-  impact, partial application failure with impact to many customers.    3 - Medium impact,
-  the application is providing reduced service to customers.    4 - Low impact, customer
-  aren't impacted by the problem yet.    5 - No impact, customers aren't currently impacted
-  but urgent action is needed to avoid impact.
-- `"notificationTargets"`: The Amazon SNS targets that are notified when updates are made
-  to an incident. Using multiple SNS topics creates redundancy in the event that a Region is
-  down during the incident.
-- `"status"`: The status of the incident. An incident can be Open or Resolved.
+- `"clientToken"`: A token that ensures that a client calls the operation only once with
+  the specified details.
+- `"impact"`: Defines the impact of the incident to customers and applications. If you
+  provide an impact for an incident, it overwrites the impact provided by the response plan.
+  Possible impacts:     1 - Critical impact, full application failure that impacts many to
+  all customers.     2 - High impact, partial application failure with impact to many
+  customers.    3 - Medium impact, the application is providing reduced service to customers.
+     4 - Low impact, customer aren't impacted by the problem yet.    5 - No impact, customers
+  aren't currently impacted but urgent action is needed to avoid impact.
+- `"notificationTargets"`: The Amazon SNS targets that Incident Manager notifies when a
+  client updates an incident. Using multiple SNS topics creates redundancy in the event that
+  a Region is down during the incident.
+- `"status"`: The status of the incident. Possible statuses are Open or Resolved.
 - `"summary"`: A longer description of what occurred during the incident.
 - `"title"`: A brief description of the incident.
 """
@@ -1091,14 +1092,15 @@ end
 Add or remove related items from the related items tab of an incident record.
 
 # Arguments
-- `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record containing
-  the related items you are updating.
-- `related_items_update`: Details about the item you are adding or deleting.
+- `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record that
+  contains the related items that you update.
+- `related_items_update`: Details about the item that you are add to, or delete from, an
+  incident.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
-  specified details.
+- `"clientToken"`: A token that ensures that a client calls the operation only once with
+  the specified details.
 """
 function update_related_items(
     incidentRecordArn, relatedItemsUpdate; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1263,27 +1265,26 @@ end
 Updates a timeline event. You can update events of type Custom Event.
 
 # Arguments
-- `event_id`: The ID of the event you are updating. You can find this by using
-  ListTimelineEvents.
+- `event_id`: The ID of the event to update. You can use ListTimelineEvents to find an
+  event's ID.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident that includes the
   timeline event.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: A token ensuring that the operation is called only once with the
-  specified details.
+- `"clientToken"`: A token that ensures that a client calls the operation only once with
+  the specified details.
 - `"eventData"`: A short description of the event.
-- `"eventReferences"`: Updates all existing references in a TimelineEvent. A reference can
-  be an Amazon Web Services resource involved in the incident or in some way associated with
-  it. When you specify a reference, you enter the Amazon Resource Name (ARN) of the resource.
-  You can also specify a related item. As an example, you could specify the ARN of an Amazon
-  DynamoDB (DynamoDB) table. The table for this example is the resource. You could also
-  specify a Amazon CloudWatch metric for that table. The metric is the related item.  This
-  update action overrides all existing references. If you want to keep existing references,
-  you must specify them in the call. If you don't, this action removes them and enters only
-  new references.
+- `"eventReferences"`: Updates all existing references in a TimelineEvent. A reference is
+  an Amazon Web Services resource involved or associated with the incident. To specify a
+  reference, enter its Amazon Resource Name (ARN). You can also specify a related item
+  associated with that resource. For example, to specify an Amazon DynamoDB (DynamoDB) table
+  as a resource, use its ARN. You can also specify an Amazon CloudWatch metric associated
+  with the DynamoDB table as a related item.  This update action overrides all existing
+  references. If you want to keep existing references, you must specify them in the call. If
+  you don't, this action removes any existing references and enters only new references.
 - `"eventTime"`: The time that the event occurred.
-- `"eventType"`: The type of the event. You can update events of type Custom Event.
+- `"eventType"`: The type of event. You can update events of type Custom Event.
 """
 function update_timeline_event(
     eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()

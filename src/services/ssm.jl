@@ -5309,7 +5309,9 @@ provisioned by the Amazon Web Services service team.
 
 # Arguments
 - `setting_id`: The Amazon Resource Name (ARN) of the service setting to reset. The setting
-  ID can be one of the following.    /ssm/automation/customer-script-log-destination
+  ID can be one of the following.
+  /ssm/managed-instance/default-ec2-instance-management-role
+  /ssm/automation/customer-script-log-destination
   /ssm/automation/customer-script-log-group-name
   /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier
      /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier
@@ -6806,7 +6808,7 @@ back to the original value defined by the Amazon Web Services service team. Upda
 service setting for the account.
 
 # Arguments
-- `setting_id`: The Amazon Resource Name (ARN) of the service setting to reset. For
+- `setting_id`: The Amazon Resource Name (ARN) of the service setting to update. For
   example,
   arn:aws:ssm:us-east-1:111122223333:servicesetting/ssm/parameter-store/high-throughput-enable
   d. The setting ID can be one of the following.
@@ -6815,11 +6817,15 @@ service setting for the account.
   /ssm/automation/customer-script-log-group-name
   /ssm/documents/console/public-sharing-permission     /ssm/managed-instance/activation-tier
      /ssm/opsinsights/opscenter     /ssm/parameter-store/default-parameter-tier
-  /ssm/parameter-store/high-throughput-enabled
+  /ssm/parameter-store/high-throughput-enabled     Permissions to update the
+  /ssm/managed-instance/default-ec2-instance-management-role setting should only be provided
+  to administrators. Implement least privilege access when allowing individuals to configure
+  or modify the Default Host Management Configuration.
 - `setting_value`: The new value to specify for the service setting. The following list
   specifies the available values for each setting.
+  /ssm/managed-instance/default-ec2-instance-management-role: The name of an IAM role
   /ssm/automation/customer-script-log-destination: CloudWatch
-  /ssm/automation/customer-script-log-group-name: the name of an Amazon CloudWatch Logs log
+  /ssm/automation/customer-script-log-group-name: The name of an Amazon CloudWatch Logs log
   group    /ssm/documents/console/public-sharing-permission: Enable or Disable
   /ssm/managed-instance/activation-tier: standard or advanced     /ssm/opsinsights/opscenter:
   Enabled or Disabled     /ssm/parameter-store/default-parameter-tier: Standard, Advanced,

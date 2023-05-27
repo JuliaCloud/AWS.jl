@@ -151,10 +151,12 @@ aliases in the Key Management Service Developer Guide.  Related operations:     
 
 # Arguments
 - `alias_name`: Specifies the alias name. This value must begin with alias/ followed by a
-  name, such as alias/ExampleAlias.  The AliasName value must be string of 1-256 characters.
-  It can contain only alphanumeric characters, forward slashes (/), underscores (_), and
-  dashes (-). The alias name cannot begin with alias/aws/. The alias/aws/ prefix is reserved
-  for Amazon Web Services managed keys.
+  name, such as alias/ExampleAlias.   Do not include confidential or sensitive information in
+  this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+  The AliasName value must be string of 1-256 characters. It can contain only alphanumeric
+  characters, forward slashes (/), underscores (_), and dashes (-). The alias name cannot
+  begin with alias/aws/. The alias/aws/ prefix is reserved for Amazon Web Services managed
+  keys.
 - `target_key_id`: Associates the alias with the specified customer managed key. The KMS
   key must be in the same Amazon Web Services Region.  A valid key ID is required. If you
   supply a null or empty string value, this operation returns an error. For help finding the
@@ -242,7 +244,8 @@ DescribeCustomKeyStores     DisconnectCustomKeyStore     UpdateCustomKeyStore
 # Arguments
 - `custom_key_store_name`: Specifies a friendly name for the custom key store. The name
   must be unique in your Amazon Web Services account and Region. This parameter is required
-  for all custom key stores.
+  for all custom key stores.  Do not include confidential or sensitive information in this
+  field. This field may be displayed in plaintext in CloudTrail logs and other output.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -405,15 +408,12 @@ operations:     ListGrants     ListRetirableGrants     RetireGrant     RevokeGra
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Constraints"`: Specifies a grant constraint.  KMS supports the EncryptionContextEquals
-  and EncryptionContextSubset grant constraints. Each constraint value can include up to 8
-  encryption context pairs. The encryption context value in each constraint cannot exceed 384
-  characters. For information about grant constraints, see Using grant constraints in the Key
-  Management Service Developer Guide. For more information about encryption context, see
-  Encryption context in the  Key Management Service Developer Guide .  The encryption context
-  grant constraints allow the permissions in the grant only when the encryption context in
+- `"Constraints"`: Specifies a grant constraint.  Do not include confidential or sensitive
+  information in this field. This field may be displayed in plaintext in CloudTrail logs and
+  other output.  KMS supports the EncryptionContextEquals and EncryptionContextSubset grant
+  constraints, which allow the permissions in the grant only when the encryption context in
   the request matches (EncryptionContextEquals) or includes (EncryptionContextSubset) the
-  encryption context specified in this structure.  The encryption context grant constraints
+  encryption context specified in the constraint.  The encryption context grant constraints
   are supported only on grant operations that include an EncryptionContext parameter, such as
   cryptographic operations on symmetric encryption KMS keys. Grants with grant constraints
   can include the DescribeKey and RetireGrant operations, but the constraint doesn't apply to
@@ -421,20 +421,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the constraint requires that any grants created with the CreateGrant permission have an
   equally strict or stricter encryption context constraint. You cannot use an encryption
   context grant constraint for cryptographic operations with asymmetric KMS keys or HMAC KMS
-  keys. These keys don't support an encryption context.
+  keys. Operations with these keys don't support an encryption context. Each constraint value
+  can include up to 8 encryption context pairs. The encryption context value in each
+  constraint cannot exceed 384 characters. For information about grant constraints, see Using
+  grant constraints in the Key Management Service Developer Guide. For more information about
+  encryption context, see Encryption context in the  Key Management Service Developer Guide .
 - `"GrantTokens"`: A list of grant tokens.  Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
   Developer Guide.
 - `"Name"`: A friendly name for the grant. Use this value to prevent the unintended
-  creation of duplicate grants when retrying this request. When this value is absent, all
-  CreateGrant requests result in a new grant with a unique GrantId even if all the supplied
-  parameters are identical. This can result in unintended duplicates when you retry the
-  CreateGrant request. When this value is present, you can retry a CreateGrant request with
-  identical parameters; if the grant already exists, the original GrantId is returned without
-  creating a new grant. Note that the returned grant token is unique with every CreateGrant
-  request, even when a duplicate GrantId is returned. All grant tokens for the same grant ID
-  can be used interchangeably.
+  creation of duplicate grants when retrying this request.  Do not include confidential or
+  sensitive information in this field. This field may be displayed in plaintext in CloudTrail
+  logs and other output.  When this value is absent, all CreateGrant requests result in a new
+  grant with a unique GrantId even if all the supplied parameters are identical. This can
+  result in unintended duplicates when you retry the CreateGrant request. When this value is
+  present, you can retry a CreateGrant request with identical parameters; if the grant
+  already exists, the original GrantId is returned without creating a new grant. Note that
+  the returned grant token is unique with every CreateGrant request, even when a duplicate
+  GrantId is returned. All grant tokens for the same grant ID can be used interchangeably.
 - `"RetiringPrincipal"`: The principal that has permission to use the RetireGrant operation
   to retire the grant.  To specify the principal, use the Amazon Resource Name (ARN) of an
   Amazon Web Services principal. Valid principals include Amazon Web Services accounts, IAM
@@ -610,8 +615,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supports both parameters.
 - `"Description"`: A description of the KMS key. Use a description that helps you decide
   whether the KMS key is appropriate for a task. The default value is an empty string (no
-  description). To set or change the description after the key is created, use
-  UpdateKeyDescription.
+  description).  Do not include confidential or sensitive information in this field. This
+  field may be displayed in plaintext in CloudTrail logs and other output.  To set or change
+  the description after the key is created, use UpdateKeyDescription.
 - `"KeySpec"`: Specifies the type of KMS key to create. The default value,
   SYMMETRIC_DEFAULT, creates a KMS key with a 256-bit AES-GCM key that is used for encryption
   and decryption, except in China Regions, where it creates a 128-bit symmetric key that uses
@@ -683,16 +689,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   document, see the IAM JSON Policy Reference in the  Identity and Access Management User
   Guide .
 - `"Tags"`: Assigns one or more tags to the KMS key. Use this parameter to tag the KMS key
-  when it is created. To tag an existing KMS key, use the TagResource operation.  Tagging or
-  untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC for
-  KMS in the Key Management Service Developer Guide.  To use this parameter, you must have
-  kms:TagResource permission in an IAM policy. Each tag consists of a tag key and a tag
-  value. Both the tag key and the tag value are required, but the tag value can be an empty
-  (null) string. You cannot have more than one tag on a KMS key with the same tag key. If you
-  specify an existing tag key with a different tag value, KMS replaces the current tag value
-  with the specified one. When you add tags to an Amazon Web Services resource, Amazon Web
-  Services generates a cost allocation report with usage and costs aggregated by tags. Tags
-  can also be used to control access to a KMS key. For details, see Tagging Keys.
+  when it is created. To tag an existing KMS key, use the TagResource operation.  Do not
+  include confidential or sensitive information in this field. This field may be displayed in
+  plaintext in CloudTrail logs and other output.   Tagging or untagging a KMS key can allow
+  or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management
+  Service Developer Guide.  To use this parameter, you must have kms:TagResource permission
+  in an IAM policy. Each tag consists of a tag key and a tag value. Both the tag key and the
+  tag value are required, but the tag value can be an empty (null) string. You cannot have
+  more than one tag on a KMS key with the same tag key. If you specify an existing tag key
+  with a different tag value, KMS replaces the current tag value with the specified one. When
+  you add tags to an Amazon Web Services resource, Amazon Web Services generates a cost
+  allocation report with usage and costs aggregated by tags. Tags can also be used to control
+  access to a KMS key. For details, see Tagging Keys.
 - `"XksKeyId"`: Identifies the external key that serves as key material for the KMS key in
   an external key store. Specify the ID that the external key store proxy uses to refer to
   the external key. For help, see the documentation for your external key store proxy. This
@@ -749,15 +757,19 @@ decrypt ciphertext that was encrypted by KMS keys in other accounts if the key p
 the cross-account KMS key permits it. If you must use an IAM policy for Decrypt
 permissions, limit the user to particular KMS keys or particular trusted accounts. For
 details, see Best practices for IAM policies in the Key Management Service Developer Guide.
-Applications in Amazon Web Services Nitro Enclaves can call this operation by using the
-Amazon Web Services Nitro Enclaves Development Kit. For information about the supporting
-parameters, see How Amazon Web Services Nitro Enclaves use KMS in the Key Management
-Service Developer Guide. The KMS key that you use for this operation must be in a
-compatible key state. For details, see Key states of KMS keys in the Key Management Service
-Developer Guide.  Cross-account use: Yes. If you use the KeyId parameter to identify a KMS
-key in a different Amazon Web Services account, specify the key ARN or the alias ARN of the
-KMS key.  Required permissions: kms:Decrypt (key policy)  Related operations:     Encrypt
-  GenerateDataKey     GenerateDataKeyPair     ReEncrypt
+ Decrypt also supports Amazon Web Services Nitro Enclaves, which provide an isolated
+compute environment in Amazon EC2. To call Decrypt for a Nitro enclave, use the Amazon Web
+Services Nitro Enclaves SDK or any Amazon Web Services SDK. Use the Recipient parameter to
+provide the attestation document for the enclave. Instead of the plaintext data, the
+response includes the plaintext data encrypted with the public key from the attestation
+document (CiphertextForRecipient).For information about the interaction between KMS and
+Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro Enclaves uses KMS in
+the Key Management Service Developer Guide.. The KMS key that you use for this operation
+must be in a compatible key state. For details, see Key states of KMS keys in the Key
+Management Service Developer Guide.  Cross-account use: Yes. If you use the KeyId parameter
+to identify a KMS key in a different Amazon Web Services account, specify the key ARN or
+the alias ARN of the KMS key.  Required permissions: kms:Decrypt (key policy)  Related
+operations:     Encrypt     GenerateDataKey     GenerateDataKeyPair     ReEncrypt
 
 # Arguments
 - `ciphertext_blob`: Ciphertext to be decrypted. The blob includes metadata.
@@ -798,6 +810,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
   To get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey. To get the alias
   name and alias ARN, use ListAliases.
+- `"Recipient"`: A signed attestation document from an Amazon Web Services Nitro enclave
+  and the encryption algorithm to use with the enclave's public key. The only valid
+  encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation
+  documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the Amazon
+  Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. When you use this
+  parameter, instead of returning the plaintext data, KMS encrypts the plaintext data with
+  the public key in the attestation document, and returns the resulting ciphertext in the
+  CiphertextForRecipient field in the response. This ciphertext can be decrypted only with
+  the private key in the enclave. The Plaintext field in the response is null or empty. For
+  information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see
+  How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer
+  Guide.
 """
 function decrypt(CiphertextBlob; aws_config::AbstractAWSConfig=global_aws_config())
     return kms(
@@ -1404,13 +1428,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EncryptionContext"`: Specifies the encryption context that will be used to encrypt the
   data. An encryption context is valid only for cryptographic operations with a symmetric
   encryption KMS key. The standard asymmetric encryption algorithms and HMAC algorithms that
-  KMS uses do not support an encryption context.  An encryption context is a collection of
-  non-secret key-value pairs that represent additional authenticated data. When you use an
-  encryption context to encrypt data, you must specify the same (an exact case-sensitive
-  match) encryption context to decrypt the data. An encryption context is supported only on
-  operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS
-  keys, an encryption context is optional, but it is strongly recommended. For more
-  information, see Encryption context in the Key Management Service Developer Guide.
+  KMS uses do not support an encryption context.   Do not include confidential or sensitive
+  information in this field. This field may be displayed in plaintext in CloudTrail logs and
+  other output.  An encryption context is a collection of non-secret key-value pairs that
+  represent additional authenticated data. When you use an encryption context to encrypt
+  data, you must specify the same (an exact case-sensitive match) encryption context to
+  decrypt the data. An encryption context is supported only on operations with symmetric
+  encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption
+  context is optional, but it is strongly recommended. For more information, see Encryption
+  context in the Key Management Service Developer Guide.
 - `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
@@ -1466,26 +1492,32 @@ additional security to the encryption operation. If you specify an EncryptionCon
 must specify the same encryption context (a case-sensitive exact match) when decrypting the
 encrypted data key. Otherwise, the request to decrypt fails with an
 InvalidCiphertextException. For more information, see Encryption Context in the Key
-Management Service Developer Guide. Applications in Amazon Web Services Nitro Enclaves can
-call this operation by using the Amazon Web Services Nitro Enclaves Development Kit. For
-information about the supporting parameters, see How Amazon Web Services Nitro Enclaves use
-KMS in the Key Management Service Developer Guide. The KMS key that you use for this
-operation must be in a compatible key state. For details, see Key states of KMS keys in the
-Key Management Service Developer Guide.  How to use your data key  We recommend that you
-use the following pattern to encrypt data locally in your application. You can write your
-own code or use a client-side encryption library, such as the Amazon Web Services
-Encryption SDK, the Amazon DynamoDB Encryption Client, or Amazon S3 client-side encryption
-to do these tasks for you. To encrypt data outside of KMS:   Use the GenerateDataKey
-operation to get a data key.   Use the plaintext data key (in the Plaintext field of the
-response) to encrypt your data outside of KMS. Then erase the plaintext data key from
-memory.   Store the encrypted data key (in the CiphertextBlob field of the response) with
-the encrypted data.   To decrypt data outside of KMS:   Use the Decrypt operation to
-decrypt the encrypted data key. The operation returns a plaintext copy of the data key.
-Use the plaintext data key to decrypt data outside of KMS, then erase the plaintext data
-key from memory.    Cross-account use: Yes. To perform this operation with a KMS key in a
-different Amazon Web Services account, specify the key ARN or alias ARN in the value of the
-KeyId parameter.  Required permissions: kms:GenerateDataKey (key policy)  Related
-operations:     Decrypt     Encrypt     GenerateDataKeyPair
+Management Service Developer Guide.  GenerateDataKey also supports Amazon Web Services
+Nitro Enclaves, which provide an isolated compute environment in Amazon EC2. To call
+GenerateDataKey for an Amazon Web Services Nitro enclave, use the Amazon Web Services Nitro
+Enclaves SDK or any Amazon Web Services SDK. Use the Recipient parameter to provide the
+attestation document for the enclave. GenerateDataKey returns a copy of the data key
+encrypted under the specified KMS key, as usual. But instead of a plaintext copy of the
+data key, the response includes a copy of the data key encrypted under the public key from
+the attestation document (CiphertextForRecipient). For information about the interaction
+between KMS and Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro
+Enclaves uses KMS in the Key Management Service Developer Guide.. The KMS key that you use
+for this operation must be in a compatible key state. For details, see Key states of KMS
+keys in the Key Management Service Developer Guide.  How to use your data key  We recommend
+that you use the following pattern to encrypt data locally in your application. You can
+write your own code or use a client-side encryption library, such as the Amazon Web
+Services Encryption SDK, the Amazon DynamoDB Encryption Client, or Amazon S3 client-side
+encryption to do these tasks for you. To encrypt data outside of KMS:   Use the
+GenerateDataKey operation to get a data key.   Use the plaintext data key (in the Plaintext
+field of the response) to encrypt your data outside of KMS. Then erase the plaintext data
+key from memory.   Store the encrypted data key (in the CiphertextBlob field of the
+response) with the encrypted data.   To decrypt data outside of KMS:   Use the Decrypt
+operation to decrypt the encrypted data key. The operation returns a plaintext copy of the
+data key.   Use the plaintext data key to decrypt data outside of KMS, then erase the
+plaintext data key from memory.    Cross-account use: Yes. To perform this operation with a
+KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN in the
+value of the KeyId parameter.  Required permissions: kms:GenerateDataKey (key policy)
+Related operations:     Decrypt     Encrypt     GenerateDataKeyPair
 GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
 
 # Arguments
@@ -1504,13 +1536,15 @@ GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EncryptionContext"`: Specifies the encryption context that will be used when encrypting
-  the data key. An encryption context is a collection of non-secret key-value pairs that
-  represent additional authenticated data. When you use an encryption context to encrypt
-  data, you must specify the same (an exact case-sensitive match) encryption context to
-  decrypt the data. An encryption context is supported only on operations with symmetric
-  encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption
-  context is optional, but it is strongly recommended. For more information, see Encryption
-  context in the Key Management Service Developer Guide.
+  the data key.  Do not include confidential or sensitive information in this field. This
+  field may be displayed in plaintext in CloudTrail logs and other output.  An encryption
+  context is a collection of non-secret key-value pairs that represent additional
+  authenticated data. When you use an encryption context to encrypt data, you must specify
+  the same (an exact case-sensitive match) encryption context to decrypt the data. An
+  encryption context is supported only on operations with symmetric encryption KMS keys. On
+  operations with symmetric encryption KMS keys, an encryption context is optional, but it is
+  strongly recommended. For more information, see Encryption context in the Key Management
+  Service Developer Guide.
 - `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
@@ -1522,6 +1556,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value 64 to generate a 512-bit data key (64 bytes is 512 bits). For 128-bit (16-byte) and
   256-bit (32-byte) data keys, use the KeySpec parameter. You must specify either the KeySpec
   or the NumberOfBytes parameter (but not both) in every GenerateDataKey request.
+- `"Recipient"`: A signed attestation document from an Amazon Web Services Nitro enclave
+  and the encryption algorithm to use with the enclave's public key. The only valid
+  encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation
+  documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the Amazon
+  Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. When you use this
+  parameter, instead of returning the plaintext data key, KMS encrypts the plaintext data key
+  under the public key in the attestation document, and returns the resulting ciphertext in
+  the CiphertextForRecipient field in the response. This ciphertext can be decrypted only
+  with the private key in the enclave. The CiphertextBlob field in the response contains a
+  copy of the data key encrypted under the KMS key specified by the KeyId parameter. The
+  Plaintext field in the response is null or empty. For information about the interaction
+  between KMS and Amazon Web Services Nitro Enclaves, see How Amazon Web Services Nitro
+  Enclaves uses KMS in the Key Management Service Developer Guide.
 """
 function generate_data_key(KeyId; aws_config::AbstractAWSConfig=global_aws_config())
     return kms(
@@ -1571,18 +1618,29 @@ operation to decrypt the encrypted private key in the data key pair.  GenerateDa
 returns a unique data key pair for each request. The bytes in the keys are random; they are
 not related to the caller or the KMS key that is used to encrypt the private key. The
 public key is a DER-encoded X.509 SubjectPublicKeyInfo, as specified in RFC 5280. The
-private key is a DER-encoded PKCS8 PrivateKeyInfo, as specified in RFC 5958. You can use an
-optional encryption context to add additional security to the encryption operation. If you
-specify an EncryptionContext, you must specify the same encryption context (a
-case-sensitive exact match) when decrypting the encrypted data key. Otherwise, the request
-to decrypt fails with an InvalidCiphertextException. For more information, see Encryption
-Context in the Key Management Service Developer Guide. The KMS key that you use for this
-operation must be in a compatible key state. For details, see Key states of KMS keys in the
-Key Management Service Developer Guide.  Cross-account use: Yes. To perform this operation
-with a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN
-in the value of the KeyId parameter.  Required permissions: kms:GenerateDataKeyPair (key
-policy)  Related operations:     Decrypt     Encrypt     GenerateDataKey
-GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
+private key is a DER-encoded PKCS8 PrivateKeyInfo, as specified in RFC 5958.
+GenerateDataKeyPair also supports Amazon Web Services Nitro Enclaves, which provide an
+isolated compute environment in Amazon EC2. To call GenerateDataKeyPair for an Amazon Web
+Services Nitro enclave, use the Amazon Web Services Nitro Enclaves SDK or any Amazon Web
+Services SDK. Use the Recipient parameter to provide the attestation document for the
+enclave. GenerateDataKeyPair returns the public data key and a copy of the private data key
+encrypted under the specified KMS key, as usual. But instead of a plaintext copy of the
+private data key (PrivateKeyPlaintext), the response includes a copy of the private data
+key encrypted under the public key from the attestation document (CiphertextForRecipient).
+For information about the interaction between KMS and Amazon Web Services Nitro Enclaves,
+see How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer
+Guide.. You can use an optional encryption context to add additional security to the
+encryption operation. If you specify an EncryptionContext, you must specify the same
+encryption context (a case-sensitive exact match) when decrypting the encrypted data key.
+Otherwise, the request to decrypt fails with an InvalidCiphertextException. For more
+information, see Encryption Context in the Key Management Service Developer Guide. The KMS
+key that you use for this operation must be in a compatible key state. For details, see Key
+states of KMS keys in the Key Management Service Developer Guide.  Cross-account use: Yes.
+To perform this operation with a KMS key in a different Amazon Web Services account,
+specify the key ARN or alias ARN in the value of the KeyId parameter.  Required
+permissions: kms:GenerateDataKeyPair (key policy)  Related operations:     Decrypt
+Encrypt     GenerateDataKey     GenerateDataKeyPairWithoutPlaintext
+GenerateDataKeyWithoutPlaintext
 
 # Arguments
 - `key_id`: Specifies the symmetric encryption KMS key that encrypts the private key in the
@@ -1605,16 +1663,32 @@ GenerateDataKeyPairWithoutPlaintext     GenerateDataKeyWithoutPlaintext
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EncryptionContext"`: Specifies the encryption context that will be used when encrypting
-  the private key in the data key pair. An encryption context is a collection of non-secret
-  key-value pairs that represent additional authenticated data. When you use an encryption
-  context to encrypt data, you must specify the same (an exact case-sensitive match)
-  encryption context to decrypt the data. An encryption context is supported only on
-  operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS
-  keys, an encryption context is optional, but it is strongly recommended. For more
-  information, see Encryption context in the Key Management Service Developer Guide.
+  the private key in the data key pair.  Do not include confidential or sensitive information
+  in this field. This field may be displayed in plaintext in CloudTrail logs and other
+  output.  An encryption context is a collection of non-secret key-value pairs that represent
+  additional authenticated data. When you use an encryption context to encrypt data, you must
+  specify the same (an exact case-sensitive match) encryption context to decrypt the data. An
+  encryption context is supported only on operations with symmetric encryption KMS keys. On
+  operations with symmetric encryption KMS keys, an encryption context is optional, but it is
+  strongly recommended. For more information, see Encryption context in the Key Management
+  Service Developer Guide.
 - `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
+  Developer Guide.
+- `"Recipient"`: A signed attestation document from an Amazon Web Services Nitro enclave
+  and the encryption algorithm to use with the enclave's public key. The only valid
+  encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation
+  documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the Amazon
+  Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. When you use this
+  parameter, instead of returning a plaintext copy of the private data key, KMS encrypts the
+  plaintext private data key under the public key in the attestation document, and returns
+  the resulting ciphertext in the CiphertextForRecipient field in the response. This
+  ciphertext can be decrypted only with the private key in the enclave. The CiphertextBlob
+  field in the response contains a copy of the private data key encrypted under the KMS key
+  specified by the KeyId parameter. The PrivateKeyPlaintext field in the response is null or
+  empty. For information about the interaction between KMS and Amazon Web Services Nitro
+  Enclaves, see How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service
   Developer Guide.
 """
 function generate_data_key_pair(
@@ -1703,13 +1777,15 @@ GenerateDataKeyPair     GenerateDataKeyWithoutPlaintext
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EncryptionContext"`: Specifies the encryption context that will be used when encrypting
-  the private key in the data key pair. An encryption context is a collection of non-secret
-  key-value pairs that represent additional authenticated data. When you use an encryption
-  context to encrypt data, you must specify the same (an exact case-sensitive match)
-  encryption context to decrypt the data. An encryption context is supported only on
-  operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS
-  keys, an encryption context is optional, but it is strongly recommended. For more
-  information, see Encryption context in the Key Management Service Developer Guide.
+  the private key in the data key pair.  Do not include confidential or sensitive information
+  in this field. This field may be displayed in plaintext in CloudTrail logs and other
+  output.  An encryption context is a collection of non-secret key-value pairs that represent
+  additional authenticated data. When you use an encryption context to encrypt data, you must
+  specify the same (an exact case-sensitive match) encryption context to decrypt the data. An
+  encryption context is supported only on operations with symmetric encryption KMS keys. On
+  operations with symmetric encryption KMS keys, an encryption context is optional, but it is
+  strongly recommended. For more information, see Encryption context in the Key Management
+  Service Developer Guide.
 - `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
@@ -1769,7 +1845,7 @@ asymmetric KMS key or a key in a custom key store to generate a data key. To get
 of your KMS key, use the DescribeKey operation. You must also specify the length of the
 data key. Use either the KeySpec or NumberOfBytes parameters (but not both). For 128-bit
 and 256-bit data keys, use the KeySpec parameter. To generate an SM4 data key (China
-Regions only), specify a KeySpec value of AES_128 or NumberOfBytes value of 128. The
+Regions only), specify a KeySpec value of AES_128 or NumberOfBytes value of 16. The
 symmetric encryption key used in China Regions to encrypt your data key is an SM4
 encryption key. If the operation succeeds, you will find the encrypted copy of the data key
 in the CiphertextBlob field. You can use an optional encryption context to add additional
@@ -1801,13 +1877,15 @@ GenerateDataKeyPairWithoutPlaintext
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EncryptionContext"`: Specifies the encryption context that will be used when encrypting
-  the data key. An encryption context is a collection of non-secret key-value pairs that
-  represent additional authenticated data. When you use an encryption context to encrypt
-  data, you must specify the same (an exact case-sensitive match) encryption context to
-  decrypt the data. An encryption context is supported only on operations with symmetric
-  encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption
-  context is optional, but it is strongly recommended. For more information, see Encryption
-  context in the Key Management Service Developer Guide.
+  the data key.  Do not include confidential or sensitive information in this field. This
+  field may be displayed in plaintext in CloudTrail logs and other output.  An encryption
+  context is a collection of non-secret key-value pairs that represent additional
+  authenticated data. When you use an encryption context to encrypt data, you must specify
+  the same (an exact case-sensitive match) encryption context to decrypt the data. An
+  encryption context is supported only on operations with symmetric encryption KMS keys. On
+  operations with symmetric encryption KMS keys, an encryption context is optional, but it is
+  strongly recommended. For more information, see Encryption context in the Key Management
+  Service Developer Guide.
 - `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
@@ -1925,13 +2003,18 @@ Returns a random byte string that is cryptographically secure. You must use the
 NumberOfBytes parameter to specify the length of the random byte string. There is no
 default value for string length. By default, the random byte string is generated in KMS. To
 generate the byte string in the CloudHSM cluster associated with an CloudHSM key store, use
-the CustomKeyStoreId parameter. Applications in Amazon Web Services Nitro Enclaves can call
-this operation by using the Amazon Web Services Nitro Enclaves Development Kit. For
-information about the supporting parameters, see How Amazon Web Services Nitro Enclaves use
-KMS in the Key Management Service Developer Guide. For more information about entropy and
-random number generation, see Key Management Service Cryptographic Details.  Cross-account
-use: Not applicable. GenerateRandom does not use any account-specific resources, such as
-KMS keys.  Required permissions: kms:GenerateRandom (IAM policy)
+the CustomKeyStoreId parameter.  GenerateRandom also supports Amazon Web Services Nitro
+Enclaves, which provide an isolated compute environment in Amazon EC2. To call
+GenerateRandom for a Nitro enclave, use the Amazon Web Services Nitro Enclaves SDK or any
+Amazon Web Services SDK. Use the Recipient parameter to provide the attestation document
+for the enclave. Instead of plaintext bytes, the response includes the plaintext bytes
+encrypted under the public key from the attestation document (CiphertextForRecipient).For
+information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see
+How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer
+Guide. For more information about entropy and random number generation, see Key Management
+Service Cryptographic Details.  Cross-account use: Not applicable. GenerateRandom does not
+use any account-specific resources, such as KMS keys.  Required permissions:
+kms:GenerateRandom (IAM policy)
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1941,6 +2024,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter. If you specify the ID of an external key store, GenerateRandom throws an
   UnsupportedOperationException.
 - `"NumberOfBytes"`: The length of the random byte string. This parameter is required.
+- `"Recipient"`: A signed attestation document from an Amazon Web Services Nitro enclave
+  and the encryption algorithm to use with the enclave's public key. The only valid
+  encryption algorithm is RSAES_OAEP_SHA_256.  This parameter only supports attestation
+  documents for Amazon Web Services Nitro Enclaves. To include this parameter, use the Amazon
+  Web Services Nitro Enclaves SDK or any Amazon Web Services SDK. When you use this
+  parameter, instead of returning plaintext bytes, KMS encrypts the plaintext bytes under the
+  public key in the attestation document, and returns the resulting ciphertext in the
+  CiphertextForRecipient field in the response. This ciphertext can be decrypted only with
+  the private key in the enclave. The Plaintext field in the response is null or empty. For
+  information about the interaction between KMS and Amazon Web Services Nitro Enclaves, see
+  How Amazon Web Services Nitro Enclaves uses KMS in the Key Management Service Developer
+  Guide.
 """
 function generate_random(; aws_config::AbstractAWSConfig=global_aws_config())
     return kms("GenerateRandom"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -2768,15 +2863,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   represents the encryption algorithm used for symmetric encryption KMS keys. This parameter
   is required only when the destination KMS key is an asymmetric KMS key.
 - `"DestinationEncryptionContext"`: Specifies that encryption context to use when the
-  reencrypting the data. A destination encryption context is valid only when the destination
-  KMS key is a symmetric encryption KMS key. The standard ciphertext format for asymmetric
-  KMS keys does not include fields for metadata. An encryption context is a collection of
-  non-secret key-value pairs that represent additional authenticated data. When you use an
-  encryption context to encrypt data, you must specify the same (an exact case-sensitive
-  match) encryption context to decrypt the data. An encryption context is supported only on
-  operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS
-  keys, an encryption context is optional, but it is strongly recommended. For more
-  information, see Encryption context in the Key Management Service Developer Guide.
+  reencrypting the data.  Do not include confidential or sensitive information in this field.
+  This field may be displayed in plaintext in CloudTrail logs and other output.  A
+  destination encryption context is valid only when the destination KMS key is a symmetric
+  encryption KMS key. The standard ciphertext format for asymmetric KMS keys does not include
+  fields for metadata. An encryption context is a collection of non-secret key-value pairs
+  that represent additional authenticated data. When you use an encryption context to encrypt
+  data, you must specify the same (an exact case-sensitive match) encryption context to
+  decrypt the data. An encryption context is supported only on operations with symmetric
+  encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption
+  context is optional, but it is strongly recommended. For more information, see Encryption
+  context in the Key Management Service Developer Guide.
 - `"GrantTokens"`: A list of grant tokens. Use a grant token when your permission to call
   this operation comes from a new grant that has not yet achieved eventual consistency. For
   more information, see Grant token and Using a grant token in the Key Management Service
@@ -2928,9 +3025,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this parameter only when you intend to prevent the principal that is making the request
   from making a subsequent PutKeyPolicy request on the KMS key.
 - `"Description"`: A description of the KMS key. The default value is an empty string (no
-  description). The description is not a shared property of multi-Region keys. You can
-  specify the same description or a different description for each key in a set of related
-  multi-Region keys. KMS does not synchronize this property.
+  description).  Do not include confidential or sensitive information in this field. This
+  field may be displayed in plaintext in CloudTrail logs and other output.  The description
+  is not a shared property of multi-Region keys. You can specify the same description or a
+  different description for each key in a set of related multi-Region keys. KMS does not
+  synchronize this property.
 - `"Policy"`: The key policy to attach to the KMS key. This parameter is optional. If you
   do not provide a key policy, KMS attaches the default key policy to the KMS key. The key
   policy is not a shared property of multi-Region keys. You can specify the same key policy
@@ -2954,19 +3053,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   writing and formatting a JSON policy document, see the IAM JSON Policy Reference in the
   Identity and Access Management User Guide .
 - `"Tags"`: Assigns one or more tags to the replica key. Use this parameter to tag the KMS
-  key when it is created. To tag an existing KMS key, use the TagResource operation.  Tagging
-  or untagging a KMS key can allow or deny permission to the KMS key. For details, see ABAC
-  for KMS in the Key Management Service Developer Guide.  To use this parameter, you must
-  have kms:TagResource permission in an IAM policy. Tags are not a shared property of
-  multi-Region keys. You can specify the same tags or different tags for each key in a set of
-  related multi-Region keys. KMS does not synchronize this property. Each tag consists of a
-  tag key and a tag value. Both the tag key and the tag value are required, but the tag value
-  can be an empty (null) string. You cannot have more than one tag on a KMS key with the same
-  tag key. If you specify an existing tag key with a different tag value, KMS replaces the
-  current tag value with the specified one. When you add tags to an Amazon Web Services
-  resource, Amazon Web Services generates a cost allocation report with usage and costs
-  aggregated by tags. Tags can also be used to control access to a KMS key. For details, see
-  Tagging Keys.
+  key when it is created. To tag an existing KMS key, use the TagResource operation.  Do not
+  include confidential or sensitive information in this field. This field may be displayed in
+  plaintext in CloudTrail logs and other output.   Tagging or untagging a KMS key can allow
+  or deny permission to the KMS key. For details, see ABAC for KMS in the Key Management
+  Service Developer Guide.  To use this parameter, you must have kms:TagResource permission
+  in an IAM policy. Tags are not a shared property of multi-Region keys. You can specify the
+  same tags or different tags for each key in a set of related multi-Region keys. KMS does
+  not synchronize this property. Each tag consists of a tag key and a tag value. Both the tag
+  key and the tag value are required, but the tag value can be an empty (null) string. You
+  cannot have more than one tag on a KMS key with the same tag key. If you specify an
+  existing tag key with a different tag value, KMS replaces the current tag value with the
+  specified one. When you add tags to an Amazon Web Services resource, Amazon Web Services
+  generates a cost allocation report with usage and costs aggregated by tags. Tags can also
+  be used to control access to a KMS key. For details, see Tagging Keys.
 """
 function replicate_key(
     KeyId, ReplicaRegion; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3306,10 +3406,12 @@ ReplicateKey     UntagResource
   or key ARN of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
   Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To
   get the key ID and key ARN for a KMS key, use ListKeys or DescribeKey.
-- `tags`: One or more tags.  Each tag consists of a tag key and a tag value. The tag value
-  can be an empty (null) string.  You cannot have more than one tag on a KMS key with the
-  same tag key. If you specify an existing tag key with a different tag value, KMS replaces
-  the current tag value with the specified one.
+- `tags`: One or more tags. Each tag consists of a tag key and a tag value. The tag value
+  can be an empty (null) string.   Do not include confidential or sensitive information in
+  this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+  You cannot have more than one tag on a KMS key with the same tag key. If you specify an
+  existing tag key with a different tag value, KMS replaces the current tag value with the
+  specified one.
 
 """
 function tag_resource(KeyId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3417,7 +3519,9 @@ aliases in the Key Management Service Developer Guide.  Related operations:     
 # Arguments
 - `alias_name`: Identifies the alias that is changing its KMS key. This value must begin
   with alias/ followed by the alias name, such as alias/ExampleAlias. You cannot use
-  UpdateAlias to change the alias name.
+  UpdateAlias to change the alias name.  Do not include confidential or sensitive information
+  in this field. This field may be displayed in plaintext in CloudTrail logs and other
+  output.
 - `target_key_id`: Identifies the customer managed key to associate with the alias. You
   don't have permission to associate an alias with an Amazon Web Services managed key. The
   KMS key must be in the same Amazon Web Services account and Region as the alias. Also, the
@@ -3534,8 +3638,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be disconnected.
 - `"NewCustomKeyStoreName"`: Changes the friendly name of the custom key store to the value
   that you specify. The custom key store name must be unique in the Amazon Web Services
-  account. To change this value, an CloudHSM key store must be disconnected. An external key
-  store can be connected or disconnected.
+  account.  Do not include confidential or sensitive information in this field. This field
+  may be displayed in plaintext in CloudTrail logs and other output.  To change this value,
+  an CloudHSM key store must be disconnected. An external key store can be connected or
+  disconnected.
 - `"XksProxyAuthenticationCredential"`: Changes the credentials that KMS uses to sign
   requests to the external key store proxy (XKS proxy). This parameter is valid only for
   custom key stores with a CustomKeyStoreType of EXTERNAL_KEY_STORE. You must specify both
@@ -3615,7 +3721,9 @@ Web Services account.   Required permissions: kms:UpdateKeyDescription (key poli
 Related operations     CreateKey     DescribeKey
 
 # Arguments
-- `description`: New description for the KMS key.
+- `description`: New description for the KMS key.  Do not include confidential or sensitive
+  information in this field. This field may be displayed in plaintext in CloudTrail logs and
+  other output.
 - `key_id`: Updates the description of the specified KMS key. Specify the key ID or key ARN
   of the KMS key. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
   arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    To get the

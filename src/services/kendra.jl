@@ -148,6 +148,54 @@ function batch_delete_document(
 end
 
 """
+    batch_delete_featured_results_set(featured_results_set_ids, index_id)
+    batch_delete_featured_results_set(featured_results_set_ids, index_id, params::Dict{String,<:Any})
+
+Removes one or more sets of featured results. Features results are placed above all other
+results for certain queries. If there's an exact match of a query, then one or more
+specific documents are featured in the search results.
+
+# Arguments
+- `featured_results_set_ids`: The identifiers of the featured results sets that you want to
+  delete.
+- `index_id`: The identifier of the index used for featuring results.
+
+"""
+function batch_delete_featured_results_set(
+    FeaturedResultsSetIds, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "BatchDeleteFeaturedResultsSet",
+        Dict{String,Any}(
+            "FeaturedResultsSetIds" => FeaturedResultsSetIds, "IndexId" => IndexId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_delete_featured_results_set(
+    FeaturedResultsSetIds,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "BatchDeleteFeaturedResultsSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FeaturedResultsSetIds" => FeaturedResultsSetIds, "IndexId" => IndexId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_document_status(document_info_list, index_id)
     batch_get_document_status(document_info_list, index_id, params::Dict{String,<:Any})
 
@@ -213,9 +261,8 @@ Python and Java SDKs, see Adding files directly to an index.
 
 # Arguments
 - `documents`: One or more documents to add to the index. Documents have the following file
-  size limits.   5 MB total size for inline documents   50 MB total size for files from an S3
-  bucket   5 MB extracted text for any file   For more information about file size and
-  transaction per second quotas, see Quotas.
+  size limits.   50 MB total size for any file   5 MB extracted text for any file   For more
+  information, see Quotas.
 - `index_id`: The identifier of the index to add the documents to. You need to create the
   index first using the CreateIndex API.
 
@@ -226,8 +273,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   BatchPutDocument API. For more information on how to create, modify and delete document
   metadata, or make other content alterations when you ingest documents into Amazon Kendra,
   see Customizing document metadata during the ingestion process.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of a role that is allowed to run the
-  BatchPutDocument API. For more information, see IAM Roles for Amazon Kendra.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access your
+  S3 bucket. For more information, see IAM access roles for Amazon Kendra.
 """
 function batch_put_document(
     Documents, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -374,11 +421,9 @@ Creates a data source connector that you want to use with an Amazon Kendra index
 specify a name, data source connector type and description for your data source. You also
 specify configuration information for the data source connector.  CreateDataSource is a
 synchronous operation. The operation returns 200 if the data source was successfully
-created. Otherwise, an exception is raised. Amazon S3 and custom data sources are the only
-supported data sources in the Amazon Web Services GovCloud (US-West) region. For an example
-of creating an index and data source using the Python SDK, see Getting started with Python
-SDK. For an example of creating an index and data source using the Java SDK, see Getting
-started with Java SDK.
+created. Otherwise, an exception is raised. For an example of creating an index and data
+source using the Python SDK, see Getting started with Python SDK. For an example of
+creating an index and data source using the Java SDK, see Getting started with Java SDK.
 
 # Arguments
 - `index_id`: The identifier of the index you want to use with the data source connector.
@@ -404,18 +449,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   documents when creating the data source connector. English is supported by default. For
   more information on supported languages, including their codes, see Adding documents in
   languages other than English.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
-  source and required resources. For more information, see IAM roles for Amazon Kendra. You
-  can't specify the RoleArn parameter when the Type parameter is set to CUSTOM. If you do,
-  you receive a ValidationException exception. The RoleArn parameter is required for all
-  other data sources.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access the
+  data source and required resources. For more information, see IAM access roles for Amazon
+  Kendra.. You can't specify the RoleArn parameter when the Type parameter is set to CUSTOM.
+  If you do, you receive a ValidationException exception. The RoleArn parameter is required
+  for all other data sources.
 - `"Schedule"`: Sets the frequency for Amazon Kendra to check the documents in your data
   source repository and update the index. If you don't set a schedule Amazon Kendra will not
   periodically update the index. You can call the StartDataSourceSyncJob API to update the
-  index. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM.
-  If you do, you receive a ValidationException exception.
-- `"Tags"`: A list of key-value pairs that identify the data source connector. You can use
-  the tags to identify and organize your resources and to control access to resources.
+  index. Specify a cron- format schedule string or an empty string to indicate that the index
+  is updated on demand. You can't specify the Schedule parameter when the Type parameter is
+  set to CUSTOM. If you do, you receive a ValidationException exception.
+- `"Tags"`: A list of key-value pairs that identify or categorize the data source
+  connector. You can also use tags to help control access to the data source connector. Tag
+  keys and values can consist of Unicode letters, digits, white space, and any of the
+  following symbols: _ . : / = + - @.
 - `"VpcConfiguration"`: Configuration information for an Amazon Virtual Private Cloud to
   connect to your data source. For more information, see Configuring a VPC.
 """
@@ -482,9 +530,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and UserIdentityConfiguration, which specifies the user or group information to grant
   access to your Amazon Kendra experience.
 - `"Description"`: A description for your Amazon Kendra experience.
-- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access Query
-  API, QuerySuggestions API, SubmitFeedback API, and IAM Identity Center that stores your
-  user and group information. For more information, see IAM roles for Amazon Kendra.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access
+  Query API, GetQuerySuggestions API, and other required APIs. The role also must include
+  permission to access IAM Identity Center (successor to Single Sign-On) that stores your
+  user and group information. For more information, see IAM access roles for Amazon Kendra.
 """
 function create_experience(IndexId, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return kendra(
@@ -522,15 +571,16 @@ end
     create_faq(index_id, name, role_arn, s3_path)
     create_faq(index_id, name, role_arn, s3_path, params::Dict{String,<:Any})
 
-Creates an new set of frequently asked question (FAQ) questions and answers. Adding FAQs to
-an index is an asynchronous operation. For an example of adding an FAQ to an index using
-Python and Java SDKs, see Using your FAQ file.
+Creates a set of frequently ask questions (FAQs) using a specified FAQ file stored in an
+Amazon S3 bucket. Adding FAQs to an index is an asynchronous operation. For an example of
+adding an FAQ to an index using Python and Java SDKs, see Using your FAQ file.
 
 # Arguments
 - `index_id`: The identifier of the index for the FAQ.
 - `name`: A name for the FAQ.
-- `role_arn`: The Amazon Resource Name (ARN) of a role with permission to access the S3
-  bucket that contains the FAQs. For more information, see IAM Roles for Amazon Kendra.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role with permission to access the
+  S3 bucket that contains the FAQs. For more information, see IAM access roles for Amazon
+  Kendra.
 - `s3_path`: The path to the FAQ file in S3.
 
 # Optional Parameters
@@ -595,6 +645,76 @@ function create_faq(
 end
 
 """
+    create_featured_results_set(featured_results_set_name, index_id)
+    create_featured_results_set(featured_results_set_name, index_id, params::Dict{String,<:Any})
+
+Creates a set of featured results to display at the top of the search results page.
+Featured results are placed above all other results for certain queries. You map specific
+queries to specific documents for featuring in the results. If a query contains an exact
+match, then one or more specific documents are featured in the search results. You can
+create up to 50 sets of featured results per index. You can request to increase this limit
+by contacting Support.
+
+# Arguments
+- `featured_results_set_name`: A name for the set of featured results.
+- `index_id`: The identifier of the index that you want to use for featuring results.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A token that you provide to identify the request to create a set of
+  featured results. Multiple calls to the CreateFeaturedResultsSet API with the same client
+  token will create only one featured results set.
+- `"Description"`: A description for the set of featured results.
+- `"FeaturedDocuments"`: A list of document IDs for the documents you want to feature at
+  the top of the search results page. For more information on the list of documents, see
+  FeaturedResultsSet.
+- `"QueryTexts"`: A list of queries for featuring results. For more information on the list
+  of queries, see FeaturedResultsSet.
+- `"Status"`: The current status of the set of featured results. When the value is ACTIVE,
+  featured results are ready for use. You can still configure your settings before setting
+  the status to ACTIVE. You can set the status to ACTIVE or INACTIVE using the
+  UpdateFeaturedResultsSet API. The queries you specify for featured results must be unique
+  per featured results set for each index, whether the status is ACTIVE or INACTIVE.
+- `"Tags"`: A list of key-value pairs that identify or categorize the featured results set.
+  You can also use tags to help control access to the featured results set. Tag keys and
+  values can consist of Unicode letters, digits, white space, and any of the following
+  symbols:_ . : / = + - @.
+"""
+function create_featured_results_set(
+    FeaturedResultsSetName, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "CreateFeaturedResultsSet",
+        Dict{String,Any}(
+            "FeaturedResultsSetName" => FeaturedResultsSetName, "IndexId" => IndexId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_featured_results_set(
+    FeaturedResultsSetName,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "CreateFeaturedResultsSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FeaturedResultsSetName" => FeaturedResultsSetName, "IndexId" => IndexId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_index(name, role_arn)
     create_index(name, role_arn, params::Dict{String,<:Any})
 
@@ -608,9 +728,9 @@ the Java SDK, see Getting started with Java SDK.
 
 # Arguments
 - `name`: A name for the index.
-- `role_arn`: An Identity and Access Management (IAM) role that gives Amazon Kendra
-  permissions to access your Amazon CloudWatch logs and metrics. This is also the role you
-  use when you call the BatchPutDocument API to index documents from an Amazon S3 bucket.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role with permission to access your
+  Amazon CloudWatch logs and metrics. For more information, see IAM access roles for Amazon
+  Kendra.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -619,24 +739,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the index.
 - `"Edition"`: The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for
   indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for
-  your production databases. Once you set the edition for an index, it can't be changed. The
-  Edition parameter is optional. If you don't supply a value, the default is
-  ENTERPRISE_EDITION. For more information on quota limits for enterprise and developer
-  editions, see Quotas.
+  production. Once you set the edition for an index, it can't be changed. The Edition
+  parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION. For
+  more information on quota limits for Enterprise and Developer editions, see Quotas.
 - `"ServerSideEncryptionConfiguration"`: The identifier of the KMS customer managed key
   (CMK) that's used to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support
   asymmetric CMKs.
-- `"Tags"`: A list of key-value pairs that identify the index. You can use the tags to
-  identify and organize your resources and to control access to resources.
+- `"Tags"`: A list of key-value pairs that identify or categorize the index. You can also
+  use tags to help control access to the index. Tag keys and values can consist of Unicode
+  letters, digits, white space, and any of the following symbols: _ . : / = + - @.
 - `"UserContextPolicy"`: The user context policy.  ATTRIBUTE_FILTER  All indexed content is
   searchable and displayable for all users. If you want to filter search results on user
   context, you can use the attribute filters of _user_id and _group_ids or you can provide
   user and group information in UserContext.   USER_TOKEN  Enables token-based user access
   control to filter search results on user context. All documents with no access control and
   all documents accessible to the user will be searchable and displayable.
-- `"UserGroupResolutionConfiguration"`: Enables fetching access levels of groups and users
-  from an IAM Identity Center (successor to Single Sign-On) identity source. To configure
-  this, see UserGroupResolutionConfiguration.
+- `"UserGroupResolutionConfiguration"`: Gets users and groups from IAM Identity Center
+  (successor to Single Sign-On) identity source. To configure this, see
+  UserGroupResolutionConfiguration.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
 function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -687,13 +807,12 @@ using the Python SDK, see Query suggestions block list.
 # Arguments
 - `index_id`: The identifier of the index you want to create a query suggestions block list
   for.
-- `name`: A user friendly name for the block list. For example, the block list named
-  'offensive-words' includes all offensive words that could appear in user queries and need
-  to be blocked from suggestions.
-- `role_arn`: The IAM (Identity and Access Management) role used by Amazon Kendra to access
-  the block list text file in your S3 bucket. You need permissions to the role ARN (Amazon
-  Web Services Resource Name). The role needs S3 read permissions to your file in S3 and
-  needs to give STS (Security Token Service) assume role permissions to Amazon Kendra.
+- `name`: A name for the block list. For example, the name 'offensive-words', which
+  includes all offensive words that could appear in user queries and need to be blocked from
+  suggestions.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role with permission to access your
+  S3 bucket that contains the block list text file. For more information, see IAM access
+  roles for Amazon Kendra.
 - `source_s3_path`: The S3 path to your block list text file in your S3 bucket. Each block
   word or phrase should be on a separate line in a text file. For information on the current
   quota limits for block lists, see Quotas for Amazon Kendra.
@@ -702,10 +821,12 @@ using the Python SDK, see Query suggestions block list.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A token that you provide to identify the request to create a query
   suggestions block list.
-- `"Description"`: A user-friendly description for the block list. For example, the
-  description \"List of all offensive words that can appear in user queries and need to be
-  blocked from suggestions.\"
-- `"Tags"`: A tag that you can assign to a block list that categorizes the block list.
+- `"Description"`: A description for the block list. For example, the description \"List of
+  all offensive words that can appear in user queries and need to be blocked from
+  suggestions.\"
+- `"Tags"`: A list of key-value pairs that identify or categorize the block list. Tag keys
+  and values can consist of Unicode letters, digits, white space, and any of the following
+  symbols: _ . : / = + - @.
 """
 function create_query_suggestions_block_list(
     IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=global_aws_config()
@@ -762,8 +883,9 @@ index.
 # Arguments
 - `index_id`: The identifier of the index for the thesaurus.
 - `name`: A name for the thesaurus.
-- `role_arn`: An IAM role that gives Amazon Kendra permissions to access thesaurus file
-  specified in SourceS3Path.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role with permission to access your
+  S3 bucket that contains the thesaurus file. For more information, see IAM access roles for
+  Amazon Kendra.
 - `source_s3_path`: The path to the thesaurus file in S3.
 
 # Optional Parameters
@@ -772,8 +894,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Multiple calls to the CreateThesaurus API with the same client token will create only one
   thesaurus.
 - `"Description"`: A description for the thesaurus.
-- `"Tags"`: A list of key-value pairs that identify the thesaurus. You can use the tags to
-  identify and organize your resources and to control access to resources.
+- `"Tags"`: A list of key-value pairs that identify or categorize the thesaurus. You can
+  also use tags to help control access to the thesaurus. Tag keys and values can consist of
+  Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
 """
 function create_thesaurus(
     IndexId, Name, RoleArn, SourceS3Path; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1032,11 +1155,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   override the latest DELETE action with previous actions. The highest number ID, which is
   the ordering ID, is the latest action you want to process and apply on top of other actions
   with lower number IDs. This prevents previous actions with lower number IDs from possibly
-  overriding the latest action. The ordering ID can be the UNIX time of the last update you
+  overriding the latest action. The ordering ID can be the Unix time of the last update you
   made to a group members list. You would then provide this list when calling
   PutPrincipalMapping. This ensures your DELETE action for that updated group with the latest
   members list doesn't get overwritten by earlier DELETE actions for the same group which are
-  yet to be processed. The default ordering ID is the current UNIX time in milliseconds that
+  yet to be processed. The default ordering ID is the current Unix time in milliseconds that
   the action was received by Amazon Kendra.
 """
 function delete_principal_mapping(
@@ -1285,6 +1408,54 @@ function describe_faq(
         "DescribeFaq",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Id" => Id, "IndexId" => IndexId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_featured_results_set(featured_results_set_id, index_id)
+    describe_featured_results_set(featured_results_set_id, index_id, params::Dict{String,<:Any})
+
+Gets information about a set of featured results. Features results are placed above all
+other results for certain queries. If there's an exact match of a query, then one or more
+specific documents are featured in the search results.
+
+# Arguments
+- `featured_results_set_id`: The identifier of the set of featured results that you want to
+  get information on.
+- `index_id`: The identifier of the index used for featuring results.
+
+"""
+function describe_featured_results_set(
+    FeaturedResultsSetId, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "DescribeFeaturedResultsSet",
+        Dict{String,Any}(
+            "FeaturedResultsSetId" => FeaturedResultsSetId, "IndexId" => IndexId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_featured_results_set(
+    FeaturedResultsSetId,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "DescribeFeaturedResultsSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FeaturedResultsSetId" => FeaturedResultsSetId, "IndexId" => IndexId
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1593,8 +1764,16 @@ supported in the Amazon Web Services GovCloud (US-West) region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributeSuggestionsConfig"`: Configuration information for the document
+  fields/attributes that you want to base query suggestions on.
 - `"MaxSuggestionsCount"`: The maximum number of query suggestions you want to show to your
   users.
+- `"SuggestionTypes"`: The suggestions type to base query suggestions on. The suggestion
+  types are query history or document fields/attributes. You can set one type or the other.
+  If you set query history as your suggestions type, Amazon Kendra suggests queries relevant
+  to your users based on popular queries in the query history. If you set document
+  fields/attributes as your suggestions type, Amazon Kendra suggests queries relevant to your
+  users based on the contents of document fields.
 """
 function get_query_suggestions(
     IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1975,6 +2154,45 @@ function list_faqs(
 end
 
 """
+    list_featured_results_sets(index_id)
+    list_featured_results_sets(index_id, params::Dict{String,<:Any})
+
+Lists all your sets of featured results for a given index. Features results are placed
+above all other results for certain queries. If there's an exact match of a query, then one
+or more specific documents are featured in the search results.
+
+# Arguments
+- `index_id`: The identifier of the index used for featuring results.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of featured results sets to return.
+- `"NextToken"`: If the response is truncated, Amazon Kendra returns a pagination token in
+  the response. You can use this pagination token to retrieve the next set of featured
+  results sets.
+"""
+function list_featured_results_sets(
+    IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListFeaturedResultsSets",
+        Dict{String,Any}("IndexId" => IndexId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_featured_results_sets(
+    IndexId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "ListFeaturedResultsSets",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("IndexId" => IndexId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_groups_older_than_ordering_id(index_id, ordering_id)
     list_groups_older_than_ordering_id(index_id, ordering_id, params::Dict{String,<:Any})
 
@@ -2180,8 +2398,6 @@ top-secret company documents in their search results. This is useful for user co
 filtering, where search results are filtered based on the user or their group access to
 documents. For more information, see Filtering on user context. If more than five PUT
 actions for a group are currently processing, a validation exception is thrown.
-PutPrincipalMapping is currently not supported in the Amazon Web Services GovCloud
-(US-West) region.
 
 # Arguments
 - `group_id`: The identifier of the group you want to map its users to.
@@ -2206,11 +2422,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   override the latest PUT action with previous actions. The highest number ID, which is the
   ordering ID, is the latest action you want to process and apply on top of other actions
   with lower number IDs. This prevents previous actions with lower number IDs from possibly
-  overriding the latest action. The ordering ID can be the UNIX time of the last update you
+  overriding the latest action. The ordering ID can be the Unix time of the last update you
   made to a group members list. You would then provide this list when calling
   PutPrincipalMapping. This ensures your PUT action for that updated group with the latest
   members list doesn't get overwritten by earlier PUT actions for the same group which are
-  yet to be processed. The default ordering ID is the current UNIX time in milliseconds that
+  yet to be processed. The default ordering ID is the current Unix time in milliseconds that
   the action was received by Amazon Kendra.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of a role that has access to the S3 file that
   contains your list of users or sub groups that belong to a group. For more information, see
@@ -2704,6 +2920,68 @@ function update_experience(
 end
 
 """
+    update_featured_results_set(featured_results_set_id, index_id)
+    update_featured_results_set(featured_results_set_id, index_id, params::Dict{String,<:Any})
+
+Updates a set of featured results. Features results are placed above all other results for
+certain queries. You map specific queries to specific documents for featuring in the
+results. If a query contains an exact match of a query, then one or more specific documents
+are featured in the search results.
+
+# Arguments
+- `featured_results_set_id`: The identifier of the set of featured results that you want to
+  update.
+- `index_id`: The identifier of the index used for featuring results.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A new description for the set of featured results.
+- `"FeaturedDocuments"`: A list of document IDs for the documents you want to feature at
+  the top of the search results page. For more information on the list of featured documents,
+  see FeaturedResultsSet.
+- `"FeaturedResultsSetName"`: A new name for the set of featured results.
+- `"QueryTexts"`: A list of queries for featuring results. For more information on the list
+  of queries, see FeaturedResultsSet.
+- `"Status"`: You can set the status to ACTIVE or INACTIVE. When the value is ACTIVE,
+  featured results are ready for use. You can still configure your settings before setting
+  the status to ACTIVE. The queries you specify for featured results must be unique per
+  featured results set for each index, whether the status is ACTIVE or INACTIVE.
+"""
+function update_featured_results_set(
+    FeaturedResultsSetId, IndexId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kendra(
+        "UpdateFeaturedResultsSet",
+        Dict{String,Any}(
+            "FeaturedResultsSetId" => FeaturedResultsSetId, "IndexId" => IndexId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_featured_results_set(
+    FeaturedResultsSetId,
+    IndexId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "UpdateFeaturedResultsSet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FeaturedResultsSetId" => FeaturedResultsSetId, "IndexId" => IndexId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_index(id)
     update_index(id, params::Dict{String,<:Any})
 
@@ -2812,18 +3090,20 @@ end
 
 Updates the settings of query suggestions for an index. Amazon Kendra supports partial
 updates, so you only need to provide the fields you want to update. If an update is
-currently processing (i.e. 'happening'), you need to wait for the update to finish before
-making another update. Updates to query suggestions settings might not take effect right
-away. The time for your updated settings to take effect depends on the updates made and the
-number of search queries in your index. You can still enable/disable query suggestions at
-any time.  UpdateQuerySuggestionsConfig is currently not supported in the Amazon Web
-Services GovCloud (US-West) region.
+currently processing, you need to wait for the update to finish before making another
+update. Updates to query suggestions settings might not take effect right away. The time
+for your updated settings to take effect depends on the updates made and the number of
+search queries in your index. You can still enable/disable query suggestions at any time.
+UpdateQuerySuggestionsConfig is currently not supported in the Amazon Web Services GovCloud
+(US-West) region.
 
 # Arguments
 - `index_id`:  The identifier of the index with query suggestions you want to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributeSuggestionsConfig"`: Configuration information for the document
+  fields/attributes that you want to base query suggestions on.
 - `"IncludeQueriesWithoutUserInformation"`:  TRUE to include queries without user
   information (i.e. all queries, irrespective of the user), otherwise FALSE to only include
   queries with user information. If you pass user information to Amazon Kendra along with the

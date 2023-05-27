@@ -73,7 +73,7 @@ end
     export_earth_observation_job(arn, execution_role_arn, output_config, params::Dict{String,<:Any})
 
 Use this operation to export results of an Earth Observation job and optionally source
-images used as input to the EOJ to an S3 location.
+images used as input to the EOJ to an Amazon S3 location.
 
 # Arguments
 - `arn`: The input Amazon Resource Name (ARN) of the Earth Observation job being exported.
@@ -83,6 +83,7 @@ images used as input to the EOJ to an S3 location.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
 - `"ExportSourceImages"`: The source images provided to the Earth Observation job being
   exported.
 """
@@ -96,6 +97,7 @@ function export_earth_observation_job(
             "Arn" => Arn,
             "ExecutionRoleArn" => ExecutionRoleArn,
             "OutputConfig" => OutputConfig,
+            "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -118,6 +120,7 @@ function export_earth_observation_job(
                     "Arn" => Arn,
                     "ExecutionRoleArn" => ExecutionRoleArn,
                     "OutputConfig" => OutputConfig,
+                    "ClientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -131,7 +134,7 @@ end
     export_vector_enrichment_job(arn, execution_role_arn, output_config)
     export_vector_enrichment_job(arn, execution_role_arn, output_config, params::Dict{String,<:Any})
 
-Use this operation to copy results of a Vector Enrichment job to an S3 location.
+Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
 
 # Arguments
 - `arn`: The Amazon Resource Name (ARN) of the Vector Enrichment job.
@@ -139,6 +142,9 @@ Use this operation to copy results of a Vector Enrichment job to an S3 location.
   upload to the location in OutputConfig.
 - `output_config`: Output location information for exporting Vector Enrichment Job results.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
 """
 function export_vector_enrichment_job(
     Arn, ExecutionRoleArn, OutputConfig; aws_config::AbstractAWSConfig=global_aws_config()
@@ -150,6 +156,7 @@ function export_vector_enrichment_job(
             "Arn" => Arn,
             "ExecutionRoleArn" => ExecutionRoleArn,
             "OutputConfig" => OutputConfig,
+            "ClientToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -172,6 +179,7 @@ function export_vector_enrichment_job(
                     "Arn" => Arn,
                     "ExecutionRoleArn" => ExecutionRoleArn,
                     "OutputConfig" => OutputConfig,
+                    "ClientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -258,6 +266,7 @@ Gets a web mercator tile for the given Earth Observation job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that you specify.
 - `"ImageMask"`: Determines whether or not to return a valid data mask.
 - `"OutputDataType"`: The output data type of the tile operation.
 - `"OutputFormat"`: The data format of the output tile. The formats include .npy, .png and
@@ -481,7 +490,9 @@ satellite imagery matching the selected filters.
 
 # Arguments
 - `arn`: The Amazon Resource Name (ARN) of the raster data collection.
-- `raster_data_collection_query`:
+- `raster_data_collection_query`: RasterDataCollectionQuery consisting of
+  AreaOfInterest(AOI), PropertyFilters and TimeRangeFilterInput used in
+  SearchRasterDataCollection.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -525,12 +536,14 @@ function search_raster_data_collection(
 end
 
 """
-    start_earth_observation_job(input_config, job_config, name)
-    start_earth_observation_job(input_config, job_config, name, params::Dict{String,<:Any})
+    start_earth_observation_job(execution_role_arn, input_config, job_config, name)
+    start_earth_observation_job(execution_role_arn, input_config, job_config, name, params::Dict{String,<:Any})
 
 Use this operation to create an Earth observation job.
 
 # Arguments
+- `execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role that you specified
+  for the job.
 - `input_config`: Input configuration information for the Earth Observation job.
 - `job_config`: An object containing information about the job configuration.
 - `name`: The name of the Earth Observation job.
@@ -538,18 +551,21 @@ Use this operation to create an Earth observation job.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
-- `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that you specified
-  for the job.
-- `"KmsKeyId"`: The Amazon Key Management Service (KMS) key ID for server-side encryption.
+- `"KmsKeyId"`: The Key Management Service key ID for server-side encryption.
 - `"Tags"`: Each tag consists of a key and a value.
 """
 function start_earth_observation_job(
-    InputConfig, JobConfig, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ExecutionRoleArn,
+    InputConfig,
+    JobConfig,
+    Name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return sagemaker_geospatial(
         "POST",
         "/earth-observation-jobs",
         Dict{String,Any}(
+            "ExecutionRoleArn" => ExecutionRoleArn,
             "InputConfig" => InputConfig,
             "JobConfig" => JobConfig,
             "Name" => Name,
@@ -560,6 +576,7 @@ function start_earth_observation_job(
     )
 end
 function start_earth_observation_job(
+    ExecutionRoleArn,
     InputConfig,
     JobConfig,
     Name,
@@ -573,6 +590,7 @@ function start_earth_observation_job(
             mergewith(
                 _merge,
                 Dict{String,Any}(
+                    "ExecutionRoleArn" => ExecutionRoleArn,
                     "InputConfig" => InputConfig,
                     "JobConfig" => JobConfig,
                     "Name" => Name,
@@ -603,7 +621,7 @@ supported job types: reverse geocoding and map matching.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique token that guarantees that the call to this API is idempotent.
-- `"KmsKeyId"`: The Amazon Key Management Service (KMS) key ID for server-side encryption.
+- `"KmsKeyId"`: The Key Management Service key ID for server-side encryption.
 - `"Tags"`: Each tag consists of a key and a value.
 """
 function start_vector_enrichment_job(

@@ -5,6 +5,86 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    add_storage_system(agent_arns, client_token, credentials, server_configuration, system_type)
+    add_storage_system(agent_arns, client_token, credentials, server_configuration, system_type, params::Dict{String,<:Any})
+
+Creates an Amazon Web Services resource for an on-premises storage system that you want
+DataSync Discovery to collect information about.
+
+# Arguments
+- `agent_arns`: Specifies the Amazon Resource Name (ARN) of the DataSync agent that
+  connects to and reads from your on-premises storage system's management interface.
+- `client_token`: Specifies a client token to make sure requests with this API operation
+  are idempotent. If you don't specify a client token, DataSync generates one for you
+  automatically.
+- `credentials`: Specifies the user name and password for accessing your on-premises
+  storage system's management interface.
+- `server_configuration`: Specifies the server name and network port required to connect
+  with the management interface of your on-premises storage system.
+- `system_type`: Specifies the type of on-premises storage system that you want DataSync
+  Discovery to collect information about.  DataSync Discovery currently supports NetApp
+  Fabric-Attached Storage (FAS) and All Flash FAS (AFF) systems running ONTAP 9.7 or later.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CloudWatchLogGroupArn"`: Specifies the ARN of the Amazon CloudWatch log group for
+  monitoring and logging discovery job events.
+- `"Name"`: Specifies a familiar name for your on-premises storage system.
+- `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
+  Web Services resources. We recommend creating at least a name tag for your on-premises
+  storage system.
+"""
+function add_storage_system(
+    AgentArns,
+    ClientToken,
+    Credentials,
+    ServerConfiguration,
+    SystemType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "AddStorageSystem",
+        Dict{String,Any}(
+            "AgentArns" => AgentArns,
+            "ClientToken" => ClientToken,
+            "Credentials" => Credentials,
+            "ServerConfiguration" => ServerConfiguration,
+            "SystemType" => SystemType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function add_storage_system(
+    AgentArns,
+    ClientToken,
+    Credentials,
+    ServerConfiguration,
+    SystemType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "AddStorageSystem",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AgentArns" => AgentArns,
+                    "ClientToken" => ClientToken,
+                    "Credentials" => Credentials,
+                    "ServerConfiguration" => ServerConfiguration,
+                    "SystemType" => SystemType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_task_execution(task_execution_arn)
     cancel_task_execution(task_execution_arn, params::Dict{String,<:Any})
 
@@ -696,8 +776,11 @@ end
     create_location_s3(s3_bucket_arn, s3_config)
     create_location_s3(s3_bucket_arn, s3_config, params::Dict{String,<:Any})
 
-Creates an endpoint for an Amazon S3 bucket that DataSync can access for a transfer. For
-more information, see Create an Amazon S3 location.
+A location is an endpoint for an Amazon S3 bucket. DataSync can use the location as a
+source or destination for copying data.  Before you create your location, make sure that
+you read the following sections:    Storage class considerations with Amazon S3 locations
+  Evaluating S3 request costs when using DataSync      For more information, see Creating
+an Amazon S3 location.
 
 # Arguments
 - `s3_bucket_arn`: The ARN of the Amazon S3 bucket. If the bucket is on an Amazon Web
@@ -845,6 +928,8 @@ end
 Configures a task, which defines where and how DataSync transfers your data. A task
 includes a source location, a destination location, and the preferences for how and when
 you want to transfer your data (such as bandwidth limits, scheduling, among other options).
+ If you're planning to transfer data to or from an Amazon S3 location, review how DataSync
+can affect your S3 request charges and the DataSync pricing page before you begin.
 
 # Arguments
 - `destination_location_arn`: The Amazon Resource Name (ARN) of an Amazon Web Services
@@ -1036,6 +1121,44 @@ function describe_agent(
         "DescribeAgent",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AgentArn" => AgentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_discovery_job(discovery_job_arn)
+    describe_discovery_job(discovery_job_arn, params::Dict{String,<:Any})
+
+Returns information about a DataSync discovery job.
+
+# Arguments
+- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
+  you want information about.
+
+"""
+function describe_discovery_job(
+    DiscoveryJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "DescribeDiscoveryJob",
+        Dict{String,Any}("DiscoveryJobArn" => DiscoveryJobArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_discovery_job(
+    DiscoveryJobArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "DescribeDiscoveryJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DiscoveryJobArn" => DiscoveryJobArn), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1407,6 +1530,171 @@ function describe_location_smb(
 end
 
 """
+    describe_storage_system(storage_system_arn)
+    describe_storage_system(storage_system_arn, params::Dict{String,<:Any})
+
+Returns information about an on-premises storage system that you're using with DataSync
+Discovery.
+
+# Arguments
+- `storage_system_arn`: Specifies the Amazon Resource Name (ARN) of an on-premises storage
+  system that you're using with DataSync Discovery.
+
+"""
+function describe_storage_system(
+    StorageSystemArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "DescribeStorageSystem",
+        Dict{String,Any}("StorageSystemArn" => StorageSystemArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_storage_system(
+    StorageSystemArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "DescribeStorageSystem",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("StorageSystemArn" => StorageSystemArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_storage_system_resource_metrics(discovery_job_arn, resource_id, resource_type)
+    describe_storage_system_resource_metrics(discovery_job_arn, resource_id, resource_type, params::Dict{String,<:Any})
+
+Returns information, including performance data and capacity usage, which DataSync
+Discovery collects about a specific resource in your-premises storage system.
+
+# Arguments
+- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
+  collects information about your on-premises storage system.
+- `resource_id`: Specifies the universally unique identifier (UUID) of the storage system
+  resource that you want information about.
+- `resource_type`: Specifies the kind of storage system resource that you want information
+  about.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EndTime"`: Specifies a time within the total duration that the discovery job ran. To
+  see information gathered during a certain time frame, use this parameter with StartTime.
+- `"MaxResults"`: Specifies how many results that you want in the response.
+- `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
+  list of results in the response.
+- `"StartTime"`: Specifies a time within the total duration that the discovery job ran. To
+  see information gathered during a certain time frame, use this parameter with EndTime.
+"""
+function describe_storage_system_resource_metrics(
+    DiscoveryJobArn,
+    ResourceId,
+    ResourceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "DescribeStorageSystemResourceMetrics",
+        Dict{String,Any}(
+            "DiscoveryJobArn" => DiscoveryJobArn,
+            "ResourceId" => ResourceId,
+            "ResourceType" => ResourceType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_storage_system_resource_metrics(
+    DiscoveryJobArn,
+    ResourceId,
+    ResourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "DescribeStorageSystemResourceMetrics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DiscoveryJobArn" => DiscoveryJobArn,
+                    "ResourceId" => ResourceId,
+                    "ResourceType" => ResourceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_storage_system_resources(discovery_job_arn, resource_type)
+    describe_storage_system_resources(discovery_job_arn, resource_type, params::Dict{String,<:Any})
+
+Returns information that DataSync Discovery collects about resources in your on-premises
+storage system.
+
+# Arguments
+- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that's
+  collecting data from your on-premises storage system.
+- `resource_type`: Specifies what kind of storage system resources that you want
+  information about.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: Filters the storage system resources that you want returned. For example,
+  this might be volumes associated with a specific storage virtual machine (SVM).
+- `"MaxResults"`: Specifies the maximum number of storage system resources that you want to
+  list in a response.
+- `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
+  list of results in the response.
+- `"ResourceIds"`: Specifies the universally unique identifiers (UUIDs) of the storage
+  system resources that you want information about. You can't use this parameter in
+  combination with the Filter parameter.
+"""
+function describe_storage_system_resources(
+    DiscoveryJobArn, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "DescribeStorageSystemResources",
+        Dict{String,Any}(
+            "DiscoveryJobArn" => DiscoveryJobArn, "ResourceType" => ResourceType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_storage_system_resources(
+    DiscoveryJobArn,
+    ResourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "DescribeStorageSystemResources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DiscoveryJobArn" => DiscoveryJobArn, "ResourceType" => ResourceType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_task(task_arn)
     describe_task(task_arn, params::Dict{String,<:Any})
 
@@ -1473,6 +1761,69 @@ function describe_task_execution(
 end
 
 """
+    generate_recommendations(discovery_job_arn, resource_ids, resource_type)
+    generate_recommendations(discovery_job_arn, resource_ids, resource_type, params::Dict{String,<:Any})
+
+Creates recommendations about where to migrate your data to in Amazon Web Services.
+Recommendations are generated based on information that DataSync Discovery collects about
+your on-premises storage system's resources. For more information, see Recommendations
+provided by DataSync Discovery. Once generated, you can view your recommendations by using
+the DescribeStorageSystemResources operation.  If your discovery job completes
+successfully, you don't need to use this operation. DataSync Discovery generates the
+recommendations for you automatically.
+
+# Arguments
+- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
+  collects information about your on-premises storage system.
+- `resource_ids`: Specifies the universally unique identifiers (UUIDs) of the resources in
+  your storage system that you want recommendations on.
+- `resource_type`: Specifies the type of resource in your storage system that you want
+  recommendations on.
+
+"""
+function generate_recommendations(
+    DiscoveryJobArn,
+    ResourceIds,
+    ResourceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "GenerateRecommendations",
+        Dict{String,Any}(
+            "DiscoveryJobArn" => DiscoveryJobArn,
+            "ResourceIds" => ResourceIds,
+            "ResourceType" => ResourceType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function generate_recommendations(
+    DiscoveryJobArn,
+    ResourceIds,
+    ResourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "GenerateRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DiscoveryJobArn" => DiscoveryJobArn,
+                    "ResourceIds" => ResourceIds,
+                    "ResourceType" => ResourceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_agents()
     list_agents(params::Dict{String,<:Any})
 
@@ -1505,6 +1856,35 @@ function list_agents(
 end
 
 """
+    list_discovery_jobs()
+    list_discovery_jobs(params::Dict{String,<:Any})
+
+Provides a list of the existing discovery jobs in the Amazon Web Services Region and Amazon
+Web Services account where you're using DataSync Discovery.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies how many results you want in the response.
+- `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
+  list of results in the response.
+- `"StorageSystemArn"`: Specifies the Amazon Resource Name (ARN) of an on-premises storage
+  system. Use this parameter if you only want to list the discovery jobs that are associated
+  with a specific storage system.
+"""
+function list_discovery_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return datasync(
+        "ListDiscoveryJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_discovery_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "ListDiscoveryJobs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_locations()
     list_locations(params::Dict{String,<:Any})
 
@@ -1530,6 +1910,31 @@ function list_locations(
 )
     return datasync(
         "ListLocations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_storage_systems()
+    list_storage_systems(params::Dict{String,<:Any})
+
+Lists the on-premises storage systems that you're using with DataSync Discovery.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies how many results you want in the response.
+- `"NextToken"`: Specifies an opaque string that indicates the position to begin the next
+  list of results in the response.
+"""
+function list_storage_systems(; aws_config::AbstractAWSConfig=global_aws_config())
+    return datasync(
+        "ListStorageSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_storage_systems(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "ListStorageSystems", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1627,12 +2032,118 @@ function list_tasks(
 end
 
 """
+    remove_storage_system(storage_system_arn)
+    remove_storage_system(storage_system_arn, params::Dict{String,<:Any})
+
+Permanently removes a storage system resource from DataSync Discovery, including the
+associated discovery jobs, collected data, and recommendations.
+
+# Arguments
+- `storage_system_arn`: Specifies the Amazon Resource Name (ARN) of the storage system that
+  you want to permanently remove from DataSync Discovery.
+
+"""
+function remove_storage_system(
+    StorageSystemArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "RemoveStorageSystem",
+        Dict{String,Any}("StorageSystemArn" => StorageSystemArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function remove_storage_system(
+    StorageSystemArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "RemoveStorageSystem",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("StorageSystemArn" => StorageSystemArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_discovery_job(client_token, collection_duration_minutes, storage_system_arn)
+    start_discovery_job(client_token, collection_duration_minutes, storage_system_arn, params::Dict{String,<:Any})
+
+Runs a DataSync discovery job on your on-premises storage system. If you haven't added the
+storage system to DataSync Discovery yet, do this first by using the AddStorageSystem
+operation.
+
+# Arguments
+- `client_token`: Specifies a client token to make sure requests with this API operation
+  are idempotent. If you don't specify a client token, DataSync generates one for you
+  automatically.
+- `collection_duration_minutes`: Specifies in minutes how long you want the discovery job
+  to run.  For more accurate recommendations, we recommend a duration of at least 14 days.
+  Longer durations allow time to collect a sufficient number of data points and provide a
+  realistic representation of storage performance and utilization.
+- `storage_system_arn`: Specifies the Amazon Resource Name (ARN) of the on-premises storage
+  system that you want to run the discovery job on.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Specifies labels that help you categorize, filter, and search for your Amazon
+  Web Services resources.
+"""
+function start_discovery_job(
+    ClientToken,
+    CollectionDurationMinutes,
+    StorageSystemArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "StartDiscoveryJob",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "CollectionDurationMinutes" => CollectionDurationMinutes,
+            "StorageSystemArn" => StorageSystemArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_discovery_job(
+    ClientToken,
+    CollectionDurationMinutes,
+    StorageSystemArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "StartDiscoveryJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "CollectionDurationMinutes" => CollectionDurationMinutes,
+                    "StorageSystemArn" => StorageSystemArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_task_execution(task_arn)
     start_task_execution(task_arn, params::Dict{String,<:Any})
 
 Starts an DataSync task. For each task, you can only run one task execution at a time.
 There are several phases to a task execution. For more information, see Task execution
-statuses.
+statuses.  If you're planning to transfer data to or from an Amazon S3 location, review how
+DataSync can affect your S3 request charges and the DataSync pricing page before you begin.
 
 # Arguments
 - `task_arn`: Specifies the Amazon Resource Name (ARN) of the task that you want to start.
@@ -1666,6 +2177,47 @@ function start_task_execution(
     return datasync(
         "StartTaskExecution",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("TaskArn" => TaskArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_discovery_job(discovery_job_arn)
+    stop_discovery_job(discovery_job_arn, params::Dict{String,<:Any})
+
+Stops a running DataSync discovery job. You can stop a discovery job anytime. A job that's
+stopped before it's scheduled to end likely will provide you some information about your
+on-premises storage system resources. To get recommendations for a stopped job, you must
+use the GenerateRecommendations operation.
+
+# Arguments
+- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
+  you want to stop.
+
+"""
+function stop_discovery_job(
+    DiscoveryJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "StopDiscoveryJob",
+        Dict{String,Any}("DiscoveryJobArn" => DiscoveryJobArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_discovery_job(
+    DiscoveryJobArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "StopDiscoveryJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("DiscoveryJobArn" => DiscoveryJobArn), params
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1785,6 +2337,58 @@ function update_agent(
         "UpdateAgent",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AgentArn" => AgentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_discovery_job(collection_duration_minutes, discovery_job_arn)
+    update_discovery_job(collection_duration_minutes, discovery_job_arn, params::Dict{String,<:Any})
+
+Edits a DataSync discovery job configuration.
+
+# Arguments
+- `collection_duration_minutes`: Specifies in minutes how long that you want the discovery
+  job to run. (You can't set this parameter to less than the number of minutes that the job
+  has already run for.)
+- `discovery_job_arn`: Specifies the Amazon Resource Name (ARN) of the discovery job that
+  you want to update.
+
+"""
+function update_discovery_job(
+    CollectionDurationMinutes,
+    DiscoveryJobArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "UpdateDiscoveryJob",
+        Dict{String,Any}(
+            "CollectionDurationMinutes" => CollectionDurationMinutes,
+            "DiscoveryJobArn" => DiscoveryJobArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_discovery_job(
+    CollectionDurationMinutes,
+    DiscoveryJobArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "UpdateDiscoveryJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CollectionDurationMinutes" => CollectionDurationMinutes,
+                    "DiscoveryJobArn" => DiscoveryJobArn,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2027,6 +2631,56 @@ function update_location_smb(
 end
 
 """
+    update_storage_system(storage_system_arn)
+    update_storage_system(storage_system_arn, params::Dict{String,<:Any})
+
+Modifies some configurations of an on-premises storage system resource that you're using
+with DataSync Discovery.
+
+# Arguments
+- `storage_system_arn`: Specifies the ARN of the on-premises storage system that you want
+  reconfigure.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AgentArns"`: Specifies the Amazon Resource Name (ARN) of the DataSync agent that
+  connects to and reads your on-premises storage system.
+- `"CloudWatchLogGroupArn"`: Specifies the ARN of the Amazon CloudWatch log group for
+  monitoring and logging discovery job events.
+- `"Credentials"`: Specifies the user name and password for accessing your on-premises
+  storage system's management interface.
+- `"Name"`: Specifies a familiar name for your on-premises storage system.
+- `"ServerConfiguration"`: Specifies the server name and network port required to connect
+  with your on-premises storage system's management interface.
+"""
+function update_storage_system(
+    StorageSystemArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return datasync(
+        "UpdateStorageSystem",
+        Dict{String,Any}("StorageSystemArn" => StorageSystemArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_storage_system(
+    StorageSystemArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return datasync(
+        "UpdateStorageSystem",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("StorageSystemArn" => StorageSystemArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_task(task_arn)
     update_task(task_arn, params::Dict{String,<:Any})
 
@@ -2073,15 +2727,14 @@ end
     update_task_execution(options, task_execution_arn)
     update_task_execution(options, task_execution_arn, params::Dict{String,<:Any})
 
-Updates execution of a task. You can modify bandwidth throttling for a task execution that
-is running or queued. For more information, see Adjusting Bandwidth Throttling for a Task
-Execution.  The only Option that can be modified by UpdateTaskExecution is  BytesPerSecond
-.
+Modifies a running DataSync task.  Currently, the only Option that you can modify with
+UpdateTaskExecution is  BytesPerSecond , which throttles bandwidth for a running or queued
+task.
 
 # Arguments
 - `options`:
-- `task_execution_arn`: The Amazon Resource Name (ARN) of the specific task execution that
-  is being updated.
+- `task_execution_arn`: Specifies the Amazon Resource Name (ARN) of the task execution that
+  you're updating.
 
 """
 function update_task_execution(

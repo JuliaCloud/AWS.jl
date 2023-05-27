@@ -11,8 +11,8 @@ using AWS.UUIDs
 Associates a channel flow with a channel. Once associated, all messages to that channel go
 through channel flow processors. To stop processing, use the DisassociateChannelFlow API.
 Only administrators or channel moderators can associate a channel flow. The
-x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
+AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
 - `channel_flow_arn`: The ARN of the channel flow.
@@ -67,12 +67,14 @@ end
     batch_create_channel_membership(member_arns, channel_arn, x-amz-chime-bearer)
     batch_create_channel_membership(member_arns, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Adds a specified number of users to a channel.
+Adds a specified number of users and bots to a channel.
 
 # Arguments
-- `member_arns`: The AppInstanceUserArns of the members you want to add to the channel.
-- `channel_arn`: The ARN of the channel to which you're adding users.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `member_arns`: The ARNs of the members you want to add to the channel. Only
+  AppInstanceUsers and AppInstanceBots can be added as a channel member.
+- `channel_arn`: The ARN of the channel to which you're adding users or bots.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -190,13 +192,15 @@ end
 
 Creates a channel to which you can add users and send messages.  Restriction: You can't
 change a channel's privacy.  The x-amz-chime-bearer request header is mandatory. Use the
-AppInstanceUserArn of the user that makes the API call as the value in the header.
+ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the
+header.
 
 # Arguments
 - `app_instance_arn`: The ARN of the channel request.
 - `client_request_token`: The client token for the request. An Idempotency token.
 - `name`: The name of the channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -204,6 +208,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ElasticChannelConfiguration"`: The attributes required to configure and create an
   elastic channel. An elastic channel can support a maximum of 1-million users, excluding
   moderators.
+- `"ExpirationSettings"`: Settings that control the interval after which the channel is
+  automatically deleted.
 - `"MemberArns"`: The ARNs of the channel members in the request.
 - `"Metadata"`: The metadata of the creation request. Limited to 1KB and UTF-8.
 - `"Mode"`: The channel mode: UNRESTRICTED or RESTRICTED. Administrators, moderators, and
@@ -272,13 +278,14 @@ Permanently bans a member from a channel. Moderators can't add banned members to
 To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembership. Bans
 are cleaned up when you delete users or channels. If you ban a user who is already part of
 a channel, that user is automatically kicked from the channel.  The x-amz-chime-bearer
-request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call
-as the value in the header.
+request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that
+makes the API call as the value in the header.
 
 # Arguments
 - `member_arn`: The AppInstanceUserArn of the member being banned.
 - `channel_arn`: The ARN of the ban request.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function create_channel_ban(
@@ -399,13 +406,13 @@ end
     create_channel_membership(member_arn, type, channel_arn, x-amz-chime-bearer)
     create_channel_membership(member_arn, type, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Adds a user to a channel. The InvitedBy field in ChannelMembership is derived from the
+Adds a member to a channel. The InvitedBy field in ChannelMembership is derived from the
 request header. A channel member can:   List messages   Send messages   Receive messages
 Edit their own messages   Leave the channel   Privacy settings impact this action as
 follows:   Public Channels: You do not need to be a member to list messages, but you must
 be a member to send messages.   Private Channels: You must be a member to list or send
-messages.    The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn
-of the user that makes the API call as the value in the header.
+messages.    The x-amz-chime-bearer request header is mandatory. Use the ARN of the
+AppInstanceUserArn or AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
 - `member_arn`: The AppInstanceUserArn of the member you want to add to the channel.
@@ -414,7 +421,8 @@ of the user that makes the API call as the value in the header.
   filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
   This is only supported by moderators.
 - `channel_arn`: The ARN of the channel to which you're adding users.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -475,13 +483,14 @@ end
 Creates a new ChannelModerator. A channel moderator can:   Add and remove other members of
 the channel.   Add and remove other moderators of the channel.   Add and remove user bans
 for the channel.   Redact messages in the channel.   List messages in the channel.    The
-x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
+AppInstanceBotof the user that makes the API call as the value in the header.
 
 # Arguments
 - `channel_moderator_arn`: The AppInstanceUserArn of the moderator.
 - `channel_arn`: The ARN of the channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function create_channel_moderator(
@@ -533,15 +542,14 @@ end
 
 Immediately makes a channel and its memberships inaccessible and marks them for deletion.
 This is an irreversible process.  The x-amz-chime-bearer request header is mandatory. Use
-the AppInstanceUserArn of the user that makes the API call as the value in the header.
+the ARN of the AppInstanceUserArn or AppInstanceBot that makes the API call as the value in
+the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel being deleted.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"sub-channel-id"`: The ID of the SubChannel in the request.
 """
 function delete_channel(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()
@@ -584,14 +592,15 @@ end
     delete_channel_ban(channel_arn, member_arn, x-amz-chime-bearer)
     delete_channel_ban(channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Removes a user from a channel's ban list.  The x-amz-chime-bearer request header is
-mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+Removes a member from a channel's ban list.  The x-amz-chime-bearer request header is
+mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as
+the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel from which the AppInstanceUser was banned.
 - `member_arn`: The ARN of the AppInstanceUser that you want to reinstate.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function delete_channel_ban(
@@ -683,7 +692,8 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 # Arguments
 - `channel_arn`: The ARN of the channel from which you want to remove the user.
 - `member_arn`: The AppInstanceUserArn of the member that you're removing from the channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -736,13 +746,14 @@ end
 
 Deletes a channel message. Only admins can perform this action. Deletion makes messages
 inaccessible immediately. A background process deletes any revisions created by
-UpdateChannelMessage.  The x-amz-chime-bearer request header is mandatory. Use the
-AppInstanceUserArn of the user that makes the API call as the value in the header.
+UpdateChannelMessage.  The x-amz-chime-bearer request header is mandatory. Use the ARN of
+the AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
 - `message_id`: The ID of the message being deleted.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -795,12 +806,14 @@ end
     delete_channel_moderator(channel_arn, channel_moderator_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Deletes a channel moderator.  The x-amz-chime-bearer request header is mandatory. Use the
-AppInstanceUserArn of the user that makes the API call as the value in the header.
+ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the
+header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
 - `channel_moderator_arn`: The AppInstanceUserArn of the moderator being deleted.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function delete_channel_moderator(
@@ -845,16 +858,52 @@ function delete_channel_moderator(
 end
 
 """
+    delete_messaging_streaming_configurations(app_instance_arn)
+    delete_messaging_streaming_configurations(app_instance_arn, params::Dict{String,<:Any})
+
+Deletes the streaming configurations for an AppInstance. For more information, see
+Streaming messaging data in the Amazon Chime SDK Developer Guide.
+
+# Arguments
+- `app_instance_arn`: The ARN of the streaming configurations being deleted.
+
+"""
+function delete_messaging_streaming_configurations(
+    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/app-instances/$(appInstanceArn)/streaming-configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_messaging_streaming_configurations(
+    appInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "DELETE",
+        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_channel(channel_arn, x-amz-chime-bearer)
     describe_channel(channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Returns the full details of a channel in an Amazon Chime AppInstance.  The
-x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
+AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function describe_channel(
@@ -899,13 +948,14 @@ end
     describe_channel_ban(channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Returns the full details of a channel ban.  The x-amz-chime-bearer request header is
-mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as
+the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel from which the user is banned.
 - `member_arn`: The AppInstanceUserArn of the member being banned.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function describe_channel_ban(
@@ -989,13 +1039,14 @@ end
     describe_channel_membership(channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Returns the full details of a user's channel membership.  The x-amz-chime-bearer request
-header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
-value in the header.
+header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the
+API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
 - `member_arn`: The AppInstanceUserArn of the member.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1048,14 +1099,15 @@ end
     describe_channel_membership_for_app_instance_user(app-instance-user-arn, channel_arn, x-amz-chime-bearer)
     describe_channel_membership_for_app_instance_user(app-instance-user-arn, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
- Returns the details of a channel based on the membership of the specified AppInstanceUser.
- The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user
-that makes the API call as the value in the header.
+ Returns the details of a channel based on the membership of the specified AppInstanceUser
+or AppInstanceBot.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the
+AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
-- `app-instance-user-arn`: The ARN of the user in a channel.
+- `app-instance-user-arn`: The ARN of the user or bot in a channel.
 - `channel_arn`: The ARN of the channel to which the user belongs.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function describe_channel_membership_for_app_instance_user(
@@ -1105,14 +1157,15 @@ end
     describe_channel_moderated_by_app_instance_user(app-instance-user-arn, channel_arn, x-amz-chime-bearer)
     describe_channel_moderated_by_app_instance_user(app-instance-user-arn, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Returns the full details of a channel moderated by the specified AppInstanceUser.  The
-x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+Returns the full details of a channel moderated by the specified AppInstanceUser or
+AppInstanceBot.  The x-amz-chime-bearer request header is mandatory. Use the ARN of the
+AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
-- `app-instance-user-arn`: The ARN of the AppInstanceUser in the moderated channel.
+- `app-instance-user-arn`: The ARN of the user or bot in the moderated channel.
 - `channel_arn`: The ARN of the moderated channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function describe_channel_moderated_by_app_instance_user(
@@ -1169,7 +1222,8 @@ value in the header.
 # Arguments
 - `channel_arn`: The ARN of the channel.
 - `channel_moderator_arn`: The AppInstanceUserArn of the channel moderator.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function describe_channel_moderator(
@@ -1220,8 +1274,8 @@ end
 Disassociates a channel flow from all its channels. Once disassociated, all messages to
 that channel stop going through the channel flow processor.  Only administrators or channel
 moderators can disassociate a channel flow. The x-amz-chime-bearer request header is
-mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as
+the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -1274,16 +1328,19 @@ end
     get_channel_membership_preferences(channel_arn, member_arn, x-amz-chime-bearer)
     get_channel_membership_preferences(channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Gets the membership preferences of an AppInstanceUser for the specified channel. The
-AppInstanceUser must be a member of the channel. Only the AppInstanceUser who owns the
-membership can retrieve preferences. Users in the AppInstanceAdmin and channel moderator
-roles can't retrieve preferences for other users. Banned users can't retrieve membership
-preferences for the channel from which they are banned.
+Gets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified
+channel. A user or a bot must be a member of the channel and own the membership to be able
+to retrieve membership preferences. Users or bots in the AppInstanceAdmin and channel
+moderator roles can't retrieve preferences for other users or bots. Banned users or bots
+can't retrieve membership preferences for the channel from which they are banned.  The
+x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
+AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
 - `member_arn`: The AppInstanceUserArn of the member retrieving the preferences.
-- `x-amz-chime-bearer`: The AppInstanceUserARN of the user making the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function get_channel_membership_preferences(
@@ -1332,13 +1389,14 @@ end
     get_channel_message(channel_arn, message_id, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Gets the full details of a channel message.  The x-amz-chime-bearer request header is
-mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as
+the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
 - `message_id`: The ID of the message.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1398,7 +1456,8 @@ processed successfully  PENDING  Ongoing processing  FAILED  Processing failed  
 Messasge denied by the processor      This API does not return statuses for denied
 messages, because we don't store them once the processor denies them.    Only the message
 sender can invoke this API.   The x-amz-chime-bearer request header is mandatory. Use the
-AppInstanceUserArn of the user that makes the API call as the value in the header
+ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the
+header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel
@@ -1479,16 +1538,52 @@ function get_messaging_session_endpoint(
 end
 
 """
+    get_messaging_streaming_configurations(app_instance_arn)
+    get_messaging_streaming_configurations(app_instance_arn, params::Dict{String,<:Any})
+
+Retrieves the data streaming configuration for an AppInstance. For more information, see
+Streaming messaging data in the Amazon Chime SDK Developer Guide.
+
+# Arguments
+- `app_instance_arn`: The ARN of the streaming configurations.
+
+"""
+function get_messaging_streaming_configurations(
+    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/app-instances/$(appInstanceArn)/streaming-configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_messaging_streaming_configurations(
+    appInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "GET",
+        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_channel_bans(channel_arn, x-amz-chime-bearer)
     list_channel_bans(channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Lists all the users banned from a particular channel.  The x-amz-chime-bearer request
-header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
-value in the header.
+Lists all the users and bots banned from a particular channel.  The x-amz-chime-bearer
+request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that
+makes the API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1583,13 +1678,14 @@ end
     list_channel_memberships(channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is
-mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.  If you want to list the channels to which a specific app instance user
-belongs, see the ListChannelMembershipsForAppInstanceUser API.
+mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as
+the value in the header.  If you want to list the channels to which a specific app instance
+user belongs, see the ListChannelMembershipsForAppInstanceUser API.
 
 # Arguments
 - `channel_arn`: The maximum number of channel memberships that you want returned.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1643,17 +1739,18 @@ end
     list_channel_memberships_for_app_instance_user(x-amz-chime-bearer)
     list_channel_memberships_for_app_instance_user(x-amz-chime-bearer, params::Dict{String,<:Any})
 
- Lists all channels that a particular AppInstanceUser is a part of. Only an
+ Lists all channels that anr AppInstanceUser or AppInstanceBot is a part of. Only an
 AppInstanceAdmin can call the API with a user ARN that is not their own.   The
-x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
+AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"app-instance-user-arn"`: The ARN of the AppInstanceUsers
+- `"app-instance-user-arn"`: The ARN of the user or bot.
 - `"max-results"`: The maximum number of users that you want returned.
 - `"next-token"`: The token returned from previous API requests until the number of channel
   memberships is reached.
@@ -1702,12 +1799,13 @@ List all the messages in a channel. Returns a paginated list of ChannelMessages.
 default, sorted by creation timestamp in descending order.  Redacted messages appear in the
 results as empty, since they are only redacted, not deleted. Deleted messages do not appear
 in the results. This action always returns the latest version of an edited message. Also,
-the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user
-that makes the API call as the value in the header.
+the x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
+AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1763,12 +1861,13 @@ end
     list_channel_moderators(channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Lists all the moderators for a channel.  The x-amz-chime-bearer request header is
-mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as
+the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1821,12 +1920,13 @@ Lists all Channels created under a single Chime App as a paginated list. You can
 filters to narrow results.  Functionality &amp; restrictions    Use privacy = PUBLIC to
 retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy =
 PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request
-header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
-value in the header.
+header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the
+API call as the value in the header.
 
 # Arguments
 - `app-instance-arn`: The ARN of the AppInstance.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1926,15 +2026,16 @@ end
     list_channels_moderated_by_app_instance_user(x-amz-chime-bearer, params::Dict{String,<:Any})
 
 A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer request
-header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
-value in the header.
+header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that makes the
+API call as the value in the header.
 
 # Arguments
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"app-instance-user-arn"`: The ARN of the user in the moderated channel.
+- `"app-instance-user-arn"`: The ARN of the user or bot in the moderated channel.
 - `"max-results"`: The maximum number of channels in the request.
 - `"next-token"`: The token returned from previous API requests until the number of
   channels moderated by the user is reached.
@@ -2061,20 +2162,68 @@ function list_tags_for_resource(
 end
 
 """
+    put_channel_expiration_settings(channel_arn)
+    put_channel_expiration_settings(channel_arn, params::Dict{String,<:Any})
+
+Sets the number of days before the channel is automatically deleted.    A background
+process deletes expired channels within 6 hours of expiration. Actual deletion times may
+vary.   Expired channels that have not yet been deleted appear as active, and you can
+update their expiration settings. The system honors the new settings.   The
+x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
+AppInstanceBot that makes the API call as the value in the header.
+
+# Arguments
+- `channel_arn`: The ARN of the channel.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExpirationSettings"`: Settings that control the interval after which a channel is
+  deleted.
+- `"x-amz-chime-bearer"`: The ARN of the AppInstanceUser or AppInstanceBot that makes the
+  API call.
+"""
+function put_channel_expiration_settings(
+    channelArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/expiration-settings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_channel_expiration_settings(
+    channelArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/channels/$(channelArn)/expiration-settings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_channel_membership_preferences(preferences, channel_arn, member_arn, x-amz-chime-bearer)
     put_channel_membership_preferences(preferences, channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Sets the membership preferences of an AppInstanceUser for the specified channel. The
-AppInstanceUser must be a member of the channel. Only the AppInstanceUser who owns the
-membership can set preferences. Users in the AppInstanceAdmin and channel moderator roles
-can't set preferences for other users. Banned users can't set membership preferences for
-the channel from which they are banned.
+Sets the membership preferences of an AppInstanceUser or AppIntanceBot for the specified
+channel. The user or bot must be a member of the channel. Only the user or bot who owns the
+membership can set preferences. Users or bots in the AppInstanceAdmin and channel moderator
+roles can't set preferences for other users or users. Banned users or bots can't set
+membership preferences for the channel from which they are banned.  The x-amz-chime-bearer
+request header is mandatory. Use the ARN of an AppInstanceUser or AppInstanceBot that makes
+the API call as the value in the header.
 
 # Arguments
 - `preferences`: The channel membership preferences of an AppInstanceUser .
 - `channel_arn`: The ARN of the channel.
-- `member_arn`: The AppInstanceUserArn of the member setting the preferences.
-- `x-amz-chime-bearer`: The AppInstanceUserARN of the user making the API call.
+- `member_arn`: The ARN of the member setting the preferences.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 """
 function put_channel_membership_preferences(
@@ -2123,18 +2272,65 @@ function put_channel_membership_preferences(
 end
 
 """
+    put_messaging_streaming_configurations(streaming_configurations, app_instance_arn)
+    put_messaging_streaming_configurations(streaming_configurations, app_instance_arn, params::Dict{String,<:Any})
+
+Sets the data streaming configuration for an AppInstance. For more information, see
+Streaming messaging data in the Amazon Chime SDK Developer Guide.
+
+# Arguments
+- `streaming_configurations`: The streaming configurations.
+- `app_instance_arn`: The ARN of the streaming configuration.
+
+"""
+function put_messaging_streaming_configurations(
+    StreamingConfigurations,
+    appInstanceArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        Dict{String,Any}("StreamingConfigurations" => StreamingConfigurations);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_messaging_streaming_configurations(
+    StreamingConfigurations,
+    appInstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_messaging(
+        "PUT",
+        "/app-instances/$(appInstanceArn)/streaming-configurations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("StreamingConfigurations" => StreamingConfigurations),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     redact_channel_message(channel_arn, message_id, x-amz-chime-bearer)
     redact_channel_message(channel_arn, message_id, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Redacts message content, but not metadata. The message exists in the back end, but the
 action returns null content, and the state shows as redacted.  The x-amz-chime-bearer
-request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call
-as the value in the header.
+request header is mandatory. Use the ARN of the AppInstanceUser or AppInstanceBot that
+makes the API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel containing the messages that you want to redact.
 - `message_id`: The ID of the message being redacted.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2185,8 +2381,10 @@ end
     search_channels(fields)
     search_channels(fields, params::Dict{String,<:Any})
 
-Allows ChimeBearer to search channels by channel members. AppInstanceUsers can search
-across the channels that they belong to. AppInstanceAdmins can search across all channels.
+Allows the ChimeBearer to search channels by channel members. Users or bots can search
+across the channels that they belong to. Users in the AppInstanceAdmin role can search
+across all channels. The x-amz-chime-bearer request header is mandatory. Use the ARN of the
+AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
 - `fields`: A list of the Field objects in the channel being searched.
@@ -2224,10 +2422,10 @@ end
     send_channel_message(client_request_token, content, persistence, type, channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Sends a message to a particular channel that the member is a part of.  The
-x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of
-data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no
-metadata.
+x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
+AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages
+can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of
+data and no metadata.
 
 # Arguments
 - `client_request_token`: The Idempotency token for each client request.
@@ -2236,10 +2434,12 @@ metadata.
   Required.
 - `type`: The type of message, STANDARD or CONTROL.
 - `channel_arn`: The ARN of the channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ContentType"`: The content type of the channel message.
 - `"MessageAttributes"`: The attributes for the message, used for message filtering along
   with a FilterRule defined in the PushNotificationPreferences.
 - `"Metadata"`: The optional metadata for each message.
@@ -2390,12 +2590,13 @@ end
     update_channel(channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Update a channel's attributes.  Restriction: You can't change a channel's privacy.   The
-x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
+AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2484,25 +2685,29 @@ function update_channel_flow(
 end
 
 """
-    update_channel_message(channel_arn, message_id, x-amz-chime-bearer)
-    update_channel_message(channel_arn, message_id, x-amz-chime-bearer, params::Dict{String,<:Any})
+    update_channel_message(content, channel_arn, message_id, x-amz-chime-bearer)
+    update_channel_message(content, channel_arn, message_id, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Updates the content of a message.  The x-amz-chime-bearer request header is mandatory. Use
-the AppInstanceUserArn of the user that makes the API call as the value in the header.
+the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in
+the header.
 
 # Arguments
+- `content`: The content of the message being updated.
 - `channel_arn`: The ARN of the channel.
 - `message_id`: The ID string of the message being updated.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Content"`: The content of the message being updated.
+- `"ContentType"`: The content type of the channel message.
 - `"Metadata"`: The metadata of the message being updated.
 - `"SubChannelId"`: The ID of the SubChannel in the request.  Only required when updating
   messages in a SubChannel that the user belongs to.
 """
 function update_channel_message(
+    Content,
     channelArn,
     messageId,
     x_amz_chime_bearer;
@@ -2512,13 +2717,15 @@ function update_channel_message(
         "PUT",
         "/channels/$(channelArn)/messages/$(messageId)",
         Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer)
+            "Content" => Content,
+            "headers" => Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_channel_message(
+    Content,
     channelArn,
     messageId,
     x_amz_chime_bearer,
@@ -2532,6 +2739,7 @@ function update_channel_message(
             mergewith(
                 _merge,
                 Dict{String,Any}(
+                    "Content" => Content,
                     "headers" =>
                         Dict{String,Any}("x-amz-chime-bearer" => x_amz_chime_bearer),
                 ),
@@ -2548,16 +2756,14 @@ end
     update_channel_read_marker(channel_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 The details of the time when a user last read messages in a channel.  The
-x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
+AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
-- `x-amz-chime-bearer`: The AppInstanceUserArn of the user that makes the API call.
+- `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
+  call.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SubChannelId"`: The ID of the SubChannel in the request.
 """
 function update_channel_read_marker(
     channelArn, x_amz_chime_bearer; aws_config::AbstractAWSConfig=global_aws_config()

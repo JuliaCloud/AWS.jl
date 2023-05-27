@@ -704,7 +704,7 @@ end
     put_metadata_flag(app_id, body, environment_name, feature_name)
     put_metadata_flag(app_id, body, environment_name, feature_name, params::Dict{String,<:Any})
 
-Stores the metadata information about a feature on a form or view.
+Stores the metadata information about a feature on a form.
 
 # Arguments
 - `app_id`: The unique ID for the Amplify app.

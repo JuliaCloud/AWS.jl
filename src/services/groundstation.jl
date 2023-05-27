@@ -93,12 +93,14 @@ DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"contactPostPassDurationSeconds"`: Amount of time, in seconds, after a contact ends for
-  the contact to remain in a POSTPASS state. A CloudWatch event is emitted when the contact
+- `"contactPostPassDurationSeconds"`: Amount of time, in seconds, after a contact ends that
+  the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station
+  Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group
   enters and exits the POSTPASS state.
-- `"contactPrePassDurationSeconds"`: Amount of time, in seconds, prior to contact start for
-  the contact to remain in a PREPASS state. A CloudWatch event is emitted when the contact
-  enters and exits the PREPASS state.
+- `"contactPrePassDurationSeconds"`: Amount of time, in seconds, before a contact starts
+  that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground
+  Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow
+  Endpoint Group enters and exits the PREPASS state.
 - `"tags"`: Tags of a dataflow endpoint group.
 """
 function create_dataflow_endpoint_group(
@@ -465,7 +467,8 @@ end
     get_agent_configuration(agent_id)
     get_agent_configuration(agent_id, params::Dict{String,<:Any})
 
-Gets the latest configuration information for a registered agent.
+  For use by AWS Ground Station Agent and shouldn't be called directly.  Gets the latest
+configuration information for a registered agent.
 
 # Arguments
 - `agent_id`: UUID of agent to get configuration information for.
@@ -959,11 +962,12 @@ end
     register_agent(agent_details, discovery_data)
     register_agent(agent_details, discovery_data, params::Dict{String,<:Any})
 
-Registers a new agent with AWS Groundstation.
+  For use by AWS Ground Station Agent and shouldn't be called directly.   Registers a new
+agent with AWS Ground Station.
 
 # Arguments
 - `agent_details`: Detailed information about the agent being registered.
-- `discovery_data`: Data for associating and agent with the capabilities it is managing.
+- `discovery_data`: Data for associating an agent with the capabilities it is managing.
 
 """
 function register_agent(
@@ -1145,7 +1149,8 @@ end
     update_agent_status(agent_id, aggregate_status, component_statuses, task_id)
     update_agent_status(agent_id, aggregate_status, component_statuses, task_id, params::Dict{String,<:Any})
 
-Update the status of the agent.
+  For use by AWS Ground Station Agent and shouldn't be called directly.  Update the status
+of the agent.
 
 # Arguments
 - `agent_id`: UUID of agent to update.

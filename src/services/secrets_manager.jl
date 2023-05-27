@@ -116,7 +116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version.
 - `"Description"`: The description of the secret.
 - `"ForceOverwriteReplicaSecret"`: Specifies whether to overwrite a secret with the same
-  name in the destination Region.
+  name in the destination Region. By default, secrets aren't overwritten.
 - `"KmsKeyId"`: The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
   encrypt the secret value in the secret. An alias is always prefixed by alias/, for example
   alias/aws/secretsmanager. For more information, see About aliases. To use a KMS key in a
@@ -262,19 +262,20 @@ Manager and Authentication and access control in Secrets Manager.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ForceDeleteWithoutRecovery"`: Specifies whether to delete the secret without any
   recovery window. You can't use both this parameter and RecoveryWindowInDays in the same
-  call. If you don't use either, then Secrets Manager defaults to a 30 day recovery window.
-  Secrets Manager performs the actual deletion with an asynchronous background process, so
-  there might be a short delay before the secret is permanently deleted. If you delete a
-  secret and then immediately create a secret with the same name, use appropriate back off
-  and retry logic.  Use this parameter with caution. This parameter causes the operation to
-  skip the normal recovery window before the permanent deletion that Secrets Manager would
-  normally impose with the RecoveryWindowInDays parameter. If you delete a secret with the
-  ForceDeleteWithoutRecovery parameter, then you have no opportunity to recover the secret.
-  You lose the secret permanently.
+  call. If you don't use either, then by default Secrets Manager uses a 30 day recovery
+  window. Secrets Manager performs the actual deletion with an asynchronous background
+  process, so there might be a short delay before the secret is permanently deleted. If you
+  delete a secret and then immediately create a secret with the same name, use appropriate
+  back off and retry logic. If you forcibly delete an already deleted or nonexistent secret,
+  the operation does not return ResourceNotFoundException.  Use this parameter with caution.
+  This parameter causes the operation to skip the normal recovery window before the permanent
+  deletion that Secrets Manager would normally impose with the RecoveryWindowInDays
+  parameter. If you delete a secret with the ForceDeleteWithoutRecovery parameter, then you
+  have no opportunity to recover the secret. You lose the secret permanently.
 - `"RecoveryWindowInDays"`: The number of days from 7 to 30 that Secrets Manager waits
   before permanently deleting the secret. You can't use both this parameter and
-  ForceDeleteWithoutRecovery in the same call. If you don't use either, then Secrets Manager
-  defaults to a 30 day recovery window.
+  ForceDeleteWithoutRecovery in the same call. If you don't use either, then by default
+  Secrets Manager uses a 30 day recovery window.
 """
 function delete_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
     return secrets_manager(
@@ -505,7 +506,8 @@ Secrets Manager and Authentication and access control in Secrets Manager.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IncludeDeprecated"`: Specifies whether to include versions of secrets that don't have
   any staging labels attached to them. Versions without staging labels are considered
-  deprecated and are subject to deletion by Secrets Manager.
+  deprecated and are subject to deletion by Secrets Manager. By default, versions without
+  staging labels aren't included.
 - `"MaxResults"`: The number of results to include in the response. If there are more
   results available, in the response, Secrets Manager includes NextToken. To get the next
   results, call ListSecretVersionIds again with the value from NextToken.
@@ -559,6 +561,7 @@ Manager and Authentication and access control in Secrets Manager.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: The filters to apply to the list of secrets.
 - `"IncludePlannedDeletion"`: Specifies whether to include secrets scheduled for deletion.
+  By default, secrets scheduled for deletion aren't included.
 - `"MaxResults"`: The number of results to include in the response. If there are more
   results available, in the response, Secrets Manager includes NextToken. To get the next
   results, call ListSecrets again with the value from NextToken.
@@ -603,7 +606,8 @@ actions for Secrets Manager and Authentication and access control in Secrets Man
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BlockPublicPolicy"`: Specifies whether to block resource-based policies that allow
-  broad access to the secret, for example those that use a wildcard for the principal.
+  broad access to the secret, for example those that use a wildcard for the principal. By
+  default, public policies aren't blocked.
 """
 function put_resource_policy(
     ResourcePolicy, SecretId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -804,7 +808,7 @@ Secrets Manager and Authentication and access control in Secrets Manager.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ForceOverwriteReplicaSecret"`: Specifies whether to overwrite a secret with the same
-  name in the destination Region.
+  name in the destination Region. By default, secrets aren't overwritten.
 """
 function replicate_secret_to_regions(
     AddReplicaRegions, SecretId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -924,8 +928,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RotateSecretRequestRotationRules. For secrets that use a Lambda rotation function to
   rotate, if you don't immediately rotate the secret, Secrets Manager tests the rotation
   configuration by running the  testSecret step of the Lambda rotation function. The test
-  creates an AWSPENDING version of the secret and then removes it. If you don't specify this
-  value, then by default, Secrets Manager rotates the secret immediately.
+  creates an AWSPENDING version of the secret and then removes it. By default, Secrets
+  Manager rotates the secret immediately.
 - `"RotationLambdaARN"`: For secrets that use a Lambda rotation function to rotate, the ARN
   of the Lambda rotation function.  For secrets that use managed rotation, omit this field.
   For more information, see Managed rotation in the Secrets Manager User Guide.
@@ -1298,9 +1302,9 @@ use a wildcard for the principal.   Checks for correct syntax in a policy.   Ver
 policy does not lock out a caller.   Secrets Manager generates a CloudTrail log entry when
 you call this action. Do not include sensitive information in request parameters because it
 might be logged. For more information, see Logging Secrets Manager events with CloudTrail.
-Required permissions:  secretsmanager:ValidateResourcePolicy. For more information, see
-IAM policy actions for Secrets Manager and Authentication and access control in Secrets
-Manager.
+Required permissions:  secretsmanager:ValidateResourcePolicy and
+secretsmanager:PutResourcePolicy. For more information, see  IAM policy actions for Secrets
+Manager and Authentication and access control in Secrets Manager.
 
 # Arguments
 - `resource_policy`: A JSON-formatted string that contains an Amazon Web Services

@@ -8,17 +8,20 @@ using AWS.UUIDs
     associate_admin_account(admin_account)
     associate_admin_account(admin_account, params::Dict{String,<:Any})
 
-Sets the Firewall Manager administrator account. The account must be a member of the
-organization in Organizations whose resources you want to protect. Firewall Manager sets
-the permissions that allow the account to administer your Firewall Manager policies. The
-account that you associate with Firewall Manager is called the Firewall Manager
-administrator account.
+Sets a Firewall Manager default administrator account. The Firewall Manager default
+administrator account can manage third-party firewalls and has full administrative scope
+that allows administration of all policy types, accounts, organizational units, and
+Regions. This account must be a member account of the organization in Organizations whose
+resources you want to protect. For information about working with Firewall Manager
+administrator accounts, see Managing Firewall Manager administrators in the Firewall
+Manager Developer Guide.
 
 # Arguments
 - `admin_account`: The Amazon Web Services account ID to associate with Firewall Manager as
-  the Firewall Manager administrator account. This must be an Organizations member account.
-  For more information about Organizations, see Managing the Amazon Web Services Accounts in
-  Your Organization.
+  the Firewall Manager default administrator account. This account must be a member account
+  of the organization in Organizations whose resources you want to protect. For more
+  information about Organizations, see Managing the Amazon Web Services Accounts in Your
+  Organization.
 
 """
 function associate_admin_account(
@@ -94,7 +97,7 @@ Associate resources to a Firewall Manager resource set.
 # Arguments
 - `items`: The uniform resource identifiers (URIs) of resources that should be associated
   to the resource set. The URIs must be Amazon Resource Names (ARNs).
-- `resource_set_identifier`: A unique identifier for the resource set, used in a TODO to
+- `resource_set_identifier`: A unique identifier for the resource set, used in a request to
   refer to the resource set.
 
 """
@@ -141,7 +144,7 @@ Disassociates resources from a Firewall Manager resource set.
 # Arguments
 - `items`: The uniform resource identifiers (URI) of resources that should be disassociated
   from the resource set. The URIs must be Amazon Resource Names (ARNs).
-- `resource_set_identifier`: A unique identifier for the resource set, used in a TODO to
+- `resource_set_identifier`: A unique identifier for the resource set, used in a request to
   refer to the resource set.
 
 """
@@ -319,7 +322,7 @@ end
 Deletes the specified ResourceSet.
 
 # Arguments
-- `identifier`: A unique identifier for the resource set, used in a TODO to refer to the
+- `identifier`: A unique identifier for the resource set, used in a request to refer to the
   resource set.
 
 """
@@ -350,9 +353,13 @@ end
     disassociate_admin_account()
     disassociate_admin_account(params::Dict{String,<:Any})
 
-Disassociates the account that has been set as the Firewall Manager administrator account.
-To set a different account as the administrator account, you must submit an
-AssociateAdminAccount request.
+Disassociates an Firewall Manager administrator account. To set a different account as an
+Firewall Manager administrator, submit a PutAdminAccount request. To set an account as a
+default administrator account, you must submit an AssociateAdminAccount request.
+Disassociation of the default administrator account follows the first in, last out
+principle. If you are the default administrator, all Firewall Manager administrators within
+the organization must first disassociate their accounts before you can disassociate your
+account.
 
 """
 function disassociate_admin_account(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -415,7 +422,7 @@ end
     get_admin_account(params::Dict{String,<:Any})
 
 Returns the Organizations account that is associated with Firewall Manager as the Firewall
-Manager administrator.
+Manager default administrator.
 
 """
 function get_admin_account(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -426,6 +433,40 @@ function get_admin_account(
 )
     return fms(
         "GetAdminAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_admin_scope(admin_account)
+    get_admin_scope(admin_account, params::Dict{String,<:Any})
+
+Returns information about the specified account's administrative scope. The admistrative
+scope defines the resources that an Firewall Manager administrator can manage.
+
+# Arguments
+- `admin_account`: The administator account that you want to get the details for.
+
+"""
+function get_admin_scope(AdminAccount; aws_config::AbstractAWSConfig=global_aws_config())
+    return fms(
+        "GetAdminScope",
+        Dict{String,Any}("AdminAccount" => AdminAccount);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_admin_scope(
+    AdminAccount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "GetAdminScope",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AdminAccount" => AdminAccount), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -665,7 +706,7 @@ end
 Gets information about a specific resource set.
 
 # Arguments
-- `identifier`: A unique identifier for the resource set, used in a TODO to refer to the
+- `identifier`: A unique identifier for the resource set, used in a request to refer to the
   resource set.
 
 """
@@ -789,6 +830,79 @@ function get_violation_details(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_admin_accounts_for_organization()
+    list_admin_accounts_for_organization(params::Dict{String,<:Any})
+
+Returns a AdminAccounts object that lists the Firewall Manager administrators within the
+organization that are onboarded to Firewall Manager by AssociateAdminAccount. This
+operation can be called only from the organization's management account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return
+  for this request. If more objects are available, in the response, Firewall Manager provides
+  a NextToken value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you requested,
+  Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
+  objects, use the token returned from the prior request in your next request.
+"""
+function list_admin_accounts_for_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "ListAdminAccountsForOrganization";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_admin_accounts_for_organization(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "ListAdminAccountsForOrganization",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_admins_managing_account()
+    list_admins_managing_account(params::Dict{String,<:Any})
+
+Lists the accounts that are managing the specified Organizations member account. This is
+useful for any member account so that they can view the accounts who are managing their
+account. This operation only returns the managing administrators that have the requested
+account within their AdminScope.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Firewall Manager to return
+  for this request. If more objects are available, in the response, Firewall Manager provides
+  a NextToken value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you requested,
+  Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
+  objects, use the token returned from the prior request in your next request.
+"""
+function list_admins_managing_account(; aws_config::AbstractAWSConfig=global_aws_config())
+    return fms(
+        "ListAdminsManagingAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_admins_managing_account(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fms(
+        "ListAdminsManagingAccount",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -945,8 +1059,8 @@ end
     list_member_accounts(params::Dict{String,<:Any})
 
 Returns a MemberAccounts object that lists the member accounts in the administrator's
-Amazon Web Services organization. The ListMemberAccounts must be submitted by the account
-that is set as the Firewall Manager administrator.
+Amazon Web Services organization. Either an Firewall Manager administrator or the
+organization's management account can make this request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1052,7 +1166,7 @@ end
 Returns an array of resources that are currently associated to a resource set.
 
 # Arguments
-- `identifier`: A unique identifier for the resource set, used in a TODO to refer to the
+- `identifier`: A unique identifier for the resource set, used in a request to refer to the
   resource set.
 
 # Optional Parameters
@@ -1213,6 +1327,55 @@ function list_third_party_firewall_firewall_policies(
 end
 
 """
+    put_admin_account(admin_account)
+    put_admin_account(admin_account, params::Dict{String,<:Any})
+
+Creates or updates an Firewall Manager administrator account. The account must be a member
+of the organization that was onboarded to Firewall Manager by AssociateAdminAccount. Only
+the organization's management account can create an Firewall Manager administrator account.
+When you create an Firewall Manager administrator account, the service checks to see if the
+account is already a delegated administrator within Organizations. If the account isn't a
+delegated administrator, Firewall Manager calls Organizations to delegate the account
+within Organizations. For more information about administrator accounts within
+Organizations, see Managing the Amazon Web Services Accounts in Your Organization.
+
+# Arguments
+- `admin_account`: The Amazon Web Services account ID to add as an Firewall Manager
+  administrator account. The account must be a member of the organization that was onboarded
+  to Firewall Manager by AssociateAdminAccount. For more information about Organizations, see
+  Managing the Amazon Web Services Accounts in Your Organization.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AdminScope"`: Configures the resources that the specified Firewall Manager
+  administrator can manage. As a best practice, set the administrative scope according to the
+  principles of least privilege. Only grant the administrator the specific resources or
+  permissions that they need to perform the duties of their role.
+"""
+function put_admin_account(AdminAccount; aws_config::AbstractAWSConfig=global_aws_config())
+    return fms(
+        "PutAdminAccount",
+        Dict{String,Any}("AdminAccount" => AdminAccount);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_admin_account(
+    AdminAccount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fms(
+        "PutAdminAccount",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AdminAccount" => AdminAccount), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_apps_list(apps_list)
     put_apps_list(apps_list, params::Dict{String,<:Any})
 
@@ -1254,9 +1417,12 @@ end
 
 Designates the IAM role and Amazon Simple Notification Service (SNS) topic that Firewall
 Manager uses to record SNS logs. To perform this action outside of the console, you must
-configure the SNS topic to allow the Firewall Manager role AWSServiceRoleForFMS to publish
-SNS logs. For more information, see Firewall Manager required permissions for API actions
-in the Firewall Manager Developer Guide.
+first configure the SNS topic's access policy to allow the SnsRoleName to publish SNS logs.
+If the SnsRoleName provided is a role other than the AWSServiceRoleForFMS service-linked
+role, this role must have a trust relationship configured to allow the Firewall Manager
+service principal fms.amazonaws.com to assume this role. For information about configuring
+an SNS access policy, see Service roles for Firewall Manager in the Firewall Manager
+Developer Guide.
 
 # Arguments
 - `sns_role_name`: The Amazon Resource Name (ARN) of the IAM role that allows Amazon SNS to

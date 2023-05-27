@@ -27,15 +27,15 @@ the role's temporary credentials in subsequent Amazon Web Services API calls to 
 resources in the account that owns the role. You cannot use session policies to grant more
 permissions than those allowed by the identity-based policy of the role that is being
 assumed. For more information, see Session Policies in the IAM User Guide. When you create
-a role, you create two policies: A role trust policy that specifies who can assume the role
-and a permissions policy that specifies what can be done with the role. You specify the
-trusted principal who is allowed to assume the role in the role trust policy. To assume a
-role from a different account, your Amazon Web Services account must be trusted by the
-role. The trust relationship is defined in the role's trust policy when the role is
+a role, you create two policies: a role trust policy that specifies who can assume the
+role, and a permissions policy that specifies what can be done with the role. You specify
+the trusted principal that is allowed to assume the role in the role trust policy. To
+assume a role from a different account, your Amazon Web Services account must be trusted by
+the role. The trust relationship is defined in the role's trust policy when the role is
 created. That trust policy states which accounts are allowed to delegate that access to
 users in the account.  A user who wants to access a role in a different account must also
-have permissions that are delegated from the user account administrator. The administrator
-must attach a policy that allows the user to call AssumeRole for the ARN of the role in the
+have permissions that are delegated from the account administrator. The administrator must
+attach a policy that allows the user to call AssumeRole for the ARN of the role in the
 other account. To allow a user to assume a role in the same account, you can do either of
 the following:   Attach a policy to the user that allows the user to call AssumeRole (as
 long as the role's trust policy trusts the account).   Add the user as a principal directly
@@ -415,8 +415,7 @@ we recommend that you use Amazon Cognito. You can use Amazon Cognito with the Am
 Services SDK for iOS Developer Guide and the Amazon Web Services SDK for Android Developer
 Guide to uniquely identify a user. You can also supply the user with a consistent identity
 throughout the lifetime of an application. To learn more about Amazon Cognito, see Amazon
-Cognito Overview in Amazon Web Services SDK for Android Developer Guide and Amazon Cognito
-Overview in the Amazon Web Services SDK for iOS Developer Guide.  Calling
+Cognito identity pools in Amazon Cognito Developer Guide.  Calling
 AssumeRoleWithWebIdentity does not require the use of Amazon Web Services security
 credentials. Therefore, you can distribute an application (for example, on mobile devices)
 that requests temporary security credentials without including long-term Amazon Web
@@ -704,12 +703,12 @@ end
     get_caller_identity(params::Dict{String,<:Any})
 
 Returns details about the IAM user or role whose credentials are used to call the
-operation.  No permissions are required to perform this operation. If an administrator adds
-a policy to your IAM user or role that explicitly denies access to the
+operation.  No permissions are required to perform this operation. If an administrator
+attaches a policy to your identity that explicitly denies access to the
 sts:GetCallerIdentity action, you can still perform this operation. Permissions are not
-required because the same information is returned when an IAM user or role is denied
-access. To view an example response, see I Am Not Authorized to Perform:
-iam:DeleteVirtualMFADevice in the IAM User Guide.
+required because the same information is returned when access is denied. To view an example
+response, see I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice in the IAM User
+Guide.
 
 """
 function get_caller_identity(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -728,44 +727,42 @@ end
     get_federation_token(name, params::Dict{String,<:Any})
 
 Returns a set of temporary security credentials (consisting of an access key ID, a secret
-access key, and a security token) for a federated user. A typical use is in a proxy
-application that gets temporary security credentials on behalf of distributed applications
-inside a corporate network. You must call the GetFederationToken operation using the
-long-term security credentials of an IAM user. As a result, this call is appropriate in
-contexts where those credentials can be safely stored, usually in a server-based
-application. For a comparison of GetFederationToken with the other API operations that
-produce temporary credentials, see Requesting Temporary Security Credentials and Comparing
-the Amazon Web Services STS API operations in the IAM User Guide.  You can create a
-mobile-based or browser-based app that can authenticate users using a web identity provider
-like Login with Amazon, Facebook, Google, or an OpenID Connect-compatible identity
-provider. In this case, we recommend that you use Amazon Cognito or
-AssumeRoleWithWebIdentity. For more information, see Federation Through a Web-based
-Identity Provider in the IAM User Guide.  You can also call GetFederationToken using the
-security credentials of an Amazon Web Services account root user, but we do not recommend
-it. Instead, we recommend that you create an IAM user for the purpose of the proxy
-application. Then attach a policy to the IAM user that limits federated users to only the
-actions and resources that they need to access. For more information, see IAM Best
-Practices in the IAM User Guide.   Session duration  The temporary credentials are valid
-for the specified duration, from 900 seconds (15 minutes) up to a maximum of 129,600
-seconds (36 hours). The default session duration is 43,200 seconds (12 hours). Temporary
-credentials obtained by using the Amazon Web Services account root user credentials have a
-maximum duration of 3,600 seconds (1 hour).  Permissions  You can use the temporary
-credentials created by GetFederationToken in any Amazon Web Services service with the
-following exceptions:   You cannot call any IAM operations using the CLI or the Amazon Web
-Services API. This limitation does not apply to console sessions.   You cannot call any STS
-operations except GetCallerIdentity.   You can use temporary credentials for single sign-on
-(SSO) to the console. You must pass an inline or managed session policy to this operation.
-You can pass a single JSON policy document to use as an inline session policy. You can also
-specify up to 10 managed policy Amazon Resource Names (ARNs) to use as managed session
-policies. The plaintext that you use for both inline and managed session policies can't
-exceed 2,048 characters. Though the session policy parameters are optional, if you do not
-pass a policy, then the resulting federated user session has no permissions. When you pass
-session policies, the session permissions are the intersection of the IAM user policies and
-the session policies that you pass. This gives you a way to further restrict the
-permissions for a federated user. You cannot use session policies to grant more permissions
-than those that are defined in the permissions policy of the IAM user. For more
-information, see Session Policies in the IAM User Guide. For information about using
-GetFederationToken to create temporary security credentials, see
+access key, and a security token) for a user. A typical use is in a proxy application that
+gets temporary security credentials on behalf of distributed applications inside a
+corporate network. You must call the GetFederationToken operation using the long-term
+security credentials of an IAM user. As a result, this call is appropriate in contexts
+where those credentials can be safeguarded, usually in a server-based application. For a
+comparison of GetFederationToken with the other API operations that produce temporary
+credentials, see Requesting Temporary Security Credentials and Comparing the Amazon Web
+Services STS API operations in the IAM User Guide. Although it is possible to call
+GetFederationToken using the security credentials of an Amazon Web Services account root
+user rather than an IAM user that you create for the purpose of a proxy application, we do
+not recommend it. For more information, see Safeguard your root user credentials and don't
+use them for everyday tasks in the IAM User Guide.   You can create a mobile-based or
+browser-based app that can authenticate users using a web identity provider like Login with
+Amazon, Facebook, Google, or an OpenID Connect-compatible identity provider. In this case,
+we recommend that you use Amazon Cognito or AssumeRoleWithWebIdentity. For more
+information, see Federation Through a Web-based Identity Provider in the IAM User Guide.
+Session duration  The temporary credentials are valid for the specified duration, from 900
+seconds (15 minutes) up to a maximum of 129,600 seconds (36 hours). The default session
+duration is 43,200 seconds (12 hours). Temporary credentials obtained by using the root
+user credentials have a maximum duration of 3,600 seconds (1 hour).  Permissions  You can
+use the temporary credentials created by GetFederationToken in any Amazon Web Services
+service with the following exceptions:   You cannot call any IAM operations using the CLI
+or the Amazon Web Services API. This limitation does not apply to console sessions.   You
+cannot call any STS operations except GetCallerIdentity.   You can use temporary
+credentials for single sign-on (SSO) to the console. You must pass an inline or managed
+session policy to this operation. You can pass a single JSON policy document to use as an
+inline session policy. You can also specify up to 10 managed policy Amazon Resource Names
+(ARNs) to use as managed session policies. The plaintext that you use for both inline and
+managed session policies can't exceed 2,048 characters. Though the session policy
+parameters are optional, if you do not pass a policy, then the resulting federated user
+session has no permissions. When you pass session policies, the session permissions are the
+intersection of the IAM user policies and the session policies that you pass. This gives
+you a way to further restrict the permissions for a federated user. You cannot use session
+policies to grant more permissions than those that are defined in the permissions policy of
+the IAM user. For more information, see Session Policies in the IAM User Guide. For
+information about using GetFederationToken to create temporary security credentials, see
 GetFederationToken—Federation Through a Custom Identity Broker.  You can use the
 credentials to access a resource that has a resource-based policy. If that policy
 specifically references the federated user session in the Principal element of the policy,
@@ -799,10 +796,10 @@ takes precedence over the user tag.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DurationSeconds"`: The duration, in seconds, that the session should last. Acceptable
   durations for federation sessions range from 900 seconds (15 minutes) to 129,600 seconds
-  (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using Amazon
-  Web Services account root user credentials are restricted to a maximum of 3,600 seconds
-  (one hour). If the specified duration is longer than one hour, the session obtained by
-  using root user credentials defaults to one hour.
+  (36 hours), with 43,200 seconds (12 hours) as the default. Sessions obtained using root
+  user credentials are restricted to a maximum of 3,600 seconds (one hour). If the specified
+  duration is longer than one hour, the session obtained by using root user credentials
+  defaults to one hour.
 - `"Policy"`: An IAM policy in JSON format that you want to use as an inline session
   policy. You must pass an inline or managed session policy to this operation. You can pass a
   single JSON policy document to use as an inline session policy. You can also specify up to
@@ -894,37 +891,35 @@ Returns a set of temporary credentials for an Amazon Web Services account or IAM
 credentials consist of an access key ID, a secret access key, and a security token.
 Typically, you use GetSessionToken if you want to use MFA to protect programmatic calls to
 specific Amazon Web Services API operations like Amazon EC2 StopInstances. MFA-enabled IAM
-users would need to call GetSessionToken and submit an MFA code that is associated with
-their MFA device. Using the temporary security credentials that are returned from the call,
-IAM users can then make programmatic calls to API operations that require MFA
-authentication. If you do not supply a correct MFA code, then the API returns an access
-denied error. For a comparison of GetSessionToken with the other API operations that
-produce temporary credentials, see Requesting Temporary Security Credentials and Comparing
-the Amazon Web Services STS API operations in the IAM User Guide.  No permissions are
-required for users to perform this operation. The purpose of the sts:GetSessionToken
-operation is to authenticate the user using MFA. You cannot use policies to control
-authentication operations. For more information, see Permissions for GetSessionToken in the
-IAM User Guide.   Session Duration  The GetSessionToken operation must be called by using
-the long-term Amazon Web Services security credentials of the Amazon Web Services account
-root user or an IAM user. Credentials that are created by IAM users are valid for the
-duration that you specify. This duration can range from 900 seconds (15 minutes) up to a
-maximum of 129,600 seconds (36 hours), with a default of 43,200 seconds (12 hours).
-Credentials based on account credentials can range from 900 seconds (15 minutes) up to
-3,600 seconds (1 hour), with a default of 1 hour.   Permissions  The temporary security
-credentials created by GetSessionToken can be used to make API calls to any Amazon Web
-Services service with the following exceptions:   You cannot call any IAM API operations
-unless MFA authentication information is included in the request.   You cannot call any STS
-API except AssumeRole or GetCallerIdentity.    We recommend that you do not call
-GetSessionToken with Amazon Web Services account root user credentials. Instead, follow our
-best practices by creating one or more IAM users, giving them the necessary permissions,
-and using IAM users for everyday interaction with Amazon Web Services.   The credentials
-that are returned by GetSessionToken are based on permissions associated with the user
-whose credentials were used to call the operation. If GetSessionToken is called using
-Amazon Web Services account root user credentials, the temporary credentials have root user
-permissions. Similarly, if GetSessionToken is called using the credentials of an IAM user,
-the temporary credentials have the same permissions as the IAM user.  For more information
-about using GetSessionToken to create temporary credentials, go to Temporary Credentials
-for Users in Untrusted Environments in the IAM User Guide.
+users must call GetSessionToken and submit an MFA code that is associated with their MFA
+device. Using the temporary security credentials that the call returns, IAM users can then
+make programmatic calls to API operations that require MFA authentication. An incorrect MFA
+code causes the API to return an access denied error. For a comparison of GetSessionToken
+with the other API operations that produce temporary credentials, see Requesting Temporary
+Security Credentials and Comparing the Amazon Web Services STS API operations in the IAM
+User Guide.  No permissions are required for users to perform this operation. The purpose
+of the sts:GetSessionToken operation is to authenticate the user using MFA. You cannot use
+policies to control authentication operations. For more information, see Permissions for
+GetSessionToken in the IAM User Guide.   Session Duration  The GetSessionToken operation
+must be called by using the long-term Amazon Web Services security credentials of an IAM
+user. Credentials that are created by IAM users are valid for the duration that you
+specify. This duration can range from 900 seconds (15 minutes) up to a maximum of 129,600
+seconds (36 hours), with a default of 43,200 seconds (12 hours). Credentials based on
+account credentials can range from 900 seconds (15 minutes) up to 3,600 seconds (1 hour),
+with a default of 1 hour.   Permissions  The temporary security credentials created by
+GetSessionToken can be used to make API calls to any Amazon Web Services service with the
+following exceptions:   You cannot call any IAM API operations unless MFA authentication
+information is included in the request.   You cannot call any STS API except AssumeRole or
+GetCallerIdentity.   The credentials that GetSessionToken returns are based on permissions
+associated with the IAM user whose credentials were used to call the operation. The
+temporary credentials have the same permissions as the IAM user.  Although it is possible
+to call GetSessionToken using the security credentials of an Amazon Web Services account
+root user rather than an IAM user, we do not recommend it. If GetSessionToken is called
+using root user credentials, the temporary credentials have root user permissions. For more
+information, see Safeguard your root user credentials and don't use them for everyday tasks
+in the IAM User Guide   For more information about using GetSessionToken to create
+temporary credentials, see Temporary Credentials for Users in Untrusted Environments in the
+IAM User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

@@ -131,19 +131,151 @@ function create_media_concatenation_pipeline(
 end
 
 """
+    create_media_insights_pipeline(media_insights_pipeline_configuration_arn)
+    create_media_insights_pipeline(media_insights_pipeline_configuration_arn, params::Dict{String,<:Any})
+
+Creates a media insights pipeline.
+
+# Arguments
+- `media_insights_pipeline_configuration_arn`: The ARN of the pipeline's configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: The unique identifier for the media insights pipeline request.
+- `"KinesisVideoStreamRecordingSourceRuntimeConfiguration"`: The runtime configuration for
+  the Kinesis video recording stream source.
+- `"KinesisVideoStreamSourceRuntimeConfiguration"`: The runtime configuration for the
+  Kinesis video stream source of the media insights pipeline.
+- `"MediaInsightsRuntimeMetadata"`: The runtime metadata for the media insights pipeline.
+  Consists of a key-value map of strings.
+- `"S3RecordingSinkRuntimeConfiguration"`: The runtime configuration for the S3 recording
+  sink.
+- `"Tags"`: The tags assigned to the media insights pipeline.
+"""
+function create_media_insights_pipeline(
+    MediaInsightsPipelineConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_media_pipelines(
+        "POST",
+        "/media-insights-pipelines",
+        Dict{String,Any}(
+            "MediaInsightsPipelineConfigurationArn" =>
+                MediaInsightsPipelineConfigurationArn,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_media_insights_pipeline(
+    MediaInsightsPipelineConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_media_pipelines(
+        "POST",
+        "/media-insights-pipelines",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MediaInsightsPipelineConfigurationArn" =>
+                        MediaInsightsPipelineConfigurationArn,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_media_insights_pipeline_configuration(elements, media_insights_pipeline_configuration_name, resource_access_role_arn)
+    create_media_insights_pipeline_configuration(elements, media_insights_pipeline_configuration_name, resource_access_role_arn, params::Dict{String,<:Any})
+
+A structure that contains the static configurations for a media insights pipeline.
+
+# Arguments
+- `elements`: The elements in the request, such as a processor for Amazon Transcribe or a
+  sink for a Kinesis Data Stream.
+- `media_insights_pipeline_configuration_name`: The name of the media insights pipeline
+  configuration.
+- `resource_access_role_arn`: The ARN of the role used by the service to access Amazon Web
+  Services resources, including Transcribe and Transcribe Call Analytics, on the caller’s
+  behalf.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: The unique identifier for the media insights pipeline
+  configuration request.
+- `"RealTimeAlertConfiguration"`: The configuration settings for the real-time alerts in a
+  media insights pipeline configuration.
+- `"Tags"`: The tags assigned to the media insights pipeline configuration.
+"""
+function create_media_insights_pipeline_configuration(
+    Elements,
+    MediaInsightsPipelineConfigurationName,
+    ResourceAccessRoleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_media_pipelines(
+        "POST",
+        "/media-insights-pipeline-configurations",
+        Dict{String,Any}(
+            "Elements" => Elements,
+            "MediaInsightsPipelineConfigurationName" =>
+                MediaInsightsPipelineConfigurationName,
+            "ResourceAccessRoleArn" => ResourceAccessRoleArn,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_media_insights_pipeline_configuration(
+    Elements,
+    MediaInsightsPipelineConfigurationName,
+    ResourceAccessRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_media_pipelines(
+        "POST",
+        "/media-insights-pipeline-configurations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Elements" => Elements,
+                    "MediaInsightsPipelineConfigurationName" =>
+                        MediaInsightsPipelineConfigurationName,
+                    "ResourceAccessRoleArn" => ResourceAccessRoleArn,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_media_live_connector_pipeline(sinks, sources)
     create_media_live_connector_pipeline(sinks, sources, params::Dict{String,<:Any})
 
-Creates a streaming media pipeline in an Amazon Chime SDK meeting.
+Creates a media live connector pipeline in an Amazon Chime SDK meeting.
 
 # Arguments
-- `sinks`: The media pipeline's data sinks.
-- `sources`: The media pipeline's data sources.
+- `sinks`: The media live connector pipeline's data sinks.
+- `sources`: The media live connector pipeline's data sources.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: The token assigned to the client making the request.
-- `"Tags"`: The tags associated with the media pipeline.
+- `"Tags"`: The tags associated with the media live connector pipeline.
 """
 function create_media_live_connector_pipeline(
     Sinks, Sources; aws_config::AbstractAWSConfig=global_aws_config()
@@ -211,6 +343,41 @@ function delete_media_capture_pipeline(
     return chime_sdk_media_pipelines(
         "DELETE",
         "/sdk-media-capture-pipelines/$(mediaPipelineId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_media_insights_pipeline_configuration(identifier)
+    delete_media_insights_pipeline_configuration(identifier, params::Dict{String,<:Any})
+
+Deletes the specified configuration settings.
+
+# Arguments
+- `identifier`: The unique identifier of the resource to be deleted. Valid values include
+  the name and ARN of the media insights pipeline configuration.
+
+"""
+function delete_media_insights_pipeline_configuration(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_media_pipelines(
+        "DELETE",
+        "/media-insights-pipeline-configurations/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_media_insights_pipeline_configuration(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_media_pipelines(
+        "DELETE",
+        "/media-insights-pipeline-configurations/$(identifier)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -286,6 +453,41 @@ function get_media_capture_pipeline(
 end
 
 """
+    get_media_insights_pipeline_configuration(identifier)
+    get_media_insights_pipeline_configuration(identifier, params::Dict{String,<:Any})
+
+Gets the configuration settings for a media insights pipeline.
+
+# Arguments
+- `identifier`: The unique identifier of the requested resource. Valid values include the
+  name and ARN of the media insights pipeline configuration.
+
+"""
+function get_media_insights_pipeline_configuration(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_media_pipelines(
+        "GET",
+        "/media-insights-pipeline-configurations/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_media_insights_pipeline_configuration(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_media_pipelines(
+        "GET",
+        "/media-insights-pipeline-configurations/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_media_pipeline(media_pipeline_id)
     get_media_pipeline(media_pipeline_id, params::Dict{String,<:Any})
 
@@ -345,6 +547,39 @@ function list_media_capture_pipelines(
     return chime_sdk_media_pipelines(
         "GET",
         "/sdk-media-capture-pipelines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_media_insights_pipeline_configurations()
+    list_media_insights_pipeline_configurations(params::Dict{String,<:Any})
+
+Lists the available media insights pipeline configurations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of results to return in a single call.
+- `"next-token"`: The token used to return the next page of results.
+"""
+function list_media_insights_pipeline_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_media_pipelines(
+        "GET",
+        "/media-insights-pipeline-configurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_media_insights_pipeline_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_media_pipelines(
+        "GET",
+        "/media-insights-pipeline-configurations",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -419,7 +654,7 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-The ARN of the media pipeline that you want to tag. Consists of he pipeline's endpoint
+The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint
 region, resource ID, and pipeline ID.
 
 # Arguments
@@ -495,6 +730,105 @@ function untag_resource(
                 Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_media_insights_pipeline_configuration(elements, resource_access_role_arn, identifier)
+    update_media_insights_pipeline_configuration(elements, resource_access_role_arn, identifier, params::Dict{String,<:Any})
+
+Updates the media insights pipeline's configuration settings.
+
+# Arguments
+- `elements`: The elements in the request, such as a processor for Amazon Transcribe or a
+  sink for a Kinesis Data Stream..
+- `resource_access_role_arn`: The ARN of the role used by the service to access Amazon Web
+  Services resources.
+- `identifier`: The unique identifier for the resource to be updated. Valid values include
+  the name and ARN of the media insights pipeline configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RealTimeAlertConfiguration"`: The configuration settings for real-time alerts for the
+  media insights pipeline.
+"""
+function update_media_insights_pipeline_configuration(
+    Elements,
+    ResourceAccessRoleArn,
+    identifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_media_pipelines(
+        "PUT",
+        "/media-insights-pipeline-configurations/$(identifier)",
+        Dict{String,Any}(
+            "Elements" => Elements, "ResourceAccessRoleArn" => ResourceAccessRoleArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_media_insights_pipeline_configuration(
+    Elements,
+    ResourceAccessRoleArn,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_media_pipelines(
+        "PUT",
+        "/media-insights-pipeline-configurations/$(identifier)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Elements" => Elements, "ResourceAccessRoleArn" => ResourceAccessRoleArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_media_insights_pipeline_status(update_status, identifier)
+    update_media_insights_pipeline_status(update_status, identifier, params::Dict{String,<:Any})
+
+Updates the status of a media insights pipeline.
+
+# Arguments
+- `update_status`: The requested status of the media insights pipeline.
+- `identifier`: The unique identifier of the resource to be updated. Valid values include
+  the ID and ARN of the media insights pipeline.
+
+"""
+function update_media_insights_pipeline_status(
+    UpdateStatus, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_media_pipelines(
+        "PUT",
+        "/media-insights-pipeline-status/$(identifier)",
+        Dict{String,Any}("UpdateStatus" => UpdateStatus);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_media_insights_pipeline_status(
+    UpdateStatus,
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_media_pipelines(
+        "PUT",
+        "/media-insights-pipeline-status/$(identifier)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("UpdateStatus" => UpdateStatus), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

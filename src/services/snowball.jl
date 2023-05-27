@@ -104,8 +104,8 @@ function create_address(
 end
 
 """
-    create_cluster(address_id, job_type, resources, role_arn, shipping_option, snowball_type)
-    create_cluster(address_id, job_type, resources, role_arn, shipping_option, snowball_type, params::Dict{String,<:Any})
+    create_cluster(address_id, job_type, shipping_option, snowball_type)
+    create_cluster(address_id, job_type, shipping_option, snowball_type, params::Dict{String,<:Any})
 
 Creates an empty cluster. Each cluster supports five nodes. You use the CreateJob action
 separately to create the jobs for each of these nodes. The cluster does not ship until
@@ -119,10 +119,6 @@ these five node jobs have been created.
   Family Devices and Capacity) in the Snowcone User Guide or
   \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
-- `resources`: The resources associated with the cluster job. These resources include
-  Amazon S3 buckets and optional Lambda functions written in the Python language.
-- `role_arn`: The RoleARN that you want to associate with this cluster. RoleArn values are
-  created by using the CreateRole API action in Identity and Access Management (IAM).
 - `shipping_option`: The shipping speed for each node in this cluster. This speed doesn't
   dictate how soon you'll get each Snowball Edge device, rather it represents how quickly
   each device moves to its destination while in transit. Regional shipping speeds are as
@@ -150,11 +146,19 @@ these five node jobs have been created.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: An optional description of this specific cluster, for example
   Environmental Data Cluster-01.
+- `"ForceCreateJobs"`: Force to create cluster when user attempts to overprovision or
+  underprovision a cluster. A cluster is overprovisioned or underprovisioned if the initial
+  size of the cluster is more (overprovisioned) or less (underprovisioned) than what needed
+  to meet capacity requirement specified with OnDeviceServiceConfiguration.
 - `"ForwardingAddressId"`: The forwarding address ID for a cluster. This field is not
   supported in most regions.
+- `"InitialClusterSize"`: If provided, each job will be automatically created and
+  associated with the new cluster. If not provided, will be treated as 0.
 - `"KmsKeyARN"`: The KmsKeyARN value that you want to associate with this cluster.
   KmsKeyARN values are created by using the CreateKey API action in Key Management Service
   (KMS).
+- `"LongTermPricingIds"`: Lists long-term pricing id that will be used to associate with
+  jobs automatically created for the new cluster.
 - `"Notification"`: The Amazon Simple Notification Service (Amazon SNS) notification
   settings for this cluster.
 - `"OnDeviceServiceConfiguration"`: Specifies the service or services on the Snow Family
@@ -164,13 +168,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote
   management will automatically be available when the device arrives at your location.
   Otherwise, you need to use the Snowball Client to manage the device.
+- `"Resources"`: The resources associated with the cluster job. These resources include
+  Amazon S3 buckets and optional Lambda functions written in the Python language.
+- `"RoleARN"`: The RoleARN that you want to associate with this cluster. RoleArn values are
+  created by using the CreateRole API action in Identity and Access Management (IAM).
+- `"SnowballCapacityPreference"`: If your job is being created in one of the US regions,
+  you have the option of specifying what size Snow device you'd like for this job. In all
+  other regions, Snowballs come with 80 TB in storage capacity. For more information, see
+  \"https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html\" (Snow
+  Family Devices and Capacity) in the Snowcone User Guide or
+  \"https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html\"
+  (Snow Family Devices and Capacity) in the Snowcone User Guide.
 - `"TaxDocuments"`: The tax documents required in your Amazon Web Services Region.
 """
 function create_cluster(
     AddressId,
     JobType,
-    Resources,
-    RoleARN,
     ShippingOption,
     SnowballType;
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -180,8 +193,6 @@ function create_cluster(
         Dict{String,Any}(
             "AddressId" => AddressId,
             "JobType" => JobType,
-            "Resources" => Resources,
-            "RoleARN" => RoleARN,
             "ShippingOption" => ShippingOption,
             "SnowballType" => SnowballType,
         );
@@ -192,8 +203,6 @@ end
 function create_cluster(
     AddressId,
     JobType,
-    Resources,
-    RoleARN,
     ShippingOption,
     SnowballType,
     params::AbstractDict{String};
@@ -207,8 +216,6 @@ function create_cluster(
                 Dict{String,Any}(
                     "AddressId" => AddressId,
                     "JobType" => JobType,
-                    "Resources" => Resources,
-                    "RoleARN" => RoleARN,
                     "ShippingOption" => ShippingOption,
                     "SnowballType" => SnowballType,
                 ),
@@ -231,18 +238,20 @@ you only need to provide the clusterId value; the other job attributes are inher
 the cluster.   Only the Snowball; Edge device type is supported when ordering clustered
 jobs. The device capacity is optional. Availability of device types differ by Amazon Web
 Services Region. For more information about Region availability, see Amazon Web Services
-Regional Services.    Snow Family devices and their capacities.    Snow Family device type:
-SNC1_SSD    Capacity: T14   Description: Snowcone       Snow Family device type: SNC1_HDD
- Capacity: T8   Description: Snowcone       Device type: EDGE_S    Capacity: T98
-Description: Snowball Edge Storage Optimized for data transfer only       Device type:
-EDGE_CG    Capacity: T42   Description: Snowball Edge Compute Optimized with GPU
-Device type: EDGE_C    Capacity: T42   Description: Snowball Edge Compute Optimized without
-GPU      Device type: EDGE    Capacity: T100   Description: Snowball Edge Storage Optimized
-with EC2 Compute      Device type: STANDARD    Capacity: T50   Description: Original
-Snowball device  This device is only available in the Ningxia, Beijing, and Singapore
-Amazon Web Services Region        Device type: STANDARD    Capacity: T80   Description:
-Original Snowball device  This device is only available in the Ningxia, Beijing, and
-Singapore Amazon Web Services Region.
+Regional Services.    Snow Family devices and their capacities.    Device type: SNC1_SSD
+Capacity: T14   Description: Snowcone       Device type: SNC1_HDD    Capacity: T8
+Description: Snowcone       Device type: EDGE_S    Capacity: T98   Description: Snowball
+Edge Storage Optimized for data transfer only       Device type: EDGE_CG    Capacity: T42
+Description: Snowball Edge Compute Optimized with GPU      Device type: EDGE_C    Capacity:
+T42   Description: Snowball Edge Compute Optimized without GPU      Device type: EDGE
+Capacity: T100   Description: Snowball Edge Storage Optimized with EC2 Compute      Device
+type: STANDARD    Capacity: T50   Description: Original Snowball device  This device is
+only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region
+Device type: STANDARD    Capacity: T80   Description: Original Snowball device  This device
+is only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region.
+Device type: V3_5C    Capacity: T32   Description: Snowball Edge Compute Optimized without
+GPU      Device type: V3_5S    Capacity: T240   Description: Snowball Edge Storage
+Optimized 210TB
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -771,9 +780,11 @@ end
 
 This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that
 are owned by your Amazon Web Services accountthat would be supported for use on a Snow
-device. Currently, supported AMIs are based on the CentOS 7 (x86_64) - with Updates HVM,
-Ubuntu Server 14.04 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the
-Amazon Web Services Marketplace.
+device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS -
+Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services
+Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market,
+but still supported for use on devices through Amazon EC2 VM Import/Export and running
+locally in AMIs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

@@ -237,7 +237,7 @@ properties. For more information, see Querying aggregates in the IoT SiteWise Us
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of results to return for each paginated request. A
   result set is returned in the two cases, whichever occurs first.   The size of the result
-  set is less than 1 MB.   The number of data points in the result set is less than the value
+  set is equal to 1 MB.   The number of data points in the result set is equal to the value
   of maxResults. The maximum value of maxResults is 4000.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
@@ -273,7 +273,7 @@ current values in the IoT SiteWise User Guide.
 
 # Arguments
 - `entries`: The list of asset property value entries for the batch get request. You can
-  specify up to 16 entries per request.
+  specify up to 128 entries per request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -317,8 +317,8 @@ Querying historical values in the IoT SiteWise User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of results to return for each paginated request. A
   result set is returned in the two cases, whichever occurs first.   The size of the result
-  set is less than 1 MB.   The number of data points in the result set is less than the value
-  of maxResults. The maximum value of maxResults is 4000.
+  set is equal to 4 MB.   The number of data points in the result set is equal to the value
+  of maxResults. The maximum value of maxResults is 20000.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 """
 function batch_get_asset_property_value_history(
@@ -1855,8 +1855,10 @@ asset property's alias, see UpdateAssetProperty.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"assetId"`: The ID of the asset.
-- `"maxResults"`: The maximum number of results to return for each paginated request.
-  Default: 100
+- `"maxResults"`: The maximum number of results to return for each paginated request. A
+  result set is returned in the two cases, whichever occurs first.   The size of the result
+  set is equal to 1 MB.   The number of data points in the result set is equal to the value
+  of maxResults. The maximum value of maxResults is 250.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"propertyAlias"`: The alias that identifies the property, such as an OPC-UA server data
   stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information,
@@ -1965,8 +1967,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"assetId"`: The ID of the asset.
 - `"endDate"`: The inclusive end of the range from which to query historical data,
   expressed in seconds in Unix epoch time.
-- `"maxResults"`: The maximum number of results to return for each paginated request.
-  Default: 100
+- `"maxResults"`: The maximum number of results to return for each paginated request. A
+  result set is returned in the two cases, whichever occurs first.   The size of the result
+  set is equal to 4 MB.   The number of data points in the result set is equal to the value
+  of maxResults. The maximum value of maxResults is 20000.
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"propertyAlias"`: The alias that identifies the property, such as an OPC-UA server data
   stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information,

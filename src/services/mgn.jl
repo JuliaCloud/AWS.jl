@@ -1211,6 +1211,142 @@ function list_applications(
 end
 
 """
+    list_export_errors(export_id)
+    list_export_errors(export_id, params::Dict{String,<:Any})
+
+List export errors.
+
+# Arguments
+- `export_id`: List export errors request export id.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: List export errors request max results.
+- `"nextToken"`: List export errors request next token.
+"""
+function list_export_errors(exportID; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST",
+        "/ListExportErrors",
+        Dict{String,Any}("exportID" => exportID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_export_errors(
+    exportID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/ListExportErrors",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("exportID" => exportID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_exports()
+    list_exports(params::Dict{String,<:Any})
+
+List exports.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`:
+- `"maxResults"`: List export request max results.
+- `"nextToken"`: List export request next token.
+"""
+function list_exports(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST", "/ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_exports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/ListExports",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_import_errors(import_id)
+    list_import_errors(import_id, params::Dict{String,<:Any})
+
+List import errors.
+
+# Arguments
+- `import_id`: List import errors request import id.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: List import errors request max results.
+- `"nextToken"`: List import errors request next token.
+"""
+function list_import_errors(importID; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST",
+        "/ListImportErrors",
+        Dict{String,Any}("importID" => importID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_import_errors(
+    importID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/ListImportErrors",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("importID" => importID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_imports()
+    list_imports(params::Dict{String,<:Any})
+
+List imports.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: List imports request filters.
+- `"maxResults"`: List imports request max results.
+- `"nextToken"`: List imports request next token.
+"""
+function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST", "/ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_imports(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mgn(
+        "POST",
+        "/ListImports",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_source_server_actions(source_server_id)
     list_source_server_actions(source_server_id, params::Dict{String,<:Any})
 
@@ -1412,7 +1548,10 @@ Put source server post migration custom action.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"active"`: Source server post migration custom action active status.
+- `"category"`: Source server post migration custom action category.
+- `"description"`: Source server post migration custom action description.
 - `"documentVersion"`: Source server post migration custom action document version.
+- `"externalParameters"`: Source server post migration custom action external parameters.
 - `"mustSucceedForCutover"`: Source server post migration custom action must succeed for
   cutover.
 - `"parameters"`: Source server post migration custom action parameters.
@@ -1486,7 +1625,10 @@ Put template post migration custom action.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"active"`: Template post migration custom action active status.
+- `"category"`: Template post migration custom action category.
+- `"description"`: Template post migration custom action description.
 - `"documentVersion"`: Template post migration custom action document version.
+- `"externalParameters"`: Template post migration custom action external parameters.
 - `"mustSucceedForCutover"`: Template post migration custom action must succeed for cutover.
 - `"operatingSystem"`: Operating system eligible for this template post migration custom
   action.
@@ -1717,6 +1859,94 @@ function start_cutover(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("sourceServerIDs" => sourceServerIDs), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_export(s3_bucket, s3_key)
+    start_export(s3_bucket, s3_key, params::Dict{String,<:Any})
+
+Start export.
+
+# Arguments
+- `s3_bucket`: Start export request s3 bucket.
+- `s3_key`: Start export request s3key.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"s3BucketOwner"`: Start export request s3 bucket owner.
+"""
+function start_export(s3Bucket, s3Key; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST",
+        "/StartExport",
+        Dict{String,Any}("s3Bucket" => s3Bucket, "s3Key" => s3Key);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_export(
+    s3Bucket,
+    s3Key,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/StartExport",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("s3Bucket" => s3Bucket, "s3Key" => s3Key), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_import(s3_bucket_source)
+    start_import(s3_bucket_source, params::Dict{String,<:Any})
+
+Start import.
+
+# Arguments
+- `s3_bucket_source`: Start import request s3 bucket source.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Start import request client token.
+"""
+function start_import(s3BucketSource; aws_config::AbstractAWSConfig=global_aws_config())
+    return mgn(
+        "POST",
+        "/StartImport",
+        Dict{String,Any}(
+            "s3BucketSource" => s3BucketSource, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_import(
+    s3BucketSource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return mgn(
+        "POST",
+        "/StartImport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "s3BucketSource" => s3BucketSource, "clientToken" => string(uuid4())
+                ),
+                params,
             ),
         );
         aws_config=aws_config,

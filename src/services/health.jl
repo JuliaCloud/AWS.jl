@@ -62,13 +62,13 @@ end
 
 Returns a list of entities that have been affected by the specified events, based on the
 specified filter criteria. Entities can refer to individual customer resources, groups of
-customer resources, or any other construct, depending on the Amazon Web Services service.
-Events that have impact beyond that of the affected entities, or where the extent of impact
-is unknown, include at least one entity indicating this. At least one event ARN is
-required.    This API operation uses pagination. Specify the nextToken parameter in the
-next request to return more results.   This operation supports resource-level permissions.
-You can use this operation to allow or deny access to specific Health events. For more
-information, see Resource- and action-based conditions in the Health User Guide.
+customer resources, or any other construct, depending on the Amazon Web Service. Events
+that have impact beyond that of the affected entities, or where the extent of impact is
+unknown, include at least one entity indicating this. At least one event ARN is required.
+ This API operation uses pagination. Specify the nextToken parameter in the next request to
+return more results.   This operation supports resource-level permissions. You can use this
+operation to allow or deny access to specific Health events. For more information, see
+Resource- and action-based conditions in the Health User Guide.
 
 # Arguments
 - `filter`: Values to narrow the results returned. At least one event ARN is required.
@@ -112,8 +112,8 @@ end
 Returns a list of entities that have been affected by one or more events for one or more
 accounts in your organization in Organizations, based on the filter criteria. Entities can
 refer to individual customer resources, groups of customer resources, or any other
-construct, depending on the Amazon Web Services service. At least one event Amazon Resource
-Name (ARN) and account ID are required. Before you can call this operation, you must first
+construct, depending on the Amazon Web Service. At least one event Amazon Resource Name
+(ARN) and account ID are required. Before you can call this operation, you must first
 enable Health to work with Organizations. To do this, call the
 EnableHealthServiceAccessForOrganization operation from your organization's management
 account.    This API operation uses pagination. Specify the nextToken parameter in the next
@@ -367,10 +367,10 @@ end
 
 Returns the event types that meet the specified filter criteria. You can use this API
 operation to find information about the Health event, such as the category, Amazon Web
-Services service, and event code. The metadata for each event appears in the EventType
-object.  If you don't specify a filter criteria, the API operation returns all event types,
-in no particular order.   This API operation uses pagination. Specify the nextToken
-parameter in the next request to return more results.
+Service, and event code. The metadata for each event appears in the EventType object.  If
+you don't specify a filter criteria, the API operation returns all event types, in no
+particular order.   This API operation uses pagination. Specify the nextToken parameter in
+the next request to return more results.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -378,7 +378,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"locale"`: The locale (language) to return information in. English (en) is the default
   and the only supported value at this time.
 - `"maxResults"`: The maximum number of items to return in one batch, between 10 and 100,
-  inclusive.
+  inclusive.  If you don't specify the maxResults parameter, this operation returns a maximum
+  of 30 items by default.
 - `"nextToken"`: If the results of a search are large, only a portion of the results are
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
@@ -493,8 +494,7 @@ end
     describe_health_service_status_for_organization(params::Dict{String,<:Any})
 
 This operation provides status information on enabling or disabling Health to work with
-your organization. To call this operation, you must sign in as an IAM user, assume an IAM
-role, or sign in as the root user (not recommended) in the organization's management
+your organization. To call this operation, you must use the organization's management
 account.
 
 """
@@ -523,17 +523,16 @@ end
     disable_health_service_access_for_organization(params::Dict{String,<:Any})
 
 Disables Health from working with Organizations. To call this operation, you must sign in
-as an Identity and Access Management (IAM) user, assume an IAM role, or sign in as the root
-user (not recommended) in the organization's management account. For more information, see
-Aggregating Health events in the Health User Guide. This operation doesn't remove the
-service-linked role from the management account in your organization. You must use the IAM
-console, API, or Command Line Interface (CLI) to remove the service-linked role. For more
-information, see Deleting a Service-Linked Role in the IAM User Guide.  You can also
-disable the organizational feature by using the Organizations DisableAWSServiceAccess API
-operation. After you call this operation, Health stops aggregating events for all other
-Amazon Web Services accounts in your organization. If you call the Health API operations
-for organizational view, Health returns an error. Health continues to aggregate health
-events for your Amazon Web Services account.
+to the organization's management account. For more information, see Aggregating Health
+events in the Health User Guide. This operation doesn't remove the service-linked role from
+the management account in your organization. You must use the IAM console, API, or Command
+Line Interface (CLI) to remove the service-linked role. For more information, see Deleting
+a Service-Linked Role in the IAM User Guide.  You can also disable the organizational
+feature by using the Organizations DisableAWSServiceAccess API operation. After you call
+this operation, Health stops aggregating events for all other Amazon Web Services accounts
+in your organization. If you call the Health API operations for organizational view, Health
+returns an error. Health continues to aggregate health events for your Amazon Web Services
+account.
 
 """
 function disable_health_service_access_for_organization(;

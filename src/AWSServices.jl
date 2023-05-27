@@ -335,7 +335,7 @@ const inspector2 = AWS.RestJSONService("inspector2", "inspector2", "2020-06-08")
 const internetmonitor = AWS.RestJSONService(
     "internetmonitor", "internetmonitor", "2021-06-03"
 )
-const iot = AWS.RestJSONService("execute-api", "iot", "2015-05-28")
+const iot = AWS.RestJSONService("iot", "iot", "2015-05-28")
 const iot_1click_devices_service = AWS.RestJSONService(
     "iot1click", "devices.iot1click", "2018-05-14"
 )
@@ -367,6 +367,7 @@ const iotthingsgraph = AWS.JSONService(
 )
 const iottwinmaker = AWS.RestJSONService("iottwinmaker", "iottwinmaker", "2021-11-29")
 const ivs = AWS.RestJSONService("ivs", "ivs", "2020-07-14")
+const ivs_realtime = AWS.RestJSONService("ivs", "ivsrealtime", "2020-07-14")
 const ivschat = AWS.RestJSONService("ivschat", "ivschat", "2020-07-14")
 const kafka = AWS.RestJSONService("kafka", "kafka", "2018-11-14")
 const kafkaconnect = AWS.RestJSONService("kafkaconnect", "kafkaconnect", "2021-09-14")
@@ -472,6 +473,7 @@ const mediapackage = AWS.RestJSONService("mediapackage", "mediapackage", "2017-1
 const mediapackage_vod = AWS.RestJSONService(
     "mediapackage-vod", "mediapackage-vod", "2018-11-07"
 )
+const mediapackagev2 = AWS.RestJSONService("mediapackagev2", "mediapackagev2", "2022-12-25")
 const mediastore = AWS.JSONService(
     "mediastore", "mediastore", "2017-09-01", "1.1", "MediaStore_20170901"
 )
@@ -528,6 +530,7 @@ const opsworkscm = AWS.JSONService(
 const organizations = AWS.JSONService(
     "organizations", "organizations", "2016-11-28", "1.1", "AWSOrganizationsV20161128"
 )
+const osis = AWS.RestJSONService("osis", "osis", "2022-01-01")
 const outposts = AWS.RestJSONService("outposts", "outposts", "2019-12-03")
 const panorama = AWS.RestJSONService("panorama", "panorama", "2019-07-24")
 const personalize = AWS.JSONService(
@@ -715,6 +718,7 @@ const translate = AWS.JSONService(
     "translate", "translate", "2017-07-01", "1.1", "AWSShineFrontendService_20170701"
 )
 const voice_id = AWS.JSONService("voiceid", "voiceid", "2021-09-27", "1.0", "VoiceID")
+const vpc_lattice = AWS.RestJSONService("vpc-lattice", "vpc-lattice", "2022-11-30")
 const waf = AWS.JSONService("waf", "waf", "2015-08-24", "1.1", "AWSWAF_20150824")
 const waf_regional = AWS.JSONService(
     "waf-regional", "waf-regional", "2016-11-28", "1.1", "AWSWAF_Regional_20161128"

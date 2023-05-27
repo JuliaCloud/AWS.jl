@@ -13,8 +13,8 @@ worker. Used for custom actions only.
 
 # Arguments
 - `job_id`: The unique system-generated ID of the job for which you want to confirm receipt.
-- `nonce`: A system-generated random number that AWS CodePipeline uses to ensure that the
-  job is being worked on by only one job worker. Get this number from the response of the
+- `nonce`: A system-generated random number that CodePipeline uses to ensure that the job
+  is being worked on by only one job worker. Get this number from the response of the
   PollForJobs request that returned this job.
 
 """
@@ -52,8 +52,8 @@ Confirms a job worker has received the specified job. Used for partner actions o
 - `client_token`: The clientToken portion of the clientId and clientToken pair used to
   verify that the calling entity is allowed access to the job and its details.
 - `job_id`: The unique system-generated ID of the job.
-- `nonce`: A system-generated random number that AWS CodePipeline uses to ensure that the
-  job is being worked on by only one job worker. Get this number from the response to a
+- `nonce`: A system-generated random number that CodePipeline uses to ensure that the job
+  is being worked on by only one job worker. Get this number from the response to a
   GetThirdPartyJobDetails request.
 
 """
@@ -94,8 +94,8 @@ end
     create_custom_action_type(category, input_artifact_details, output_artifact_details, provider, version)
     create_custom_action_type(category, input_artifact_details, output_artifact_details, provider, version, params::Dict{String,<:Any})
 
-Creates a new custom action that can be used in all pipelines associated with the AWS
-account. Only used for custom actions.
+Creates a new custom action that can be used in all pipelines associated with the Amazon
+Web Services account. Only used for custom actions.
 
 # Arguments
 - `category`: The category of the custom action, such as a build action or a test action.
@@ -103,7 +103,7 @@ account. Only used for custom actions.
   commit ID.
 - `output_artifact_details`: The details of the output artifact of the action, such as its
   commit ID.
-- `provider`: The provider of the service used in the custom action, such as AWS CodeDeploy.
+- `provider`: The provider of the service used in the custom action, such as CodeDeploy.
 - `version`: The version identifier of the custom action.
 
 # Optional Parameters
@@ -219,7 +219,7 @@ original string in the version field.
 # Arguments
 - `category`: The category of the custom action that you want to delete, such as source or
   deploy.
-- `provider`: The provider of the service used in the custom action, such as AWS CodeDeploy.
+- `provider`: The provider of the service used in the custom action, such as CodeDeploy.
 - `version`: The version of the custom action to delete.
 
 """
@@ -291,10 +291,10 @@ end
     delete_webhook(name)
     delete_webhook(name, params::Dict{String,<:Any})
 
-Deletes a previously created webhook by name. Deleting the webhook stops AWS CodePipeline
-from starting a pipeline every time an external event occurs. The API returns successfully
-when trying to delete a webhook that is already deleted. If a deleted webhook is re-created
-by calling PutWebhook with the same name, it will have a different URL.
+Deletes a previously created webhook by name. Deleting the webhook stops CodePipeline from
+starting a pipeline every time an external event occurs. The API returns successfully when
+trying to delete a webhook that is already deleted. If a deleted webhook is re-created by
+calling PutWebhook with the same name, it will have a different URL.
 
 # Arguments
 - `name`: The name of the webhook you want to delete.
@@ -539,8 +539,8 @@ end
     get_job_details(job_id, params::Dict{String,<:Any})
 
 Returns information about a job. Used for custom actions only.  When this API is called,
-AWS CodePipeline returns temporary credentials for the S3 bucket used to store artifacts
-for the pipeline, if the action requires access to that S3 bucket for input or output
+CodePipeline returns temporary credentials for the S3 bucket used to store artifacts for
+the pipeline, if the action requires access to that S3 bucket for input or output
 artifacts. This API also returns any secret values defined for the action.
 
 # Arguments
@@ -576,7 +576,7 @@ update the pipeline structure with UpdatePipeline.
 
 # Arguments
 - `name`: The name of the pipeline for which you want to get information. Pipeline names
-  must be unique under an AWS user account.
+  must be unique in an Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -686,10 +686,9 @@ end
     get_third_party_job_details(client_token, job_id, params::Dict{String,<:Any})
 
 Requests the details of a job for a third party action. Used for partner actions only.
-When this API is called, AWS CodePipeline returns temporary credentials for the S3 bucket
-used to store artifacts for the pipeline, if the action requires access to that S3 bucket
-for input or output artifacts. This API also returns any secret values defined for the
-action.
+When this API is called, CodePipeline returns temporary credentials for the S3 bucket used
+to store artifacts for the pipeline, if the action requires access to that S3 bucket for
+input or output artifacts. This API also returns any secret values defined for the action.
 
 # Arguments
 - `client_token`: The clientToken portion of the clientId and clientToken pair used to
@@ -777,7 +776,7 @@ end
     list_action_types()
     list_action_types(params::Dict{String,<:Any})
 
-Gets a summary of all AWS CodePipeline action types associated with your account.
+Gets a summary of all CodePipeline action types associated with your account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -916,8 +915,9 @@ end
     list_webhooks()
     list_webhooks(params::Dict{String,<:Any})
 
-Gets a listing of all the webhooks in this AWS Region for this account. The output lists
-all webhooks and includes the webhook URL and ARN and the configuration for each webhook.
+Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The
+output lists all webhooks and includes the webhook URL and ARN and the configuration for
+each webhook.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -943,13 +943,12 @@ end
     poll_for_jobs(action_type_id)
     poll_for_jobs(action_type_id, params::Dict{String,<:Any})
 
-Returns information about any jobs for AWS CodePipeline to act on. PollForJobs is valid
-only for action types with \"Custom\" in the owner field. If the action type contains
-\"AWS\" or \"ThirdParty\" in the owner field, the PollForJobs action returns an error.
-When this API is called, AWS CodePipeline returns temporary credentials for the S3 bucket
-used to store artifacts for the pipeline, if the action requires access to that S3 bucket
-for input or output artifacts. This API also returns any secret values defined for the
-action.
+Returns information about any jobs for CodePipeline to act on. PollForJobs is valid only
+for action types with \"Custom\" in the owner field. If the action type contains AWS or
+ThirdParty in the owner field, the PollForJobs action returns an error.  When this API is
+called, CodePipeline returns temporary credentials for the S3 bucket used to store
+artifacts for the pipeline, if the action requires access to that S3 bucket for input or
+output artifacts. This API also returns any secret values defined for the action.
 
 # Arguments
 - `action_type_id`: Represents information about an action type.
@@ -990,9 +989,9 @@ end
     poll_for_third_party_jobs(action_type_id, params::Dict{String,<:Any})
 
 Determines whether there are any third party jobs for a job worker to act on. Used for
-partner actions only.  When this API is called, AWS CodePipeline returns temporary
-credentials for the S3 bucket used to store artifacts for the pipeline, if the action
-requires access to that S3 bucket for input or output artifacts.
+partner actions only.  When this API is called, CodePipeline returns temporary credentials
+for the S3 bucket used to store artifacts for the pipeline, if the action requires access
+to that S3 bucket for input or output artifacts.
 
 # Arguments
 - `action_type_id`: Represents information about an action type.
@@ -1030,7 +1029,7 @@ end
     put_action_revision(action_name, action_revision, pipeline_name, stage_name)
     put_action_revision(action_name, action_revision, pipeline_name, stage_name, params::Dict{String,<:Any})
 
-Provides information to AWS CodePipeline about new revisions to a source.
+Provides information to CodePipeline about new revisions to a source.
 
 # Arguments
 - `action_name`: The name of the action that processes the revision.
@@ -1090,8 +1089,8 @@ end
     put_approval_result(action_name, pipeline_name, result, stage_name, token)
     put_approval_result(action_name, pipeline_name, result, stage_name, token, params::Dict{String,<:Any})
 
-Provides the response to a manual approval request to AWS CodePipeline. Valid responses
-include Approved and Rejected.
+Provides the response to a manual approval request to CodePipeline. Valid responses include
+Approved and Rejected.
 
 # Arguments
 - `action_name`: The name of the action for which approval is requested.
@@ -1209,11 +1208,11 @@ custom actions only.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"continuationToken"`: A token generated by a job worker, such as an AWS CodeDeploy
-  deployment ID, that a successful job provides to identify a custom action in progress.
-  Future jobs use this token to identify the running instance of the action. It can be reused
-  to return more information about the progress of the custom action. When the action is
-  complete, no continuation token should be supplied.
+- `"continuationToken"`: A token generated by a job worker, such as a CodeDeploy deployment
+  ID, that a successful job provides to identify a custom action in progress. Future jobs use
+  this token to identify the running instance of the action. It can be reused to return more
+  information about the progress of the custom action. When the action is complete, no
+  continuation token should be supplied.
 - `"currentRevision"`: The ID of the current revision of the artifact successfully worked
   on by the job.
 - `"executionDetails"`: The execution details of the successful job, such as the actions
@@ -1310,11 +1309,11 @@ Used for partner actions only.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"continuationToken"`: A token generated by a job worker, such as an AWS CodeDeploy
-  deployment ID, that a successful job provides to identify a partner action in progress.
-  Future jobs use this token to identify the running instance of the action. It can be reused
-  to return more information about the progress of the partner action. When the action is
-  complete, no continuation token should be supplied.
+- `"continuationToken"`: A token generated by a job worker, such as a CodeDeploy deployment
+  ID, that a successful job provides to identify a partner action in progress. Future jobs
+  use this token to identify the running instance of the action. It can be reused to return
+  more information about the progress of the partner action. When the action is complete, no
+  continuation token should be supplied.
 - `"currentRevision"`: Represents information about a current revision.
 - `"executionDetails"`: The details of the actions taken and results produced on an
   artifact as it passes through stages in the pipeline.
@@ -1627,7 +1626,7 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from an AWS resource.
+Removes tags from an Amazon Web Services resource.
 
 # Arguments
 - `resource_arn`:  The Amazon Resource Name (ARN) of the resource to remove tags from.

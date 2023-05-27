@@ -501,16 +501,17 @@ end
     create_auto_mljob(auto_mljob_name, input_data_config, output_data_config, role_arn, params::Dict{String,<:Any})
 
 Creates an Autopilot job. Find the best-performing model after you run an Autopilot job by
-calling . For information about how to use Autopilot, see Automate Model Development with
-Amazon SageMaker Autopilot.
+calling DescribeAutoMLJob. For information about how to use Autopilot, see Automate Model
+Development with Amazon SageMaker Autopilot.
 
 # Arguments
 - `auto_mljob_name`: Identifies an Autopilot job. The name must be unique to your account
   and is case insensitive.
 - `input_data_config`: An array of channel objects that describes the input data and its
-  location. Each channel is a named input source. Similar to InputDataConfig supported by .
-  Format(s) supported: CSV, Parquet. A minimum of 500 rows is required for the training
-  dataset. There is not a minimum number of rows required for the validation dataset.
+  location. Each channel is a named input source. Similar to InputDataConfig supported by
+  HyperParameterTrainingJobDefinition. Format(s) supported: CSV, Parquet. A minimum of 500
+  rows is required for the training dataset. There is not a minimum number of rows required
+  for the validation dataset.
 - `output_data_config`: Provides information about encryption and the Amazon S3 output path
   needed to store artifacts from an AutoML job. Format(s) supported: CSV.
 - `role_arn`: The ARN of the role that is used to access the data.
@@ -520,15 +521,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoMLJobConfig"`: A collection of settings used to configure an AutoML job.
 - `"AutoMLJobObjective"`: Defines the objective metric used to measure the predictive
   quality of an AutoML job. You provide an AutoMLJobObjectiveMetricName and Autopilot infers
-  whether to minimize or maximize it.
+  whether to minimize or maximize it. For CreateAutoMLJobV2, only Accuracy is supported.
 - `"GenerateCandidateDefinitionsOnly"`: Generates possible candidates without training the
   models. A candidate is a combination of data preprocessors, algorithms, and algorithm
   parameter settings.
 - `"ModelDeployConfig"`: Specifies how to generate the endpoint name for an automatic
   one-click Autopilot model deployment.
-- `"ProblemType"`: Defines the type of supervised learning available for the candidates.
-  For more information, see  Amazon SageMaker Autopilot problem types and algorithm support.
-- `"Tags"`: Each tag consists of a key and an optional value. Tag keys must be unique per
+- `"ProblemType"`: Defines the type of supervised learning problem available for the
+  candidates. For more information, see  Amazon SageMaker Autopilot problem types.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, for example, by purpose, owner, or environment. For
+  more information, see Tagging Amazon Web ServicesResources. Tag keys must be unique per
   resource.
 """
 function create_auto_mljob(
@@ -566,6 +569,98 @@ function create_auto_mljob(
                 Dict{String,Any}(
                     "AutoMLJobName" => AutoMLJobName,
                     "InputDataConfig" => InputDataConfig,
+                    "OutputDataConfig" => OutputDataConfig,
+                    "RoleArn" => RoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_auto_mljob_v2(auto_mljob_input_data_config, auto_mljob_name, auto_mlproblem_type_config, output_data_config, role_arn)
+    create_auto_mljob_v2(auto_mljob_input_data_config, auto_mljob_name, auto_mlproblem_type_config, output_data_config, role_arn, params::Dict{String,<:Any})
+
+Creates an Amazon SageMaker AutoML job that uses non-tabular data such as images or text
+for Computer Vision or Natural Language Processing problems. Find the resulting model after
+you run an AutoML job V2 by calling DescribeAutoMLJobV2. To create an AutoMLJob using
+tabular data, see CreateAutoMLJob.  This API action is callable through SageMaker Canvas
+only. Calling it directly from the CLI or an SDK results in an error.
+
+# Arguments
+- `auto_mljob_input_data_config`: An array of channel objects describing the input data and
+  their location. Each channel is a named input source. Similar to InputDataConfig supported
+  by CreateAutoMLJob. The supported formats depend on the problem type:
+  ImageClassification: S3Prefix, ManifestFile, AugmentedManifestFile    TextClassification:
+  S3Prefix
+- `auto_mljob_name`: Identifies an Autopilot job. The name must be unique to your account
+  and is case insensitive.
+- `auto_mlproblem_type_config`: Defines the configuration settings of one of the supported
+  problem types.
+- `output_data_config`: Provides information about encryption and the Amazon S3 output path
+  needed to store artifacts from an AutoML job.
+- `role_arn`: The ARN of the role that is used to access the data.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AutoMLJobObjective"`: Specifies a metric to minimize or maximize as the objective of a
+  job. For CreateAutoMLJobV2, only Accuracy is supported.
+- `"DataSplitConfig"`: This structure specifies how to split the data into train and
+  validation datasets. If you are using the V1 API (for example CreateAutoMLJob) or the V2
+  API for Natural Language Processing problems (for example CreateAutoMLJobV2 with a
+  TextClassificationJobConfig problem type), the validation and training datasets must
+  contain the same headers. Also, for V1 API jobs, the validation dataset must be less than 2
+  GB in size.
+- `"ModelDeployConfig"`: Specifies how to generate the endpoint name for an automatic
+  one-click Autopilot model deployment.
+- `"SecurityConfig"`: The security configuration for traffic encryption or Amazon VPC
+  settings.
+- `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
+  Services resources in different ways, such as by purpose, owner, or environment. For more
+  information, see Tagging Amazon Web ServicesResources. Tag keys must be unique per resource.
+"""
+function create_auto_mljob_v2(
+    AutoMLJobInputDataConfig,
+    AutoMLJobName,
+    AutoMLProblemTypeConfig,
+    OutputDataConfig,
+    RoleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "CreateAutoMLJobV2",
+        Dict{String,Any}(
+            "AutoMLJobInputDataConfig" => AutoMLJobInputDataConfig,
+            "AutoMLJobName" => AutoMLJobName,
+            "AutoMLProblemTypeConfig" => AutoMLProblemTypeConfig,
+            "OutputDataConfig" => OutputDataConfig,
+            "RoleArn" => RoleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_auto_mljob_v2(
+    AutoMLJobInputDataConfig,
+    AutoMLJobName,
+    AutoMLProblemTypeConfig,
+    OutputDataConfig,
+    RoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "CreateAutoMLJobV2",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutoMLJobInputDataConfig" => AutoMLJobInputDataConfig,
+                    "AutoMLJobName" => AutoMLJobName,
+                    "AutoMLProblemTypeConfig" => AutoMLProblemTypeConfig,
                     "OutputDataConfig" => OutputDataConfig,
                     "RoleArn" => RoleArn,
                 ),
@@ -970,7 +1065,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AppSecurityGroupManagement"`: The entity that creates and manages the required security
   groups for inter-app communication in VPCOnly mode. Required when
   CreateDomain.AppNetworkAccessType is VPCOnly and
-  DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided.
+  DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided. If
+  setting up the domain for use with RStudio, this value must be set to Service.
 - `"DefaultSpaceSettings"`: The default settings used to create a space.
 - `"DomainSettings"`: A collection of Domain settings.
 - `"HomeEfsFileSystemKmsKeyId"`: Use KmsKeyId.
@@ -1265,7 +1361,7 @@ information, see SageMaker API Permissions: Actions, Permissions, and Resources 
   CreateEndpointConfig.
 - `endpoint_name`: The name of the endpoint.The name must be unique within an Amazon Web
   Services Region in your Amazon Web Services account. The name is case-insensitive in
-  CreateEndpoint, but the case is preserved and must be matched in .
+  CreateEndpoint, but the case is preserved and must be matched in InvokeEndpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1519,9 +1615,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   store table. Supported formats are Glue (Default) and Apache Iceberg.   To learn more about
   this parameter, see OfflineStoreConfig.
 - `"OnlineStoreConfig"`: You can turn the OnlineStore on or off by specifying True for the
-  EnableOnlineStore flag in OnlineStoreConfig; the default value is False. You can also
-  include an Amazon Web Services KMS key ID (KMSKeyId) for at-rest encryption of the
-  OnlineStore.
+  EnableOnlineStore flag in OnlineStoreConfig. You can also include an Amazon Web Services
+  KMS key ID (KMSKeyId) for at-rest encryption of the OnlineStore. The default value is False.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM execution role used to persist
   data into the OfflineStore if an OfflineStoreConfig is provided.
 - `"Tags"`: Tags used to identify Features in each FeatureGroup.
@@ -1770,6 +1865,17 @@ job request and return an exception error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Autotune"`: Configures SageMaker Automatic model tuning (AMT) to automatically find
+  optimal parameters for the following fields:    ParameterRanges: The names and ranges of
+  parameters that a hyperparameter tuning job can optimize.    ResourceLimits: The maximum
+  resources that can be used for a training job. These resources include the maximum number
+  of training jobs, the maximum runtime of a tuning job, and the maximum number of training
+  jobs to run at the same time.    TrainingJobEarlyStoppingType: A flag that specifies
+  whether or not to use early stopping for training jobs launched by a hyperparameter tuning
+  job.    RetryStrategy: The number of times to retry a training job.    Strategy: Specifies
+  how hyperparameter tuning chooses the combinations of hyperparameter values to use for the
+  training jobs that it launches.    ConvergenceDetected: A flag to indicate that Automatic
+  model tuning (AMT) has detected model convergence.
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
   Services resources in different ways, for example, by purpose, owner, or environment. For
   more information, see Tagging Amazon Web Services Resources. Tags that you specify for the
@@ -2076,7 +2182,10 @@ job.
 - `input_config`: Provides information about the versioned model package Amazon Resource
   Name (ARN), the traffic pattern, and endpoint configurations.
 - `job_name`: A name for the recommendation job. The name must be unique within the Amazon
-  Web Services Region and within your Amazon Web Services account.
+  Web Services Region and within your Amazon Web Services account. The job name is passed
+  down to the resources created by the recommendation job. The names of resources (such as
+  the model, endpoint configuration, endpoint, and compilation) that are prefixed with the
+  job name are truncated at 40 characters.
 - `job_type`: Defines the type of recommendation job. Specify Default to initiate an
   instance recommendation and Advanced to initiate a load test. If left unspecified, Amazon
   SageMaker Inference Recommender will run an instance recommendation (DEFAULT) job.
@@ -3658,7 +3767,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RecordIO format.  Depending on the input mode that the algorithm supports, SageMaker either
   copies input data files from an S3 bucket to a local directory in the Docker container, or
   makes it available as input streams. For example, if you specify an EFS location, input
-  data files are available as input streams. They do not need to be downloaded.
+  data files are available as input streams. They do not need to be downloaded. Your input
+  must be in the same Amazon Web Services region as your training job.
 - `"ProfilerConfig"`:
 - `"ProfilerRuleConfigurations"`: Configuration information for Amazon SageMaker Debugger
   rules for profiling system and framework metrics.
@@ -4036,10 +4146,10 @@ Use this operation to create a workforce. This operation will return an error if
 workforce already exists in the Amazon Web Services Region that you specify. You can only
 create one workforce in each Amazon Web Services Region per Amazon Web Services account. If
 you want to create a new workforce in an Amazon Web Services Region where a workforce
-already exists, use the API operation to delete the existing workforce and then use
-CreateWorkforce to create a new workforce. To create a private workforce using Amazon
-Cognito, you must specify a Cognito user pool in CognitoConfig. You can also create an
-Amazon Cognito workforce using the Amazon SageMaker console. For more information, see
+already exists, use the DeleteWorkforce API operation to delete the existing workforce and
+then use CreateWorkforce to create a new workforce. To create a private workforce using
+Amazon Cognito, you must specify a Cognito user pool in CognitoConfig. You can also create
+an Amazon Cognito workforce using the Amazon SageMaker console. For more information, see
 Create a Private Workforce (Amazon Cognito). To create a private workforce using your own
 OIDC Identity Provider (IdP), specify your IdP configuration in OidcConfig. Your OIDC IdP
 must support groups because groups are used by Ground Truth and Amazon A2I to create work
@@ -4943,8 +5053,9 @@ end
     delete_human_task_ui(human_task_ui_name, params::Dict{String,<:Any})
 
 Use this operation to delete a human task user interface (worker task template).  To see a
-list of human task user interfaces (work task templates) in your account, use . When you
-delete a worker task template, it no longer appears when you call ListHumanTaskUis.
+list of human task user interfaces (work task templates) in your account, use
+ListHumanTaskUis. When you delete a worker task template, it no longer appears when you
+call ListHumanTaskUis.
 
 # Arguments
 - `human_task_ui_name`: The name of the human task user interface (work task template) you
@@ -5841,10 +5952,10 @@ end
 
 Use this operation to delete a workforce. If you want to create a new workforce in an
 Amazon Web Services Region where a workforce already exists, use this operation to delete
-the existing workforce and then use to create a new workforce.  If a private workforce
-contains one or more work teams, you must use the operation to delete all work teams before
-you delete the workforce. If you try to delete a workforce that contains one or more work
-teams, you will recieve a ResourceInUse error.
+the existing workforce and then use CreateWorkforce to create a new workforce.  If a
+private workforce contains one or more work teams, you must use the DeleteWorkteam
+operation to delete all work teams before you delete the workforce. If you try to delete a
+workforce that contains one or more work teams, you will recieve a ResourceInUse error.
 
 # Arguments
 - `workforce_name`: The name of the workforce.
@@ -6169,6 +6280,43 @@ function describe_auto_mljob(
 )
     return sagemaker(
         "DescribeAutoMLJob",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AutoMLJobName" => AutoMLJobName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_auto_mljob_v2(auto_mljob_name)
+    describe_auto_mljob_v2(auto_mljob_name, params::Dict{String,<:Any})
+
+Returns information about an Amazon SageMaker AutoML V2 job.  This API action is callable
+through SageMaker Canvas only. Calling it directly from the CLI or an SDK results in an
+error.
+
+# Arguments
+- `auto_mljob_name`: Requests information about an AutoML V2 job using its unique name.
+
+"""
+function describe_auto_mljob_v2(
+    AutoMLJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "DescribeAutoMLJobV2",
+        Dict{String,Any}("AutoMLJobName" => AutoMLJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_auto_mljob_v2(
+    AutoMLJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DescribeAutoMLJobV2",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AutoMLJobName" => AutoMLJobName), params)
         );
@@ -6881,7 +7029,9 @@ end
     describe_hyper_parameter_tuning_job(hyper_parameter_tuning_job_name)
     describe_hyper_parameter_tuning_job(hyper_parameter_tuning_job_name, params::Dict{String,<:Any})
 
-Gets a description of a hyperparameter tuning job.
+Returns a description of a hyperparameter tuning job, depending on the fields selected.
+These fields can include the name, Amazon Resource Name (ARN), job status of your tuning
+job and more.
 
 # Arguments
 - `hyper_parameter_tuning_job_name`: The name of the tuning job.
@@ -8887,7 +9037,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field by which to sort results. The default is CreationTime.
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 - `"StatusEquals"`: A filter that retrieves model compilation jobs with a specific
-  DescribeCompilationJobResponseCompilationJobStatus status.
+  CompilationJobStatus status.
 """
 function list_compilation_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return sagemaker(
@@ -9663,9 +9813,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The column by which to sort the listed inference experiments.
 - `"SortOrder"`: The direction of sorting (ascending or descending).
 - `"StatusEquals"`:  Selects inference experiments which are in this status. For the
-  possible statuses, see DescribeInferenceExperimentResponseStatus.
+  possible statuses, see DescribeInferenceExperiment.
 - `"Type"`:  Selects inference experiments of this type. For the possible types of
-  inference experiments, see CreateInferenceExperimentRequestType.
+  inference experiments, see CreateInferenceExperiment.
 """
 function list_inference_experiments(; aws_config::AbstractAWSConfig=global_aws_config())
     return sagemaker(
@@ -9741,6 +9891,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LastModifiedTimeBefore"`: A filter that returns only jobs that were last modified
   before the specified time (timestamp).
 - `"MaxResults"`: The maximum number of recommendations to return in the response.
+- `"ModelNameEquals"`: A filter that returns only jobs that were created for this model.
+- `"ModelPackageVersionArnEquals"`: A filter that returns only jobs that were created for
+  this versioned model package.
 - `"NameContains"`: A string in the job name. This filter returns only recommendations
   whose name contains the specified string.
 - `"NextToken"`: If the response to a previous ListInferenceRecommendationsJobsRequest
@@ -11960,8 +12113,8 @@ end
 Stops a model compilation job.  To stop a job, Amazon SageMaker sends the algorithm the
 SIGTERM signal. This gracefully shuts the job down. If the job hasn't stopped, it sends the
 SIGKILL signal. When it receives a StopCompilationJob request, Amazon SageMaker changes the
-CompilationJobSummaryCompilationJobStatus of the job to Stopping. After Amazon SageMaker
-stops the job, it sets the CompilationJobSummaryCompilationJobStatus to Stopped.
+CompilationJobStatus of the job to Stopping. After Amazon SageMaker stops the job, it sets
+the CompilationJobStatus to Stopped.
 
 # Arguments
 - `compilation_job_name`: The name of the model compilation job to stop.
@@ -12822,7 +12975,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AppSecurityGroupManagement"`: The entity that creates and manages the required security
   groups for inter-app communication in VPCOnly mode. Required when
   CreateDomain.AppNetworkAccessType is VPCOnly and
-  DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided.
+  DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided. If
+  setting up the domain for use with RStudio, this value must be set to Service.
 - `"DefaultSpaceSettings"`: The default settings used to create a space within the Domain.
 - `"DefaultUserSettings"`: A collection of settings.
 - `"DomainSettingsForUpdate"`: A collection of DomainSettings configuration values to
@@ -12875,10 +13029,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeploymentConfig"`: The deployment configuration for an endpoint, which contains the
   desired deployment strategy and rollback configurations.
 - `"ExcludeRetainedVariantProperties"`: When you are updating endpoint resources with
-  UpdateEndpointInputRetainAllVariantProperties, whose value is set to true,
-  ExcludeRetainedVariantProperties specifies the list of type VariantProperty to override
-  with the values provided by EndpointConfig. If you don't specify a value for
-  ExcludeRetainedVariantProperties, no variant properties are overridden.
+  RetainAllVariantProperties, whose value is set to true, ExcludeRetainedVariantProperties
+  specifies the list of type VariantProperty to override with the values provided by
+  EndpointConfig. If you don't specify a value for ExcludeRetainedVariantProperties, no
+  variant properties are overridden.
 - `"RetainAllVariantProperties"`: When updating endpoint resources, enables or disables the
   retention of variant properties, such as the instance count or the variant weight. To
   retain the variant properties of an endpoint when updating it, set
@@ -13250,7 +13404,7 @@ end
 
  Updates an inference experiment that you created. The status of the inference experiment
 has to be either Created, Running. For more information on the status of an inference
-experiment, see DescribeInferenceExperimentResponseStatus.
+experiment, see DescribeInferenceExperiment.
 
 # Arguments
 - `name`: The name of the inference experiment to be updated.
@@ -14024,14 +14178,14 @@ restrict access to all the workers in public internet, add the SourceIpConfig CI
 \"10.0.0.0/16\".  Amazon SageMaker does not support Source Ip restriction for worker
 portals in VPC.  Use OidcConfig to update the configuration of a workforce created using
 your own OIDC IdP.   You can only update your OIDC IdP configuration when there are no work
-teams associated with your workforce. You can delete work teams using the operation.  After
-restricting access to a range of IP addresses or updating your OIDC IdP configuration with
-this operation, you can view details about your update workforce using the operation.  This
-operation only applies to private workforces.
+teams associated with your workforce. You can delete work teams using the DeleteWorkteam
+operation.  After restricting access to a range of IP addresses or updating your OIDC IdP
+configuration with this operation, you can view details about your update workforce using
+the DescribeWorkforce operation.  This operation only applies to private workforces.
 
 # Arguments
 - `workforce_name`: The name of the private workforce that you want to update. You can find
-  your workforce name by using the operation.
+  your workforce name by using the ListWorkforces operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

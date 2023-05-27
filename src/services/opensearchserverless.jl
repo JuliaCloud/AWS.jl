@@ -182,7 +182,8 @@ SAML authentication for Amazon OpenSearch Serverless.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Unique, case-sensitive identifier to ensure idempotency of the request.
 - `"description"`: A description of the security configuration.
-- `"samlOptions"`: Describes SAML options in in the form of a key-value map.
+- `"samlOptions"`: Describes SAML options in in the form of a key-value map. This field is
+  required if you specify saml for the type parameter.
 """
 function create_security_config(
     name, type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -709,7 +710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If your initial ListAccessPolicies operation returns a nextToken, you can
   include the returned nextToken in subsequent ListAccessPolicies operations, which returns
   results in the next page.
-- `"resource"`: Resource filters (can be collection or indexes) that policies can apply to.
+- `"resource"`: Resource filters (can be collections or indexes) that policies can apply to.
 """
 function list_access_policies(type; aws_config::AbstractAWSConfig=global_aws_config())
     return opensearchserverless(
@@ -1056,7 +1057,7 @@ end
     update_account_settings(params::Dict{String,<:Any})
 
 Update the OpenSearch Serverless settings for the current Amazon Web Services account. For
-more information, see Autoscaling.
+more information, see Managing capacity limits for Amazon OpenSearch Serverless.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

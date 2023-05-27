@@ -230,6 +230,7 @@ Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The client token for the created component.
 - `"description"`: An optional customer-provided description of the component.
 - `"environmentName"`: The name of the Proton environment that you want to associate this
   component with. You must specify this when you don't specify serviceInstanceName and
@@ -252,7 +253,10 @@ function create_component(
     return proton(
         "CreateComponent",
         Dict{String,Any}(
-            "manifest" => manifest, "name" => name, "templateFile" => templateFile
+            "manifest" => manifest,
+            "name" => name,
+            "templateFile" => templateFile,
+            "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -271,7 +275,10 @@ function create_component(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "manifest" => manifest, "name" => name, "templateFile" => templateFile
+                    "manifest" => manifest,
+                    "name" => name,
+                    "templateFile" => templateFile,
+                    "clientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -705,6 +712,133 @@ function create_service(
                     "spec" => spec,
                     "templateMajorVersion" => templateMajorVersion,
                     "templateName" => templateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_service_instance(name, service_name, spec)
+    create_service_instance(name, service_name, spec, params::Dict{String,<:Any})
+
+Create a service instance.
+
+# Arguments
+- `name`: The name of the service instance to create.
+- `service_name`: The name of the service the service instance is added to.
+- `spec`: The spec for the service instance you want to create.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The client token of the service instance to create.
+- `"tags"`: An optional list of metadata items that you can associate with the Proton
+  service instance. A tag is a key-value pair. For more information, see Proton resources and
+  tagging in the Proton User Guide.
+- `"templateMajorVersion"`: To create a new major and minor version of the service
+  template, exclude major Version.
+- `"templateMinorVersion"`: To create a new minor version of the service template, include
+  a major Version.
+"""
+function create_service_instance(
+    name, serviceName, spec; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "CreateServiceInstance",
+        Dict{String,Any}(
+            "name" => name,
+            "serviceName" => serviceName,
+            "spec" => spec,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_service_instance(
+    name,
+    serviceName,
+    spec,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateServiceInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "serviceName" => serviceName,
+                    "spec" => spec,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_service_sync_config(branch, file_path, repository_name, repository_provider, service_name)
+    create_service_sync_config(branch, file_path, repository_name, repository_provider, service_name, params::Dict{String,<:Any})
+
+Create the Proton Ops configuration file.
+
+# Arguments
+- `branch`: The repository branch for your Proton Ops file.
+- `file_path`: The path to the Proton Ops file.
+- `repository_name`: The repository name.
+- `repository_provider`: The provider type for your repository.
+- `service_name`: The name of the service the Proton Ops file is for.
+
+"""
+function create_service_sync_config(
+    branch,
+    filePath,
+    repositoryName,
+    repositoryProvider,
+    serviceName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateServiceSyncConfig",
+        Dict{String,Any}(
+            "branch" => branch,
+            "filePath" => filePath,
+            "repositoryName" => repositoryName,
+            "repositoryProvider" => repositoryProvider,
+            "serviceName" => serviceName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_service_sync_config(
+    branch,
+    filePath,
+    repositoryName,
+    repositoryProvider,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "CreateServiceSyncConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "branch" => branch,
+                    "filePath" => filePath,
+                    "repositoryName" => repositoryName,
+                    "repositoryProvider" => repositoryProvider,
+                    "serviceName" => serviceName,
                 ),
                 params,
             ),
@@ -1169,6 +1303,42 @@ function delete_service(
 end
 
 """
+    delete_service_sync_config(service_name)
+    delete_service_sync_config(service_name, params::Dict{String,<:Any})
+
+Delete the Proton Ops file.
+
+# Arguments
+- `service_name`: The name of the service that you want to delete the service sync
+  configuration for.
+
+"""
+function delete_service_sync_config(
+    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "DeleteServiceSyncConfig",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_service_sync_config(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "DeleteServiceSyncConfig",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_service_template(name)
     delete_service_template(name, params::Dict{String,<:Any})
 
@@ -1611,11 +1781,11 @@ stale when it's behind the recommended version of the Proton template that it us
 needs an update to become current. The action returns staleness counts (counts of resources
 that are up-to-date, behind a template major version, or behind a template minor version),
 the total number of resources, and the number of resources that are in a failed state,
-grouped by resource type. Components, environments, and service templates are
-exceptions—see the components, environments, and serviceTemplates field descriptions. For
-context, the action also returns the total number of each type of Proton template in the
-Amazon Web Services account. For more information, see Proton dashboard in the Proton User
-Guide.
+grouped by resource type. Components, environments, and service templates return less
+information - see the components, environments, and serviceTemplates field descriptions.
+For context, the action also returns the total number of each type of Proton template in
+the Amazon Web Services account. For more information, see Proton dashboard in the Proton
+User Guide.
 
 """
 function get_resources_summary(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1672,7 +1842,7 @@ template and it runs in a specific environment.
 
 # Arguments
 - `name`: The name of a service instance that you want to get the detailed data for.
-- `service_name`: The name of the service that the service instance belongs to.
+- `service_name`: The name of the service that you want the service instance input for.
 
 """
 function get_service_instance(
@@ -1699,6 +1869,130 @@ function get_service_instance(
                 Dict{String,Any}("name" => name, "serviceName" => serviceName),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_service_instance_sync_status(service_instance_name, service_name)
+    get_service_instance_sync_status(service_instance_name, service_name, params::Dict{String,<:Any})
+
+Get the status of the synced service instance.
+
+# Arguments
+- `service_instance_name`: The name of the service instance that you want the sync status
+  input for.
+- `service_name`: The name of the service that the service instance belongs to.
+
+"""
+function get_service_instance_sync_status(
+    serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetServiceInstanceSyncStatus",
+        Dict{String,Any}(
+            "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_service_instance_sync_status(
+    serviceInstanceName,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "GetServiceInstanceSyncStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "serviceInstanceName" => serviceInstanceName,
+                    "serviceName" => serviceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_service_sync_blocker_summary(service_name)
+    get_service_sync_blocker_summary(service_name, params::Dict{String,<:Any})
+
+Get detailed data for the service sync blocker summary.
+
+# Arguments
+- `service_name`: The name of the service that you want to get the service sync blocker
+  summary for. If given only the service name, all instances are blocked.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"serviceInstanceName"`: The name of the service instance that you want to get the
+  service sync blocker summary for. If given bothe the instance name and the service name,
+  only the instance is blocked.
+"""
+function get_service_sync_blocker_summary(
+    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetServiceSyncBlockerSummary",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_service_sync_blocker_summary(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "GetServiceSyncBlockerSummary",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_service_sync_config(service_name)
+    get_service_sync_config(service_name, params::Dict{String,<:Any})
+
+Get detailed information for the service sync configuration.
+
+# Arguments
+- `service_name`: The name of the service that you want to get the service sync
+  configuration for.
+
+"""
+function get_service_sync_config(
+    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetServiceSyncConfig",
+        Dict{String,Any}("serviceName" => serviceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_service_sync_config(
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "GetServiceSyncConfig",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("serviceName" => serviceName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2889,6 +3183,7 @@ information about components, see Proton components in the Proton User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The client token for the updated component.
 - `"description"`: An optional customer-provided description of the component.
 - `"serviceInstanceName"`: The name of the service instance that you want to attach this
   component to. Don't specify to keep the component's current service instance attachment.
@@ -2910,7 +3205,11 @@ function update_component(
 )
     return proton(
         "UpdateComponent",
-        Dict{String,Any}("deploymentType" => deploymentType, "name" => name);
+        Dict{String,Any}(
+            "deploymentType" => deploymentType,
+            "name" => name,
+            "clientToken" => string(uuid4()),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2926,7 +3225,11 @@ function update_component(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("deploymentType" => deploymentType, "name" => name),
+                Dict{String,Any}(
+                    "deploymentType" => deploymentType,
+                    "name" => name,
+                    "clientToken" => string(uuid4()),
+                ),
                 params,
             ),
         );
@@ -3245,6 +3548,7 @@ For more information about components, see Proton components in the Proton User 
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The client token of the service instance to update.
 - `"spec"`: The formatted specification that defines the service instance update.
 - `"templateMajorVersion"`: The major version of the service template to update.
 - `"templateMinorVersion"`: The minor version of the service template to update.
@@ -3255,7 +3559,10 @@ function update_service_instance(
     return proton(
         "UpdateServiceInstance",
         Dict{String,Any}(
-            "deploymentType" => deploymentType, "name" => name, "serviceName" => serviceName
+            "deploymentType" => deploymentType,
+            "name" => name,
+            "serviceName" => serviceName,
+            "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3277,6 +3584,7 @@ function update_service_instance(
                     "deploymentType" => deploymentType,
                     "name" => name,
                     "serviceName" => serviceName,
+                    "clientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -3354,6 +3662,112 @@ function update_service_pipeline(
                     "deploymentType" => deploymentType,
                     "serviceName" => serviceName,
                     "spec" => spec,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_service_sync_blocker(id, resolved_reason)
+    update_service_sync_blocker(id, resolved_reason, params::Dict{String,<:Any})
+
+Update the service sync blocker by resolving it.
+
+# Arguments
+- `id`: The ID of the service sync blocker.
+- `resolved_reason`: The reason the service sync blocker was resolved.
+
+"""
+function update_service_sync_blocker(
+    id, resolvedReason; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "UpdateServiceSyncBlocker",
+        Dict{String,Any}("id" => id, "resolvedReason" => resolvedReason);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_service_sync_blocker(
+    id,
+    resolvedReason,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateServiceSyncBlocker",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("id" => id, "resolvedReason" => resolvedReason),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_service_sync_config(branch, file_path, repository_name, repository_provider, service_name)
+    update_service_sync_config(branch, file_path, repository_name, repository_provider, service_name, params::Dict{String,<:Any})
+
+Update the Proton Ops config file.
+
+# Arguments
+- `branch`: The name of the code repository branch where the Proton Ops file is found.
+- `file_path`: The path to the Proton Ops file.
+- `repository_name`: The name of the repository where the Proton Ops file is found.
+- `repository_provider`: The name of the repository provider where the Proton Ops file is
+  found.
+- `service_name`: The name of the service the Proton Ops file is for.
+
+"""
+function update_service_sync_config(
+    branch,
+    filePath,
+    repositoryName,
+    repositoryProvider,
+    serviceName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateServiceSyncConfig",
+        Dict{String,Any}(
+            "branch" => branch,
+            "filePath" => filePath,
+            "repositoryName" => repositoryName,
+            "repositoryProvider" => repositoryProvider,
+            "serviceName" => serviceName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_service_sync_config(
+    branch,
+    filePath,
+    repositoryName,
+    repositoryProvider,
+    serviceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return proton(
+        "UpdateServiceSyncConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "branch" => branch,
+                    "filePath" => filePath,
+                    "repositoryName" => repositoryName,
+                    "repositoryProvider" => repositoryProvider,
+                    "serviceName" => serviceName,
                 ),
                 params,
             ),

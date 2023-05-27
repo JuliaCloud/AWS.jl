@@ -93,7 +93,8 @@ Participant Service APIs do not use Signature Version 4 authentication.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConnectParticipant"`: Amazon Connect Participant is used to mark the participant as
-  connected for message streaming.
+  connected for customer participant in message streaming, as well as for agent or manager
+  participant in non-streaming chats.
 - `"Type"`: Type of connection information required. This can be omitted if
   ConnectParticipant is true.
 """
@@ -368,9 +369,11 @@ ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signat
 # Arguments
 - `content`: The content of the message.    For text/plain and text/markdown, the Length
   Constraints are Minimum of 1, Maximum of 1024.    For application/json, the Length
-  Constraints are Minimum of 1, Maximum of 12000.
+  Constraints are Minimum of 1, Maximum of 12000.    For
+  application/vnd.amazonaws.connect.message.interactive.response, the Length Constraints are
+  Minimum of 1, Maximum of 12288.
 - `content_type`: The type of the content. Supported types are text/plain, text/markdown,
-  and application/json.
+  application/json, and application/vnd.amazonaws.connect.message.interactive.response.
 - `x-_amz-_bearer`: The authentication token associated with the connection.
 
 # Optional Parameters

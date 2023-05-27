@@ -8,10 +8,11 @@ using AWS.UUIDs
     cancel_job(job_id, reason)
     cancel_job(job_id, reason, params::Dict{String,<:Any})
 
-Cancels a job in an Batch job queue. Jobs that are in the SUBMITTED, PENDING, or RUNNABLE
-state are canceled. Jobs that progressed to the STARTING or RUNNING state aren't canceled.
-However, the API operation still succeeds, even if no job is canceled. These jobs must be
-terminated with the TerminateJob operation.
+Cancels a job in an Batch job queue. Jobs that are in the SUBMITTED or PENDING are
+canceled. A job inRUNNABLE remains in RUNNABLE until it reaches the head of the job queue.
+Then the job status is updated to FAILED. Jobs that progressed to the STARTING or RUNNING
+state aren't canceled. However, the API operation still succeeds, even if no job is
+canceled. These jobs must be terminated with the TerminateJob operation.
 
 # Arguments
 - `job_id`: The Batch job ID of the job to cancel.
@@ -138,8 +139,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment is managed, then it can scale its instances out or in automatically, based on
   the job queue demand. If the state is DISABLED, then the Batch scheduler doesn't attempt to
   place jobs within the environment. Jobs in a STARTING or RUNNING state continue to progress
-  normally. Managed compute environments in the DISABLED state don't scale out. However, they
-  scale in to minvCpus value after instances become idle.
+  normally. Managed compute environments in the DISABLED state don't scale out.   Compute
+  environments in a DISABLED state may continue to incur billing charges. To prevent
+  additional charges, turn off and then delete the compute environment. For more information,
+  see State in the Batch User Guide.  When an instance is idle, the instance scales down to
+  the minvCpus value. However, the instance size doesn't change. For example, consider a
+  c5.8xlarge instance with a minvCpus value of 4 and a desiredvCpus value of 36. This
+  instance doesn't scale down to a c5.large instance.
 - `"tags"`: The tags that you apply to the compute environment to help you categorize and
   organize your resources. Each tag consists of a key and an optional value. For more
   information, see Tagging Amazon Web Services Resources in Amazon Web Services General
@@ -938,9 +944,12 @@ resources can't be guaranteed to run for more than 14 days. This is because, aft
 Fargate resources might become unavailable and job might be terminated.
 
 # Arguments
-- `job_definition`: The job definition used by this job. This value can be one of name,
-  name:revision, or the Amazon Resource Name (ARN) for the job definition. If name is
-  specified without a revision then the latest active revision is used.
+- `job_definition`: The job definition used by this job. This value can be one of
+  definition-name, definition-name:revision, or the Amazon Resource Name (ARN) for the job
+  definition, with or without the revision
+  (arn:aws:batch:region:account:job-definition/definition-name:revision , or
+  arn:aws:batch:region:account:job-definition/definition-name ). If the revision is not
+  specified, then the latest active revision is used.
 - `job_name`: The name of the job. It can be up to 128 letters long. The first character
   must be alphanumeric, can contain uppercase and lowercase letters, numbers, hyphens (-),
   and underscores (_).
@@ -1205,7 +1214,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in automatically, based on the job queue demand. If the state is DISABLED, then the Batch
   scheduler doesn't attempt to place jobs within the environment. Jobs in a STARTING or
   RUNNING state continue to progress normally. Managed compute environments in the DISABLED
-  state don't scale out. However, they scale in to minvCpus value after instances become idle.
+  state don't scale out.   Compute environments in a DISABLED state may continue to incur
+  billing charges. To prevent additional charges, turn off and then delete the compute
+  environment. For more information, see State in the Batch User Guide.  When an instance is
+  idle, the instance scales down to the minvCpus value. However, the instance size doesn't
+  change. For example, consider a c5.8xlarge instance with a minvCpus value of 4 and a
+  desiredvCpus value of 36. This instance doesn't scale down to a c5.large instance.
 - `"unmanagedvCpus"`: The maximum number of vCPUs expected to be used for an unmanaged
   compute environment. Don't specify this parameter for a managed compute environment. This
   parameter is only used for fair share scheduling to reserve vCPU capacity for new share

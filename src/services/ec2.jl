@@ -500,7 +500,8 @@ end
 
 Allocate a CIDR from an IPAM pool. In IPAM, an allocation is a CIDR assignment from an IPAM
 pool to another IPAM pool or to a resource. For more information, see Allocate CIDRs in the
-Amazon VPC IPAM User Guide.
+Amazon VPC IPAM User Guide.  This action creates an allocation with strong consistency. The
+returned CIDR will not overlap with any other allocations from the same pool.
 
 # Arguments
 - `ipam_pool_id`: The ID of the IPAM pool from which you would like to allocate a CIDR.
@@ -1823,14 +1824,12 @@ end
     attach_verified_access_trust_provider(verified_access_instance_id, verified_access_trust_provider_id)
     attach_verified_access_trust_provider(verified_access_instance_id, verified_access_trust_provider_id, params::Dict{String,<:Any})
 
-A trust provider is a third-party entity that creates, maintains, and manages identity
-information for users and devices. One or more trust providers can be attached to an Amazon
-Web Services Verified Access instance.
+Attaches the specified Amazon Web Services Verified Access trust provider to the specified
+Amazon Web Services Verified Access instance.
 
 # Arguments
-- `verified_access_instance_id`: The ID of the Amazon Web Services Verified Access instance.
-- `verified_access_trust_provider_id`: The ID of the Amazon Web Services Verified Access
-  trust provider.
+- `verified_access_instance_id`: The ID of the Verified Access instance.
+- `verified_access_trust_provider_id`: The ID of the Verified Access trust provider.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2644,7 +2643,7 @@ Cancels one or more Spot Instance requests.  Canceling a Spot Instance request d
 terminate running Spot Instances associated with the request.
 
 # Arguments
-- `spot_instance_request_id`: One or more Spot Instance request IDs.
+- `spot_instance_request_id`: The IDs of the Spot Instance requests.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5159,46 +5158,45 @@ function create_network_insights_access_scope(
 end
 
 """
-    create_network_insights_path(client_token, destination, protocol, source)
-    create_network_insights_path(client_token, destination, protocol, source, params::Dict{String,<:Any})
+    create_network_insights_path(client_token, protocol, source)
+    create_network_insights_path(client_token, protocol, source, params::Dict{String,<:Any})
 
 Creates a path to analyze for reachability. Reachability Analyzer enables you to analyze
 and debug network reachability between two resources in your virtual private cloud (VPC).
-For more information, see What is Reachability Analyzer.
+For more information, see the Reachability Analyzer Guide.
 
 # Arguments
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see How to ensure idempotency.
-- `destination`: The Amazon Web Services resource that is the destination of the path.
 - `protocol`: The protocol.
-- `source`: The Amazon Web Services resource that is the source of the path.
+- `source`: The ID or ARN of the source. If the resource is in another account, you must
+  specify an ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DestinationIp"`: The IP address of the Amazon Web Services resource that is the
-  destination of the path.
+- `"Destination"`: The ID or ARN of the destination. If the resource is in another account,
+  you must specify an ARN.
+- `"DestinationIp"`: The IP address of the destination.
 - `"DestinationPort"`: The destination port.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"SourceIp"`: The IP address of the Amazon Web Services resource that is the source of
-  the path.
+- `"FilterAtDestination"`: Scopes the analysis to network paths that match specific filters
+  at the destination. If you specify this parameter, you can't specify the parameter for the
+  destination IP address.
+- `"FilterAtSource"`: Scopes the analysis to network paths that match specific filters at
+  the source. If you specify this parameter, you can't specify the parameters for the source
+  IP address or the destination port.
+- `"SourceIp"`: The IP address of the source.
 - `"TagSpecification"`: The tags to add to the path.
 """
 function create_network_insights_path(
-    ClientToken,
-    Destination,
-    Protocol,
-    Source;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ClientToken, Protocol, Source; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ec2(
         "CreateNetworkInsightsPath",
         Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "Destination" => Destination,
-            "Protocol" => Protocol,
-            "Source" => Source,
+            "ClientToken" => ClientToken, "Protocol" => Protocol, "Source" => Source
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5206,7 +5204,6 @@ function create_network_insights_path(
 end
 function create_network_insights_path(
     ClientToken,
-    Destination,
     Protocol,
     Source,
     params::AbstractDict{String};
@@ -5218,10 +5215,7 @@ function create_network_insights_path(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "ClientToken" => ClientToken,
-                    "Destination" => Destination,
-                    "Protocol" => Protocol,
-                    "Source" => Source,
+                    "ClientToken" => ClientToken, "Protocol" => Protocol, "Source" => Source
                 ),
                 params,
             ),
@@ -5787,9 +5781,9 @@ EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VP
 Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
-- `group_description`: A description for the security group. This is informational only.
-  Constraints: Up to 255 characters in length Constraints for EC2-Classic: ASCII characters
-  Constraints for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!*
+- `group_description`: A description for the security group. Constraints: Up to 255
+  characters in length Constraints for EC2-Classic: ASCII characters Constraints for EC2-VPC:
+  a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!*
 - `group_name`: The name of the security group. Constraints: Up to 255 characters in
   length. Cannot start with sg-. Constraints for EC2-Classic: ASCII characters Constraints
   for EC2-VPC: a-z, A-Z, 0-9, spaces, and ._-:/()#,@[]+=&amp;;{}!*
@@ -5853,14 +5847,14 @@ on the volume long enough to take a snapshot, your snapshot should be complete. 
 you cannot pause all file writes to the volume, you should unmount the volume from within
 the instance, issue the snapshot command, and then remount the volume to ensure a
 consistent and complete snapshot. You may remount and use your volume while the snapshot
-status is pending. To create a snapshot for Amazon EBS volumes that serve as root devices,
-you should stop the instance before taking the snapshot. Snapshots that are taken from
-encrypted volumes are automatically encrypted. Volumes that are created from encrypted
-snapshots are also automatically encrypted. Your encrypted volumes and any associated
-snapshots always remain protected. You can tag your snapshots during creation. For more
-information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud User
-Guide. For more information, see Amazon Elastic Block Store and Amazon EBS encryption in
-the Amazon Elastic Compute Cloud User Guide.
+status is pending. When you create a snapshot for an EBS volume that serves as a root
+device, we recommend that you stop the instance before taking the snapshot. Snapshots that
+are taken from encrypted volumes are automatically encrypted. Volumes that are created from
+encrypted snapshots are also automatically encrypted. Your encrypted volumes and any
+associated snapshots always remain protected. You can tag your snapshots during creation.
+For more information, see Tag your Amazon EC2 resources in the Amazon Elastic Compute Cloud
+User Guide. For more information, see Amazon Elastic Block Store and Amazon EBS encryption
+in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `volume_id`: The ID of the Amazon EBS volume.
@@ -7127,13 +7121,13 @@ with an optional endpoint-level access policy.
 
 # Arguments
 - `application_domain`: The DNS name for users to reach your application.
-- `attachment_type`: The Amazon Web Services network component Verified Access attaches to.
+- `attachment_type`: The type of attachment.
 - `domain_certificate_arn`: The ARN of the public TLS/SSL certificate in Amazon Web
   Services Certificate Manager to associate with the endpoint. The CN in the certificate must
   match the DNS name your end users will use to reach your application.
-- `endpoint_domain_prefix`: A custom identifier that gets prepended to a DNS name that is
+- `endpoint_domain_prefix`: A custom identifier that is prepended to the DNS name that is
   generated for the endpoint.
-- `endpoint_type`: The type of Amazon Web Services Verified Access endpoint to create.
+- `endpoint_type`: The type of Verified Access endpoint to create.
 - `verified_access_group_id`: The ID of the Verified Access group to associate the endpoint
   with.
 
@@ -7141,19 +7135,18 @@ with an optional endpoint-level access policy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
   your modification request. For more information, see Ensuring Idempotency.
-- `"Description"`: A description for the Amazon Web Services Verified Access endpoint.
+- `"Description"`: A description for the Verified Access endpoint.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"LoadBalancerOptions"`: The load balancer details if creating the Amazon Web Services
-  Verified Access endpoint as load-balancertype.
-- `"NetworkInterfaceOptions"`: The network interface details if creating the Amazon Web
-  Services Verified Access endpoint as network-interfacetype.
-- `"PolicyDocument"`: The Amazon Web Services Verified Access policy document.
-- `"SecurityGroupId"`: The Amazon EC2 security groups to associate with the Amazon Web
-  Services Verified Access endpoint.
-- `"TagSpecification"`: The tags to assign to the Amazon Web Services Verified Access
+- `"LoadBalancerOptions"`: The load balancer details. This parameter is required if the
+  endpoint type is load-balancer.
+- `"NetworkInterfaceOptions"`: The network interface details. This parameter is required if
+  the endpoint type is network-interface.
+- `"PolicyDocument"`: The Verified Access policy document.
+- `"SecurityGroupId"`: The IDs of the security groups to associate with the Verified Access
   endpoint.
+- `"TagSpecification"`: The tags to assign to the Verified Access endpoint.
 """
 function create_verified_access_endpoint(
     ApplicationDomain,
@@ -7217,24 +7210,23 @@ end
 
 An Amazon Web Services Verified Access group is a collection of Amazon Web Services
 Verified Access endpoints who's associated applications have similar security requirements.
-Each instance within an Amazon Web Services Verified Access group shares an Amazon Web
-Services Verified Access policy. For example, you can group all Amazon Web Services
-Verified Access instances associated with “sales” applications together and use one
-common Amazon Web Services Verified Access policy.
+Each instance within a Verified Access group shares an Verified Access policy. For example,
+you can group all Verified Access instances associated with \"sales\" applications together
+and use one common Verified Access policy.
 
 # Arguments
-- `verified_access_instance_id`: The ID of the Amazon Web Services Verified Access instance.
+- `verified_access_instance_id`: The ID of the Verified Access instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
   your modification request. For more information, see Ensuring Idempotency.
-- `"Description"`: A description for the Amazon Web Services Verified Access group.
+- `"Description"`: A description for the Verified Access group.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"PolicyDocument"`: The Amazon Web Services Verified Access policy document.
-- `"TagSpecification"`: The tags to assign to the Amazon Web Services Verified Access group.
+- `"PolicyDocument"`: The Verified Access policy document.
+- `"TagSpecification"`: The tags to assign to the Verified Access group.
 """
 function create_verified_access_group(
     VerifiedAccessInstanceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -7282,12 +7274,11 @@ application requests and grants access only when your security requirements are 
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
   your modification request. For more information, see Ensuring Idempotency.
-- `"Description"`: A description for the Amazon Web Services Verified Access instance.
+- `"Description"`: A description for the Verified Access instance.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"TagSpecification"`: The tags to assign to the Amazon Web Services Verified Access
-  instance.
+- `"TagSpecification"`: The tags to assign to the Verified Access instance.
 """
 function create_verified_access_instance(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -7318,28 +7309,30 @@ end
 
 A trust provider is a third-party entity that creates, maintains, and manages identity
 information for users and devices. When an application request is made, the identity
-information sent by the trust provider will be evaluated by Amazon Web Services Verified
-Access, before allowing or denying the application request.
+information sent by the trust provider is evaluated by Verified Access before allowing or
+denying the application request.
 
 # Arguments
 - `policy_reference_name`: The identifier to be used when working with policy rules.
-- `trust_provider_type`: The type of trust provider can be either user or device-based.
+- `trust_provider_type`: The type of trust provider.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
   your modification request. For more information, see Ensuring Idempotency.
-- `"Description"`: A description for the Amazon Web Services Verified Access trust provider.
-- `"DeviceOptions"`: The options for device identity based trust providers.
-- `"DeviceTrustProviderType"`: The type of device-based trust provider.
+- `"Description"`: A description for the Verified Access trust provider.
+- `"DeviceOptions"`: The options for a device-based trust provider. This parameter is
+  required when the provider type is device.
+- `"DeviceTrustProviderType"`: The type of device-based trust provider. This parameter is
+  required when the provider type is device.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"OidcOptions"`: The OpenID Connect details for an oidc-type, user-identity based trust
-  provider.
-- `"TagSpecification"`: The tags to assign to the Amazon Web Services Verified Access trust
-  provider.
-- `"UserTrustProviderType"`: The type of user-based trust provider.
+- `"OidcOptions"`: The options for a OpenID Connect-compatible user-identity trust
+  provider. This parameter is required when the provider type is user.
+- `"TagSpecification"`: The tags to assign to the Verified Access trust provider.
+- `"UserTrustProviderType"`: The type of user-based trust provider. This parameter is
+  required when the provider type is user.
 """
 function create_verified_access_trust_provider(
     PolicyReferenceName,
@@ -10619,7 +10612,7 @@ end
 Delete an Amazon Web Services Verified Access endpoint.
 
 # Arguments
-- `verified_access_endpoint_id`: The ID of the Amazon Web Services Verified Access endpoint.
+- `verified_access_endpoint_id`: The ID of the Verified Access endpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -10671,7 +10664,7 @@ end
 Delete an Amazon Web Services Verified Access group.
 
 # Arguments
-- `verified_access_group_id`: The ID of the Amazon Web Services Verified Access group.
+- `verified_access_group_id`: The ID of the Verified Access group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -10723,7 +10716,7 @@ end
 Delete an Amazon Web Services Verified Access instance.
 
 # Arguments
-- `verified_access_instance_id`: The ID of the Amazon Web Services Verified Access instance.
+- `verified_access_instance_id`: The ID of the Verified Access instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -10775,8 +10768,7 @@ end
 Delete an Amazon Web Services Verified Access trust provider.
 
 # Arguments
-- `verified_access_trust_provider_id`: The ID of the Amazon Web Services Verified Access
-  trust provider.
+- `verified_access_trust_provider_id`: The ID of the Verified Access trust provider.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -13746,15 +13738,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: One or more filters. Filter names and values are case-sensitive.
-  auto-recovery-supported - Indicates whether auto recovery is supported (true | false).
-  bare-metal - Indicates whether it is a bare metal instance type (true | false).
-  burstable-performance-supported - Indicates whether it is a burstable performance instance
-  type (true | false).    current-generation - Indicates whether this instance type is the
-  latest generation instance type of an instance family (true | false).
-  ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance
-  for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops -
-  The baseline input/output storage operations per second for an EBS-optimized instance type.
-     ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput
+  auto-recovery-supported - Indicates whether Amazon CloudWatch action based recovery is
+  supported (true | false).    bare-metal - Indicates whether it is a bare metal instance
+  type (true | false).    burstable-performance-supported - Indicates whether it is a
+  burstable performance instance type (true | false).    current-generation - Indicates
+  whether this instance type is the latest generation instance type of an instance family
+  (true | false).    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline
+  bandwidth performance for an EBS-optimized instance type, in Mbps.
+  ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations
+  per second for an EBS-optimized instance type.
+  ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput
   performance for an EBS-optimized instance type, in MB/s.
   ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance
   for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops -
@@ -13860,37 +13853,36 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   detaching | detached).    block-device-mapping.volume-id - The volume ID of the EBS volume.
      capacity-reservation-id - The ID of the Capacity Reservation into which the instance was
   launched.    client-token - The idempotency token you provided when you launched the
-  instance.    dns-name - The public DNS name of the instance.    group-id - The ID of the
-  security group for the instance. EC2-Classic only.    group-name - The name of the security
-  group for the instance. EC2-Classic only.    hibernation-options.configured - A Boolean
-  that indicates whether the instance is enabled for hibernation. A value of true means that
-  the instance is enabled for hibernation.     host-id - The ID of the Dedicated Host on
-  which the instance is running, if applicable.    hypervisor - The hypervisor type of the
-  instance (ovm | xen). The value xen is used for both Xen and Nitro hypervisors.
-  iam-instance-profile.arn - The instance profile associated with the instance. Specified as
-  an ARN.    image-id - The ID of the image used to launch the instance.    instance-id - The
-  ID of the instance.    instance-lifecycle - Indicates whether this is a Spot Instance or a
-  Scheduled Instance (spot | scheduled).    instance-state-code - The state of the instance,
-  as a 16-bit unsigned integer. The high byte is used for internal purposes and should be
-  ignored. The low byte is set based on the state represented. The valid values are: 0
-  (pending), 16 (running), 32 (shutting-down), 48 (terminated), 64 (stopping), and 80
-  (stopped).    instance-state-name - The state of the instance (pending | running |
-  shutting-down | terminated | stopping | stopped).    instance-type - The type of instance
-  (for example, t2.micro).    instance.group-id - The ID of the security group for the
-  instance.     instance.group-name - The name of the security group for the instance.
-  ip-address - The public IPv4 address of the instance.    kernel-id - The kernel ID.
-  key-name - The name of the key pair used when the instance was launched.    launch-index -
-  When launching multiple instances, this is the index for the instance in the launch group
-  (for example, 0, 1, 2, and so on).     launch-time - The time when the instance was
-  launched, in the ISO 8601 format in the UTC time zone (YYYY-MM-DDThh:mm:ss.sssZ), for
-  example, 2021-09-29T11:04:43.305Z. You can use a wildcard (*), for example, 2021-09-29T*,
-  which matches an entire day.    metadata-options.http-tokens - The metadata request
-  authorization state (optional | required)    metadata-options.http-put-response-hop-limit -
-  The HTTP metadata request put response hop limit (integer, possible values 1 to 64)
-  metadata-options.http-endpoint - The status of access to the HTTP metadata endpoint on your
-  instance (enabled | disabled)    metadata-options.instance-metadata-tags - The status of
-  access to instance tags from the instance metadata (enabled | disabled)    monitoring-state
-  - Indicates whether detailed monitoring is enabled (disabled | enabled).
+  instance.    dns-name - The public DNS name of the instance.
+  hibernation-options.configured - A Boolean that indicates whether the instance is enabled
+  for hibernation. A value of true means that the instance is enabled for hibernation.
+  host-id - The ID of the Dedicated Host on which the instance is running, if applicable.
+  hypervisor - The hypervisor type of the instance (ovm | xen). The value xen is used for
+  both Xen and Nitro hypervisors.    iam-instance-profile.arn - The instance profile
+  associated with the instance. Specified as an ARN.    image-id - The ID of the image used
+  to launch the instance.    instance-id - The ID of the instance.    instance-lifecycle -
+  Indicates whether this is a Spot Instance or a Scheduled Instance (spot | scheduled).
+  instance-state-code - The state of the instance, as a 16-bit unsigned integer. The high
+  byte is used for internal purposes and should be ignored. The low byte is set based on the
+  state represented. The valid values are: 0 (pending), 16 (running), 32 (shutting-down), 48
+  (terminated), 64 (stopping), and 80 (stopped).    instance-state-name - The state of the
+  instance (pending | running | shutting-down | terminated | stopping | stopped).
+  instance-type - The type of instance (for example, t2.micro).    instance.group-id - The ID
+  of the security group for the instance.     instance.group-name - The name of the security
+  group for the instance.     ip-address - The public IPv4 address of the instance.
+  kernel-id - The kernel ID.    key-name - The name of the key pair used when the instance
+  was launched.    launch-index - When launching multiple instances, this is the index for
+  the instance in the launch group (for example, 0, 1, 2, and so on).     launch-time - The
+  time when the instance was launched, in the ISO 8601 format in the UTC time zone
+  (YYYY-MM-DDThh:mm:ss.sssZ), for example, 2021-09-29T11:04:43.305Z. You can use a wildcard
+  (*), for example, 2021-09-29T*, which matches an entire day.
+  metadata-options.http-tokens - The metadata request authorization state (optional |
+  required)    metadata-options.http-put-response-hop-limit - The HTTP metadata request put
+  response hop limit (integer, possible values 1 to 64)    metadata-options.http-endpoint -
+  The status of access to the HTTP metadata endpoint on your instance (enabled | disabled)
+  metadata-options.instance-metadata-tags - The status of access to instance tags from the
+  instance metadata (enabled | disabled)    monitoring-state - Indicates whether detailed
+  monitoring is enabled (disabled | enabled).
   network-interface.addresses.private-ip-address - The private IPv4 address associated with
   the network interface.    network-interface.addresses.primary - Specifies whether the IPv4
   address of the network interface is the primary private IPv4 address.
@@ -14940,8 +14932,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: The filters. The following are the possible values:   destination - The ID of
-  the resource.   destination-port - The destination port.   protocol - The protocol.
-  source - The ID of the resource.
+  the resource.   filter-at-source.source-address - The source IPv4 address at the source.
+  filter-at-source.source-port-range - The source port range at the source.
+  filter-at-source.destination-address - The destination IPv4 address at the source.
+  filter-at-source.destination-port-range - The destination port range at the source.
+  filter-at-destination.source-address - The source IPv4 address at the destination.
+  filter-at-destination.source-port-range - The source port range at the destination.
+  filter-at-destination.destination-address - The destination IPv4 address at the
+  destination.   filter-at-destination.destination-port-range - The destination port range at
+  the destination.   protocol - The protocol.   source - The ID of the resource.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NetworkInsightsPathId"`: The IDs of the paths.
@@ -15391,23 +15390,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   price of the Reserved Instance (for example, 9800.0).    instance-type - The instance type
   that is covered by the reservation.    scope - The scope of the Reserved Instance (Region
   or Availability Zone).    product-description - The Reserved Instance product platform
-  description. Instances that include (Amazon VPC) in the product platform description will
-  only be displayed to EC2-Classic account holders and are for use with Amazon VPC
-  (Linux/UNIX | Linux/UNIX (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat
-  Enterprise Linux | Red Hat Enterprise Linux (Amazon VPC) | Red Hat Enterprise Linux with HA
-  (Amazon VPC) | Windows | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows
-  with SQL Server Standard (Amazon VPC) | Windows with SQL Server Web | Windows with SQL
-  Server Web (Amazon VPC) | Windows with SQL Server Enterprise | Windows with SQL Server
-  Enterprise (Amazon VPC)).    reserved-instances-id - The ID of the Reserved Instance.
-  start - The time at which the Reserved Instance purchase request was placed (for example,
-  2014-08-07T11:54:42.000Z).    state - The state of the Reserved Instance (payment-pending |
-  active | payment-failed | retired).    tag:&lt;key&gt; - The key/value combination of a tag
-  assigned to the resource. Use the tag key in the filter name and the tag value as the
-  filter value. For example, to find all resources that have a tag with the key Owner and the
-  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
-  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
-  assigned a tag with a specific key, regardless of the tag value.    usage-price - The usage
-  price of the Reserved Instance, per hour (for example, 0.84).
+  description (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web |
+  Linux with SQL Server Enterprise | SUSE Linux | Red Hat Enterprise Linux | Red Hat
+  Enterprise Linux with HA | Windows | Windows with SQL Server Standard | Windows with SQL
+  Server Web | Windows with SQL Server Enterprise).    reserved-instances-id - The ID of the
+  Reserved Instance.    start - The time at which the Reserved Instance purchase request was
+  placed (for example, 2014-08-07T11:54:42.000Z).    state - The state of the Reserved
+  Instance (payment-pending | active | payment-failed | retired).    tag:&lt;key&gt; - The
+  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
+  and the tag value as the filter value. For example, to find all resources that have a tag
+  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
+  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
+  to find all resources assigned a tag with a specific key, regardless of the tag value.
+  usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).
 - `"OfferingClass"`: Describes whether the Reserved Instance is Standard or Convertible.
 - `"ReservedInstancesId"`: One or more Reserved Instance IDs. Default: Describes all your
   Reserved Instances, or only those otherwise specified.
@@ -15501,13 +15496,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The Availability Zone for the new Reserved Instances.
   modification-result.target-configuration.instance-count  - The number of new Reserved
   Instances.    modification-result.target-configuration.instance-type - The instance type of
-  the new Reserved Instances.    modification-result.target-configuration.platform - The
-  network platform of the new Reserved Instances (EC2-Classic | EC2-VPC).
-  reserved-instances-id - The ID of the Reserved Instances modified.
-  reserved-instances-modification-id - The ID of the modification request.    status - The
-  status of the Reserved Instances modification request (processing | fulfilled | failed).
-  status-message - The reason for the status.    update-date - The time when the modification
-  request was last updated.
+  the new Reserved Instances.    reserved-instances-id - The ID of the Reserved Instances
+  modified.    reserved-instances-modification-id - The ID of the modification request.
+  status - The status of the Reserved Instances modification request (processing | fulfilled
+  | failed).    status-message - The reason for the status.    update-date - The time when
+  the modification request was last updated.
 - `"ReservedInstancesModificationId"`: IDs for the submitted modification request.
 - `"nextToken"`: The token to retrieve the next page of results.
 """
@@ -15554,17 +15547,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance type that is covered by the reservation.    marketplace - Set to true to show only
   Reserved Instance Marketplace offerings. When this filter is not used, which is the default
   behavior, all offerings from both Amazon Web Services and the Reserved Instance Marketplace
-  are listed.    product-description - The Reserved Instance product platform description.
-  Instances that include (Amazon VPC) in the product platform description will only be
-  displayed to EC2-Classic account holders and are for use with Amazon VPC. (Linux/UNIX |
-  Linux/UNIX (Amazon VPC) | SUSE Linux | SUSE Linux (Amazon VPC) | Red Hat Enterprise Linux |
-  Red Hat Enterprise Linux (Amazon VPC) | Red Hat Enterprise Linux with HA (Amazon VPC) |
-  Windows | Windows (Amazon VPC) | Windows with SQL Server Standard | Windows with SQL Server
-  Standard (Amazon VPC) | Windows with SQL Server Web |  Windows with SQL Server Web (Amazon
-  VPC) | Windows with SQL Server Enterprise | Windows with SQL Server Enterprise (Amazon
-  VPC))     reserved-instances-offering-id - The Reserved Instances offering ID.    scope -
-  The scope of the Reserved Instance (Availability Zone or Region).    usage-price - The
-  usage price of the Reserved Instance, per hour (for example, 0.84).
+  are listed.    product-description - The Reserved Instance product platform description
+  (Linux/UNIX | Linux with SQL Server Standard | Linux with SQL Server Web | Linux with SQL
+  Server Enterprise | SUSE Linux | Red Hat Enterprise Linux | Red Hat Enterprise Linux with
+  HA | Windows | Windows with SQL Server Standard | Windows with SQL Server Web | Windows
+  with SQL Server Enterprise).    reserved-instances-offering-id - The Reserved Instances
+  offering ID.    scope - The scope of the Reserved Instance (Availability Zone or Region).
+   usage-price - The usage price of the Reserved Instance, per hour (for example, 0.84).
 - `"IncludeMarketplace"`: Include Reserved Instance Marketplace offerings in the response.
 - `"InstanceType"`: The instance type that the reservation will cover (for example,
   m1.small). For more information, see Instance types in the Amazon EC2 User Guide.
@@ -15702,9 +15691,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: The filters.    availability-zone - The Availability Zone (for example,
-  us-west-2a).    instance-type - The instance type (for example, c4.large).
-  network-platform - The network platform (EC2-Classic or EC2-VPC).    platform - The
-  platform (Linux/UNIX or Windows).
+  us-west-2a).    instance-type - The instance type (for example, c4.large).    platform -
+  The platform (Linux/UNIX or Windows).
 - `"MaxResults"`: The maximum number of results to return in a single call. This value can
   be between 5 and 300. The default value is 300. To retrieve the remaining results, make
   another call with the returned NextToken value.
@@ -15763,9 +15751,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
 - `"Filter"`: The filters.    availability-zone - The Availability Zone (for example,
-  us-west-2a).    instance-type - The instance type (for example, c4.large).
-  network-platform - The network platform (EC2-Classic or EC2-VPC).    platform - The
-  platform (Linux/UNIX or Windows).
+  us-west-2a).    instance-type - The instance type (for example, c4.large).    platform -
+  The platform (Linux/UNIX or Windows).
 - `"MaxResults"`: The maximum number of results to return in a single call. This value can
   be between 5 and 300. The default value is 100. To retrieve the remaining results, make
   another call with the returned NextToken value.
@@ -16307,11 +16294,11 @@ their instances are terminated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: One or more filters.    availability-zone-group - The Availability Zone
-  group.    create-time - The time stamp when the Spot Instance request was created.
-  fault-code - The fault code related to the request.    fault-message - The fault message
-  related to the request.    instance-id - The ID of the instance that fulfilled the request.
-     launch-group - The Spot Instance launch group.
+- `"Filter"`: The filters.    availability-zone-group - The Availability Zone group.
+  create-time - The time stamp when the Spot Instance request was created.    fault-code -
+  The fault code related to the request.    fault-message - The fault message related to the
+  request.    instance-id - The ID of the instance that fulfilled the request.
+  launch-group - The Spot Instance launch group.
   launch.block-device-mapping.delete-on-termination - Indicates whether the EBS volume is
   deleted on instance termination.    launch.block-device-mapping.device-name - The device
   name for the volume in the block device mapping (for example, /dev/sdh or xvdh).
@@ -16356,7 +16343,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Pagination.
 - `"NextToken"`: The token returned from a previous paginated request. Pagination continues
   from the end of the items returned by the previous request.
-- `"SpotInstanceRequestId"`: One or more Spot Instance request IDs.
+- `"SpotInstanceRequestId"`: The IDs of the Spot Instance requests.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -16393,15 +16380,15 @@ start time.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Filter"`: One or more filters.    availability-zone - The Availability Zone for which
-  prices should be returned.    instance-type - The type of instance (for example,
-  m3.medium).    product-description - The product description for the Spot price (Linux/UNIX
-  | Red Hat Enterprise Linux | SUSE Linux | Windows | Linux/UNIX (Amazon VPC) | Red Hat
-  Enterprise Linux (Amazon VPC) | SUSE Linux (Amazon VPC) | Windows (Amazon VPC)).
-  spot-price - The Spot price. The value must match exactly (or use wildcards; greater than
-  or less than comparison is not supported).    timestamp - The time stamp of the Spot price
-  history, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). You can use wildcards (* and
-  ?). Greater than or less than comparison is not supported.
+- `"Filter"`: The filters.    availability-zone - The Availability Zone for which prices
+  should be returned.    instance-type - The type of instance (for example, m3.medium).
+  product-description - The product description for the Spot price (Linux/UNIX | Red Hat
+  Enterprise Linux | SUSE Linux | Windows | Linux/UNIX (Amazon VPC) | Red Hat Enterprise
+  Linux (Amazon VPC) | SUSE Linux (Amazon VPC) | Windows (Amazon VPC)).    spot-price - The
+  Spot price. The value must match exactly (or use wildcards; greater than or less than
+  comparison is not supported).    timestamp - The time stamp of the Spot price history, in
+  UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). You can use wildcards (* and ?). Greater
+  than or less than comparison is not supported.
 - `"InstanceType"`: Filters the results by the specified instance types.
 - `"ProductDescription"`: Filters the results by the specified basic product descriptions.
 - `"availabilityZone"`: Filters the results by the specified Availability Zone.
@@ -17233,7 +17220,7 @@ end
     describe_verified_access_endpoints()
     describe_verified_access_endpoints(params::Dict{String,<:Any})
 
-Describe Amazon Web Services Verified Access endpoints.
+Describes the specified Amazon Web Services Verified Access endpoints.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -17244,9 +17231,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
-- `"VerifiedAccessEndpointId"`: The ID of the Amazon Web Services Verified Access endpoint.
-- `"VerifiedAccessGroupId"`: The ID of the Amazon Web Services Verified Access group.
-- `"VerifiedAccessInstanceId"`: The ID of the Amazon Web Services Verified Access instance.
+- `"VerifiedAccessEndpointId"`: The ID of the Verified Access endpoint.
+- `"VerifiedAccessGroupId"`: The ID of the Verified Access group.
+- `"VerifiedAccessInstanceId"`: The ID of the Verified Access instance.
 """
 function describe_verified_access_endpoints(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -17272,7 +17259,7 @@ end
     describe_verified_access_groups()
     describe_verified_access_groups(params::Dict{String,<:Any})
 
-Describe details of existing Verified Access groups.
+Describes the specified Verified Access groups.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -17283,8 +17270,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
-- `"VerifiedAccessGroupId"`: The ID of the Amazon Web Services Verified Access groups.
-- `"VerifiedAccessInstanceId"`: The ID of the Amazon Web Services Verified Access instance.
+- `"VerifiedAccessGroupId"`: The ID of the Verified Access groups.
+- `"VerifiedAccessInstanceId"`: The ID of the Verified Access instance.
 """
 function describe_verified_access_groups(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -17310,8 +17297,7 @@ end
     describe_verified_access_instance_logging_configurations()
     describe_verified_access_instance_logging_configurations(params::Dict{String,<:Any})
 
-Describes the current logging configuration for the Amazon Web Services Verified Access
-instances.
+Describes the specified Amazon Web Services Verified Access instances.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -17322,8 +17308,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
-- `"VerifiedAccessInstanceId"`: The IDs of the Amazon Web Services Verified Access
-  instances.
+- `"VerifiedAccessInstanceId"`: The IDs of the Verified Access instances.
 """
 function describe_verified_access_instance_logging_configurations(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -17349,7 +17334,7 @@ end
     describe_verified_access_instances()
     describe_verified_access_instances(params::Dict{String,<:Any})
 
-Describe Verified Access instances.
+Describes the specified Amazon Web Services Verified Access instances.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -17360,8 +17345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
-- `"VerifiedAccessInstanceId"`: The IDs of the Amazon Web Services Verified Access
-  instances.
+- `"VerifiedAccessInstanceId"`: The IDs of the Verified Access instances.
 """
 function describe_verified_access_instances(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -17387,7 +17371,7 @@ end
     describe_verified_access_trust_providers()
     describe_verified_access_trust_providers(params::Dict{String,<:Any})
 
-Describe details of existing Verified Access trust providers.
+Describes the specified Amazon Web Services Verified Access trust providers.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -17398,8 +17382,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
-- `"VerifiedAccessTrustProviderId"`: The IDs of the Amazon Web Services Verified Access
-  trust providers.
+- `"VerifiedAccessTrustProviderId"`: The IDs of the Verified Access trust providers.
 """
 function describe_verified_access_trust_providers(;
     aws_config::AbstractAWSConfig=global_aws_config()
@@ -18396,12 +18379,12 @@ end
     detach_verified_access_trust_provider(verified_access_instance_id, verified_access_trust_provider_id)
     detach_verified_access_trust_provider(verified_access_instance_id, verified_access_trust_provider_id, params::Dict{String,<:Any})
 
-Detach a trust provider from an Amazon Web Services Verified Access instance.
+Detaches the specified Amazon Web Services Verified Access trust provider from the
+specified Amazon Web Services Verified Access instance.
 
 # Arguments
-- `verified_access_instance_id`: The ID of the Amazon Web Services Verified Access instance.
-- `verified_access_trust_provider_id`: The ID of the Amazon Web Services Verified Access
-  trust provider.
+- `verified_access_instance_id`: The ID of the Verified Access instance.
+- `verified_access_trust_provider_id`: The ID of the Verified Access trust provider.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -21065,7 +21048,9 @@ end
 Lists the resource groups to which a Capacity Reservation has been added.
 
 # Arguments
-- `capacity_reservation_id`: The ID of the Capacity Reservation.
+- `capacity_reservation_id`: The ID of the Capacity Reservation. If you specify a Capacity
+  Reservation that is shared with you, the operation returns only Capacity Reservation groups
+  that you own.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -21456,7 +21441,9 @@ end
     get_ipam_pool_allocations(ipam_pool_id)
     get_ipam_pool_allocations(ipam_pool_id, params::Dict{String,<:Any})
 
-Get a list of all the CIDR allocations in an IPAM pool.
+Get a list of all the CIDR allocations in an IPAM pool.  If you use this action after
+AllocateIpamPoolCidr or ReleaseIpamPoolAllocation, note that all EC2 API actions follow an
+eventual consistency model.
 
 # Arguments
 - `ipam_pool_id`: The ID of the IPAM pool you want to see the allocations for.
@@ -22447,7 +22434,7 @@ end
 Get the Verified Access policy associated with the endpoint.
 
 # Arguments
-- `verified_access_endpoint_id`: The ID of the Amazon Web Services Verified Access endpoint.
+- `verified_access_endpoint_id`: The ID of the Verified Access endpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -22491,7 +22478,7 @@ end
 Shows the contents of the Verified Access policy associated with the group.
 
 # Arguments
-- `verified_access_group_id`: The ID of the Amazon Web Services Verified Access group.
+- `verified_access_group_id`: The ID of the Verified Access group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -22628,6 +22615,60 @@ function get_vpn_connection_device_types(
     return ec2(
         "GetVpnConnectionDeviceTypes",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_vpn_tunnel_replacement_status(vpn_connection_id, vpn_tunnel_outside_ip_address)
+    get_vpn_tunnel_replacement_status(vpn_connection_id, vpn_tunnel_outside_ip_address, params::Dict{String,<:Any})
+
+Get details of available tunnel endpoint maintenance.
+
+# Arguments
+- `vpn_connection_id`: The ID of the Site-to-Site VPN connection.
+- `vpn_tunnel_outside_ip_address`: The external IP address of the VPN tunnel.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function get_vpn_tunnel_replacement_status(
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetVpnTunnelReplacementStatus",
+        Dict{String,Any}(
+            "VpnConnectionId" => VpnConnectionId,
+            "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_vpn_tunnel_replacement_status(
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "GetVpnTunnelReplacementStatus",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpnConnectionId" => VpnConnectionId,
+                    "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -23832,8 +23873,8 @@ end
 
 Modifies the specified attribute of the specified instance. You can specify only one
 attribute at a time.  Note: Using this action to change the security groups associated with
-an elastic network interface (ENI) attached to an instance in a VPC can result in an error
-if the instance has more than one ENI. To change the security groups associated with an ENI
+an elastic network interface (ENI) attached to an instance can result in an error if the
+instance has more than one ENI. To change the security groups associated with an ENI
 attached to an instance that has multiple ENIs, we recommend that you use the
 ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be
 stopped. For more information, see Modify a stopped instance in the Amazon EC2 User Guide.
@@ -23845,10 +23886,9 @@ stopped. For more information, see Modify a stopped instance in the Amazon EC2 U
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DisableApiStop"`: Indicates whether an instance is enabled for stop protection. For
   more information, see Stop Protection.
-- `"GroupId"`: [EC2-VPC] Replaces the security groups of the instance with the specified
-  security groups. You must specify at least one security group, even if it's just the
-  default security group for the VPC. You must specify the security group ID, not the
-  security group name.
+- `"GroupId"`: Replaces the security groups of the instance with the specified security
+  groups. You must specify the ID of at least one security group, even if it's just the
+  default security group for the VPC.
 - `"SourceDestCheck"`: Enable or disable source/destination checks, which ensure that the
   instance is either the source or the destination of any traffic that it receives. If the
   value is true, source/destination checks are enabled; otherwise, they are disabled. The
@@ -24849,9 +24889,7 @@ end
 Modifies the configuration of your Reserved Instances, such as the Availability Zone,
 instance count, or instance type. The Reserved Instances to be modified must be identical,
 except for Availability Zone, network platform, and instance type. For more information,
-see Modifying Reserved Instances in the Amazon EC2 User Guide.  We are retiring
-EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information,
-see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+see Modifying Reserved Instances in the Amazon EC2 User Guide.
 
 # Arguments
 - `reserved_instances_configuration_set_item_type`: The configuration settings for the
@@ -25518,23 +25556,23 @@ end
     modify_verified_access_endpoint(verified_access_endpoint_id)
     modify_verified_access_endpoint(verified_access_endpoint_id, params::Dict{String,<:Any})
 
-Modifies the configuration of an Amazon Web Services Verified Access endpoint.
+Modifies the configuration of the specified Amazon Web Services Verified Access endpoint.
 
 # Arguments
-- `verified_access_endpoint_id`: The ID of the Amazon Web Services Verified Access endpoint.
+- `verified_access_endpoint_id`: The ID of the Verified Access endpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
   your modification request. For more information, see Ensuring Idempotency.
-- `"Description"`: A description for the Amazon Web Services Verified Access endpoint.
+- `"Description"`: A description for the Verified Access endpoint.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"LoadBalancerOptions"`: The load balancer details if creating the Amazon Web Services
-  Verified Access endpoint as load-balancertype.
+- `"LoadBalancerOptions"`: The load balancer details if creating the Verified Access
+  endpoint as load-balancertype.
 - `"NetworkInterfaceOptions"`: The network interface options.
-- `"VerifiedAccessGroupId"`: The ID of the Amazon Web Services Verified Access group.
+- `"VerifiedAccessGroupId"`: The ID of the Verified Access group.
 """
 function modify_verified_access_endpoint(
     VerifiedAccessEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -25575,11 +25613,11 @@ end
     modify_verified_access_endpoint_policy(policy_enabled, verified_access_endpoint_id)
     modify_verified_access_endpoint_policy(policy_enabled, verified_access_endpoint_id, params::Dict{String,<:Any})
 
-Modifies the specified Verified Access endpoint policy.
+Modifies the specified Amazon Web Services Verified Access endpoint policy.
 
 # Arguments
 - `policy_enabled`: The status of the Verified Access policy.
-- `verified_access_endpoint_id`: The ID of the Amazon Web Services Verified Access endpoint.
+- `verified_access_endpoint_id`: The ID of the Verified Access endpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -25588,7 +25626,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"PolicyDocument"`: The Amazon Web Services Verified Access policy document.
+- `"PolicyDocument"`: The Verified Access policy document.
 """
 function modify_verified_access_endpoint_policy(
     PolicyEnabled,
@@ -25634,20 +25672,20 @@ end
     modify_verified_access_group(verified_access_group_id)
     modify_verified_access_group(verified_access_group_id, params::Dict{String,<:Any})
 
-Modifies the specified Verified Access group configuration.
+Modifies the specified Amazon Web Services Verified Access group configuration.
 
 # Arguments
-- `verified_access_group_id`: The ID of the Amazon Web Services Verified Access group.
+- `verified_access_group_id`: The ID of the Verified Access group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
   your modification request. For more information, see Ensuring Idempotency.
-- `"Description"`: A description for the Amazon Web Services Verified Access group.
+- `"Description"`: A description for the Verified Access group.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"VerifiedAccessInstanceId"`: The ID of the Amazon Web Services Verified Access instance.
+- `"VerifiedAccessInstanceId"`: The ID of the Verified Access instance.
 """
 function modify_verified_access_group(
     VerifiedAccessGroupId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -25688,11 +25726,11 @@ end
     modify_verified_access_group_policy(policy_enabled, verified_access_group_id)
     modify_verified_access_group_policy(policy_enabled, verified_access_group_id, params::Dict{String,<:Any})
 
-Modifies the specified Verified Access group policy.
+Modifies the specified Amazon Web Services Verified Access group policy.
 
 # Arguments
 - `policy_enabled`: The status of the Verified Access policy.
-- `verified_access_group_id`: The ID of the Amazon Web Services Verified Access group.
+- `verified_access_group_id`: The ID of the Verified Access group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -25701,7 +25739,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"PolicyDocument"`: The Amazon Web Services Verified Access policy document.
+- `"PolicyDocument"`: The Verified Access policy document.
 """
 function modify_verified_access_group_policy(
     PolicyEnabled, VerifiedAccessGroupId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -25745,16 +25783,16 @@ end
     modify_verified_access_instance(verified_access_instance_id)
     modify_verified_access_instance(verified_access_instance_id, params::Dict{String,<:Any})
 
-Modifies the configuration of the specified Verified Access instance.
+Modifies the configuration of the specified Amazon Web Services Verified Access instance.
 
 # Arguments
-- `verified_access_instance_id`: The ID of the Amazon Web Services Verified Access instance.
+- `verified_access_instance_id`: The ID of the Verified Access instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
   your modification request. For more information, see Ensuring Idempotency.
-- `"Description"`: A description for the Amazon Web Services Verified Access instance.
+- `"Description"`: A description for the Verified Access instance.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -25802,9 +25840,8 @@ Modifies the logging configuration for the specified Amazon Web Services Verifie
 instance.
 
 # Arguments
-- `access_logs`: The configuration options for Amazon Web Services Verified Access
-  instances.
-- `verified_access_instance_id`: The ID of the Amazon Web Services Verified Access instance.
+- `access_logs`: The configuration options for Verified Access instances.
+- `verified_access_instance_id`: The ID of the Verified Access instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -25860,18 +25897,17 @@ Modifies the configuration of the specified Amazon Web Services Verified Access 
 provider.
 
 # Arguments
-- `verified_access_trust_provider_id`: The ID of the Amazon Web Services Verified Access
-  trust provider.
+- `verified_access_trust_provider_id`: The ID of the Verified Access trust provider.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: A unique, case-sensitive token that you provide to ensure idempotency of
   your modification request. For more information, see Ensuring Idempotency.
-- `"Description"`: A description for the Amazon Web Services Verified Access trust provider.
+- `"Description"`: A description for the Verified Access trust provider.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"OidcOptions"`: The OpenID Connect details for an oidc-type, user-identity based trust
+- `"OidcOptions"`: The options for an OpenID Connect-compatible user-identity trust
   provider.
 """
 function modify_verified_access_trust_provider(
@@ -26655,6 +26691,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"SkipTunnelReplacement"`: Choose whether or not to trigger immediate tunnel replacement.
+  Valid values: True | False
 """
 function modify_vpn_tunnel_options(
     TunnelOptions,
@@ -27079,9 +27117,7 @@ your specifications. After you've purchased a Reserved Instance, you can check f
 Reserved Instance with DescribeReservedInstances. To queue a purchase for a future date and
 time, specify a purchase time. If you do not specify a purchase time, the default is the
 current time. For more information, see Reserved Instances and Reserved Instance
-Marketplace in the Amazon EC2 User Guide.  We are retiring EC2-Classic. We recommend that
-you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic
-to a VPC in the Amazon Elastic Compute Cloud User Guide.
+Marketplace in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_count`: The number of Reserved Instances to purchase.
@@ -27816,7 +27852,8 @@ end
 Release an allocation within an IPAM pool. You can only use this action to release manual
 allocations. To remove an allocation for a resource without deleting the resource, set its
 monitored state to false using ModifyIpamResourceCidr. For more information, see Release an
-allocation in the Amazon VPC IPAM User Guide.
+allocation in the Amazon VPC IPAM User Guide.   All EC2 API actions follow an eventual
+consistency model.
 
 # Arguments
 - `cidr`: The CIDR of the allocation you want to release.
@@ -28227,6 +28264,61 @@ function replace_transit_gateway_route(
 end
 
 """
+    replace_vpn_tunnel(vpn_connection_id, vpn_tunnel_outside_ip_address)
+    replace_vpn_tunnel(vpn_connection_id, vpn_tunnel_outside_ip_address, params::Dict{String,<:Any})
+
+Trigger replacement of specified VPN tunnel.
+
+# Arguments
+- `vpn_connection_id`: The ID of the Site-to-Site VPN connection.
+- `vpn_tunnel_outside_ip_address`: The external IP address of the VPN tunnel.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplyPendingMaintenance"`: Trigger pending tunnel endpoint maintenance.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function replace_vpn_tunnel(
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ReplaceVpnTunnel",
+        Dict{String,Any}(
+            "VpnConnectionId" => VpnConnectionId,
+            "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function replace_vpn_tunnel(
+    VpnConnectionId,
+    VpnTunnelOutsideIpAddress,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "ReplaceVpnTunnel",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "VpnConnectionId" => VpnConnectionId,
+                    "VpnTunnelOutsideIpAddress" => VpnTunnelOutsideIpAddress,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     report_instance_status(instance_id, reason_code, status)
     report_instance_status(instance_id, reason_code, status, params::Dict{String,<:Any})
 
@@ -28364,9 +28456,7 @@ Creates a Spot Instance request. For more information, see Spot Instance request
 Amazon EC2 User Guide for Linux Instances.  We strongly discourage using the
 RequestSpotInstances API because it is a legacy API with no planned investment. For options
 for requesting Spot Instances, see Which is the best Spot request method to use? in the
-Amazon EC2 User Guide for Linux Instances.   We are retiring EC2-Classic. We recommend that
-you migrate from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic
-to a VPC in the Amazon EC2 User Guide for Linux Instances.
+Amazon EC2 User Guide for Linux Instances.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -29174,32 +29264,26 @@ end
 
 Launches the specified number of instances using an AMI for which you have permissions. You
 can specify a number of options, or leave the default options. The following rules apply:
-[EC2-VPC] If you don't specify a subnet ID, we choose a default subnet from your default
-VPC for you. If you don't have a default VPC, you must specify a subnet ID in the request.
- [EC2-Classic] If don't specify an Availability Zone, we choose one for you.   Some
-instance types must be launched into a VPC. If you do not have a default VPC, or if you do
-not specify a subnet ID, the request fails. For more information, see Instance types
-available only in a VPC.   [EC2-VPC] All instances have a network interface with a primary
-private IPv4 address. If you don't specify this address, we choose one from the IPv4 range
-of your subnet.   Not all instance types support IPv6 addresses. For more information, see
-Instance types.   If you don't specify a security group ID, we use the default security
-group. For more information, see Security groups.   If any of the AMIs have a product code
-attached for which the user has not subscribed, the request fails.   You can create a
-launch template, which is a resource that contains the parameters to launch an instance.
-When you launch an instance using RunInstances, you can specify the launch template instead
-of specifying the launch parameters. To ensure faster instance launches, break up large
-requests into smaller batches. For example, create five separate launch requests for 100
-instances each instead of one launch request for 500 instances. An instance is ready for
-you to use when it's in the running state. You can check the state of your instance using
-DescribeInstances. You can tag instances and EBS volumes during launch, after launch, or
-both. For more information, see CreateTags and Tagging your Amazon EC2 resources. Linux
-instances have access to the public key of the key pair at boot. You can use this key to
-provide secure access to the instance. Amazon EC2 public images use this feature to provide
-secure access without passwords. For more information, see Key pairs. For troubleshooting,
-see What to do if an instance immediately terminates, and Troubleshooting connecting to
-your instance.  We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic
-to a VPC. For more information, see Migrate from EC2-Classic to a VPC in the Amazon EC2
-User Guide.
+If you don't specify a subnet ID, we choose a default subnet from your default VPC for you.
+If you don't have a default VPC, you must specify a subnet ID in the request.   All
+instances have a network interface with a primary private IPv4 address. If you don't
+specify this address, we choose one from the IPv4 range of your subnet.   Not all instance
+types support IPv6 addresses. For more information, see Instance types.   If you don't
+specify a security group ID, we use the default security group. For more information, see
+Security groups.   If any of the AMIs have a product code attached for which the user has
+not subscribed, the request fails.   You can create a launch template, which is a resource
+that contains the parameters to launch an instance. When you launch an instance using
+RunInstances, you can specify the launch template instead of specifying the launch
+parameters. To ensure faster instance launches, break up large requests into smaller
+batches. For example, create five separate launch requests for 100 instances each instead
+of one launch request for 500 instances. An instance is ready for you to use when it's in
+the running state. You can check the state of your instance using DescribeInstances. You
+can tag instances and EBS volumes during launch, after launch, or both. For more
+information, see CreateTags and Tagging your Amazon EC2 resources. Linux instances have
+access to the public key of the key pair at boot. You can use this key to provide secure
+access to the instance. Amazon EC2 public images use this feature to provide secure access
+without passwords. For more information, see Key pairs. For troubleshooting, see What to do
+if an instance immediately terminates, and Troubleshooting connecting to your instance.
 
 # Arguments
 - `max_count`: The maximum number of instances to launch. If you specify more instances
@@ -29239,7 +29323,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ElasticInferenceAccelerator"`: An elastic inference accelerator to associate with the
   instance. Elastic inference accelerators are a resource you can attach to your Amazon EC2
   instances to accelerate your Deep Learning (DL) inference workloads. You cannot specify
-  accelerators from different generations in the same request.
+  accelerators from different generations in the same request.  Starting April 15, 2023,
+  Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI), and
+  will help current customers migrate their workloads to options that offer better price and
+  performance. After April 15, 2023, new customers will not be able to launch instances with
+  Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers
+  who have used Amazon EI at least once during the past 30-day period are considered current
+  customers and will be able to continue using the service.
 - `"EnclaveOptions"`: Indicates whether the instance is enabled for Amazon Web Services
   Nitro Enclaves. For more information, see  What is Amazon Web Services Nitro Enclaves? in
   the Amazon Web Services Nitro Enclaves User Guide. You can't enable Amazon Web Services
@@ -29254,17 +29344,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   InstanceInterruptionBehavior is set to either hibernate or stop.
 - `"InstanceType"`: The instance type. For more information, see Instance types in the
   Amazon EC2 User Guide. Default: m1.small
-- `"Ipv6Address"`: [EC2-VPC] The IPv6 addresses from the range of the subnet to associate
-  with the primary network interface. You cannot specify this option and the option to assign
-  a number of IPv6 addresses in the same request. You cannot specify this option if you've
-  specified a minimum number of instances to launch. You cannot specify this option and the
-  network interfaces option in the same request.
-- `"Ipv6AddressCount"`: [EC2-VPC] The number of IPv6 addresses to associate with the
-  primary network interface. Amazon EC2 chooses the IPv6 addresses from the range of your
-  subnet. You cannot specify this option and the option to assign specific IPv6 addresses in
-  the same request. You can specify this option if you've specified a minimum number of
-  instances to launch. You cannot specify this option and the network interfaces option in
-  the same request.
+- `"Ipv6Address"`: The IPv6 addresses from the range of the subnet to associate with the
+  primary network interface. You cannot specify this option and the option to assign a number
+  of IPv6 addresses in the same request. You cannot specify this option if you've specified a
+  minimum number of instances to launch. You cannot specify this option and the network
+  interfaces option in the same request.
+- `"Ipv6AddressCount"`: The number of IPv6 addresses to associate with the primary network
+  interface. Amazon EC2 chooses the IPv6 addresses from the range of your subnet. You cannot
+  specify this option and the option to assign specific IPv6 addresses in the same request.
+  You can specify this option if you've specified a minimum number of instances to launch.
+  You cannot specify this option and the network interfaces option in the same request.
 - `"KernelId"`: The ID of the kernel.  We recommend that you use PV-GRUB instead of kernels
   and RAM disks. For more information, see PV-GRUB in the Amazon EC2 User Guide.
 - `"KeyName"`: The name of the key pair. You can create a key pair using CreateKeyPair or
@@ -29286,14 +29375,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a RAM disk. To find kernel requirements, go to the Amazon Web Services Resource Center and
   search for the kernel ID.  We recommend that you use PV-GRUB instead of kernels and RAM
   disks. For more information, see PV-GRUB in the Amazon EC2 User Guide.
-- `"SecurityGroup"`: [EC2-Classic, default VPC] The names of the security groups. If you
-  specify a network interface, you must specify any security groups as part of the network
-  interface. Default: Amazon EC2 uses the default security group.
+- `"SecurityGroup"`: [Default VPC] The names of the security groups. If you specify a
+  network interface, you must specify any security groups as part of the network interface.
+  Default: Amazon EC2 uses the default security group.
 - `"SecurityGroupId"`: The IDs of the security groups. You can create a security group
   using CreateSecurityGroup. If you specify a network interface, you must specify any
   security groups as part of the network interface.
-- `"SubnetId"`: [EC2-VPC] The ID of the subnet to launch the instance into. If you specify
-  a network interface, you must specify any subnets as part of the network interface.
+- `"SubnetId"`: The ID of the subnet to launch the instance into. If you specify a network
+  interface, you must specify any subnets as part of the network interface.
 - `"TagSpecification"`: The tags to apply to the resources that are created during instance
   launch. You can specify tags for the following resources only:   Instances   Volumes
   Elastic graphics   Spot Instance requests   Network interfaces   To tag a resource after it
@@ -29328,12 +29417,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"networkInterface"`: The network interfaces to associate with the instance. If you
   specify a network interface, you must specify any security groups and subnets as part of
   the network interface.
-- `"privateIpAddress"`: [EC2-VPC] The primary IPv4 address. You must specify a value from
-  the IPv4 address range of the subnet. Only one private IP address can be designated as
-  primary. You can't specify this option if you've specified the option to designate a
-  private IP address as the primary IP address in a network interface specification. You
-  cannot specify this option if you're launching more than one instance in the request. You
-  cannot specify this option and the network interfaces option in the same request.
+- `"privateIpAddress"`: The primary IPv4 address. You must specify a value from the IPv4
+  address range of the subnet. Only one private IP address can be designated as primary. You
+  can't specify this option if you've specified the option to designate a private IP address
+  as the primary IP address in a network interface specification. You cannot specify this
+  option if you're launching more than one instance in the request. You cannot specify this
+  option and the network interfaces option in the same request.
 """
 function run_instances(
     MaxCount, MinCount; aws_config::AbstractAWSConfig=global_aws_config()

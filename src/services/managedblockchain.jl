@@ -12,7 +12,7 @@ Creates a new accessor for use with Managed Blockchain Ethereum nodes. An access
 information required for token based access to your Ethereum nodes.
 
 # Arguments
-- `accessor_type`: The type of accessor.  Currently accessor type is restricted to
+- `accessor_type`: The type of accessor.  Currently, accessor type is restricted to
   BILLING_TOKEN.
 - `client_request_token`: This is a unique, case-sensitive identifier that you provide to
   ensure the idempotency of the operation. An idempotent operation completes no more than
@@ -230,7 +230,7 @@ Ethereum.
 - `node_configuration`: The properties of a node configuration.
 - `network_id`: The unique identifier of the network for the node. Ethereum public networks
   have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli
-  n-ethereum-rinkeby     n-ethereum-ropsten
+  n-ethereum-rinkeby
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -451,7 +451,7 @@ cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
 # Arguments
 - `network_id`: The unique identifier of the network that the node is on. Ethereum public
   networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli
-  n-ethereum-rinkeby     n-ethereum-ropsten
+  n-ethereum-rinkeby
 - `node_id`: The unique identifier of the node.
 
 # Optional Parameters
