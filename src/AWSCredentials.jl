@@ -8,21 +8,23 @@ using ..AWSExceptions
 
 export AWSCredentials,
     aws_account_number,
-    aws_get_region,
     aws_get_profile_settings,
+    aws_get_region,
     aws_user_arn,
     check_credentials,
+    credentials_from_webtoken,
     dot_aws_config,
+    dot_aws_config_file,
     dot_aws_credentials,
     dot_aws_credentials_file,
-    dot_aws_config_file,
     ec2_instance_credentials,
     ecs_instance_credentials,
     env_var_credentials,
+    external_process_credentials,
     localhost_is_ec2,
-    localhost_maybe_ec2,
     localhost_is_lambda,
-    credentials_from_webtoken
+    localhost_maybe_ec2,
+    sso_credentials
 
 function localhost_maybe_ec2()
     return localhost_is_ec2() || isfile("/sys/devices/virtual/dmi/id/product_uuid")
@@ -40,20 +42,22 @@ The fields `access_key_id` and `secret_key` hold the access keys used to authent
 [Temporary Security Credentials](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html) require the extra session `token` field.
 The `user_arn` and `account_number` fields are used to cache the result of the [`aws_user_arn`](@ref) and [`aws_account_number`](@ref) functions.
 
-AWS.jl searches for credentials in a series of possible locations and stops as soon as it finds credentials.
-The order of precedence for this search is as follows:
+AWS.jl searches for credentials in multiple locations and stops once any credentials are found.
+The credential preference order mostly [mirrors the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence)
+and is as follows:
 
-1. Passing credentials directly to the `AWSCredentials` constructor
+1. Credentials or a profile passed directly to the `AWSCredentials`
 2. [Environment variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html)
-3. Shared credential file [(~/.aws/credentials)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html)
-4. AWS config file [(~/.aws/config)](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html).
-   This includes [Single Sign-On (SSO)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) credentials.
-   SSO users should follow the configuration instructions at the above link, and use `aws sso login` to log in.
-5. Assume Role provider via the aws config file
-6. Instance metadata service on an Amazon EC2 instance that has an IAM role configured
+3. [Web Identity](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html#cli-configure-role-oidc)
+4. [AWS Single Sign-On (SSO)](http://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html) provided via the AWS configuration file
+5. [AWS credentials file](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html) (e.g. "~/.aws/credentials")
+6. [External process](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html) set via `credential_process` in the AWS configuration file
+7. [AWS configuration file](http://docs.aws.amazon.com/cli/latest/userguide/cli-config-files.html) set via `aws_access_key_id` in the AWS configuration file
+8. [Amazon ECS container credentials](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html)
+9. [Amazon EC2 instance metadata](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/iam-roles-for-amazon-ec2.html)
 
 Once the credentials are found, the method by which they were accessed is stored in the `renew` field
-and the DateTime at which they will expire is stored in the `expiry` field.
+and the `DateTime` at which they will expire is stored in the `expiry` field.
 This allows the credentials to be refreshed as needed using [`check_credentials`](@ref).
 If `renew` is set to `nothing`, no attempt will be made to refresh the credentials.
 Any renewal function is expected to return `nothing` on failure or a populated `AWSCredentials` object on success.
@@ -109,15 +113,21 @@ Checks credential locations in the order:
 function AWSCredentials(; profile=nothing, throw_cred_error=true)
     creds = nothing
     credential_function = () -> nothing
+    explicit_profile = !isnothing(profile)
     profile = @something profile _aws_get_profile()
 
-    # Define our search options, expected to be callable with no arguments.
-    # Throw NoCredentials if none are found
+    # Define the credential preference order:
+    # https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-authentication.html#cli-chap-authentication-precedence
+    #
+    # Note that the AWS CLI documentation states that EC2 instance credentials are preferred
+    # over ECS container credentials. However, in practice when `AWS_CONTAINER_*`
+    # environmental variables are set the ECS container credentials are prefered instead.
     functions = [
-        env_var_credentials,
+        () -> env_var_credentials(explicit_profile),
+        credentials_from_webtoken,
+        () -> sso_credentials(profile),
         () -> dot_aws_credentials(profile),
         () -> dot_aws_config(profile),
-        credentials_from_webtoken,
         ecs_instance_credentials,
         () -> ec2_instance_credentials(profile),
     ]
@@ -313,13 +323,14 @@ function ec2_instance_credentials(profile::AbstractString)
 end
 
 """
-    ecs_instance_credentials() -> Union{AWSCredential, Nothing}
+    ecs_instance_credentials() -> Union{AWSCredentials, Nothing}
 
-Retrieve credentials from the local endpoint. Return `nothing` if not running on an ECS
-instance.
+Retrieve credentials from the ECS credential endpoint. If the ECS credential endpoint is
+unavailable then `nothing` will be returned.
 
 More information can be found at:
-https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+- https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+- https://docs.aws.amazon.com/sdkref/latest/guide/feature-container-credentials.html
 
 # Returns
 - `AWSCredentials`: AWSCredentials from `ECS` credentials URI, `nothing` if the Env Var is
@@ -330,13 +341,35 @@ https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
 - `ParsingError`: Invalid HTTP request target
 """
 function ecs_instance_credentials()
-    if !haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+    # The Amazon ECS agent will automatically populate the environmental variable
+    # `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` when running inside of an ECS task. We're
+    # interpreting this to mean than ECS credential provider should only be used if any of
+    # the `AWS_CONTAINER_CREDENTIALS_*_URI` variables are set.
+    # – https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+    #
+    # > Note: This setting (`AWS_CONTAINER_CREDENTIALS_FULL_URI`) is an alternative to
+    # > `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` and will only be used if
+    # > `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` is not set.
+    # – https://docs.aws.amazon.com/sdkref/latest/guide/feature-container-credentials.html
+    if haskey(ENV, "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+        endpoint = "http://169.254.170.2" * ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
+    elseif haskey(ENV, "AWS_CONTAINER_CREDENTIALS_FULL_URI")
+        endpoint = ENV["AWS_CONTAINER_CREDENTIALS_FULL_URI"]
+    else
         return nothing
     end
 
-    uri = ENV["AWS_CONTAINER_CREDENTIALS_RELATIVE_URI"]
+    headers = Pair{String,String}[]
+    if haskey(ENV, "AWS_CONTAINER_AUTHORIZATION_TOKEN")
+        push!(headers, "Authorization" => ENV["AWS_CONTAINER_AUTHORIZATION_TOKEN"])
+    end
 
-    response = @mock HTTP.request("GET", "http://169.254.170.2$uri")
+    response = try
+        @mock HTTP.request("GET", endpoint, headers; retry=false, connect_timeout=5)
+    catch e
+        e isa HTTP.Exceptions.ConnectError && return nothing
+        rethrow()
+    end
     new_creds = String(response.body)
     new_creds = JSON.parse(new_creds)
 
@@ -354,12 +387,15 @@ function ecs_instance_credentials()
 end
 
 """
-    env_var_credentials() -> Union{AWSCredential, Nothing}
+    env_var_credentials(explicit_profile::Bool=false) -> Union{AWSCredentials, Nothing}
 
 Use AWS environmental variables (e.g. AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, etc.)
 to create AWSCredentials.
 """
-function env_var_credentials()
+function env_var_credentials(explicit_profile::Bool=false)
+    # Skip using environmental variables when a profile has been explicitly set
+    explicit_profile && return nothing
+
     if haskey(ENV, "AWS_ACCESS_KEY_ID") && haskey(ENV, "AWS_SECRET_ACCESS_KEY")
         return AWSCredentials(
             ENV["AWS_ACCESS_KEY_ID"],
@@ -374,9 +410,11 @@ function env_var_credentials()
 end
 
 """
-    dot_aws_credentials(profile=nothing) -> Union{AWSCredential, Nothing}
+    dot_aws_credentials(profile=nothing) -> Union{AWSCredentials, Nothing}
 
-Retrieve AWSCredentials from the `~/.aws/credentials` file
+Retrieve `AWSCredentials` from the AWS CLI credentials file. The credential file defaults to
+"~/.aws/credentials" but can be specified using the env variable
+`AWS_SHARED_CREDENTIALS_FILE`.
 
 # Arguments
 - `profile`: Specific profile used to get AWSCredentials, default is `nothing`
@@ -404,11 +442,45 @@ function dot_aws_credentials_file()
 end
 
 """
-    dot_aws_config(profile=nothing) -> Union{AWSCredential, Nothing}
+    sso_credentials(profile=nothing) -> Union{AWSCredentials, Nothing}
 
-Retrieve AWSCredentials for the default or specified profile from the `~/.aws/config` file.
-Single sign-on profiles are also valid. If this fails, try to retrieve credentials from
-`_aws_get_role()`, otherwise return `nothing`
+Retrieve credentials via AWS single sign-on (SSO) settings defined in the `profile` within
+the AWS configuration file. If no SSO settings are found for the `profile` `nothing` is
+returned.
+
+# Arguments
+- `profile`: Specific profile used to get `AWSCredentials`, default is `nothing`
+"""
+function sso_credentials(profile=nothing)
+    config_file = @mock dot_aws_config_file()
+
+    if isfile(config_file)
+        ini = read(Inifile(), config_file)
+        p = @something profile _aws_get_profile()
+
+        # get all the fields for that profile
+        settings = _aws_profile_config(ini, p)
+        isempty(settings) && return nothing
+
+        sso_start_url = get(settings, "sso_start_url", nothing)
+
+        if !isnothing(sso_start_url)
+            access_key, secret_key, token, expiry = _aws_get_sso_credential_details(p, ini)
+            return AWSCredentials(access_key, secret_key, token; expiry=expiry)
+        end
+    end
+
+    return nothing
+end
+
+"""
+    dot_aws_config(profile=nothing) -> Union{AWSCredentials, Nothing}
+
+Retrieve `AWSCredentials` from the AWS CLI configuration file. The configuration file
+defaults to "~/.aws/config" but can be specified using the env variable  `AWS_CONFIG_FILE`.
+When no credentials are found for the given `profile` then the associated `source_profile`
+will be used to recursively look up credentials of source profiles. If still no credentials
+can be found then `nothing` will be returned.
 
 # Arguments
 - `profile`: Specific profile used to get AWSCredentials, default is `nothing`
@@ -424,13 +496,22 @@ function dot_aws_config(profile=nothing)
         settings = _aws_profile_config(ini, p)
         isempty(settings) && return nothing
 
+        credential_process = get(settings, "credential_process", nothing)
         access_key = get(settings, "aws_access_key_id", nothing)
         sso_start_url = get(settings, "sso_start_url", nothing)
 
-        if !isnothing(access_key)
+        if !isnothing(credential_process)
+            cmd = Cmd(Base.shell_split(credential_process))
+            return external_process_credentials(cmd)
+        elseif !isnothing(access_key)
             access_key, secret_key, token = _aws_get_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token)
         elseif !isnothing(sso_start_url)
+            # Deprecation should only appear if `dot_aws_config` is called directly
+            Base.depwarn(
+                "SSO support in `dot_aws_config` is deprecated, use `sso_credentials` instead.",
+                :dot_aws_config,
+            )
             access_key, secret_key, token, expiry = _aws_get_sso_credential_details(p, ini)
             return AWSCredentials(access_key, secret_key, token; expiry=expiry)
         else
@@ -556,6 +637,26 @@ function credentials_from_webtoken()
         assumed_role_user["Arn"];
         expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
         renew=credentials_from_webtoken,
+    )
+end
+
+"""
+    external_process_credentials(cmd::Base.AbstractCmd) -> AWSCredentials
+
+Sources AWS credentials from an external process as defined in the AWS CLI config file.
+See https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sourcing-external.html
+for details.
+"""
+function external_process_credentials(cmd::Base.AbstractCmd)
+    nt = open(cmd, "r") do io
+        _read_credential_process(io)
+    end
+    return AWSCredentials(
+        nt.access_key_id,
+        nt.secret_access_key,
+        @something(nt.session_token, "");
+        expiry=@something(nt.expiration, typemax(DateTime)),
+        renew=() -> external_process_credentials(cmd),
     )
 end
 
