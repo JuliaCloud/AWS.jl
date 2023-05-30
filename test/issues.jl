@@ -24,7 +24,7 @@ try
         @testset "s3 public bucket" begin
             # https://github.com/JuliaCloud/AWS.jl/issues/227
             config = AWSConfig(; creds=nothing)
-            resp = S3.get_object("www.invenia.ca", "index.html"; aws_config=config)
+            resp = S3.get_object("julialang2", "bin/versions.json"; aws_config=config)
 
             @test !isempty(resp)
         end
@@ -197,8 +197,8 @@ try
 
         n = 100
         data = rand(UInt8, n)
-        bucket = "www.invenia.ca"  # use public bucket as dummy
-        key = "index.html"
+        bucket = "julialang2"  # use public bucket as dummy
+        key = "bin/versions.json"
         config = AWSConfig(; creds=nothing)
 
         @testset "Fail 2 attempts then succeed" begin
