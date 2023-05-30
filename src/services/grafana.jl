@@ -78,6 +78,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"configuration"`: The configuration string for the workspace that you create. For more
   information about the format and configuration options available, see Working in your
   Grafana workspace.
+- `"grafanaVersion"`: Specifies the version of Grafana to support in the new workspace.
+  Supported values are 8.4 and 9.4.
 - `"networkAccessControl"`: Configuration for network access to your workspace. When this
   is configured, only listed IP addresses and VPC endpoints will be able to access your
   workspace. Standard Grafana authentication and authorization will still be required. If

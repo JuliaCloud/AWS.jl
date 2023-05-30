@@ -2705,6 +2705,147 @@ function get_journey_execution_metrics(
 end
 
 """
+    get_journey_run_execution_activity_metrics(application-id, journey-activity-id, journey-id, run-id)
+    get_journey_run_execution_activity_metrics(application-id, journey-activity-id, journey-id, run-id, params::Dict{String,<:Any})
+
+Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to
+a journey activity.
+
+# Arguments
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the Project ID on the Amazon Pinpoint console.
+- `journey-activity-id`: The unique identifier for the journey activity.
+- `journey-id`: The unique identifier for the journey.
+- `run-id`: The unique identifier for the journey run.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"next-token"`: The  string that specifies which page of results to return in a paginated
+  response. This parameter is not supported for application, campaign, and journey metrics.
+- `"page-size"`: The maximum number of items to include in each page of a paginated
+  response. This parameter is not supported for application, campaign, and journey metrics.
+"""
+function get_journey_run_execution_activity_metrics(
+    application_id,
+    journey_activity_id,
+    journey_id,
+    run_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "GET",
+        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/activities/$(journey-activity-id)/execution-metrics";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_journey_run_execution_activity_metrics(
+    application_id,
+    journey_activity_id,
+    journey_id,
+    run_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "GET",
+        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/activities/$(journey-activity-id)/execution-metrics",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_journey_run_execution_metrics(application-id, journey-id, run-id)
+    get_journey_run_execution_metrics(application-id, journey-id, run-id, params::Dict{String,<:Any})
+
+Retrieves (queries) pre-aggregated data for a standard run execution metric that applies to
+a journey.
+
+# Arguments
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the Project ID on the Amazon Pinpoint console.
+- `journey-id`: The unique identifier for the journey.
+- `run-id`: The unique identifier for the journey run.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"next-token"`: The  string that specifies which page of results to return in a paginated
+  response. This parameter is not supported for application, campaign, and journey metrics.
+- `"page-size"`: The maximum number of items to include in each page of a paginated
+  response. This parameter is not supported for application, campaign, and journey metrics.
+"""
+function get_journey_run_execution_metrics(
+    application_id, journey_id, run_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pinpoint(
+        "GET",
+        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/execution-metrics";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_journey_run_execution_metrics(
+    application_id,
+    journey_id,
+    run_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "GET",
+        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs/$(run-id)/execution-metrics",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_journey_runs(application-id, journey-id)
+    get_journey_runs(application-id, journey-id, params::Dict{String,<:Any})
+
+Provides information about the runs of a journey.
+
+# Arguments
+- `application-id`: The unique identifier for the application. This identifier is displayed
+  as the Project ID on the Amazon Pinpoint console.
+- `journey-id`: The unique identifier for the journey.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"page-size"`: The maximum number of items to include in each page of a paginated
+  response. This parameter is not supported for application, campaign, and journey metrics.
+- `"token"`: The NextToken string that specifies which page of results to return in a
+  paginated response.
+"""
+function get_journey_runs(
+    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pinpoint(
+        "GET",
+        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_journey_runs(
+    application_id,
+    journey_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pinpoint(
+        "GET",
+        "/v1/apps/$(application-id)/journeys/$(journey-id)/runs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_push_template(template-name)
     get_push_template(template-name, params::Dict{String,<:Any})
 

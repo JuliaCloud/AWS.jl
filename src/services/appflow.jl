@@ -5,6 +5,58 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    cancel_flow_executions(flow_name)
+    cancel_flow_executions(flow_name, params::Dict{String,<:Any})
+
+Cancels active runs for a flow. You can cancel all of the active runs for a flow, or you
+can cancel specific runs by providing their IDs. You can cancel a flow run only when the
+run is in progress. You can't cancel a run that has already completed or failed. You also
+can't cancel a run that's scheduled to occur but hasn't started yet. To prevent a scheduled
+run, you can deactivate the flow with the StopFlow action. You cannot resume a run after
+you cancel it. When you send your request, the status for each run becomes CancelStarted.
+When the cancellation completes, the status becomes Canceled.  When you cancel a run, you
+still incur charges for any data that the run already processed before the cancellation. If
+the run had already written some data to the flow destination, then that data remains in
+the destination. If you configured the flow to use a batch API (such as the Salesforce Bulk
+API 2.0), then the run will finish reading or writing its entire batch of data after the
+cancellation. For these operations, the data processing charges for Amazon AppFlow apply.
+For the pricing information, see Amazon AppFlow pricing.
+
+# Arguments
+- `flow_name`: The name of a flow with active runs that you want to cancel.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"executionIds"`: The ID of each active run to cancel. These runs must belong to the flow
+  you specify in your request. If you omit this parameter, your request ends all active runs
+  that belong to the flow.
+"""
+function cancel_flow_executions(flowName; aws_config::AbstractAWSConfig=global_aws_config())
+    return appflow(
+        "POST",
+        "/cancel-flow-executions",
+        Dict{String,Any}("flowName" => flowName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_flow_executions(
+    flowName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appflow(
+        "POST",
+        "/cancel-flow-executions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("flowName" => flowName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_connector_profile(connection_mode, connector_profile_config, connector_profile_name, connector_type)
     create_connector_profile(connection_mode, connector_profile_config, connector_profile_name, connector_type, params::Dict{String,<:Any})
 
@@ -26,6 +78,15 @@ you can provide the credentials and properties for only one connector.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The clientToken parameter is an idempotency token. It ensures that your
+  CreateConnectorProfile request completes only once. You choose the value to pass. For
+  example, if you don't receive a response from your request, you can safely retry the
+  request with the same clientToken parameter value. If you omit a clientToken value, the
+  Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can
+  safely retry requests multiple times after a network error. You must provide your own value
+  for other use cases. If you specify input parameters that differ from your first request,
+  an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it
+  a new call to CreateConnectorProfile. The token is active for 8 hours.
 - `"connectorLabel"`: The label of the connector. The label is unique for each
   ConnectorRegistration in your Amazon Web Services account. Only needed if calling for
   CUSTOMCONNECTOR connector type/.
@@ -49,6 +110,7 @@ function create_connector_profile(
             "connectorProfileConfig" => connectorProfileConfig,
             "connectorProfileName" => connectorProfileName,
             "connectorType" => connectorType,
+            "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -73,6 +135,7 @@ function create_connector_profile(
                     "connectorProfileConfig" => connectorProfileConfig,
                     "connectorProfileName" => connectorProfileName,
                     "connectorType" => connectorType,
+                    "clientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -105,6 +168,15 @@ once.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The clientToken parameter is an idempotency token. It ensures that your
+  CreateFlow request completes only once. You choose the value to pass. For example, if you
+  don't receive a response from your request, you can safely retry the request with the same
+  clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK
+  that you are using inserts a value for you. This way, the SDK can safely retry requests
+  multiple times after a network error. You must provide your own value for other use cases.
+  If you specify input parameters that differ from your first request, an error occurs. If
+  you use a different value for clientToken, Amazon AppFlow considers it a new call to
+  CreateFlow. The token is active for 8 hours.
 - `"description"`:  A description of the flow you want to create.
 - `"kmsArn"`:  The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you
   provide for encryption. This is required if you do not want to use the Amazon
@@ -132,6 +204,7 @@ function create_flow(
             "sourceFlowConfig" => sourceFlowConfig,
             "tasks" => tasks,
             "triggerConfig" => triggerConfig,
+            "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -158,6 +231,7 @@ function create_flow(
                     "sourceFlowConfig" => sourceFlowConfig,
                     "tasks" => tasks,
                     "triggerConfig" => triggerConfig,
+                    "clientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -654,6 +728,15 @@ register the connector, you must deploy the associated AWS lambda function in yo
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The clientToken parameter is an idempotency token. It ensures that your
+  RegisterConnector request completes only once. You choose the value to pass. For example,
+  if you don't receive a response from your request, you can safely retry the request with
+  the same clientToken parameter value. If you omit a clientToken value, the Amazon Web
+  Services SDK that you are using inserts a value for you. This way, the SDK can safely retry
+  requests multiple times after a network error. You must provide your own value for other
+  use cases. If you specify input parameters that differ from your first request, an error
+  occurs. If you use a different value for clientToken, Amazon AppFlow considers it a new
+  call to RegisterConnector. The token is active for 8 hours.
 - `"connectorLabel"`:  The name of the connector. The name is unique for each
   ConnectorRegistration in your Amazon Web Services account.
 - `"connectorProvisioningConfig"`: The provisioning type of the connector. Currently the
@@ -665,7 +748,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function register_connector(; aws_config::AbstractAWSConfig=global_aws_config())
     return appflow(
         "POST",
-        "/register-connector";
+        "/register-connector",
+        Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -676,7 +760,9 @@ function register_connector(
     return appflow(
         "POST",
         "/register-connector",
-        params;
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -693,12 +779,25 @@ For schedule and event-triggered flows, this operation activates the flow.
 - `flow_name`:  The specified name of the flow. Spaces are not allowed. Use underscores (_)
   or hyphens (-) only.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The clientToken parameter is an idempotency token. It ensures that your
+  StartFlow request completes only once. You choose the value to pass. For example, if you
+  don't receive a response from your request, you can safely retry the request with the same
+  clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK
+  that you are using inserts a value for you. This way, the SDK can safely retry requests
+  multiple times after a network error. You must provide your own value for other use cases.
+  If you specify input parameters that differ from your first request, an error occurs for
+  flows that run on a schedule or based on an event. However, the error doesn't occur for
+  flows that run on demand. You set the conditions that initiate your flow for the
+  triggerConfig parameter. If you use a different value for clientToken, Amazon AppFlow
+  considers it a new call to StartFlow. The token is active for 8 hours.
 """
 function start_flow(flowName; aws_config::AbstractAWSConfig=global_aws_config())
     return appflow(
         "POST",
         "/start-flow",
-        Dict{String,Any}("flowName" => flowName);
+        Dict{String,Any}("flowName" => flowName, "clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -712,7 +811,11 @@ function start_flow(
         "POST",
         "/start-flow",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("flowName" => flowName), params)
+            mergewith(
+                _merge,
+                Dict{String,Any}("flowName" => flowName, "clientToken" => string(uuid4())),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -885,6 +988,17 @@ end
 - `connector_profile_name`:  The name of the connector profile and is unique for each
   ConnectorProfile in the Amazon Web Services account.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The clientToken parameter is an idempotency token. It ensures that your
+  UpdateConnectorProfile request completes only once. You choose the value to pass. For
+  example, if you don't receive a response from your request, you can safely retry the
+  request with the same clientToken parameter value. If you omit a clientToken value, the
+  Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can
+  safely retry requests multiple times after a network error. You must provide your own value
+  for other use cases. If you specify input parameters that differ from your first request,
+  an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it
+  a new call to UpdateConnectorProfile. The token is active for 8 hours.
 """
 function update_connector_profile(
     connectionMode,
@@ -899,6 +1013,7 @@ function update_connector_profile(
             "connectionMode" => connectionMode,
             "connectorProfileConfig" => connectorProfileConfig,
             "connectorProfileName" => connectorProfileName,
+            "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -921,6 +1036,7 @@ function update_connector_profile(
                     "connectionMode" => connectionMode,
                     "connectorProfileConfig" => connectorProfileConfig,
                     "connectorProfileName" => connectorProfileName,
+                    "clientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -944,6 +1060,15 @@ assigned to the connector   A new AWS Lambda function that you specify
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The clientToken parameter is an idempotency token. It ensures that your
+  UpdateConnectorRegistration request completes only once. You choose the value to pass. For
+  example, if you don't receive a response from your request, you can safely retry the
+  request with the same clientToken parameter value. If you omit a clientToken value, the
+  Amazon Web Services SDK that you are using inserts a value for you. This way, the SDK can
+  safely retry requests multiple times after a network error. You must provide your own value
+  for other use cases. If you specify input parameters that differ from your first request,
+  an error occurs. If you use a different value for clientToken, Amazon AppFlow considers it
+  a new call to UpdateConnectorRegistration. The token is active for 8 hours.
 - `"connectorProvisioningConfig"`:
 - `"description"`: A description about the update that you're applying to the connector.
 """
@@ -953,7 +1078,9 @@ function update_connector_registration(
     return appflow(
         "POST",
         "/update-connector-registration",
-        Dict{String,Any}("connectorLabel" => connectorLabel);
+        Dict{String,Any}(
+            "connectorLabel" => connectorLabel, "clientToken" => string(uuid4())
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -967,7 +1094,13 @@ function update_connector_registration(
         "POST",
         "/update-connector-registration",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("connectorLabel" => connectorLabel), params)
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "connectorLabel" => connectorLabel, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -992,6 +1125,15 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The clientToken parameter is an idempotency token. It ensures that your
+  UpdateFlow request completes only once. You choose the value to pass. For example, if you
+  don't receive a response from your request, you can safely retry the request with the same
+  clientToken parameter value. If you omit a clientToken value, the Amazon Web Services SDK
+  that you are using inserts a value for you. This way, the SDK can safely retry requests
+  multiple times after a network error. You must provide your own value for other use cases.
+  If you specify input parameters that differ from your first request, an error occurs. If
+  you use a different value for clientToken, Amazon AppFlow considers it a new call to
+  UpdateFlow. The token is active for 8 hours.
 - `"description"`:  A description of the flow.
 - `"metadataCatalogConfig"`: Specifies the configuration that Amazon AppFlow uses when it
   catalogs the data that's transferred by the associated flow. When Amazon AppFlow catalogs
@@ -1014,6 +1156,7 @@ function update_flow(
             "sourceFlowConfig" => sourceFlowConfig,
             "tasks" => tasks,
             "triggerConfig" => triggerConfig,
+            "clientToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1040,6 +1183,7 @@ function update_flow(
                     "sourceFlowConfig" => sourceFlowConfig,
                     "tasks" => tasks,
                     "triggerConfig" => triggerConfig,
+                    "clientToken" => string(uuid4()),
                 ),
                 params,
             ),

@@ -795,7 +795,9 @@ end
     delete_members(account_ids, detector_id, params::Dict{String,<:Any})
 
 Deletes GuardDuty member accounts (to the current GuardDuty administrator account)
-specified by the account IDs.
+specified by the account IDs. With autoEnableOrganizationMembers configuration for your
+organization set to ALL, you'll receive an error if you attempt to disable GuardDuty for a
+member account in your organization.
 
 # Arguments
 - `account_ids`: A list of account IDs of the GuardDuty member accounts that you want to
@@ -1082,7 +1084,9 @@ end
     disassociate_from_administrator_account(detector_id)
     disassociate_from_administrator_account(detector_id, params::Dict{String,<:Any})
 
-Disassociates the current GuardDuty member account from its administrator account.
+Disassociates the current GuardDuty member account from its administrator account. With
+autoEnableOrganizationMembers configuration for your organization set to ALL, you'll
+receive an error if you attempt to disable GuardDuty in a member account.
 
 # Arguments
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
@@ -1151,7 +1155,9 @@ end
     disassociate_members(account_ids, detector_id, params::Dict{String,<:Any})
 
 Disassociates GuardDuty member accounts (to the current administrator account) specified by
-the account IDs.
+the account IDs. With autoEnableOrganizationMembers configuration for your organization set
+to ALL, you'll receive an error if you attempt to disassociate a member account before
+removing them from your Amazon Web Services organization.
 
 # Arguments
 - `account_ids`: A list of account IDs of the GuardDuty member accounts that you want to
@@ -1257,6 +1263,52 @@ function get_administrator_account(
         "GET",
         "/detector/$(detectorId)/administrator",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_coverage_statistics(detector_id, statistics_type)
+    get_coverage_statistics(detector_id, statistics_type, params::Dict{String,<:Any})
+
+Retrieves aggregated statistics for your account. If you are a GuardDuty administrator, you
+can retrieve the statistics for all the resources associated with the active member
+accounts in your organization who have enabled EKS Runtime Monitoring and have the
+GuardDuty agent running on their EKS nodes.
+
+# Arguments
+- `detector_id`: The unique ID of the GuardDuty detector associated to the coverage
+  statistics.
+- `statistics_type`: Represents the statistics type used to aggregate the coverage details.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filterCriteria"`: Represents the criteria used to filter the coverage statistics
+"""
+function get_coverage_statistics(
+    detectorId, statisticsType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return guardduty(
+        "POST",
+        "/detector/$(detectorId)/coverage/statistics",
+        Dict{String,Any}("statisticsType" => statisticsType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_coverage_statistics(
+    detectorId,
+    statisticsType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return guardduty(
+        "POST",
+        "/detector/$(detectorId)/coverage/statistics",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("statisticsType" => statisticsType), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1826,6 +1878,50 @@ function invite_members(
 end
 
 """
+    list_coverage(detector_id)
+    list_coverage(detector_id, params::Dict{String,<:Any})
+
+Lists coverage details for your GuardDuty account. If you're a GuardDuty administrator, you
+can retrieve all resources associated with the active member accounts in your organization.
+Make sure the accounts have EKS Runtime Monitoring enabled and GuardDuty agent running on
+their EKS nodes.
+
+# Arguments
+- `detector_id`: The unique ID of the detector whose coverage details you want to retrieve.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filterCriteria"`: Represents the criteria used to filter the coverage details.
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token to use for paginating results that are returned in the response.
+  Set the value of this parameter to null for the first request to a list action. For
+  subsequent calls, use the NextToken value returned from the previous request to continue
+  listing results after the first page.
+- `"sortCriteria"`: Represents the criteria used to sort the coverage details.
+"""
+function list_coverage(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+    return guardduty(
+        "POST",
+        "/detector/$(detectorId)/coverage";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_coverage(
+    detectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return guardduty(
+        "POST",
+        "/detector/$(detectorId)/coverage",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_detectors()
     list_detectors(params::Dict{String,<:Any})
 
@@ -2237,6 +2333,42 @@ function list_threat_intel_sets(
 end
 
 """
+    start_malware_scan(resource_arn)
+    start_malware_scan(resource_arn, params::Dict{String,<:Any})
+
+Initiates the malware scan. Invoking this API will automatically create the Service-linked
+role  in the corresponding account.
+
+# Arguments
+- `resource_arn`: Amazon Resource Name (ARN) of the resource for which you invoked the API.
+
+"""
+function start_malware_scan(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return guardduty(
+        "POST",
+        "/malware-scan/start",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_malware_scan(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return guardduty(
+        "POST",
+        "/malware-scan/start",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_monitoring_members(account_ids, detector_id)
     start_monitoring_members(account_ids, detector_id, params::Dict{String,<:Any})
 
@@ -2283,7 +2415,9 @@ end
     stop_monitoring_members(account_ids, detector_id, params::Dict{String,<:Any})
 
 Stops GuardDuty monitoring for the specified member accounts. Use the
-StartMonitoringMembers operation to restart monitoring for those accounts.
+StartMonitoringMembers operation to restart monitoring for those accounts. With
+autoEnableOrganizationMembers configuration for your organization set to ALL, you'll
+receive an error if you attempt to stop monitoring the member accounts in your organization.
 
 # Arguments
 - `account_ids`: A list of account IDs for the member accounts to stop monitoring.
@@ -2704,37 +2838,45 @@ function update_member_detectors(
 end
 
 """
-    update_organization_configuration(auto_enable, detector_id)
-    update_organization_configuration(auto_enable, detector_id, params::Dict{String,<:Any})
+    update_organization_configuration(detector_id)
+    update_organization_configuration(detector_id, params::Dict{String,<:Any})
 
-Updates the delegated administrator account with the values provided. There might be
-regional differences because some data sources might not be available in all the Amazon Web
-Services Regions where GuardDuty is presently supported. For more information, see Regions
-and endpoints.
+Configures the delegated administrator account with the provided values. You must provide
+the value for either autoEnableOrganizationMembers or autoEnable.  There might be regional
+differences because some data sources might not be available in all the Amazon Web Services
+Regions where GuardDuty is presently supported. For more information, see Regions and
+endpoints.
 
 # Arguments
-- `auto_enable`: Indicates whether to automatically enable member accounts in the
-  organization.
-- `detector_id`: The ID of the detector to update the delegated administrator for.
+- `detector_id`: The ID of the detector that configures the delegated administrator.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"autoEnable"`: Indicates whether to automatically enable member accounts in the
+  organization. Even though this is still supported, we recommend using
+  AutoEnableOrganizationMembers to achieve the similar results.
+- `"autoEnableOrganizationMembers"`: Indicates the auto-enablement configuration of
+  GuardDuty for the member accounts in the organization.     NEW: Indicates that when a new
+  account joins the organization, they will have GuardDuty enabled automatically.     ALL:
+  Indicates that all accounts in the Amazon Web Services Organization have GuardDuty enabled
+  automatically. This includes NEW accounts that join the organization and accounts that may
+  have been suspended or removed from the organization in GuardDuty.    NONE: Indicates that
+  GuardDuty will not be automatically enabled for any accounts in the organization. GuardDuty
+  must be managed for each account individually by the administrator.
 - `"dataSources"`: Describes which data sources will be updated.
 - `"features"`: A list of features that will be configured for the organization.
 """
 function update_organization_configuration(
-    autoEnable, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return guardduty(
         "POST",
-        "/detector/$(detectorId)/admin",
-        Dict{String,Any}("autoEnable" => autoEnable);
+        "/detector/$(detectorId)/admin";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_organization_configuration(
-    autoEnable,
     detectorId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -2742,9 +2884,7 @@ function update_organization_configuration(
     return guardduty(
         "POST",
         "/detector/$(detectorId)/admin",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("autoEnable" => autoEnable), params)
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -5,21 +5,23 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_monitor(max_city_networks_to_monitor, monitor_name)
-    create_monitor(max_city_networks_to_monitor, monitor_name, params::Dict{String,<:Any})
+    create_monitor(monitor_name)
+    create_monitor(monitor_name, params::Dict{String,<:Any})
 
 Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on
-information from the application resources that you add: Virtual Private Clouds (VPCs),
-Amazon CloudFront distributions, and WorkSpaces directories.  After you create a monitor,
-you can view the internet performance for your application, scoped to a location, as well
-as any health events that are impairing traffic. Internet Monitor can also diagnose whether
-the impairment is on the Amazon Web Services network or is an issue with an internet
-service provider (ISP).
+information from the application resources that you add: Amazon Virtual Private Clouds
+(VPCs), Amazon CloudFront distributions, and WorkSpaces directories. Internet Monitor then
+publishes internet measurements from Amazon Web Services that are specific to the
+city-networks, that is, the locations and ASNs (typically internet service providers or
+ISPs), where clients access your application. For more information, see Using Amazon
+CloudWatch Internet Monitor in the Amazon CloudWatch User Guide. When you create a monitor,
+you set a maximum limit for the number of city-networks where client traffic is monitored.
+The city-network maximum that you choose is the limit, but you only pay for the number of
+city-networks that are actually monitored. You can change the maximum at any time by
+updating your monitor. For more information, see Choosing a city-network maximum value in
+the Amazon CloudWatch User Guide.
 
 # Arguments
-- `max_city_networks_to_monitor`: The maximum number of city-network combinations (that is,
-  combinations of a city location and network, such as an ISP) to be monitored for your
-  resources.
 - `monitor_name`: The name of the monitor.
 
 # Optional Parameters
@@ -27,6 +29,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: A unique, case-sensitive string of up to 64 ASCII characters that you
   specify to make an idempotent API request. Don't reuse the same client token for other API
   requests.
+- `"InternetMeasurementsLogDelivery"`: Publish internet measurements for Internet Monitor
+  to an Amazon S3 bucket in addition to CloudWatch Logs.
+- `"MaxCityNetworksToMonitor"`: The maximum number of city-networks to monitor for your
+  resources. A city-network is the location (city) where clients access your application
+  resources from and the network or ASN, such as an internet service provider (ISP), that
+  clients access the resources through. This limit helps control billing costs. To learn
+  more, see Choosing a city-network maximum value  in the Amazon CloudWatch Internet Monitor
+  section of the CloudWatch User Guide.
 - `"Resources"`: The resources to include in a monitor, which you provide as a set of
   Amazon Resource Names (ARNs). You can add a combination of Amazon Virtual Private Clouds
   (VPCs) and Amazon CloudFront distributions, or you can add Amazon WorkSpaces directories.
@@ -34,24 +44,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   VPC must have an Internet Gateway attached to it, to make sure that it has internet
   connectivity.
 - `"Tags"`: The tags for a monitor. You can add a maximum of 50 tags in Internet Monitor.
+- `"TrafficPercentageToMonitor"`: The percentage of the internet-facing traffic for your
+  application that you want to monitor with this monitor.
 """
-function create_monitor(
-    MaxCityNetworksToMonitor, MonitorName; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_monitor(MonitorName; aws_config::AbstractAWSConfig=global_aws_config())
     return internetmonitor(
         "POST",
         "/v20210603/Monitors",
-        Dict{String,Any}(
-            "MaxCityNetworksToMonitor" => MaxCityNetworksToMonitor,
-            "MonitorName" => MonitorName,
-            "ClientToken" => string(uuid4()),
-        );
+        Dict{String,Any}("MonitorName" => MonitorName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_monitor(
-    MaxCityNetworksToMonitor,
     MonitorName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -63,9 +68,7 @@ function create_monitor(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "MaxCityNetworksToMonitor" => MaxCityNetworksToMonitor,
-                    "MonitorName" => MonitorName,
-                    "ClientToken" => string(uuid4()),
+                    "MonitorName" => MonitorName, "ClientToken" => string(uuid4())
                 ),
                 params,
             ),
@@ -379,8 +382,12 @@ end
     update_monitor(monitor_name)
     update_monitor(monitor_name, params::Dict{String,<:Any})
 
-Updates a monitor. You can update a monitor to add or remove resources, or to change the
-status of the monitor. You can't change the name of a monitor.
+Updates a monitor. You can update a monitor to change the maximum number of city-networks
+(locations and ASNs or internet service providers), to add or remove resources, or to
+change the status of the monitor. Note that you can't change the name of a monitor. The
+city-network maximum that you choose is the limit, but you only pay for the number of
+city-networks that are actually monitored. For more information, see Choosing a
+city-network maximum value in the Amazon CloudWatch User Guide.
 
 # Arguments
 - `monitor_name`: The name of the monitor.
@@ -390,9 +397,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: A unique, case-sensitive string of up to 64 ASCII characters that you
   specify to make an idempotent API request. You should not reuse the same client token for
   other API requests.
-- `"MaxCityNetworksToMonitor"`: The maximum number of city-network combinations (that is,
-  combinations of a city location and network, such as an ISP) to be monitored for your
-  resources.
+- `"InternetMeasurementsLogDelivery"`: Publish internet measurements for Internet Monitor
+  to another location, such as an Amazon S3 bucket. The measurements are also published to
+  Amazon CloudWatch Logs.
+- `"MaxCityNetworksToMonitor"`: The maximum number of city-networks to monitor for your
+  resources. A city-network is the location (city) where clients access your application
+  resources from and the network or ASN, such as an internet service provider, that clients
+  access the resources through.
 - `"ResourcesToAdd"`: The resources to include in a monitor, which you provide as a set of
   Amazon Resource Names (ARNs). You can add a combination of Amazon Virtual Private Clouds
   (VPCs) and Amazon CloudFront distributions, or you can add Amazon WorkSpaces directories.
@@ -404,6 +415,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: The status for a monitor. The accepted values for Status with the
   UpdateMonitor API call are the following: ACTIVE and INACTIVE. The following values are not
   accepted: PENDING, and ERROR.
+- `"TrafficPercentageToMonitor"`: The percentage of the internet-facing traffic for your
+  application that you want to monitor with this monitor.
 """
 function update_monitor(MonitorName; aws_config::AbstractAWSConfig=global_aws_config())
     return internetmonitor(

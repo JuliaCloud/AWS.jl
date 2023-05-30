@@ -374,6 +374,83 @@ function create_rule_group(
 end
 
 """
+    create_tlsinspection_configuration(tlsinspection_configuration, tlsinspection_configuration_name)
+    create_tlsinspection_configuration(tlsinspection_configuration, tlsinspection_configuration_name, params::Dict{String,<:Any})
+
+Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration
+contains the Certificate Manager certificate references that Network Firewall uses to
+decrypt and re-encrypt inbound traffic. After you create a TLS inspection configuration,
+you associate it with a firewall policy. To update the settings for a TLS inspection
+configuration, use UpdateTLSInspectionConfiguration. To manage a TLS inspection
+configuration's tags, use the standard Amazon Web Services resource tagging operations,
+ListTagsForResource, TagResource, and UntagResource. To retrieve information about TLS
+inspection configurations, use ListTLSInspectionConfigurations and
+DescribeTLSInspectionConfiguration.  For more information about TLS inspection
+configurations, see Decrypting SSL/TLS traffic with TLS inspection configurations in the
+Network Firewall Developer Guide.
+
+# Arguments
+- `tlsinspection_configuration`: The object that defines a TLS inspection configuration.
+  This, along with TLSInspectionConfigurationResponse, define the TLS inspection
+  configuration. You can retrieve all objects for a TLS inspection configuration by calling
+  DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration
+  to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its
+  destination. To use a TLS inspection configuration, you add it to a Network Firewall
+  firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as
+  a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection
+  configuration from more than one firewall policy, and you can use a firewall policy in more
+  than one firewall. For more information about using TLS inspection configurations, see
+  Decrypting SSL/TLS traffic with TLS inspection configurations in the Network Firewall
+  Developer Guide.
+- `tlsinspection_configuration_name`: The descriptive name of the TLS inspection
+  configuration. You can't change the name of a TLS inspection configuration after you create
+  it.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the TLS inspection configuration.
+- `"EncryptionConfiguration"`:
+- `"Tags"`: The key:value pairs to associate with the resource.
+"""
+function create_tlsinspection_configuration(
+    TLSInspectionConfiguration,
+    TLSInspectionConfigurationName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "CreateTLSInspectionConfiguration",
+        Dict{String,Any}(
+            "TLSInspectionConfiguration" => TLSInspectionConfiguration,
+            "TLSInspectionConfigurationName" => TLSInspectionConfigurationName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_tlsinspection_configuration(
+    TLSInspectionConfiguration,
+    TLSInspectionConfigurationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "CreateTLSInspectionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TLSInspectionConfiguration" => TLSInspectionConfiguration,
+                    "TLSInspectionConfigurationName" => TLSInspectionConfigurationName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_firewall()
     delete_firewall(params::Dict{String,<:Any})
 
@@ -501,6 +578,40 @@ function delete_rule_group(
 )
     return network_firewall(
         "DeleteRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    delete_tlsinspection_configuration()
+    delete_tlsinspection_configuration(params::Dict{String,<:Any})
+
+Deletes the specified TLSInspectionConfiguration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TLSInspectionConfigurationArn"`: The Amazon Resource Name (ARN) of the TLS inspection
+  configuration. You must specify the ARN or the name, and you can specify both.
+- `"TLSInspectionConfigurationName"`: The descriptive name of the TLS inspection
+  configuration. You can't change the name of a TLS inspection configuration after you create
+  it. You must specify the ARN or the name, and you can specify both.
+"""
+function delete_tlsinspection_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "DeleteTLSInspectionConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_tlsinspection_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "DeleteTLSInspectionConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -689,6 +800,40 @@ function describe_rule_group_metadata(
 )
     return network_firewall(
         "DescribeRuleGroupMetadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_tlsinspection_configuration()
+    describe_tlsinspection_configuration(params::Dict{String,<:Any})
+
+Returns the data objects for the specified TLS inspection configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"TLSInspectionConfigurationArn"`: The Amazon Resource Name (ARN) of the TLS inspection
+  configuration. You must specify the ARN or the name, and you can specify both.
+- `"TLSInspectionConfigurationName"`: The descriptive name of the TLS inspection
+  configuration. You can't change the name of a TLS inspection configuration after you create
+  it. You must specify the ARN or the name, and you can specify both.
+"""
+function describe_tlsinspection_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "DescribeTLSInspectionConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_tlsinspection_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "DescribeTLSInspectionConfiguration",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -904,6 +1049,44 @@ function list_tags_for_resource(
 end
 
 """
+    list_tlsinspection_configurations()
+    list_tlsinspection_configurations(params::Dict{String,<:Any})
+
+Retrieves the metadata for the TLS inspection configurations that you have defined.
+Depending on your setting for max results and the number of TLS inspection configurations,
+a single call might not return the full list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of objects that you want Network Firewall to return
+  for this request. If more objects are available, in the response, Network Firewall provides
+  a NextToken value that you can use in a subsequent call to get the next batch of objects.
+- `"NextToken"`: When you request a list of objects with a MaxResults setting, if the
+  number of objects that are still available for retrieval exceeds the maximum you requested,
+  Network Firewall returns a NextToken value in the response. To retrieve the next batch of
+  objects, use the token returned from the prior request in your next request.
+"""
+function list_tlsinspection_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "ListTLSInspectionConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tlsinspection_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return network_firewall(
+        "ListTLSInspectionConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_resource_policy(policy, resource_arn)
     put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
 
@@ -927,10 +1110,10 @@ sharing using RAM, see Resource Access Manager User Guide.
   Actions section of the statement:   network-firewall:CreateFirewallPolicy
   network-firewall:UpdateFirewallPolicy   network-firewall:ListRuleGroups   For a firewall
   policy resource, you can specify the following operations in the Actions section of the
-  statement:   network-firewall:CreateFirewall   network-firewall:UpdateFirewall
-  network-firewall:AssociateFirewallPolicy   network-firewall:ListFirewallPolicies   In the
-  Resource section of the statement, you specify the ARNs for the rule groups and firewall
-  policies that you want to share with the account that you specified in Arn.
+  statement:   network-firewall:AssociateFirewallPolicy
+  network-firewall:ListFirewallPolicies   In the Resource section of the statement, you
+  specify the ARNs for the rule groups and firewall policies that you want to share with the
+  account that you specified in Arn.
 - `resource_arn`: The Amazon Resource Name (ARN) of the account that you want to share rule
   groups and firewall policies with.
 
@@ -1508,6 +1691,89 @@ function update_subnet_change_protection(
             mergewith(
                 _merge,
                 Dict{String,Any}("SubnetChangeProtection" => SubnetChangeProtection),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_tlsinspection_configuration(tlsinspection_configuration, update_token)
+    update_tlsinspection_configuration(tlsinspection_configuration, update_token, params::Dict{String,<:Any})
+
+Updates the TLS inspection configuration settings for the specified TLS inspection
+configuration. You use a TLS inspection configuration by reference in one or more firewall
+policies. When you modify a TLS inspection configuration, you modify all firewall policies
+that use the TLS inspection configuration.  To update a TLS inspection configuration, first
+call DescribeTLSInspectionConfiguration to retrieve the current TLSInspectionConfiguration
+object, update the object as needed, and then provide the updated object to this call.
+
+# Arguments
+- `tlsinspection_configuration`: The object that defines a TLS inspection configuration.
+  This, along with TLSInspectionConfigurationResponse, define the TLS inspection
+  configuration. You can retrieve all objects for a TLS inspection configuration by calling
+  DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration
+  to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its
+  destination. To use a TLS inspection configuration, you add it to a Network Firewall
+  firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as
+  a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection
+  configuration from more than one firewall policy, and you can use a firewall policy in more
+  than one firewall. For more information about using TLS inspection configurations, see
+  Decrypting SSL/TLS traffic with TLS inspection configurations in the Network Firewall
+  Developer Guide.
+- `update_token`: A token used for optimistic locking. Network Firewall returns a token to
+  your requests that access the TLS inspection configuration. The token marks the state of
+  the TLS inspection configuration resource at the time of the request.  To make changes to
+  the TLS inspection configuration, you provide the token in your request. Network Firewall
+  uses the token to ensure that the TLS inspection configuration hasn't changed since you
+  last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If
+  this happens, retrieve the TLS inspection configuration again to get a current copy of it
+  with a current token. Reapply your changes as needed, then try the operation again using
+  the new token.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the TLS inspection configuration.
+- `"EncryptionConfiguration"`: A complex type that contains the Amazon Web Services KMS
+  encryption configuration settings for your TLS inspection configuration.
+- `"TLSInspectionConfigurationArn"`: The Amazon Resource Name (ARN) of the TLS inspection
+  configuration.
+- `"TLSInspectionConfigurationName"`: The descriptive name of the TLS inspection
+  configuration. You can't change the name of a TLS inspection configuration after you create
+  it.
+"""
+function update_tlsinspection_configuration(
+    TLSInspectionConfiguration,
+    UpdateToken;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "UpdateTLSInspectionConfiguration",
+        Dict{String,Any}(
+            "TLSInspectionConfiguration" => TLSInspectionConfiguration,
+            "UpdateToken" => UpdateToken,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_tlsinspection_configuration(
+    TLSInspectionConfiguration,
+    UpdateToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return network_firewall(
+        "UpdateTLSInspectionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "TLSInspectionConfiguration" => TLSInspectionConfiguration,
+                    "UpdateToken" => UpdateToken,
+                ),
                 params,
             ),
         );

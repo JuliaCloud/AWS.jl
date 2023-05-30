@@ -797,7 +797,8 @@ Creates a transit gateway route table attachment.
 # Arguments
 - `peering_id`: The ID of the peer for the
 - `transit_gateway_route_table_arn`: The ARN of the transit gateway route table for the
-  attachment request.
+  attachment request. For example, \"TransitGatewayRouteTableArn\":
+  \"arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456\".
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

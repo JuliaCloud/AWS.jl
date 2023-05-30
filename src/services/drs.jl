@@ -49,6 +49,43 @@ function create_extended_source_server(
 end
 
 """
+    create_launch_configuration_template()
+    create_launch_configuration_template(params::Dict{String,<:Any})
+
+Creates a new Launch Configuration Template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"copyPrivateIp"`: Copy private IP.
+- `"copyTags"`: Copy tags.
+- `"launchDisposition"`: Launch disposition.
+- `"licensing"`: Licensing.
+- `"tags"`: Request to associate tags during creation of a Launch Configuration Template.
+- `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
+"""
+function create_launch_configuration_template(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/CreateLaunchConfigurationTemplate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_launch_configuration_template(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/CreateLaunchConfigurationTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_replication_configuration_template(associate_default_security_group, bandwidth_throttling, create_public_ip, data_plane_routing, default_large_staging_disk_type, ebs_encryption, pit_policy, replication_server_instance_type, replication_servers_security_groups_ids, staging_area_subnet_id, staging_area_tags, use_dedicated_replication_server)
     create_replication_configuration_template(associate_default_security_group, bandwidth_throttling, create_public_ip, data_plane_routing, default_large_staging_disk_type, ebs_encryption, pit_policy, replication_server_instance_type, replication_servers_security_groups_ids, staging_area_subnet_id, staging_area_tags, use_dedicated_replication_server, params::Dict{String,<:Any})
 
@@ -77,6 +114,8 @@ Creates a new ReplicationConfigurationTemplate.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"autoReplicateNewDisks"`: Whether to allow the AWS replication agent to automatically
+  replicate newly added disks.
 - `"ebsEncryptionKeyArn"`: The ARN of the EBS encryption key to be used during replication.
 - `"tags"`: A set of tags to be associated with the Replication Configuration Template
   resource.
@@ -188,6 +227,50 @@ function delete_job(
         "POST",
         "/DeleteJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobID" => jobID), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_launch_configuration_template(launch_configuration_template_id)
+    delete_launch_configuration_template(launch_configuration_template_id, params::Dict{String,<:Any})
+
+Deletes a single Launch Configuration Template by ID.
+
+# Arguments
+- `launch_configuration_template_id`: The ID of the Launch Configuration Template to be
+  deleted.
+
+"""
+function delete_launch_configuration_template(
+    launchConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/DeleteLaunchConfigurationTemplate",
+        Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_launch_configuration_template(
+    launchConfigurationTemplateID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/DeleteLaunchConfigurationTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "launchConfigurationTemplateID" => launchConfigurationTemplateID
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -380,6 +463,41 @@ function describe_jobs(
     return drs(
         "POST",
         "/DescribeJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_launch_configuration_templates()
+    describe_launch_configuration_templates(params::Dict{String,<:Any})
+
+Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"launchConfigurationTemplateIDs"`: Request to filter Launch Configuration Templates list
+  by Launch Configuration Template ID.
+- `"maxResults"`: Maximum results to be returned in DescribeLaunchConfigurationTemplates.
+- `"nextToken"`: The token of the next Launch Configuration Template to retrieve.
+"""
+function describe_launch_configuration_templates(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/DescribeLaunchConfigurationTemplates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_launch_configuration_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/DescribeLaunchConfigurationTemplates",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -876,10 +994,10 @@ end
     retry_data_replication(source_server_id)
     retry_data_replication(source_server_id, params::Dict{String,<:Any})
 
-Causes the data replication initiation sequence to begin immediately upon next Handshake
-for the specified Source Server ID, regardless of when the previous initiation started.
-This command will work only if the Source Server is stalled or is in a DISCONNECTED or
-STOPPED state.
+WARNING: RetryDataReplication is deprecated. Causes the data replication initiation
+sequence to begin immediately upon next Handshake for the specified Source Server ID,
+regardless of when the previous initiation started. This command will work only if the
+Source Server is stalled or is in a DISCONNECTED or STOPPED state.
 
 # Arguments
 - `source_server_id`: The ID of the Source Server whose data replication should be retried.
@@ -1373,6 +1491,56 @@ function update_launch_configuration(
 end
 
 """
+    update_launch_configuration_template(launch_configuration_template_id)
+    update_launch_configuration_template(launch_configuration_template_id, params::Dict{String,<:Any})
+
+Updates an existing Launch Configuration Template by ID.
+
+# Arguments
+- `launch_configuration_template_id`: Launch Configuration Template ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"copyPrivateIp"`: Copy private IP.
+- `"copyTags"`: Copy tags.
+- `"launchDisposition"`: Launch disposition.
+- `"licensing"`: Licensing.
+- `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
+"""
+function update_launch_configuration_template(
+    launchConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/UpdateLaunchConfigurationTemplate",
+        Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_launch_configuration_template(
+    launchConfigurationTemplateID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/UpdateLaunchConfigurationTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "launchConfigurationTemplateID" => launchConfigurationTemplateID
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_replication_configuration(source_server_id)
     update_replication_configuration(source_server_id, params::Dict{String,<:Any})
 
@@ -1385,6 +1553,8 @@ Allows you to update a ReplicationConfiguration by Source Server ID.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"associateDefaultSecurityGroup"`: Whether to associate the default Elastic Disaster
   Recovery Security group with the Replication Configuration.
+- `"autoReplicateNewDisks"`: Whether to allow the AWS replication agent to automatically
+  replicate newly added disks.
 - `"bandwidthThrottling"`: Configure bandwidth throttling for the outbound data transfer
   rate of the Source Server in Mbps.
 - `"createPublicIP"`: Whether to create a Public IP for the Recovery Instance by default.
@@ -1448,6 +1618,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"arn"`: The Replication Configuration Template ARN.
 - `"associateDefaultSecurityGroup"`: Whether to associate the default Elastic Disaster
   Recovery Security group with the Replication Configuration Template.
+- `"autoReplicateNewDisks"`: Whether to allow the AWS replication agent to automatically
+  replicate newly added disks.
 - `"bandwidthThrottling"`: Configure bandwidth throttling for the outbound data transfer
   rate of the Source Server in Mbps.
 - `"createPublicIP"`: Whether to create a Public IP for the Recovery Instance by default.

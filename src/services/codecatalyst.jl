@@ -9,10 +9,12 @@ using AWS.UUIDs
     create_access_token(name, params::Dict{String,<:Any})
 
 Creates a personal access token (PAT) for the current user. A personal access token (PAT)
-is similar to a password. It is associated with your user account. You use PATs to access
-Amazon CodeCatalyst resources such as source repositories from third-party applications
-like Git and integrated development environments (IDEs). For more information, see Managing
-personal access tokens in Amazon CodeCatalyst.
+is similar to a password. It is associated with your user identity for use across all
+spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from
+resources that include integrated development environments (IDEs) and Git-based source
+repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your
+user settings.For more information, see Managing personal access tokens in Amazon
+CodeCatalyst.
 
 # Arguments
 - `name`: The friendly name of the personal access token.
@@ -47,7 +49,7 @@ end
     create_dev_environment(instance_type, persistent_storage, project_name, space_name)
     create_dev_environment(instance_type, persistent_storage, project_name, space_name, params::Dict{String,<:Any})
 
-Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development Dev Environment
+Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment
 that you can use to quickly work on the code stored in the source repositories of your
 project.   When created in the Amazon CodeCatalyst console, by default a Dev Environment is
 configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of
@@ -224,7 +226,7 @@ deleted by the user who created it.
 
 # Arguments
 - `id`: The ID of the personal access token to delete. You can find the IDs of all PATs
-  associated with your user account by calling ListAccessTokens.
+  associated with your Amazon Web Services Builder ID in a space by calling ListAccessTokens.
 
 """
 function delete_access_token(id; aws_config::AbstractAWSConfig=global_aws_config())
@@ -495,7 +497,7 @@ end
     list_access_tokens(params::Dict{String,<:Any})
 
 Lists all personal access tokens (PATs) associated with the user who calls the API. You can
-only list PATs associated with your user account.
+only list PATs associated with your Amazon Web Services Builder ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -523,10 +525,58 @@ function list_access_tokens(
 end
 
 """
+    list_dev_environment_sessions(dev_environment_id, project_name, space_name)
+    list_dev_environment_sessions(dev_environment_id, project_name, space_name, params::Dict{String,<:Any})
+
+Retrieves a list of active sessions for a Dev Environment in a project.
+
+# Arguments
+- `dev_environment_id`: The system-generated unique ID of the Dev Environment.
+- `project_name`: The name of the project in the space.
+- `space_name`: The name of the space.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If
+  the number of results is larger than the number you specified, the response will include a
+  NextToken element, which you can use to obtain additional results.
+- `"nextToken"`: A token returned from a call to this API to indicate the next batch of
+  results to return, if any.
+"""
+function list_dev_environment_sessions(
+    devEnvironmentId,
+    projectName,
+    spaceName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "POST",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(devEnvironmentId)/sessions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_dev_environment_sessions(
+    devEnvironmentId,
+    projectName,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "POST",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(devEnvironmentId)/sessions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_dev_environments(project_name, space_name)
     list_dev_environments(project_name, space_name, params::Dict{String,<:Any})
 
-Retrives a list of Dev Environments in a project.
+Retrieves a list of Dev Environments in a project.
 
 # Arguments
 - `project_name`: The name of the project in the space.

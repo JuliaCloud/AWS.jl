@@ -11,7 +11,7 @@ using AWS.UUIDs
 Used to acknowledge an engagement to a contact channel during an incident.
 
 # Arguments
-- `accept_code`: The accept code is a 6-digit code used to acknowledge the page.
+- `accept_code`: A 6-digit code used to acknowledge the page.
 - `accept_type`: The type indicates if the page was DELIVERED or READ.
 - `page_id`: The Amazon Resource Name (ARN) of the engagement to a contact channel.
 
@@ -117,8 +117,7 @@ end
     create_contact(alias, plan, type, params::Dict{String,<:Any})
 
 Contacts are either the contacts that Incident Manager engages during an incident or the
-escalation plans that Incident Manager uses to engage contacts in phases during an
-incident.
+escalation plans that Incident Manager uses to engage contacts in phases during an incident.
 
 # Arguments
 - `alias`: The short name to quickly identify a contact or escalation plan. The contact
@@ -250,6 +249,145 @@ function create_contact_channel(
 end
 
 """
+    create_rotation(contact_ids, name, recurrence, time_zone_id)
+    create_rotation(contact_ids, name, recurrence, time_zone_id, params::Dict{String,<:Any})
+
+Creates a rotation in an on-call schedule.
+
+# Arguments
+- `contact_ids`: The Amazon Resource Names (ARNs) of the contacts to add to the rotation.
+  The order that you list the contacts in is their shift order in the rotation schedule. To
+  change the order of the contact's shifts, use the UpdateRotation operation.
+- `name`: The name of the rotation.
+- `recurrence`: Information about the rule that specifies when a shift's team members
+  rotate.
+- `time_zone_id`: The time zone to base the rotation’s activity on in Internet Assigned
+  Numbers Authority (IANA) format. For example: \"America/Los_Angeles\", \"UTC\", or
+  \"Asia/Seoul\". For more information, see the Time Zone Database on the IANA website.
+  Designators for time zones that don’t support Daylight Savings Time rules, such as
+  Pacific Standard Time (PST) and Pacific Daylight Time (PDT), are not supported.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IdempotencyToken"`: A token that ensures that the operation is called only once with
+  the specified details.
+- `"StartTime"`: The date and time that the rotation goes into effect.
+- `"Tags"`: Optional metadata to assign to the rotation. Tags enable you to categorize a
+  resource in different ways, such as by purpose, owner, or environment. For more
+  information, see Tagging Incident Manager resources in the Incident Manager User Guide.
+"""
+function create_rotation(
+    ContactIds,
+    Name,
+    Recurrence,
+    TimeZoneId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "CreateRotation",
+        Dict{String,Any}(
+            "ContactIds" => ContactIds,
+            "Name" => Name,
+            "Recurrence" => Recurrence,
+            "TimeZoneId" => TimeZoneId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_rotation(
+    ContactIds,
+    Name,
+    Recurrence,
+    TimeZoneId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "CreateRotation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactIds" => ContactIds,
+                    "Name" => Name,
+                    "Recurrence" => Recurrence,
+                    "TimeZoneId" => TimeZoneId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_rotation_override(end_time, new_contact_ids, rotation_id, start_time)
+    create_rotation_override(end_time, new_contact_ids, rotation_id, start_time, params::Dict{String,<:Any})
+
+Creates an override for a rotation in an on-call schedule.
+
+# Arguments
+- `end_time`: The date and time when the override ends.
+- `new_contact_ids`: The Amazon Resource Names (ARNs) of the contacts to replace those in
+  the current on-call rotation with. If you want to include any current team members in the
+  override shift, you must include their ARNs in the new contact ID list.
+- `rotation_id`: The Amazon Resource Name (ARN) of the rotation to create an override for.
+- `start_time`: The date and time when the override goes into effect.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IdempotencyToken"`: A token that ensures that the operation is called only once with
+  the specified details.
+"""
+function create_rotation_override(
+    EndTime,
+    NewContactIds,
+    RotationId,
+    StartTime;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "CreateRotationOverride",
+        Dict{String,Any}(
+            "EndTime" => EndTime,
+            "NewContactIds" => NewContactIds,
+            "RotationId" => RotationId,
+            "StartTime" => StartTime,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_rotation_override(
+    EndTime,
+    NewContactIds,
+    RotationId,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "CreateRotationOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "NewContactIds" => NewContactIds,
+                    "RotationId" => RotationId,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     deactivate_contact_channel(contact_channel_id)
     deactivate_contact_channel(contact_channel_id, params::Dict{String,<:Any})
 
@@ -357,6 +495,86 @@ function delete_contact_channel(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_rotation(rotation_id)
+    delete_rotation(rotation_id, params::Dict{String,<:Any})
+
+Deletes a rotation from the system. If a rotation belongs to more than one on-call
+schedule, this operation deletes it from all of them.
+
+# Arguments
+- `rotation_id`: The Amazon Resource Name (ARN) of the on-call rotation to delete.
+
+"""
+function delete_rotation(RotationId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "DeleteRotation",
+        Dict{String,Any}("RotationId" => RotationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_rotation(
+    RotationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "DeleteRotation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RotationId" => RotationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_rotation_override(rotation_id, rotation_override_id)
+    delete_rotation_override(rotation_id, rotation_override_id, params::Dict{String,<:Any})
+
+Deletes an existing override for an on-call rotation.
+
+# Arguments
+- `rotation_id`: The Amazon Resource Name (ARN) of the rotation that was overridden.
+- `rotation_override_id`: The Amazon Resource Name (ARN) of the on-call rotation override
+  to delete.
+
+"""
+function delete_rotation_override(
+    RotationId, RotationOverrideId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "DeleteRotationOverride",
+        Dict{String,Any}(
+            "RotationId" => RotationId, "RotationOverrideId" => RotationOverrideId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_rotation_override(
+    RotationId,
+    RotationOverrideId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "DeleteRotationOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RotationId" => RotationId, "RotationOverrideId" => RotationOverrideId
+                ),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -534,6 +752,87 @@ function get_contact_policy(
 end
 
 """
+    get_rotation(rotation_id)
+    get_rotation(rotation_id, params::Dict{String,<:Any})
+
+Retrieves information about an on-call rotation.
+
+# Arguments
+- `rotation_id`: The Amazon Resource Name (ARN) of the on-call rotation to retrieve
+  information about.
+
+"""
+function get_rotation(RotationId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "GetRotation",
+        Dict{String,Any}("RotationId" => RotationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_rotation(
+    RotationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "GetRotation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("RotationId" => RotationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_rotation_override(rotation_id, rotation_override_id)
+    get_rotation_override(rotation_id, rotation_override_id, params::Dict{String,<:Any})
+
+Retrieves information about an override to an on-call rotation.
+
+# Arguments
+- `rotation_id`: The Amazon Resource Name (ARN) of the overridden rotation to retrieve
+  information about.
+- `rotation_override_id`: The Amazon Resource Name (ARN) of the on-call rotation override
+  to retrieve information about.
+
+"""
+function get_rotation_override(
+    RotationId, RotationOverrideId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "GetRotationOverride",
+        Dict{String,Any}(
+            "RotationId" => RotationId, "RotationOverrideId" => RotationOverrideId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_rotation_override(
+    RotationId,
+    RotationOverrideId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "GetRotationOverride",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "RotationId" => RotationId, "RotationOverrideId" => RotationOverrideId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_contact_channels(contact_id)
     list_contact_channels(contact_id, params::Dict{String,<:Any})
 
@@ -658,6 +957,41 @@ function list_page_receipts(
 end
 
 """
+    list_page_resolutions(page_id)
+    list_page_resolutions(page_id, params::Dict{String,<:Any})
+
+Returns the resolution path of an engagement. For example, the escalation plan engaged in
+an incident might target an on-call schedule that includes several contacts in a rotation,
+but just one contact on-call when the incident starts. The resolution path indicates the
+hierarchy of escalation plan &gt; on-call schedule &gt; contact.
+
+# Arguments
+- `page_id`: The Amazon Resource Name (ARN) of the contact engaged for the incident.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+"""
+function list_page_resolutions(PageId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "ListPageResolutions",
+        Dict{String,Any}("PageId" => PageId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_page_resolutions(
+    PageId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "ListPageResolutions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PageId" => PageId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_pages_by_contact(contact_id)
     list_pages_by_contact(contact_id, params::Dict{String,<:Any})
 
@@ -733,6 +1067,212 @@ function list_pages_by_engagement(
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_preview_rotation_shifts(end_time, members, recurrence, time_zone_id)
+    list_preview_rotation_shifts(end_time, members, recurrence, time_zone_id, params::Dict{String,<:Any})
+
+Returns a list of shifts based on rotation configuration parameters.  The Incident Manager
+primarily uses this operation to populate the Preview calendar. It is not typically run by
+end users.
+
+# Arguments
+- `end_time`: The date and time a rotation shift would end.
+- `members`: The contacts that would be assigned to a rotation.
+- `recurrence`: Information about how long a rotation would last before restarting at the
+  beginning of the shift order.
+- `time_zone_id`: The time zone the rotation’s activity would be based on, in Internet
+  Assigned Numbers Authority (IANA) format. For example: \"America/Los_Angeles\", \"UTC\", or
+  \"Asia/Seoul\".
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of items to return for this call. The call also
+  returns a token that can be specified in a subsequent call to get the next set of results.
+- `"NextToken"`: A token to start the list. This token is used to get the next set of
+  results.
+- `"Overrides"`: Information about changes that would be made in a rotation override.
+- `"RotationStartTime"`: The date and time a rotation would begin. The first shift is
+  calculated from this date and time.
+- `"StartTime"`: Used to filter the range of calculated shifts before sending the response
+  back to the user.
+"""
+function list_preview_rotation_shifts(
+    EndTime,
+    Members,
+    Recurrence,
+    TimeZoneId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "ListPreviewRotationShifts",
+        Dict{String,Any}(
+            "EndTime" => EndTime,
+            "Members" => Members,
+            "Recurrence" => Recurrence,
+            "TimeZoneId" => TimeZoneId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_preview_rotation_shifts(
+    EndTime,
+    Members,
+    Recurrence,
+    TimeZoneId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "ListPreviewRotationShifts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "Members" => Members,
+                    "Recurrence" => Recurrence,
+                    "TimeZoneId" => TimeZoneId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_rotation_overrides(end_time, rotation_id, start_time)
+    list_rotation_overrides(end_time, rotation_id, start_time, params::Dict{String,<:Any})
+
+Retrieves a list of overrides currently specified for an on-call rotation.
+
+# Arguments
+- `end_time`: The date and time for the end of a time range for listing overrides.
+- `rotation_id`: The Amazon Resource Name (ARN) of the rotation to retrieve information
+  about.
+- `start_time`: The date and time for the beginning of a time range for listing overrides.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of items to return for this call. The call also
+  returns a token that you can specify in a subsequent call to get the next set of results.
+- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+"""
+function list_rotation_overrides(
+    EndTime, RotationId, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "ListRotationOverrides",
+        Dict{String,Any}(
+            "EndTime" => EndTime, "RotationId" => RotationId, "StartTime" => StartTime
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_rotation_overrides(
+    EndTime,
+    RotationId,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "ListRotationOverrides",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "RotationId" => RotationId,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_rotation_shifts(end_time, rotation_id)
+    list_rotation_shifts(end_time, rotation_id, params::Dict{String,<:Any})
+
+Returns a list of shifts generated by an existing rotation in the system.
+
+# Arguments
+- `end_time`: The date and time for the end of the time range to list shifts for.
+- `rotation_id`: The Amazon Resource Name (ARN) of the rotation to retrieve shift
+  information about.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of items to return for this call. The call also
+  returns a token that you can specify in a subsequent call to get the next set of results.
+- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"StartTime"`: The date and time for the beginning of the time range to list shifts for.
+"""
+function list_rotation_shifts(
+    EndTime, RotationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "ListRotationShifts",
+        Dict{String,Any}("EndTime" => EndTime, "RotationId" => RotationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_rotation_shifts(
+    EndTime,
+    RotationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "ListRotationShifts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EndTime" => EndTime, "RotationId" => RotationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_rotations()
+    list_rotations(params::Dict{String,<:Any})
+
+Retrieves a list of on-call rotations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of items to return for this call. The call also
+  returns a token that you can specify in a subsequent call to get the next set of results.
+- `"NextToken"`: A token to start the list. Use this token to get the next set of results.
+- `"RotationNamePrefix"`: A filter to include rotations in list results based on their
+  common prefix. For example, entering prod returns a list of all rotation names that begin
+  with prod, such as production and prod-1.
+"""
+function list_rotations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_contacts(
+        "ListRotations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_rotations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "ListRotations", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1115,6 +1655,59 @@ function update_contact_channel(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("ContactChannelId" => ContactChannelId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_rotation(recurrence, rotation_id)
+    update_rotation(recurrence, rotation_id, params::Dict{String,<:Any})
+
+Updates the information specified for an on-call rotation.
+
+# Arguments
+- `recurrence`: Information about how long the updated rotation lasts before restarting at
+  the beginning of the shift order.
+- `rotation_id`: The Amazon Resource Name (ARN) of the rotation to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ContactIds"`: The Amazon Resource Names (ARNs) of the contacts to include in the
+  updated rotation.  The order in which you list the contacts is their shift order in the
+  rotation schedule.
+- `"StartTime"`: The date and time the rotation goes into effect.
+- `"TimeZoneId"`: The time zone to base the updated rotation’s activity on, in Internet
+  Assigned Numbers Authority (IANA) format. For example: \"America/Los_Angeles\", \"UTC\", or
+  \"Asia/Seoul\". For more information, see the Time Zone Database on the IANA website.
+  Designators for time zones that don’t support Daylight Savings Time Rules, such as
+  Pacific Standard Time (PST) and Pacific Daylight Time (PDT), aren't supported.
+"""
+function update_rotation(
+    Recurrence, RotationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_contacts(
+        "UpdateRotation",
+        Dict{String,Any}("Recurrence" => Recurrence, "RotationId" => RotationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_rotation(
+    Recurrence,
+    RotationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_contacts(
+        "UpdateRotation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Recurrence" => Recurrence, "RotationId" => RotationId),
+                params,
             ),
         );
         aws_config=aws_config,

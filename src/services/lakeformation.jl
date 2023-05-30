@@ -1578,6 +1578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service-linked role by registering this role with the Data Catalog. A service-linked role
   is a unique type of IAM role that is linked directly to Lake Formation. For more
   information, see Using Service-Linked Roles for Lake Formation.
+- `"WithFederation"`: Whether or not the resource is a federated resource.
 """
 function register_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
     return lakeformation(
@@ -1977,6 +1978,9 @@ Lake Formation.
 - `resource_arn`: The resource ARN.
 - `role_arn`: The new role to use for the given resource registered in Lake Formation.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"WithFederation"`: Whether or not the resource is a federated resource.
 """
 function update_resource(
     ResourceArn, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()

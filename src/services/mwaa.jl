@@ -40,35 +40,35 @@ Creates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 
 # Arguments
 - `dag_s3_path`: The relative path to the DAGs folder on your Amazon S3 bucket. For
-  example, dags. To learn more, see Adding or updating DAGs.
+  example, dags. For more information, see Adding or updating DAGs.
 - `execution_role_arn`: The Amazon Resource Name (ARN) of the execution role for your
   environment. An execution role is an Amazon Web Services Identity and Access Management
   (IAM) role that grants MWAA permission to access Amazon Web Services services and resources
-  used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. To
-  learn more, see Amazon MWAA Execution role.
+  used by your environment. For example, arn:aws:iam::123456789:role/my-execution-role. For
+  more information, see Amazon MWAA Execution role.
 - `name`: The name of the Amazon MWAA environment. For example, MyMWAAEnvironment.
 - `network_configuration`: The VPC networking components used to secure and enable network
-  traffic between the Amazon Web Services resources for your environment. To learn more, see
-  About networking on Amazon MWAA.
+  traffic between the Amazon Web Services resources for your environment. For more
+  information, see About networking on Amazon MWAA.
 - `source_bucket_arn`: The Amazon Resource Name (ARN) of the Amazon S3 bucket where your
   DAG code and supporting files are stored. For example,
-  arn:aws:s3:::my-airflow-bucket-unique-name. To learn more, see Create an Amazon S3 bucket
-  for Amazon MWAA.
+  arn:aws:s3:::my-airflow-bucket-unique-name. For more information, see Create an Amazon S3
+  bucket for Amazon MWAA.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AirflowConfigurationOptions"`: A list of key-value pairs containing the Apache Airflow
-  configuration options you want to attach to your environment. To learn more, see Apache
-  Airflow configuration options.
+  configuration options you want to attach to your environment. For more information, see
+  Apache Airflow configuration options.
 - `"AirflowVersion"`: The Apache Airflow version for your environment. If no value is
   specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, and
   2.4.3. For more information, see Apache Airflow versions on Amazon Managed Workflows for
   Apache Airflow (MWAA).
 - `"EnvironmentClass"`: The environment class type. Valid values: mw1.small, mw1.medium,
-  mw1.large. To learn more, see Amazon MWAA environment class.
+  mw1.large. For more information, see Amazon MWAA environment class.
 - `"KmsKey"`: The Amazon Web Services Key Management Service (KMS) key to encrypt the data
   in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed
-  CMK (advanced). To learn more, see Create an Amazon MWAA environment.
+  CMK (advanced). For more information, see Create an Amazon MWAA environment.
 - `"LoggingConfiguration"`: Defines the Apache Airflow logs to send to CloudWatch Logs.
 - `"MaxWorkers"`: The maximum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
@@ -81,23 +81,35 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disposes of the extra workers leaving the worker count you specify in the MinWorkers field.
   For example, 2.
 - `"PluginsS3ObjectVersion"`: The version of the plugins.zip file on your Amazon S3 bucket.
-  A version must be specified each time a plugins.zip file is updated. To learn more, see How
-  S3 Versioning works.
+  You must specify a version each time a plugins.zip file is updated. For more information,
+  see How S3 Versioning works.
 - `"PluginsS3Path"`: The relative path to the plugins.zip file on your Amazon S3 bucket.
-  For example, plugins.zip. If specified, then the plugins.zip version is required. To learn
-  more, see Installing custom plugins.
+  For example, plugins.zip. If specified, then the plugins.zip version is required. For more
+  information, see Installing custom plugins.
 - `"RequirementsS3ObjectVersion"`: The version of the requirements.txt file on your Amazon
-  S3 bucket. A version must be specified each time a requirements.txt file is updated. To
-  learn more, see How S3 Versioning works.
+  S3 bucket. You must specify a version each time a requirements.txt file is updated. For
+  more information, see How S3 Versioning works.
 - `"RequirementsS3Path"`: The relative path to the requirements.txt file on your Amazon S3
-  bucket. For example, requirements.txt. If specified, then a file version is required. To
-  learn more, see Installing Python dependencies.
+  bucket. For example, requirements.txt. If specified, then a version is required. For more
+  information, see Installing Python dependencies.
 - `"Schedulers"`: The number of Apache Airflow schedulers to run in your environment. Valid
   values:   v2 - Accepts between 2 to 5. Defaults to 2.   v1 - Accepts 1.
+- `"StartupScriptS3ObjectVersion"`: The version of the startup shell script in your Amazon
+  S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time
+  you update the script.   Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings
+  that are no more than 1,024 bytes long. The following is an example:
+  3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information,
+  see Using a startup script.
+- `"StartupScriptS3Path"`: The relative path to the startup shell script in your Amazon S3
+  bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your
+  environment starts, and before running the Apache Airflow process. You can use this script
+  to install dependencies, modify Apache Airflow configuration options, and set environment
+  variables. For more information, see Using a startup script.
 - `"Tags"`: The key-value tag pairs you want to associate to your environment. For example,
-  \"Environment\": \"Staging\". To learn more, see Tagging Amazon Web Services resources.
-- `"WebserverAccessMode"`: The Apache Airflow Web server access mode. To learn more, see
-  Apache Airflow access modes.
+  \"Environment\": \"Staging\". For more information, see Tagging Amazon Web Services
+  resources.
+- `"WebserverAccessMode"`: The Apache Airflow Web server access mode. For more information,
+  see Apache Airflow access modes.
 - `"WeeklyMaintenanceWindowStart"`: The day and time of the week in Coordinated Universal
   Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in
   the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30
@@ -358,7 +370,8 @@ environment.
 - `resource_arn`: The Amazon Resource Name (ARN) of the Amazon MWAA environment. For
   example, arn:aws:airflow:us-east-1:123456789012:environment/MyMWAAEnvironment.
 - `tags`: The key-value tag pairs you want to associate to your environment. For example,
-  \"Environment\": \"Staging\". To learn more, see Tagging Amazon Web Services resources.
+  \"Environment\": \"Staging\". For more information, see Tagging Amazon Web Services
+  resources.
 
 """
 function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -437,18 +450,18 @@ Updates an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AirflowConfigurationOptions"`: A list of key-value pairs containing the Apache Airflow
-  configuration options you want to attach to your environment. To learn more, see Apache
-  Airflow configuration options.
+  configuration options you want to attach to your environment. For more information, see
+  Apache Airflow configuration options.
 - `"AirflowVersion"`: The Apache Airflow version for your environment. If no value is
   specified, defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, and 2.4.3.
 - `"DagS3Path"`: The relative path to the DAGs folder on your Amazon S3 bucket. For
-  example, dags. To learn more, see Adding or updating DAGs.
+  example, dags. For more information, see Adding or updating DAGs.
 - `"EnvironmentClass"`: The environment class type. Valid values: mw1.small, mw1.medium,
-  mw1.large. To learn more, see Amazon MWAA environment class.
+  mw1.large. For more information, see Amazon MWAA environment class.
 - `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the execution role in IAM that
   allows MWAA to access Amazon Web Services resources in your environment. For example,
-  arn:aws:iam::123456789:role/my-execution-role. To learn more, see Amazon MWAA Execution
-  role.
+  arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA
+  Execution role.
 - `"LoggingConfiguration"`: The Apache Airflow log types to send to CloudWatch Logs.
 - `"MaxWorkers"`: The maximum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
@@ -461,28 +474,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disposes of the extra workers leaving the worker count you specify in the MinWorkers field.
   For example, 2.
 - `"NetworkConfiguration"`: The VPC networking components used to secure and enable network
-  traffic between the Amazon Web Services resources for your environment. To learn more, see
-  About networking on Amazon MWAA.
+  traffic between the Amazon Web Services resources for your environment. For more
+  information, see About networking on Amazon MWAA.
 - `"PluginsS3ObjectVersion"`: The version of the plugins.zip file on your Amazon S3 bucket.
-  A version must be specified each time a plugins.zip file is updated. To learn more, see How
-  S3 Versioning works.
+  You must specify a version each time a plugins.zip file is updated. For more information,
+  see How S3 Versioning works.
 - `"PluginsS3Path"`: The relative path to the plugins.zip file on your Amazon S3 bucket.
-  For example, plugins.zip. If specified, then the plugins.zip version is required. To learn
-  more, see Installing custom plugins.
+  For example, plugins.zip. If specified, then the plugins.zip version is required. For more
+  information, see Installing custom plugins.
 - `"RequirementsS3ObjectVersion"`: The version of the requirements.txt file on your Amazon
-  S3 bucket. A version must be specified each time a requirements.txt file is updated. To
-  learn more, see How S3 Versioning works.
+  S3 bucket. You must specify a version each time a requirements.txt file is updated. For
+  more information, see How S3 Versioning works.
 - `"RequirementsS3Path"`: The relative path to the requirements.txt file on your Amazon S3
-  bucket. For example, requirements.txt. If specified, then a file version is required. To
-  learn more, see Installing Python dependencies.
+  bucket. For example, requirements.txt. If specified, then a file version is required. For
+  more information, see Installing Python dependencies.
 - `"Schedulers"`: The number of Apache Airflow schedulers to run in your Amazon MWAA
   environment.
 - `"SourceBucketArn"`: The Amazon Resource Name (ARN) of the Amazon S3 bucket where your
   DAG code and supporting files are stored. For example,
-  arn:aws:s3:::my-airflow-bucket-unique-name. To learn more, see Create an Amazon S3 bucket
-  for Amazon MWAA.
-- `"WebserverAccessMode"`: The Apache Airflow Web server access mode. To learn more, see
-  Apache Airflow access modes.
+  arn:aws:s3:::my-airflow-bucket-unique-name. For more information, see Create an Amazon S3
+  bucket for Amazon MWAA.
+- `"StartupScriptS3ObjectVersion"`:  The version of the startup shell script in your Amazon
+  S3 bucket. You must specify the version ID that Amazon S3 assigns to the file every time
+  you update the script.   Version IDs are Unicode, UTF-8 encoded, URL-ready, opaque strings
+  that are no more than 1,024 bytes long. The following is an example:
+  3sL4kqtJlcpXroDTDmJ+rmSpXd3dIbrHY+MTRCxf3vjVBH40Nr8X8gdRQBpUMLUo   For more information,
+  see Using a startup script.
+- `"StartupScriptS3Path"`: The relative path to the startup shell script in your Amazon S3
+  bucket. For example, s3://mwaa-environment/startup.sh.  Amazon MWAA runs the script as your
+  environment starts, and before running the Apache Airflow process. You can use this script
+  to install dependencies, modify Apache Airflow configuration options, and set environment
+  variables. For more information, see Using a startup script.
+- `"WebserverAccessMode"`: The Apache Airflow Web server access mode. For more information,
+  see Apache Airflow access modes.
 - `"WeeklyMaintenanceWindowStart"`: The day and time of the week in Coordinated Universal
   Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in
   the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30

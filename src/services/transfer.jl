@@ -360,10 +360,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   disruptive.  For more information, see Manage host keys for your SFTP-enabled server in the
   Transfer Family User Guide.
 - `"IdentityProviderDetails"`: Required when IdentityProviderType is set to
-  AWS_DIRECTORY_SERVICE or API_GATEWAY. Accepts an array containing all of the information
-  required to use a directory in AWS_DIRECTORY_SERVICE or invoke a customer-supplied
-  authentication API, including the API Gateway URL. Not required when IdentityProviderType
-  is set to SERVICE_MANAGED.
+  AWS_DIRECTORY_SERVICE, Amazon Web Services_LAMBDA or API_GATEWAY. Accepts an array
+  containing all of the information required to use a directory in AWS_DIRECTORY_SERVICE or
+  invoke a customer-supplied authentication API, including the API Gateway URL. Not required
+  when IdentityProviderType is set to SERVICE_MANAGED.
 - `"IdentityProviderType"`: The mode of authentication for a server. The default value is
   SERVICE_MANAGED, which allows you to store and access user credentials within the Transfer
   Family service. Use AWS_DIRECTORY_SERVICE to provide access to Active Directory groups in
@@ -374,7 +374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   API_GATEWAY setting requires you to provide an Amazon API Gateway endpoint URL to call for
   authentication by using the IdentityProviderDetails parameter. Use the AWS_LAMBDA value to
   directly use an Lambda function as your identity provider. If you choose this value, you
-  must specify the ARN for the Lambda function in the Function parameter or the
+  must specify the ARN for the Lambda function in the Function parameter for the
   IdentityProviderDetails data type.
 - `"LoggingRole"`: The Amazon Resource Name (ARN) of the Identity and Access Management
   (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or
@@ -421,8 +421,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
   execution role that's used for executing the workflow. In addition to a workflow to execute
   when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and
-  execution role) for a workflow to execute on partial upload. A partial upload occurs when a
-  file is open when the session disconnects.
+  execution role) for a workflow to execute on partial upload. A partial upload occurs when
+  the server session disconnects while the file is still being uploaded.
 """
 function create_server(; aws_config::AbstractAWSConfig=global_aws_config())
     return transfer("CreateServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -561,8 +561,8 @@ and UpdateServer operations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A textual description for the workflow.
 - `"OnExceptionSteps"`: Specifies the steps (actions) to take if errors are encountered
-  during execution of the workflow.  For custom steps, the lambda function needs to send
-  FAILURE to the call back API to kick off the exception steps. Additionally, if the lambda
+  during execution of the workflow.  For custom steps, the Lambda function needs to send
+  FAILURE to the call back API to kick off the exception steps. Additionally, if the Lambda
   does not send SUCCESS before it times out, the exception steps are executed.
 - `"Tags"`: Key-value pairs that can be used to group and search for workflows. Tags are
   metadata attached to workflows for any purpose.
@@ -749,7 +749,7 @@ end
     delete_host_key(host_key_id, server_id)
     delete_host_key(host_key_id, server_id, params::Dict{String,<:Any})
 
-Deletes the host key that's specified in the HoskKeyId parameter.
+Deletes the host key that's specified in the HostKeyId parameter.
 
 # Arguments
 - `host_key_id`: The identifier of the host key that you are deleting.
@@ -1150,7 +1150,9 @@ end
     describe_execution(execution_id, workflow_id, params::Dict{String,<:Any})
 
 You can use DescribeExecution to check the details of the execution of the specified
-workflow.
+workflow.  This API call only returns details for in-progress workflows.  If you provide an
+ID for an execution that is not in progress, or if the execution doesn't match the
+specified workflow ID, you receive a ResourceNotFound exception.
 
 # Arguments
 - `execution_id`: A unique identifier for the execution of a workflow.
@@ -1522,15 +1524,16 @@ end
     import_ssh_public_key(server_id, ssh_public_key_body, user_name)
     import_ssh_public_key(server_id, ssh_public_key_body, user_name, params::Dict{String,<:Any})
 
-Adds a Secure Shell (SSH) public key to a user account identified by a UserName value
-assigned to the specific file transfer protocol-enabled server, identified by ServerId. The
-response returns the UserName value, the ServerId value, and the name of the SshPublicKeyId.
+Adds a Secure Shell (SSH) public key to a Transfer Family user identified by a UserName
+value assigned to the specific file transfer protocol-enabled server, identified by
+ServerId. The response returns the UserName value, the ServerId value, and the name of the
+SshPublicKeyId.
 
 # Arguments
 - `server_id`: A system-assigned unique identifier for a server.
 - `ssh_public_key_body`: The public key portion of an SSH key pair. Transfer Family accepts
   RSA, ECDSA, and ED25519 keys.
-- `user_name`: The name of the user account that is assigned to one or more servers.
+- `user_name`: The name of the Transfer Family user that is assigned to one or more servers.
 
 """
 function import_ssh_public_key(
@@ -1714,7 +1717,8 @@ end
     list_executions(workflow_id)
     list_executions(workflow_id, params::Dict{String,<:Any})
 
-Lists all executions for the specified workflow.
+Lists all in-progress executions for the specified workflow.  If the specified workflow ID
+cannot be found, ListExecutions returns a ResourceNotFound exception.
 
 # Arguments
 - `workflow_id`: A unique identifier for the workflow.
@@ -1967,7 +1971,8 @@ end
     list_workflows()
     list_workflows(params::Dict{String,<:Any})
 
-Lists all of your workflows.
+Lists all workflows associated with your Amazon Web Services account for your current
+region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2183,7 +2188,8 @@ this call.
 - `arn`: An Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as
   a server, user, or role.
 - `tags`: Key-value pairs assigned to ARNs that you can use to group and search for
-  resources by type. You can attach this metadata to user accounts for any purpose.
+  resources by type. You can attach this metadata to resources (servers, users, workflows,
+  and so on) for any purpose.
 
 """
 function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2220,28 +2226,32 @@ successfully. We highly recommend that you call this operation to test your auth
 method as soon as you create your server. By doing so, you can troubleshoot issues with the
 identity provider integration to ensure that your users can successfully use the service.
 The ServerId and UserName parameters are required. The ServerProtocol, SourceIp, and
-UserPassword are all optional.    You cannot use TestIdentityProvider if the
-IdentityProviderType of your server is SERVICE_MANAGED.      If you provide any incorrect
-values for any parameters, the Response field is empty.     If you provide a server ID for
-a server that uses service-managed users, you get an error:    An error occurred
-(InvalidRequestException) when calling the TestIdentityProvider operation: s-server-ID not
-configured for external auth      If you enter a Server ID for the --server-id parameter
-that does not identify an actual Transfer server, you receive the following error:   An
-error occurred (ResourceNotFoundException) when calling the TestIdentityProvider operation:
-Unknown server
+UserPassword are all optional.  Note the following:    You cannot use TestIdentityProvider
+if the IdentityProviderType of your server is SERVICE_MANAGED.    TestIdentityProvider does
+not work with keys: it only accepts passwords.    TestIdentityProvider can test the
+password operation for a custom Identity Provider that handles keys and passwords.    If
+you provide any incorrect values for any parameters, the Response field is empty.     If
+you provide a server ID for a server that uses service-managed users, you get an error:
+An error occurred (InvalidRequestException) when calling the TestIdentityProvider
+operation: s-server-ID not configured for external auth      If you enter a Server ID for
+the --server-id parameter that does not identify an actual Transfer server, you receive the
+following error:   An error occurred (ResourceNotFoundException) when calling the
+TestIdentityProvider operation: Unknown server.  It is possible your sever is in a
+different region. You can specify a region by adding the following: --region region-code,
+such as --region us-east-2 to specify a server in US East (Ohio).
 
 # Arguments
 - `server_id`: A system-assigned identifier for a specific server. That server's user
   authentication method is tested with a user name and password.
-- `user_name`: The name of the user account to be tested.
+- `user_name`: The name of the account to be tested.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ServerProtocol"`: The type of file transfer protocol to be tested. The available
   protocols are:   Secure Shell (SSH) File Transfer Protocol (SFTP)   File Transfer Protocol
-  Secure (FTPS)   File Transfer Protocol (FTP)
-- `"SourceIp"`: The source IP address of the user account to be tested.
-- `"UserPassword"`: The password of the user account to be tested.
+  Secure (FTPS)   File Transfer Protocol (FTP)   Applicability Statement 2 (AS2)
+- `"SourceIp"`: The source IP address of the account to be tested.
+- `"UserPassword"`: The password of the account to be tested.
 """
 function test_identity_provider(
     ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2656,8 +2666,8 @@ Updates the file transfer protocol-enabled server's properties after that server
 created. The UpdateServer call returns the ServerId of the server you updated.
 
 # Arguments
-- `server_id`: A system-assigned unique identifier for a server instance that the user
-  account is assigned to.
+- `server_id`: A system-assigned unique identifier for a server instance that the Transfer
+  Family user is assigned to.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2752,10 +2762,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
   execution role that's used for executing the workflow. In addition to a workflow to execute
   when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and
-  execution role) for a workflow to execute on partial upload. A partial upload occurs when a
-  file is open when the session disconnects. To remove an associated workflow from a server,
-  you can provide an empty OnUpload object, as in the following example.  aws transfer
-  update-server --server-id s-01234567890abcdef --workflow-details '{\"OnUpload\":[]}'
+  execution role) for a workflow to execute on partial upload. A partial upload occurs when
+  the server session disconnects while the file is still being uploaded. To remove an
+  associated workflow from a server, you can provide an empty OnUpload object, as in the
+  following example.  aws transfer update-server --server-id s-01234567890abcdef
+  --workflow-details '{\"OnUpload\":[]}'
 """
 function update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
     return transfer(
@@ -2789,8 +2800,8 @@ the home directory, role, and policy for the UserName and ServerId you specify. 
 response returns the ServerId and the UserName for the updated user.
 
 # Arguments
-- `server_id`: A system-assigned unique identifier for a server instance that the user
-  account is assigned to.
+- `server_id`: A system-assigned unique identifier for a Transfer Family server instance
+  that the user is assigned to.
 - `user_name`: A unique string that identifies a user and is associated with a server as
   specified by the ServerId. This user name must be a minimum of 3 and a maximum of 100
   characters long. The following are valid characters: a-z, A-Z, 0-9, underscore '_', hyphen

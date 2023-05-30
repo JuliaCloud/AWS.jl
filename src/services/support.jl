@@ -151,8 +151,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"issueType"`: The type of issue for the case. You can specify customer-service or
   technical. If you don't specify a value, the default is technical.
 - `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
-  Web Services Support currently supports English (\"en\") and Japanese (\"ja\"). You must
-  specify the ISO 639-1 code for the language parameter if you want support in that language.
+  Web Services Support currently supports Chinese (“zh”), English (\"en\"), Japanese
+  (\"ja\") and Korean (“ko”). You must specify the ISO 639-1 code for the language
+  parameter if you want support in that language.
 - `"serviceCode"`: The code for the Amazon Web Services service. You can use the
   DescribeServices operation to get the possible serviceCode values.
 - `"severityCode"`: A value that indicates the urgency of the case. This value determines
@@ -271,8 +272,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeResolvedCases"`: Specifies whether to include resolved support cases in the
   DescribeCases response. By default, resolved cases aren't included.
 - `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
-  Web Services Support currently supports English (\"en\") and Japanese (\"ja\"). You must
-  specify the ISO 639-1 code for the language parameter if you want support in that language.
+  Web Services Support currently supports Chinese (“zh”), English (\"en\"), Japanese
+  (\"ja\") and Korean (“ko”). You must specify the ISO 639-1 code for the language
+  parameter if you want support in that language.
 - `"maxResults"`: The maximum number of results to return before paginating.
 - `"nextToken"`: A resumption point for pagination.
 """
@@ -338,6 +340,79 @@ function describe_communications(
 end
 
 """
+    describe_create_case_options(category_code, issue_type, language, service_code)
+    describe_create_case_options(category_code, issue_type, language, service_code, params::Dict{String,<:Any})
+
+Returns a list of CreateCaseOption types along with the corresponding supported hours and
+language availability. You can specify the language categoryCode, issueType and serviceCode
+used to retrieve the CreateCaseOptions.    You must have a Business, Enterprise On-Ramp, or
+Enterprise Support plan to use the Amazon Web Services Support API.    If you call the
+Amazon Web Services Support API from an account that doesn't have a Business, Enterprise
+On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message
+appears. For information about changing your support plan, see Amazon Web Services Support.
+
+
+# Arguments
+- `category_code`: The category of problem for the support case. You also use the
+  DescribeServices operation to get the category code for a service. Each Amazon Web Services
+  service defines its own set of category codes.
+- `issue_type`: The type of issue for the case. You can specify customer-service or
+  technical. If you don't specify a value, the default is technical.
+- `language`: The language in which Amazon Web Services Support handles the case. Amazon
+  Web Services Support currently supports Chinese (“zh”), English (\"en\"), Japanese
+  (\"ja\") and Korean (“ko”). You must specify the ISO 639-1 code for the language
+  parameter if you want support in that language.
+- `service_code`: The code for the Amazon Web Services service. You can use the
+  DescribeServices operation to get the possible serviceCode values.
+
+"""
+function describe_create_case_options(
+    categoryCode,
+    issueType,
+    language,
+    serviceCode;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return support(
+        "DescribeCreateCaseOptions",
+        Dict{String,Any}(
+            "categoryCode" => categoryCode,
+            "issueType" => issueType,
+            "language" => language,
+            "serviceCode" => serviceCode,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_create_case_options(
+    categoryCode,
+    issueType,
+    language,
+    serviceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return support(
+        "DescribeCreateCaseOptions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "categoryCode" => categoryCode,
+                    "issueType" => issueType,
+                    "language" => language,
+                    "serviceCode" => serviceCode,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_services()
     describe_services(params::Dict{String,<:Any})
 
@@ -358,8 +433,9 @@ support plan, see Amazon Web Services Support.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
-  Web Services Support currently supports English (\"en\") and Japanese (\"ja\"). You must
-  specify the ISO 639-1 code for the language parameter if you want support in that language.
+  Web Services Support currently supports Chinese (“zh”), English (\"en\"), Japanese
+  (\"ja\") and Korean (“ko”). You must specify the ISO 639-1 code for the language
+  parameter if you want support in that language.
 - `"serviceCodeList"`: A JSON-formatted list of service codes available for Amazon Web
   Services services.
 """
@@ -391,8 +467,9 @@ about changing your support plan, see Amazon Web Services Support.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"language"`: The language in which Amazon Web Services Support handles the case. Amazon
-  Web Services Support currently supports English (\"en\") and Japanese (\"ja\"). You must
-  specify the ISO 639-1 code for the language parameter if you want support in that language.
+  Web Services Support currently supports Chinese (“zh”), English (\"en\"), Japanese
+  (\"ja\") and Korean (“ko”). You must specify the ISO 639-1 code for the language
+  parameter if you want support in that language.
 """
 function describe_severity_levels(; aws_config::AbstractAWSConfig=global_aws_config())
     return support(
@@ -405,6 +482,68 @@ function describe_severity_levels(
     return support(
         "DescribeSeverityLevels",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_supported_languages(category_code, issue_type, service_code)
+    describe_supported_languages(category_code, issue_type, service_code, params::Dict{String,<:Any})
+
+Returns a list of supported languages for a specified categoryCode, issueType and
+serviceCode. The returned supported languages will include a ISO 639-1 code for the
+language, and the language display name.    You must have a Business, Enterprise On-Ramp,
+or Enterprise Support plan to use the Amazon Web Services Support API.    If you call the
+Amazon Web Services Support API from an account that doesn't have a Business, Enterprise
+On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message
+appears. For information about changing your support plan, see Amazon Web Services Support.
+
+
+# Arguments
+- `category_code`: The category of problem for the support case. You also use the
+  DescribeServices operation to get the category code for a service. Each Amazon Web Services
+  service defines its own set of category codes.
+- `issue_type`: The type of issue for the case. You can specify customer-service or
+  technical.
+- `service_code`: The code for the Amazon Web Services service. You can use the
+  DescribeServices operation to get the possible serviceCode values.
+
+"""
+function describe_supported_languages(
+    categoryCode, issueType, serviceCode; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return support(
+        "DescribeSupportedLanguages",
+        Dict{String,Any}(
+            "categoryCode" => categoryCode,
+            "issueType" => issueType,
+            "serviceCode" => serviceCode,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_supported_languages(
+    categoryCode,
+    issueType,
+    serviceCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return support(
+        "DescribeSupportedLanguages",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "categoryCode" => categoryCode,
+                    "issueType" => issueType,
+                    "serviceCode" => serviceCode,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

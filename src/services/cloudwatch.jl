@@ -11,9 +11,11 @@ using AWS.UUIDs
 Deletes the specified alarms. You can delete up to 100 alarms in one operation. However,
 this total can include no more than one composite alarm. For example, you could delete 99
 metric alarms and one composite alarms with one operation, but you can't delete two
-composite alarms with one operation.  In the event of an error, no alarms are deleted.  It
-is possible to create a loop or cycle of composite alarms, where composite alarm A depends
-on composite alarm B, and composite alarm B also depends on composite alarm A. In this
+composite alarms with one operation.  If you specify an incorrect alarm name or make any
+other error in the operation, no alarms are deleted. To confirm that alarms were deleted
+successfully, you can use the DescribeAlarms operation after using DeleteAlarms.  It is
+possible to create a loop or cycle of composite alarms, where composite alarm A depends on
+composite alarm B, and composite alarm B also depends on composite alarm A. In this
 scenario, you can't delete any composite alarm that is part of the cycle because there is
 always still a composite alarm that depends on that alarm that you want to delete. To get
 out of such a situation, you must break the cycle by changing the rule of one of the
@@ -23,7 +25,7 @@ Additionally, the evaluation of composite alarms stops if CloudWatch detects a c
 evaluation path.
 
 # Arguments
-- `alarm_names`: The alarms to be deleted.
+- `alarm_names`: The alarms to be deleted. Do not enclose the alarm names in quote marks.
 
 """
 function delete_alarms(AlarmNames; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1580,27 +1582,30 @@ alarm is then evaluated and its state is set appropriately. Any actions associat
 new state are then executed. When you update an existing alarm, its state is left
 unchanged, but the update completely overwrites the previous configuration of the alarm. If
 you are an IAM user, you must have Amazon EC2 permissions for some alarm operations:   The
-iam:CreateServiceLinkedRole for all alarms with EC2 actions   The
-iam:CreateServiceLinkedRole to create an alarm with Systems Manager OpsItem actions.   The
-first time you create an alarm in the Amazon Web Services Management Console, the CLI, or
-by using the PutMetricAlarm API, CloudWatch creates the necessary service-linked role for
-you. The service-linked roles are called AWSServiceRoleForCloudWatchEvents and
-AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more information, see Amazon Web Services
-service-linked role.  Cross-account alarms  You can set an alarm on metrics in the current
-account, or in another account. To create a cross-account alarm that watches a metric in a
-different account, you must have completed the following pre-requisites:   The account
-where the metrics are located (the sharing account) must already have a sharing role named
-CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create
-it using the instructions in Set up a sharing account in  Cross-account cross-Region
-CloudWatch console. The policy for that role must grant access to the ID of the account
-where you are creating the alarm.    The account where you are creating the alarm (the
-monitoring account) must already have a service-linked role named
-AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in
-the sharing account. If it does not, you must create it following the directions in Set up
-a monitoring account in  Cross-account cross-Region CloudWatch console.
+iam:CreateServiceLinkedRole permission for all alarms with EC2 actions   The
+iam:CreateServiceLinkedRole permissions to create an alarm with Systems Manager OpsItem or
+response plan actions.   The first time you create an alarm in the Amazon Web Services
+Management Console, the CLI, or by using the PutMetricAlarm API, CloudWatch creates the
+necessary service-linked role for you. The service-linked roles are called
+AWSServiceRoleForCloudWatchEvents and AWSServiceRoleForCloudWatchAlarms_ActionSSM. For more
+information, see Amazon Web Services service-linked role. Each PutMetricAlarm action has a
+maximum uncompressed payload of 120 KB.  Cross-account alarms  You can set an alarm on
+metrics in the current account, or in another account. To create a cross-account alarm that
+watches a metric in a different account, you must have completed the following
+pre-requisites:   The account where the metrics are located (the sharing account) must
+already have a sharing role named CloudWatch-CrossAccountSharingRole. If it does not
+already have this role, you must create it using the instructions in Set up a sharing
+account in  Cross-account cross-Region CloudWatch console. The policy for that role must
+grant access to the ID of the account where you are creating the alarm.    The account
+where you are creating the alarm (the monitoring account) must already have a
+service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to
+assume the sharing role in the sharing account. If it does not, you must create it
+following the directions in Set up a monitoring account in  Cross-account cross-Region
+CloudWatch console.
 
 # Arguments
-- `alarm_name`: The name for the alarm. This name must be unique within the Region.
+- `alarm_name`: The name for the alarm. This name must be unique within the Region. The
+  name must contain only UTF-8 characters, and can't contain ASCII control characters
 - `comparison_operator`:  The arithmetic operation to use when comparing the specified
   statistic and threshold. The specified statistic value is used as the first operand. The
   values LessThanLowerOrGreaterThanUpperThreshold, LessThanLowerThreshold, and
@@ -1618,17 +1623,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the alarm state. The default is TRUE.
 - `"AlarmActions"`: The actions to execute when this alarm transitions to the ALARM state
   from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid
-  Values: arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate |
-  arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot |
-  arn:aws:sns:region:account-id:sns-topic-name  |
+  values:  EC2 actions:     arn:aws:automate:region:ec2:stop
+  arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot
+  arn:aws:automate:region:ec2:recover
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling
+  action:
   arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-fri
-  endly-name:policyName/policy-friendly-name  |
-  arn:aws:ssm:region:account-id:opsitem:severity  |
-  arn:aws:ssm-incidents::account-id:response-plan:response-plan-name   Valid Values (for use
-  with IAM roles): arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 |
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
+  endly-name:policyName/policy-friendly-name      SNS notification action:
+  arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policy
+  Name/policy-friendly-name      SSM integration actions:
+  arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
+  arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
 - `"AlarmDescription"`: The description for the alarm.
 - `"DatapointsToAlarm"`: The number of data points that must be breaching to trigger the
   alarm. This is used only if you are setting an \"M out of N\" alarm. In that case, this
@@ -1646,14 +1654,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
 - `"InsufficientDataActions"`: The actions to execute when this alarm transitions to the
   INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon
-  Resource Name (ARN). Valid Values: arn:aws:automate:region:ec2:stop |
-  arn:aws:automate:region:ec2:terminate | arn:aws:automate:region:ec2:recover |
-  arn:aws:automate:region:ec2:reboot | arn:aws:sns:region:account-id:sns-topic-name  |
-  arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-fri
-  endly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles):
-  &gt;arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
+  Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop
+  arn:aws:automate:region:ec2:terminate     arn:aws:automate:region:ec2:reboot
+  arn:aws:automate:region:ec2:recover
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling
+  action:
+  arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-fri
+  endly-name:policyName/policy-friendly-name      SNS notification action:
+  arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policy
+  Name/policy-friendly-name      SSM integration actions:
+  arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
+  arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
 - `"MetricName"`: The name for the metric associated with the alarm. For each
   PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are
   creating an alarm based on a math expression, you cannot specify this parameter, or any of
@@ -1671,16 +1685,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Metrics array.
 - `"Namespace"`: The namespace for the metric associated specified in MetricName.
 - `"OKActions"`: The actions to execute when this alarm transitions to an OK state from any
-  other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values:
-  arn:aws:automate:region:ec2:stop | arn:aws:automate:region:ec2:terminate |
-  arn:aws:automate:region:ec2:recover | arn:aws:automate:region:ec2:reboot |
-  arn:aws:sns:region:account-id:sns-topic-name  |
+  other state. Each action is specified as an Amazon Resource Name (ARN). Valid values:  EC2
+  actions:     arn:aws:automate:region:ec2:stop     arn:aws:automate:region:ec2:terminate
+  arn:aws:automate:region:ec2:reboot     arn:aws:automate:region:ec2:recover
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0
+  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling
+  action:
   arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-fri
-  endly-name:policyName/policy-friendly-name   Valid Values (for use with IAM roles):
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Stop/1.0 |
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Terminate/1.0 |
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Reboot/1.0 |
-  arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0
+  endly-name:policyName/policy-friendly-name      SNS notification action:
+  arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policy
+  Name/policy-friendly-name      SSM integration actions:
+  arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
+  arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
 - `"Period"`: The length, in seconds, used each time the metric specified in MetricName is
   evaluated. Valid values are 10, 30, and any multiple of 60.  Period is required for alarms
   based on static thresholds. If you are creating an alarm based on a metric math expression,
@@ -1808,8 +1826,10 @@ by SampleCount.
 # Arguments
 - `metric_data`: The data for the metric. The array can include no more than 1000 metrics
   per call.
-- `namespace`: The namespace for the metric data. To avoid conflicts with Amazon Web
-  Services service namespaces, you should not specify a namespace that begins with AWS/
+- `namespace`: The namespace for the metric data. You can use ASCII characters for the
+  namespace, except for control characters which are not supported. To avoid conflicts with
+  Amazon Web Services service namespaces, you should not specify a namespace that begins with
+  AWS/
 
 """
 function put_metric_data(

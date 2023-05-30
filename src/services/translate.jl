@@ -619,6 +619,80 @@ function tag_resource(
 end
 
 """
+    translate_document(document, source_language_code, target_language_code)
+    translate_document(document, source_language_code, target_language_code, params::Dict{String,<:Any})
+
+Translates the input document from the source language to the target language. This
+synchronous operation supports plain text or HTML for the input document. TranslateDocument
+supports translations from English to any supported language, and from any supported
+language to English. Therefore, specify either the source language code or the target
+language code as “en” (English).   TranslateDocument does not support language
+auto-detection.   If you set the Formality parameter, the request will fail if the target
+language does not support formality. For a list of target languages that support formality,
+see Setting formality.
+
+# Arguments
+- `document`: The content and content type for the document to be translated. The document
+  size must not exceed 100 KB.
+- `source_language_code`: The language code for the language of the source text. Do not use
+  auto, because TranslateDocument does not support language auto-detection. For a list of
+  supported language codes, see Supported languages.
+- `target_language_code`: The language code requested for the translated document. For a
+  list of supported language codes, see Supported languages.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Settings"`:
+- `"TerminologyNames"`: The name of a terminology list file to add to the translation job.
+  This file provides source terms and the desired translation for each term. A terminology
+  list can contain a maximum of 256 terms. You can use one custom terminology resource in
+  your translation request. Use the ListTerminologies operation to get the available
+  terminology lists. For more information about custom terminology lists, see Custom
+  terminology.
+"""
+function translate_document(
+    Document,
+    SourceLanguageCode,
+    TargetLanguageCode;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return translate(
+        "TranslateDocument",
+        Dict{String,Any}(
+            "Document" => Document,
+            "SourceLanguageCode" => SourceLanguageCode,
+            "TargetLanguageCode" => TargetLanguageCode,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function translate_document(
+    Document,
+    SourceLanguageCode,
+    TargetLanguageCode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return translate(
+        "TranslateDocument",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Document" => Document,
+                    "SourceLanguageCode" => SourceLanguageCode,
+                    "TargetLanguageCode" => TargetLanguageCode,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     translate_text(source_language_code, target_language_code, text)
     translate_text(source_language_code, target_language_code, text, params::Dict{String,<:Any})
 
@@ -626,15 +700,15 @@ Translates input text from the source language to the target language. For a lis
 available languages and language codes, see Supported languages.
 
 # Arguments
-- `source_language_code`: The language code for the language of the source text. The
-  language must be a language supported by Amazon Translate. For a list of language codes,
-  see Supported languages. To have Amazon Translate determine the source language of your
-  text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon
-  Translate will call Amazon Comprehend to determine the source language.  If you specify
-  auto, you must send the TranslateText request in a region that supports Amazon Comprehend.
-  Otherwise, the request returns an error indicating that autodetect is not supported.
+- `source_language_code`: The language code for the language of the source text. For a list
+  of language codes, see Supported languages. To have Amazon Translate determine the source
+  language of your text, you can specify auto in the SourceLanguageCode field. If you specify
+  auto, Amazon Translate will call Amazon Comprehend to determine the source language.  If
+  you specify auto, you must send the TranslateText request in a region that supports Amazon
+  Comprehend. Otherwise, the request returns an error indicating that autodetect is not
+  supported.
 - `target_language_code`: The language code requested for the language of the target text.
-  The language must be a language supported by Amazon Translate.
+  For a list of language codes, see Supported languages.
 - `text`: The text to translate. The text string can be a maximum of 10,000 bytes long.
   Depending on your character set, this may be fewer than 10,000 characters.
 
@@ -642,9 +716,12 @@ available languages and language codes, see Supported languages.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Settings"`: Settings to configure your translation output, including the option to set
   the formality level of the output text and the option to mask profane words and phrases.
-- `"TerminologyNames"`: The name of the terminology list file to be used in the
-  TranslateText request. You can use 1 terminology list at most in a TranslateText request.
-  Terminology lists can contain a maximum of 256 terms.
+- `"TerminologyNames"`: The name of a terminology list file to add to the translation job.
+  This file provides source terms and the desired translation for each term. A terminology
+  list can contain a maximum of 256 terms. You can use one custom terminology resource in
+  your translation request. Use the ListTerminologies operation to get the available
+  terminology lists. For more information about custom terminology lists, see Custom
+  terminology.
 """
 function translate_text(
     SourceLanguageCode,

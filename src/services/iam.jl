@@ -1775,9 +1775,10 @@ end
     delete_role_permissions_boundary(role_name)
     delete_role_permissions_boundary(role_name, params::Dict{String,<:Any})
 
-Deletes the permissions boundary for the specified IAM role.   Deleting the permissions
-boundary for a role might increase its permissions. For example, it might allow anyone who
-assumes the role to perform all the actions granted in its permissions policies.
+Deletes the permissions boundary for the specified IAM role.  You cannot set the boundary
+for a service-linked role.  Deleting the permissions boundary for a role might increase its
+permissions. For example, it might allow anyone who assumes the role to perform all the
+actions granted in its permissions policies.
 
 # Arguments
 - `role_name`: The name (friendly name, not ARN) of the IAM role from which you want to
@@ -5680,7 +5681,7 @@ Adds or updates the policy that is specified as the IAM role's permissions bound
 can use an Amazon Web Services managed policy or a customer managed policy to set the
 boundary for a role. Use the boundary to control the maximum permissions that the role can
 have. Setting a permissions boundary is an advanced feature that can affect the permissions
-for the role. You cannot set the boundary for a service-linked role.   Policies used as
+for the role. You cannot set the boundary for a service-linked role.  Policies used as
 permissions boundaries do not provide permissions. You must also attach a permissions
 policy to the role. To learn how the effective permissions for a role are evaluated, see
 IAM JSON policy evaluation logic in the IAM User Guide.

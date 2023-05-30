@@ -9,7 +9,13 @@ using AWS.UUIDs
     describe_accelerator_offerings(location_type, params::Dict{String,<:Any})
 
  Describes the locations in which a given accelerator type or set of types is present in a
-given region.
+given region.   February 15, 2023: Starting April 15, 2023, AWS will not onboard new
+customers to Amazon Elastic Inference (EI), and will help current customers migrate their
+workloads to options that offer better price and performance. After April 15, 2023, new
+customers will not be able to launch instances with Amazon EI accelerators in Amazon
+SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least
+once during the past 30-day period are considered current customers and will be able to
+continue using the service.
 
 # Arguments
 - `location_type`:  The location type that you want to describe accelerator type offerings
@@ -54,7 +60,13 @@ end
     describe_accelerator_types(params::Dict{String,<:Any})
 
  Describes the accelerator types available in a given region, as well as their
-characteristics, such as memory and throughput.
+characteristics, such as memory and throughput.   February 15, 2023: Starting April 15,
+2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will help
+current customers migrate their workloads to options that offer better price and
+performance. After April 15, 2023, new customers will not be able to launch instances with
+Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers
+who have used Amazon EI at least once during the past 30-day period are considered current
+customers and will be able to continue using the service.
 
 """
 function describe_accelerator_types(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -82,6 +94,12 @@ end
     describe_accelerators(params::Dict{String,<:Any})
 
  Describes information over a provided set of accelerators belonging to an account.
+February 15, 2023: Starting April 15, 2023, AWS will not onboard new customers to Amazon
+Elastic Inference (EI), and will help current customers migrate their workloads to options
+that offer better price and performance. After April 15, 2023, new customers will not be
+able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or
+Amazon EC2. However, customers who have used Amazon EI at least once during the past 30-day
+period are considered current customers and will be able to continue using the service.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -121,7 +139,13 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
- Returns all tags of an Elastic Inference Accelerator.
+ Returns all tags of an Elastic Inference Accelerator.   February 15, 2023: Starting April
+15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and will
+help current customers migrate their workloads to options that offer better price and
+performance. After April 15, 2023, new customers will not be able to launch instances with
+Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers
+who have used Amazon EI at least once during the past 30-day period are considered current
+customers and will be able to continue using the service.
 
 # Arguments
 - `resource_arn`:  The ARN of the Elastic Inference Accelerator to list the tags for.
@@ -155,7 +179,13 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
- Adds the specified tags to an Elastic Inference Accelerator.
+ Adds the specified tags to an Elastic Inference Accelerator.   February 15, 2023: Starting
+April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference (EI), and
+will help current customers migrate their workloads to options that offer better price and
+performance. After April 15, 2023, new customers will not be able to launch instances with
+Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers
+who have used Amazon EI at least once during the past 30-day period are considered current
+customers and will be able to continue using the service.
 
 # Arguments
 - `resource_arn`:  The ARN of the Elastic Inference Accelerator to tag.
@@ -190,7 +220,13 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
- Removes the specified tags from an Elastic Inference Accelerator.
+ Removes the specified tags from an Elastic Inference Accelerator.   February 15, 2023:
+Starting April 15, 2023, AWS will not onboard new customers to Amazon Elastic Inference
+(EI), and will help current customers migrate their workloads to options that offer better
+price and performance. After April 15, 2023, new customers will not be able to launch
+instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2.
+However, customers who have used Amazon EI at least once during the past 30-day period are
+considered current customers and will be able to continue using the service.
 
 # Arguments
 - `resource_arn`:  The ARN of the Elastic Inference Accelerator to untag.

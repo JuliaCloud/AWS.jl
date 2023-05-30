@@ -51,6 +51,44 @@ function cancel_change_set(
 end
 
 """
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Deletes a resource-based policy on an Entity that is identified by its resource ARN.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the Entity resource that is associated
+  with the resource policy.
+
+"""
+function delete_resource_policy(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return marketplace_catalog(
+        "DELETE",
+        "/DeleteResourcePolicy",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return marketplace_catalog(
+        "DELETE",
+        "/DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_change_set(catalog, change_set_id)
     describe_change_set(catalog, change_set_id, params::Dict{String,<:Any})
 
@@ -138,6 +176,42 @@ function describe_entity(
 end
 
 """
+    get_resource_policy(resource_arn)
+    get_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Gets a resource-based policy of an Entity that is identified by its resource ARN.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the Entity resource that is associated
+  with the resource policy.
+
+"""
+function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return marketplace_catalog(
+        "GET",
+        "/GetResourcePolicy",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_policy(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return marketplace_catalog(
+        "GET",
+        "/GetResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_change_sets(catalog)
     list_change_sets(catalog, params::Dict{String,<:Any})
 
@@ -199,6 +273,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   isn't provided, the default value is 20.
 - `"NextToken"`: The value of the next token, if it exists. Null if there are no more
   results.
+- `"OwnershipType"`:
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
 function list_entities(
@@ -272,6 +347,51 @@ function list_tags_for_resource(
 end
 
 """
+    put_resource_policy(policy, resource_arn)
+    put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+
+Attaches a resource-based policy to an Entity. Examples of an entity include: AmiProduct
+and ContainerProduct.
+
+# Arguments
+- `policy`: The policy document to set; formatted in JSON.
+- `resource_arn`: The Amazon Resource Name (ARN) of the Entity resource you want to
+  associate with a resource policy.
+
+"""
+function put_resource_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return marketplace_catalog(
+        "POST",
+        "/PutResourcePolicy",
+        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_change_set(catalog, change_set)
     start_change_set(catalog, change_set, params::Dict{String,<:Any})
 
@@ -283,7 +403,9 @@ set containing a change against an entity that is already locked, you will recei
 ResourceInUseException error. For example, you can't start the ChangeSet described in the
 example later in this topic because it contains two changes to run the same change type
 (AddRevisions) against the same entity (entity-id@1). For more information about working
-with change sets, see  Working with change sets.
+with change sets, see  Working with change sets. For information on change types for
+single-AMI products, see Working with single-AMI products. Als, for more information on
+change types available for container-based products, see Working with container products.
 
 # Arguments
 - `catalog`: The catalog related to the request. Fixed value: AWSMarketplace

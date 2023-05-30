@@ -78,7 +78,7 @@ in the batch are much more likely to succeed. For more information, see Batch Op
 and Error Handling in the Amazon DynamoDB Developer Guide.  By default, BatchGetItem
 performs eventually consistent reads on every table in the request. If you want strongly
 consistent reads instead, you can set ConsistentRead to true for any or all tables. In
-order to minimize response latency, BatchGetItem retrieves items in parallel. When
+order to minimize response latency, BatchGetItem may retrieve items in parallel. When
 designing your application, keep in mind that DynamoDB does not return items in any
 particular order. To help parse the response by item, include the primary key values for
 the items in your request in the ProjectionExpression parameter. If a requested item does
@@ -2127,7 +2127,7 @@ end
     restore_table_from_backup(backup_arn, target_table_name)
     restore_table_from_backup(backup_arn, target_table_name, params::Dict{String,<:Any})
 
-Creates a new table from an existing backup. Any number of users can execute up to 4
+Creates a new table from an existing backup. Any number of users can execute up to 50
 concurrent restores (any type of restore) in a given account.  You can call
 RestoreTableFromBackup at a maximum rate of 10 times per second. You must manually set up
 the following on the restored table:   Auto scaling policies   IAM policies   Amazon

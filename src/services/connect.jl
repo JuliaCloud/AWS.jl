@@ -5,6 +5,57 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    activate_evaluation_form(evaluation_form_id, evaluation_form_version, instance_id)
+    activate_evaluation_form(evaluation_form_id, evaluation_form_version, instance_id, params::Dict{String,<:Any})
+
+Activates an evaluation form in the specified Amazon Connect instance. After the evaluation
+form is activated, it is available to start new evaluations based on the form.
+
+# Arguments
+- `evaluation_form_id`: The unique identifier for the evaluation form.
+- `evaluation_form_version`: The version of the evaluation form to activate. If the version
+  property is not provided, the latest version of the evaluation form is activated.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+"""
+function activate_evaluation_form(
+    EvaluationFormId,
+    EvaluationFormVersion,
+    InstanceId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/activate",
+        Dict{String,Any}("EvaluationFormVersion" => EvaluationFormVersion);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function activate_evaluation_form(
+    EvaluationFormId,
+    EvaluationFormVersion,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/activate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EvaluationFormVersion" => EvaluationFormVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     associate_approved_origin(instance_id, origin)
     associate_approved_origin(instance_id, origin, params::Dict{String,<:Any})
 
@@ -680,6 +731,67 @@ function create_contact_flow_module(
 end
 
 """
+    create_evaluation_form(instance_id, items, title)
+    create_evaluation_form(instance_id, items, title, params::Dict{String,<:Any})
+
+Creates an evaluation form in the specified Amazon Connect instance. The form can be used
+to define questions related to agent performance, and create sections to organize such
+questions. Question and section identifiers cannot be duplicated within the same evaluation
+form.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+- `items`: Items that are part of the evaluation form. The total number of sections and
+  questions must not exceed 100 each. Questions must be contained in a section.
+- `title`: A title of the evaluation form.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+- `"Description"`: The description of the evaluation form.
+- `"ScoringStrategy"`: A scoring strategy of the evaluation form.
+"""
+function create_evaluation_form(
+    InstanceId, Items, Title; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "PUT",
+        "/evaluation-forms/$(InstanceId)",
+        Dict{String,Any}(
+            "Items" => Items, "Title" => Title, "ClientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_evaluation_form(
+    InstanceId,
+    Items,
+    Title,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/evaluation-forms/$(InstanceId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Items" => Items, "Title" => Title, "ClientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_hours_of_operation(config, instance_id, name, time_zone)
     create_hours_of_operation(config, instance_id, name, time_zone, params::Dict{String,<:Any})
 
@@ -863,6 +975,121 @@ function create_integration_association(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_participant(contact_id, instance_id, participant_details)
+    create_participant(contact_id, instance_id, participant_details, params::Dict{String,<:Any})
+
+Adds a new participant into an on-going chat contact. For more information, see Customize
+chat flow experiences by integrating custom participants.
+
+# Arguments
+- `contact_id`: The identifier of the contact in this instance of Amazon Connect. Only
+  contacts in the CHAT channel are supported.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+- `participant_details`: Information identifying the participant.  The only Valid value for
+  ParticipantRole is CUSTOM_BOT.   DisplayName is Required.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+"""
+function create_participant(
+    ContactId,
+    InstanceId,
+    ParticipantDetails;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/contact/create-participant",
+        Dict{String,Any}(
+            "ContactId" => ContactId,
+            "InstanceId" => InstanceId,
+            "ParticipantDetails" => ParticipantDetails,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_participant(
+    ContactId,
+    InstanceId,
+    ParticipantDetails,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/contact/create-participant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactId" => ContactId,
+                    "InstanceId" => InstanceId,
+                    "ParticipantDetails" => ParticipantDetails,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_prompt(instance_id, name, s3_uri)
+    create_prompt(instance_id, name, s3_uri, params::Dict{String,<:Any})
+
+Creates a prompt. For more information about prompts, such as supported file types and
+maximum length, see Create prompts in the Amazon Connect Administrator's Guide.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+- `name`: The name of the prompt.
+- `s3_uri`: The URI for the S3 bucket where the prompt is stored.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the prompt.
+- `"Tags"`: The tags used to organize, track, or control access for this resource. For
+  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+"""
+function create_prompt(
+    InstanceId, Name, S3Uri; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "PUT",
+        "/prompts/$(InstanceId)",
+        Dict{String,Any}("Name" => Name, "S3Uri" => S3Uri);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_prompt(
+    InstanceId,
+    Name,
+    S3Uri,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/prompts/$(InstanceId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Name" => Name, "S3Uri" => S3Uri), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1580,6 +1807,95 @@ function create_vocabulary(
 end
 
 """
+    deactivate_evaluation_form(evaluation_form_id, evaluation_form_version, instance_id)
+    deactivate_evaluation_form(evaluation_form_id, evaluation_form_version, instance_id, params::Dict{String,<:Any})
+
+Deactivates an evaluation form in the specified Amazon Connect instance. After a form is
+deactivated, it is no longer available for users to start new evaluations based on the
+form.
+
+# Arguments
+- `evaluation_form_id`: The unique identifier for the evaluation form.
+- `evaluation_form_version`: A version of the evaluation form. If the version property is
+  not provided, the latest version of the evaluation form is deactivated.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+"""
+function deactivate_evaluation_form(
+    EvaluationFormId,
+    EvaluationFormVersion,
+    InstanceId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/deactivate",
+        Dict{String,Any}("EvaluationFormVersion" => EvaluationFormVersion);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deactivate_evaluation_form(
+    EvaluationFormId,
+    EvaluationFormVersion,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/deactivate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("EvaluationFormVersion" => EvaluationFormVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_contact_evaluation(evaluation_id, instance_id)
+    delete_contact_evaluation(evaluation_id, instance_id, params::Dict{String,<:Any})
+
+Deletes a contact evaluation in the specified Amazon Connect instance.
+
+# Arguments
+- `evaluation_id`: A unique identifier for the contact evaluation.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+"""
+function delete_contact_evaluation(
+    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "DELETE",
+        "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_contact_evaluation(
+    EvaluationId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "DELETE",
+        "/contact-evaluations/$(InstanceId)/$(EvaluationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_contact_flow(contact_flow_id, instance_id)
     delete_contact_flow(contact_flow_id, instance_id, params::Dict{String,<:Any})
 
@@ -1647,6 +1963,48 @@ function delete_contact_flow_module(
     return connect(
         "DELETE",
         "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_evaluation_form(evaluation_form_id, instance_id)
+    delete_evaluation_form(evaluation_form_id, instance_id, params::Dict{String,<:Any})
+
+Deletes an evaluation form in the specified Amazon Connect instance.    If the version
+property is provided, only the specified version of the evaluation form is deleted.   If no
+version is provided, then the full form (all versions) is deleted.
+
+# Arguments
+- `evaluation_form_id`: The unique identifier for the evaluation form.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"version"`: The unique identifier for the evaluation form.
+"""
+function delete_evaluation_form(
+    EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "DELETE",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_evaluation_form(
+    EvaluationFormId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "DELETE",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1761,6 +2119,43 @@ function delete_integration_association(
     return connect(
         "DELETE",
         "/instance/$(InstanceId)/integration-associations/$(IntegrationAssociationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_prompt(instance_id, prompt_id)
+    delete_prompt(instance_id, prompt_id, params::Dict{String,<:Any})
+
+Deletes a prompt.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+- `prompt_id`: A unique identifier for the prompt.
+
+"""
+function delete_prompt(
+    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "DELETE",
+        "/prompts/$(InstanceId)/$(PromptId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_prompt(
+    InstanceId,
+    PromptId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "DELETE",
+        "/prompts/$(InstanceId)/$(PromptId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2187,6 +2582,43 @@ function describe_contact(
 end
 
 """
+    describe_contact_evaluation(evaluation_id, instance_id)
+    describe_contact_evaluation(evaluation_id, instance_id, params::Dict{String,<:Any})
+
+Describes a contact evaluation in the specified Amazon Connect instance.
+
+# Arguments
+- `evaluation_id`: A unique identifier for the contact evaluation.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+"""
+function describe_contact_evaluation(
+    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_contact_evaluation(
+    EvaluationId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/contact-evaluations/$(InstanceId)/$(EvaluationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_contact_flow(contact_flow_id, instance_id)
     describe_contact_flow(contact_flow_id, instance_id, params::Dict{String,<:Any})
 
@@ -2254,6 +2686,47 @@ function describe_contact_flow_module(
     return connect(
         "GET",
         "/contact-flow-modules/$(InstanceId)/$(ContactFlowModuleId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_evaluation_form(evaluation_form_id, instance_id)
+    describe_evaluation_form(evaluation_form_id, instance_id, params::Dict{String,<:Any})
+
+Describes an evaluation form in the specified Amazon Connect instance. If the version
+property is not provided, the latest version of the evaluation form is described.
+
+# Arguments
+- `evaluation_form_id`: A unique identifier for the contact evaluation.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"version"`: A version of the evaluation form.
+"""
+function describe_evaluation_form(
+    EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_evaluation_form(
+    EvaluationFormId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2457,6 +2930,43 @@ function describe_phone_number(
     return connect(
         "GET",
         "/phone-number/$(PhoneNumberId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_prompt(instance_id, prompt_id)
+    describe_prompt(instance_id, prompt_id, params::Dict{String,<:Any})
+
+Describes the prompt.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+- `prompt_id`: A unique identifier for the prompt.
+
+"""
+function describe_prompt(
+    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/prompts/$(InstanceId)/$(PromptId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_prompt(
+    InstanceId,
+    PromptId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/prompts/$(InstanceId)/$(PromptId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3594,7 +4104,7 @@ Gets metric data from the specified Amazon Connect instance.   GetMetricDataV2 o
 features than GetMetricData, the previous version of this API. It has new metrics, offers
 filtering at a metric level, and offers the ability to filter and group data by channels,
 queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical
-data for last the 14 days, in 24-hour intervals. For a description of the historical
+data for the last 35 days, in 24-hour intervals. For a description of the historical
 metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics
 definitions in the Amazon Connect Administrator's Guide.  This API is not available in the
 Amazon Web Services GovCloud (US) Regions.
@@ -3602,8 +4112,8 @@ Amazon Web Services GovCloud (US) Regions.
 # Arguments
 - `end_time`: The timestamp, in UNIX Epoch time format, at which to end the reporting
   interval for the retrieval of historical metrics data. The time must be later than the
-  start time timestamp. The time range between the start and end time must be less than 24
-  hours.
+  start time timestamp. It cannot be later than the current timestamp. The time range between
+  the start and end time must be less than 24 hours.
 - `filters`: The filters to apply to returned metrics. You can filter on the following
   resources:   Queues   Routing profiles   Agents   Channels   User hierarchy groups   At
   least one filter must be passed from queues, routing profiles, agents, or user hierarchy
@@ -3660,18 +4170,21 @@ Amazon Web Services GovCloud (US) Regions.
   Valid groupings and filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue,
   enter any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must
   enter LT (for \"Less than\").   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and
-  filters: Queue, Channel, Routing Profile  SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid
-  groupings and filters: Queue, Channel, Routing Profile  SUM_CONTACTS_DISCONNECTED   Valid
-  metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue,
-  Channel, Routing Profile  SUM_RETRY_CALLBACK_ATTEMPTS  Unit: Count Valid groupings and
-  filters: Queue, Channel, Routing Profile
+  filters: Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole
+  number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for
+  \"Less than\").   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters:
+  Queue, Channel, Routing Profile Threshold: For ThresholdValue, enter any whole number from
+  1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for \"Less than\").
+    SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid
+  groupings and filters: Queue, Channel, Routing Profile  SUM_RETRY_CALLBACK_ATTEMPTS  Unit:
+  Count Valid groupings and filters: Queue, Channel, Routing Profile
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource. This includes the
   instanceId an Amazon Connect instance.
 - `start_time`: The timestamp, in UNIX Epoch time format, at which to start the reporting
   interval for the retrieval of historical metrics data. The time must be before the end time
   timestamp. The time range between the start and end time must be less than 24 hours. The
-  start time cannot be earlier than 14 days before the time of the request. Historical
-  metrics are available for 14 days.
+  start time cannot be earlier than 35 days before the time of the request. Historical
+  metrics are available for 35 days.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3733,6 +4246,43 @@ function get_metric_data_v2(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_prompt_file(instance_id, prompt_id)
+    get_prompt_file(instance_id, prompt_id, params::Dict{String,<:Any})
+
+Gets the prompt file.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+- `prompt_id`: A unique identifier for the prompt.
+
+"""
+function get_prompt_file(
+    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/prompts/$(InstanceId)/$(PromptId)/file";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_prompt_file(
+    InstanceId,
+    PromptId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/prompts/$(InstanceId)/$(PromptId)/file",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3939,6 +4489,51 @@ function list_bots(
 end
 
 """
+    list_contact_evaluations(instance_id, contact_id)
+    list_contact_evaluations(instance_id, contact_id, params::Dict{String,<:Any})
+
+Lists contact evaluations in the specified Amazon Connect instance.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+- `contact_id`: The identifier of the contact in this instance of Amazon Connect.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.  This is not
+  expected to be set because the value returned in the previous response is always null.
+"""
+function list_contact_evaluations(
+    InstanceId, contactId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/contact-evaluations/$(InstanceId)",
+        Dict{String,Any}("contactId" => contactId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_contact_evaluations(
+    InstanceId,
+    contactId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/contact-evaluations/$(InstanceId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("contactId" => contactId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_contact_flow_modules(instance_id)
     list_contact_flow_modules(instance_id, params::Dict{String,<:Any})
 
@@ -4105,6 +4700,88 @@ function list_default_vocabularies(
     return connect(
         "POST",
         "/default-vocabulary-summary/$(InstanceId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_evaluation_form_versions(evaluation_form_id, instance_id)
+    list_evaluation_form_versions(evaluation_form_id, instance_id, params::Dict{String,<:Any})
+
+Lists versions of an evaluation form in the specified Amazon Connect instance.
+
+# Arguments
+- `evaluation_form_id`: The unique identifier for the evaluation form.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_evaluation_form_versions(
+    EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_evaluation_form_versions(
+    EvaluationFormId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_evaluation_forms(instance_id)
+    list_evaluation_forms(instance_id, params::Dict{String,<:Any})
+
+Lists evaluation forms in the specified Amazon Connect instance.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_evaluation_forms(
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/evaluation-forms/$(InstanceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_evaluation_forms(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/evaluation-forms/$(InstanceId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5750,7 +6427,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per
   contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
 - `"ChatDurationInMinutes"`: The total duration of the newly started chat session. If not
-  specified, the chat session duration defaults to 25 hour. The minumum configurable time is
+  specified, the chat session duration defaults to 25 hour. The minimum configurable time is
   60 minutes. The maximum configurable time is 10,080 minutes (7 days).
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
@@ -5759,11 +6436,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PersistentChat"`: Enable persistent chats. For more information about enabling
   persistent chat, and for example use cases and how to configure for them, see Enable
   persistent chat.
-- `"SupportedMessagingContentTypes"`: The supported chat message content types. Content
-  types must always contain text/plain. You can then put any other supported type in the
-  list. For example, all the following lists are valid because they contain text/plain:
-  [text/plain, text/markdown, application/json], [text/markdown, text/plain], [text/plain,
-  application/json].
+- `"RelatedContactId"`: The unique identifier for an Amazon Connect contact. This
+  identifier is related to the chat starting.  You cannot provide data for both
+  RelatedContactId and PersistentChat.
+- `"SupportedMessagingContentTypes"`: The supported chat message content types. Supported
+  types are text/plain, text/markdown, application/json,
+  application/vnd.amazonaws.connect.message.interactive, and
+  application/vnd.amazonaws.connect.message.interactive.response.  Content types must always
+  contain text/plain. You can then put any other supported type in the list. For example, all
+  the following lists are valid because they contain text/plain: [text/plain, text/markdown,
+  application/json], [text/markdown, text/plain], [text/plain, application/json,
+  application/vnd.amazonaws.connect.message.interactive.response].   The type
+  application/vnd.amazonaws.connect.message.interactive is required to use the Show view flow
+  block.
 """
 function start_chat_contact(
     ContactFlowId,
@@ -5801,6 +6486,72 @@ function start_chat_contact(
                     "ContactFlowId" => ContactFlowId,
                     "InstanceId" => InstanceId,
                     "ParticipantDetails" => ParticipantDetails,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_contact_evaluation(contact_id, evaluation_form_id, instance_id)
+    start_contact_evaluation(contact_id, evaluation_form_id, instance_id, params::Dict{String,<:Any})
+
+Starts an empty evaluation in the specified Amazon Connect instance, using the given
+evaluation form for the particular contact. The evaluation form version used for the
+contact evaluation corresponds to the currently activated version. If no version is
+activated for the evaluation form, the contact evaluation cannot be started.   Evaluations
+created through the public API do not contain answer values suggested from automation.
+
+# Arguments
+- `contact_id`: The identifier of the contact in this instance of Amazon Connect.
+- `evaluation_form_id`: The unique identifier for the evaluation form.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+"""
+function start_contact_evaluation(
+    ContactId,
+    EvaluationFormId,
+    InstanceId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/contact-evaluations/$(InstanceId)",
+        Dict{String,Any}(
+            "ContactId" => ContactId,
+            "EvaluationFormId" => EvaluationFormId,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_contact_evaluation(
+    ContactId,
+    EvaluationFormId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/contact-evaluations/$(InstanceId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ContactId" => ContactId,
+                    "EvaluationFormId" => EvaluationFormId,
                     "ClientToken" => string(uuid4()),
                 ),
                 params,
@@ -6290,6 +7041,52 @@ function stop_contact_streaming(
 end
 
 """
+    submit_contact_evaluation(evaluation_id, instance_id)
+    submit_contact_evaluation(evaluation_id, instance_id, params::Dict{String,<:Any})
+
+Submits a contact evaluation in the specified Amazon Connect instance. Answers included in
+the request are merged with existing answers for the given evaluation. If no answers or
+notes are passed, the evaluation is submitted with the existing answers and notes. You can
+delete an answer or note by passing an empty object ({}) to the question identifier.  If a
+contact evaluation is already in submitted state, this operation will trigger a
+resubmission.
+
+# Arguments
+- `evaluation_id`: A unique identifier for the contact evaluation.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Answers"`: A map of question identifiers to answer value.
+- `"Notes"`: A map of question identifiers to note value.
+"""
+function submit_contact_evaluation(
+    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/contact-evaluations/$(InstanceId)/$(EvaluationId)/submit";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function submit_contact_evaluation(
+    EvaluationId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/contact-evaluations/$(InstanceId)/$(EvaluationId)/submit",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     suspend_contact_recording(contact_id, initial_contact_id, instance_id)
     suspend_contact_recording(contact_id, initial_contact_id, instance_id, params::Dict{String,<:Any})
 
@@ -6663,6 +7460,50 @@ function update_contact_attributes(
 end
 
 """
+    update_contact_evaluation(evaluation_id, instance_id)
+    update_contact_evaluation(evaluation_id, instance_id, params::Dict{String,<:Any})
+
+Updates details about a contact evaluation in the specified Amazon Connect instance. A
+contact evaluation must be in draft state. Answers included in the request are merged with
+existing answers for the given evaluation. An answer or note can be deleted by passing an
+empty object ({}) to the question identifier.
+
+# Arguments
+- `evaluation_id`: A unique identifier for the contact evaluation.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Answers"`: A map of question identifiers to answer value.
+- `"Notes"`: A map of question identifiers to note value.
+"""
+function update_contact_evaluation(
+    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/contact-evaluations/$(InstanceId)/$(EvaluationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_contact_evaluation(
+    EvaluationId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/contact-evaluations/$(InstanceId)/$(EvaluationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_contact_flow_content(contact_flow_id, content, instance_id)
     update_contact_flow_content(contact_flow_id, content, instance_id, params::Dict{String,<:Any})
 
@@ -6928,6 +7769,83 @@ function update_contact_schedule(
 end
 
 """
+    update_evaluation_form(evaluation_form_id, evaluation_form_version, instance_id, items, title)
+    update_evaluation_form(evaluation_form_id, evaluation_form_version, instance_id, items, title, params::Dict{String,<:Any})
+
+Updates details about a specific evaluation form version in the specified Amazon Connect
+instance. Question and section identifiers cannot be duplicated within the same evaluation
+form. This operation does not support partial updates. Instead it does a full update of
+evaluation form content.
+
+# Arguments
+- `evaluation_form_id`: The unique identifier for the evaluation form.
+- `evaluation_form_version`: A version of the evaluation form to update.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+- `items`: Items that are part of the evaluation form. The total number of sections and
+  questions must not exceed 100 each. Questions must be contained in a section.
+- `title`: A title of the evaluation form.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+- `"CreateNewVersion"`: A flag indicating whether the operation must create a new version.
+- `"Description"`: The description of the evaluation form.
+- `"ScoringStrategy"`: A scoring strategy of the evaluation form.
+"""
+function update_evaluation_form(
+    EvaluationFormId,
+    EvaluationFormVersion,
+    InstanceId,
+    Items,
+    Title;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)",
+        Dict{String,Any}(
+            "EvaluationFormVersion" => EvaluationFormVersion,
+            "Items" => Items,
+            "Title" => Title,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_evaluation_form(
+    EvaluationFormId,
+    EvaluationFormVersion,
+    InstanceId,
+    Items,
+    Title,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "PUT",
+        "/evaluation-forms/$(InstanceId)/$(EvaluationFormId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EvaluationFormVersion" => EvaluationFormVersion,
+                    "Items" => Items,
+                    "Title" => Title,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_hours_of_operation(hours_of_operation_id, instance_id)
     update_hours_of_operation(hours_of_operation_id, instance_id, params::Dict{String,<:Any})
 
@@ -7129,8 +8047,12 @@ end
 
 Updates your claimed phone number from its current Amazon Connect instance or traffic
 distribution group to another Amazon Connect instance or traffic distribution group in the
-same Amazon Web Services Region.  You can call DescribePhoneNumber API to verify the status
-of a previous UpdatePhoneNumber operation.
+same Amazon Web Services Region.  After using this API, you must verify that the phone
+number is attached to the correct flow in the target instance or traffic distribution
+group. You need to do this because the API switches only the phone number to a new instance
+or traffic distribution group. It doesn't migrate the flow configuration of the phone
+number, too. You can call DescribePhoneNumber API to verify the status of a previous
+UpdatePhoneNumber operation.
 
 # Arguments
 - `phone_number_id`: A unique identifier for the phone number.
@@ -7172,6 +8094,48 @@ function update_phone_number(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_prompt(instance_id, prompt_id)
+    update_prompt(instance_id, prompt_id, params::Dict{String,<:Any})
+
+Updates a prompt.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+- `prompt_id`: A unique identifier for the prompt.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the prompt.
+- `"Name"`: The name of the prompt.
+- `"S3Uri"`: The URI for the S3 bucket where the prompt is stored.
+"""
+function update_prompt(
+    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/prompts/$(InstanceId)/$(PromptId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_prompt(
+    InstanceId,
+    PromptId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/prompts/$(InstanceId)/$(PromptId)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

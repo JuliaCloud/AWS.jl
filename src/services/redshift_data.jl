@@ -11,16 +11,24 @@ using AWS.UUIDs
 Runs one or more SQL statements, which can be data manipulation language (DML) or data
 definition language (DDL). Depending on the authorization method, use one of the following
 combinations of request parameters:    Secrets Manager - when connecting to a cluster,
-specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster
-identifier that matches the cluster in the secret. When connecting to a serverless
-workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.
-Temporary credentials - when connecting to a cluster, specify the cluster identifier, the
-database name, and the database user name. Also, permission to call the
-redshift:GetClusterCredentials operation is required. When connecting to a serverless
-workgroup, specify the workgroup name and database name. Also, permission to call the
-redshift-serverless:GetCredentials operation is required.    For more information about the
-Amazon Redshift Data API and CLI usage examples, see Using the Amazon Redshift Data API in
-the Amazon Redshift Management Guide.
+provide the secret-arn of a secret stored in Secrets Manager which has username and
+password. The specified secret contains credentials to connect to the database you specify.
+When you are connecting to a cluster, you also supply the database name, If you provide a
+cluster identifier (dbClusterIdentifier), it must match the cluster identifier stored in
+the secret. When you are connecting to a serverless workgroup, you also supply the database
+name.   Temporary credentials - when connecting to your data warehouse, choose one of the
+following options:   When connecting to a serverless workgroup, specify the workgroup name
+and database name. The database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift-serverless:GetCredentials operation is required.   When connecting to a
+cluster as an IAM identity, specify the cluster identifier and the database name. The
+database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
+cluster as a database user, specify the cluster identifier, the database name, and the
+database user name. Also, permission to call the redshift:GetClusterCredentials operation
+is required.     For more information about the Amazon Redshift Data API and CLI usage
+examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
 - `database`: The name of the database. This parameter is required when authenticating
@@ -37,7 +45,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
-  cluster and authenticating using temporary credentials.
+  cluster as a database user and authenticating using temporary credentials.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
 - `"StatementName"`: The name of the SQL statements. You can name the SQL statements when
@@ -159,15 +167,24 @@ end
 Describes the detailed information about a table from metadata in the cluster. The
 information includes its columns. A token is returned to page through the column list.
 Depending on the authorization method, use one of the following combinations of request
-parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource
-Name (ARN) of the secret, the database name, and the cluster identifier that matches the
-cluster in the secret. When connecting to a serverless workgroup, specify the Amazon
-Resource Name (ARN) of the secret and the database name.    Temporary credentials - when
-connecting to a cluster, specify the cluster identifier, the database name, and the
+parameters:    Secrets Manager - when connecting to a cluster, provide the secret-arn of a
+secret stored in Secrets Manager which has username and password. The specified secret
+contains credentials to connect to the database you specify. When you are connecting to a
+cluster, you also supply the database name, If you provide a cluster identifier
+(dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you
+are connecting to a serverless workgroup, you also supply the database name.   Temporary
+credentials - when connecting to your data warehouse, choose one of the following options:
+ When connecting to a serverless workgroup, specify the workgroup name and database name.
+The database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift-serverless:GetCredentials operation is required.   When connecting to a
+cluster as an IAM identity, specify the cluster identifier and the database name. The
+database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
+cluster as a database user, specify the cluster identifier, the database name, and the
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required. When connecting to a serverless workgroup, specify the workgroup name and
-database name. Also, permission to call the redshift-serverless:GetCredentials operation is
-required.    For more information about the Amazon Redshift Data API and CLI usage
+is required.     For more information about the Amazon Redshift Data API and CLI usage
 examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
@@ -182,7 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConnectedDatabase"`: A database name. The connected database is specified when you
   connect with your authentication credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
-  cluster and authenticating using temporary credentials.
+  cluster as a database user and authenticating using temporary credentials.
 - `"MaxResults"`: The maximum number of tables to return in the response. If more tables
   exist than fit in one response, then NextToken is returned to page through the results.
 - `"NextToken"`: A value that indicates the starting point for the next set of response
@@ -231,16 +248,25 @@ end
 Runs an SQL statement, which can be data manipulation language (DML) or data definition
 language (DDL). This statement must be a single SQL statement. Depending on the
 authorization method, use one of the following combinations of request parameters:
-Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of
-the secret, the database name, and the cluster identifier that matches the cluster in the
-secret. When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN)
-of the secret and the database name.    Temporary credentials - when connecting to a
-cluster, specify the cluster identifier, the database name, and the database user name.
-Also, permission to call the redshift:GetClusterCredentials operation is required. When
-connecting to a serverless workgroup, specify the workgroup name and database name. Also,
-permission to call the redshift-serverless:GetCredentials operation is required.    For
-more information about the Amazon Redshift Data API and CLI usage examples, see Using the
-Amazon Redshift Data API in the Amazon Redshift Management Guide.
+Secrets Manager - when connecting to a cluster, provide the secret-arn of a secret stored
+in Secrets Manager which has username and password. The specified secret contains
+credentials to connect to the database you specify. When you are connecting to a cluster,
+you also supply the database name, If you provide a cluster identifier
+(dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you
+are connecting to a serverless workgroup, you also supply the database name.   Temporary
+credentials - when connecting to your data warehouse, choose one of the following options:
+ When connecting to a serverless workgroup, specify the workgroup name and database name.
+The database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift-serverless:GetCredentials operation is required.   When connecting to a
+cluster as an IAM identity, specify the cluster identifier and the database name. The
+database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
+cluster as a database user, specify the cluster identifier, the database name, and the
+database user name. Also, permission to call the redshift:GetClusterCredentials operation
+is required.     For more information about the Amazon Redshift Data API and CLI usage
+examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
 - `database`: The name of the database. This parameter is required when authenticating
@@ -254,7 +280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
-  cluster and authenticating using temporary credentials.
+  cluster as a database user and authenticating using temporary credentials.
 - `"Parameters"`: The parameters for the SQL statement.
 - `"SecretArn"`: The name or ARN of the secret that enables access to the database. This
   parameter is required when authenticating using Secrets Manager.
@@ -348,15 +374,24 @@ end
 
 List the databases in a cluster. A token is returned to page through the database list.
 Depending on the authorization method, use one of the following combinations of request
-parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource
-Name (ARN) of the secret, the database name, and the cluster identifier that matches the
-cluster in the secret. When connecting to a serverless workgroup, specify the Amazon
-Resource Name (ARN) of the secret and the database name.    Temporary credentials - when
-connecting to a cluster, specify the cluster identifier, the database name, and the
+parameters:    Secrets Manager - when connecting to a cluster, provide the secret-arn of a
+secret stored in Secrets Manager which has username and password. The specified secret
+contains credentials to connect to the database you specify. When you are connecting to a
+cluster, you also supply the database name, If you provide a cluster identifier
+(dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you
+are connecting to a serverless workgroup, you also supply the database name.   Temporary
+credentials - when connecting to your data warehouse, choose one of the following options:
+ When connecting to a serverless workgroup, specify the workgroup name and database name.
+The database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift-serverless:GetCredentials operation is required.   When connecting to a
+cluster as an IAM identity, specify the cluster identifier and the database name. The
+database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
+cluster as a database user, specify the cluster identifier, the database name, and the
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required. When connecting to a serverless workgroup, specify the workgroup name and
-database name. Also, permission to call the redshift-serverless:GetCredentials operation is
-required.    For more information about the Amazon Redshift Data API and CLI usage
+is required.     For more information about the Amazon Redshift Data API and CLI usage
 examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
@@ -368,7 +403,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClusterIdentifier"`: The cluster identifier. This parameter is required when connecting
   to a cluster and authenticating using either Secrets Manager or temporary credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
-  cluster and authenticating using temporary credentials.
+  cluster as a database user and authenticating using temporary credentials.
 - `"MaxResults"`: The maximum number of databases to return in the response. If more
   databases exist than fit in one response, then NextToken is returned to page through the
   results.
@@ -412,15 +447,24 @@ end
 
 Lists the schemas in a database. A token is returned to page through the schema list.
 Depending on the authorization method, use one of the following combinations of request
-parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource
-Name (ARN) of the secret, the database name, and the cluster identifier that matches the
-cluster in the secret. When connecting to a serverless workgroup, specify the Amazon
-Resource Name (ARN) of the secret and the database name.    Temporary credentials - when
-connecting to a cluster, specify the cluster identifier, the database name, and the
+parameters:    Secrets Manager - when connecting to a cluster, provide the secret-arn of a
+secret stored in Secrets Manager which has username and password. The specified secret
+contains credentials to connect to the database you specify. When you are connecting to a
+cluster, you also supply the database name, If you provide a cluster identifier
+(dbClusterIdentifier), it must match the cluster identifier stored in the secret. When you
+are connecting to a serverless workgroup, you also supply the database name.   Temporary
+credentials - when connecting to your data warehouse, choose one of the following options:
+ When connecting to a serverless workgroup, specify the workgroup name and database name.
+The database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift-serverless:GetCredentials operation is required.   When connecting to a
+cluster as an IAM identity, specify the cluster identifier and the database name. The
+database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
+cluster as a database user, specify the cluster identifier, the database name, and the
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required. When connecting to a serverless workgroup, specify the workgroup name and
-database name. Also, permission to call the redshift-serverless:GetCredentials operation is
-required.    For more information about the Amazon Redshift Data API and CLI usage
+is required.     For more information about the Amazon Redshift Data API and CLI usage
 examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
@@ -435,7 +479,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConnectedDatabase"`: A database name. The connected database is specified when you
   connect with your authentication credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
-  cluster and authenticating using temporary credentials.
+  cluster as a database user and authenticating using temporary credentials.
 - `"MaxResults"`: The maximum number of schemas to return in the response. If more schemas
   exist than fit in one response, then NextToken is returned to page through the results.
 - `"NextToken"`: A value that indicates the starting point for the next set of response
@@ -530,15 +574,24 @@ end
 List the tables in a database. If neither SchemaPattern nor TablePattern are specified,
 then all tables in the database are returned. A token is returned to page through the table
 list. Depending on the authorization method, use one of the following combinations of
-request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon
-Resource Name (ARN) of the secret, the database name, and the cluster identifier that
-matches the cluster in the secret. When connecting to a serverless workgroup, specify the
-Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials -
-when connecting to a cluster, specify the cluster identifier, the database name, and the
+request parameters:    Secrets Manager - when connecting to a cluster, provide the
+secret-arn of a secret stored in Secrets Manager which has username and password. The
+specified secret contains credentials to connect to the database you specify. When you are
+connecting to a cluster, you also supply the database name, If you provide a cluster
+identifier (dbClusterIdentifier), it must match the cluster identifier stored in the
+secret. When you are connecting to a serverless workgroup, you also supply the database
+name.   Temporary credentials - when connecting to your data warehouse, choose one of the
+following options:   When connecting to a serverless workgroup, specify the workgroup name
+and database name. The database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift-serverless:GetCredentials operation is required.   When connecting to a
+cluster as an IAM identity, specify the cluster identifier and the database name. The
+database user name is derived from the IAM identity. For example,
+arn:iam::123456789012:user:foo has the database user name IAM:foo. Also, permission to call
+the redshift:GetClusterCredentialsWithIAM operation is required.   When connecting to a
+cluster as a database user, specify the cluster identifier, the database name, and the
 database user name. Also, permission to call the redshift:GetClusterCredentials operation
-is required. When connecting to a serverless workgroup, specify the workgroup name and
-database name. Also, permission to call the redshift-serverless:GetCredentials operation is
-required.    For more information about the Amazon Redshift Data API and CLI usage
+is required.     For more information about the Amazon Redshift Data API and CLI usage
 examples, see Using the Amazon Redshift Data API in the Amazon Redshift Management Guide.
 
 # Arguments
@@ -553,7 +606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConnectedDatabase"`: A database name. The connected database is specified when you
   connect with your authentication credentials.
 - `"DbUser"`: The database user name. This parameter is required when connecting to a
-  cluster and authenticating using temporary credentials.
+  cluster as a database user and authenticating using temporary credentials.
 - `"MaxResults"`: The maximum number of tables to return in the response. If more tables
   exist than fit in one response, then NextToken is returned to page through the results.
 - `"NextToken"`: A value that indicates the starting point for the next set of response

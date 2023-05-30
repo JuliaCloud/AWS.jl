@@ -76,6 +76,7 @@ Creates a new channel and an associated stream key to start streaming.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authorized"`: Whether the channel is private (enabled for playback authorization).
   Default: false.
+- `"insecureIngest"`: Whether the channel allows insecure RTMP ingest. Default: false.
 - `"latencyMode"`: Channel latency mode. Use NORMAL to broadcast and deliver live video up
   to Full HD. Use LOW for near-real-time interaction with viewers. (Note: In the Amazon IVS
   console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.) Default: LOW.
@@ -1038,6 +1039,7 @@ You must stop and restart the stream for the changes to take effect.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authorized"`: Whether the channel is private (enabled for playback authorization).
+- `"insecureIngest"`: Whether the channel allows insecure RTMP ingest. Default: false.
 - `"latencyMode"`: Channel latency mode. Use NORMAL to broadcast and deliver live video up
   to Full HD. Use LOW for near-real-time interaction with viewers. (Note: In the Amazon IVS
   console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.)

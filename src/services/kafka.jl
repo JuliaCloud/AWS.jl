@@ -283,6 +283,83 @@ function create_configuration(
 end
 
 """
+    create_vpc_connection(authentication, client_subnets, security_groups, target_cluster_arn, vpc_id)
+    create_vpc_connection(authentication, client_subnets, security_groups, target_cluster_arn, vpc_id, params::Dict{String,<:Any})
+
+
+            Creates a new MSK VPC connection.
+
+# Arguments
+- `authentication`: 
+            The authentication type of VPC connection.
+- `client_subnets`: 
+            The list of client subnets.
+- `security_groups`: 
+            The list of security groups.
+- `target_cluster_arn`: 
+            The cluster Amazon Resource Name (ARN) for the VPC
+  connection.
+- `vpc_id`: 
+            The VPC ID of VPC connection.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: 
+            A map of tags for the VPC connection.
+"""
+function create_vpc_connection(
+    authentication,
+    clientSubnets,
+    securityGroups,
+    targetClusterArn,
+    vpcId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "POST",
+        "/v1/vpc-connection",
+        Dict{String,Any}(
+            "authentication" => authentication,
+            "clientSubnets" => clientSubnets,
+            "securityGroups" => securityGroups,
+            "targetClusterArn" => targetClusterArn,
+            "vpcId" => vpcId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_vpc_connection(
+    authentication,
+    clientSubnets,
+    securityGroups,
+    targetClusterArn,
+    vpcId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "POST",
+        "/v1/vpc-connection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "authentication" => authentication,
+                    "clientSubnets" => clientSubnets,
+                    "securityGroups" => securityGroups,
+                    "targetClusterArn" => targetClusterArn,
+                    "vpcId" => vpcId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_cluster(cluster_arn)
     delete_cluster(cluster_arn, params::Dict{String,<:Any})
 
@@ -323,6 +400,43 @@ function delete_cluster(
 end
 
 """
+    delete_cluster_policy(cluster_arn)
+    delete_cluster_policy(cluster_arn, params::Dict{String,<:Any})
+
+
+            Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in
+the request.
+
+# Arguments
+- `cluster_arn`: 
+            The Amazon Resource Name (ARN) of the cluster.
+
+"""
+function delete_cluster_policy(
+    clusterArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "DELETE",
+        "/v1/clusters/$(clusterArn)/policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_cluster_policy(
+    clusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "DELETE",
+        "/v1/clusters/$(clusterArn)/policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_configuration(arn)
     delete_configuration(arn, params::Dict{String,<:Any})
 
@@ -349,6 +463,39 @@ function delete_configuration(
     return kafka(
         "DELETE",
         "/v1/configurations/$(arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_vpc_connection(arn)
+    delete_vpc_connection(arn, params::Dict{String,<:Any})
+
+
+            Deletes a MSK VPC connection.
+
+# Arguments
+- `arn`: 
+            The Amazon Resource Name (ARN) that uniquely identifies an MSK VPC
+  connection.
+
+"""
+function delete_vpc_connection(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return kafka(
+        "DELETE",
+        "/v1/vpc-connection/$(arn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_vpc_connection(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "DELETE",
+        "/v1/vpc-connection/$(arn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -539,6 +686,39 @@ function describe_configuration_revision(
 end
 
 """
+    describe_vpc_connection(arn)
+    describe_vpc_connection(arn, params::Dict{String,<:Any})
+
+
+            Returns a description of this MSK VPC connection.
+
+# Arguments
+- `arn`: 
+            The Amazon Resource Name (ARN) that uniquely identifies a MSK VPC
+  connection.
+
+"""
+function describe_vpc_connection(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return kafka(
+        "GET",
+        "/v1/vpc-connection/$(arn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_vpc_connection(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "GET",
+        "/v1/vpc-connection/$(arn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_bootstrap_brokers(cluster_arn)
     get_bootstrap_brokers(cluster_arn, params::Dict{String,<:Any})
 
@@ -576,6 +756,41 @@ function get_bootstrap_brokers(
 end
 
 """
+    get_cluster_policy(cluster_arn)
+    get_cluster_policy(cluster_arn, params::Dict{String,<:Any})
+
+
+            Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the
+request.
+
+# Arguments
+- `cluster_arn`: 
+            The Amazon Resource Name (ARN) of the cluster.
+
+"""
+function get_cluster_policy(clusterArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return kafka(
+        "GET",
+        "/v1/clusters/$(clusterArn)/policy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_cluster_policy(
+    clusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "GET",
+        "/v1/clusters/$(clusterArn)/policy",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_compatible_kafka_versions()
     get_compatible_kafka_versions(params::Dict{String,<:Any})
 
@@ -603,6 +818,52 @@ function get_compatible_kafka_versions(
     return kafka(
         "GET",
         "/v1/compatible-kafka-versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_client_vpc_connections(cluster_arn)
+    list_client_vpc_connections(cluster_arn, params::Dict{String,<:Any})
+
+
+            Returns a list of all the VPC connections in this Region.
+
+# Arguments
+- `cluster_arn`: 
+            The Amazon Resource Name (ARN) of the cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: 
+            The maximum number of results to return in the response. If
+  there are more results, the response includes a NextToken parameter.
+- `"nextToken"`: 
+            The paginated results marker. When the result of the
+  operation is truncated, the call returns NextToken in the response. 
+            To get the
+  next batch, provide this token in your next request.
+"""
+function list_client_vpc_connections(
+    clusterArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "GET",
+        "/v1/clusters/$(clusterArn)/client-vpc-connections";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_client_vpc_connections(
+    clusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "GET",
+        "/v1/clusters/$(clusterArn)/client-vpc-connections",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -975,6 +1236,86 @@ function list_tags_for_resource(
 end
 
 """
+    list_vpc_connections()
+    list_vpc_connections(params::Dict{String,<:Any})
+
+
+            Returns a list of all the VPC connections in this Region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: 
+            The maximum number of results to return in the response. If
+  there are more results, the response includes a NextToken parameter.
+- `"nextToken"`: 
+            The paginated results marker. When the result of the
+  operation is truncated, the call returns NextToken in the response. 
+            To get the
+  next batch, provide this token in your next request.
+"""
+function list_vpc_connections(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kafka(
+        "GET", "/v1/vpc-connections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_vpc_connections(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "GET",
+        "/v1/vpc-connections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_cluster_policy(cluster_arn, policy)
+    put_cluster_policy(cluster_arn, policy, params::Dict{String,<:Any})
+
+
+            Creates or updates the MSK cluster policy specified by the cluster Amazon
+Resource Name (ARN) in the request.
+
+# Arguments
+- `cluster_arn`: 
+            The Amazon Resource Name (ARN) of the cluster.
+- `policy`: 
+            The policy.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"currentVersion"`: 
+            The policy version.
+"""
+function put_cluster_policy(
+    clusterArn, policy; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(clusterArn)/policy",
+        Dict{String,Any}("policy" => policy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_cluster_policy(
+    clusterArn,
+    policy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(clusterArn)/policy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     reboot_broker(broker_ids, cluster_arn)
     reboot_broker(broker_ids, cluster_arn, params::Dict{String,<:Any})
 
@@ -1011,6 +1352,50 @@ function reboot_broker(
         "/v1/clusters/$(clusterArn)/reboot-broker",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("brokerIds" => brokerIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reject_client_vpc_connection(cluster_arn, vpc_connection_arn)
+    reject_client_vpc_connection(cluster_arn, vpc_connection_arn, params::Dict{String,<:Any})
+
+
+            Returns empty response.
+
+# Arguments
+- `cluster_arn`: 
+            The Amazon Resource Name (ARN) of the cluster.
+- `vpc_connection_arn`: 
+            The VPC connection ARN.
+
+"""
+function reject_client_vpc_connection(
+    clusterArn, vpcConnectionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(clusterArn)/client-vpc-connection",
+        Dict{String,Any}("vpcConnectionArn" => vpcConnectionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function reject_client_vpc_connection(
+    clusterArn,
+    vpcConnectionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "PUT",
+        "/v1/clusters/$(clusterArn)/client-vpc-connection",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("vpcConnectionArn" => vpcConnectionArn), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -58,17 +58,21 @@ end
     attach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns)
     attach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns, params::Dict{String,<:Any})
 
-Attaches one or more target groups to the specified Auto Scaling group. This operation is
-used with the following load balancer types:    Application Load Balancer - Operates at the
-application layer (layer 7) and supports HTTP and HTTPS.    Network Load Balancer -
-Operates at the transport layer (layer 4) and supports TCP, TLS, and UDP.    Gateway Load
-Balancer - Operates at the network layer (layer 3).   To describe the target groups for an
-Auto Scaling group, call the DescribeLoadBalancerTargetGroups API. To detach the target
-group from the Auto Scaling group, call the DetachLoadBalancerTargetGroups API. This
-operation is additive and does not detach existing target groups or Classic Load Balancers
-from the Auto Scaling group. For more information, see Use Elastic Load Balancing to
-distribute traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto
-Scaling User Guide.
+ This API operation is superseded by AttachTrafficSources, which can attach multiple
+traffic sources types. We recommend using AttachTrafficSources to simplify how you manage
+traffic sources. However, we continue to support AttachLoadBalancerTargetGroups. You can
+use both the original AttachLoadBalancerTargetGroups API operation and AttachTrafficSources
+on the same Auto Scaling group.  Attaches one or more target groups to the specified Auto
+Scaling group. This operation is used with the following load balancer types:
+Application Load Balancer - Operates at the application layer (layer 7) and supports HTTP
+and HTTPS.    Network Load Balancer - Operates at the transport layer (layer 4) and
+supports TCP, TLS, and UDP.    Gateway Load Balancer - Operates at the network layer (layer
+3).   To describe the target groups for an Auto Scaling group, call the
+DescribeLoadBalancerTargetGroups API. To detach the target group from the Auto Scaling
+group, call the DetachLoadBalancerTargetGroups API. This operation is additive and does not
+detach existing target groups or Classic Load Balancers from the Auto Scaling group. For
+more information, see Use Elastic Load Balancing to distribute traffic across the instances
+in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -117,15 +121,18 @@ end
     attach_load_balancers(auto_scaling_group_name, load_balancer_names)
     attach_load_balancers(auto_scaling_group_name, load_balancer_names, params::Dict{String,<:Any})
 
- To attach an Application Load Balancer, Network Load Balancer, or Gateway Load Balancer,
-use the AttachLoadBalancerTargetGroups API operation instead.  Attaches one or more Classic
-Load Balancers to the specified Auto Scaling group. Amazon EC2 Auto Scaling registers the
-running instances with these Classic Load Balancers. To describe the load balancers for an
-Auto Scaling group, call the DescribeLoadBalancers API. To detach a load balancer from the
-Auto Scaling group, call the DetachLoadBalancers API. This operation is additive and does
-not detach existing Classic Load Balancers or target groups from the Auto Scaling group.
-For more information, see Use Elastic Load Balancing to distribute traffic across the
-instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+ This API operation is superseded by AttachTrafficSources, which can attach multiple
+traffic sources types. We recommend using AttachTrafficSources to simplify how you manage
+traffic sources. However, we continue to support AttachLoadBalancers. You can use both the
+original AttachLoadBalancers API operation and AttachTrafficSources on the same Auto
+Scaling group.  Attaches one or more Classic Load Balancers to the specified Auto Scaling
+group. Amazon EC2 Auto Scaling registers the running instances with these Classic Load
+Balancers. To describe the load balancers for an Auto Scaling group, call the
+DescribeLoadBalancers API. To detach a load balancer from the Auto Scaling group, call the
+DetachLoadBalancers API. This operation is additive and does not detach existing Classic
+Load Balancers or target groups from the Auto Scaling group. For more information, see Use
+Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling
+group in the Amazon EC2 Auto Scaling User Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -175,20 +182,18 @@ end
     attach_traffic_sources(auto_scaling_group_name, traffic_sources)
     attach_traffic_sources(auto_scaling_group_name, traffic_sources, params::Dict{String,<:Any})
 
- Reserved for use with Amazon VPC Lattice, which is in preview and subject to change. Do
-not use this API for production workloads. This API is also subject to change.  Attaches
-one or more traffic sources to the specified Auto Scaling group. To describe the traffic
-sources for an Auto Scaling group, call the DescribeTrafficSources API. To detach a traffic
-source from the Auto Scaling group, call the DetachTrafficSources API. This operation is
-additive and does not detach existing traffic sources from the Auto Scaling group.
+Attaches one or more traffic sources to the specified Auto Scaling group. You can use any
+of the following as traffic sources for an Auto Scaling group:   Application Load Balancer
+ Classic Load Balancer   Gateway Load Balancer   Network Load Balancer   VPC Lattice   This
+operation is additive and does not detach existing traffic sources from the Auto Scaling
+group.  After the operation completes, use the DescribeTrafficSources API to return details
+about the state of the attachments between traffic sources and your Auto Scaling group. To
+detach a traffic source from the Auto Scaling group, call the DetachTrafficSources API.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
 - `traffic_sources`: The unique identifiers of one or more traffic sources. You can specify
-  up to 10 traffic sources. Currently, you must specify an Amazon Resource Name (ARN) for an
-  existing VPC Lattice target group. Amazon EC2 Auto Scaling registers the running instances
-  with the attached target groups. The target groups receive incoming traffic and route
-  requests to one or more registered targets.
+  up to 10 traffic sources.
 
 """
 function attach_traffic_sources(
@@ -523,11 +528,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   immediately pass their health checks after they enter the InService state. For more
   information, see Set the health check grace period for an Auto Scaling group in the Amazon
   EC2 Auto Scaling User Guide. Default: 0 seconds
-- `"HealthCheckType"`: Determines whether any additional health checks are performed on the
-  instances in this group. Amazon EC2 health checks are always on. For more information, see
-  Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide. The
-  valid values are EC2 (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is
-  reserved for use with VPC Lattice, which is in preview release and is subject to change.
+- `"HealthCheckType"`: A comma-separated value string of one or more health check types.
+  The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot
+  be disabled. For more information, see Health checks for Auto Scaling instances in the
+  Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was
+  previously set.
 - `"InstanceId"`: The ID of the instance used to base the launch configuration on. If
   specified, Amazon EC2 Auto Scaling uses the configuration values from the specified
   instance to create a new launch configuration. To get the instance ID, use the Amazon EC2
@@ -545,7 +550,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LifecycleHookSpecificationList"`: One or more lifecycle hooks to add to the Auto
   Scaling group before instances are launched.
 - `"LoadBalancerNames"`: A list of Classic Load Balancers associated with this Auto Scaling
-  group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancer,
+  group. For Application Load Balancers, Network Load Balancers, and Gateway Load Balancers,
   specify the TargetGroupARNs property instead.
 - `"MaxInstanceLifetime"`: The maximum amount of time, in seconds, that an instance can be
   in service. The default is null. If specified, the value must be either 0 or a number equal
@@ -587,13 +592,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EC2 Auto Scaling User Guide. Valid values: Default | AllocationStrategy |
   ClosestToNextInstanceHour | NewestInstance | OldestInstance | OldestLaunchConfiguration |
   OldestLaunchTemplate | arn:aws:lambda:region:account-id:function:my-function:my-alias
-- `"TrafficSources"`:  Reserved for use with Amazon VPC Lattice, which is in preview
-  release and is subject to change. Do not use this parameter for production workloads. It is
-  also subject to change.  The unique identifiers of one or more traffic sources. Currently,
-  you must specify an Amazon Resource Name (ARN) for an existing VPC Lattice target group.
-  Amazon EC2 Auto Scaling registers the running instances with the attached target groups.
-  The target groups receive incoming traffic and route requests to one or more registered
-  targets.
+- `"TrafficSources"`: The list of traffic sources to attach to this Auto Scaling group. You
+  can use any of the following as traffic sources for an Auto Scaling group: Classic Load
+  Balancer, Application Load Balancer, Gateway Load Balancer, Network Load Balancer, and VPC
+  Lattice.
 - `"VPCZoneIdentifier"`: A comma-separated list of subnet IDs for a virtual private cloud
   (VPC) where instances in the Auto Scaling group can be created. If you specify
   VPCZoneIdentifier with AvailabilityZones, the subnets that you specify must reside in those
@@ -1465,25 +1467,29 @@ end
     describe_load_balancer_target_groups(auto_scaling_group_name)
     describe_load_balancer_target_groups(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Gets information about the Elastic Load Balancing target groups for the specified Auto
-Scaling group. To determine the attachment status of the target group, use the State
-element in the response. When you attach a target group to an Auto Scaling group, the
-initial State value is Adding. The state transitions to Added after all Auto Scaling
-instances are registered with the target group. If Elastic Load Balancing health checks are
-enabled for the Auto Scaling group, the state transitions to InService after at least one
-Auto Scaling instance passes the health check. When the target group is in the InService
-state, Amazon EC2 Auto Scaling can terminate and replace any instances that are reported as
-unhealthy. If no registered instances pass the health checks, the target group doesn't
-enter the InService state.  Target groups also have an InService state if you attach them
-in the CreateAutoScalingGroup API call. If your target group state is InService, but it is
-not working properly, check the scaling activities by calling DescribeScalingActivities and
-take any corrective actions necessary. For help with failed health checks, see
-Troubleshooting Amazon EC2 Auto Scaling: Health checks in the Amazon EC2 Auto Scaling User
-Guide. For more information, see Use Elastic Load Balancing to distribute traffic across
-the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.   You
-can use this operation to describe target groups that were attached by using
-AttachLoadBalancerTargetGroups, but not for target groups that were attached by using
-AttachTrafficSources.
+ This API operation is superseded by DescribeTrafficSources, which can describe multiple
+traffic sources types. We recommend using DetachTrafficSources to simplify how you manage
+traffic sources. However, we continue to support DescribeLoadBalancerTargetGroups. You can
+use both the original DescribeLoadBalancerTargetGroups API operation and
+DescribeTrafficSources on the same Auto Scaling group.  Gets information about the Elastic
+Load Balancing target groups for the specified Auto Scaling group. To determine the
+attachment status of the target group, use the State element in the response. When you
+attach a target group to an Auto Scaling group, the initial State value is Adding. The
+state transitions to Added after all Auto Scaling instances are registered with the target
+group. If Elastic Load Balancing health checks are enabled for the Auto Scaling group, the
+state transitions to InService after at least one Auto Scaling instance passes the health
+check. When the target group is in the InService state, Amazon EC2 Auto Scaling can
+terminate and replace any instances that are reported as unhealthy. If no registered
+instances pass the health checks, the target group doesn't enter the InService state.
+Target groups also have an InService state if you attach them in the CreateAutoScalingGroup
+API call. If your target group state is InService, but it is not working properly, check
+the scaling activities by calling DescribeScalingActivities and take any corrective actions
+necessary. For help with failed health checks, see Troubleshooting Amazon EC2 Auto Scaling:
+Health checks in the Amazon EC2 Auto Scaling User Guide. For more information, see Use
+Elastic Load Balancing to distribute traffic across the instances in your Auto Scaling
+group in the Amazon EC2 Auto Scaling User Guide.   You can use this operation to describe
+target groups that were attached by using AttachLoadBalancerTargetGroups, but not for
+target groups that were attached by using AttachTrafficSources.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1528,24 +1534,29 @@ end
     describe_load_balancers(auto_scaling_group_name)
     describe_load_balancers(auto_scaling_group_name, params::Dict{String,<:Any})
 
-Gets information about the load balancers for the specified Auto Scaling group. This
-operation describes only Classic Load Balancers. If you have Application Load Balancers,
-Network Load Balancers, or Gateway Load Balancer, use the DescribeLoadBalancerTargetGroups
-API instead. To determine the attachment status of the load balancer, use the State element
-in the response. When you attach a load balancer to an Auto Scaling group, the initial
-State value is Adding. The state transitions to Added after all Auto Scaling instances are
-registered with the load balancer. If Elastic Load Balancing health checks are enabled for
-the Auto Scaling group, the state transitions to InService after at least one Auto Scaling
-instance passes the health check. When the load balancer is in the InService state, Amazon
-EC2 Auto Scaling can terminate and replace any instances that are reported as unhealthy. If
-no registered instances pass the health checks, the load balancer doesn't enter the
-InService state.  Load balancers also have an InService state if you attach them in the
-CreateAutoScalingGroup API call. If your load balancer state is InService, but it is not
-working properly, check the scaling activities by calling DescribeScalingActivities and
-take any corrective actions necessary. For help with failed health checks, see
-Troubleshooting Amazon EC2 Auto Scaling: Health checks in the Amazon EC2 Auto Scaling User
-Guide. For more information, see Use Elastic Load Balancing to distribute traffic across
-the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User Guide.
+ This API operation is superseded by DescribeTrafficSources, which can describe multiple
+traffic sources types. We recommend using DescribeTrafficSources to simplify how you manage
+traffic sources. However, we continue to support DescribeLoadBalancers. You can use both
+the original DescribeLoadBalancers API operation and DescribeTrafficSources on the same
+Auto Scaling group.  Gets information about the load balancers for the specified Auto
+Scaling group. This operation describes only Classic Load Balancers. If you have
+Application Load Balancers, Network Load Balancers, or Gateway Load Balancers, use the
+DescribeLoadBalancerTargetGroups API instead. To determine the attachment status of the
+load balancer, use the State element in the response. When you attach a load balancer to an
+Auto Scaling group, the initial State value is Adding. The state transitions to Added after
+all Auto Scaling instances are registered with the load balancer. If Elastic Load Balancing
+health checks are enabled for the Auto Scaling group, the state transitions to InService
+after at least one Auto Scaling instance passes the health check. When the load balancer is
+in the InService state, Amazon EC2 Auto Scaling can terminate and replace any instances
+that are reported as unhealthy. If no registered instances pass the health checks, the load
+balancer doesn't enter the InService state.  Load balancers also have an InService state if
+you attach them in the CreateAutoScalingGroup API call. If your load balancer state is
+InService, but it is not working properly, check the scaling activities by calling
+DescribeScalingActivities and take any corrective actions necessary. For help with failed
+health checks, see Troubleshooting Amazon EC2 Auto Scaling: Health checks in the Amazon EC2
+Auto Scaling User Guide. For more information, see Use Elastic Load Balancing to distribute
+traffic across the instances in your Auto Scaling group in the Amazon EC2 Auto Scaling User
+Guide.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -1853,17 +1864,16 @@ function describe_termination_policy_types(
 end
 
 """
-    describe_traffic_sources(auto_scaling_group_name, traffic_source_type)
-    describe_traffic_sources(auto_scaling_group_name, traffic_source_type, params::Dict{String,<:Any})
+    describe_traffic_sources(auto_scaling_group_name)
+    describe_traffic_sources(auto_scaling_group_name, params::Dict{String,<:Any})
 
- Reserved for use with Amazon VPC Lattice, which is in preview and subject to change. Do
-not use this API for production workloads. This API is also subject to change.  Gets
-information about the traffic sources for the specified Auto Scaling group.
+Gets information about the traffic sources for the specified Auto Scaling group. You can
+optionally provide a traffic source type. If you provide a traffic source type, then the
+results only include that traffic source type. If you do not provide a traffic source type,
+then the results include all the traffic sources for the specified Auto Scaling group.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
-- `traffic_source_type`: The type of traffic source you are describing. Currently, the only
-  valid value is vpc-lattice.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1871,25 +1881,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 50.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
+- `"TrafficSourceType"`: The traffic source type that you want to describe. The following
+  lists the valid values:    elb if the traffic source is a Classic Load Balancer.    elbv2
+  if the traffic source is a Application Load Balancer, Gateway Load Balancer, or Network
+  Load Balancer.    vpc-lattice if the traffic source is VPC Lattice.
 """
 function describe_traffic_sources(
-    AutoScalingGroupName,
-    TrafficSourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    AutoScalingGroupName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return auto_scaling(
         "DescribeTrafficSources",
-        Dict{String,Any}(
-            "AutoScalingGroupName" => AutoScalingGroupName,
-            "TrafficSourceType" => TrafficSourceType,
-        );
+        Dict{String,Any}("AutoScalingGroupName" => AutoScalingGroupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_traffic_sources(
     AutoScalingGroupName,
-    TrafficSourceType,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1898,10 +1906,7 @@ function describe_traffic_sources(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "AutoScalingGroupName" => AutoScalingGroupName,
-                    "TrafficSourceType" => TrafficSourceType,
-                ),
+                Dict{String,Any}("AutoScalingGroupName" => AutoScalingGroupName),
                 params,
             ),
         );
@@ -2020,13 +2025,17 @@ end
     detach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns)
     detach_load_balancer_target_groups(auto_scaling_group_name, target_group_arns, params::Dict{String,<:Any})
 
-Detaches one or more target groups from the specified Auto Scaling group. When you detach a
-target group, it enters the Removing state while deregistering the instances in the group.
-When all instances are deregistered, then you can no longer describe the target group using
-the DescribeLoadBalancerTargetGroups API call. The instances remain running.  You can use
-this operation to detach target groups that were attached by using
-AttachLoadBalancerTargetGroups, but not for target groups that were attached by using
-AttachTrafficSources.
+ This API operation is superseded by DetachTrafficSources, which can detach multiple
+traffic sources types. We recommend using DetachTrafficSources to simplify how you manage
+traffic sources. However, we continue to support DetachLoadBalancerTargetGroups. You can
+use both the original DetachLoadBalancerTargetGroups API operation and DetachTrafficSources
+on the same Auto Scaling group.  Detaches one or more target groups from the specified Auto
+Scaling group. When you detach a target group, it enters the Removing state while
+deregistering the instances in the group. When all instances are deregistered, then you can
+no longer describe the target group using the DescribeLoadBalancerTargetGroups API call.
+The instances remain running.  You can use this operation to detach target groups that were
+attached by using AttachLoadBalancerTargetGroups, but not for target groups that were
+attached by using AttachTrafficSources.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -2074,13 +2083,17 @@ end
     detach_load_balancers(auto_scaling_group_name, load_balancer_names)
     detach_load_balancers(auto_scaling_group_name, load_balancer_names, params::Dict{String,<:Any})
 
-Detaches one or more Classic Load Balancers from the specified Auto Scaling group. This
-operation detaches only Classic Load Balancers. If you have Application Load Balancers,
-Network Load Balancers, or Gateway Load Balancer, use the DetachLoadBalancerTargetGroups
-API instead. When you detach a load balancer, it enters the Removing state while
-deregistering the instances in the group. When all instances are deregistered, then you can
-no longer describe the load balancer using the DescribeLoadBalancers API call. The
-instances remain running.
+ This API operation is superseded by DetachTrafficSources, which can detach multiple
+traffic sources types. We recommend using DetachTrafficSources to simplify how you manage
+traffic sources. However, we continue to support DetachLoadBalancers. You can use both the
+original DetachLoadBalancers API operation and DetachTrafficSources on the same Auto
+Scaling group.  Detaches one or more Classic Load Balancers from the specified Auto Scaling
+group. This operation detaches only Classic Load Balancers. If you have Application Load
+Balancers, Network Load Balancers, or Gateway Load Balancers, use the
+DetachLoadBalancerTargetGroups API instead. When you detach a load balancer, it enters the
+Removing state while deregistering the instances in the group. When all instances are
+deregistered, then you can no longer describe the load balancer using the
+DescribeLoadBalancers API call. The instances remain running.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
@@ -2130,18 +2143,15 @@ end
     detach_traffic_sources(auto_scaling_group_name, traffic_sources)
     detach_traffic_sources(auto_scaling_group_name, traffic_sources, params::Dict{String,<:Any})
 
- Reserved for use with Amazon VPC Lattice, which is in preview and subject to change. Do
-not use this API for production workloads. This API is also subject to change.  Detaches
-one or more traffic sources from the specified Auto Scaling group.
+Detaches one or more traffic sources from the specified Auto Scaling group. When you detach
+a taffic, it enters the Removing state while deregistering the instances in the group. When
+all instances are deregistered, then you can no longer describe the traffic source using
+the DescribeTrafficSources API call. The instances continue to run.
 
 # Arguments
 - `auto_scaling_group_name`: The name of the Auto Scaling group.
-- `traffic_sources`: The unique identifiers of one or more traffic sources you are
-  detaching. You can specify up to 10 traffic sources. Currently, you must specify an Amazon
-  Resource Name (ARN) for an existing VPC Lattice target group. When you detach a target
-  group, it enters the Removing state while deregistering the instances in the group. When
-  all instances are deregistered, then you can no longer describe the target group using the
-  DescribeTrafficSources API call. The instances continue to run.
+- `traffic_sources`: The unique identifiers of one or more traffic sources. You can specify
+  up to 10 traffic sources.
 
 """
 function detach_traffic_sources(
@@ -3517,10 +3527,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   immediately pass their health checks after they enter the InService state. For more
   information, see Set the health check grace period for an Auto Scaling group in the Amazon
   EC2 Auto Scaling User Guide.
-- `"HealthCheckType"`: Determines whether any additional health checks are performed on the
-  instances in this group. Amazon EC2 health checks are always on. The valid values are EC2
-  (default), ELB, and VPC_LATTICE. The VPC_LATTICE health check type is reserved for use with
-  VPC Lattice, which is in preview release and is subject to change.
+- `"HealthCheckType"`: A comma-separated value string of one or more health check types.
+  The valid values are EC2, ELB, and VPC_LATTICE. EC2 is the default health check and cannot
+  be disabled. For more information, see Health checks for Auto Scaling instances in the
+  Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was
+  previously set.
 - `"LaunchConfigurationName"`: The name of the launch configuration. If you specify
   LaunchConfigurationName in your update request, you can't specify LaunchTemplate or
   MixedInstancesPolicy.

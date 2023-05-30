@@ -501,6 +501,74 @@ function describe_virtual_cluster(
 end
 
 """
+    get_managed_endpoint_session_credentials(credential_type, endpoint_id, execution_role_arn, virtual_cluster_id)
+    get_managed_endpoint_session_credentials(credential_type, endpoint_id, execution_role_arn, virtual_cluster_id, params::Dict{String,<:Any})
+
+Generate a session token to connect to a managed endpoint.
+
+# Arguments
+- `credential_type`: Type of the token requested. Currently supported and default value of
+  this field is “TOKEN.”
+- `endpoint_id`: The ARN of the managed endpoint for which the request is submitted.
+- `execution_role_arn`: The IAM Execution Role ARN that will be used by the job run.
+- `virtual_cluster_id`: The ARN of the Virtual Cluster which the Managed Endpoint belongs
+  to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The client idempotency token of the job run request.
+- `"durationInSeconds"`: Duration in seconds for which the session token is valid. The
+  default duration is 15 minutes and the maximum is 12 hours.
+- `"logContext"`: String identifier used to separate sections of the execution logs
+  uploaded to S3.
+"""
+function get_managed_endpoint_session_credentials(
+    credentialType,
+    endpointId,
+    executionRoleArn,
+    virtualClusterId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr_containers(
+        "POST",
+        "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)/credentials",
+        Dict{String,Any}(
+            "credentialType" => credentialType,
+            "executionRoleArn" => executionRoleArn,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_managed_endpoint_session_credentials(
+    credentialType,
+    endpointId,
+    executionRoleArn,
+    virtualClusterId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr_containers(
+        "POST",
+        "/virtualclusters/$(virtualClusterId)/endpoints/$(endpointId)/credentials",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "credentialType" => credentialType,
+                    "executionRoleArn" => executionRoleArn,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_job_runs(virtual_cluster_id)
     list_job_runs(virtual_cluster_id, params::Dict{String,<:Any})
 

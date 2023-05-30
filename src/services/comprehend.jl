@@ -141,9 +141,7 @@ POSITIVE, NEUTRAL, MIXED, or NEGATIVE, in each one.
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
 - `text_list`: A list containing the UTF-8 encoded text of the input documents. The list
-  can contain a maximum of 25 documents. The maximum size of each document is 5 KB.   Amazon
-  Comprehend performs real-time sentiment analysis on the first 500 characters of the input
-  text and ignores any additional text in the input.
+  can contain a maximum of 25 documents. The maximum size of each document is 5 KB.
 
 """
 function batch_detect_sentiment(
@@ -439,14 +437,13 @@ end
     create_document_classifier(data_access_role_arn, document_classifier_name, input_data_config, language_code, params::Dict{String,<:Any})
 
 Creates a new document classifier that you can use to categorize documents. To create a
-classifier, you provide a set of training documents that labeled with the categories that
-you want to use. After the classifier is trained you can use it to categorize a set of
-labeled documents into the categories. For more information, see Document Classification in
-the Comprehend Developer Guide.
+classifier, you provide a set of training documents that are labeled with the categories
+that you want to use. For more information, see Training classifier models in the
+Comprehend Developer Guide.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data.
 - `document_classifier_name`: The name of the document classifier.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. You can specify any of the
@@ -461,22 +458,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or multi-label mode, which identifies one or more labels for each document. In multi-label
   mode, multiple labels for an individual document are separated by a delimiter. The default
   delimiter between labels is a pipe (|).
-- `"ModelKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-  uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following
-  formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name
-  (ARN) of a KMS Key:
+- `"ModelKmsKeyId"`: ID for the KMS key that Amazon Comprehend uses to encrypt trained
+  custom models. The ModelKmsKeyId can be either of the following formats:   KMS Key ID:
+  \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
 - `"ModelPolicy"`: The resource-based policy to attach to your custom document classifier
-  model. You can use this policy to allow another AWS account to import your custom model.
-  Provide your policy as a JSON body that you enter as a UTF-8 encoded string without line
-  breaks. To provide valid JSON, enclose the attribute names and values in double quotes. If
-  the JSON body is also enclosed in double quotes, then you must escape the double quotes
-  that are inside the policy:  \"{\"attribute\": \"value\", \"attribute\": [\"value\"]}\"  To
-  avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to
-  enclose the JSON names and values:  '{\"attribute\": \"value\", \"attribute\":
-  [\"value\"]}'
-- `"OutputDataConfig"`: Enables the addition of output results configuration parameters for
-  custom classifier jobs.
+  model. You can use this policy to allow another Amazon Web Services account to import your
+  custom model. Provide your policy as a JSON body that you enter as a UTF-8 encoded string
+  without line breaks. To provide valid JSON, enclose the attribute names and values in
+  double quotes. If the JSON body is also enclosed in double quotes, then you must escape the
+  double quotes that are inside the policy:  \"{\"attribute\": \"value\", \"attribute\":
+  [\"value\"]}\"  To avoid escaping quotes, you can use single quotes to enclose the policy
+  and double quotes to enclose the JSON names and values:  '{\"attribute\": \"value\",
+  \"attribute\": [\"value\"]}'
+- `"OutputDataConfig"`: Specifies the location for the output files from a custom
+  classifier job. This parameter is required for a request that creates a native classifier
+  model.
 - `"Tags"`: Tags to associate with the document classifier. A tag is a key-value pair that
   adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
@@ -484,9 +481,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionName"`: The version name given to the newly created classifier. Version names
   can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores
   (_) are allowed. The version name must be unique among all models with the same classifier
-  name in the account/AWS Region.
-- `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
-  Comprehend uses to encrypt data on the storage volume attached to the ML compute
+  name in the Amazon Web Services account/Amazon Web Services Region.
+- `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
+  Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
@@ -562,9 +559,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: An idempotency token provided by the customer. If this token
   matches a previous endpoint creation request, Amazon Comprehend will not return a
   ResourceInUseException.
-- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to trained custom models
-  encrypted with a customer managed key (ModelKmsKeyId).
+- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to trained custom models encrypted with a customer managed key
+  (ModelKmsKeyId).
 - `"FlywheelArn"`: The Amazon Resource Number (ARN) of the flywheel to which the endpoint
   will be attached.
 - `"ModelArn"`: The Amazon Resource Number (ARN) of the model to which the endpoint will be
@@ -619,10 +616,10 @@ Creates an entity recognizer using submitted files. After your CreateEntityRecog
 request is submitted, you can check job status using the DescribeEntityRecognizer API.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data.
 - `input_data_config`: Specifies the format and location of the input data. The S3 bucket
-  containing the input data must be located in the same region as the entity recognizer being
+  containing the input data must be located in the same Region as the entity recognizer being
   created.
 - `language_code`:  You can specify any of the following languages: English (\"en\"),
   Spanish (\"es\"), French (\"fr\"), Italian (\"it\"), German (\"de\"), or Portuguese
@@ -631,26 +628,25 @@ request is submitted, you can check job status using the DescribeEntityRecognize
   language.
 - `recognizer_name`: The name given to the newly created recognizer. Recognizer names can
   be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_)
-  are allowed. The name must be unique in the account/region.
+  are allowed. The name must be unique in the account/Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:  A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
-- `"ModelKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-  uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following
-  formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name
-  (ARN) of a KMS Key:
+- `"ModelKmsKeyId"`: ID for the KMS key that Amazon Comprehend uses to encrypt trained
+  custom models. The ModelKmsKeyId can be either of the following formats:   KMS Key ID:
+  \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
 - `"ModelPolicy"`: The JSON resource-based policy to attach to your custom entity
-  recognizer model. You can use this policy to allow another AWS account to import your
-  custom model. Provide your JSON as a UTF-8 encoded string without line breaks. To provide
-  valid JSON for your policy, enclose the attribute names and values in double quotes. If the
-  JSON body is also enclosed in double quotes, then you must escape the double quotes that
-  are inside the policy:  \"{\"attribute\": \"value\", \"attribute\": [\"value\"]}\"  To
-  avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to
-  enclose the JSON names and values:  '{\"attribute\": \"value\", \"attribute\":
-  [\"value\"]}'
+  recognizer model. You can use this policy to allow another Amazon Web Services account to
+  import your custom model. Provide your JSON as a UTF-8 encoded string without line breaks.
+  To provide valid JSON for your policy, enclose the attribute names and values in double
+  quotes. If the JSON body is also enclosed in double quotes, then you must escape the double
+  quotes that are inside the policy:  \"{\"attribute\": \"value\", \"attribute\":
+  [\"value\"]}\"  To avoid escaping quotes, you can use single quotes to enclose the policy
+  and double quotes to enclose the JSON names and values:  '{\"attribute\": \"value\",
+  \"attribute\": [\"value\"]}'
 - `"Tags"`: Tags to associate with the entity recognizer. A tag is a key-value pair that
   adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
@@ -658,9 +654,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionName"`: The version name given to the newly created recognizer. Version names
   can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores
   (_) are allowed. The version name must be unique among all models with the same recognizer
-  name in the account/ AWS Region.
-- `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
-  Comprehend uses to encrypt data on the storage volume attached to the ML compute
+  name in the account/Region.
+- `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
+  Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
@@ -721,21 +717,20 @@ end
     create_flywheel(data_access_role_arn, data_lake_s3_uri, flywheel_name)
     create_flywheel(data_access_role_arn, data_lake_s3_uri, flywheel_name, params::Dict{String,<:Any})
 
-A flywheel is an AWS resource that orchestrates the ongoing training of a model for custom
-classification or custom entity recognition. You can create a flywheel to start with an
-existing trained model, or Comprehend can create and train a new model. When you create the
-flywheel, Comprehend creates a data lake in your account. The data lake holds the training
-data and test data for all versions of the model. To use a flywheel with an existing
-trained model, you specify the active model version. Comprehend copies the model's training
-data and test data into the flywheel's data lake. To use the flywheel with a new model, you
-need to provide a dataset for training data (and optional test data) when you create the
-flywheel. For more information about flywheels, see  Flywheel overview in the Amazon
-Comprehend Developer Guide.
+A flywheel is an Amazon Web Services resource that orchestrates the ongoing training of a
+model for custom classification or custom entity recognition. You can create a flywheel to
+start with an existing trained model, or Comprehend can create and train a new model. When
+you create the flywheel, Comprehend creates a data lake in your account. The data lake
+holds the training data and test data for all versions of the model. To use a flywheel with
+an existing trained model, you specify the active model version. Comprehend copies the
+model's training data and test data into the flywheel's data lake. To use the flywheel with
+a new model, you need to provide a dataset for training data (and optional test data) when
+you create the flywheel. For more information about flywheels, see  Flywheel overview in
+the Amazon Comprehend Developer Guide.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend the permissions required to access the
-  flywheel data in the data lake.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend the permissions required to access the flywheel data in the data lake.
 - `data_lake_s3_uri`: Enter the S3 location for the data lake. You can specify a new S3
   bucket or a new folder of an existing S3 bucket. The flywheel creates the data lake at this
   location.
@@ -1738,9 +1733,7 @@ MIXED, or NEGATIVE).
 # Arguments
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
-- `text`: A UTF-8 text string. The maximum string size is 5 KB.  Amazon Comprehend performs
-  real-time sentiment analysis on the first 500 characters of the input text and ignores any
-  additional text in the input.
+- `text`: A UTF-8 text string. The maximum string size is 5 KB.
 
 """
 function detect_sentiment(
@@ -1865,23 +1858,23 @@ end
     import_model(source_model_arn, params::Dict{String,<:Any})
 
 Creates a new custom model that replicates a source custom model that you import. The
-source model can be in your AWS account or another one. If the source model is in another
-AWS account, then it must have a resource-based policy that authorizes you to import it.
-The source model must be in the same AWS region that you're using when you import. You
-can't import a model that's in a different region.
+source model can be in your Amazon Web Services account or another one. If the source model
+is in another Amazon Web Services account, then it must have a resource-based policy that
+authorizes you to import it. The source model must be in the same Amazon Web Services
+Region that you're using when you import. You can't import a model that's in a different
+Region.
 
 # Arguments
 - `source_model_arn`: The Amazon Resource Name (ARN) of the custom model to import.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend permission to use Amazon Key Management
-  Service (KMS) to encrypt or decrypt the custom model.
-- `"ModelKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon Comprehend
-  uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following
-  formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name
-  (ARN) of a KMS Key:
+- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend permission to use Amazon Key Management Service (KMS) to encrypt or decrypt the
+  custom model.
+- `"ModelKmsKeyId"`: ID for the KMS key that Amazon Comprehend uses to encrypt trained
+  custom models. The ModelKmsKeyId can be either of the following formats:   KMS Key ID:
+  \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name (ARN) of a KMS Key:
   \"arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab\"
 - `"ModelName"`: The name to assign to the custom model that is created in Amazon
   Comprehend by this import.
@@ -1892,7 +1885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionName"`: The version name given to the custom model that is created by this
   import. Version names can have a maximum of 256 characters. Alphanumeric characters,
   hyphens (-) and underscores (_) are allowed. The version name must be unique among all
-  models with the same classifier name in the account/AWS Region.
+  models with the same classifier name in the account/Region.
 """
 function import_model(SourceModelArn; aws_config::AbstractAWSConfig=global_aws_config())
     return comprehend(
@@ -1921,7 +1914,7 @@ end
     list_datasets()
     list_datasets(params::Dict{String,<:Any})
 
-List the datasets that you have configured in this region. For more information about
+List the datasets that you have configured in this Region. For more information about
 datasets, see  Flywheel overview in the Amazon Comprehend Developer Guide.
 
 # Optional Parameters
@@ -2496,8 +2489,8 @@ end
     put_resource_policy(resource_arn, resource_policy, params::Dict{String,<:Any})
 
 Attaches a resource-based policy to a custom model. You can use this policy to authorize an
-entity in another AWS account to import the custom model, which replicates it in Amazon
-Comprehend in their account.
+entity in another Amazon Web Services account to import the custom model, which replicates
+it in Amazon Comprehend in their account.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the custom model to attach the policy
@@ -2556,8 +2549,8 @@ Starts an asynchronous document classification job. Use the
 DescribeDocumentClassificationJob operation to track the progress of the job.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `output_data_config`: Specifies where to send the output files.
 
@@ -2574,8 +2567,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
-  Comprehend uses to encrypt data on the storage volume attached to the ML compute
+- `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
+  Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
@@ -2636,11 +2629,8 @@ Starts an asynchronous dominant language detection job for a collection of docum
 the operation to track the status of a job.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data. For
-  more information, see
-  https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#au
-  th-role-permissions.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data. For more information, see Role-based permissions.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `output_data_config`: Specifies where to send the output files.
 
@@ -2653,8 +2643,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a
   tag with \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
-  Comprehend uses to encrypt data on the storage volume attached to the ML compute
+- `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
+  Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
@@ -2718,11 +2708,8 @@ the optional EntityRecognizerArn must be used in order to provide access to the 
 being used to detect the custom entity.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data. For
-  more information, see
-  https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#au
-  th-role-permissions.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data. For more information, see Role-based permissions.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. All documents must be in the same
   language. You can specify any of the languages supported by Amazon Comprehend. If custom
@@ -2744,8 +2731,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
-  Comprehend uses to encrypt data on the storage volume attached to the ML compute
+- `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
+  Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
@@ -2809,8 +2796,8 @@ end
 Starts an asynchronous event detection job for a collection of documents.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language code of the input documents.
 - `output_data_config`: Specifies where to send the output files.
@@ -2926,11 +2913,8 @@ Starts an asynchronous key phrase detection job for a collection of documents. U
 operation to track the status of a job.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data. For
-  more information, see
-  https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#au
-  th-role-permissions.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data. For more information, see Role-based permissions.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
@@ -2945,8 +2929,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
-  Comprehend uses to encrypt data on the storage volume attached to the ML compute
+- `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
+  Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
@@ -3010,8 +2994,8 @@ end
 Starts an asynchronous PII entity detection job for a collection of documents.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data.
 - `input_data_config`: The input properties for a PII entities detection job.
 - `language_code`: The language of the input documents. Currently, English is the only
   valid language.
@@ -3093,11 +3077,8 @@ Starts an asynchronous sentiment detection job for a collection of documents. Us
 operation to track the status of a job.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data. For
-  more information, see
-  https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#au
-  th-role-permissions.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data. For more information, see Role-based permissions.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `language_code`: The language of the input documents. You can specify any of the primary
   languages supported by Amazon Comprehend. All documents must be in the same language.
@@ -3112,8 +3093,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that adds metadata to a resource used by Amazon Comprehend. For example, a tag with
   \"Sales\" as the key might be added to a resource to indicate its use by the sales
   department.
-- `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
-  Comprehend uses to encrypt data on the storage volume attached to the ML compute
+- `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
+  Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
@@ -3178,9 +3159,8 @@ Starts an asynchronous targeted sentiment detection job for a collection of docu
 the DescribeTargetedSentimentDetectionJob operation to track the status of a job.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data. For
-  more information, see Role-based permissions.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data. For more information, see Role-based permissions.
 - `input_data_config`:
 - `language_code`: The language of the input documents. Currently, English is the only
   supported language.
@@ -3258,11 +3238,8 @@ Starts an asynchronous topic detection job. Use the DescribeTopicDetectionJob op
 track the status of a job.
 
 # Arguments
-- `data_access_role_arn`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend read access to your input data. For
-  more information, see
-  https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#au
-  th-role-permissions.
+- `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend read access to your input data. For more information, see Role-based permissions.
 - `input_data_config`: Specifies the format and location of the input data for the job.
 - `output_data_config`: Specifies where to send the output files. The output is a
   compressed archive with two files, topic-terms.csv that lists the terms associated with
@@ -3277,8 +3254,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Tags to associate with the topics detection job. A tag is a key-value pair that
   adds metadata to a resource used by Amazon Comprehend. For example, a tag with \"Sales\" as
   the key might be added to a resource to indicate its use by the sales department.
-- `"VolumeKmsKeyId"`: ID for the AWS Key Management Service (KMS) key that Amazon
-  Comprehend uses to encrypt data on the storage volume attached to the ML compute
+- `"VolumeKmsKeyId"`: ID for the Amazon Web Services Key Management Service (KMS) key that
+  Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute
   instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the
   following formats:   KMS Key ID: \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon
   Resource Name (ARN) of a KMS Key:
@@ -3808,8 +3785,8 @@ Update the configuration information for an existing flywheel.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ActiveModelArn"`: The Amazon Resource Number (ARN) of the active model version.
-- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of the AWS Identity and Access
-  Management (IAM) role that grants Amazon Comprehend permission to access the flywheel data.
+- `"DataAccessRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
+  Comprehend permission to access the flywheel data.
 - `"DataSecurityConfig"`: Flywheel data security configuration.
 """
 function update_flywheel(FlywheelArn; aws_config::AbstractAWSConfig=global_aws_config())

@@ -288,19 +288,19 @@ end
 Creates a mapping between an event source and an Lambda function. Lambda reads items from
 the event source and invokes the function. For details about how to configure different
 event sources, see the following topics.      Amazon DynamoDB Streams      Amazon Kinesis
-   Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka    The
-following error handling options are available only for stream sources (DynamoDB and
-Kinesis):    BisectBatchOnFunctionError – If the function returns an error, split the
-batch in two and retry.    DestinationConfig – Send discarded records to an Amazon SQS
-queue or Amazon SNS topic.    MaximumRecordAgeInSeconds – Discard records older than the
-specified age. The default value is infinite (-1). When set to infinite (-1), failed
-records are retried until the record expires    MaximumRetryAttempts – Discard records
-after the specified number of retries. The default value is infinite (-1). When set to
-infinite (-1), failed records are retried until the record expires.
+   Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon
+DocumentDB    The following error handling options are available only for stream sources
+(DynamoDB and Kinesis):    BisectBatchOnFunctionError – If the function returns an error,
+split the batch in two and retry.    DestinationConfig – Send discarded records to an
+Amazon SQS queue or Amazon SNS topic.    MaximumRecordAgeInSeconds – Discard records
+older than the specified age. The default value is infinite (-1). When set to infinite
+(-1), failed records are retried until the record expires    MaximumRetryAttempts –
+Discard records after the specified number of retries. The default value is infinite (-1).
+When set to infinite (-1), failed records are retried until the record expires.
 ParallelizationFactor – Process multiple batches from each shard concurrently.   For
 information about which configuration parameters apply to each event source, see the
 following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS
-Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka
+Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
 
 # Arguments
 - `function_name`: The name of the Lambda function.  Name formats     Function name –
@@ -321,11 +321,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max
   is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka –
   Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.
-  Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
-- `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
-  the batch in two and retry.
-- `"DestinationConfig"`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
-  for discarded records.
+  Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.    DocumentDB – Default
+  100. Max 10,000.
+- `"BisectBatchOnFunctionError"`: (Kinesis and DynamoDB Streams only) If the function
+  returns an error, split the batch in two and retry.
+- `"DestinationConfig"`: (Kinesis and DynamoDB Streams only) A standard Amazon SQS queue or
+  standard Amazon SNS topic destination for discarded records.
 - `"DocumentDBEventSourceConfig"`: Specific configuration settings for a DocumentDB event
   source.
 - `"Enabled"`: When true, the event source mapping is active. When false, Lambda pauses
@@ -334,29 +335,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN
   of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed
   Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the
-  broker.
+  broker.    Amazon DocumentDB – The ARN of the DocumentDB change stream.
 - `"FilterCriteria"`: An object that defines the filter criteria that determine whether
   Lambda should process an event. For more information, see Lambda event filtering.
-- `"FunctionResponseTypes"`: (Streams and Amazon SQS) A list of current response type enums
-  applied to the event source mapping.
+- `"FunctionResponseTypes"`: (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current
+  response type enums applied to the event source mapping.
 - `"MaximumBatchingWindowInSeconds"`: The maximum amount of time, in seconds, that Lambda
   spends gathering records before invoking the function. You can configure
   MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of
   seconds. For streams and Amazon SQS event sources, the default batching window is 0
-  seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the
-  default batching window is 500 ms. Note that because you can only change
+  seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event
+  sources, the default batching window is 500 ms. Note that because you can only change
   MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500
   ms default batching window after you have changed it. To restore the default batching
   window, you must create a new event source mapping. Related setting: For streams and Amazon
   SQS event sources, when you set BatchSize to a value greater than 10, you must set
   MaximumBatchingWindowInSeconds to at least 1.
-- `"MaximumRecordAgeInSeconds"`: (Streams only) Discard records older than the specified
-  age. The default value is infinite (-1).
-- `"MaximumRetryAttempts"`: (Streams only) Discard records after the specified number of
-  retries. The default value is infinite (-1). When set to infinite (-1), failed records are
-  retried until the record expires.
-- `"ParallelizationFactor"`: (Streams only) The number of batches to process from each
-  shard concurrently.
+- `"MaximumRecordAgeInSeconds"`: (Kinesis and DynamoDB Streams only) Discard records older
+  than the specified age. The default value is infinite (-1).
+- `"MaximumRetryAttempts"`: (Kinesis and DynamoDB Streams only) Discard records after the
+  specified number of retries. The default value is infinite (-1). When set to infinite (-1),
+  failed records are retried until the record expires.
+- `"ParallelizationFactor"`: (Kinesis and DynamoDB Streams only) The number of batches to
+  process from each shard concurrently.
 - `"Queues"`:  (MQ) The name of the Amazon MQ broker destination queue to consume.
 - `"ScalingConfig"`: (Amazon SQS only) The scaling configuration for the event source. For
   more information, see Configuring maximum concurrency for Amazon SQS event sources.
@@ -367,12 +368,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required to secure your event source.
 - `"StartingPosition"`: The position in a stream from which to start reading. Required for
   Amazon Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources. AT_TIMESTAMP is supported
-  only for Amazon Kinesis streams.
+  only for Amazon Kinesis streams and Amazon DocumentDB.
 - `"StartingPositionTimestamp"`: With StartingPosition set to AT_TIMESTAMP, the time from
   which to start reading.
 - `"Topics"`: The name of the Kafka topic.
-- `"TumblingWindowInSeconds"`: (Streams only) The duration in seconds of a processing
-  window. The range is between 1 second and 900 seconds.
+- `"TumblingWindowInSeconds"`: (Kinesis and DynamoDB Streams only) The duration in seconds
+  of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds
+  indicates no tumbling window.
 """
 function create_event_source_mapping(
     FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -558,6 +560,12 @@ is a dedicated HTTP(S) endpoint that you can use to invoke your function.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Cors"`: The cross-origin resource sharing (CORS) settings for your function URL.
+- `"InvokeMode"`: Use one of the following options:    BUFFERED – This is the default
+  option. Lambda invokes your function using the Invoke API operation. Invocation results are
+  available when the payload is complete. The maximum payload size is 6 MB.
+  RESPONSE_STREAM – Your function streams payload results as they become available. Lambda
+  invokes your function using the InvokeWithResponseStream API operation. The maximum
+  response payload size is 20 MB, however, you can request a quota increase.
 - `"Qualifier"`: The alias name.
 """
 function create_function_url_config(
@@ -1716,6 +1724,62 @@ function invoke_async(
 end
 
 """
+    invoke_with_response_stream(function_name)
+    invoke_with_response_stream(function_name, params::Dict{String,<:Any})
+
+Configure your Lambda functions to stream response payloads back to clients. For more
+information, see Configuring a Lambda function to stream responses. This operation requires
+permission for the lambda:InvokeFunction action. For details on how to set up permissions
+for cross-account invocations, see Granting function access to other accounts.
+
+# Arguments
+- `function_name`: The name of the Lambda function.  Name formats     Function name –
+  my-function.    Function ARN –
+  arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN –
+  123456789012:function:my-function.   The length constraint applies only to the full ARN. If
+  you specify only the function name, it is limited to 64 characters in length.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Payload"`: The JSON that you want to provide to your Lambda function as input. You can
+  enter the JSON directly. For example, --payload '{ \"key\": \"value\" }'. You can also
+  specify a file path. For example, --payload file://payload.json.
+- `"Qualifier"`: The alias name.
+- `"X-Amz-Client-Context"`: Up to 3,583 bytes of base64-encoded data about the invoking
+  client to pass to the function in the context object.
+- `"X-Amz-Invocation-Type"`: Use one of the following options:    RequestResponse (default)
+  – Invoke the function synchronously. Keep the connection open until the function returns
+  a response or times out. The API operation response includes the function response and
+  additional data.    DryRun – Validate parameter values and verify that the IAM user or
+  role has permission to invoke the function.
+- `"X-Amz-Log-Type"`: Set to Tail to include the execution log in the response. Applies to
+  synchronously invoked functions only.
+"""
+function invoke_with_response_stream(
+    FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lambda(
+        "POST",
+        "/2021-11-15/functions/$(FunctionName)/response-streaming-invocations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function invoke_with_response_stream(
+    FunctionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lambda(
+        "POST",
+        "/2021-11-15/functions/$(FunctionName)/response-streaming-invocations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_aliases(function_name)
     list_aliases(function_name, params::Dict{String,<:Any})
 
@@ -1804,7 +1868,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   – The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams – The ARN
   of the stream.    Amazon Simple Queue Service – The ARN of the queue.    Amazon Managed
   Streaming for Apache Kafka – The ARN of the cluster.    Amazon MQ – The ARN of the
-  broker.
+  broker.    Amazon DocumentDB – The ARN of the DocumentDB change stream.
 - `"FunctionName"`: The name of the Lambda function.  Name formats     Function name –
   MyFunction.    Function ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction.
     Version or Alias ARN – arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.
@@ -2442,8 +2506,8 @@ instead of a dead-letter queue.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DestinationConfig"`: A destination for events after they have been sent to a function
   for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda
-  function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event
-  Bus - The ARN of an Amazon EventBridge event bus.
+  function.    Queue - The ARN of a standard SQS queue.    Topic - The ARN of a standard SNS
+  topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
 - `"MaximumEventAgeInSeconds"`: The maximum age of a request that Lambda sends to a
   function for processing.
 - `"MaximumRetryAttempts"`: The maximum number of times to retry when the function returns
@@ -2853,18 +2917,18 @@ Updates an event source mapping. You can change the function that Lambda invokes
 invocation and resume later from the same location. For details about how to configure
 different event sources, see the following topics.      Amazon DynamoDB Streams      Amazon
 Kinesis      Amazon SQS      Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka
-The following error handling options are available only for stream sources (DynamoDB and
-Kinesis):    BisectBatchOnFunctionError – If the function returns an error, split the
-batch in two and retry.    DestinationConfig – Send discarded records to an Amazon SQS
-queue or Amazon SNS topic.    MaximumRecordAgeInSeconds – Discard records older than the
-specified age. The default value is infinite (-1). When set to infinite (-1), failed
-records are retried until the record expires    MaximumRetryAttempts – Discard records
-after the specified number of retries. The default value is infinite (-1). When set to
-infinite (-1), failed records are retried until the record expires.
+Amazon DocumentDB    The following error handling options are available only for stream
+sources (DynamoDB and Kinesis):    BisectBatchOnFunctionError – If the function returns
+an error, split the batch in two and retry.    DestinationConfig – Send discarded records
+to an Amazon SQS queue or Amazon SNS topic.    MaximumRecordAgeInSeconds – Discard
+records older than the specified age. The default value is infinite (-1). When set to
+infinite (-1), failed records are retried until the record expires    MaximumRetryAttempts
+– Discard records after the specified number of retries. The default value is infinite
+(-1). When set to infinite (-1), failed records are retried until the record expires.
 ParallelizationFactor – Process multiple batches from each shard concurrently.   For
 information about which configuration parameters apply to each event source, see the
 following topics.     Amazon DynamoDB Streams      Amazon Kinesis      Amazon SQS
-Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka
+Amazon MQ and RabbitMQ      Amazon MSK      Apache Kafka      Amazon DocumentDB
 
 # Arguments
 - `uuid`: The identifier of the event source mapping.
@@ -2878,11 +2942,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100. Max 10,000.    Amazon Simple Queue Service – Default 10. For standard queues the max
   is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka –
   Default 100. Max 10,000.    Self-managed Apache Kafka – Default 100. Max 10,000.
-  Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.
-- `"BisectBatchOnFunctionError"`: (Streams only) If the function returns an error, split
-  the batch in two and retry.
-- `"DestinationConfig"`: (Streams only) An Amazon SQS queue or Amazon SNS topic destination
-  for discarded records.
+  Amazon MQ (ActiveMQ and RabbitMQ) – Default 100. Max 10,000.    DocumentDB – Default
+  100. Max 10,000.
+- `"BisectBatchOnFunctionError"`: (Kinesis and DynamoDB Streams only) If the function
+  returns an error, split the batch in two and retry.
+- `"DestinationConfig"`: (Kinesis and DynamoDB Streams only) A standard Amazon SQS queue or
+  standard Amazon SNS topic destination for discarded records.
 - `"DocumentDBEventSourceConfig"`: Specific configuration settings for a DocumentDB event
   source.
 - `"Enabled"`: When true, the event source mapping is active. When false, Lambda pauses
@@ -2895,32 +2960,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     Partial ARN – 123456789012:function:MyFunction.   The length constraint applies only to
   the full ARN. If you specify only the function name, it's limited to 64 characters in
   length.
-- `"FunctionResponseTypes"`: (Streams and Amazon SQS) A list of current response type enums
-  applied to the event source mapping.
+- `"FunctionResponseTypes"`: (Kinesis, DynamoDB Streams, and Amazon SQS) A list of current
+  response type enums applied to the event source mapping.
 - `"MaximumBatchingWindowInSeconds"`: The maximum amount of time, in seconds, that Lambda
   spends gathering records before invoking the function. You can configure
   MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of
   seconds. For streams and Amazon SQS event sources, the default batching window is 0
-  seconds. For Amazon MSK, Self-managed Apache Kafka, and Amazon MQ event sources, the
-  default batching window is 500 ms. Note that because you can only change
+  seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event
+  sources, the default batching window is 500 ms. Note that because you can only change
   MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500
   ms default batching window after you have changed it. To restore the default batching
   window, you must create a new event source mapping. Related setting: For streams and Amazon
   SQS event sources, when you set BatchSize to a value greater than 10, you must set
   MaximumBatchingWindowInSeconds to at least 1.
-- `"MaximumRecordAgeInSeconds"`: (Streams only) Discard records older than the specified
-  age. The default value is infinite (-1).
-- `"MaximumRetryAttempts"`: (Streams only) Discard records after the specified number of
-  retries. The default value is infinite (-1). When set to infinite (-1), failed records are
-  retried until the record expires.
-- `"ParallelizationFactor"`: (Streams only) The number of batches to process from each
-  shard concurrently.
+- `"MaximumRecordAgeInSeconds"`: (Kinesis and DynamoDB Streams only) Discard records older
+  than the specified age. The default value is infinite (-1).
+- `"MaximumRetryAttempts"`: (Kinesis and DynamoDB Streams only) Discard records after the
+  specified number of retries. The default value is infinite (-1). When set to infinite (-1),
+  failed records are retried until the record expires.
+- `"ParallelizationFactor"`: (Kinesis and DynamoDB Streams only) The number of batches to
+  process from each shard concurrently.
 - `"ScalingConfig"`: (Amazon SQS only) The scaling configuration for the event source. For
   more information, see Configuring maximum concurrency for Amazon SQS event sources.
 - `"SourceAccessConfigurations"`: An array of authentication protocols or VPC components
   required to secure your event source.
-- `"TumblingWindowInSeconds"`: (Streams only) The duration in seconds of a processing
-  window. The range is between 1 second and 900 seconds.
+- `"TumblingWindowInSeconds"`: (Kinesis and DynamoDB Streams only) The duration in seconds
+  of a processing window for DynamoDB and Kinesis Streams event sources. A value of 0 seconds
+  indicates no tumbling window.
 """
 function update_event_source_mapping(
     UUID; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3128,8 +3194,8 @@ configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DestinationConfig"`: A destination for events after they have been sent to a function
   for processing.  Destinations     Function - The Amazon Resource Name (ARN) of a Lambda
-  function.    Queue - The ARN of an SQS queue.    Topic - The ARN of an SNS topic.    Event
-  Bus - The ARN of an Amazon EventBridge event bus.
+  function.    Queue - The ARN of a standard SQS queue.    Topic - The ARN of a standard SNS
+  topic.    Event Bus - The ARN of an Amazon EventBridge event bus.
 - `"MaximumEventAgeInSeconds"`: The maximum age of a request that Lambda sends to a
   function for processing.
 - `"MaximumRetryAttempts"`: The maximum number of times to retry when the function returns
@@ -3180,6 +3246,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IAM authentication to create a public endpoint. For more information, see Security and auth
   model for Lambda function URLs.
 - `"Cors"`: The cross-origin resource sharing (CORS) settings for your function URL.
+- `"InvokeMode"`: Use one of the following options:    BUFFERED – This is the default
+  option. Lambda invokes your function using the Invoke API operation. Invocation results are
+  available when the payload is complete. The maximum payload size is 6 MB.
+  RESPONSE_STREAM – Your function streams payload results as they become available. Lambda
+  invokes your function using the InvokeWithResponseStream API operation. The maximum
+  response payload size is 20 MB, however, you can request a quota increase.
 - `"Qualifier"`: The alias name.
 """
 function update_function_url_config(

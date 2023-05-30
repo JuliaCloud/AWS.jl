@@ -72,26 +72,27 @@ Creates a new ledger in your Amazon Web Services account in the current Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeletionProtection"`: The flag that prevents a ledger from being deleted by any user.
-  If not provided on ledger creation, this feature is enabled (true) by default. If deletion
-  protection is enabled, you must first disable it before you can delete the ledger. You can
-  disable it by calling the UpdateLedger operation to set the flag to false.
+- `"DeletionProtection"`: Specifies whether the ledger is protected from being deleted by
+  any user. If not defined during ledger creation, this feature is enabled (true) by default.
+  If deletion protection is enabled, you must first disable it before you can delete the
+  ledger. You can disable it by calling the UpdateLedger operation to set this parameter to
+  false.
 - `"KmsKey"`: The key in Key Management Service (KMS) to use for encryption of data at rest
   in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer
   Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY:
   Use an KMS key that is owned and managed by Amazon Web Services on your behalf.
   Undefined: By default, use an Amazon Web Services owned KMS key.    A valid symmetric
-  customer managed KMS key: Use the specified KMS key in your account that you create, own,
-  and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using
-  symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a
-  customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name,
-  or alias ARN. When using an alias name, prefix it with \"alias/\". To specify a key in a
-  different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
-   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
-  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
-  alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
-  For more information, see Key identifiers (KeyId) in the Key Management Service Developer
-  Guide.
+  customer managed KMS key: Use the specified symmetric encryption KMS key in your account
+  that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more
+  information, see Using symmetric and asymmetric keys in the Key Management Service
+  Developer Guide.   To specify a customer managed KMS key, you can use its key ID, Amazon
+  Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with
+  \"alias/\". To specify a key in a different Amazon Web Services account, you must use the
+  key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key
+  ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias
+  name: alias/ExampleAlias    Alias ARN:
+  arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    For more information, see Key
+  identifiers (KeyId) in the Key Management Service Developer Guide.
 - `"Tags"`: The key-value pairs to add as tags to the ledger that you want to create. Tag
   keys are case sensitive. Tag values are case sensitive and can be null.
 """
@@ -133,7 +134,7 @@ end
 
 Deletes a ledger and all of its contents. This action is irreversible. If deletion
 protection is enabled, you must first disable it before you can delete the ledger. You can
-disable it by calling the UpdateLedger operation to set the flag to false.
+disable it by calling the UpdateLedger operation to set this parameter to false.
 
 # Arguments
 - `name`: The name of the ledger that you want to delete.
@@ -274,11 +275,7 @@ end
 Exports journal contents within a date and time range from a ledger into a specified Amazon
 Simple Storage Service (Amazon S3) bucket. A journal export job can write the data objects
 in either the text or binary representation of Amazon Ion format, or in JSON Lines text
-format. In JSON Lines format, each journal block in the exported data object is a valid
-JSON object that is delimited by a newline. You can use this format to easily integrate
-JSON exports with analytics tools such as Glue and Amazon Athena because these services can
-parse newline-delimited JSON automatically. For more information about the format, see JSON
-Lines. If the ledger with the given Name doesn't exist, then throws
+format. If the ledger with the given Name doesn't exist, then throws
 ResourceNotFoundException. If the ledger with the given Name is in CREATING status, then
 throws ResourcePreconditionNotMetException. You can initiate up to two concurrent journal
 export requests for each ledger. Beyond this limit, journal export requests throw
@@ -295,20 +292,23 @@ LimitExceededException.
   must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the
   ledger's CreationDateTime, Amazon QLDB defaults it to the ledger's CreationDateTime.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions
-  for a journal export job to do the following:   Write objects into your Amazon Simple
-  Storage Service (Amazon S3) bucket.   (Optional) Use your customer managed key in Key
-  Management Service (KMS) for server-side encryption of your exported data.   To pass a role
-  to QLDB when requesting a journal export, you must have permissions to perform the
-  iam:PassRole action on the IAM role resource. This is required for all journal export
-  requests.
+  for a journal export job to do the following:   Write objects into your Amazon S3 bucket.
+  (Optional) Use your customer managed key in Key Management Service (KMS) for server-side
+  encryption of your exported data.   To pass a role to QLDB when requesting a journal
+  export, you must have permissions to perform the iam:PassRole action on the IAM role
+  resource. This is required for all journal export requests.
 - `s3_export_configuration`: The configuration settings of the Amazon S3 bucket destination
   for your export request.
 - `name`: The name of the ledger.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"OutputFormat"`: The output format of your exported journal data. If this parameter is
-  not specified, the exported data defaults to ION_TEXT format.
+- `"OutputFormat"`: The output format of your exported journal data. A journal export job
+  can write the data objects in either the text or binary representation of Amazon Ion
+  format, or in JSON Lines text format. Default: ION_TEXT  In JSON Lines format, each journal
+  block in an exported data object is a valid JSON object that is delimited by a newline. You
+  can use this format to directly integrate JSON exports with analytics tools such as Amazon
+  Athena and Glue because these services can parse newline-delimited JSON automatically.
 """
 function export_journal_to_s3(
     ExclusiveEndTime,
@@ -501,12 +501,11 @@ end
     list_journal_kinesis_streams_for_ledger(name)
     list_journal_kinesis_streams_for_ledger(name, params::Dict{String,<:Any})
 
-Returns an array of all Amazon QLDB journal stream descriptors for a given ledger. The
-output of each stream descriptor includes the same details that are returned by
-DescribeJournalKinesisStream. This action does not return any expired journal streams. For
-more information, see Expiration for terminal streams in the Amazon QLDB Developer Guide.
-This action returns a maximum of MaxResults items. It is paginated so that you can retrieve
-all the items by calling ListJournalKinesisStreamsForLedger multiple times.
+Returns all Amazon QLDB journal streams for a given ledger. This action does not return any
+expired journal streams. For more information, see Expiration for terminal streams in the
+Amazon QLDB Developer Guide. This action returns a maximum of MaxResults items. It is
+paginated so that you can retrieve all the items by calling
+ListJournalKinesisStreamsForLedger multiple times.
 
 # Arguments
 - `name`: The name of the ledger.
@@ -546,11 +545,11 @@ end
     list_journal_s3_exports()
     list_journal_s3_exports(params::Dict{String,<:Any})
 
-Returns an array of journal export job descriptions for all ledgers that are associated
-with the current Amazon Web Services account and Region. This action returns a maximum of
-MaxResults items, and is paginated so that you can retrieve all the items by calling
-ListJournalS3Exports multiple times. This action does not return any expired export jobs.
-For more information, see Export job expiration in the Amazon QLDB Developer Guide.
+Returns all journal export jobs for all ledgers that are associated with the current Amazon
+Web Services account and Region. This action returns a maximum of MaxResults items, and is
+paginated so that you can retrieve all the items by calling ListJournalS3Exports multiple
+times. This action does not return any expired export jobs. For more information, see
+Export job expiration in the Amazon QLDB Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -581,11 +580,11 @@ end
     list_journal_s3_exports_for_ledger(name)
     list_journal_s3_exports_for_ledger(name, params::Dict{String,<:Any})
 
-Returns an array of journal export job descriptions for a specified ledger. This action
-returns a maximum of MaxResults items, and is paginated so that you can retrieve all the
-items by calling ListJournalS3ExportsForLedger multiple times. This action does not return
-any expired export jobs. For more information, see Export job expiration in the Amazon QLDB
-Developer Guide.
+Returns all journal export jobs for a specified ledger. This action returns a maximum of
+MaxResults items, and is paginated so that you can retrieve all the items by calling
+ListJournalS3ExportsForLedger multiple times. This action does not return any expired
+export jobs. For more information, see Export job expiration in the Amazon QLDB Developer
+Guide.
 
 # Arguments
 - `name`: The name of the ledger.
@@ -625,9 +624,9 @@ end
     list_ledgers()
     list_ledgers(params::Dict{String,<:Any})
 
-Returns an array of ledger summaries that are associated with the current Amazon Web
-Services account and Region. This action returns a maximum of 100 items and is paginated so
-that you can retrieve all the items by calling ListLedgers multiple times.
+Returns all ledgers that are associated with the current Amazon Web Services account and
+Region. This action returns a maximum of MaxResults items and is paginated so that you can
+retrieve all the items by calling ListLedgers multiple times.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -861,26 +860,27 @@ Updates properties on a ledger.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DeletionProtection"`: The flag that prevents a ledger from being deleted by any user.
-  If not provided on ledger creation, this feature is enabled (true) by default. If deletion
-  protection is enabled, you must first disable it before you can delete the ledger. You can
-  disable it by calling the UpdateLedger operation to set the flag to false.
+- `"DeletionProtection"`: Specifies whether the ledger is protected from being deleted by
+  any user. If not defined during ledger creation, this feature is enabled (true) by default.
+  If deletion protection is enabled, you must first disable it before you can delete the
+  ledger. You can disable it by calling the UpdateLedger operation to set this parameter to
+  false.
 - `"KmsKey"`: The key in Key Management Service (KMS) to use for encryption of data at rest
   in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer
   Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY:
   Use an KMS key that is owned and managed by Amazon Web Services on your behalf.
   Undefined: Make no changes to the KMS key of the ledger.    A valid symmetric customer
-  managed KMS key: Use the specified KMS key in your account that you create, own, and
-  manage. Amazon QLDB does not support asymmetric keys. For more information, see Using
-  symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a
-  customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name,
-  or alias ARN. When using an alias name, prefix it with \"alias/\". To specify a key in a
-  different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
-   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN:
-  arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name:
-  alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
-  For more information, see Key identifiers (KeyId) in the Key Management Service Developer
-  Guide.
+  managed KMS key: Use the specified symmetric encryption KMS key in your account that you
+  create, own, and manage. Amazon QLDB does not support asymmetric keys. For more
+  information, see Using symmetric and asymmetric keys in the Key Management Service
+  Developer Guide.   To specify a customer managed KMS key, you can use its key ID, Amazon
+  Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with
+  \"alias/\". To specify a key in a different Amazon Web Services account, you must use the
+  key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key
+  ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias
+  name: alias/ExampleAlias    Alias ARN:
+  arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    For more information, see Key
+  identifiers (KeyId) in the Key Management Service Developer Guide.
 """
 function update_ledger(name; aws_config::AbstractAWSConfig=global_aws_config())
     return qldb(

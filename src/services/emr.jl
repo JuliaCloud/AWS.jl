@@ -9,7 +9,7 @@ using AWS.UUIDs
     add_instance_fleet(cluster_id, instance_fleet, params::Dict{String,<:Any})
 
 Adds an instance fleet to a running cluster.  The instance fleet configuration is available
-only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x.
+only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x.
 
 # Arguments
 - `cluster_id`: The unique identifier of the cluster.
@@ -121,7 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the cluster. The runtime role can be a cross-account IAM role. The runtime role ARN is a
   combination of account ID, role name, and role type using the following format:
   arn:partition:service:region:account:resource.  For example,
-  arn:aws:iam::1234567890:role/ReadOnly is a correctly formatted runtime role ARN.
+  arn:aws:IAM::1234567890:role/ReadOnly is a correctly formatted runtime role ARN.
 """
 function add_job_flow_steps(
     JobFlowId, Steps; aws_config::AbstractAWSConfig=global_aws_config()
@@ -201,7 +201,7 @@ Cancels a pending step or steps in a running cluster. Available only in Amazon E
 4.8.0 and later, excluding version 5.0.0. A maximum of 256 steps are allowed in each
 CancelSteps request. CancelSteps is idempotent but asynchronous; it does not guarantee that
 a step will be canceled, even if the request is successfully submitted. When you use Amazon
-EMR versions 5.28.0 and later, you can cancel steps that are in a PENDING or RUNNING state.
+EMR releases 5.28.0 and later, you can cancel steps that are in a PENDING or RUNNING state.
 In earlier versions of Amazon EMR, you can only cancel steps that are in a PENDING state.
 
 # Arguments
@@ -412,8 +412,8 @@ a user or group to your EMR Studio.
   or a group.
 - `session_policy_arn`: The Amazon Resource Name (ARN) for the session policy that will be
   applied to the user or group. You should specify the ARN for the session policy that you
-  want to apply, not the ARN of your user role. For more information, see Create an EMR
-  Studio User Role with Session Policies.
+  want to apply, not the ARN of your user role. For more information, see Create an Amazon
+  EMR Studio User Role with Session Policies.
 - `studio_id`: The ID of the Amazon EMR Studio to which the user or group will be mapped.
 
 # Optional Parameters
@@ -692,9 +692,9 @@ end
     describe_release_label()
     describe_release_label(params::Dict{String,<:Any})
 
-Provides EMR release label details, such as releases available the region where the API
-request is run, and the available applications for a specific EMR release label. Can also
-list EMR release versions that support a specified version of Spark.
+Provides Amazon EMR release label details, such as the releases available the Region where
+the API request is run, and the available applications for a specific Amazon EMR release
+label. Can also list Amazon EMR releases that support a specified version of Spark.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1094,7 +1094,7 @@ end
     list_instance_fleets(cluster_id, params::Dict{String,<:Any})
 
 Lists all available details about the instance fleets in a cluster.  The instance fleet
-configuration is available only in Amazon EMR versions 4.8.0 and later, excluding 5.0.x
+configuration is available only in Amazon EMR releases 4.8.0 and later, excluding 5.0.x
 versions.
 
 # Arguments
@@ -1167,9 +1167,10 @@ end
     list_instances(cluster_id)
     list_instances(cluster_id, params::Dict{String,<:Any})
 
-Provides information for all active EC2 instances and EC2 instances terminated in the last
-30 days, up to a maximum of 2,000. EC2 instances in any of the following states are
-considered active: AWAITING_FULFILLMENT, PROVISIONING, BOOTSTRAPPING, RUNNING.
+Provides information for all active Amazon EC2 instances and Amazon EC2 instances
+terminated in the last 30 days, up to a maximum of 2,000. Amazon EC2 instances in any of
+the following states are considered active: AWAITING_FULFILLMENT, PROVISIONING,
+BOOTSTRAPPING, RUNNING.
 
 # Arguments
 - `cluster_id`: The identifier of the cluster for which to list the instances.
@@ -1215,11 +1216,12 @@ end
 Provides summaries of all notebook executions. You can filter the list based on multiple
 criteria such as status, time range, and editor id. Returns a maximum of 50 notebook
 executions and a marker to track the paging of a longer notebook execution list across
-multiple ListNotebookExecution calls.
+multiple ListNotebookExecutions calls.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EditorId"`: The unique ID of the editor associated with the notebook execution.
+- `"ExecutionEngineId"`: The unique ID of the execution engine.
 - `"From"`: The beginning of time range filter for listing notebook executions. The default
   is the timestamp of 30 days ago.
 - `"Marker"`: The pagination token, returned by a previous ListNotebookExecutions call,
@@ -1258,7 +1260,7 @@ end
     list_release_labels()
     list_release_labels(params::Dict{String,<:Any})
 
-Retrieves release labels of EMR services in the region where the API is called.
+Retrieves release labels of Amazon EMR services in the Region where the API is called.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1459,7 +1461,7 @@ end
 Modifies the target On-Demand and target Spot capacities for the instance fleet with the
 specified InstanceFleetID within the cluster specified using ClusterID. The call either
 succeeds or fails atomically.  The instance fleet configuration is available only in Amazon
-EMR versions 4.8.0 and later, excluding 5.0.x versions.
+EMR releases 4.8.0 and later, excluding 5.0.x versions.
 
 # Arguments
 - `cluster_id`: The unique identifier of the cluster.
@@ -1533,8 +1535,8 @@ end
 
 Creates or updates an automatic scaling policy for a core instance group or task instance
 group in an Amazon EMR cluster. The automatic scaling policy defines how an instance group
-dynamically adds and terminates EC2 instances in response to the value of a CloudWatch
-metric.
+dynamically adds and terminates Amazon EC2 instances in response to the value of a
+CloudWatch metric.
 
 # Arguments
 - `auto_scaling_policy`: Specifies the definition of the automatic scaling policy.
@@ -1590,7 +1592,7 @@ end
     put_auto_termination_policy(cluster_id)
     put_auto_termination_policy(cluster_id, params::Dict{String,<:Any})
 
- Auto-termination is supported in Amazon EMR versions 5.30.0 and 6.1.0 and later. For more
+ Auto-termination is supported in Amazon EMR releases 5.30.0 and 6.1.0 and later. For more
 information, see Using an auto-termination policy.  Creates or updates an auto-termination
 policy for an Amazon EMR cluster. An auto-termination policy defines the amount of idle
 time in seconds after which a cluster automatically terminates. For alternative cluster
@@ -1649,8 +1651,8 @@ Access for Amazon EMR in the Amazon EMR Management Guide.
   BlockPublicSecurityGroupRules to remove the exception.  For accounts that created clusters
   in a Region before November 25, 2019, block public access is disabled by default in that
   Region. To use this feature, you must manually enable and configure it. For accounts that
-  did not create an EMR cluster in a Region before this date, block public access is enabled
-  by default in that Region.
+  did not create an Amazon EMR cluster in a Region before this date, block public access is
+  enabled by default in that Region.
 
 """
 function put_block_public_access_configuration(
@@ -1691,13 +1693,13 @@ end
     put_managed_scaling_policy(cluster_id, managed_scaling_policy, params::Dict{String,<:Any})
 
 Creates or updates a managed scaling policy for an Amazon EMR cluster. The managed scaling
-policy defines the limits for resources, such as EC2 instances that can be added or
+policy defines the limits for resources, such as Amazon EC2 instances that can be added or
 terminated from a cluster. The policy only applies to the core and task nodes. The master
 node cannot be scaled after initial configuration.
 
 # Arguments
-- `cluster_id`: Specifies the ID of an EMR cluster where the managed scaling policy is
-  attached.
+- `cluster_id`: Specifies the ID of an Amazon EMR cluster where the managed scaling policy
+  is attached.
 - `managed_scaling_policy`: Specifies the constraints for the managed scaling policy.
 
 """
@@ -1739,7 +1741,8 @@ end
     remove_auto_scaling_policy(cluster_id, instance_group_id)
     remove_auto_scaling_policy(cluster_id, instance_group_id, params::Dict{String,<:Any})
 
-Removes an automatic scaling policy from a specified instance group within an EMR cluster.
+Removes an automatic scaling policy from a specified instance group within an Amazon EMR
+cluster.
 
 # Arguments
 - `cluster_id`: Specifies the ID of a cluster. The instance group to which the automatic
@@ -1820,7 +1823,7 @@ end
     remove_managed_scaling_policy(cluster_id)
     remove_managed_scaling_policy(cluster_id, params::Dict{String,<:Any})
 
- Removes a managed scaling policy from a specified EMR cluster.
+ Removes a managed scaling policy from a specified Amazon EMR cluster.
 
 # Arguments
 - `cluster_id`:  Specifies the ID of the cluster from which the managed scaling policy will
@@ -1913,7 +1916,7 @@ can bypass the 256-step limitation in various ways, including using the SSH shel
 connect to the master node and submitting queries directly to the software running on the
 master node, such as Hive and Hadoop. For long-running clusters, we recommend that you
 periodically store your results.  The instance fleets configuration is available only in
-Amazon EMR versions 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can
+Amazon EMR releases 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can
 contain InstanceFleets parameters or InstanceGroups parameters, but not both.
 
 # Arguments
@@ -1931,41 +1934,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EMRRelease Guide.
 - `"AutoScalingRole"`: An IAM role for automatic scaling policies. The default role is
   EMR_AutoScaling_DefaultRole. The IAM role provides permissions that the automatic scaling
-  feature requires to launch and terminate EC2 instances in an instance group.
+  feature requires to launch and terminate Amazon EC2 instances in an instance group.
 - `"AutoTerminationPolicy"`:
 - `"BootstrapActions"`: A list of bootstrap actions to run before Hadoop starts on the
   cluster nodes.
 - `"Configurations"`: For Amazon EMR releases 4.0 and later. The list of configurations
-  supplied for the EMR cluster you are creating.
-- `"CustomAmiId"`: Available only in Amazon EMR version 5.7.0 and later. The ID of a custom
-  Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches
-  cluster EC2 instances. For more information about custom AMIs in Amazon EMR, see Using a
-  Custom AMI in the Amazon EMR Management Guide. If omitted, the cluster uses the base Linux
-  AMI for the ReleaseLabel specified. For Amazon EMR versions 2.x and 3.x, use AmiVersion
-  instead. For information about creating a custom AMI, see Creating an Amazon EBS-Backed
-  Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances. For
-  information about finding an AMI ID, see Finding a Linux AMI.
+  supplied for the Amazon EMR cluster that you are creating.
+- `"CustomAmiId"`: Available only in Amazon EMR releases 5.7.0 and later. The ID of a
+  custom Amazon EBS-backed Linux AMI. If specified, Amazon EMR uses this AMI when it launches
+  cluster Amazon EC2 instances. For more information about custom AMIs in Amazon EMR, see
+  Using a Custom AMI in the Amazon EMR Management Guide. If omitted, the cluster uses the
+  base Linux AMI for the ReleaseLabel specified. For Amazon EMR releases 2.x and 3.x, use
+  AmiVersion instead. For information about creating a custom AMI, see Creating an Amazon
+  EBS-Backed Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
+  For information about finding an AMI ID, see Finding a Linux AMI.
 - `"EbsRootVolumeSize"`: The size, in GiB, of the Amazon EBS root device volume of the
-  Linux AMI that is used for each EC2 instance. Available in Amazon EMR version 4.x and later.
-- `"JobFlowRole"`: Also called instance profile and EC2 role. An IAM role for an EMR
-  cluster. The EC2 instances of the cluster assume this role. The default role is
-  EMR_EC2_DefaultRole. In order to use the default role, you must have already created it
-  using the CLI or console.
+  Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x
+  and later.
+- `"JobFlowRole"`: Also called instance profile and Amazon EC2 role. An IAM role for an
+  Amazon EMR cluster. The Amazon EC2 instances of the cluster assume this role. The default
+  role is EMR_EC2_DefaultRole. In order to use the default role, you must have already
+  created it using the CLI or console.
 - `"KerberosAttributes"`: Attributes for Kerberos configuration when Kerberos
   authentication is enabled using a security configuration. For more information see Use
   Kerberos Authentication in the Amazon EMR Management Guide.
 - `"LogEncryptionKmsKeyId"`: The KMS key used for encrypting log files. If a value is not
   provided, the logs remain encrypted by AES-256. This attribute is only available with
-  Amazon EMR version 5.30.0 and later, excluding Amazon EMR 6.0.0.
+  Amazon EMR releases 5.30.0 and later, excluding Amazon EMR 6.0.0.
 - `"LogUri"`: The location in Amazon S3 to write the log files of the job flow. If a value
   is not provided, logs are not created.
 - `"ManagedScalingPolicy"`:  The specified managed scaling policy for an Amazon EMR
   cluster.
 - `"NewSupportedProducts"`:  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases
   4.x and later, use Applications.  A list of strings that indicates third-party software to
-  use with the job flow that accepts a user argument list. EMR accepts and forwards the
-  argument list to the corresponding installation script as bootstrap action arguments. For
-  more information, see \"Launch a Job Flow on the MapR Distribution for Hadoop\" in the
+  use with the job flow that accepts a user argument list. Amazon EMR accepts and forwards
+  the argument list to the corresponding installation script as bootstrap action arguments.
+  For more information, see \"Launch a Job Flow on the MapR Distribution for Hadoop\" in the
   Amazon EMR Developer Guide. Supported values are:   \"mapr-m3\" - launch the cluster using
   MapR M3 Edition.   \"mapr-m5\" - launch the cluster using MapR M5 Edition.   \"mapr\" with
   the user arguments specifying \"--edition,m3\" or \"--edition,m5\" - launch the job flow
@@ -1999,8 +2003,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nodes to a deny list and drains tasks from nodes before terminating the Amazon EC2
   instances, regardless of the instance-hour boundary. With either behavior, Amazon EMR
   removes the least active nodes first and blocks instance termination if it could lead to
-  HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR version 4.1.0
-  and later, and is the default for versions of Amazon EMR earlier than 5.1.0.
+  HDFS corruption. TERMINATE_AT_TASK_COMPLETION available only in Amazon EMR releases 4.1.0
+  and later, and is the default for releases of Amazon EMR earlier than 5.1.0.
 - `"SecurityConfiguration"`: The name of a security configuration to apply to the cluster.
 - `"ServiceRole"`: The IAM role that Amazon EMR assumes in order to access Amazon Web
   Services resources on your behalf. If you've created a custom service role path, you must
@@ -2018,12 +2022,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VisibleToAllUsers"`:  The VisibleToAllUsers parameter is no longer supported. By
   default, the value is set to true. Setting it to false now has no effect.  Set this value
   to true so that IAM principals in the Amazon Web Services account associated with the
-  cluster can perform EMR actions on the cluster that their IAM policies allow. This value
-  defaults to true for clusters created using the EMR API or the CLI create-cluster command.
-  When set to false, only the IAM principal that created the cluster and the Amazon Web
-  Services account root user can perform EMR actions for the cluster, regardless of the IAM
-  permissions policies attached to other IAM principals. For more information, see
-  Understanding the EMR Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
+  cluster can perform Amazon EMR actions on the cluster that their IAM policies allow. This
+  value defaults to true for clusters created using the Amazon EMR API or the CLI
+  create-cluster command. When set to false, only the IAM principal that created the cluster
+  and the Amazon Web Services account root user can perform Amazon EMR actions for the
+  cluster, regardless of the IAM permissions policies attached to other IAM principals. For
+  more information, see Understanding the Amazon EMR cluster VisibleToAllUsers setting in the
+  Amazon EMR Management Guide.
 """
 function run_job_flow(Instances, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return emr(
@@ -2055,17 +2060,17 @@ end
     set_termination_protection(job_flow_ids, termination_protected)
     set_termination_protection(job_flow_ids, termination_protected, params::Dict{String,<:Any})
 
-SetTerminationProtection locks a cluster (job flow) so the EC2 instances in the cluster
-cannot be terminated by user intervention, an API call, or in the event of a job-flow
-error. The cluster still terminates upon successful completion of the job flow. Calling
-SetTerminationProtection on a cluster is similar to calling the Amazon EC2
-DisableAPITermination API on all EC2 instances in a cluster.  SetTerminationProtection is
-used to prevent accidental termination of a cluster and to ensure that in the event of an
-error, the instances persist so that you can recover any data stored in their ephemeral
-instance storage.  To terminate a cluster that has been locked by setting
-SetTerminationProtection to true, you must first unlock the job flow by a subsequent call
-to SetTerminationProtection in which you set the value to false.   For more information,
-seeManaging Cluster Termination in the Amazon EMR Management Guide.
+SetTerminationProtection locks a cluster (job flow) so the Amazon EC2 instances in the
+cluster cannot be terminated by user intervention, an API call, or in the event of a
+job-flow error. The cluster still terminates upon successful completion of the job flow.
+Calling SetTerminationProtection on a cluster is similar to calling the Amazon EC2
+DisableAPITermination API on all Amazon EC2 instances in a cluster.
+SetTerminationProtection is used to prevent accidental termination of a cluster and to
+ensure that in the event of an error, the instances persist so that you can recover any
+data stored in their ephemeral instance storage.  To terminate a cluster that has been
+locked by setting SetTerminationProtection to true, you must first unlock the job flow by a
+subsequent call to SetTerminationProtection in which you set the value to false.   For more
+information, seeManaging Cluster Termination in the Amazon EMR Management Guide.
 
 # Arguments
 - `job_flow_ids`:  A list of strings that uniquely identify the clusters to protect. This
@@ -2116,21 +2121,22 @@ end
 
  The SetVisibleToAllUsers parameter is no longer supported. Your cluster may be visible to
 all users in your account. To restrict cluster access using an IAM policy, see Identity and
-Access Management for EMR.   Sets the ClusterVisibleToAllUsers value for an EMR cluster.
-When true, IAM principals in the Amazon Web Services account can perform EMR cluster
-actions that their IAM policies allow. When false, only the IAM principal that created the
-cluster and the Amazon Web Services account root user can perform EMR actions on the
-cluster, regardless of IAM permissions policies attached to other IAM principals. This
-action works on running clusters. When you create a cluster, use the
-RunJobFlowInputVisibleToAllUsers parameter. For more information, see Understanding the EMR
-Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
+Access Management for Amazon EMR.   Sets the ClusterVisibleToAllUsers value for an Amazon
+EMR cluster. When true, IAM principals in the Amazon Web Services account can perform
+Amazon EMR cluster actions that their IAM policies allow. When false, only the IAM
+principal that created the cluster and the Amazon Web Services account root user can
+perform Amazon EMR actions on the cluster, regardless of IAM permissions policies attached
+to other IAM principals. This action works on running clusters. When you create a cluster,
+use the RunJobFlowInputVisibleToAllUsers parameter. For more information, see Understanding
+the Amazon EMR Cluster VisibleToAllUsers Setting in the Amazon EMR Management Guide.
 
 # Arguments
 - `job_flow_ids`: The unique identifier of the job flow (cluster).
 - `visible_to_all_users`: A value of true indicates that an IAM principal in the Amazon Web
-  Services account can perform EMR actions on the cluster that the IAM policies attached to
-  the principal allow. A value of false indicates that only the IAM principal that created
-  the cluster and the Amazon Web Services root user can perform EMR actions on the cluster.
+  Services account can perform Amazon EMR actions on the cluster that the IAM policies
+  attached to the principal allow. A value of false indicates that only the IAM principal
+  that created the cluster and the Amazon Web Services root user can perform Amazon EMR
+  actions on the cluster.
 
 """
 function set_visible_to_all_users(
@@ -2168,60 +2174,57 @@ function set_visible_to_all_users(
 end
 
 """
-    start_notebook_execution(editor_id, execution_engine, relative_path, service_role)
-    start_notebook_execution(editor_id, execution_engine, relative_path, service_role, params::Dict{String,<:Any})
+    start_notebook_execution(execution_engine, service_role)
+    start_notebook_execution(execution_engine, service_role, params::Dict{String,<:Any})
 
 Starts a notebook execution.
 
 # Arguments
-- `editor_id`: The unique identifier of the EMR Notebook to use for notebook execution.
 - `execution_engine`: Specifies the execution engine (cluster) that runs the notebook
   execution.
-- `relative_path`: The path and file name of the notebook file for this execution, relative
-  to the path specified for the EMR Notebook. For example, if you specify a path of
-  s3://MyBucket/MyNotebooks when you create an EMR Notebook for a notebook with an ID of
-  e-ABCDEFGHIJK1234567890ABCD (the EditorID of this request), and you specify a RelativePath
-  of my_notebook_executions/notebook_execution.ipynb, the location of the file for the
-  notebook execution is
-  s3://MyBucket/MyNotebooks/e-ABCDEFGHIJK1234567890ABCD/my_notebook_executions/notebook_execut
-  ion.ipynb.
 - `service_role`: The name or ARN of the IAM role that is used as the service role for
-  Amazon EMR (the EMR role) for the notebook execution.
+  Amazon EMR (the Amazon EMR role) for the notebook execution.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EditorId"`: The unique identifier of the Amazon EMR Notebook to use for notebook
+  execution.
+- `"EnvironmentVariables"`: The environment variables associated with the notebook
+  execution.
 - `"NotebookExecutionName"`: An optional name for the notebook execution.
 - `"NotebookInstanceSecurityGroupId"`: The unique identifier of the Amazon EC2 security
-  group to associate with the EMR Notebook for this notebook execution.
-- `"NotebookParams"`: Input parameters in JSON format passed to the EMR Notebook at runtime
-  for execution.
+  group to associate with the Amazon EMR Notebook for this notebook execution.
+- `"NotebookParams"`: Input parameters in JSON format passed to the Amazon EMR Notebook at
+  runtime for execution.
+- `"NotebookS3Location"`: The Amazon S3 location for the notebook execution input.
+- `"OutputNotebookFormat"`: The output format for the notebook execution.
+- `"OutputNotebookS3Location"`: The Amazon S3 location for the notebook execution output.
+- `"RelativePath"`: The path and file name of the notebook file for this execution,
+  relative to the path specified for the Amazon EMR Notebook. For example, if you specify a
+  path of s3://MyBucket/MyNotebooks when you create an Amazon EMR Notebook for a notebook
+  with an ID of e-ABCDEFGHIJK1234567890ABCD (the EditorID of this request), and you specify a
+  RelativePath of my_notebook_executions/notebook_execution.ipynb, the location of the file
+  for the notebook execution is
+  s3://MyBucket/MyNotebooks/e-ABCDEFGHIJK1234567890ABCD/my_notebook_executions/notebook_execut
+  ion.ipynb.
 - `"Tags"`: A list of tags associated with a notebook execution. Tags are user-defined
   key-value pairs that consist of a required key string with a maximum of 128 characters and
   an optional value string with a maximum of 256 characters.
 """
 function start_notebook_execution(
-    EditorId,
-    ExecutionEngine,
-    RelativePath,
-    ServiceRole;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ExecutionEngine, ServiceRole; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return emr(
         "StartNotebookExecution",
         Dict{String,Any}(
-            "EditorId" => EditorId,
-            "ExecutionEngine" => ExecutionEngine,
-            "RelativePath" => RelativePath,
-            "ServiceRole" => ServiceRole,
+            "ExecutionEngine" => ExecutionEngine, "ServiceRole" => ServiceRole
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_notebook_execution(
-    EditorId,
     ExecutionEngine,
-    RelativePath,
     ServiceRole,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -2232,10 +2235,7 @@ function start_notebook_execution(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "EditorId" => EditorId,
-                    "ExecutionEngine" => ExecutionEngine,
-                    "RelativePath" => RelativePath,
-                    "ServiceRole" => ServiceRole,
+                    "ExecutionEngine" => ExecutionEngine, "ServiceRole" => ServiceRole
                 ),
                 params,
             ),
@@ -2289,7 +2289,7 @@ end
     terminate_job_flows(job_flow_ids, params::Dict{String,<:Any})
 
 TerminateJobFlows shuts a list of clusters (job flows) down. When a job flow is shut down,
-any step not yet completed is canceled and the EC2 instances on which the cluster is
+any step not yet completed is canceled and the Amazon EC2 instances on which the cluster is
 running are stopped. Any log files not already saved are uploaded to Amazon S3 if a LogUri
 was specified when the cluster was created. The maximum number of clusters allowed is 10.
 The call to TerminateJobFlows is asynchronous. Depending on the configuration of the

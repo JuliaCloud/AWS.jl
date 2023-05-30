@@ -1600,7 +1600,7 @@ end
     import_workspace_image(ec2_image_id, image_description, image_name, ingestion_process)
     import_workspace_image(ec2_image_id, image_description, image_name, ingestion_process, params::Dict{String,<:Any})
 
-Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon
+Imports the specified Windows 10 or 11 Bring Your Own License (BYOL) image into Amazon
 WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon
 Web Services account, and you must own the image. For more information about creating BYOL
 images, see  Bring Your Own Windows Desktop Licenses.
@@ -1622,9 +1622,10 @@ images, see  Bring Your Own Windows Desktop Licenses.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Applications"`: If specified, the version of Microsoft Office to subscribe to. Valid
-  only for Windows 10 BYOL images. For more information about subscribing to Office for BYOL
-  images, see  Bring Your Own Windows Desktop Licenses.  Although this parameter is an array,
-  only one item is allowed at this time.
+  only for Windows 10 and 11 BYOL images. For more information about subscribing to Office
+  for BYOL images, see  Bring Your Own Windows Desktop Licenses.    Although this parameter
+  is an array, only one item is allowed at this time.   Windows 11 only supports
+  Microsoft_Office_2019.
 - `"Tags"`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 """
 function import_workspace_image(

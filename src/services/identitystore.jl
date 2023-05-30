@@ -17,7 +17,8 @@ Creates a group within the specified identity store.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A string containing the description of the group.
 - `"DisplayName"`: A string containing the name of the group. This value is commonly
-  displayed when the group is referenced.
+  displayed when the group is referenced. \"Administrator\" and \"AWSAdministrators\" are
+  reserved names and can't be used for users or groups.
 """
 function create_group(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config())
     return identitystore(
@@ -102,7 +103,7 @@ end
     create_user(identity_store_id)
     create_user(identity_store_id, params::Dict{String,<:Any})
 
-Creates a new user within the specified identity store.
+Creates a user within the specified identity store.
 
 # Arguments
 - `identity_store_id`: The globally unique identifier for the identity store.
@@ -110,26 +111,27 @@ Creates a new user within the specified identity store.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Addresses"`: A list of Address objects containing addresses associated with the user.
-- `"DisplayName"`: A string containing the user's name. This value is typically formatted
-  for display when the user is referenced. For example, \"John Doe.\"
+- `"DisplayName"`: A string containing the name of the user. This value is typically
+  formatted for display when the user is referenced. For example, \"John Doe.\"
 - `"Emails"`: A list of Email objects containing email addresses associated with the user.
-- `"Locale"`: A string containing the user's geographical region or location.
-- `"Name"`: An object containing the user's name.
+- `"Locale"`: A string containing the geographical region or location of the user.
+- `"Name"`: An object containing the name of the user.
 - `"NickName"`: A string containing an alternate name for the user.
 - `"PhoneNumbers"`: A list of PhoneNumber objects containing phone numbers associated with
   the user.
 - `"PreferredLanguage"`: A string containing the preferred language of the user. For
   example, \"American English\" or \"en-us.\"
-- `"ProfileUrl"`: A string containing a URL that may be associated with the user.
-- `"Timezone"`: A string containing the user's time zone.
-- `"Title"`: A string containing the user's title. Possible values are left unspecified
-  given that they depend on each customer's specific needs.
+- `"ProfileUrl"`: A string containing a URL that might be associated with the user.
+- `"Timezone"`: A string containing the time zone of the user.
+- `"Title"`: A string containing the title of the user. Possible values are left
+  unspecified. The value can vary based on your specific use case.
 - `"UserName"`: A unique string used to identify the user. The length limit is 128
   characters. This value can consist of letters, accented characters, symbols, numbers, and
   punctuation. This value is specified at the time the user is created and stored as an
-  attribute of the user object in the identity store.
-- `"UserType"`: A string indicating the user's type. Possible values depend on each
-  customer's specific needs, so they are left unspecified.
+  attribute of the user object in the identity store. \"Administrator\" and
+  \"AWSAdministrators\" are reserved names and can't be used for users or groups.
+- `"UserType"`: A string indicating the type of user. Possible values are left unspecified.
+  The value can vary based on your specific use case.
 """
 function create_user(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config())
     return identitystore(
@@ -429,8 +431,8 @@ Retrieves GroupId in an identity store.
 # Arguments
 - `alternate_identifier`: A unique identifier for a user or group that is not the primary
   identifier. This value can be an identifier from an external identity provider (IdP) that
-  is associated with the user, the group, or a unique attribute. For example, a unique
-  GroupDisplayName.
+  is associated with the user, the group, or a unique attribute. For the unique attribute,
+  the only valid path is displayName.
 - `identity_store_id`: The globally unique identifier for the identity store.
 
 """
@@ -532,8 +534,8 @@ Retrieves the UserId in an identity store.
 # Arguments
 - `alternate_identifier`: A unique identifier for a user or group that is not the primary
   identifier. This value can be an identifier from an external identity provider (IdP) that
-  is associated with the user, the group, or a unique attribute. For example, a unique
-  UserDisplayName.
+  is associated with the user, the group, or a unique attribute. For the unique attribute,
+  the only valid paths are userName and emails.value.
 - `identity_store_id`: The globally unique identifier for the identity store.
 
 """

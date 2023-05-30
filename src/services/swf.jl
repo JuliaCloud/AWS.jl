@@ -609,8 +609,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextPageToken"`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
-  Each pagination token expires after 60 seconds. Using an expired pagination token will
-  return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
+  Each pagination token expires after 24 hours. Using an expired pagination token will return
+  a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
 - `"reverseOrder"`: When set to true, returns the events in reverse order. By default the
   results are returned in ascending order of the eventTimeStamp of the events.
@@ -675,8 +675,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextPageToken"`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
-  Each pagination token expires after 60 seconds. Using an expired pagination token will
-  return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
+  Each pagination token expires after 24 hours. Using an expired pagination token will return
+  a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
 - `"reverseOrder"`: When set to true, returns the results in reverse order. By default, the
   results are returned in ascending alphabetical order by name of the activity types.
@@ -756,8 +756,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextPageToken"`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
-  Each pagination token expires after 60 seconds. Using an expired pagination token will
-  return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
+  Each pagination token expires after 24 hours. Using an expired pagination token will return
+  a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
 - `"reverseOrder"`: When set to true, returns the results in reverse order. By default the
   results are returned in descending order of the start or the close time of the executions.
@@ -822,8 +822,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextPageToken"`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
-  Each pagination token expires after 60 seconds. Using an expired pagination token will
-  return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
+  Each pagination token expires after 24 hours. Using an expired pagination token will return
+  a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
 - `"reverseOrder"`: When set to true, returns the results in reverse order. By default, the
   results are returned in ascending alphabetical order by name of the domains.
@@ -888,8 +888,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextPageToken"`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
-  Each pagination token expires after 60 seconds. Using an expired pagination token will
-  return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
+  Each pagination token expires after 24 hours. Using an expired pagination token will return
+  a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
 - `"reverseOrder"`: When set to true, returns the results in reverse order. By default the
   results are returned in descending order of the start time of the executions.
@@ -992,8 +992,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextPageToken"`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
-  Each pagination token expires after 60 seconds. Using an expired pagination token will
-  return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
+  Each pagination token expires after 24 hours. Using an expired pagination token will return
+  a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.
 - `"reverseOrder"`: When set to true, returns the results in reverse order. By default the
   results are returned in ascending alphabetical order of the name of the workflow types.
@@ -1126,9 +1126,8 @@ Amazon SWF Developer Guide.
 # Arguments
 - `domain`: The name of the domain containing the task lists to poll.
 - `task_list`: Specifies the task list to poll for decision tasks. The specified string
-  must not start or end with whitespace. It must not contain a : (colon), / (slash), |
-  (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also, it must not be
-  the literal string arn.
+  must not contain a : (colon), / (slash), | (vertical bar), or any control characters
+  (u0000-u001f | u007f-u009f). Also, it must not be the literal string arn.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1141,8 +1140,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextPageToken"`: If NextPageToken is returned there are more results available. The
   value of NextPageToken is a unique pagination token for each page. Make the call again
   using the returned token to retrieve the next page. Keep all other arguments unchanged.
-  Each pagination token expires after 60 seconds. Using an expired pagination token will
-  return a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
+  Each pagination token expires after 24 hours. Using an expired pagination token will return
+  a 400 error: \"Specified token has exceeded its maximum lifetime\".  The configured
   maximumPageSize determines how many results can be returned in a single call.   The
   nextPageToken returned by this action cannot be used with GetWorkflowExecutionHistory to
   get the next page. You must call PollForDecisionTask again (with the nextPageToken) to
@@ -1150,6 +1149,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   doesn't return a new decision task.
 - `"reverseOrder"`: When set to true, returns the events in reverse order. By default the
   results are returned in ascending order of the eventTimestamp of the events.
+- `"startAtPreviousStartedEvent"`: When set to true, returns the events with eventTimestamp
+  greater than or equal to eventTimestamp of the most recent DecisionTaskStarted event. By
+  default, this parameter is set to false.
 """
 function poll_for_decision_task(
     domain, taskList; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1266,14 +1268,12 @@ Manage Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 # Arguments
 - `domain`: The name of the domain in which this activity is to be registered.
 - `name`: The name of the activity type within the domain. The specified string must not
-  start or end with whitespace. It must not contain a : (colon), / (slash), | (vertical bar),
-  or any control characters (u0000-u001f | u007f-u009f). Also, it must not be the literal
-  string arn.
+  contain a : (colon), / (slash), | (vertical bar), or any control characters (u0000-u001f |
+  u007f-u009f). Also, it must not be the literal string arn.
 - `version`: The version of the activity type.  The activity type consists of the name and
   version, the combination of which must be unique within the domain.  The specified string
-  must not start or end with whitespace. It must not contain a : (colon), / (slash), |
-  (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also, it must not be
-  the literal string arn.
+  must not contain a : (colon), / (slash), | (vertical bar), or any control characters
+  (u0000-u001f | u007f-u009f). Also, it must not be the literal string arn.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1437,15 +1437,14 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 
 # Arguments
 - `domain`: The name of the domain in which to register the workflow type.
-- `name`: The name of the workflow type. The specified string must not start or end with
-  whitespace. It must not contain a : (colon), / (slash), | (vertical bar), or any control
-  characters (u0000-u001f | u007f-u009f). Also, it must not be the literal string arn.
+- `name`: The name of the workflow type. The specified string must not contain a : (colon),
+  / (slash), | (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also,
+  it must not be the literal string arn.
 - `version`: The version of the workflow type.  The workflow type consists of the name and
   version, the combination of which must be unique within the domain. To get a list of all
   currently registered workflow types, use the ListWorkflowTypes action.  The specified
-  string must not start or end with whitespace. It must not contain a : (colon), / (slash), |
-  (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also, it must not be
-  the literal string arn.
+  string must not contain a : (colon), / (slash), | (vertical bar), or any control characters
+  (u0000-u001f | u007f-u009f). Also, it must not be the literal string arn.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1895,14 +1894,16 @@ For details and example IAM policies, see Using IAM to Manage Access to Amazon S
 Workflows in the Amazon SWF Developer Guide.
 
 # Arguments
-- `domain`: The name of the domain in which the workflow execution is created.
+- `domain`: The name of the domain in which the workflow execution is created. The
+  specified string must not contain a : (colon), / (slash), | (vertical bar), or any control
+  characters (u0000-u001f | u007f-u009f). Also, it must not be the literal string arn.
 - `workflow_id`: The user defined identifier associated with the workflow execution. You
   can use this to associate a custom identifier with the workflow execution. You may specify
   the same identifier if a workflow execution is logically a restart of a previous execution.
   You cannot have two open workflow executions with the same workflowId at the same time
-  within the same domain. The specified string must not start or end with whitespace. It must
-  not contain a : (colon), / (slash), | (vertical bar), or any control characters
-  (u0000-u001f | u007f-u009f). Also, it must not be the literal string arn.
+  within the same domain. The specified string must not contain a : (colon), / (slash), |
+  (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also, it must not be
+  the literal string arn.
 - `workflow_type`: The type of the workflow to start.
 
 # Optional Parameters
@@ -1945,9 +1946,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    A task list for this workflow execution must be specified either as a default for the
   workflow type or through this parameter. If neither this parameter is set nor a default
   task list was specified at registration time then a fault is returned.  The specified
-  string must not start or end with whitespace. It must not contain a : (colon), / (slash), |
-  (vertical bar), or any control characters (u0000-u001f | u007f-u009f). Also, it must not be
-  the literal string arn.
+  string must not contain a : (colon), / (slash), | (vertical bar), or any control characters
+  (u0000-u001f | u007f-u009f). Also, it must not be the literal string arn.
 - `"taskPriority"`: The task priority to use for this workflow execution. This overrides
   any default priority that was assigned when the workflow type was registered. If not set,
   then the default task priority for the workflow type is used. Valid values are integers

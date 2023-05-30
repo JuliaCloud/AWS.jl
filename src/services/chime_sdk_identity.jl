@@ -13,13 +13,14 @@ customers use this API. CreateAppInstance supports idempotency behavior as descr
 AWS API Standard. identity
 
 # Arguments
-- `client_request_token`: The ClientRequestToken of the AppInstance.
+- `client_request_token`: The unique ID of the request. Use different tokens to create
+  different AppInstances.
 - `name`: The name of the AppInstance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Metadata"`: The metadata of the AppInstance. Limited to a 1KB string in UTF-8.
-- `"Tags"`: Tags assigned to the AppInstanceUser.
+- `"Tags"`: Tags assigned to the AppInstance.
 """
 function create_app_instance(
     ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -59,10 +60,10 @@ end
     create_app_instance_admin(app_instance_admin_arn, app_instance_arn)
     create_app_instance_admin(app_instance_admin_arn, app_instance_arn, params::Dict{String,<:Any})
 
-Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the
-following actions.     ChannelModerator actions across all channels in the AppInstance.
-DeleteChannelMessage actions.   Only an AppInstanceUser can be promoted to an
-AppInstanceAdmin role.
+Promotes an AppInstanceUser or AppInstanceBot to an AppInstanceAdmin. The promoted entity
+can perform the following actions.     ChannelModerator actions across all channels in the
+AppInstance.    DeleteChannelMessage actions.   Only an AppInstanceUser and AppInstanceBot
+can be promoted to an AppInstanceAdmin role.
 
 # Arguments
 - `app_instance_admin_arn`: The ARN of the administrator of the current AppInstance.
@@ -102,6 +103,69 @@ function create_app_instance_admin(
 end
 
 """
+    create_app_instance_bot(app_instance_arn, client_request_token, configuration)
+    create_app_instance_bot(app_instance_arn, client_request_token, configuration, params::Dict{String,<:Any})
+
+Creates a bot under an Amazon Chime AppInstance. The request consists of a unique
+Configuration and Name for that bot.
+
+# Arguments
+- `app_instance_arn`: The ARN of the AppInstance request.
+- `client_request_token`: The unique ID for the client making the request. Use different
+  tokens for different AppInstanceBots.
+- `configuration`: Configuration information about the Amazon Lex V2 V2 bot.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Metadata"`: The request metadata. Limited to a 1KB string in UTF-8.
+- `"Name"`: The user's name.
+- `"Tags"`: The tags assigned to the AppInstanceBot.
+"""
+function create_app_instance_bot(
+    AppInstanceArn,
+    ClientRequestToken,
+    Configuration;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "POST",
+        "/app-instance-bots",
+        Dict{String,Any}(
+            "AppInstanceArn" => AppInstanceArn,
+            "ClientRequestToken" => ClientRequestToken,
+            "Configuration" => Configuration,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_app_instance_bot(
+    AppInstanceArn,
+    ClientRequestToken,
+    Configuration,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "POST",
+        "/app-instance-bots",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppInstanceArn" => AppInstanceArn,
+                    "ClientRequestToken" => ClientRequestToken,
+                    "Configuration" => Configuration,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_app_instance_user(app_instance_arn, app_instance_user_id, client_request_token, name)
     create_app_instance_user(app_instance_arn, app_instance_user_id, client_request_token, name, params::Dict{String,<:Any})
 
@@ -111,11 +175,14 @@ appInstanceUserId and Name for that user.
 # Arguments
 - `app_instance_arn`: The ARN of the AppInstance request.
 - `app_instance_user_id`: The user ID of the AppInstance.
-- `client_request_token`: The token assigned to the user requesting an AppInstance.
+- `client_request_token`: The unique ID of the request. Use different tokens to request
+  additional AppInstances.
 - `name`: The user's name.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExpirationSettings"`: Settings that control the interval after which the
+  AppInstanceUser is automatically deleted.
 - `"Metadata"`: The request's metadata. Limited to a 1KB string in UTF-8.
 - `"Tags"`: Tags assigned to the AppInstanceUser.
 """
@@ -205,7 +272,8 @@ end
     delete_app_instance_admin(app_instance_admin_arn, app_instance_arn)
     delete_app_instance_admin(app_instance_admin_arn, app_instance_arn, params::Dict{String,<:Any})
 
-Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user.
+Demotes an AppInstanceAdmin to an AppInstanceUser or AppInstanceBot. This action does not
+delete the user.
 
 # Arguments
 - `app_instance_admin_arn`: The ARN of the AppInstance's administrator.
@@ -231,6 +299,40 @@ function delete_app_instance_admin(
     return chime_sdk_identity(
         "DELETE",
         "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_app_instance_bot(app_instance_bot_arn)
+    delete_app_instance_bot(app_instance_bot_arn, params::Dict{String,<:Any})
+
+Deletes an AppInstanceBot.
+
+# Arguments
+- `app_instance_bot_arn`: The ARN of the AppInstanceBot being deleted.
+
+"""
+function delete_app_instance_bot(
+    appInstanceBotArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "DELETE",
+        "/app-instance-bots/$(appInstanceBotArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_app_instance_bot(
+    appInstanceBotArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "DELETE",
+        "/app-instance-bots/$(appInstanceBotArn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -378,6 +480,40 @@ function describe_app_instance_admin(
 end
 
 """
+    describe_app_instance_bot(app_instance_bot_arn)
+    describe_app_instance_bot(app_instance_bot_arn, params::Dict{String,<:Any})
+
+The AppInstanceBot's information.
+
+# Arguments
+- `app_instance_bot_arn`: The ARN of the AppInstanceBot.
+
+"""
+function describe_app_instance_bot(
+    appInstanceBotArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "GET",
+        "/app-instance-bots/$(appInstanceBotArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_app_instance_bot(
+    appInstanceBotArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "GET",
+        "/app-instance-bots/$(appInstanceBotArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_app_instance_user(app_instance_user_arn)
     describe_app_instance_user(app_instance_user_arn, params::Dict{String,<:Any})
 
@@ -515,6 +651,50 @@ function list_app_instance_admins(
         "GET",
         "/app-instances/$(appInstanceArn)/admins",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_app_instance_bots(app-instance-arn)
+    list_app_instance_bots(app-instance-arn, params::Dict{String,<:Any})
+
+Lists all AppInstanceBots created under a single AppInstance.
+
+# Arguments
+- `app-instance-arn`: The ARN of the AppInstance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of requests to return.
+- `"next-token"`: The token passed by previous API calls until all requested bots are
+  returned.
+"""
+function list_app_instance_bots(
+    app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "GET",
+        "/app-instance-bots",
+        Dict{String,Any}("app-instance-arn" => app_instance_arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_app_instance_bots(
+    app_instance_arn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "GET",
+        "/app-instance-bots",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("app-instance-arn" => app_instance_arn), params
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -711,6 +891,47 @@ function put_app_instance_retention_settings(
 end
 
 """
+    put_app_instance_user_expiration_settings(app_instance_user_arn)
+    put_app_instance_user_expiration_settings(app_instance_user_arn, params::Dict{String,<:Any})
+
+Sets the number of days before the AppInstanceUser is automatically deleted.  A background
+process deletes expired AppInstanceUsers within 6 hours of expiration. Actual deletion
+times may vary. Expired AppInstanceUsers that have not yet been deleted appear as active,
+and you can update their expiration settings. The system honors the new settings.
+
+# Arguments
+- `app_instance_user_arn`: The ARN of the AppInstanceUser.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExpirationSettings"`: Settings that control the interval after which an AppInstanceUser
+  is automatically deleted.
+"""
+function put_app_instance_user_expiration_settings(
+    appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "PUT",
+        "/app-instance-users/$(appInstanceUserArn)/expiration-settings";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_app_instance_user_expiration_settings(
+    appInstanceUserArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "PUT",
+        "/app-instance-users/$(appInstanceUserArn)/expiration-settings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     register_app_instance_user_endpoint(client_request_token, endpoint_attributes, resource_arn, type, app_instance_user_arn)
     register_app_instance_user_endpoint(client_request_token, endpoint_attributes, resource_arn, type, app_instance_user_arn, params::Dict{String,<:Any})
 
@@ -719,7 +940,8 @@ for a user. For push notifications, the endpoint is a mobile device used to rece
 push notifications for a user.
 
 # Arguments
-- `client_request_token`: The idempotency token for each client request.
+- `client_request_token`: The unique ID assigned to the request. Use different tokens to
+  register other endpoints.
 - `endpoint_attributes`: The attributes of an Endpoint.
 - `resource_arn`: The ARN of the resource to which the endpoint belongs.
 - `type`: The type of the AppInstanceUserEndpoint. Supported types:    APNS: The mobile
@@ -902,6 +1124,49 @@ function update_app_instance(
     return chime_sdk_identity(
         "PUT",
         "/app-instances/$(appInstanceArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Metadata" => Metadata, "Name" => Name), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_app_instance_bot(metadata, name, app_instance_bot_arn)
+    update_app_instance_bot(metadata, name, app_instance_bot_arn, params::Dict{String,<:Any})
+
+Updates the name and metadata of an AppInstanceBot.
+
+# Arguments
+- `metadata`: The metadata of the AppInstanceBot.
+- `name`: The name of the AppInstanceBot.
+- `app_instance_bot_arn`: The ARN of the AppInstanceBot.
+
+"""
+function update_app_instance_bot(
+    Metadata, Name, appInstanceBotArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return chime_sdk_identity(
+        "PUT",
+        "/app-instance-bots/$(appInstanceBotArn)",
+        Dict{String,Any}("Metadata" => Metadata, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_app_instance_bot(
+    Metadata,
+    Name,
+    appInstanceBotArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return chime_sdk_identity(
+        "PUT",
+        "/app-instance-bots/$(appInstanceBotArn)",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("Metadata" => Metadata, "Name" => Name), params

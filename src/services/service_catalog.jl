@@ -15,8 +15,7 @@ Accepts an offer to share the specified portfolio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PortfolioShareType"`: The type of shared portfolios to accept. The default is to accept
   imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the management
   account of your organization.    IMPORTED - Accept imported portfolios.
@@ -110,8 +109,8 @@ recipient account before it can be associated.
 
 # Arguments
 - `portfolio_id`: The portfolio identifier.
-- `principal_arn`: The ARN of the principal (IAM user, role, or group). This field allows
-  an ARN with no accountID if PrincipalType is IAM_PATTERN.  You can associate multiple IAM
+- `principal_arn`: The ARN of the principal (user, role, or group). This field allows an
+  ARN with no accountID if PrincipalType is IAM_PATTERN.  You can associate multiple IAM
   patterns even if the account has no principal with that name. This is useful in Principal
   Name Sharing if you want to share a principal without creating it in the account that owns
   the portfolio.
@@ -120,8 +119,7 @@ recipient account before it can be associated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function associate_principal_with_portfolio(
     PortfolioId,
@@ -178,8 +176,7 @@ authorized to invoke this command.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"SourcePortfolioId"`: The identifier of the source portfolio.
 """
 function associate_product_with_portfolio(
@@ -226,8 +223,7 @@ Associates a self-service action with a provisioning artifact.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function associate_service_action_with_provisioning_artifact(
     ProductId,
@@ -324,8 +320,7 @@ Associates multiple self-service actions with provisioning artifacts.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function batch_associate_service_action_with_provisioning_artifact(
     ServiceActionAssociations; aws_config::AbstractAWSConfig=global_aws_config()
@@ -368,8 +363,7 @@ Disassociates a batch of self-service actions from the specified provisioning ar
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function batch_disassociate_service_action_from_provisioning_artifact(
     ServiceActionAssociations; aws_config::AbstractAWSConfig=global_aws_config()
@@ -418,8 +412,7 @@ asynchronously. To track the progress of the operation, use DescribeCopyProductS
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"CopyOptions"`: The copy options. If the value is CopyTags, the tags from the source
   product are copied to the target product.
 - `"SourceProvisioningArtifactIdentifiers"`: The identifiers of the provisioning artifacts
@@ -505,8 +498,7 @@ Creates a constraint. A delegated admin is authorized to invoke this command.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Description"`: The description of the constraint.
 """
 function create_constraint(
@@ -574,8 +566,7 @@ Creates a portfolio. A delegated admin is authorized to invoke this command.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Description"`: The description of the portfolio.
 - `"Tags"`: One or more tags.
 """
@@ -649,8 +640,7 @@ before it can be associated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"AccountId"`: The Amazon Web Services account ID. For example, 123456789012.
 - `"OrganizationNode"`: The organization node to whom you are going to share. When you pass
   OrganizationNode, it creates PortfolioShare for all of the Amazon Web Services accounts
@@ -711,8 +701,7 @@ source in the information data section.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Description"`: The description of the product.
 - `"Distributor"`: The distributor of the product.
 - `"ProvisioningArtifactParameters"`: The configuration of the provisioning artifact.
@@ -797,8 +786,7 @@ provisioned product, use ExecuteProvisionedProductPlan.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"NotificationArns"`: Passed to CloudFormation. The SNS topic ARNs to which to publish
   stack-related events.
 - `"PathId"`: The path identifier of the product. This value is optional if the product has
@@ -883,8 +871,7 @@ source in the information data section.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function create_provisioning_artifact(
     IdempotencyToken,
@@ -953,8 +940,7 @@ Creates a self-service action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Description"`: The self-service action description.
 """
 function create_service_action(
@@ -1049,8 +1035,7 @@ Deletes the specified constraint. A delegated admin is authorized to invoke this
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function delete_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
@@ -1084,8 +1069,7 @@ authorized to invoke this command.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function delete_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
@@ -1120,8 +1104,7 @@ de-registered, portfolio shares created from that account are removed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"AccountId"`: The Amazon Web Services account ID.
 - `"OrganizationNode"`: The organization node to whom you are going to stop sharing.
 """
@@ -1162,8 +1145,7 @@ associated with a portfolio. A delegated admin is authorized to invoke this comm
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function delete_product(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
@@ -1195,8 +1177,7 @@ Deletes the specified plan.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"IgnoreErrors"`: If set to true, Service Catalog stops managing the specified
   provisioned product even if it cannot delete the underlying resources.
 """
@@ -1236,8 +1217,7 @@ product must have at least one provisioning artifact.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function delete_provisioning_artifact(
     ProductId, ProvisioningArtifactId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1285,8 +1265,7 @@ Deletes a self-service action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function delete_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
@@ -1348,8 +1327,7 @@ Gets information about the specified constraint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function describe_constraint(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
@@ -1382,8 +1360,7 @@ Gets the status of the specified copy product operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function describe_copy_product_status(
     CopyProductToken; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1424,8 +1401,7 @@ this command.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function describe_portfolio(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
@@ -1551,8 +1527,7 @@ access results in a failure. DescribeProductAsAdmin should be used instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Id"`: The product identifier.
 - `"Name"`: The product name.
 """
@@ -1578,8 +1553,7 @@ access.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Id"`: The product identifier.
 - `"Name"`: The product name.
 - `"SourcePortfolioId"`: The unique identifier of the shared portfolio that the specified
@@ -1615,8 +1589,7 @@ Gets information about the specified product.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function describe_product_view(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
@@ -1645,8 +1618,7 @@ Gets information about the specified provisioned product.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Id"`: The provisioned product identifier. You must provide the name or ID, but not
   both. If you do not provide a name or ID, or you provide both name and ID, an
   InvalidParametersException will occur.
@@ -1681,8 +1653,7 @@ Gets information about the resource changes for the specified plan.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -1717,8 +1688,7 @@ the specified product.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"ProductId"`: The product identifier.
 - `"ProductName"`: The product name.
 - `"ProvisioningArtifactId"`: The identifier of the provisioning artifact.
@@ -1757,8 +1727,7 @@ product with the value sc-tagoption-conflict-portfolioId-productId.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PathId"`: The path identifier of the product. This value is optional if the product has
   a default path, and required if the product has more than one path. To list the paths for a
   product, use ListLaunchPaths. You must provide the name or ID, but not both.
@@ -1809,8 +1778,7 @@ owner.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -1845,8 +1813,7 @@ Describes a self-service action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function describe_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
@@ -1880,8 +1847,7 @@ product and returns a map of the results to the user.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function describe_service_action_execution_parameters(
     ProvisionedProductId, ServiceActionId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2042,13 +2008,12 @@ the associated principal.
 
 # Arguments
 - `portfolio_id`: The portfolio identifier.
-- `principal_arn`: The ARN of the principal (IAM user, role, or group). This field allows
-  an ARN with no accountID if PrincipalType is IAM_PATTERN.
+- `principal_arn`: The ARN of the principal (user, role, or group). This field allows an
+  ARN with no accountID if PrincipalType is IAM_PATTERN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PrincipalType"`: The supported value is IAM if you use a fully defined ARN, or
   IAM_PATTERN if you use no accountID.
 """
@@ -2097,8 +2062,7 @@ authorized to invoke this command.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function disassociate_product_from_portfolio(
     PortfolioId, ProductId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2145,8 +2109,7 @@ artifact.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function disassociate_service_action_from_provisioning_artifact(
     ProductId,
@@ -2283,8 +2246,7 @@ Provisions or modifies a product based on the resource changes for the specified
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function execute_provisioned_product_plan(
     IdempotencyToken, PlanId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2331,8 +2293,7 @@ Executes a self-service action against a provisioned product.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Parameters"`: A map of all self-service action parameters and their values. If a
   provided parameter is of a special type, such as TARGET, the provided value will override
   the default value generated by Service Catalog. If the parameters field is not provided, no
@@ -2418,8 +2379,7 @@ of one or more output keys, and responds with the key/value pairs of those outpu
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"OutputKeys"`: The list of keys that the API should return with their values. If none
   are provided, the API will return all outputs of the provisioned product.
 - `"PageSize"`: The maximum number of items to return with this call.
@@ -2482,8 +2442,7 @@ cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissi
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function import_as_provisioned_product(
     IdempotencyToken,
@@ -2545,8 +2504,7 @@ organizational shares were accepted by this account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -2585,8 +2543,7 @@ Lists all the budgets associated to the specified resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -2627,8 +2584,7 @@ Lists the constraints for the specified portfolio and product.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -2675,8 +2631,7 @@ users access in the Service Catalog User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -2721,8 +2676,7 @@ delegated admin is de-registered, they can no longer perform this operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -2775,8 +2729,7 @@ is de-registered, they can no longer perform this operation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"OrganizationParentId"`: The ID of an organization node the portfolio is shared with.
   All children of this node with an inherited portfolio share will be returned.
 - `"PageSize"`: The maximum number of items to return with this call.
@@ -2816,8 +2769,7 @@ Lists all portfolios in the catalog.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -2846,8 +2798,7 @@ Lists all portfolios that the specified product is associated with.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -2889,8 +2840,7 @@ portfolio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -2929,8 +2879,7 @@ access.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"AccessLevelFilter"`: The access level to use to obtain results. The default is User.
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
@@ -2966,8 +2915,7 @@ Lists all provisioning artifacts (also known as versions) for the specified prod
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function list_provisioning_artifacts(
     ProductId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3006,8 +2954,7 @@ action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -3047,8 +2994,7 @@ Lists the specified requests or all performed requests.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"AccessLevelFilter"`: The access level to use to obtain results. The default is User.
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
@@ -3117,8 +3063,7 @@ Lists all self-service actions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -3150,8 +3095,7 @@ and Provisioning Artifact ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -3204,8 +3148,7 @@ associated with a specific Amazon Web Services account name or Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
   results, use null.
@@ -3267,6 +3210,201 @@ function list_tag_options(
 end
 
 """
+    notify_provision_product_engine_workflow_result(idempotency_token, record_id, status, workflow_token)
+    notify_provision_product_engine_workflow_result(idempotency_token, record_id, status, workflow_token, params::Dict{String,<:Any})
+
+ Notifies the result of the provisioning engine execution.
+
+# Arguments
+- `idempotency_token`:  The idempotency token that identifies the provisioning engine
+  execution.
+- `record_id`:  The identifier of the record.
+- `status`:  The status of the provisioning engine execution.
+- `workflow_token`:  The encrypted contents of the provisioning engine execution payload
+  that Service Catalog sends after the Terraform product provisioning workflow starts.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FailureReason"`:  The reason why the provisioning engine execution failed.
+- `"Outputs"`:  The output of the provisioning engine execution.
+- `"ResourceIdentifier"`:  The ID for the provisioned product resources that are part of a
+  resource group.
+"""
+function notify_provision_product_engine_workflow_result(
+    IdempotencyToken,
+    RecordId,
+    Status,
+    WorkflowToken;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return service_catalog(
+        "NotifyProvisionProductEngineWorkflowResult",
+        Dict{String,Any}(
+            "IdempotencyToken" => IdempotencyToken,
+            "RecordId" => RecordId,
+            "Status" => Status,
+            "WorkflowToken" => WorkflowToken,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function notify_provision_product_engine_workflow_result(
+    IdempotencyToken,
+    RecordId,
+    Status,
+    WorkflowToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return service_catalog(
+        "NotifyProvisionProductEngineWorkflowResult",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IdempotencyToken" => IdempotencyToken,
+                    "RecordId" => RecordId,
+                    "Status" => Status,
+                    "WorkflowToken" => WorkflowToken,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    notify_terminate_provisioned_product_engine_workflow_result(idempotency_token, record_id, status, workflow_token)
+    notify_terminate_provisioned_product_engine_workflow_result(idempotency_token, record_id, status, workflow_token, params::Dict{String,<:Any})
+
+ Notifies the result of the terminate engine execution.
+
+# Arguments
+- `idempotency_token`:  The idempotency token that identifies the terminate engine
+  execution.
+- `record_id`:  The identifier of the record.
+- `status`:  The status of the terminate engine execution.
+- `workflow_token`:  The encrypted contents of the terminate engine execution payload that
+  Service Catalog sends after the Terraform product terminate workflow starts.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FailureReason"`:  The reason why the terminate engine execution failed.
+"""
+function notify_terminate_provisioned_product_engine_workflow_result(
+    IdempotencyToken,
+    RecordId,
+    Status,
+    WorkflowToken;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return service_catalog(
+        "NotifyTerminateProvisionedProductEngineWorkflowResult",
+        Dict{String,Any}(
+            "IdempotencyToken" => IdempotencyToken,
+            "RecordId" => RecordId,
+            "Status" => Status,
+            "WorkflowToken" => WorkflowToken,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function notify_terminate_provisioned_product_engine_workflow_result(
+    IdempotencyToken,
+    RecordId,
+    Status,
+    WorkflowToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return service_catalog(
+        "NotifyTerminateProvisionedProductEngineWorkflowResult",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IdempotencyToken" => IdempotencyToken,
+                    "RecordId" => RecordId,
+                    "Status" => Status,
+                    "WorkflowToken" => WorkflowToken,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    notify_update_provisioned_product_engine_workflow_result(idempotency_token, record_id, status, workflow_token)
+    notify_update_provisioned_product_engine_workflow_result(idempotency_token, record_id, status, workflow_token, params::Dict{String,<:Any})
+
+ Notifies the result of the update engine execution.
+
+# Arguments
+- `idempotency_token`:  The idempotency token that identifies the update engine execution.
+- `record_id`:  The identifier of the record.
+- `status`:  The status of the update engine execution.
+- `workflow_token`:  The encrypted contents of the update engine execution payload that
+  Service Catalog sends after the Terraform product update workflow starts.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FailureReason"`:  The reason why the update engine execution failed.
+- `"Outputs"`:  The output of the update engine execution.
+"""
+function notify_update_provisioned_product_engine_workflow_result(
+    IdempotencyToken,
+    RecordId,
+    Status,
+    WorkflowToken;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return service_catalog(
+        "NotifyUpdateProvisionedProductEngineWorkflowResult",
+        Dict{String,Any}(
+            "IdempotencyToken" => IdempotencyToken,
+            "RecordId" => RecordId,
+            "Status" => Status,
+            "WorkflowToken" => WorkflowToken,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function notify_update_provisioned_product_engine_workflow_result(
+    IdempotencyToken,
+    RecordId,
+    Status,
+    WorkflowToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return service_catalog(
+        "NotifyUpdateProvisionedProductEngineWorkflowResult",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IdempotencyToken" => IdempotencyToken,
+                    "RecordId" => RecordId,
+                    "Status" => Status,
+                    "WorkflowToken" => WorkflowToken,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     provision_product(provision_token, provisioned_product_name)
     provision_product(provision_token, provisioned_product_name, params::Dict{String,<:Any})
 
@@ -3288,8 +3426,7 @@ users access in the Service Catalog User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"NotificationArns"`: Passed to CloudFormation. The SNS topic ARNs to which to publish
   stack-related events.
 - `"PathId"`: The path identifier of the product. This value is optional if the product has
@@ -3357,8 +3494,7 @@ Rejects an offer to share the specified portfolio.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PortfolioShareType"`: The type of shared portfolios to reject. The default is to reject
   imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the management
   account of your organization.    IMPORTED - Reject imported portfolios.
@@ -3400,8 +3536,7 @@ filtering, see SearchProvisionedProducts.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"AccessLevelFilter"`: The access level to use to obtain results. The default is User.
 - `"PageSize"`: The maximum number of items to return with this call.
 - `"PageToken"`: The page token for the next set of results. To retrieve the first set of
@@ -3431,8 +3566,7 @@ Gets information about the products to which the caller has access.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Filters"`: The search filters. If no search filters are specified, the output includes
   all products to which the caller has access.
 - `"PageSize"`: The maximum number of items to return with this call.
@@ -3462,8 +3596,7 @@ Gets information about the products for the specified portfolio or all products.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Filters"`: The search filters. If no search filters are specified, the output includes
   all products to which the administrator has access.
 - `"PageSize"`: The maximum number of items to return with this call.
@@ -3498,8 +3631,7 @@ Gets information about the provisioned products that meet the specified criteria
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"AccessLevelFilter"`: The access level to use to obtain results. The default is User.
 - `"Filters"`: The search filters. When the key is SearchQuery, the searchable fields are
   arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId,
@@ -3545,8 +3677,7 @@ DescribeRecord.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"IgnoreErrors"`: If set to true, Service Catalog stops managing the specified
   provisioned product even if it cannot delete the underlying resources.
 - `"ProvisionedProductId"`: The identifier of the provisioned product. You cannot specify
@@ -3594,8 +3725,7 @@ Updates the specified constraint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Description"`: The updated description of the constraint.
 - `"Parameters"`: The constraint parameters, in JSON format. The syntax depends on the
   constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the
@@ -3651,8 +3781,7 @@ Updates the specified portfolio. You cannot update a product that was shared wit
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"AddTags"`: The tags to add.
 - `"Description"`: The updated description of the portfolio.
 - `"DisplayName"`: The name to use for display purposes.
@@ -3706,8 +3835,7 @@ already exist in the recipient account before it can be associated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"AccountId"`: The Amazon Web Services account Id of the recipient account. This field is
   required when updating an external account to account type share.
 - `"OrganizationNode"`:
@@ -3754,8 +3882,7 @@ Updates the specified product.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"AddTags"`: The tags to add to the product.
 - `"Description"`: The updated description of the product.
 - `"Distributor"`: The updated distributor of the product.
@@ -3805,8 +3932,7 @@ DescribeRecord.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PathId"`: The path identifier. This value is optional if the product has a default
   path, and required if the product has more than one path. You must provide the name or ID,
   but not both.
@@ -3868,8 +3994,8 @@ Requests updates to the properties of the specified provisioned product.
   provisioned product. This role is used when an end user calls a provisioning operation such
   as UpdateProvisionedProduct, TerminateProvisionedProduct, or
   ExecuteProvisionedProductServiceAction. Only a role ARN is valid. A user ARN is invalid.
-  The OWNER key accepts IAM user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is
-  the user that has permission to see, update, terminate, and execute service actions in the
+  The OWNER key accepts user ARNs, IAM role ARNs, and STS assumed-role ARNs. The owner is the
+  user that has permission to see, update, terminate, and execute service actions in the
   provisioned product. The administrator can change the owner of a provisioned product to
   another IAM or STS entity within the same account. Both end user owners and administrators
   can see ownership history of the provisioned product using the ListRecordHistory API. The
@@ -3884,8 +4010,7 @@ Requests updates to the properties of the specified provisioned product.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 """
 function update_provisioned_product_properties(
     IdempotencyToken,
@@ -3942,8 +4067,7 @@ product. You cannot update a provisioning artifact for a product that was shared
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Active"`: Indicates whether the product version is active. Inactive provisioning
   artifacts are invisible to end users. End users cannot launch or update a provisioned
   product from an inactive provisioning artifact.
@@ -4001,8 +4125,7 @@ Updates a self-service action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AcceptLanguage"`: The language code.    en - English (default)    jp - Japanese    zh -
-  Chinese
+- `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"Definition"`: A map that defines the self-service action.
 - `"Description"`: The self-service action description.
 - `"Name"`: The self-service action name.

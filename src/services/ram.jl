@@ -13,8 +13,8 @@ you accept the invitation, the resources included in the resource share are avai
 interact with in the relevant Amazon Web Services Management Consoles and tools.
 
 # Arguments
-- `resource_share_invitation_arn`: The Amazon Resoure Name (ARN) of the invitation that you
-  want to accept.
+- `resource_share_invitation_arn`: The Amazon Resource Name (ARN) of the invitation that
+  you want to accept.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -23,7 +23,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performing the same operation a second time. Passing the same value to a later call to an
   operation requires that you also pass the same value for all other parameters. We recommend
   that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you.
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
 """
 function accept_resource_share_invitation(
     resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -68,7 +70,7 @@ resources. Newly added principals immediately receive access to the resources sh
 this resource share.
 
 # Arguments
-- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share that
+- `resource_share_arn`: Specifies the Amazon Resource Name (ARN) of the resource share that
   you want to add principals or resources to.
 
 # Optional Parameters
@@ -78,12 +80,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performing the same operation a second time. Passing the same value to a later call to an
   operation requires that you also pass the same value for all other parameters. We recommend
   that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you.
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
 - `"principals"`: Specifies a list of principals to whom you want to the resource share.
   This can be null if you want to add only resources. What the principals can do with the
   resources in the share is determined by the RAM permissions that you associate with the
   resource share. See AssociateResourceSharePermission. You can include the following values:
-    An Amazon Web Services account ID, for example: 123456789012    An Amazon Resoure Name
+    An Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name
   (ARN) of an organization in Organizations, for example:
   organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit
   (OU) in Organizations, for example:
@@ -134,11 +138,11 @@ You can add a new RAM permission only if there are currently no resources of tha
 type currently in the resource share.
 
 # Arguments
-- `permission_arn`: Specifies the Amazon Resoure Name (ARN) of the RAM permission to
+- `permission_arn`: Specifies the Amazon Resource Name (ARN) of the RAM permission to
   associate with the resource share. To find the ARN for a permission, use either the
   ListPermissions operation or go to the Permissions library page in the RAM console and then
   choose the name of the permission. The ARN is displayed on the detail page.
-- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share to
+- `resource_share_arn`: Specifies the Amazon Resource Name (ARN) of the resource share to
   which you want to add or replace permissions.
 
 # Optional Parameters
@@ -148,18 +152,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performing the same operation a second time. Passing the same value to a later call to an
   operation requires that you also pass the same value for all other parameters. We recommend
   that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you.
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
 - `"permissionVersion"`: Specifies the version of the RAM permission to associate with the
-  resource share. If you don't specify this parameter, the operation uses the version
-  designated as the default. You can use the ListPermissionVersions operation to discover the
-  available versions of a permission.
-- `"replace"`: Specifies whether the specified permission should replace or add to the
-  existing permission associated with the resource share. Use true to replace the current
-  permissions. Use false to add the permission to the current permission. The default value
-  is false.  A resource share can have only one permission per resource type. If a resource
-  share already has a permission for the specified resource type and you don't set replace to
-  true then the operation returns an error. This helps prevent accidental overwriting of a
-  permission.
+  resource share. You can specify only the version that is currently set as the default
+  version for the permission. If you also set the replace pararameter to true, then this
+  operation updates an outdated version of the permission to the current default version.
+  You don't need to specify this parameter because the default behavior is to use the version
+  that is currently set as the default version for the permission. This parameter is
+  supported for backwards compatibility.
+- `"replace"`: Specifies whether the specified permission should replace the existing
+  permission associated with the resource share. Use true to replace the current permissions.
+  Use false to add the permission to a resource share that currently doesn't have a
+  permission. The default value is false.  A resource share can have only one permission per
+  resource type. If a resource share already has a permission for the specified resource type
+  and you don't set replace to true then the operation returns an error. This helps prevent
+  accidental overwriting of a permission.
 """
 function associate_resource_share_permission(
     permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -198,6 +207,165 @@ function associate_resource_share_permission(
 end
 
 """
+    create_permission(name, policy_template, resource_type)
+    create_permission(name, policy_template, resource_type, params::Dict{String,<:Any})
+
+Creates a customer managed permission for a specified resource type that you can attach to
+resource shares. It is created in the Amazon Web Services Region in which you call the
+operation.
+
+# Arguments
+- `name`: Specifies the name of the customer managed permission. The name must be unique
+  within the Amazon Web Services Region.
+- `policy_template`: A string in JSON format string that contains the following elements of
+  a resource-based policy:    Effect: must be set to ALLOW.    Action: specifies the actions
+  that are allowed by this customer managed permission. The list must contain only actions
+  that are supported by the specified resource type. For a list of all actions supported by
+  each resource type, see Actions, resources, and condition keys for Amazon Web Services
+  services in the Identity and Access Management User Guide.    Condition: (optional)
+  specifies conditional parameters that must evaluate to true when a user attempts an action
+  for that action to be allowed. For more information about the Condition element, see IAM
+  policies: Condition element in the Identity and Access Management User Guide.   This
+  template can't include either the Resource or Principal elements. Those are both filled in
+  by RAM when it instantiates the resource-based policy on each resource shared using this
+  managed permission. The Resource comes from the ARN of the specific resource that you are
+  sharing. The Principal comes from the list of identities added to the resource share.
+- `resource_type`: Specifies the name of the resource type that this customer managed
+  permission applies to. The format is  &lt;service-code&gt;:&lt;resource-type&gt;  and is
+  not case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string
+  ec2:subnet. To see the list of valid values for this parameter, query the ListResourceTypes
+  operation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
+- `"tags"`: Specifies a list of one or more tag key and value pairs to attach to the
+  permission.
+"""
+function create_permission(
+    name, policyTemplate, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/createpermission",
+        Dict{String,Any}(
+            "name" => name,
+            "policyTemplate" => policyTemplate,
+            "resourceType" => resourceType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_permission(
+    name,
+    policyTemplate,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/createpermission",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "name" => name,
+                    "policyTemplate" => policyTemplate,
+                    "resourceType" => resourceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_permission_version(permission_arn, policy_template)
+    create_permission_version(permission_arn, policy_template, params::Dict{String,<:Any})
+
+Creates a new version of the specified customer managed permission. The new version is
+automatically set as the default version of the customer managed permission. New resource
+shares automatically use the default permission. Existing resource shares continue to use
+their original permission versions, but you can use ReplacePermissionAssociations to update
+them. If the specified customer managed permission already has the maximum of 5 versions,
+then you must delete one of the existing versions before you can create a new one.
+
+# Arguments
+- `permission_arn`: Specifies the Amazon Resource Name (ARN) of the customer managed
+  permission you're creating a new version for.
+- `policy_template`: A string in JSON format string that contains the following elements of
+  a resource-based policy:    Effect: must be set to ALLOW.    Action: specifies the actions
+  that are allowed by this customer managed permission. The list must contain only actions
+  that are supported by the specified resource type. For a list of all actions supported by
+  each resource type, see Actions, resources, and condition keys for Amazon Web Services
+  services in the Identity and Access Management User Guide.    Condition: (optional)
+  specifies conditional parameters that must evaluate to true when a user attempts an action
+  for that action to be allowed. For more information about the Condition element, see IAM
+  policies: Condition element in the Identity and Access Management User Guide.   This
+  template can't include either the Resource or Principal elements. Those are both filled in
+  by RAM when it instantiates the resource-based policy on each resource shared using this
+  managed permission. The Resource comes from the ARN of the specific resource that you are
+  sharing. The Principal comes from the list of identities added to the resource share.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
+"""
+function create_permission_version(
+    permissionArn, policyTemplate; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/createpermissionversion",
+        Dict{String,Any}(
+            "permissionArn" => permissionArn, "policyTemplate" => policyTemplate
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_permission_version(
+    permissionArn,
+    policyTemplate,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/createpermissionversion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "permissionArn" => permissionArn, "policyTemplate" => policyTemplate
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_resource_share(name)
     create_resource_share(name, params::Dict{String,<:Any})
 
@@ -223,14 +391,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performing the same operation a second time. Passing the same value to a later call to an
   operation requires that you also pass the same value for all other parameters. We recommend
   that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you.
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
 - `"permissionArns"`: Specifies the Amazon Resource Names (ARNs) of the RAM permission to
   associate with the resource share. If you do not specify an ARN for the permission, RAM
   automatically attaches the default version of the permission for each resource type. You
   can associate only one permission with each resource type included in the resource share.
 - `"principals"`: Specifies a list of one or more principals to associate with the resource
   share. You can include the following values:   An Amazon Web Services account ID, for
-  example: 123456789012    An Amazon Resoure Name (ARN) of an organization in Organizations,
+  example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations,
   for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an
   organizational unit (OU) in Organizations, for example:
   organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of
@@ -265,15 +435,133 @@ function create_resource_share(
 end
 
 """
+    delete_permission(permission_arn)
+    delete_permission(permission_arn, params::Dict{String,<:Any})
+
+Deletes the specified customer managed permission in the Amazon Web Services Region in
+which you call this operation. You can delete a customer managed permission only if it
+isn't attached to any resource share. The operation deletes all versions associated with
+the customer managed permission.
+
+# Arguments
+- `permission_arn`: Specifies the Amazon Resource Name (ARN) of the customer managed
+  permission that you want to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
+"""
+function delete_permission(permissionArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram(
+        "DELETE",
+        "/deletepermission",
+        Dict{String,Any}("permissionArn" => permissionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_permission(
+    permissionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "DELETE",
+        "/deletepermission",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("permissionArn" => permissionArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_permission_version(permission_arn, permission_version)
+    delete_permission_version(permission_arn, permission_version, params::Dict{String,<:Any})
+
+Deletes one version of a customer managed permission. The version you specify must not be
+attached to any resource share and must not be the default version for the permission. If a
+customer managed permission has the maximum of 5 versions, then you must delete at least
+one version before you can create another.
+
+# Arguments
+- `permission_arn`: Specifies the Amazon Resource Name (ARN) of the permission with the
+  version you want to delete.
+- `permission_version`: Specifies the version number to delete. You can't delete the
+  default version for a customer managed permission. You can't delete a version if it's the
+  only version of the permission. You must either first create another version, or delete the
+  permission completely. You can't delete a version if it is attached to any resource shares.
+  If the version is the default, you must first use SetDefaultPermissionVersion to set a
+  different version as the default for the customer managed permission, and then use
+  AssociateResourceSharePermission to update your resource shares to use the new default
+  version.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
+"""
+function delete_permission_version(
+    permissionArn, permissionVersion; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "DELETE",
+        "/deletepermissionversion",
+        Dict{String,Any}(
+            "permissionArn" => permissionArn, "permissionVersion" => permissionVersion
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_permission_version(
+    permissionArn,
+    permissionVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "DELETE",
+        "/deletepermissionversion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "permissionArn" => permissionArn,
+                    "permissionVersion" => permissionVersion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_resource_share(resource_share_arn)
     delete_resource_share(resource_share_arn, params::Dict{String,<:Any})
 
-Deletes the specified resource share. This doesn't delete any of the resources that were
-associated with the resource share; it only stops the sharing of those resources outside of
-the Amazon Web Services account that created them.
+Deletes the specified resource share.  This doesn't delete any of the resources that were
+associated with the resource share; it only stops the sharing of those resources through
+this resource share.
 
 # Arguments
-- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share to
+- `resource_share_arn`: Specifies the Amazon Resource Name (ARN) of the resource share to
   delete.
 
 # Optional Parameters
@@ -283,7 +571,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performing the same operation a second time. Passing the same value to a later call to an
   operation requires that you also pass the same value for all other parameters. We recommend
   that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you.
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
 """
 function delete_resource_share(
     resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -318,11 +608,12 @@ end
     disassociate_resource_share(resource_share_arn)
     disassociate_resource_share(resource_share_arn, params::Dict{String,<:Any})
 
-Disassociates the specified principals or resources from the specified resource share.
+Removes the specified principals or resources from participating in the specified resource
+share.
 
 # Arguments
-- `resource_share_arn`: Specifies Amazon Resoure Name (ARN) of the resource share that you
-  want to remove resources from.
+- `resource_share_arn`: Specifies Amazon Resource Name (ARN) of the resource share that you
+  want to remove resources or principals from.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -331,10 +622,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performing the same operation a second time. Passing the same value to a later call to an
   operation requires that you also pass the same value for all other parameters. We recommend
   that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you.
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
 - `"principals"`: Specifies a list of one or more principals that no longer are to have
   access to the resources in this resource share. You can include the following values:   An
-  Amazon Web Services account ID, for example: 123456789012    An Amazon Resoure Name (ARN)
+  Amazon Web Services account ID, for example: 123456789012    An Amazon Resource Name (ARN)
   of an organization in Organizations, for example:
   organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit
   (OU) in Organizations, for example:
@@ -345,8 +638,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Access Manager User Guide.
 - `"resourceArns"`: Specifies a list of Amazon Resource Names (ARNs) for one or more
   resources that you want to remove from the resource share. After the operation runs, these
-  resources are no longer shared with principals outside of the Amazon Web Services account
-  that created the resources.
+  resources are no longer shared with principals associated with the resource share.
 """
 function disassociate_resource_share(
     resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -381,16 +673,16 @@ end
     disassociate_resource_share_permission(permission_arn, resource_share_arn)
     disassociate_resource_share_permission(permission_arn, resource_share_arn, params::Dict{String,<:Any})
 
-Disassociates an RAM permission from a resource share. Permission changes take effect
-immediately. You can remove a RAM permission from a resource share only if there are
+Removes a managed permission from a resource share. Permission changes take effect
+immediately. You can remove a managed permission from a resource share only if there are
 currently no resources of the relevant resource type currently attached to the resource
 share.
 
 # Arguments
-- `permission_arn`: The Amazon Resoure Name (ARN) of the permission to disassociate from
-  the resource share. Changes to permissions take effect immediately.
-- `resource_share_arn`: The Amazon Resoure Name (ARN) of the resource share from which you
-  want to disassociate a permission.
+- `permission_arn`: The Amazon Resource Name (ARN) of the managed permission to
+  disassociate from the resource share. Changes to permissions take effect immediately.
+- `resource_share_arn`: The Amazon Resource Name (ARN) of the resource share that you want
+  to remove the managed permission from.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -399,7 +691,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performing the same operation a second time. Passing the same value to a later call to an
   operation requires that you also pass the same value for all other parameters. We recommend
   that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you.
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
 """
 function disassociate_resource_share_permission(
     permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -441,13 +735,15 @@ end
     enable_sharing_with_aws_organization()
     enable_sharing_with_aws_organization(params::Dict{String,<:Any})
 
-Enables resource sharing within your organization in Organizations. Calling this operation
-enables RAM to retrieve information about the organization and its structure. This lets you
-share resources with all of the accounts in an organization by specifying the
-organization's ID, or all of the accounts in an organizational unit (OU) by specifying the
-OU's ID. Until you enable sharing within the organization, you can specify only individual
-Amazon Web Services accounts, or for supported resource types, IAM users and roles. You
-must call this operation from an IAM user or role in the organization's management account.
+Enables resource sharing within your organization in Organizations. This operation creates
+a service-linked role called AWSServiceRoleForResourceAccessManager that has the IAM
+managed policy named AWSResourceAccessManagerServiceRolePolicy attached. This role permits
+RAM to retrieve information about the organization and its structure. This lets you share
+resources with all of the accounts in the calling account's organization by specifying the
+organization ID, or all of the accounts in an organizational unit (OU) by specifying the OU
+ID. Until you enable sharing within the organization, you can specify only individual
+Amazon Web Services accounts, or for supported resource types, IAM roles and users. You
+must call this operation from an IAM role or user in the organization's management account.
 
 """
 function enable_sharing_with_aws_organization(;
@@ -476,18 +772,19 @@ end
     get_permission(permission_arn)
     get_permission(permission_arn, params::Dict{String,<:Any})
 
-Gets the contents of an RAM permission in JSON format.
+Retrieves the contents of a managed permission in JSON format.
 
 # Arguments
-- `permission_arn`: Specifies the Amazon Resoure Name (ARN) of the permission whose
+- `permission_arn`: Specifies the Amazon Resource Name (ARN) of the permission whose
   contents you want to retrieve. To find the ARN for a permission, use either the
   ListPermissions operation or go to the Permissions library page in the RAM console and then
   choose the name of the permission. The ARN is displayed on the detail page.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"permissionVersion"`: Specifies identifier for the version of the RAM permission to
-  retrieve. If you don't specify this parameter, the operation retrieves the default version.
+- `"permissionVersion"`: Specifies the version number of the RAM permission to retrieve. If
+  you don't specify this parameter, the operation retrieves the default version. To see the
+  list of available versions, use ListPermissionVersions.
 """
 function get_permission(permissionArn; aws_config::AbstractAWSConfig=global_aws_config())
     return ram(
@@ -571,18 +868,18 @@ end
     get_resource_share_associations(association_type)
     get_resource_share_associations(association_type, params::Dict{String,<:Any})
 
-Retrieves the resource and principal associations for resource shares that you own.
+Retrieves the lists of resources and principals that associated for resource shares that
+you own.
 
 # Arguments
 - `association_type`: Specifies whether you want to retrieve the associations that involve
-  a specified resource or principal.    PRINCIPAL – list the principals that are associated
-  with the specified resource share.    RESOURCE – list the resources that are associated
-  with the specified resource share.
+  a specified resource or principal.    PRINCIPAL – list the principals whose associations
+  you want to see.    RESOURCE – list the resources whose associations you want to see.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"associationStatus"`: Specifies that you want to retrieve only associations with this
-  status.
+- `"associationStatus"`: Specifies that you want to retrieve only associations that have
+  this status.
 - `"maxResults"`: Specifies the total number of results that you want included on each page
   of the response. If you do not include this parameter, it defaults to a value that is
   specific to the operation. If additional items exist beyond the number you specify, the
@@ -597,9 +894,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 - `"principal"`: Specifies the ID of the principal whose resource shares you want to
   retrieve. This can be an Amazon Web Services account ID, an organization ID, an
-  organizational unit ID, or the Amazon Resoure Name (ARN) of an individual IAM user or role.
-  You cannot specify this parameter if the association type is RESOURCE.
-- `"resourceArn"`: Specifies the Amazon Resoure Name (ARN) of the resource whose resource
+  organizational unit ID, or the Amazon Resource Name (ARN) of an individual IAM user or
+  role. You cannot specify this parameter if the association type is RESOURCE.
+- `"resourceArn"`: Specifies the Amazon Resource Name (ARN) of a resource whose resource
   shares you want to retrieve. You cannot specify this parameter if the association type is
   PRINCIPAL.
 - `"resourceShareArns"`: Specifies a list of Amazon Resource Names (ARNs) of the resource
@@ -708,7 +1005,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more output is available. Set this parameter to the value provided by the previous call's
   NextToken response to request the next page of results.
 - `"permissionArn"`: Specifies that you want to retrieve details of only those resource
-  shares that use the RAM permission with this Amazon Resoure Name (ARN).
+  shares that use the managed permission with this Amazon Resource Name (ARN).
+- `"permissionVersion"`: Specifies that you want to retrieve details for only those
+  resource shares that use the specified version of the managed permission.
 - `"resourceShareArns"`: Specifies the Amazon Resource Names (ARNs) of individual resource
   shares that you want information about.
 - `"resourceShareStatus"`: Specifies that you want to retrieve details of only those
@@ -752,7 +1051,7 @@ invitation is still PENDING. That means that you haven't accepted or rejected th
 invitation and the invitation hasn't expired.
 
 # Arguments
-- `resource_share_invitation_arn`: Specifies the Amazon Resoure Name (ARN) of the
+- `resource_share_invitation_arn`: Specifies the Amazon Resource Name (ARN) of the
   invitation. You can use GetResourceShareInvitations to find the ARN of the invitation.
 
 # Optional Parameters
@@ -809,13 +1108,71 @@ function list_pending_invitation_resources(
 end
 
 """
+    list_permission_associations()
+    list_permission_associations(params::Dict{String,<:Any})
+
+Lists information about the managed permission and its associations to any resource shares
+that use this managed permission. This lets you see which resource shares use which
+versions of the specified managed permission.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"associationStatus"`: Specifies that you want to list only those associations with
+  resource shares that match this status.
+- `"defaultVersion"`: When true, specifies that you want to list only those associations
+  with resource shares that use the default version of the specified managed permission. When
+  false (the default value), lists associations with resource shares that use any version of
+  the specified managed permission.
+- `"featureSet"`: Specifies that you want to list only those associations with resource
+  shares that have a featureSet with this value.
+- `"maxResults"`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `"permissionArn"`: Specifies the Amazon Resource Name (ARN) of the managed permission.
+- `"permissionVersion"`: Specifies that you want to list only those associations with
+  resource shares that use this version of the managed permission. If you don't provide a
+  value for this parameter, then the operation returns information about associations with
+  resource shares that use any version of the managed permission.
+- `"resourceType"`: Specifies that you want to list only those associations with resource
+  shares that include at least one resource of this resource type.
+"""
+function list_permission_associations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram(
+        "POST",
+        "/listpermissionassociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_permission_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/listpermissionassociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_permission_versions(permission_arn)
     list_permission_versions(permission_arn, params::Dict{String,<:Any})
 
 Lists the available versions of the specified RAM permission.
 
 # Arguments
-- `permission_arn`: Specifies the Amazon Resoure Name (ARN) of the RAM permission whose
+- `permission_arn`: Specifies the Amazon Resource Name (ARN) of the RAM permission whose
   versions you want to list. You can use the permissionVersion parameter on the
   AssociateResourceSharePermission operation to specify a non-default version to attach.
 
@@ -882,9 +1239,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you received a NextToken response in the previous request. If you did, it indicates that
   more output is available. Set this parameter to the value provided by the previous call's
   NextToken response to request the next page of results.
-- `"resourceType"`: Specifies that you want to list permissions for only the specified
-  resource type. For example, to list only permissions that apply to EC2 subnets, specify
-  ec2:Subnet. You can use the ListResourceTypes operation to get the specific string required.
+- `"permissionType"`: Specifies that you want to list only permissions of this type:    AWS
+  – returns only Amazon Web Services managed permissions.    LOCAL – returns only
+  customer managed permissions    ALL – returns both Amazon Web Services managed
+  permissions and customer managed permissions.   If you don't specify this parameter, the
+  default is All.
+- `"resourceType"`: Specifies that you want to list only those permissions that apply to
+  the specified resource type. This parameter is not case sensitive. For example, to list
+  only permissions that apply to Amazon EC2 subnets, specify ec2:subnet. You can use the
+  ListResourceTypes operation to get the specific string required.
 """
 function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config())
     return ram(
@@ -931,7 +1294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 - `"principals"`: Specifies that you want to list information for only the listed
   principals. You can include the following values:   An Amazon Web Services account ID, for
-  example: 123456789012    An Amazon Resoure Name (ARN) of an organization in Organizations,
+  example: 123456789012    An Amazon Resource Name (ARN) of an organization in Organizations,
   for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an
   organizational unit (OU) in Organizations, for example:
   organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of
@@ -940,7 +1303,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   roles and users. For more information, see Sharing with IAM roles and users in the Resource
   Access Manager User Guide.
 - `"resourceArn"`: Specifies that you want to list principal information for the resource
-  share with the specified Amazon Resoure Name (ARN).
+  share with the specified Amazon Resource Name (ARN).
 - `"resourceShareArns"`: Specifies that you want to list information for only principals
   associated with the resource shares specified by a list the Amazon Resource Names (ARNs).
 - `"resourceType"`: Specifies that you want to list information for only principals
@@ -973,13 +1336,62 @@ function list_principals(
 end
 
 """
+    list_replace_permission_associations_work()
+    list_replace_permission_associations_work(params::Dict{String,<:Any})
+
+Retrieves the current status of the asynchronous tasks performed by RAM when you perform
+the ReplacePermissionAssociationsWork operation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Specifies the total number of results that you want included on each page
+  of the response. If you do not include this parameter, it defaults to a value that is
+  specific to the operation. If additional items exist beyond the number you specify, the
+  NextToken response element is returned with a value (not null). Include the specified value
+  as the NextToken request parameter in the next call to the operation to get the next part
+  of the results. Note that the service might return fewer results than the maximum even when
+  there are more results available. You should check NextToken after every operation to
+  ensure that you receive all of the results.
+- `"nextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+- `"status"`: Specifies that you want to see only the details about requests with a status
+  that matches this value.
+- `"workIds"`: A list of IDs. These values come from the idfield of the
+  replacePermissionAssociationsWorkstructure returned by the ReplacePermissionAssociations
+  operation.
+"""
+function list_replace_permission_associations_work(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/listreplacepermissionassociationswork";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_replace_permission_associations_work(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/listreplacepermissionassociationswork",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_resource_share_permissions(resource_share_arn)
     list_resource_share_permissions(resource_share_arn, params::Dict{String,<:Any})
 
 Lists the RAM permissions that are associated with a resource share.
 
 # Arguments
-- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share for
+- `resource_share_arn`: Specifies the Amazon Resource Name (ARN) of the resource share for
   which you want to retrieve the associated permissions.
 
 # Optional Parameters
@@ -1136,18 +1548,95 @@ function list_resources(
 end
 
 """
+    promote_permission_created_from_policy(name, permission_arn)
+    promote_permission_created_from_policy(name, permission_arn, params::Dict{String,<:Any})
+
+When you attach a resource-based policy to a resource, RAM automatically creates a resource
+share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM
+permissions as the original resource-based policy. However, this type of managed permission
+is visible to only the resource share owner, and the associated resource share can't be
+modified by using RAM. This operation creates a separate, fully manageable customer managed
+permission that has the same IAM permissions as the original resource-based policy. You can
+associate this customer managed permission to any resource shares. Before you use
+PromoteResourceShareCreatedFromPolicy, you should first run this operation to ensure that
+you have an appropriate customer managed permission that can be associated with the
+promoted resource share.    The original CREATED_FROM_POLICY policy isn't deleted, and
+resource shares using that original policy aren't automatically updated.   You can't modify
+a CREATED_FROM_POLICY resource share so you can't associate the new customer managed
+permission by using ReplacePermsissionAssociations. However, if you use
+PromoteResourceShareCreatedFromPolicy, that operation automatically associates the fully
+manageable customer managed permission to the newly promoted STANDARD resource share.
+After you promote a resource share, if the original CREATED_FROM_POLICY managed permission
+has no other associations to A resource share, then RAM automatically deletes it.
+
+# Arguments
+- `name`: Specifies a name for the promoted customer managed permission.
+- `permission_arn`: Specifies the Amazon Resource Name (ARN) of the CREATED_FROM_POLICY
+  permission that you want to promote. You can get this Amazon Resource Name (ARN) by calling
+  the ListResourceSharePermissions operation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
+"""
+function promote_permission_created_from_policy(
+    name, permissionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/promotepermissioncreatedfrompolicy",
+        Dict{String,Any}("name" => name, "permissionArn" => permissionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function promote_permission_created_from_policy(
+    name,
+    permissionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/promotepermissioncreatedfrompolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "permissionArn" => permissionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     promote_resource_share_created_from_policy(resource_share_arn)
     promote_resource_share_created_from_policy(resource_share_arn, params::Dict{String,<:Any})
 
-When you attach a resource-based permission policy to a resource, it automatically creates
-a resource share. However, resource shares created this way are visible only to the
-resource share owner, and the resource share can't be modified in RAM. You can use this
-operation to promote the resource share to a full RAM resource share. When you promote a
-resource share, you can then manage the resource share in RAM and it becomes visible to all
-of the principals you shared it with.
+When you attach a resource-based policy to a resource, RAM automatically creates a resource
+share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM
+permissions as the original resource-based policy. However, this type of managed permission
+is visible to only the resource share owner, and the associated resource share can't be
+modified by using RAM. This operation promotes the resource share to a STANDARD resource
+share that is fully manageable in RAM. When you promote a resource share, you can then
+manage the resource share in RAM and it becomes visible to all of the principals you shared
+it with.  Before you perform this operation, you should first run
+PromotePermissionCreatedFromPolicyto ensure that you have an appropriate customer managed
+permission that can be associated with this resource share after its is promoted. If this
+operation can't find a managed permission that exactly matches the existing
+CREATED_FROM_POLICY permission, then this operation fails.
 
 # Arguments
-- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share to
+- `resource_share_arn`: Specifies the Amazon Resource Name (ARN) of the resource share to
   promote.
 
 """
@@ -1187,7 +1676,7 @@ end
 Rejects an invitation to a resource share from another Amazon Web Services account.
 
 # Arguments
-- `resource_share_invitation_arn`: Specifies the Amazon Resoure Name (ARN) of the
+- `resource_share_invitation_arn`: Specifies the Amazon Resource Name (ARN) of the
   invitation that you want to reject.
 
 # Optional Parameters
@@ -1197,7 +1686,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performing the same operation a second time. Passing the same value to a later call to an
   operation requires that you also pass the same value for all other parameters. We recommend
   that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you.
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
 """
 function reject_resource_share_invitation(
     resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1233,93 +1724,222 @@ function reject_resource_share_invitation(
 end
 
 """
-    tag_resource(resource_share_arn, tags)
-    tag_resource(resource_share_arn, tags, params::Dict{String,<:Any})
+    replace_permission_associations(from_permission_arn, to_permission_arn)
+    replace_permission_associations(from_permission_arn, to_permission_arn, params::Dict{String,<:Any})
 
-Adds the specified tag keys and values to the specified resource share. The tags are
-attached only to the resource share, not to the resources that are in the resource share.
+Updates all resource shares that use a managed permission to a different managed
+permission. This operation always applies the default version of the target managed
+permission. You can optionally specify that the update applies to only resource shares that
+currently use a specified version. This enables you to update to the latest version,
+without changing the which managed permission is used. You can use this operation to update
+all of your resource shares to use the current default version of the permission by
+specifying the same value for the fromPermissionArn and toPermissionArn parameters. You can
+use the optional fromPermissionVersion parameter to update only those resources that use a
+specified version of the managed permission to the new managed permission.  To successfully
+perform this operation, you must have permission to update the resource-based policy on all
+affected resource types.
 
 # Arguments
-- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share that
-  you want to add tags to.
-- `tags`: A list of one or more tag key and value pairs. The tag key must be present and
-  not be an empty string. The tag value must be present but can be an empty string.
+- `from_permission_arn`: Specifies the Amazon Resource Name (ARN) of the managed permission
+  that you want to replace.
+- `to_permission_arn`: Specifies the ARN of the managed permission that you want to
+  associate with resource shares in place of the one specified by fromPerssionArn and
+  fromPermissionVersion. The operation always associates the version that is currently the
+  default for the specified managed permission.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
+- `"fromPermissionVersion"`: Specifies that you want to updated the permissions for only
+  those resource shares that use the specified version of the managed permission.
 """
-function tag_resource(
-    resourceShareArn, tags; aws_config::AbstractAWSConfig=global_aws_config()
+function replace_permission_associations(
+    fromPermissionArn, toPermissionArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ram(
         "POST",
-        "/tagresource",
-        Dict{String,Any}("resourceShareArn" => resourceShareArn, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function tag_resource(
-    resourceShareArn,
-    tags,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return ram(
-        "POST",
-        "/tagresource",
+        "/replacepermissionassociations",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("resourceShareArn" => resourceShareArn, "tags" => tags),
-                params,
-            ),
+            "fromPermissionArn" => fromPermissionArn, "toPermissionArn" => toPermissionArn
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-
-"""
-    untag_resource(resource_share_arn, tag_keys)
-    untag_resource(resource_share_arn, tag_keys, params::Dict{String,<:Any})
-
-Removes the specified tag key and value pairs from the specified resource share.
-
-# Arguments
-- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share that
-  you want to remove tags from. The tags are removed from the resource share, not the
-  resources in the resource share.
-- `tag_keys`: Specifies a list of one or more tag keys that you want to remove.
-
-"""
-function untag_resource(
-    resourceShareArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ram(
-        "POST",
-        "/untagresource",
-        Dict{String,Any}("resourceShareArn" => resourceShareArn, "tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function untag_resource(
-    resourceShareArn,
-    tagKeys,
+function replace_permission_associations(
+    fromPermissionArn,
+    toPermissionArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return ram(
         "POST",
-        "/untagresource",
+        "/replacepermissionassociations",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "resourceShareArn" => resourceShareArn, "tagKeys" => tagKeys
+                    "fromPermissionArn" => fromPermissionArn,
+                    "toPermissionArn" => toPermissionArn,
                 ),
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    set_default_permission_version(permission_arn, permission_version)
+    set_default_permission_version(permission_arn, permission_version, params::Dict{String,<:Any})
+
+Designates the specified version number as the default version for the specified customer
+managed permission. New resource shares automatically use this new default permission.
+Existing resource shares continue to use their original permission version, but you can use
+ReplacePermissionAssociations to update them.
+
+# Arguments
+- `permission_arn`: Specifies the Amazon Resource Name (ARN) of the customer managed
+  permission whose default version you want to change.
+- `permission_version`: Specifies the version number that you want to designate as the
+  default for customer managed permission. To see a list of all available version numbers,
+  use ListPermissionVersions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Specifies a unique, case-sensitive identifier that you provide to ensure
+  the idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
+"""
+function set_default_permission_version(
+    permissionArn, permissionVersion; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/setdefaultpermissionversion",
+        Dict{String,Any}(
+            "permissionArn" => permissionArn, "permissionVersion" => permissionVersion
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function set_default_permission_version(
+    permissionArn,
+    permissionVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ram(
+        "POST",
+        "/setdefaultpermissionversion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "permissionArn" => permissionArn,
+                    "permissionVersion" => permissionVersion,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(tags)
+    tag_resource(tags, params::Dict{String,<:Any})
+
+Adds the specified tag keys and values to a resource share or managed permission. If you
+choose a resource share, the tags are attached to only the resource share, not to the
+resources that are in the resource share. The tags on a managed permission are the same for
+all versions of the managed permission.
+
+# Arguments
+- `tags`: A list of one or more tag key and value pairs. The tag key must be present and
+  not be an empty string. The tag value must be present but can be an empty string.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"resourceArn"`: Specifies the Amazon Resource Name (ARN) of the managed permission that
+  you want to add tags to. You must specify either resourceArn, or resourceShareArn, but not
+  both.
+- `"resourceShareArn"`: Specifies the Amazon Resource Name (ARN) of the resource share that
+  you want to add tags to. You must specify either resourceShareArn, or resourceArn, but not
+  both.
+"""
+function tag_resource(tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram(
+        "POST",
+        "/tagresource",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/tagresource",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(tag_keys)
+    untag_resource(tag_keys, params::Dict{String,<:Any})
+
+Removes the specified tag key and value pairs from the specified resource share or managed
+permission.
+
+# Arguments
+- `tag_keys`: Specifies a list of one or more tag keys that you want to remove.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"resourceArn"`: Specifies the Amazon Resource Name (ARN) of the managed permission that
+  you want to remove tags from. You must specify either resourceArn, or resourceShareArn, but
+  not both.
+- `"resourceShareArn"`: Specifies the Amazon Resource Name (ARN) of the resource share that
+  you want to remove tags from. The tags are removed from the resource share, not the
+  resources in the resource share. You must specify either resourceShareArn, or resourceArn,
+  but not both.
+"""
+function untag_resource(tagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+    return ram(
+        "POST",
+        "/untagresource",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ram(
+        "POST",
+        "/untagresource",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1332,7 +1952,7 @@ end
 Modifies some of the properties of the specified resource share.
 
 # Arguments
-- `resource_share_arn`: Specifies the Amazon Resoure Name (ARN) of the resource share that
+- `resource_share_arn`: Specifies the Amazon Resource Name (ARN) of the resource share that
   you want to modify.
 
 # Optional Parameters
@@ -1344,7 +1964,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   performing the same operation a second time. Passing the same value to a later call to an
   operation requires that you also pass the same value for all other parameters. We recommend
   that you use a UUID type of value.. If you don't provide this value, then Amazon Web
-  Services generates a random one for you.
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
 - `"name"`: If specified, the new name that you want to attach to the resource share.
 """
 function update_resource_share(

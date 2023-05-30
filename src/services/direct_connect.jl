@@ -1175,7 +1175,8 @@ virtual interfaces cannot be directly configured.
 - `lag_name`: The name of the LAG.
 - `location`: The location for the LAG.
 - `number_of_connections`: The number of physical dedicated connections initially
-  provisioned and bundled by the LAG.
+  provisioned and bundled by the LAG. You can have a maximum of four connections when the
+  port speed is 1G or 10G, or two when the port speed is 100G.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

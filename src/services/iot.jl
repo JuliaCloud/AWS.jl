@@ -1048,6 +1048,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters use format: ...key1=value1&amp;key2=value2... For the CLI command-line parameter
   use format: &amp;&amp;tags \"key1=value1&amp;key2=value2...\" For the cli-input-json file
   use format: \"tags\": \"key1=value1&amp;key2=value2...\"
+- `"tlsConfig"`: An object that specifies the TLS configuration for a domain.
 - `"validationCertificateArn"`: The certificate used to validate the server certificate and
   prove domain name ownership. This certificate must be signed by a public certificate
   authority. This value is not required for Amazon Web Services-managed domains.
@@ -1218,11 +1219,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can specify to create the job document.   documentParameters can only be used when creating
   jobs from Amazon Web Services managed templates. This parameter can't be used with custom
   job templates or to create jobs from them.
-- `"documentSource"`: An S3 link to the job document. Required if you don't specify a value
-  for document.  If the job document resides in an S3 bucket, you must use a placeholder link
-  when specifying the document. The placeholder link is of the following form:
-  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket
-  name and key is the object in the bucket to which you are linking.
+- `"documentSource"`: An S3 link, or S3 object URL, to the job document. The link is an
+  Amazon S3 object URL and is required if you don't specify a value for document. For
+  example, --document-source
+  https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0. For more
+  information, see Methods for accessing a bucket.
 - `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
 - `"jobTemplateArn"`: The ARN of the job template used to create the job.
@@ -8985,6 +8986,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainConfigurationStatus"`: The status to which the domain configuration should be
   updated.
 - `"removeAuthorizerConfig"`: Removes the authorization configuration from a domain.
+- `"tlsConfig"`: An object that specifies the TLS configuration for a domain.
 """
 function update_domain_configuration(
     domainConfigurationName; aws_config::AbstractAWSConfig=global_aws_config()

@@ -190,7 +190,7 @@ end
 
  Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more
 information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime
-Developer Guide.
+SDK Developer Guide.
 
 # Arguments
 - `attendees`: The request containing the attendees to create.
@@ -742,7 +742,8 @@ end
     create_attendee(external_user_id, meeting_id, params::Dict{String,<:Any})
 
  Creates a new attendee for an active Amazon Chime SDK meeting. For more information about
-the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
+the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer
+Guide.
 
 # Arguments
 - `external_user_id`: The Amazon Chime SDK external user ID. An idempotency token. Links
@@ -1062,7 +1063,8 @@ Creates a media capture pipeline.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ChimeSdkMeetingConfiguration"`: The configuration for a specified media capture
   pipeline. SourceType must be ChimeSdkMeeting.
-- `"ClientRequestToken"`: The token assigned to the client making the pipeline request.
+- `"ClientRequestToken"`: The unique identifier for the client request. The token makes the
+  API request idempotent. Use a different token for different media pipeline requests.
 """
 function create_media_capture_pipeline(
     SinkArn,
@@ -1120,8 +1122,8 @@ end
 
  Creates a new Amazon Chime SDK meeting in the specified media Region with no initial
 attendees. For more information about specifying media Regions, see Amazon Chime SDK Media
-Regions in the Amazon Chime Developer Guide . For more information about the Amazon Chime
-SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide .
+Regions in the Amazon Chime SDK Developer Guide . For more information about the Amazon
+Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide .
 
 # Arguments
 - `client_request_token`: The unique identifier for the client request. Use a different
@@ -1240,8 +1242,8 @@ end
 
  Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For
 more information about specifying media Regions, see Amazon Chime SDK Media Regions in the
-Amazon Chime Developer Guide . For more information about the Amazon Chime SDK, see Using
-the Amazon Chime SDK in the Amazon Chime Developer Guide .
+Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see
+Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide .
 
 # Arguments
 - `client_request_token`: The unique identifier for the client request. Use a different
@@ -1257,7 +1259,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 ,
   us-west-2 .
 - `"MeetingHostId"`: Reserved.
-- `"NotificationsConfiguration"`:
+- `"NotificationsConfiguration"`: The resource target configurations for receiving Amazon
+  Chime SDK meeting and attendee event notifications. The Amazon Chime SDK supports resource
+  targets located in the US East (N. Virginia) AWS Region (us-east-1).
 - `"Tags"`: The tag key-value pairs.
 """
 function create_meeting_with_attendees(
@@ -1984,7 +1988,7 @@ end
 Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
 JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted.
 For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the
-Amazon Chime Developer Guide.
+Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `attendee_id`: The Amazon Chime SDK attendee ID.
@@ -2293,7 +2297,7 @@ end
 Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees,
 disconnects all clients, and prevents new clients from joining the meeting. For more
 information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime
-Developer Guide.
+SDK Developer Guide.
 
 # Arguments
 - `meeting_id`: The Amazon Chime SDK meeting ID.
@@ -3479,7 +3483,7 @@ end
 
  Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For
 more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon
-Chime Developer Guide .
+Chime SDK Developer Guide .
 
 # Arguments
 - `attendee_id`: The Amazon Chime SDK attendee ID.
@@ -3683,7 +3687,7 @@ end
 
  Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more
 information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime
-Developer Guide .
+SDK Developer Guide .
 
 # Arguments
 - `meeting_id`: The Amazon Chime SDK meeting ID.
@@ -4651,7 +4655,8 @@ end
     list_attendees(meeting_id, params::Dict{String,<:Any})
 
  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about
-the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
+the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer
+Guide.
 
 # Arguments
 - `meeting_id`: The Amazon Chime SDK meeting ID.
@@ -5092,7 +5097,7 @@ end
     list_meetings(params::Dict{String,<:Any})
 
  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon
-Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
+Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -6480,7 +6485,14 @@ end
     start_meeting_transcription(transcription_configuration, meeting_id)
     start_meeting_transcription(transcription_configuration, meeting_id, params::Dict{String,<:Any})
 
-Starts transcription for the specified meetingId.
+Starts transcription for the specified meetingId. For more information, refer to  Using
+Amazon Chime SDK live transcription  in the Amazon Chime SDK Developer Guide. If you
+specify an invalid configuration, a TranscriptFailed event will be sent with the contents
+of the BadRequestException generated by Amazon Transcribe. For more information on each
+parameter and which combinations are valid, refer to the StartStreamTranscription API in
+the Amazon Transcribe Developer Guide.  Amazon Chime SDK live transcription is powered by
+Amazon Transcribe. Use of Amazon Transcribe is subject to the AWS Service Terms, including
+the terms specific to the AWS Machine Learning and Artificial Intelligence Services.
 
 # Arguments
 - `transcription_configuration`: The configuration for the current transcription operation.

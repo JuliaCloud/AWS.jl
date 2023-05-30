@@ -221,7 +221,9 @@ end
     create_grant(allowed_operations, client_token, grant_name, home_region, license_arn, principals, params::Dict{String,<:Any})
 
 Creates a grant for the specified license. A grant shares the use of license entitlements
-with specific Amazon Web Services accounts.
+with a specific Amazon Web Services account, an organization, or an organizational unit
+(OU). For more information, see Granted licenses in License Manager in the License Manager
+User Guide.
 
 # Arguments
 - `allowed_operations`: Allowed operations for the grant.
@@ -230,8 +232,10 @@ with specific Amazon Web Services accounts.
 - `grant_name`: Grant name.
 - `home_region`: Home Region of the grant.
 - `license_arn`: Amazon Resource Name (ARN) of the license.
-- `principals`: The grant principals. This value should be specified as an Amazon Resource
-  Name (ARN).
+- `principals`: The grant principals. You can specify one of the following as an Amazon
+  Resource Name (ARN):   An Amazon Web Services account, which includes only the account
+  specified.     An organizational unit (OU), which includes all accounts in the OU.     An
+  organization, which will include all accounts across your organization.
 
 """
 function create_grant(
@@ -292,7 +296,8 @@ end
     create_grant_version(client_token, grant_arn)
     create_grant_version(client_token, grant_arn, params::Dict{String,<:Any})
 
-Creates a new version of the specified grant.
+Creates a new version of the specified grant. For more information, see Granted licenses in
+License Manager in the License Manager User Guide.
 
 # Arguments
 - `client_token`: Unique, case-sensitive identifier that you provide to ensure the
@@ -303,6 +308,7 @@ Creates a new version of the specified grant.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AllowedOperations"`: Allowed operations for the grant.
 - `"GrantName"`: Grant name.
+- `"Options"`: The options specified for the grant.
 - `"SourceVersion"`: Current version of the grant.
 - `"Status"`: Grant status.
 - `"StatusReason"`: Grant status reason.
@@ -509,12 +515,12 @@ Creates a new license conversion task.
 # Arguments
 - `destination_license_context`: Information that identifies the license type you are
   converting to. For the structure of the destination license, see Convert a license type
-  using the Amazon Web Services CLI in the License Manager User Guide.
+  using the CLI  in the License Manager User Guide.
 - `resource_arn`: Amazon Resource Name (ARN) of the resource you are converting the license
   type for.
 - `source_license_context`: Information that identifies the license type you are converting
-  from. For the structure of the source license, see Convert a license type using the Amazon
-  Web Services CLI in the License Manager User Guide.
+  from. For the structure of the source license, see Convert a license type using the CLI  in
+  the License Manager User Guide.
 
 """
 function create_license_conversion_task_for_resource(
@@ -1629,7 +1635,9 @@ end
     list_received_grants()
     list_received_grants(params::Dict{String,<:Any})
 
-Lists grants that are received but not accepted.
+Lists grants that are received. Received grants are grants created while specifying the
+recipient as this Amazon Web Services account, your organization, or an organizational unit
+(OU) to which this member account belongs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

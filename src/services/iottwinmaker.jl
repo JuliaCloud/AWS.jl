@@ -154,6 +154,7 @@ Creates a scene.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"capabilities"`: A list of capabilities that the scene uses to render itself.
 - `"description"`: The description for this scene.
+- `"sceneMetadata"`: The request metadata.
 - `"tags"`: Metadata that you can use to manage the scene.
 """
 function create_scene(
@@ -198,10 +199,10 @@ end
 This action creates a SyncJob.
 
 # Arguments
-- `sync_role`: The SyncJob IAM role. This IAM role is used by the sync job to read from the
-  syncSource, and create, update or delete the corresponding resources.
-- `sync_source`: The sync source.  Currently the only supported syncSoucre is SITEWISE .
-- `workspace_id`: The workspace Id.
+- `sync_role`: The SyncJob IAM role. This IAM role is used by the SyncJob to read from the
+  syncSource, and create, update, or delete the corresponding resources.
+- `sync_source`: The sync source.  Currently the only supported syncSoource is SITEWISE .
+- `workspace_id`: The workspace ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -403,8 +404,8 @@ end
 Delete the SyncJob.
 
 # Arguments
-- `sync_source`: The sync source.  Currently the only supported syncSoucre is SITEWISE .
-- `workspace_id`: The workspace Id.
+- `sync_source`: The sync source.  Currently the only supported syncSource is SITEWISE .
+- `workspace_id`: The workspace ID.
 
 """
 function delete_sync_job(
@@ -767,11 +768,11 @@ end
 Gets the SyncJob.
 
 # Arguments
-- `sync_source`: The sync soucre.  Currently the only supported syncSoucre is SITEWISE .
+- `sync_source`: The sync source.  Currently the only supported syncSource is SITEWISE .
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"workspace"`: The workspace Id.
+- `"workspace"`: The workspace ID.
 """
 function get_sync_job(syncSource; aws_config::AbstractAWSConfig=global_aws_config())
     return iottwinmaker(
@@ -986,12 +987,14 @@ end
 Lists the sync resources.
 
 # Arguments
-- `sync_source`: The sync soucre.  Currently the only supported syncSoucre is SITEWISE .
+- `sync_source`: The sync source.  Currently the only supported syncSource is SITEWISE .
 - `workspace_id`: The ID of the workspace that contains the sync job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filters"`: A list of objects that filter the request.
+- `"filters"`: A list of objects that filter the request. The following filter combinations
+  are supported:   Filter with state   Filter with ResourceType and ResourceId   Filter with
+  ResourceType and ExternalId
 - `"maxResults"`: The maximum number of results to return at one time. The default is 50.
   Valid Range: Minimum value of 0. Maximum value of 200.
 - `"nextToken"`: The string that specifies the next page of results.
@@ -1198,7 +1201,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component of this type.
 - `"propertyDefinitions"`: An object that maps strings to the property definitions in the
   component type. Each string in the mapping must be unique to this object.
-- `"propertyGroups"`: The property groups
+- `"propertyGroups"`: The property groups.
 """
 function update_component_type(
     componentTypeId, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1322,6 +1325,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"contentLocation"`: The relative path that specifies the location of the content
   definition file.
 - `"description"`: The description of this scene.
+- `"sceneMetadata"`: The scene metadata.
 """
 function update_scene(
     sceneId, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()

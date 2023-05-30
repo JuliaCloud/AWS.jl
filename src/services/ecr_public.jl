@@ -77,9 +77,9 @@ all of its tags) by specifying the digest of the image in your request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"registryId"`: The Amazon Web Services account ID that's associated with the registry
-  that contains the image to delete. If you do not specify a registry, the default public
-  registry is assumed.
+- `"registryId"`: The Amazon Web Services account ID, or registry alias, that's associated
+  with the registry that contains the image to delete. If you do not specify a registry, the
+  default public registry is assumed.
 """
 function batch_delete_image(
     imageIds, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()

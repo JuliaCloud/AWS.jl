@@ -8,14 +8,14 @@ using AWS.UUIDs
     create_profile(name, role_arns)
     create_profile(name, role_arns, params::Dict{String,<:Any})
 
-Creates a profile. A profile is configuration resource to list the roles that RolesAnywhere
-service is trusted to assume. In addition, by applying a profile you can intersect
-permissions with IAM managed policies.  Required permissions:  rolesanywhere:CreateProfile.
+Creates a profile, a list of the roles that Roles Anywhere service is trusted to assume.
+You use profiles to intersect permissions with IAM managed policies.  Required permissions:
+ rolesanywhere:CreateProfile.
 
 # Arguments
 - `name`: The name of the profile.
-- `role_arns`: A list of IAM roles that this profile can assume in a CreateSession
-  operation.
+- `role_arns`: A list of IAM roles that this profile can assume in a temporary credential
+  request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -24,7 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
 - `"requireInstanceProperties"`: Specifies whether instance properties are required in
-  CreateSession requests with this profile.
+  temporary credential requests with this profile.
 - `"sessionPolicy"`: A session policy that applies to the trust boundary of the vended
   session credentials.
 - `"tags"`: The tags to attach to the profile.
@@ -61,12 +61,11 @@ end
     create_trust_anchor(name, source)
     create_trust_anchor(name, source, params::Dict{String,<:Any})
 
-Creates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate
-authority (CA) by configuring a trust anchor. A Trust Anchor is defined either as a
-reference to a AWS Certificate Manager Private Certificate Authority (ACM PCA), or by
-uploading a Certificate Authority (CA) certificate. Your AWS workloads can authenticate
-with the trust anchor using certificates issued by the trusted Certificate Authority (CA)
-in exchange for temporary AWS credentials.  Required permissions:
+Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate
+authority (CA). You can define a trust anchor as a reference to an Private Certificate
+Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads
+can authenticate with the trust anchor using certificates issued by the CA in exchange for
+temporary Amazon Web Services credentials.  Required permissions:
 rolesanywhere:CreateTrustAnchor.
 
 # Arguments
@@ -76,6 +75,8 @@ rolesanywhere:CreateTrustAnchor.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"enabled"`: Specifies whether the trust anchor is enabled.
+- `"notificationSettings"`: A list of notification settings to be associated to the trust
+  anchor.
 - `"tags"`: The tags to attach to the trust anchor.
 """
 function create_trust_anchor(
@@ -235,8 +236,8 @@ end
     disable_profile(profile_id)
     disable_profile(profile_id, params::Dict{String,<:Any})
 
-Disables a profile. When disabled, CreateSession requests with this profile fail.  Required
-permissions:  rolesanywhere:DisableProfile.
+Disables a profile. When disabled, temporary credential requests with this profile fail.
+Required permissions:  rolesanywhere:DisableProfile.
 
 # Arguments
 - `profile_id`: The unique identifier of the profile.
@@ -268,8 +269,8 @@ end
     disable_trust_anchor(trust_anchor_id)
     disable_trust_anchor(trust_anchor_id, params::Dict{String,<:Any})
 
-Disables a trust anchor. When disabled, CreateSession requests specifying this trust anchor
-are unauthorized.  Required permissions:  rolesanywhere:DisableTrustAnchor.
+Disables a trust anchor. When disabled, temporary credential requests specifying this trust
+anchor are unauthorized.  Required permissions:  rolesanywhere:DisableTrustAnchor.
 
 # Arguments
 - `trust_anchor_id`: The unique identifier of the trust anchor.
@@ -335,8 +336,8 @@ end
     enable_profile(profile_id)
     enable_profile(profile_id, params::Dict{String,<:Any})
 
-Enables the roles in a profile to receive session credentials in CreateSession.   Required
-permissions:  rolesanywhere:EnableProfile.
+Enables temporary credential requests for a profile.   Required permissions:
+rolesanywhere:EnableProfile.
 
 # Arguments
 - `profile_id`: The unique identifier of the profile.
@@ -462,11 +463,10 @@ end
     get_subject(subject_id)
     get_subject(subject_id, params::Dict{String,<:Any})
 
-Gets a Subject. A Subject associates a certificate identity with authentication attempts by
-CreateSession. The Subject resources stores audit information such as status of the last
-authentication attempt, the certificate data used in the attempt, and the last time the
-associated identity attempted authentication.   Required permissions:
-rolesanywhere:GetSubject.
+Gets a subject, which associates a certificate identity with authentication attempts. The
+subject stores auditing information such as the status of the last authentication attempt,
+the certificate data used in the attempt, and the last time the associated identity
+attempted authentication.   Required permissions:  rolesanywhere:GetSubject.
 
 # Arguments
 - `subject_id`: The unique identifier of the subject.
@@ -530,12 +530,13 @@ end
     import_crl(crl_data, name, trust_anchor_arn)
     import_crl(crl_data, name, trust_anchor_arn, params::Dict{String,<:Any})
 
-Imports the certificate revocation list (CRL). CRl is a list of certificates that have been
-revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates against the
-crl list before issuing credentials.   Required permissions:  rolesanywhere:ImportCrl.
+Imports the certificate revocation list (CRL). A CRL is a list of certificates that have
+been revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates
+against the CRL before issuing credentials.   Required permissions:
+rolesanywhere:ImportCrl.
 
 # Arguments
-- `crl_data`: The x509 v3 specified certificate revocation list
+- `crl_data`: The x509 v3 specified certificate revocation list (CRL).
 - `name`: The name of the certificate revocation list (CRL).
 - `trust_anchor_arn`: The ARN of the TrustAnchor the certificate revocation list (CRL) will
   provide revocation for.
@@ -586,14 +587,14 @@ end
     list_crls()
     list_crls(params::Dict{String,<:Any})
 
-Lists all Crls in the authenticated account and Amazon Web Services Region.  Required
-permissions:  rolesanywhere:ListCrls.
+Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web
+Services Region.  Required permissions:  rolesanywhere:ListCrls.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous operation did not show all results. To get the next results, call the operation
-  again with this value.
+  previous request did not show all results. To get the next results, make the request again
+  with this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_crls(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -619,8 +620,8 @@ permissions:  rolesanywhere:ListProfiles.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous operation did not show all results. To get the next results, call the operation
-  again with this value.
+  previous request did not show all results. To get the next results, make the request again
+  with this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -646,8 +647,8 @@ permissions:  rolesanywhere:ListSubjects.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous operation did not show all results. To get the next results, call the operation
-  again with this value.
+  previous request did not show all results. To get the next results, make the request again
+  with this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_subjects(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -711,8 +712,8 @@ Required permissions:  rolesanywhere:ListTrustAnchors.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: A token that indicates where the output should continue from, if a
-  previous operation did not show all results. To get the next results, call the operation
-  again with this value.
+  previous request did not show all results. To get the next results, make the request again
+  with this value.
 - `"pageSize"`: The number of resources in the paginated list.
 """
 function list_trust_anchors(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -727,6 +728,110 @@ function list_trust_anchors(
         "GET",
         "/trustanchors",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_notification_settings(notification_settings, trust_anchor_id)
+    put_notification_settings(notification_settings, trust_anchor_id, params::Dict{String,<:Any})
+
+Attaches a list of notification settings to a trust anchor. A notification setting includes
+information such as event name, threshold, status of the notification setting, and the
+channel to notify.  Required permissions:  rolesanywhere:PutNotificationSettings.
+
+# Arguments
+- `notification_settings`: A list of notification settings to be associated to the trust
+  anchor.
+- `trust_anchor_id`: The unique identifier of the trust anchor.
+
+"""
+function put_notification_settings(
+    notificationSettings, trustAnchorId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rolesanywhere(
+        "PATCH",
+        "/put-notifications-settings",
+        Dict{String,Any}(
+            "notificationSettings" => notificationSettings, "trustAnchorId" => trustAnchorId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_notification_settings(
+    notificationSettings,
+    trustAnchorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rolesanywhere(
+        "PATCH",
+        "/put-notifications-settings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "notificationSettings" => notificationSettings,
+                    "trustAnchorId" => trustAnchorId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reset_notification_settings(notification_setting_keys, trust_anchor_id)
+    reset_notification_settings(notification_setting_keys, trust_anchor_id, params::Dict{String,<:Any})
+
+Resets the custom notification setting to IAM Roles Anywhere default setting.   Required
+permissions:  rolesanywhere:ResetNotificationSettings.
+
+# Arguments
+- `notification_setting_keys`: A list of notification setting keys to reset. A notification
+  setting key includes the event and the channel.
+- `trust_anchor_id`: The unique identifier of the trust anchor.
+
+"""
+function reset_notification_settings(
+    notificationSettingKeys,
+    trustAnchorId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rolesanywhere(
+        "PATCH",
+        "/reset-notifications-settings",
+        Dict{String,Any}(
+            "notificationSettingKeys" => notificationSettingKeys,
+            "trustAnchorId" => trustAnchorId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function reset_notification_settings(
+    notificationSettingKeys,
+    trustAnchorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rolesanywhere(
+        "PATCH",
+        "/reset-notifications-settings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "notificationSettingKeys" => notificationSettingKeys,
+                    "trustAnchorId" => trustAnchorId,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -820,16 +925,17 @@ end
     update_crl(crl_id)
     update_crl(crl_id, params::Dict{String,<:Any})
 
-Updates the certificate revocation list (CRL). CRl is a list of certificates that have been
-revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates against the
-crl list before issuing credentials.  Required permissions:  rolesanywhere:UpdateCrl.
+Updates the certificate revocation list (CRL). A CRL is a list of certificates that have
+been revoked by the issuing certificate authority (CA). IAM Roles Anywhere validates
+against the CRL before issuing credentials.  Required permissions:
+rolesanywhere:UpdateCrl.
 
 # Arguments
 - `crl_id`: The unique identifier of the certificate revocation list (CRL).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"crlData"`: The x509 v3 specified certificate revocation list
+- `"crlData"`: The x509 v3 specified certificate revocation list (CRL).
 - `"name"`: The name of the Crl.
 """
 function update_crl(crlId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -853,10 +959,9 @@ end
     update_profile(profile_id)
     update_profile(profile_id, params::Dict{String,<:Any})
 
-Updates the profile. A profile is configuration resource to list the roles that
-RolesAnywhere service is trusted to assume. In addition, by applying a profile you can
-scope-down permissions with IAM managed policies.  Required permissions:
-rolesanywhere:UpdateProfile.
+Updates a profile, a list of the roles that IAM Roles Anywhere service is trusted to
+assume. You use profiles to intersect permissions with IAM managed policies.  Required
+permissions:  rolesanywhere:UpdateProfile.
 
 # Arguments
 - `profile_id`: The unique identifier of the profile.
@@ -867,8 +972,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
 - `"name"`: The name of the profile.
-- `"roleArns"`: A list of IAM roles that this profile can assume in a CreateSession
-  operation.
+- `"roleArns"`: A list of IAM roles that this profile can assume in a temporary credential
+  request.
 - `"sessionPolicy"`: A session policy that applies to the trust boundary of the vended
   session credentials.
 """
@@ -898,13 +1003,12 @@ end
     update_trust_anchor(trust_anchor_id)
     update_trust_anchor(trust_anchor_id, params::Dict{String,<:Any})
 
-Updates the trust anchor.You establish trust between IAM Roles Anywhere and your
-certificate authority (CA) by configuring a trust anchor. A Trust Anchor is defined either
-as a reference to a AWS Certificate Manager Private Certificate Authority (ACM PCA), or by
-uploading a Certificate Authority (CA) certificate. Your AWS workloads can authenticate
-with the trust anchor using certificates issued by the trusted Certificate Authority (CA)
-in exchange for temporary AWS credentials.  Required permissions:
-rolesanywhere:UpdateTrustAnchor.
+Updates a trust anchor. You establish trust between IAM Roles Anywhere and your certificate
+authority (CA) by configuring a trust anchor. You can define a trust anchor as a reference
+to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your
+Amazon Web Services workloads can authenticate with the trust anchor using certificates
+issued by the CA in exchange for temporary Amazon Web Services credentials.  Required
+permissions:  rolesanywhere:UpdateTrustAnchor.
 
 # Arguments
 - `trust_anchor_id`: The unique identifier of the trust anchor.

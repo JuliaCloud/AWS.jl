@@ -186,7 +186,8 @@ end
     get_dashboard_for_job_run(application_id, job_run_id)
     get_dashboard_for_job_run(application_id, job_run_id, params::Dict{String,<:Any})
 
-Returns a URL to access the job run dashboard.
+Returns a URL to access the job run dashboard. The generated URL is valid for one hour,
+after which you must invoke the API again to generate a new URL.
 
 # Arguments
 - `application_id`: The ID of the application.
@@ -490,11 +491,11 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Assigns tags to resources. A tag is a label that you assign to an AWS resource. Each tag
-consists of a key and an optional value, both of which you define. Tags enable you to
-categorize your AWS resources by attributes such as purpose, owner, or environment. When
-you have many resources of the same type, you can quickly identify a specific resource
-based on the tags you've assigned to it.
+Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services
+resource. Each tag consists of a key and an optional value, both of which you define. Tags
+enable you to categorize your Amazon Web Services resources by attributes such as purpose,
+owner, or environment. When you have many resources of the same type, you can quickly
+identify a specific resource based on the tags you've assigned to it.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) that identifies the resource to list the

@@ -1168,7 +1168,7 @@ Returns a contact from a contact list.
 
 # Arguments
 - `contact_list_name`: The name of the contact list to which the contact belongs.
-- `email_address`: The contact's email addres.
+- `email_address`: The contact's email address.
 
 """
 function get_contact(
@@ -2725,6 +2725,47 @@ function put_dedicated_ip_in_pool(
 end
 
 """
+    put_dedicated_ip_pool_scaling_attributes(pool_name, scaling_mode)
+    put_dedicated_ip_pool_scaling_attributes(pool_name, scaling_mode, params::Dict{String,<:Any})
+
+Used to convert a dedicated IP pool to a different scaling mode.   MANAGED pools cannot be
+converted to STANDARD scaling mode.
+
+# Arguments
+- `pool_name`: The name of the dedicated IP pool.
+- `scaling_mode`: The scaling mode to apply to the dedicated IP pool.  Changing the scaling
+  mode from MANAGED to STANDARD is not supported.
+
+"""
+function put_dedicated_ip_pool_scaling_attributes(
+    PoolName, ScalingMode; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/dedicated-ip-pools/$(PoolName)/scaling",
+        Dict{String,Any}("ScalingMode" => ScalingMode);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_dedicated_ip_pool_scaling_attributes(
+    PoolName,
+    ScalingMode,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/dedicated-ip-pools/$(PoolName)/scaling",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ScalingMode" => ScalingMode), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_dedicated_ip_warmup_attributes(ip, warmup_percentage)
     put_dedicated_ip_warmup_attributes(ip, warmup_percentage, params::Dict{String,<:Any})
 
@@ -3502,7 +3543,7 @@ topic preferences in the TopicPreferences object, just the ones that need updati
 
 # Arguments
 - `contact_list_name`: The name of the contact list.
-- `email_address`: The contact's email addres.
+- `email_address`: The contact's email address.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

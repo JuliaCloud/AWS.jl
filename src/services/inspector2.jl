@@ -9,6 +9,9 @@ using AWS.UUIDs
     associate_member(account_id, params::Dict{String,<:Any})
 
 Associates an Amazon Web Services account with an Amazon Inspector delegated administrator.
+An HTTP 200 response indicates the association was successfully started, but doesn’t
+indicate whether it was completed. You can check if the association completed by using
+ListMembers for multiple accounts or GetMembers for a single account.
 
 # Arguments
 - `account_id`: The Amazon Web Services account ID of the member account to be associated.
@@ -97,6 +100,81 @@ function batch_get_free_trial_info(
     return inspector2(
         "POST",
         "/freetrialinfo/batchget",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_member_ec2_deep_inspection_status()
+    batch_get_member_ec2_deep_inspection_status(params::Dict{String,<:Any})
+
+Retrieves Amazon Inspector deep inspection activation status of multiple member accounts
+within your organization. You must be the delegated administrator of an organization in
+Amazon Inspector to use this API.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountIds"`: The unique identifiers for the Amazon Web Services accounts to retrieve
+  Amazon Inspector deep inspection activation status for.  &lt;/p&gt;
+"""
+function batch_get_member_ec2_deep_inspection_status(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/ec2deepinspectionstatus/member/batch/get";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_member_ec2_deep_inspection_status(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/ec2deepinspectionstatus/member/batch/get",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_update_member_ec2_deep_inspection_status(account_ids)
+    batch_update_member_ec2_deep_inspection_status(account_ids, params::Dict{String,<:Any})
+
+Activates or deactivates Amazon Inspector deep inspection for the provided member accounts
+in your organization. You must be the delegated administrator of an organization in Amazon
+Inspector to use this API.
+
+# Arguments
+- `account_ids`: The unique identifiers for the Amazon Web Services accounts to change
+  Amazon Inspector deep inspection status for.
+
+"""
+function batch_update_member_ec2_deep_inspection_status(
+    accountIds; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/ec2deepinspectionstatus/member/batch/update",
+        Dict{String,Any}("accountIds" => accountIds);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_update_member_ec2_deep_inspection_status(
+    accountIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/ec2deepinspectionstatus/member/batch/update",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("accountIds" => accountIds), params)
         );
@@ -200,7 +278,9 @@ end
     create_findings_report(report_format, s3_destination)
     create_findings_report(report_format, s3_destination, params::Dict{String,<:Any})
 
-Creates a finding report.
+Creates a finding report. By default only ACTIVE findings are returned in the report. To
+see SUPRESSED or CLOSED findings you must specify a value for the findingStatus filter
+criteria.
 
 # Arguments
 - `report_format`: The format to generate the report in.
@@ -550,6 +630,36 @@ function get_delegated_admin_account(
     return inspector2(
         "POST",
         "/delegatedadminaccounts/get",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_ec2_deep_inspection_configuration()
+    get_ec2_deep_inspection_configuration(params::Dict{String,<:Any})
+
+Retrieves the activation status of Amazon Inspector deep inspection and custom paths
+associated with your account.
+
+"""
+function get_ec2_deep_inspection_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/ec2deepinspectionconfiguration/get";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_ec2_deep_inspection_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/ec2deepinspectionconfiguration/get",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -977,6 +1087,49 @@ function list_usage_totals(
 end
 
 """
+    search_vulnerabilities(filter_criteria)
+    search_vulnerabilities(filter_criteria, params::Dict{String,<:Any})
+
+Lists Amazon Inspector coverage details for a specific vulnerability.
+
+# Arguments
+- `filter_criteria`: The criteria used to filter the results of a vulnerability search.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: A token to use for paginating results that are returned in the response.
+  Set the value of this parameter to null for the first request to a list action. For
+  subsequent calls, use the NextToken value returned from the previous request to continue
+  listing results after the first page.
+"""
+function search_vulnerabilities(
+    filterCriteria; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/vulnerabilities/search",
+        Dict{String,Any}("filterCriteria" => filterCriteria);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_vulnerabilities(
+    filterCriteria,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/vulnerabilities/search",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("filterCriteria" => filterCriteria), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
@@ -1091,6 +1244,44 @@ function update_configuration(
 end
 
 """
+    update_ec2_deep_inspection_configuration()
+    update_ec2_deep_inspection_configuration(params::Dict{String,<:Any})
+
+Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your
+account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"activateDeepInspection"`: Specify TRUE to activate Amazon Inspector deep inspection in
+  your account, or FALSE to deactivate. Member accounts in an organization cannot deactivate
+  deep inspection, instead the delegated administrator for the organization can deactivate a
+  member account using BatchUpdateMemberEc2DeepInspectionStatus.
+- `"packagePaths"`: The Amazon Inspector deep inspection custom paths you are adding for
+  your account.
+"""
+function update_ec2_deep_inspection_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/ec2deepinspectionconfiguration/update";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_ec2_deep_inspection_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/ec2deepinspectionconfiguration/update",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_filter(filter_arn)
     update_filter(filter_arn, params::Dict{String,<:Any})
 
@@ -1127,6 +1318,47 @@ function update_filter(
         "/filters/update",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("filterArn" => filterArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_org_ec2_deep_inspection_configuration(org_package_paths)
+    update_org_ec2_deep_inspection_configuration(org_package_paths, params::Dict{String,<:Any})
+
+Updates the Amazon Inspector deep inspection custom paths for your organization. You must
+be an Amazon Inspector delegated administrator to use this API.
+
+# Arguments
+- `org_package_paths`: The Amazon Inspector deep inspection custom paths you are adding for
+  your organization.
+
+"""
+function update_org_ec2_deep_inspection_configuration(
+    orgPackagePaths; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/ec2deepinspectionconfiguration/org/update",
+        Dict{String,Any}("orgPackagePaths" => orgPackagePaths);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_org_ec2_deep_inspection_configuration(
+    orgPackagePaths,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/ec2deepinspectionconfiguration/org/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("orgPackagePaths" => orgPackagePaths), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

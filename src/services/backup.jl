@@ -2427,7 +2427,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the resources that you create. Each tag is a key-value pair.
 - `"StartWindowMinutes"`: A value in minutes after a backup is scheduled before a job will
   be canceled if it doesn't start successfully. This value is optional, and the default is 8
-  hours. If this value is included, it must be at least 60 minutes to avoid errors.
+  hours. If this value is included, it must be at least 60 minutes to avoid errors. During
+  the start window, the backup job status remains in CREATED status until it has successfully
+  begun or until the start window time has run out. If within the start window time Backup
+  receives an error that allows the job to be retried, Backup will automatically retry to
+  begin the job at least every 10 minutes until the backup successfully begins (the job
+  status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to
+  occur when the start window time is over).
 """
 function start_backup_job(
     BackupVaultName,
@@ -2622,6 +2628,9 @@ Recovers the saved resource identified by an Amazon Resource Name (ARN).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CopySourceTagsToRestoredResource"`: This is an optional parameter. If this equals True,
+  tags included in the backup will be copied to the restored resource. This can only be
+  applied to backups created through Backup.
 - `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that Backup uses to create
   the target resource; for example: arn:aws:iam::123456789012:role/S3Access.
 - `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
@@ -2629,10 +2638,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency token results in a success message with no action taken.
 - `"ResourceType"`: Starts a job to restore a recovery point for one of the following
   resources:    Aurora for Amazon Aurora    DocumentDB for Amazon DocumentDB (with MongoDB
-  compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2
-  for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System    FSx for Amazon
-  FSx    Neptune for Amazon Neptune    RDS for Amazon Relational Database Service    Storage
-  Gateway for Storage Gateway    S3 for Amazon S3    VirtualMachine for virtual machines
+  compatibility)    CloudFormation for CloudFormation    DynamoDB for Amazon DynamoDB    EBS
+  for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon
+  Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    RDS for Amazon
+  Relational Database Service    Redshift for Amazon Redshift    Storage Gateway for Storage
+  Gateway    S3 for Amazon S3    Timestream for Amazon Timestream    VirtualMachine for
+  virtual machines
 """
 function start_restore_job(
     Metadata, RecoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()

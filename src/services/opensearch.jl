@@ -242,7 +242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or
   Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch
   Service domains.
-- `"LogPublishingOptions"`: Key-value pairs to configure slow log publishing.
+- `"LogPublishingOptions"`: Key-value pairs to configure log publishing.
 - `"NodeToNodeEncryptionOptions"`: Enables node-to-node encryption.
 - `"OffPeakWindowOptions"`: Specifies a daily 10-hour time block during which OpenSearch
   Service can perform configuration changes on the domain, including service software updates
@@ -353,7 +353,7 @@ Custom packages for Amazon OpenSearch Service.
 # Arguments
 - `package_name`: Unique name for the package.
 - `package_source`: The Amazon S3 location from which to import the package.
-- `package_type`: Type of package.
+- `package_type`: The type of package.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -766,6 +766,76 @@ function describe_domain_config(
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/domain/$(DomainName)/config",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_domain_health(domain_name)
+    describe_domain_health(domain_name, params::Dict{String,<:Any})
+
+Returns information about domain and node health, the standby Availability Zone, number of
+nodes per Availability Zone, and shard count per node.
+
+# Arguments
+- `domain_name`: The name of the domain.
+
+"""
+function describe_domain_health(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/health";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_domain_health(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/health",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_domain_nodes(domain_name)
+    describe_domain_nodes(domain_name, params::Dict{String,<:Any})
+
+Returns information about domain and nodes, including data nodes, master nodes, ultrawarm
+nodes, Availability Zone(s), standby nodes, node configurations, and node states.
+
+# Arguments
+- `domain_name`: The name of the domain.
+
+"""
+function describe_domain_nodes(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/nodes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_domain_nodes(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/nodes",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1196,8 +1266,8 @@ end
     get_package_version_history(package_id, params::Dict{String,<:Any})
 
 Returns a list of Amazon OpenSearch Service package versions, along with their creation
-time and commit message. For more information, see Custom packages for Amazon OpenSearch
-Service.
+time, commit message, and plugin properties (if the package is a zip plugin package). For
+more information, see Custom packages for Amazon OpenSearch Service.
 
 # Arguments
 - `package_id`: The unique identifier of the package.
@@ -1385,17 +1455,20 @@ Lists all instance types and available features for a given OpenSearch or Elasti
 version.
 
 # Arguments
-- `engine_version`: Version of OpenSearch or Elasticsearch, in the format Elasticsearch_X.Y
-  or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
+- `engine_version`: The version of OpenSearch or Elasticsearch, in the format
+  Elasticsearch_X.Y or OpenSearch_X.Y. Defaults to the latest version of OpenSearch.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"domainName"`: Name of the domain to list instance type details for.
+- `"domainName"`: The name of the domain.
+- `"instanceType"`: An optional parameter that lists information for a given instance type.
 - `"maxResults"`: An optional parameter that specifies the maximum number of results to
   return. You can use nextToken to get the next page of results.
 - `"nextToken"`: If your initial ListInstanceTypeDetails operation returns a nextToken, you
   can include the returned nextToken in subsequent ListInstanceTypeDetails operations, which
   returns results in the next page.
+- `"retrieveAZs"`: An optional parameter that specifies the Availability Zones for the
+  domain.
 """
 function list_instance_type_details(
     EngineVersion; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1906,7 +1979,7 @@ end
     update_domain_config(domain_name)
     update_domain_config(domain_name, params::Dict{String,<:Any})
 
-Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
+Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.sl
 
 # Arguments
 - `domain_name`: The name of the domain that you're updating.
@@ -1926,11 +1999,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"indices.query.bool.max_clause_count\": \"1024\" - Note the use of a string rather than a
   boolean. Specifies the maximum number of clauses allowed in a Lucene boolean query. Default
   is 1,024. Queries with more than the permitted number of clauses result in a TooManyClauses
-  error.    \"override_main_response_version\": \"true\" | \"false\" - Note the use of a
-  string rather than a boolean. Specifies whether the domain reports its version as 7.10 to
-  allow Elasticsearch OSS clients and plugins to continue working with it. Default is false
-  when creating a domain and true when upgrading a domain.   For more information, see
-  Advanced cluster parameters.
+  error.   For more information, see Advanced cluster parameters.
 - `"AdvancedSecurityOptions"`: Options for fine-grained access control.
 - `"AutoTuneOptions"`: Options for Auto-Tune.
 - `"ClusterConfig"`: Changes that you want to make to the cluster configuration, such as

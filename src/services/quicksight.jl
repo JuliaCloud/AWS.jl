@@ -401,6 +401,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ColumnLevelPermissionRules"`: A set of one or more definitions of a
   ColumnLevelPermissionRule .
 - `"DataSetUsageConfiguration"`:
+- `"DatasetParameters"`: The parameter declarations of the dataset.
 - `"FieldFolders"`: The folder that contains fields and nested subfolders for your dataset.
 - `"LogicalTableMap"`: Configures the combination and transformation of the data from the
   physical tables.
@@ -728,8 +729,8 @@ QuickSight. Assignment names are unique per Amazon Web Services account. To avoi
 overwriting rules in other namespaces, use assignment names that are unique.
 
 # Arguments
-- `assignment_name`: The name of the assignment, also called a rule. It must be unique
-  within an Amazon Web Services account.
+- `assignment_name`: The name of the assignment, also called a rule. The name must be
+  unique within the Amazon Web Services account.
 - `assignment_status`: The status of the assignment. Possible values are as follows:
   ENABLED - Anything specified in this assignment is used when creating the data source.
   DISABLED - This assignment isn't used when creating the data source.    DRAFT - This
@@ -892,6 +893,48 @@ function create_namespace(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_refresh_schedule(aws_account_id, data_set_id, schedule)
+    create_refresh_schedule(aws_account_id, data_set_id, schedule, params::Dict{String,<:Any})
+
+Creates a refresh schedule for a dataset. You can create up to 5 different schedules for a
+single dataset.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `data_set_id`: The ID of the dataset.
+- `schedule`: The refresh schedule.
+
+"""
+function create_refresh_schedule(
+    AwsAccountId, DataSetId, Schedule; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules",
+        Dict{String,Any}("Schedule" => Schedule);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_refresh_schedule(
+    AwsAccountId,
+    DataSetId,
+    Schedule,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Schedule" => Schedule), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1147,6 +1190,189 @@ function create_theme_alias(
 end
 
 """
+    create_topic(aws_account_id, topic, topic_id)
+    create_topic(aws_account_id, topic, topic_id, params::Dict{String,<:Any})
+
+Creates a new Q topic.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that you want to create a
+  topic in.
+- `topic`: The definition of a topic to create.
+- `topic_id`: The ID for the topic that you want to create. This ID is unique per Amazon
+  Web Services Region for each Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Contains a map of the key-value pairs for the resource tag or tags that are
+  assigned to the dataset.
+"""
+function create_topic(
+    AwsAccountId, Topic, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/topics",
+        Dict{String,Any}("Topic" => Topic, "TopicId" => TopicId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_topic(
+    AwsAccountId,
+    Topic,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/topics",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Topic" => Topic, "TopicId" => TopicId), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_topic_refresh_schedule(aws_account_id, dataset_arn, refresh_schedule, topic_id)
+    create_topic_refresh_schedule(aws_account_id, dataset_arn, refresh_schedule, topic_id, params::Dict{String,<:Any})
+
+Creates a topic refresh schedule.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the topic
+  you're creating a refresh schedule for.
+- `dataset_arn`: The Amazon Resource Name (ARN) of the dataset.
+- `refresh_schedule`: The definition of a refresh schedule.
+- `topic_id`: The ID of the topic that you want to modify. This ID is unique per Amazon Web
+  Services Region for each Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DatasetName"`: The name of the dataset.
+"""
+function create_topic_refresh_schedule(
+    AwsAccountId,
+    DatasetArn,
+    RefreshSchedule,
+    TopicId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules",
+        Dict{String,Any}("DatasetArn" => DatasetArn, "RefreshSchedule" => RefreshSchedule);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_topic_refresh_schedule(
+    AwsAccountId,
+    DatasetArn,
+    RefreshSchedule,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DatasetArn" => DatasetArn, "RefreshSchedule" => RefreshSchedule
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_vpcconnection(aws_account_id, name, role_arn, security_group_ids, subnet_ids, vpcconnection_id)
+    create_vpcconnection(aws_account_id, name, role_arn, security_group_ids, subnet_ids, vpcconnection_id, params::Dict{String,<:Any})
+
+Creates a new VPC connection.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID of the account where you want to
+  create a new VPC connection.
+- `name`: The display name for the VPC connection.
+- `role_arn`: The IAM role to associate with the VPC connection.
+- `security_group_ids`: A list of security group IDs for the VPC connection.
+- `subnet_ids`: A list of subnet IDs for the VPC connection.
+- `vpcconnection_id`: The ID of the VPC connection that you're creating. This ID is a
+  unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DnsResolvers"`: A list of IP addresses of DNS resolver endpoints for the VPC connection.
+- `"Tags"`: A map of the key-value pairs for the resource tag or tags assigned to the VPC
+  connection.
+"""
+function create_vpcconnection(
+    AwsAccountId,
+    Name,
+    RoleArn,
+    SecurityGroupIds,
+    SubnetIds,
+    VPCConnectionId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/vpc-connections",
+        Dict{String,Any}(
+            "Name" => Name,
+            "RoleArn" => RoleArn,
+            "SecurityGroupIds" => SecurityGroupIds,
+            "SubnetIds" => SubnetIds,
+            "VPCConnectionId" => VPCConnectionId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_vpcconnection(
+    AwsAccountId,
+    Name,
+    RoleArn,
+    SecurityGroupIds,
+    SubnetIds,
+    VPCConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/vpc-connections",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "RoleArn" => RoleArn,
+                    "SecurityGroupIds" => SecurityGroupIds,
+                    "SubnetIds" => SubnetIds,
+                    "VPCConnectionId" => VPCConnectionId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_account_customization(aws_account_id)
     delete_account_customization(aws_account_id, params::Dict{String,<:Any})
 
@@ -1352,6 +1578,42 @@ function delete_data_set(
     return quicksight(
         "DELETE",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_set_refresh_properties(aws_account_id, data_set_id)
+    delete_data_set_refresh_properties(aws_account_id, data_set_id, params::Dict{String,<:Any})
+
+Deletes the dataset refresh properties of the dataset.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `data_set_id`: The ID of the dataset.
+
+"""
+function delete_data_set_refresh_properties(
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_data_set_refresh_properties(
+    AwsAccountId,
+    DataSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1646,6 +1908,44 @@ function delete_namespace(
 end
 
 """
+    delete_refresh_schedule(aws_account_id, data_set_id, schedule_id)
+    delete_refresh_schedule(aws_account_id, data_set_id, schedule_id, params::Dict{String,<:Any})
+
+Deletes a refresh schedule from a dataset.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `data_set_id`: The ID of the dataset.
+- `schedule_id`: The ID of the refresh schedule.
+
+"""
+function delete_refresh_schedule(
+    AwsAccountId, DataSetId, ScheduleId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules/$(ScheduleId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_refresh_schedule(
+    AwsAccountId,
+    DataSetId,
+    ScheduleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules/$(ScheduleId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_template(aws_account_id, template_id)
     delete_template(aws_account_id, template_id, params::Dict{String,<:Any})
 
@@ -1811,6 +2111,83 @@ function delete_theme_alias(
 end
 
 """
+    delete_topic(aws_account_id, topic_id)
+    delete_topic(aws_account_id, topic_id, params::Dict{String,<:Any})
+
+Deletes a topic.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the topic that
+  you want to delete.
+- `topic_id`: The ID of the topic that you want to delete. This ID is unique per Amazon Web
+  Services Region for each Amazon Web Services account.
+
+"""
+function delete_topic(
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_topic(
+    AwsAccountId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_topic_refresh_schedule(aws_account_id, dataset_id, topic_id)
+    delete_topic_refresh_schedule(aws_account_id, dataset_id, topic_id, params::Dict{String,<:Any})
+
+Deletes a topic refresh schedule.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `dataset_id`: The ID of the dataset.
+- `topic_id`: The ID of the topic that you want to modify. This ID is unique per Amazon Web
+  Services Region for each Amazon Web Services account.
+
+"""
+function delete_topic_refresh_schedule(
+    AwsAccountId, DatasetId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_topic_refresh_schedule(
+    AwsAccountId,
+    DatasetId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_user(aws_account_id, namespace, user_name)
     delete_user(aws_account_id, namespace, user_name, params::Dict{String,<:Any})
 
@@ -1885,6 +2262,44 @@ function delete_user_by_principal_id(
     return quicksight(
         "DELETE",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/user-principals/$(PrincipalId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_vpcconnection(aws_account_id, vpcconnection_id)
+    delete_vpcconnection(aws_account_id, vpcconnection_id, params::Dict{String,<:Any})
+
+Deletes a VPC connection.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID of the account where you want to
+  delete a VPC connection.
+- `vpcconnection_id`: The ID of the VPC connection that you're creating. This ID is a
+  unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+
+"""
+function delete_vpcconnection(
+    AwsAccountId, VPCConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/vpc-connections/$(VPCConnectionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_vpcconnection(
+    AwsAccountId,
+    VPCConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "DELETE",
+        "/accounts/$(AwsAccountId)/vpc-connections/$(VPCConnectionId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2156,6 +2571,87 @@ function describe_analysis_permissions(
 end
 
 """
+    describe_asset_bundle_export_job(asset_bundle_export_job_id, aws_account_id)
+    describe_asset_bundle_export_job(asset_bundle_export_job_id, aws_account_id, params::Dict{String,<:Any})
+
+Describes an existing export job. Poll job descriptions after a job starts to know the
+status of the job. When a job succeeds, a URL is provided to download the exported assets'
+data from. Download URLs are valid for five minutes after they are generated. You can call
+the DescribeAssetBundleExportJob API for a new download URL as needed. Job descriptions are
+available for 14 days after the job starts.
+
+# Arguments
+- `asset_bundle_export_job_id`: The ID of the job that you want described. The job ID is
+  set when you start a new job with a StartAssetBundleExportJob API call.
+- `aws_account_id`: The ID of the Amazon Web Services account the export job is executed
+  in.
+
+"""
+function describe_asset_bundle_export_job(
+    AssetBundleExportJobId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/asset-bundle-export-jobs/$(AssetBundleExportJobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_asset_bundle_export_job(
+    AssetBundleExportJobId,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/asset-bundle-export-jobs/$(AssetBundleExportJobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_asset_bundle_import_job(asset_bundle_import_job_id, aws_account_id)
+    describe_asset_bundle_import_job(asset_bundle_import_job_id, aws_account_id, params::Dict{String,<:Any})
+
+Describes an existing import job. Poll job descriptions after starting a job to know when
+it has succeeded or failed. Job descriptions are available for 14 days after job starts.
+
+# Arguments
+- `asset_bundle_import_job_id`: The ID of the job. The job ID is set when you start a new
+  job with a StartAssetBundleImportJob API call.
+- `aws_account_id`: The ID of the Amazon Web Services account the import job was executed
+  in.
+
+"""
+function describe_asset_bundle_import_job(
+    AssetBundleImportJobId, AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/asset-bundle-import-jobs/$(AssetBundleImportJobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_asset_bundle_import_job(
+    AssetBundleImportJobId,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/asset-bundle-import-jobs/$(AssetBundleImportJobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_dashboard(aws_account_id, dashboard_id)
     describe_dashboard(aws_account_id, dashboard_id, params::Dict{String,<:Any})
 
@@ -2348,6 +2844,42 @@ function describe_data_set_permissions(
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/permissions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_data_set_refresh_properties(aws_account_id, data_set_id)
+    describe_data_set_refresh_properties(aws_account_id, data_set_id, params::Dict{String,<:Any})
+
+Describes the refresh properties of a dataset.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `data_set_id`: The ID of the dataset.
+
+"""
+function describe_data_set_refresh_properties(
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_data_set_refresh_properties(
+    AwsAccountId,
+    DataSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2777,6 +3309,44 @@ function describe_namespace(
 end
 
 """
+    describe_refresh_schedule(aws_account_id, data_set_id, schedule_id)
+    describe_refresh_schedule(aws_account_id, data_set_id, schedule_id, params::Dict{String,<:Any})
+
+Provides a summary of a refresh schedule.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `data_set_id`: The ID of the dataset.
+- `schedule_id`: The ID of the refresh schedule.
+
+"""
+function describe_refresh_schedule(
+    AwsAccountId, DataSetId, ScheduleId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules/$(ScheduleId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_refresh_schedule(
+    AwsAccountId,
+    DataSetId,
+    ScheduleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules/$(ScheduleId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_template(aws_account_id, template_id)
     describe_template(aws_account_id, template_id, params::Dict{String,<:Any})
 
@@ -3068,6 +3638,162 @@ function describe_theme_permissions(
 end
 
 """
+    describe_topic(aws_account_id, topic_id)
+    describe_topic(aws_account_id, topic_id, params::Dict{String,<:Any})
+
+Describes a topic.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `topic_id`: The ID of the topic that you want to describe. This ID is unique per Amazon
+  Web Services Region for each Amazon Web Services account.
+
+"""
+function describe_topic(
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_topic(
+    AwsAccountId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_topic_permissions(aws_account_id, topic_id)
+    describe_topic_permissions(aws_account_id, topic_id, params::Dict{String,<:Any})
+
+Describes the permissions of a topic.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the topic that
+  you want described.
+- `topic_id`: The ID of the topic that you want to describe. This ID is unique per Amazon
+  Web Services Region for each Amazon Web Services account.
+
+"""
+function describe_topic_permissions(
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/permissions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_topic_permissions(
+    AwsAccountId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/permissions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_topic_refresh(aws_account_id, refresh_id, topic_id)
+    describe_topic_refresh(aws_account_id, refresh_id, topic_id, params::Dict{String,<:Any})
+
+Describes the status of a topic refresh.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the topic whose
+  refresh you want to describe.
+- `refresh_id`: The ID of the refresh, which is performed when the topic is created or
+  updated.
+- `topic_id`: The ID of the topic that you want to describe. This ID is unique per Amazon
+  Web Services Region for each Amazon Web Services account.
+
+"""
+function describe_topic_refresh(
+    AwsAccountId, RefreshId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/refresh/$(RefreshId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_topic_refresh(
+    AwsAccountId,
+    RefreshId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/refresh/$(RefreshId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_topic_refresh_schedule(aws_account_id, dataset_id, topic_id)
+    describe_topic_refresh_schedule(aws_account_id, dataset_id, topic_id, params::Dict{String,<:Any})
+
+Deletes a topic refresh schedule.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `dataset_id`: The ID of the dataset.
+- `topic_id`: The ID of the topic that contains the refresh schedule that you want to
+  describe. This ID is unique per Amazon Web Services Region for each Amazon Web Services
+  account.
+
+"""
+function describe_topic_refresh_schedule(
+    AwsAccountId, DatasetId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_topic_refresh_schedule(
+    AwsAccountId,
+    DatasetId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_user(aws_account_id, namespace, user_name)
     describe_user(aws_account_id, namespace, user_name, params::Dict{String,<:Any})
 
@@ -3101,6 +3827,44 @@ function describe_user(
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_vpcconnection(aws_account_id, vpcconnection_id)
+    describe_vpcconnection(aws_account_id, vpcconnection_id, params::Dict{String,<:Any})
+
+Describes a VPC connection.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID of the account that contains the VPC
+  connection that you want described.
+- `vpcconnection_id`: The ID of the VPC connection that you're creating. This ID is a
+  unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+
+"""
+function describe_vpcconnection(
+    AwsAccountId, VPCConnectionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/vpc-connections/$(VPCConnectionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_vpcconnection(
+    AwsAccountId,
+    VPCConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/vpc-connections/$(VPCConnectionId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3460,6 +4224,92 @@ function list_analyses(
 end
 
 """
+    list_asset_bundle_export_jobs(aws_account_id)
+    list_asset_bundle_export_jobs(aws_account_id, params::Dict{String,<:Any})
+
+Lists all asset bundle export jobs that have been taken place in the last 14 days. Jobs
+created more than 14 days ago are deleted forever and are not returned. If you are using
+the same job ID for multiple jobs, ListAssetBundleExportJobs only returns the most recent
+job that uses the repeated job ID.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that the export jobs were
+  executed in.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of results to be returned per request.
+- `"next-token"`: The token for the next set of results, or null if there are no more
+  results.
+"""
+function list_asset_bundle_export_jobs(
+    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/asset-bundle-export-jobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_asset_bundle_export_jobs(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/asset-bundle-export-jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_asset_bundle_import_jobs(aws_account_id)
+    list_asset_bundle_import_jobs(aws_account_id, params::Dict{String,<:Any})
+
+Lists all asset bundle import jobs that have taken place in the last 14 days. Jobs created
+more than 14 days ago are deleted forever and are not returned. If you are using the same
+job ID for multiple jobs, ListAssetBundleImportJobs only returns the most recent job that
+uses the repeated job ID.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that the import jobs were
+  executed in.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of results to be returned per request.
+- `"next-token"`: The token for the next set of results, or null if there are no more
+  results.
+"""
+function list_asset_bundle_import_jobs(
+    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/asset-bundle-import-jobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_asset_bundle_import_jobs(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/asset-bundle-import-jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_dashboard_versions(aws_account_id, dashboard_id)
     list_dashboard_versions(aws_account_id, dashboard_id, params::Dict{String,<:Any})
 
@@ -3784,7 +4634,7 @@ end
     list_iampolicy_assignments(aws_account_id, namespace)
     list_iampolicy_assignments(aws_account_id, namespace, params::Dict{String,<:Any})
 
-Lists IAM policy assignments in the current Amazon QuickSight account.
+Lists the IAM policy assignments in the current Amazon QuickSight account.
 
 # Arguments
 - `aws_account_id`: The ID of the Amazon Web Services account that contains these IAM
@@ -3793,7 +4643,7 @@ Lists IAM policy assignments in the current Amazon QuickSight account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssignmentStatus"`: The status of the assignments.
+- `"assignment-status"`: The status of the assignments.
 - `"max-results"`: The maximum number of results to be returned per request.
 - `"next-token"`: The token for the next set of results, or null if there are no more
   results.
@@ -3803,7 +4653,7 @@ function list_iampolicy_assignments(
 )
     return quicksight(
         "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments";
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/v2/iam-policy-assignments";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3816,7 +4666,7 @@ function list_iampolicy_assignments(
 )
     return quicksight(
         "GET",
-        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/iam-policy-assignments",
+        "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/v2/iam-policy-assignments",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3827,8 +4677,9 @@ end
     list_iampolicy_assignments_for_user(aws_account_id, namespace, user_name)
     list_iampolicy_assignments_for_user(aws_account_id, namespace, user_name, params::Dict{String,<:Any})
 
-Lists all the IAM policy assignments, including the Amazon Resource Names (ARNs) for the
-IAM policies assigned to the specified user and group or groups that the user belongs to.
+Lists all of the IAM policy assignments, including the Amazon Resource Names (ARNs), for
+the IAM policies assigned to the specified user and group, or groups that the user belongs
+to.
 
 # Arguments
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the assignments.
@@ -3945,6 +4796,42 @@ function list_namespaces(
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_refresh_schedules(aws_account_id, data_set_id)
+    list_refresh_schedules(aws_account_id, data_set_id, params::Dict{String,<:Any})
+
+Lists the refresh schedules of a dataset. Each dataset can have up to 5 schedules.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `data_set_id`: The ID of the dataset.
+
+"""
+function list_refresh_schedules(
+    AwsAccountId, DataSetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_refresh_schedules(
+    AwsAccountId,
+    DataSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4235,6 +5122,82 @@ function list_themes(
 end
 
 """
+    list_topic_refresh_schedules(aws_account_id, topic_id)
+    list_topic_refresh_schedules(aws_account_id, topic_id, params::Dict{String,<:Any})
+
+Lists all of the refresh schedules for a topic.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the topic whose
+  refresh schedule you want described.
+- `topic_id`: The ID for the topic that you want to describe. This ID is unique per Amazon
+  Web Services Region for each Amazon Web Services account.
+
+"""
+function list_topic_refresh_schedules(
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_topic_refresh_schedules(
+    AwsAccountId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_topics(aws_account_id)
+    list_topics(aws_account_id, params::Dict{String,<:Any})
+
+Lists all of the topics within an account.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the topics that
+  you want to list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of results to be returned per request.
+- `"next-token"`: The token for the next set of results, or null if there are no more
+  results.
+"""
+function list_topics(AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_topics(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_user_groups(aws_account_id, namespace, user_name)
     list_user_groups(aws_account_id, namespace, user_name, params::Dict{String,<:Any})
 
@@ -4314,6 +5277,95 @@ function list_users(
         "GET",
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_vpcconnections(aws_account_id)
+    list_vpcconnections(aws_account_id, params::Dict{String,<:Any})
+
+Lists all of the VPC connections in the current set Amazon Web Services Region of an Amazon
+Web Services account.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID of the account that contains the VPC
+  connections that you want to list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of results to be returned per request.
+- `"next-token"`: The token for the next set of results, or null if there are no more
+  results.
+"""
+function list_vpcconnections(
+    AwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/vpc-connections";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_vpcconnections(
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/vpc-connections",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_data_set_refresh_properties(aws_account_id, data_set_id, data_set_refresh_properties)
+    put_data_set_refresh_properties(aws_account_id, data_set_id, data_set_refresh_properties, params::Dict{String,<:Any})
+
+Creates or updates the dataset refresh properties for the dataset.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `data_set_id`: The ID of the dataset.
+- `data_set_refresh_properties`: The dataset refresh properties.
+
+"""
+function put_data_set_refresh_properties(
+    AwsAccountId,
+    DataSetId,
+    DataSetRefreshProperties;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties",
+        Dict{String,Any}("DataSetRefreshProperties" => DataSetRefreshProperties);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_data_set_refresh_properties(
+    AwsAccountId,
+    DataSetId,
+    DataSetRefreshProperties,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-properties",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataSetRefreshProperties" => DataSetRefreshProperties),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4732,6 +5784,159 @@ function search_groups(
 end
 
 """
+    start_asset_bundle_export_job(asset_bundle_export_job_id, aws_account_id, export_format, resource_arns)
+    start_asset_bundle_export_job(asset_bundle_export_job_id, aws_account_id, export_format, resource_arns, params::Dict{String,<:Any})
+
+Starts an Asset Bundle export job. An Asset Bundle export job exports specified Amazon
+QuickSight assets. You can also choose to export any asset dependencies in the same job.
+Export jobs run asynchronously and can be polled with a DescribeAssetBundleExportJob API
+call. When a job is successfully completed, a download URL that contains the exported
+assets is returned. The URL is valid for 5 minutes and can be refreshed with a
+DescribeAssetBundleExportJob API call. Each Amazon QuickSight account can run up to 10
+export jobs concurrently. The API caller must have the necessary permissions in their IAM
+role to access each resource before the resources can be exported.
+
+# Arguments
+- `asset_bundle_export_job_id`: The ID of the job. This ID is unique while the job is
+  running. After the job is completed, you can reuse this ID for another job.
+- `aws_account_id`: The ID of the Amazon Web Services account to export assets from.
+- `export_format`: The export data format.
+- `resource_arns`: An array of resource ARNs to export. The following resources are
+  supported.    Analysis     Dashboard     DataSet     DataSource     RefreshSchedule
+  Theme     VPCConnection    The API caller must have the necessary permissions in their IAM
+  role to access each resource before the resources can be exported.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CloudFormationOverridePropertyConfiguration"`: An optional collection of structures
+  that generate CloudFormation parameters to override the existing resource property values
+  when the resource is exported to a new CloudFormation template. Use this field if the
+  ExportFormat field of a StartAssetBundleExportJobRequest API call is set to
+  CLOUDFORMATION_JSON.
+- `"IncludeAllDependencies"`: A Boolean that determines whether all dependencies of each
+  resource ARN are recursively exported with the job. For example, say you provided a
+  Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any
+  theme, dataset, and dataource resource that is a dependency of the dashboard is also
+  exported.
+"""
+function start_asset_bundle_export_job(
+    AssetBundleExportJobId,
+    AwsAccountId,
+    ExportFormat,
+    ResourceArns;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/asset-bundle-export-jobs/export",
+        Dict{String,Any}(
+            "AssetBundleExportJobId" => AssetBundleExportJobId,
+            "ExportFormat" => ExportFormat,
+            "ResourceArns" => ResourceArns,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_asset_bundle_export_job(
+    AssetBundleExportJobId,
+    AwsAccountId,
+    ExportFormat,
+    ResourceArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/asset-bundle-export-jobs/export",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssetBundleExportJobId" => AssetBundleExportJobId,
+                    "ExportFormat" => ExportFormat,
+                    "ResourceArns" => ResourceArns,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_asset_bundle_import_job(asset_bundle_import_job_id, asset_bundle_import_source, aws_account_id)
+    start_asset_bundle_import_job(asset_bundle_import_job_id, asset_bundle_import_source, aws_account_id, params::Dict{String,<:Any})
+
+Starts an Asset Bundle import job. An Asset Bundle import job imports specified Amazon
+QuickSight assets into an Amazon QuickSight account. You can also choose to import a naming
+prefix and specified configuration overrides. The assets that are contained in the bundle
+file that you provide are used to create or update a new or existing asset in your Amazon
+QuickSight account. Each Amazon QuickSight account can run up to 10 import jobs
+concurrently. The API caller must have the necessary \"create\", \"describe\", and
+\"update\" permissions in their IAM role to access each resource type that is contained in
+the bundle file before the resources can be imported.
+
+# Arguments
+- `asset_bundle_import_job_id`: The ID of the job. This ID is unique while the job is
+  running. After the job is completed, you can reuse this ID for another job.
+- `asset_bundle_import_source`: The source of the asset bundle zip file that contains the
+  data that you want to import.
+- `aws_account_id`: The ID of the Amazon Web Services account to import assets into.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FailureAction"`: The failure action for the import job. If you choose ROLLBACK, failed
+  import jobs will attempt to undo any asset changes caused by the failed job. If you choose
+  DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by
+  the failed job, possibly leaving the Amazon QuickSight account in an inconsistent state.
+- `"OverrideParameters"`: Optional overrides to be applied to the resource configuration
+  before import.
+"""
+function start_asset_bundle_import_job(
+    AssetBundleImportJobId,
+    AssetBundleImportSource,
+    AwsAccountId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/asset-bundle-import-jobs/import",
+        Dict{String,Any}(
+            "AssetBundleImportJobId" => AssetBundleImportJobId,
+            "AssetBundleImportSource" => AssetBundleImportSource,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_asset_bundle_import_job(
+    AssetBundleImportJobId,
+    AssetBundleImportSource,
+    AwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/asset-bundle-import-jobs/import",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssetBundleImportJobId" => AssetBundleImportJobId,
+                    "AssetBundleImportSource" => AssetBundleImportSource,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
@@ -4743,12 +5948,12 @@ tags. If you specify a new tag key for the resource, this tag is appended to the
 tags associated with the resource. If you specify a tag key that is already associated with
 the resource, the new tag value that you specify replaces the previous value for that tag.
 You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on
-data set, data source, dashboard, and template.  Tagging for Amazon QuickSight works in a
-similar way to tagging for other Amazon Web Services services, except for the following:
-You can't use tags to track costs for Amazon QuickSight. This isn't possible because you
-can't tag the resources that Amazon QuickSight costs are based on, for example Amazon
-QuickSight storage capacity (SPICE), number of users, type of users, and usage metrics.
-Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
+data set, data source, dashboard, template, and topic.  Tagging for Amazon QuickSight works
+in a similar way to tagging for other Amazon Web Services services, except for the
+following:   You can't use tags to track costs for Amazon QuickSight. This isn't possible
+because you can't tag the resources that Amazon QuickSight costs are based on, for example
+Amazon QuickSight storage capacity (SPICE), number of users, type of users, and usage
+metrics.   Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -5205,6 +6410,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ColumnLevelPermissionRules"`: A set of one or more definitions of a
   ColumnLevelPermissionRule .
 - `"DataSetUsageConfiguration"`:
+- `"DatasetParameters"`: The parameter declarations of the dataset.
 - `"FieldFolders"`: The folder that contains fields and nested subfolders for your dataset.
 - `"LogicalTableMap"`: Configures the combination and transformation of the data from the
   physical tables.
@@ -5531,8 +6737,8 @@ parameter or parameters that are specified in the request. This overwrites all o
 included in Identities.
 
 # Arguments
-- `assignment_name`: The name of the assignment, also called a rule. This name must be
-  unique within an Amazon Web Services account.
+- `assignment_name`: The name of the assignment, also called a rule. The name must be
+  unique within the Amazon Web Services account.
 - `aws_account_id`: The ID of the Amazon Web Services account that contains the IAM policy
   assignment.
 - `namespace`: The namespace of the assignment.
@@ -5581,7 +6787,7 @@ end
     update_ip_restriction(aws_account_id)
     update_ip_restriction(aws_account_id, params::Dict{String,<:Any})
 
-Updates the content and status of IP rules. To use this operation, you need to provide the
+Updates the content and status of IP rules. To use this operation, you must provide the
 entire map of rules. You can use the DescribeIpRestriction operation to get the current
 rule map.
 
@@ -5657,6 +6863,47 @@ function update_public_sharing_settings(
         "PUT",
         "/accounts/$(AwsAccountId)/public-sharing-settings",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_refresh_schedule(aws_account_id, data_set_id, schedule)
+    update_refresh_schedule(aws_account_id, data_set_id, schedule, params::Dict{String,<:Any})
+
+Updates a refresh schedule for a dataset.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID.
+- `data_set_id`: The ID of the dataset.
+- `schedule`: The refresh schedule.
+
+"""
+function update_refresh_schedule(
+    AwsAccountId, DataSetId, Schedule; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules",
+        Dict{String,Any}("Schedule" => Schedule);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_refresh_schedule(
+    AwsAccountId,
+    DataSetId,
+    Schedule,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/data-sets/$(DataSetId)/refresh-schedules",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("Schedule" => Schedule), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -5964,6 +7211,140 @@ function update_theme_permissions(
 end
 
 """
+    update_topic(aws_account_id, topic, topic_id)
+    update_topic(aws_account_id, topic, topic_id, params::Dict{String,<:Any})
+
+Updates a topic.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the topic that
+  you want to update.
+- `topic`: The definition of the topic that you want to update.
+- `topic_id`: The ID of the topic that you want to modify. This ID is unique per Amazon Web
+  Services Region for each Amazon Web Services account.
+
+"""
+function update_topic(
+    AwsAccountId, Topic, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)",
+        Dict{String,Any}("Topic" => Topic);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_topic(
+    AwsAccountId,
+    Topic,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Topic" => Topic), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_topic_permissions(aws_account_id, topic_id)
+    update_topic_permissions(aws_account_id, topic_id, params::Dict{String,<:Any})
+
+Updates the permissions of a topic.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the topic that
+  you want to update the permissions for.
+- `topic_id`: The ID of the topic that you want to modify. This ID is unique per Amazon Web
+  Services Region for each Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GrantPermissions"`: The resource permissions that you want to grant to the topic.
+- `"RevokePermissions"`: The resource permissions that you want to revoke from the topic.
+"""
+function update_topic_permissions(
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/permissions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_topic_permissions(
+    AwsAccountId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/permissions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_topic_refresh_schedule(aws_account_id, dataset_id, refresh_schedule, topic_id)
+    update_topic_refresh_schedule(aws_account_id, dataset_id, refresh_schedule, topic_id, params::Dict{String,<:Any})
+
+Updates a topic refresh schedule.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that contains the topic whose
+  refresh schedule you want to update.
+- `dataset_id`: The ID of the dataset.
+- `refresh_schedule`: The definition of a refresh schedule.
+- `topic_id`: The ID of the topic that you want to modify. This ID is unique per Amazon Web
+  Services Region for each Amazon Web Services account.
+
+"""
+function update_topic_refresh_schedule(
+    AwsAccountId,
+    DatasetId,
+    RefreshSchedule,
+    TopicId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)",
+        Dict{String,Any}("RefreshSchedule" => RefreshSchedule);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_topic_refresh_schedule(
+    AwsAccountId,
+    DatasetId,
+    RefreshSchedule,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules/$(DatasetId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RefreshSchedule" => RefreshSchedule), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_user(aws_account_id, email, namespace, role, user_name)
     update_user(aws_account_id, email, namespace, role, user_name, params::Dict{String,<:Any})
 
@@ -6047,6 +7428,78 @@ function update_user(
         "/accounts/$(AwsAccountId)/namespaces/$(Namespace)/users/$(UserName)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Email" => Email, "Role" => Role), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_vpcconnection(aws_account_id, name, role_arn, security_group_ids, subnet_ids, vpcconnection_id)
+    update_vpcconnection(aws_account_id, name, role_arn, security_group_ids, subnet_ids, vpcconnection_id, params::Dict{String,<:Any})
+
+Updates a VPC connection.
+
+# Arguments
+- `aws_account_id`: The Amazon Web Services account ID of the account that contains the VPC
+  connection that you want to update.
+- `name`: The display name for the VPC connection.
+- `role_arn`: An IAM role associated with the VPC connection.
+- `security_group_ids`: A list of security group IDs for the VPC connection.
+- `subnet_ids`: A list of subnet IDs for the VPC connection.
+- `vpcconnection_id`: The ID of the VPC connection that you're updating. This ID is a
+  unique identifier for each Amazon Web Services Region in an Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DnsResolvers"`: A list of IP addresses of DNS resolver endpoints for the VPC connection.
+"""
+function update_vpcconnection(
+    AwsAccountId,
+    Name,
+    RoleArn,
+    SecurityGroupIds,
+    SubnetIds,
+    VPCConnectionId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/vpc-connections/$(VPCConnectionId)",
+        Dict{String,Any}(
+            "Name" => Name,
+            "RoleArn" => RoleArn,
+            "SecurityGroupIds" => SecurityGroupIds,
+            "SubnetIds" => SubnetIds,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_vpcconnection(
+    AwsAccountId,
+    Name,
+    RoleArn,
+    SecurityGroupIds,
+    SubnetIds,
+    VPCConnectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "PUT",
+        "/accounts/$(AwsAccountId)/vpc-connections/$(VPCConnectionId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Name" => Name,
+                    "RoleArn" => RoleArn,
+                    "SecurityGroupIds" => SecurityGroupIds,
+                    "SubnetIds" => SubnetIds,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

@@ -487,8 +487,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is only valid if the Engine parameter is redis.
 - `"Tags"`: A list of tags to be added to this resource.
 - `"TransitEncryptionEnabled"`: A flag that enables in-transit encryption when set to true.
-   Only available when creating a cache cluster in an Amazon VPC using Memcached version
-  1.6.12 or later.
 """
 function create_cache_cluster(
     CacheClusterId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -531,7 +529,7 @@ Groups in the ElastiCache User Guide.
 # Arguments
 - `cache_parameter_group_family`: The name of the cache parameter group family that the
   cache parameter group can be used with. Valid values are: memcached1.4 | memcached1.5 |
-  memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x
+  memcached1.6 | redis2.6 | redis2.8 | redis3.2 | redis4.0 | redis5.0 | redis6.x | redis7
 - `cache_parameter_group_name`: A user-specified name for the cache parameter group.
 - `description`: A user-specified description for the cache parameter group.
 
@@ -869,6 +867,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replication group.  If you're going to launch your cluster in an Amazon VPC, you need to
   create a subnet group before you start creating a cluster. For more information, see
   Subnets and Subnet Groups.
+- `"ClusterMode"`: Enabled or Disabled. To modify cluster mode from Disabled to Enabled,
+  you must first set the cluster mode to Compatible. Compatible mode allows your Redis
+  clients to connect using both cluster mode enabled and cluster mode disabled. After you
+  migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode
+  configuration and set the cluster mode to Enabled.
 - `"DataTieringEnabled"`: Enables data tiering. Data tiering is only supported for
   replication groups using the r6gd node type. This parameter must be set to true when using
   r6gd nodes. For more information, see Data tiering.
@@ -973,8 +976,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encrypted and unencrypted connections at the same time. Once you migrate all your Redis
   clients to use encrypted connections you can modify the value to required to allow
   encrypted connections only. Setting TransitEncryptionMode to required is a two-step process
-  that requires you to first set the TransitEncryptionMode to preferred first, after that you
-  can set TransitEncryptionMode to required.
+  that requires you to first set the TransitEncryptionMode to preferred, after that you can
+  set TransitEncryptionMode to required. This process will not trigger the replacement of the
+  replication group.
 - `"UserGroupIds"`: The user group to associate with the replication group.
 """
 function create_replication_group(
@@ -3123,6 +3127,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   possible. This parameter can be used only with replication group containing clusters
   running outside of an Amazon Virtual Private Cloud (Amazon VPC). Constraints: Must contain
   no more than 255 alphanumeric characters. Must not be Default.
+- `"ClusterMode"`: Enabled or Disabled. To modify cluster mode from Disabled to Enabled,
+  you must first set the cluster mode to Compatible. Compatible mode allows your Redis
+  clients to connect using both cluster mode enabled and cluster mode disabled. After you
+  migrate all Redis clients to use cluster mode enabled, you can then complete cluster mode
+  configuration and set the cluster mode to Enabled.
 - `"EngineVersion"`: The upgraded version of the cache engine to be run on the clusters in
   the replication group.  Important: You can upgrade to a newer engine version (see Selecting
   a Cache Engine and Version), but you cannot downgrade to an earlier engine version. If you
@@ -3176,8 +3185,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allow both encrypted and unencrypted connections at the same time. Once you migrate all
   your Redis clients to use encrypted connections you can set the value to required to allow
   encrypted connections only. Setting TransitEncryptionMode to required is a two-step process
-  that requires you to first set the TransitEncryptionMode to preferred first, after that you
-  can set TransitEncryptionMode to required.
+  that requires you to first set the TransitEncryptionMode to preferred, after that you can
+  set TransitEncryptionMode to required.
 - `"UserGroupIdsToAdd"`: The ID of the user group you are associating with the replication
   group.
 - `"UserGroupIdsToRemove"`: The ID of the user group to disassociate from the replication

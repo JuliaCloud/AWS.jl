@@ -2673,6 +2673,12 @@ cluster, except that the new cluster is created with the default security group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AvailabilityZones"`: Provides the list of Amazon EC2 Availability Zones that instances
   in the restored DB cluster can be created in.
+- `"DBClusterParameterGroupName"`: The name of the DB cluster parameter group to associate
+  with this DB cluster.  Type: String.       Required: No. If this argument is omitted,
+  the default DB cluster parameter group is used. If supplied, must match the name of an
+  existing default DB cluster parameter group. The string must consist of from 1 to 255
+  letters, numbers or hyphens. Its first character must be a letter, and it cannot end with a
+  hyphen or contain two consecutive hyphens.
 - `"DBSubnetGroupName"`: The name of the subnet group to use for the new cluster.
   Constraints: If provided, must match the name of an existing DBSubnetGroup. Example:
   mySubnetgroup
@@ -2790,8 +2796,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RestoreType"`: The type of restore to be performed. You can specify one of the
   following values:    full-copy - The new DB cluster is restored as a full copy of the
   source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the
-  source DB cluster.   If you don't specify a RestoreType value, then the new DB cluster is
-  restored as a full copy of the source DB cluster.
+  source DB cluster.   Constraints: You can't specify copy-on-write if the engine version of
+  the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then
+  the new DB cluster is restored as a full copy of the source DB cluster.
 - `"Tags"`: The tags to be assigned to the restored cluster.
 - `"UseLatestRestorableTime"`: A value that is set to true to restore the cluster to the
   latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be

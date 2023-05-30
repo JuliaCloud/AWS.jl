@@ -51,7 +51,9 @@ scaling policy in the Application Auto Scaling User Guide.
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
-  name. Example: cluster:mycluster.
+  name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
+  variant and the unique identifier is the resource ID. Example:
+  endpoint/my-end-point/variant/KMeansClustering.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -80,6 +82,8 @@ scaling policy in the Application Auto Scaling User Guide.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
+  sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
+  SageMaker Serverless endpoint.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
@@ -174,7 +178,9 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
-  name. Example: cluster:mycluster.
+  name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
+  variant and the unique identifier is the resource ID. Example:
+  endpoint/my-end-point/variant/KMeansClustering.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -203,6 +209,8 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
+  sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
+  SageMaker Serverless endpoint.
 - `scheduled_action_name`: The name of the scheduled action.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
@@ -300,7 +308,9 @@ with it.
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
-  name. Example: cluster:mycluster.
+  name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
+  variant and the unique identifier is the resource ID. Example:
+  endpoint/my-end-point/variant/KMeansClustering.
 - `scalable_dimension`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property.
   ecs:service:DesiredCount - The desired task count of an ECS service.
@@ -330,6 +340,8 @@ with it.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
+  sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
+  SageMaker Serverless endpoint.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
@@ -432,7 +444,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
-  name. Example: cluster:mycluster.
+  name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
+  variant and the unique identifier is the resource ID. Example:
+  endpoint/my-end-point/variant/KMeansClustering.
 - `"ScalableDimension"`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property. If you
   specify a scalable dimension, you must also specify a resource ID.
@@ -463,6 +477,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
+  sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
+  SageMaker Serverless endpoint.
 """
 function describe_scalable_targets(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
@@ -553,7 +569,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
-  name. Example: cluster:mycluster.
+  name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
+  variant and the unique identifier is the resource ID. Example:
+  endpoint/my-end-point/variant/KMeansClustering.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
@@ -583,6 +601,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
+  sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
+  SageMaker Serverless endpoint.
 """
 function describe_scaling_activities(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
@@ -669,7 +689,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
-  name. Example: cluster:mycluster.
+  name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
+  variant and the unique identifier is the resource ID. Example:
+  endpoint/my-end-point/variant/KMeansClustering.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
@@ -699,6 +721,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
+  sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
+  SageMaker Serverless endpoint.
 """
 function describe_scaling_policies(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
@@ -784,7 +808,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
-  name. Example: cluster:mycluster.
+  name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
+  variant and the unique identifier is the resource ID. Example:
+  endpoint/my-end-point/variant/KMeansClustering.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
@@ -814,6 +840,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
+  sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
+  SageMaker Serverless endpoint.
 - `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
 function describe_scheduled_actions(
@@ -947,7 +975,9 @@ scaling policies that were specified for the scalable target are deleted.
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
-  name. Example: cluster:mycluster.
+  name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
+  variant and the unique identifier is the resource ID. Example:
+  endpoint/my-end-point/variant/KMeansClustering.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -976,6 +1006,8 @@ scaling policies that were specified for the scalable target are deleted.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
+  sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
+  SageMaker Serverless endpoint.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
@@ -1092,7 +1124,9 @@ scheduled actions that were specified for the scalable target are deleted.
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
-  name. Example: cluster:mycluster.
+  name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
+  variant and the unique identifier is the resource ID. Example:
+  endpoint/my-end-point/variant/KMeansClustering.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -1121,6 +1155,8 @@ scheduled actions that were specified for the scalable target are deleted.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
+  sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
+  SageMaker Serverless endpoint.
 - `scheduled_action_name`: The name of the scheduled action. This name must be unique among
   all other scheduled actions on the specified scalable target.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
@@ -1263,7 +1299,9 @@ even if you don't include the MinCapacity or MaxCapacity request parameters.
   2e31-5.   Amazon ElastiCache replication group - The resource type is replication-group and
   the unique identifier is the replication group name. Example: replication-group/mycluster.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
-  name. Example: cluster:mycluster.
+  name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
+  variant and the unique identifier is the resource ID. Example:
+  endpoint/my-end-point/variant/KMeansClustering.
 - `scalable_dimension`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property.
   ecs:service:DesiredCount - The desired task count of an ECS service.
@@ -1293,6 +1331,8 @@ even if you don't include the MinCapacity or MaxCapacity request parameters.
   elasticache:replication-group:Replicas - The number of replicas per node group for an
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
+  sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
+  SageMaker Serverless endpoint.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
@@ -1313,13 +1353,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   capacity limit in response to changing demand. This property is required when registering a
   new scalable target. For the following resources, the minimum value allowed is 0.
   AppStream 2.0 fleets    Aurora DB clusters   ECS services   EMR clusters   Lambda
-  provisioned concurrency   SageMaker endpoint variants   Spot Fleets   custom resources
-  It's strongly recommended that you specify a value greater than 0. A value greater than 0
-  means that data points are continuously reported to CloudWatch that scaling policies can
-  use to scale on a metric like average CPU utilization. For all other resources, the minimum
-  allowed value depends on the type of resource that you are using. If you provide a value
-  that is lower than what a resource can accept, an error occurs. In which case, the error
-  message will provide the minimum value that the resource can accept.
+  provisioned concurrency   SageMaker endpoint variants   SageMaker Serverless endpoint
+  provisioned concurrency   Spot Fleets   custom resources   It's strongly recommended that
+  you specify a value greater than 0. A value greater than 0 means that data points are
+  continuously reported to CloudWatch that scaling policies can use to scale on a metric like
+  average CPU utilization. For all other resources, the minimum allowed value depends on the
+  type of resource that you are using. If you provide a value that is lower than what a
+  resource can accept, an error occurs. In which case, the error message will provide the
+  minimum value that the resource can accept.
 - `"RoleARN"`: This parameter is required for services that do not support service-linked
   roles (such as Amazon EMR), and it must specify the ARN of an IAM role that allows
   Application Auto Scaling to modify the scalable target on your behalf.  If the service
@@ -1405,13 +1446,13 @@ the Application Auto Scaling User Guide.
   apply tags to. For example:
   arn:aws:application-autoscaling:us-east-1:123456789012:scalable-target/1234abcd56ab78cd901ef
   1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
-- `tags`: The tags assigned to the resource. A tag is a label that you assign to an AWS
-  resource. Each tag consists of a tag key and a tag value. You cannot have more than one tag
-  on an Application Auto Scaling scalable target with the same tag key. If you specify an
-  existing tag key with a different tag value, Application Auto Scaling replaces the current
-  tag value with the specified one. For information about the rules that apply to tag keys
-  and tag values, see User-defined tag restrictions in the Amazon Web Services Billing and
-  Cost Management User Guide.
+- `tags`: The tags assigned to the resource. A tag is a label that you assign to an Amazon
+  Web Services resource. Each tag consists of a tag key and a tag value. You cannot have more
+  than one tag on an Application Auto Scaling scalable target with the same tag key. If you
+  specify an existing tag key with a different tag value, Application Auto Scaling replaces
+  the current tag value with the specified one. For information about the rules that apply to
+  tag keys and tag values, see User-defined tag restrictions in the Amazon Web Services
+  Billing and Cost Management User Guide.
 
 """
 function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
