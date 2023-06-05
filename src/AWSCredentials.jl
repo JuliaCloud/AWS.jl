@@ -462,6 +462,15 @@ function sso_credentials(profile=nothing)
         settings = _aws_profile_config(ini, p)
         isempty(settings) && return nothing
 
+        # AWS IAM Identity Center authentication is not yet supported in AWS.jl
+        sso_session = get(settings, "sso_session", nothing)
+        if !isnothing(sso_session)
+            error("IAM Identity Center authentication is not yet supported by AWS.jl. " *
+                  "See https://github.com/JuliaCloud/AWS.jl/issues/628")
+        end
+
+        # Legacy SSO configuration
+        # https://docs.aws.amazon.com/cli/latest/userguide/sso-configure-profile-legacy.html#sso-configure-profile-manual
         sso_start_url = get(settings, "sso_start_url", nothing)
 
         if !isnothing(sso_start_url)
