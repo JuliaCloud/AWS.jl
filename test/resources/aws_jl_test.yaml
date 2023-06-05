@@ -34,9 +34,12 @@ Resources:
             Condition:
               StringEquals:
                 token.actions.githubusercontent.com:aud: sts.amazonaws.com
-                token.actions.githubusercontent.com:sub:
-                    - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/trying
-                    - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/staging
+                # token.actions.githubusercontent.com:sub:
+                #     - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/trying
+                #     - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/staging
+              StringLike:
+                token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrg}/${GitHubRepo}:*
+
 
   StackInfoPolicy:
     Type: AWS::IAM::ManagedPolicy
