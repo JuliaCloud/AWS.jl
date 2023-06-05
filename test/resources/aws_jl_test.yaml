@@ -29,6 +29,9 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
+              # Requires that an Identify Provider has been manually added in the AWS account.
+              # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html#manage-oidc-provider-console
+              # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-the-identity-provider-to-aws
               Federated: !Sub arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com
             Action: sts:AssumeRoleWithWebIdentity
             Condition:
@@ -39,7 +42,6 @@ Resources:
                 #     - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/staging
               StringLike:
                 token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrg}/${GitHubRepo}:*
-
 
   StackInfoPolicy:
     Type: AWS::IAM::ManagedPolicy
