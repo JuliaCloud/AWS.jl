@@ -22,16 +22,15 @@
     @testset "default profile section names" begin
         allowed_default_sections = ["default", "profile default"]
         mktemp() do config_path, _
-            withenv(
-                [k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...,
-            ) do
+            withenv([k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...) do
                 for default_section_str in allowed_default_sections
                     config = """
                     [$default_section_str]
                     region = xx-yy-1
                     """
                     write(config_path, config)
-                    @test aws_get_region(; profile="default", config=config_path) == "xx-yy-1"
+                    region = aws_get_region(; profile="default", config=config_path)
+                    @test region == "xx-yy-1"
                 end
             end
         end
