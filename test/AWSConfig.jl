@@ -7,10 +7,9 @@
         patch = Patches._assume_role_patch("AssumeRole"; access_key=access_key_id)
 
         config = withenv(
+            [k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...,
             "AWS_CONFIG_FILE" => joinpath(config_dir, "config"),
             "AWS_SHARED_CREDENTIALS_FILE" => joinpath(config_dir, "credentials"),
-            "AWS_ACCESS_KEY_ID" => nothing,
-            "AWS_SECRET_ACCESS_KEY" => nothing,
         ) do
             apply(patch) do
                 AWSConfig(; profile="default")
@@ -23,13 +22,17 @@
     @testset "default profile section names" begin
         allowed_default_sections = ["default", "profile default"]
         mktemp() do config_path, _
-            for default_section_str in allowed_default_sections
-                config = """
-                [$default_section_str]
-                region = xx-yy-1
-                """
-                write(config_path, config)
-                @test aws_get_region(; profile="default", config=config_path) == "xx-yy-1"
+            withenv(
+                [k => nothing for k in filter(startswith("AWS_"), keys(ENV))]...,
+            ) do
+                for default_section_str in allowed_default_sections
+                    config = """
+                    [$default_section_str]
+                    region = xx-yy-1
+                    """
+                    write(config_path, config)
+                    @test aws_get_region(; profile="default", config=config_path) == "xx-yy-1"
+                end
             end
         end
     end
