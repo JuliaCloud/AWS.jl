@@ -45,7 +45,7 @@ jobs:
       - name: Assume AWS role
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: arn:aws:iam::{{ secret.AWS_ACCOUNT_ID }}:role/AWS.jl
+          role-to-assume: arn:aws:iam::{{ secrets.AWS_ACCOUNT_ID }}:role/AWS.jl
           aws-region: us-east-1
       - name: MinIO server setup
         run: |
