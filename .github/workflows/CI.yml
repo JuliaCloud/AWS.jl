@@ -42,10 +42,6 @@ jobs:
       MINIO_REGION_NAME: aregion
     steps:
       - uses: actions/checkout@v2
-      - name: Show JWT from GH OIDC
-        run: |
-          curl -s -H "Authorization: Bearer $ACTIONS_ID_TOKEN_REQUEST_TOKEN" "$ACTIONS_ID_TOKEN_REQUEST_URL&audience=sts.amazonaws.com" | tee JSON
-          echo "$JSON" | jq -r .value | cut -d. -f2 | base64 -d | jq
       - name: Assume AWS role
         uses: aws-actions/configure-aws-credentials@v2
         with:
