@@ -576,6 +576,29 @@ end
                     end
                 end
 
+                # TODO: Additional, precedence tests should be added for IAM Identity Center
+                # once support has been introduced.
+                @testset "IAM Identity Center preferred over legacy SSO" begin
+                    write(
+                        config_file,
+                        """
+                        [sso-session my-sso]
+                        sso_region = us-east-1
+                        sso_start_url = https://my-sso-portal.awsapps.com/start
+
+                        [default]
+                        sso_session = my-sso
+                        sso_start_url = https://my-legacy-sso-portal.awsapps.com/start
+                        sso_role_name = role1
+                        """,
+                    )
+                    isfile(creds_file) && rm(creds_file)
+
+                    apply(Patches.sso_service_patches("AKI_SSO", "SAK_SSO")) do
+                        @test_throws ErrorException AWSCredentials()
+                    end
+                end
+
                 @testset "SSO preferred over credentials file" begin
                     write(
                         config_file,
