@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 1
+          - "1"  # Latest release
         os:
           - ubuntu-latest
           - macOS-latest
@@ -31,7 +31,7 @@ jobs:
         include:
           # Add a job using the earliest version of Julia supported by this package
           - os: ubuntu-latest
-            version: 1.6
+            version: "1.6"
             arch: x64
     env:
       MINIO_ACCESS_KEY: minio
