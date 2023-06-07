@@ -37,10 +37,12 @@ Resources:
             Condition:
               StringEquals:
                 token.actions.githubusercontent.com:aud: sts.amazonaws.com
+              StringLike:
+                # Allow pull requests, the master branch, and any tag to assume this role
                 token.actions.githubusercontent.com:sub:
-                    - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/trying
-                    - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/staging
-                    - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/master
+                  - !Sub repo:${GitHubOrg}/${GitHubRepo}:pull_request
+                  - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/master
+                  - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/tags/*
 
   StackInfoPolicy:
     Type: AWS::IAM::ManagedPolicy
