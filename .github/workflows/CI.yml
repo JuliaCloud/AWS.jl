@@ -1,11 +1,9 @@
 name: CI
-# Run on master, any tag or any pull request
 on:
+  pull_request:
   push:
     branches:
       - master
-      - staging
-      - trying
     tags: '*'
   schedule:
     - cron: '0 2 * * *'  # Daily at 2 a.m. UTC
