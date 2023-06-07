@@ -1,4 +1,4 @@
-👋 hi curt!
+👋 hi curt! goodbye
 
 ## AWS.jl
 
