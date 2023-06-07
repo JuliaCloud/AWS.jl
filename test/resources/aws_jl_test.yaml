@@ -1,20 +1,53 @@
+# `aws cloudformation create-stack --stack-name AWS-jl-test --template-body file://aws_jl_test.yaml --capabilities CAPABILITY_NAMED_IAM`
 ---
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
   A stack for testing AWS.jl from public CI
 
 Parameters:
-  PublicCIUser:
-    Description: User which can assume the testing role
+  GitHubOrg:
+    Description: GitHub organization used as part of assuming the CI role
     Type: String
+    AllowedPattern: ^[\w.-]+$
+    Default: JuliaCloud
+
+  GitHubRepo:
+    Description: GitHub repository used as part of assuming the CI role
+    Type: String
+    AllowedPattern: ^[\w.-]+$
+    Default: AWS.jl
+
 
 Resources:
+  PublicCIRole:
+    Type: AWS::IAM::Role
+    Properties:
+      Description: Role used for testing
+      RoleName: !Ref GitHubRepo
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              # Requires that an Identify Provider has been manually added in the AWS account.
+              # https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_create_oidc.html#manage-oidc-provider-console
+              # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-the-identity-provider-to-aws
+              Federated: !Sub arn:aws:iam::${AWS::AccountId}:oidc-provider/token.actions.githubusercontent.com
+            Action: sts:AssumeRoleWithWebIdentity
+            Condition:
+              StringEquals:
+                token.actions.githubusercontent.com:aud: sts.amazonaws.com
+                token.actions.githubusercontent.com:sub:
+                    - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/trying
+                    - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/staging
+                    - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/master
+
   StackInfoPolicy:
     Type: AWS::IAM::ManagedPolicy
     Properties:
       Description: Allow access to stack outputs
-      Users:
-        - !Ref PublicCIUser
+      Roles:
+        - !Ref PublicCIRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -22,12 +55,12 @@ Resources:
             Action: cloudformation:DescribeStacks
             Resource: !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}/*
 
-  IAMPolicy:
+  IAMTestPolicy:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: IAMPolicy
-      Users:
-        - !Ref PublicCIUser
+      PolicyName: !Sub ${GitHubRepo}-IAMTestPolicy
+      Roles:
+        - !Ref PublicCIRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -38,12 +71,12 @@ Resources:
               - iam:DeletePolicy
             Resource:
               - !Sub arn:aws:iam::${AWS::AccountId}:policy/aws-jl-test-*
-  SecretsManagerPolicy:
+  SecretsManagerTestPolicy:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: SecretsManagerTestPolicy
-      Users:
-        - !Ref PublicCIUser
+      PolicyName: !Sub ${GitHubRepo}-SecretsManagerTestPolicy
+      Roles:
+        - !Ref PublicCIRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -58,9 +91,9 @@ Resources:
   GlacierTestPolicy:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: GlacierTestPolicy
-      Users:
-        - !Ref PublicCIUser
+      PolicyName: !Sub ${GitHubRepo}-GlacierTestPolicy
+      Roles:
+        - !Ref PublicCIRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -77,9 +110,9 @@ Resources:
   S3TestPolicy:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: S3TestPolicy
-      Users:
-        - !Ref PublicCIUser
+      PolicyName: !Sub ${GitHubRepo}-S3TestPolicy
+      Roles:
+        - !Ref PublicCIRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
@@ -116,9 +149,9 @@ Resources:
   SQSTestPolicy:
     Type: AWS::IAM::Policy
     Properties:
-      PolicyName: SQSTestPolicy
-      Users:
-        - !Ref PublicCIUser
+      PolicyName: !Sub ${GitHubRepo}-SQSTestPolicy
+      Roles:
+        - !Ref PublicCIRole
       PolicyDocument:
         Version: 2012-10-17
         Statement:
