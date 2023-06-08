@@ -5816,7 +5816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeAllDependencies"`: A Boolean that determines whether all dependencies of each
   resource ARN are recursively exported with the job. For example, say you provided a
   Dashboard ARN to the ResourceArns parameter. If you set IncludeAllDependencies to TRUE, any
-  theme, dataset, and dataource resource that is a dependency of the dashboard is also
+  theme, dataset, and data source resource that is a dependency of the dashboard is also
   exported.
 """
 function start_asset_bundle_export_job(
@@ -5890,7 +5890,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FailureAction"`: The failure action for the import job. If you choose ROLLBACK, failed
   import jobs will attempt to undo any asset changes caused by the failed job. If you choose
   DO_NOTHING, failed import jobs will not attempt to roll back any asset changes caused by
-  the failed job, possibly leaving the Amazon QuickSight account in an inconsistent state.
+  the failed job, possibly keeping the Amazon QuickSight account in an inconsistent state.
 - `"OverrideParameters"`: Optional overrides to be applied to the resource configuration
   before import.
 """

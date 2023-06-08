@@ -134,6 +134,76 @@ function describe_signing_job(
 end
 
 """
+    get_revocation_status(certificate_hashes, job_arn, platform_id, profile_version_arn, signature_timestamp)
+    get_revocation_status(certificate_hashes, job_arn, platform_id, profile_version_arn, signature_timestamp, params::Dict{String,<:Any})
+
+Retrieves the revocation status of one or more of the signing profile, signing job, and
+signing certificate.
+
+# Arguments
+- `certificate_hashes`: A list of composite signed hashes that identify certificates. A
+  certificate identifier consists of a subject certificate TBS hash (signed by the parent CA)
+  combined with a parent CA TBS hash (signed by the parent CA’s CA). Root certificates are
+  defined as their own CA.
+- `job_arn`: The ARN of a signing job.
+- `platform_id`: The ID of a signing platform.
+- `profile_version_arn`: The version of a signing profile.
+- `signature_timestamp`: The timestamp of the signature that validates the profile or job.
+
+"""
+function get_revocation_status(
+    certificateHashes,
+    jobArn,
+    platformId,
+    profileVersionArn,
+    signatureTimestamp;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return signer(
+        "GET",
+        "/revocations",
+        Dict{String,Any}(
+            "certificateHashes" => certificateHashes,
+            "jobArn" => jobArn,
+            "platformId" => platformId,
+            "profileVersionArn" => profileVersionArn,
+            "signatureTimestamp" => signatureTimestamp,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_revocation_status(
+    certificateHashes,
+    jobArn,
+    platformId,
+    profileVersionArn,
+    signatureTimestamp,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return signer(
+        "GET",
+        "/revocations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateHashes" => certificateHashes,
+                    "jobArn" => jobArn,
+                    "platformId" => platformId,
+                    "profileVersionArn" => profileVersionArn,
+                    "signatureTimestamp" => signatureTimestamp,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_signing_platform(platform_id)
     get_signing_platform(platform_id, params::Dict{String,<:Any})
 
@@ -403,8 +473,7 @@ end
     put_signing_profile(platform_id, profile_name, params::Dict{String,<:Any})
 
 Creates a signing profile. A signing profile is a code signing template that can be used to
-carry out a pre-defined signing job. For more information, see
-http://docs.aws.amazon.com/signer/latest/developerguide/gs-profile.html
+carry out a pre-defined signing job.
 
 # Arguments
 - `platform_id`: The ID of the signing platform to be created.
@@ -595,20 +664,75 @@ function revoke_signing_profile(
 end
 
 """
+    sign_payload(payload, payload_format, profile_name)
+    sign_payload(payload, payload_format, profile_name, params::Dict{String,<:Any})
+
+Signs a binary payload and returns a signature envelope.
+
+# Arguments
+- `payload`: Specifies the object digest (hash) to sign.
+- `payload_format`: Payload content type
+- `profile_name`: The name of the signing profile.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"profileOwner"`: The AWS account ID of the profile owner.
+"""
+function sign_payload(
+    payload, payloadFormat, profileName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return signer(
+        "POST",
+        "/signing-jobs/with-payload",
+        Dict{String,Any}(
+            "payload" => payload,
+            "payloadFormat" => payloadFormat,
+            "profileName" => profileName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function sign_payload(
+    payload,
+    payloadFormat,
+    profileName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return signer(
+        "POST",
+        "/signing-jobs/with-payload",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "payload" => payload,
+                    "payloadFormat" => payloadFormat,
+                    "profileName" => profileName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_signing_job(client_request_token, destination, profile_name, source)
     start_signing_job(client_request_token, destination, profile_name, source, params::Dict{String,<:Any})
 
 Initiates a signing job to be performed on the code provided. Signing jobs are viewable by
 the ListSigningJobs operation for two years after they are performed. Note the following
 requirements:     You must create an Amazon S3 source bucket. For more information, see
-Create a Bucket in the Amazon S3 Getting Started Guide.    Your S3 source bucket must be
+Creating a Bucket in the Amazon S3 Getting Started Guide.    Your S3 source bucket must be
 version enabled.   You must create an S3 destination bucket. Code signing uses your S3
 destination bucket to write your signed code.   You specify the name of the source and
 destination buckets when calling the StartSigningJob operation.   You must also specify a
 request token that identifies your request to code signing.   You can call the
 DescribeSigningJob and the ListSigningJobs actions after you call StartSigningJob. For a
-Java example that shows how to use this action, see
-http://docs.aws.amazon.com/acm/latest/userguide/
+Java example that shows how to use this action, see StartSigningJob.
 
 # Arguments
 - `client_request_token`: String that identifies the signing request. All calls after the

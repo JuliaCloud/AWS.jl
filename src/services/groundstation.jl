@@ -566,7 +566,7 @@ end
     get_minute_usage(month, year)
     get_minute_usage(month, year, params::Dict{String,<:Any})
 
-Returns the number of minutes used by account.
+Returns the number of reserved minutes used by account.
 
 # Arguments
 - `month`: The month being requested, with a value of 1-12.

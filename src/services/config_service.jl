@@ -1201,9 +1201,9 @@ end
 Returns the current status of the specified configuration recorder as well as the status of
 the last recording event for the recorder. If a configuration recorder is not specified,
 this action returns the status of all configuration recorders associated with the account.
-Currently, you can specify only one configuration recorder per region in your account. For
-a detailed status of recording events over time, add your Config events to Amazon
-CloudWatch metrics and use CloudWatch metrics.
+&gt;You can specify only one configuration recorder for each Amazon Web Services Region for
+each account. For a detailed status of recording events over time, add your Config events
+to Amazon CloudWatch metrics and use CloudWatch metrics.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1237,8 +1237,8 @@ end
 
 Returns the details for the specified configuration recorders. If the configuration
 recorder is not specified, this action returns the details for all configuration recorders
-associated with the account.  Currently, you can specify only one configuration recorder
-per region in your account.
+associated with the account.  You can specify only one configuration recorder for each
+Amazon Web Services Region for each account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3177,16 +3177,16 @@ end
     put_configuration_recorder(configuration_recorder)
     put_configuration_recorder(configuration_recorder, params::Dict{String,<:Any})
 
-Creates a new configuration recorder to record the selected resource configurations. You
-can use this action to change the role roleARN or the recordingGroup of an existing
-recorder. To change the role, call the action on the existing configuration recorder and
-specify a role.  Currently, you can specify only one configuration recorder per region in
-your account. If ConfigurationRecorder does not have the recordingGroup parameter
-specified, the default is to record all supported resource types.
+Creates a new configuration recorder to record configuration changes for specified resource
+types. You can also use this action to change the roleARN or the recordingGroup of an
+existing recorder. For more information, see  Managing the Configuration Recorder  in the
+Config Developer Guide.  You can specify only one configuration recorder for each Amazon
+Web Services Region for each account. If the configuration recorder does not have the
+recordingGroup field specified, the default is to record all supported resource types.
 
 # Arguments
-- `configuration_recorder`: The configuration recorder object that records each
-  configuration change made to the resources.
+- `configuration_recorder`: An object for the configuration recorder to record
+  configuration changes for specified resource types.
 
 """
 function put_configuration_recorder(

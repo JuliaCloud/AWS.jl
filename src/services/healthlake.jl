@@ -18,6 +18,8 @@ Creates a Data Store that can ingest and export FHIR formatted data.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Optional user provided token used for ensuring idempotency.
 - `"DatastoreName"`: The user generated name for the Data Store.
+- `"IdentityProviderConfiguration"`: The configuration of the identity provider that you
+  want to use for your Data Store.
 - `"PreloadDataConfig"`: Optional parameter to preload data upon creation of the Data
   Store. Currently, the only supported preloaded data is synthetic data generated from
   Synthea.
@@ -60,55 +62,72 @@ function create_fhirdatastore(
 end
 
 """
-    delete_fhirdatastore()
-    delete_fhirdatastore(params::Dict{String,<:Any})
+    delete_fhirdatastore(datastore_id)
+    delete_fhirdatastore(datastore_id, params::Dict{String,<:Any})
 
 Deletes a Data Store.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DatastoreId"`:  The AWS-generated ID for the Data Store to be deleted.
+# Arguments
+- `datastore_id`:  The AWS-generated ID for the Data Store to be deleted.
+
 """
-function delete_fhirdatastore(; aws_config::AbstractAWSConfig=global_aws_config())
-    return healthlake(
-        "DeleteFHIRDatastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function delete_fhirdatastore(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    DatastoreId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return healthlake(
         "DeleteFHIRDatastore",
-        params;
+        Dict{String,Any}("DatastoreId" => DatastoreId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_fhirdatastore(
+    DatastoreId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return healthlake(
+        "DeleteFHIRDatastore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatastoreId" => DatastoreId), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    describe_fhirdatastore()
-    describe_fhirdatastore(params::Dict{String,<:Any})
+    describe_fhirdatastore(datastore_id)
+    describe_fhirdatastore(datastore_id, params::Dict{String,<:Any})
 
 Gets the properties associated with the FHIR Data Store, including the Data Store ID, Data
 Store ARN, Data Store name, Data Store status, created at, Data Store type version, and
 Data Store endpoint.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DatastoreId"`: The AWS-generated Data Store id. This is part of the
-  ‘CreateFHIRDatastore’ output.
+# Arguments
+- `datastore_id`: The AWS-generated Data Store ID.
+
 """
-function describe_fhirdatastore(; aws_config::AbstractAWSConfig=global_aws_config())
-    return healthlake(
-        "DescribeFHIRDatastore"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
 function describe_fhirdatastore(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    DatastoreId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return healthlake(
         "DescribeFHIRDatastore",
-        params;
+        Dict{String,Any}("DatastoreId" => DatastoreId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_fhirdatastore(
+    DatastoreId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return healthlake(
+        "DescribeFHIRDatastore",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DatastoreId" => DatastoreId), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -499,7 +518,7 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
- Adds a user specifed key and value tag to a Data Store.
+ Adds a user specified key and value tag to a Data Store.
 
 # Arguments
 - `resource_arn`:  The Amazon Resource Name(ARN)that gives Amazon HealthLake access to the

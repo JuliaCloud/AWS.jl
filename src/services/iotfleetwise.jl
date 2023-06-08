@@ -141,6 +141,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"compression"`:  (Optional) Whether to compress signals before transmitting data to
   Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If
   it's not specified, SNAPPY is used.  Default: SNAPPY
+- `"dataDestinationConfigs"`: The destination where the campaign sends data. You can choose
+  to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost
+  of data storage and provides additional mechanisms to use vehicle data, such as data lakes,
+  centralized data storage, data processing pipelines, and analytics.  You can use Amazon
+  Timestream to access and analyze time series data, and Timestream to query vehicle data so
+  that you can identify trends and patterns.
 - `"dataExtraDimensions"`:  (Optional) A list of vehicle attributes to associate with a
   campaign.  Enrich the data with specified vehicle attributes. For example, add make and
   model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with
@@ -151,7 +157,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services IoT FleetWise. If you want to send diagnostic trouble codes, use
   SEND_ACTIVE_DTCS. If it's not specified, OFF is used. Default: OFF
 - `"expiryTime"`:  (Optional) The time the campaign expires, in seconds since epoch
-  (January 1, 1970 at midnight UTC time). Vehicle data won't be collected after the campaign
+  (January 1, 1970 at midnight UTC time). Vehicle data isn't collected after the campaign
   expires.  Default: 253402214400 (December 31, 9999, 00:00:00 UTC)
 - `"postTriggerCollectionDuration"`:  (Optional) How long (in milliseconds) to collect raw
   data after a triggering event initiates the collection. If it's not specified, 0 is used.
@@ -409,7 +415,7 @@ end
 
  Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles
 created from the same vehicle model consist of the same signals inherited from the vehicle
-model.   If you have an existing Amazon Web Services IoT Thing, you can use Amazon Web
+model.   If you have an existing Amazon Web Services IoT thing, you can use Amazon Web
 Services IoT FleetWise to create a vehicle and collect data from your thing.   For more
 information, see Create a vehicle (AWS CLI) in the Amazon Web Services IoT FleetWise
 Developer Guide.
@@ -425,7 +431,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating a vehicle, or to validate an existing Amazon Web Services IoT thing as a vehicle.
   Default:
 - `"attributes"`: Static information about a vehicle in a key-value pair. For example:
-  \"engineType\" : \"1.3 L R2\"
+  \"engineType\" : \"1.3 L R2\"  A campaign must include the keys (attribute names) in
+  dataExtraDimensions for them to display in Amazon Timestream.
 - `"tags"`: Metadata that can be used to manage the vehicle.
 """
 function create_vehicle(
@@ -1556,52 +1563,51 @@ function put_logging_options(
 end
 
 """
-    register_account(timestream_resources)
-    register_account(timestream_resources, params::Dict{String,<:Any})
+    register_account()
+    register_account(params::Dict{String,<:Any})
 
-Registers your Amazon Web Services account, IAM, and Amazon Timestream resources so Amazon
-Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud.
-For more information, including step-by-step procedures, see Setting up Amazon Web Services
-IoT FleetWise.   An Amazon Web Services account is not the same thing as a \"user
-account\". An Amazon Web Services user is an identity that you create using Identity and
-Access Management (IAM) and takes the form of either an IAM user or an IAM role, both with
-credentials. A single Amazon Web Services account can, and typically does, contain many
-users and roles.
-
-# Arguments
-- `timestream_resources`:
+ This API operation contains deprecated parameters. Register your account again without the
+Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the
+Timestream metadata stored. You should then pass the data destination into the
+CreateCampaign API operation. You must delete any existing campaigns that include an empty
+data destination before you register your account again. For more information, see the
+DeleteCampaign API operation. If you want to delete the Timestream inline policy from the
+service-linked role, such as to mitigate an overly permissive policy, you must first delete
+any existing campaigns. Then delete the service-linked role and register your account again
+to enable CloudWatch metrics. For more information, see DeleteServiceLinkedRole in the
+Identity and Access Management API Reference.   &lt;p&gt;Registers your Amazon Web Services
+account, IAM, and Amazon Timestream resources so Amazon Web Services IoT FleetWise can
+transfer your vehicle data to the Amazon Web Services Cloud. For more information,
+including step-by-step procedures, see &lt;a
+href=&quot;https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html&q
+uot;&gt;Setting up Amazon Web Services IoT FleetWise&lt;/a&gt;. &lt;/p&gt; &lt;note&gt;
+&lt;p&gt;An Amazon Web Services account is &lt;b&gt;not&lt;/b&gt; the same thing as a
+&quot;user.&quot; An &lt;a
+href=&quot;https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_identity-management
+.html#intro-identity-users&quot;&gt;Amazon Web Services user&lt;/a&gt; is an identity that
+you create using Identity and Access Management (IAM) and takes the form of either an &lt;a
+href=&quot;https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html&quot;&gt;IAM
+user&lt;/a&gt; or an &lt;a
+href=&quot;https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html&quot;&gt;IAM
+role, both with credentials&lt;/a&gt;. A single Amazon Web Services account can, and
+typically does, contain many users and roles.&lt;/p&gt; &lt;/note&gt;
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"iamResources"`: The IAM resource that allows Amazon Web Services IoT FleetWise to send
   data to Amazon Timestream.
+- `"timestreamResources"`:
 """
-function register_account(
-    timestreamResources; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function register_account(; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
-        "RegisterAccount",
-        Dict{String,Any}("timestreamResources" => timestreamResources);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "RegisterAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function register_account(
-    timestreamResources,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iotfleetwise(
-        "RegisterAccount",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("timestreamResources" => timestreamResources),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "RegisterAccount", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1695,8 +1701,10 @@ end
 # Arguments
 - `action`:  Specifies how to update a campaign. The action can be one of the following:
   APPROVE - To approve delivering a data collection scheme to vehicles.     SUSPEND - To
-  suspend collecting signal data.     RESUME - To resume collecting signal data.     UPDATE -
-  To update a campaign.
+  suspend collecting signal data. The campaign is deleted from vehicles and all vehicles in
+  the suspended campaign will stop sending data.    RESUME - To reactivate the SUSPEND
+  campaign. The campaign is redeployed to all vehicles and the vehicles will resume sending
+  data.    UPDATE - To update a campaign.
 - `name`:  The name of the campaign to update.
 
 # Optional Parameters

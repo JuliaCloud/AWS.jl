@@ -4106,8 +4106,7 @@ filtering at a metric level, and offers the ability to filter and group data by 
 queues, routing profiles, agents, and agent hierarchy levels. It can retrieve historical
 data for the last 35 days, in 24-hour intervals. For a description of the historical
 metrics that are supported by GetMetricDataV2 and GetMetricData, see Historical metrics
-definitions in the Amazon Connect Administrator's Guide.  This API is not available in the
-Amazon Web Services GovCloud (US) Regions.
+definitions in the Amazon Connect Administrator's Guide.
 
 # Arguments
 - `end_time`: The timestamp, in UNIX Epoch time format, at which to end the reporting

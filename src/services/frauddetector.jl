@@ -570,7 +570,7 @@ Creates a variable.
 
 # Arguments
 - `data_source`: The source of the data.
-- `data_type`: The data type.
+- `data_type`: The data type of the variable.
 - `default_value`: The default value for the variable when no value is received.
 - `name`: The name of the variable.
 
@@ -812,7 +812,9 @@ end
     delete_event(event_id, event_type_name, params::Dict{String,<:Any})
 
 Deletes the specified event. When you delete an event, Amazon Fraud Detector permanently
-deletes that event and the event data is no longer stored in Amazon Fraud Detector.
+deletes that event and the event data is no longer stored in Amazon Fraud Detector. If
+deleteAuditHistory is True, event data is available through search for up to 30 seconds
+after the delete operation is completed.
 
 # Arguments
 - `event_id`: The ID of the event to delete.
@@ -821,7 +823,7 @@ deletes that event and the event data is no longer stored in Amazon Fraud Detect
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"deleteAuditHistory"`: Specifies whether or not to delete any predictions associated
-  with the event.
+  with the event. If set to True,
 """
 function delete_event(
     eventId, eventTypeName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2224,7 +2226,9 @@ transactions, account registrations, and authentications.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the event type.
-- `"eventIngestion"`: Specifies if ingenstion is enabled or disabled.
+- `"eventIngestion"`: Specifies if ingestion is enabled or disabled.
+- `"eventOrchestration"`: Enables or disables event orchestration. If enabled, you can send
+  event predictions to select AWS services for downstream processing of the events.
 - `"labels"`: The event type labels.
 - `"tags"`: A collection of key and value pairs.
 """
@@ -2393,7 +2397,7 @@ Amazon Fraud Detector.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The label description.
-- `"tags"`:
+- `"tags"`: A collection of key and value pairs.
 """
 function put_label(name; aws_config::AbstractAWSConfig=global_aws_config())
     return frauddetector(

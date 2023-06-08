@@ -109,13 +109,33 @@ recipient account before it can be associated.
 
 # Arguments
 - `portfolio_id`: The portfolio identifier.
-- `principal_arn`: The ARN of the principal (user, role, or group). This field allows an
-  ARN with no accountID if PrincipalType is IAM_PATTERN.  You can associate multiple IAM
-  patterns even if the account has no principal with that name. This is useful in Principal
-  Name Sharing if you want to share a principal without creating it in the account that owns
-  the portfolio.
+- `principal_arn`: The ARN of the principal (user, role, or group). The supported value is
+  a fully defined  IAM ARN if the PrincipalType is IAM. If the PrincipalType is IAM_PATTERN,
+  the supported value is an IAM ARN without an AccountID in the following format:
+  arn:partition:iam:::resource-type/resource-id  The resource-id can be either of the
+  following:   Fully formed, for example arn:aws:iam:::role/resource-name or
+  arn:aws:iam:::role/resource-path/resource-name    A wildcard ARN. The wildcard ARN accepts
+  IAM_PATTERN values with a \"*\" or \"?\" in the resource-id segment of the ARN, for example
+  arn:partition:service:::resource-type/resource-path/resource-name. The new symbols are
+  exclusive to the resource-path and resource-name and cannot be used to replace the
+  resource-type or other ARN values.    Examples of an acceptable wildcard ARN:
+  arn:aws:iam:::role/ResourceName_*   arn:aws:iam:::role/*/ResourceName_?   Examples of an
+  unacceptable wildcard ARN:   arn:aws:iam:::*/ResourceName   You can associate multiple
+  IAM_PATTERNs even if the account has no principal with that name.     The ARN path and
+  principal name allow unlimited wildcard characters.    The \"?\" wildcard character matches
+  zero or one of any character. This is similar to \".?\" in regular regex context.   The
+  \"*\" wildcard character matches any number of any characters. This is similar \".*\" in
+  regular regex context.   In the IAM Principal ARNs format
+  (arn:partition:iam:::resource-type/resource-path/resource-name), valid resource-type values
+  include user/, group/, or role/. The \"?\" and \"*\" are allowed only after the
+  resource-type, in the resource-id segment. You can use special characters anywhere within
+  the resource-id.   The \"*\" also matches the \"/\" character, allowing paths to be formed
+  within the resource-id. For example, arn:aws:iam:::role/*/ResourceName_? matches both
+  arn:aws:iam:::role/pathA/pathB/ResourceName_1 and arn:aws:iam:::role/pathA/ResourceName_1.
+  
 - `principal_type`: The principal type. The supported value is IAM if you use a fully
-  defined ARN, or IAM_PATTERN if you use an ARN with no accountID.
+  defined ARN, or IAM_PATTERN if you use an ARN with no accountID, with or without wildcard
+  characters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2004,18 +2024,25 @@ PrincipalType IAM you must use the PrincipalType IAM when calling
 DisassociatePrincipalFromPortfolio.  For portfolios that have been shared with principal
 name sharing enabled: after disassociating a principal, share recipient accounts will no
 longer be able to provision products in this portfolio using a role matching the name of
-the associated principal.
+the associated principal.  For more information, review associate-principal-with-portfolio
+in the Amazon Web Services CLI Command Reference.   If you disassociate a principal from a
+portfolio, with PrincipalType as IAM, the same principal will still have access to the
+portfolio if it matches one of the associated principals of type IAM_PATTERN. To fully
+remove access for a principal, verify all the associated Principals of type IAM_PATTERN,
+and then ensure you disassociate any IAM_PATTERN principals that match the principal whose
+access you are removing.
 
 # Arguments
 - `portfolio_id`: The portfolio identifier.
 - `principal_arn`: The ARN of the principal (user, role, or group). This field allows an
-  ARN with no accountID if PrincipalType is IAM_PATTERN.
+  ARN with no accountID with or without wildcard characters if PrincipalType is IAM_PATTERN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
 - `"PrincipalType"`: The supported value is IAM if you use a fully defined ARN, or
-  IAM_PATTERN if you use no accountID.
+  IAM_PATTERN if you specify an IAM ARN with no AccountId, with or without wildcard
+  characters.
 """
 function disassociate_principal_from_portfolio(
     PortfolioId, PrincipalARN; aws_config::AbstractAWSConfig=global_aws_config()
