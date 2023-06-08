@@ -62,6 +62,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service also handles deleting the clientToken after it expires.
 - `"description"`: The description of the application.
 - `"kmsKeyId"`: The identifier of a customer managed key.
+- `"roleArn"`: The Amazon Resource Name (ARN) of the role associated with the application.
 - `"tags"`: A list of tags to apply to the application.
 """
 function create_application(

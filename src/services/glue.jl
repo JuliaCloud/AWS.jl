@@ -1349,14 +1349,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CodeGenConfigurationNodes"`: The representation of a directed acyclic graph on which
   both the Glue Studio visual component and Glue Studio code generation is based.
 - `"Connections"`: The connections used for this job.
-- `"DefaultArguments"`: The default arguments for this job. You can specify arguments here
-  that your own job-execution script consumes, as well as arguments that Glue itself
-  consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve
-  secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you
-  intend to keep them within the Job.  For information about how to specify and consume your
-  own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For
-  information about the key-value pairs that Glue consumes to set up your job, see the
-  Special Parameters Used by Glue topic in the developer guide.
+- `"DefaultArguments"`: The default arguments for every run of this job, specified as
+  name-value pairs. You can specify arguments here that your own job-execution script
+  consumes, as well as arguments that Glue itself consumes. Job arguments may be logged. Do
+  not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Secrets
+  Manager or other secret management mechanism if you intend to keep them within the Job.
+  For information about how to specify and consume your own Job arguments, see the Calling
+  Glue APIs in Python topic in the developer guide. For information about the arguments you
+  can provide to this field when configuring Spark jobs, see the Special Parameters Used by
+  Glue topic in the developer guide. For information about the arguments you can provide to
+  this field when configuring Ray jobs, see Using job parameters in Ray jobs in the developer
+  guide.
 - `"Description"`: Description of the job being defined.
 - `"ExecutionClass"`: Indicates whether the job is run with a standard or flexible
   execution class. The standard execution-class is ideal for time-sensitive workloads that
@@ -1366,28 +1369,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
 - `"ExecutionProperty"`: An ExecutionProperty specifying the maximum number of concurrent
   runs allowed for this job.
-- `"GlueVersion"`: Glue version determines the versions of Apache Spark and Python that
-  Glue supports. The Python version indicates the version supported for jobs of type Spark.
-  For more information about the available Glue versions and corresponding Spark and Python
-  versions, see Glue version in the developer guide. Jobs that are created without specifying
-  a Glue version default to Glue 0.9.
+- `"GlueVersion"`: In Spark jobs, GlueVersion determines the versions of Apache Spark and
+  Python that Glue available in a job. The Python version indicates the version supported for
+  jobs of type Spark.  Ray jobs should set GlueVersion to 4.0 or greater. However, the
+  versions of Ray, Python and additional libraries available in your Ray job are determined
+  by the Runtime parameter of the Job command. For more information about the available Glue
+  versions and corresponding Spark and Python versions, see Glue version in the developer
+  guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
 - `"LogUri"`: This field is reserved for future use.
 - `"MaxCapacity"`: For Glue version 1.0 or earlier jobs, using the standard worker type,
   the number of Glue data processing units (DPUs) that can be allocated when this job runs. A
   DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity
-  and 16 GB of memory. For more information, see the Glue pricing page. Do not set Max
-  Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for
-  MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL
-  job:   When you specify a Python shell job (JobCommand.Name=\"pythonshell\"), you can
-  allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache
-  Spark ETL job (JobCommand.Name=\"glueetl\") or Apache Spark streaming ETL job
-  (JobCommand.Name=\"gluestreaming\"), you can allocate a minimum of 2 DPUs. The default is
-  10 DPUs. This job type cannot have a fractional DPU allocation.   For Glue version 2.0
-  jobs, you cannot instead specify a Maximum capacity. Instead, you should specify a Worker
-  type and the Number of workers.
+  and 16 GB of memory. For more information, see the  Glue pricing page. For Glue version
+  2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type
+  and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers.
+  The value that can be allocated for MaxCapacity depends on whether you are running a Python
+  shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you
+  specify a Python shell job (JobCommand.Name=\"pythonshell\"), you can allocate either
+  0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job
+  (JobCommand.Name=\"glueetl\") or Apache Spark streaming ETL job
+  (JobCommand.Name=\"gluestreaming\"), you can allocate from 2 to 100 DPUs. The default is 10
+  DPUs. This job type cannot have a fractional DPU allocation.
 - `"MaxRetries"`: The maximum number of times to retry this job if it fails.
-- `"NonOverridableArguments"`: Non-overridable arguments for this job, specified as
-  name-value pairs.
+- `"NonOverridableArguments"`: Arguments for this job that are not overridden when
+  providing job arguments in a job run, specified as name-value pairs.
 - `"NotificationProperty"`: Specifies configuration properties of a job notification.
 - `"NumberOfWorkers"`: The number of workers of a defined workerType that are allocated
   when a job runs.
@@ -1402,16 +1407,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
   minutes (48 hours).
 - `"WorkerType"`: The type of predefined worker that is allocated when a job runs. Accepts
-  a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker
-  provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the
-  G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and
-  provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
-  For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk),
-  and provides 1 executor per worker. We recommend this worker type for memory-intensive
-  jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory,
-  64 GB disk), and provides 1 executor per worker. We recommend this worker type for low
-  volume streaming jobs. This worker type is only available for Glue version 3.0 streaming
-  jobs.
+  a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray
+  jobs.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a
+  50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1
+  DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend
+  this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to
+  2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We
+  recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each
+  worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per
+  worker. We recommend this worker type for low volume streaming jobs. This worker type is
+  only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker
+  maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers
+  based on the autoscaler.
 """
 function create_job(Command, Name, Role; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -7026,15 +7033,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   2 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of
   4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing
   page.
-- `"Arguments"`: The job arguments specifically for this run. For this job run, they
-  replace the default arguments set in the job definition itself. You can specify arguments
-  here that your own job-execution script consumes, as well as arguments that Glue itself
-  consumes. Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve
-  secrets from a Glue Connection, Secrets Manager or other secret management mechanism if you
-  intend to keep them within the Job.  For information about how to specify and consume your
-  own Job arguments, see the Calling Glue APIs in Python topic in the developer guide. For
-  information about the key-value pairs that Glue consumes to set up your job, see the
-  Special Parameters Used by Glue topic in the developer guide.
+- `"Arguments"`: The job arguments associated with this run. For this job run, they replace
+  the default arguments set in the job definition itself. You can specify arguments here that
+  your own job-execution script consumes, as well as arguments that Glue itself consumes. Job
+  arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from
+  a Glue Connection, Secrets Manager or other secret management mechanism if you intend to
+  keep them within the Job.  For information about how to specify and consume your own Job
+  arguments, see the Calling Glue APIs in Python topic in the developer guide. For
+  information about the arguments you can provide to this field when configuring Spark jobs,
+  see the Special Parameters Used by Glue topic in the developer guide. For information about
+  the arguments you can provide to this field when configuring Ray jobs, see Using job
+  parameters in Ray jobs in the developer guide.
 - `"ExecutionClass"`: Indicates whether the job is run with a standard or flexible
   execution class. The standard execution-class is ideal for time-sensitive workloads that
   require fast job startup and dedicated resources. The flexible execution class is
@@ -7042,16 +7051,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with Glue version 3.0 and above and command type glueetl will be allowed to set
   ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
 - `"JobRunId"`: The ID of a previous JobRun to retry.
-- `"MaxCapacity"`: The number of Glue data processing units (DPUs) that can be allocated
-  when this job runs. A DPU is a relative measure of processing power that consists of 4
-  vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing
-  page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can
-  be allocated for MaxCapacity depends on whether you are running a Python shell job, or an
-  Apache Spark ETL job:   When you specify a Python shell job
-  (JobCommand.Name=\"pythonshell\"), you can allocate either 0.0625 or 1 DPU. The default is
-  0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name=\"glueetl\"), you
-  can allocate a minimum of 2 DPUs. The default is 10 DPUs. This job type cannot have a
-  fractional DPU allocation.
+- `"MaxCapacity"`: For Glue version 1.0 or earlier jobs, using the standard worker type,
+  the number of Glue data processing units (DPUs) that can be allocated when this job runs. A
+  DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity
+  and 16 GB of memory. For more information, see the  Glue pricing page. For Glue version
+  2.0+ jobs, you cannot specify a Maximum capacity. Instead, you should specify a Worker type
+  and the Number of workers. Do not set MaxCapacity if using WorkerType and NumberOfWorkers.
+  The value that can be allocated for MaxCapacity depends on whether you are running a Python
+  shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you
+  specify a Python shell job (JobCommand.Name=\"pythonshell\"), you can allocate either
+  0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job
+  (JobCommand.Name=\"glueetl\") or Apache Spark streaming ETL job
+  (JobCommand.Name=\"gluestreaming\"), you can allocate from 2 to 100 DPUs. The default is 10
+  DPUs. This job type cannot have a fractional DPU allocation.
 - `"NotificationProperty"`: Specifies configuration properties of a job run notification.
 - `"NumberOfWorkers"`: The number of workers of a defined workerType that are allocated
   when a job runs.
@@ -7062,14 +7074,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the timeout value set in the parent job. Streaming jobs do not have a timeout. The default
   for non-streaming jobs is 2,880 minutes (48 hours).
 - `"WorkerType"`: The type of predefined worker that is allocated when a job runs. Accepts
-  a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each worker
-  provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the
-  G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1
-  executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of
-  memory and a 128GB disk, and 1 executor per worker.   For the G.025X worker type, each
+  a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray
+  jobs.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a
+  50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1
+  DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend
+  this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to
+  2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We
+  recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each
   worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per
   worker. We recommend this worker type for low volume streaming jobs. This worker type is
-  only available for Glue version 3.0 streaming jobs.
+  only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker
+  maps to 2 DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers (one
+  per vCPU) based on the autoscaler.
 """
 function start_job_run(JobName; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(

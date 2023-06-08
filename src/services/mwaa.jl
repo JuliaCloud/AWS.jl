@@ -61,9 +61,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration options you want to attach to your environment. For more information, see
   Apache Airflow configuration options.
 - `"AirflowVersion"`: The Apache Airflow version for your environment. If no value is
-  specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, and
-  2.4.3. For more information, see Apache Airflow versions on Amazon Managed Workflows for
-  Apache Airflow (MWAA).
+  specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3,
+  and 2.5.1. For more information, see Apache Airflow versions on Amazon Managed Workflows
+  for Apache Airflow (MWAA).
 - `"EnvironmentClass"`: The environment class type. Valid values: mw1.small, mw1.medium,
   mw1.large. For more information, see Amazon MWAA environment class.
 - `"KmsKey"`: The Amazon Web Services Key Management Service (KMS) key to encrypt the data
@@ -452,8 +452,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AirflowConfigurationOptions"`: A list of key-value pairs containing the Apache Airflow
   configuration options you want to attach to your environment. For more information, see
   Apache Airflow configuration options.
-- `"AirflowVersion"`: The Apache Airflow version for your environment. If no value is
-  specified, defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, and 2.4.3.
+- `"AirflowVersion"`: The Apache Airflow version for your environment. To upgrade your
+  environment, specify a newer version of Apache Airflow supported by Amazon MWAA. Before you
+  upgrade an environment, make sure your requirements, DAGs, plugins, and other resources
+  used in your workflows are compatible with the new Apache Airflow version. For more
+  information about updating your resources, see Upgrading an Amazon MWAA environment. Valid
+  values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1.
 - `"DagS3Path"`: The relative path to the DAGs folder on your Amazon S3 bucket. For
   example, dags. For more information, see Adding or updating DAGs.
 - `"EnvironmentClass"`: The environment class type. Valid values: mw1.small, mw1.medium,

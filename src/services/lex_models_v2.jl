@@ -560,7 +560,7 @@ additional activity. For example, \"Do you want a drink with your pizza?\"
 
 # Arguments
 - `bot_id`: The identifier of the bot associated with this intent.
-- `bot_version`: The identifier of the version of the bot associated with this intent.
+- `bot_version`: The version of the bot associated with this intent.
 - `intent_name`: The name of the intent. Intent names must be unique in the locale that
   contains the intent and cannot match the name of any built-in intent.
 - `locale_id`: The identifier of the language and locale where this intent is used. All of
@@ -706,9 +706,9 @@ access.
   apply to the resource type of the specified ARN. For more information, see  Actions,
   resources, and condition keys for Amazon Lex V2.
 - `effect`: Determines whether the statement allows or denies access to the resource.
-- `principal`: An IAM principal, such as an IAM users, IAM roles, or AWS services that is
-  allowed or denied access to a resource. For more information, see AWS JSON policy elements:
-  Principal.
+- `principal`: An IAM principal, such as an IAM user, IAM role, or Amazon Web Services
+  services that is allowed or denied access to a resource. For more information, see Amazon
+  Web Services JSON policy elements: Principal.
 - `resource_arn`: The Amazon Resource Name (ARN) of the bot or bot alias that the resource
   policy is attached to.
 - `statement_id`: The name of the statement. The ID is the same as the Sid IAM property.
@@ -874,7 +874,7 @@ and a set of enumeration values, the values that a slot of this type can assume.
   used by the slot type must have the same locale. For more information, see Supported
   languages.
 - `slot_type_name`: The name for the slot. A slot type name must be unique within the
-  account.
+  intent.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -891,10 +891,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the machine learning model about the values that it resolves for a slot.
 - `"valueSelectionSetting"`: Determines the strategy that Amazon Lex uses to select a value
   from the list of possible values. The field can be set to one of the following values:
-  OriginalValue - Returns the value entered by the user, if the user value is similar to the
-  slot value.    TopResolution - If there is a resolution list for the slot, return the first
-  value in the resolution list. If there is no resolution list, return null.   If you don't
-  specify the valueSelectionSetting parameter, the default is OriginalValue.
+  ORIGINAL_VALUE - Returns the value entered by the user, if the user value is similar to the
+  slot value.    TOP_RESOLUTION - If there is a resolution list for the slot, return the
+  first value in the resolution list. If there is no resolution list, return null.   If you
+  don't specify the valueSelectionSetting parameter, the default is ORIGINAL_VALUE.
 """
 function create_slot_type(
     botId,
@@ -925,6 +925,43 @@ function create_slot_type(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("slotTypeName" => slotTypeName), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_test_set_discrepancy_report(target, test_set_id)
+    create_test_set_discrepancy_report(target, test_set_id, params::Dict{String,<:Any})
+
+Create a report that describes the differences between the bot and the test set.
+
+# Arguments
+- `target`: The target bot for the test set discrepancy report.
+- `test_set_id`: The test set Id for the test set discrepancy report.
+
+"""
+function create_test_set_discrepancy_report(
+    target, testSetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/testsets/$(testSetId)/testsetdiscrepancy",
+        Dict{String,Any}("target" => target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_test_set_discrepancy_report(
+    target,
+    testSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/testsets/$(testSetId)/testsetdiscrepancy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("target" => target), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1458,6 +1495,38 @@ function delete_slot_type(
 end
 
 """
+    delete_test_set(test_set_id)
+    delete_test_set(test_set_id, params::Dict{String,<:Any})
+
+The action to delete the selected test set.
+
+# Arguments
+- `test_set_id`: The test set Id of the test set to be deleted.
+
+"""
+function delete_test_set(testSetId; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_models_v2(
+        "DELETE",
+        "/testsets/$(testSetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_test_set(
+    testSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "DELETE",
+        "/testsets/$(testSetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_utterances(bot_id)
     delete_utterances(bot_id, params::Dict{String,<:Any})
 
@@ -1571,7 +1640,7 @@ Describes the settings that a bot has for a specific locale.
 
 # Arguments
 - `bot_id`: The identifier of the bot associated with the locale.
-- `bot_version`: The identifier of the version of the bot associated with the locale.
+- `bot_version`: The version of the bot associated with the locale.
 - `locale_id`: The unique identifier of the locale to describe. The string must match one
   of the supported locales. For more information, see Supported languages.
 
@@ -1956,6 +2025,175 @@ function describe_slot_type(
     return lex_models_v2(
         "GET",
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_test_execution(test_execution_id)
+    describe_test_execution(test_execution_id, params::Dict{String,<:Any})
+
+Gets metadata information about the test execution.
+
+# Arguments
+- `test_execution_id`: The execution Id of the test set execution.
+
+"""
+function describe_test_execution(
+    testExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "GET",
+        "/testexecutions/$(testExecutionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_test_execution(
+    testExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "GET",
+        "/testexecutions/$(testExecutionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_test_set(test_set_id)
+    describe_test_set(test_set_id, params::Dict{String,<:Any})
+
+Gets metadata information about the test set.
+
+# Arguments
+- `test_set_id`: The test set Id for the test set request.
+
+"""
+function describe_test_set(testSetId; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_models_v2(
+        "GET",
+        "/testsets/$(testSetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_test_set(
+    testSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "GET",
+        "/testsets/$(testSetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_test_set_discrepancy_report(test_set_discrepancy_report_id)
+    describe_test_set_discrepancy_report(test_set_discrepancy_report_id, params::Dict{String,<:Any})
+
+Gets metadata information about the test set discrepancy report.
+
+# Arguments
+- `test_set_discrepancy_report_id`: The unique identifier of the test set discrepancy
+  report.
+
+"""
+function describe_test_set_discrepancy_report(
+    testSetDiscrepancyReportId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "GET",
+        "/testsetdiscrepancy/$(testSetDiscrepancyReportId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_test_set_discrepancy_report(
+    testSetDiscrepancyReportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "GET",
+        "/testsetdiscrepancy/$(testSetDiscrepancyReportId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_test_set_generation(test_set_generation_id)
+    describe_test_set_generation(test_set_generation_id, params::Dict{String,<:Any})
+
+Gets metadata information about the test set generation.
+
+# Arguments
+- `test_set_generation_id`: The unique identifier of the test set generation.
+
+"""
+function describe_test_set_generation(
+    testSetGenerationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "GET",
+        "/testsetgenerations/$(testSetGenerationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_test_set_generation(
+    testSetGenerationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "GET",
+        "/testsetgenerations/$(testSetGenerationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_test_execution_artifacts_url(test_execution_id)
+    get_test_execution_artifacts_url(test_execution_id, params::Dict{String,<:Any})
+
+The pre-signed Amazon S3 URL to download the test execution result artifacts.
+
+# Arguments
+- `test_execution_id`: The unique identifier of the completed test execution.
+
+"""
+function get_test_execution_artifacts_url(
+    testExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "GET",
+        "/testexecutions/$(testExecutionId)/artifacturl";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_test_execution_artifacts_url(
+    testExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "GET",
+        "/testexecutions/$(testExecutionId)/artifacturl",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2719,6 +2957,152 @@ function list_tags_for_resource(
 end
 
 """
+    list_test_execution_result_items(result_filter_by, test_execution_id)
+    list_test_execution_result_items(result_filter_by, test_execution_id, params::Dict{String,<:Any})
+
+Gets a list of test execution result items.
+
+# Arguments
+- `result_filter_by`: The filter for the list of results from the test set execution.
+- `test_execution_id`: The unique identifier of the test execution to list the result items.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of test execution result items to return in each page.
+  If there are fewer results than the max page size, only the actual number of results are
+  returned.
+- `"nextToken"`: If the response from the ListTestExecutionResultItems operation contains
+  more results than specified in the maxResults parameter, a token is returned in the
+  response. Use that token in the nextToken parameter to return the next page of results.
+"""
+function list_test_execution_result_items(
+    resultFilterBy, testExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/testexecutions/$(testExecutionId)/results",
+        Dict{String,Any}("resultFilterBy" => resultFilterBy);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_test_execution_result_items(
+    resultFilterBy,
+    testExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/testexecutions/$(testExecutionId)/results",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resultFilterBy" => resultFilterBy), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_test_executions()
+    list_test_executions(params::Dict{String,<:Any})
+
+The list of test set executions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of test executions to return in each page. If there
+  are fewer results than the max page size, only the actual number of results are returned.
+- `"nextToken"`: If the response from the ListTestExecutions operation contains more
+  results than specified in the maxResults parameter, a token is returned in the response.
+  Use that token in the nextToken parameter to return the next page of results.
+- `"sortBy"`: The sort order of the test set executions.
+"""
+function list_test_executions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_models_v2(
+        "POST", "/testexecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_test_executions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/testexecutions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_test_set_records(test_set_id)
+    list_test_set_records(test_set_id, params::Dict{String,<:Any})
+
+The list of test set records.
+
+# Arguments
+- `test_set_id`: The identifier of the test set to list its test set records.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of test set records to return in each page. If there
+  are fewer records than the max page size, only the actual number of records are returned.
+- `"nextToken"`: If the response from the ListTestSetRecords operation contains more
+  results than specified in the maxResults parameter, a token is returned in the response.
+  Use that token in the nextToken parameter to return the next page of results.
+"""
+function list_test_set_records(testSetId; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_models_v2(
+        "POST",
+        "/testsets/$(testSetId)/records";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_test_set_records(
+    testSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/testsets/$(testSetId)/records",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_test_sets()
+    list_test_sets(params::Dict{String,<:Any})
+
+The list of the test sets
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of test sets to return in each page. If there are
+  fewer results than the max page size, only the actual number of results are returned.
+- `"nextToken"`: If the response from the ListTestSets operation contains more results than
+  specified in the maxResults parameter, a token is returned in the response. Use that token
+  in the nextToken parameter to return the next page of results.
+- `"sortBy"`: The sort order for the list of test sets.
+"""
+function list_test_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lex_models_v2(
+        "POST", "/testsets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_test_sets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "POST", "/testsets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     search_associated_transcripts(bot_id, bot_recommendation_id, bot_version, filters, locale_id)
     search_associated_transcripts(bot_id, bot_recommendation_id, bot_version, filters, locale_id, params::Dict{String,<:Any})
 
@@ -2896,6 +3280,122 @@ function start_import(
                     "importId" => importId,
                     "mergeStrategy" => mergeStrategy,
                     "resourceSpecification" => resourceSpecification,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_test_execution(api_mode, target, test_set_id)
+    start_test_execution(api_mode, target, test_set_id, params::Dict{String,<:Any})
+
+The action to start test set execution.
+
+# Arguments
+- `api_mode`: Indicates whether we use streaming or non-streaming APIs for the test set
+  execution. For streaming, StartConversation Runtime API is used. Whereas, for
+  non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API are used.
+- `target`: The target bot for the test set execution.
+- `test_set_id`: The test set Id for the test set execution.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"testExecutionModality"`: Indicates whether audio or text is used.
+"""
+function start_test_execution(
+    apiMode, target, testSetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "POST",
+        "/testsets/$(testSetId)/testexecutions",
+        Dict{String,Any}("apiMode" => apiMode, "target" => target);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_test_execution(
+    apiMode,
+    target,
+    testSetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "POST",
+        "/testsets/$(testSetId)/testexecutions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("apiMode" => apiMode, "target" => target), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_test_set_generation(generation_data_source, role_arn, storage_location, test_set_name)
+    start_test_set_generation(generation_data_source, role_arn, storage_location, test_set_name, params::Dict{String,<:Any})
+
+The action to start the generation of test set.
+
+# Arguments
+- `generation_data_source`: The data source for the test set generation.
+- `role_arn`: The roleARN used for any operation in the test set to access resources in the
+  Amazon Web Services account.
+- `storage_location`: The Amazon S3 storage location for the test set generation.
+- `test_set_name`: The test set name for the test set generation request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The test set description for the test set generation request.
+- `"testSetTags"`: A list of tags to add to the test set. You can only add tags when you
+  import/generate a new test set. You can't use the UpdateTestSet operation to update tags.
+  To update tags, use the TagResource operation.
+"""
+function start_test_set_generation(
+    generationDataSource,
+    roleArn,
+    storageLocation,
+    testSetName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/testsetgenerations",
+        Dict{String,Any}(
+            "generationDataSource" => generationDataSource,
+            "roleArn" => roleArn,
+            "storageLocation" => storageLocation,
+            "testSetName" => testSetName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_test_set_generation(
+    generationDataSource,
+    roleArn,
+    storageLocation,
+    testSetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/testsetgenerations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "generationDataSource" => generationDataSource,
+                    "roleArn" => roleArn,
+                    "storageLocation" => storageLocation,
+                    "testSetName" => testSetName,
                 ),
                 params,
             ),
@@ -3334,7 +3834,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the bot.
 - `"fulfillmentCodeHook"`: The new Lambda function to call when all of the intents required
   slots are provided and the intent is ready for fulfillment.
-- `"initialResponseSetting"`:
+- `"initialResponseSetting"`: Configuration settings for a response sent to the user before
+  Amazon Lex starts eliciting slots.
 - `"inputContexts"`: A new list of contexts that must be active in order for Amazon Lex to
   consider the intent.
 - `"intentClosingSetting"`: The new response that Amazon Lex sends the user when the intent
@@ -3571,6 +4072,48 @@ function update_slot_type(
         "/bots/$(botId)/botversions/$(botVersion)/botlocales/$(localeId)/slottypes/$(slotTypeId)/",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("slotTypeName" => slotTypeName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_test_set(test_set_id, test_set_name)
+    update_test_set(test_set_id, test_set_name, params::Dict{String,<:Any})
+
+The action to update the test set.
+
+# Arguments
+- `test_set_id`: The test set Id for which update test operation to be performed.
+- `test_set_name`: The new test set name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The new test set description.
+"""
+function update_test_set(
+    testSetId, testSetName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lex_models_v2(
+        "PUT",
+        "/testsets/$(testSetId)",
+        Dict{String,Any}("testSetName" => testSetName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_test_set(
+    testSetId,
+    testSetName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lex_models_v2(
+        "PUT",
+        "/testsets/$(testSetId)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("testSetName" => testSetName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

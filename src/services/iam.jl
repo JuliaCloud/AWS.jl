@@ -409,8 +409,8 @@ end
     create_account_alias(account_alias, params::Dict{String,<:Any})
 
 Creates an alias for your Amazon Web Services account. For information about using an
-Amazon Web Services account alias, see Using an alias for your Amazon Web Services account
-ID in the IAM User Guide.
+Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web
+Services account alias in the Amazon Web Services Sign-In User Guide.
 
 # Arguments
 - `account_alias`: The account alias to create. This parameter allows (through its regex
@@ -1350,8 +1350,8 @@ end
     delete_account_alias(account_alias, params::Dict{String,<:Any})
 
  Deletes the specified Amazon Web Services account alias. For information about using an
-Amazon Web Services account alias, see Using an alias for your Amazon Web Services account
-ID in the IAM User Guide.
+Amazon Web Services account alias, see Creating, deleting, and listing an Amazon Web
+Services account alias in the Amazon Web Services Sign-In User Guide.
 
 # Arguments
 - `account_alias`: The name of the account alias to delete. This parameter allows (through
@@ -3975,8 +3975,9 @@ end
     list_account_aliases(params::Dict{String,<:Any})
 
 Lists the account alias associated with the Amazon Web Services account (Note: you can have
-only one). For information about using an Amazon Web Services account alias, see Using an
-alias for your Amazon Web Services account ID in the IAM User Guide.
+only one). For information about using an Amazon Web Services account alias, see Creating,
+deleting, and listing an Amazon Web Services account alias in the Amazon Web Services
+Sign-In User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

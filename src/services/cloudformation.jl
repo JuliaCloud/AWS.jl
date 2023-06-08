@@ -5,23 +5,50 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    activate_organizations_access()
+    activate_organizations_access(params::Dict{String,<:Any})
+
+Activate trusted access with Organizations. With trusted access between StackSets and
+Organizations activated, the management account has permissions to create and manage
+StackSets for your organization.
+
+"""
+function activate_organizations_access(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudformation(
+        "ActivateOrganizationsAccess";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function activate_organizations_access(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudformation(
+        "ActivateOrganizationsAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     activate_type()
     activate_type(params::Dict{String,<:Any})
 
 Activates a public third-party extension, making it available for use in stack templates.
 For more information, see Using public extensions in the CloudFormation User Guide. Once
-you have activated a public third-party extension in your account and region, use
+you have activated a public third-party extension in your account and Region, use
 SetTypeConfiguration to specify configuration properties for the extension. For more
 information, see Configuring extensions at the account level in the CloudFormation User
 Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AutoUpdate"`: Whether to automatically update the extension in this account and region
+- `"AutoUpdate"`: Whether to automatically update the extension in this account and Region
   when a new minor version is published by the extension publisher. Major versions released
   by the publisher must be manually updated. The default is true.
 - `"ExecutionRoleArn"`: The name of the IAM execution role to use to activate the extension.
-- `"LoggingConfig"`:
+- `"LoggingConfig"`: Contains logging configuration information for an extension.
 - `"MajorVersion"`: The major version of this extension you want to activate, if multiple
   major versions are available. The default is the latest major version. CloudFormation uses
   the latest available minor version of the major version selected. You can specify
@@ -35,11 +62,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TypeName"`: The name of the extension. Conditional: You must specify PublicTypeArn, or
   TypeName, Type, and PublisherId.
 - `"TypeNameAlias"`: An alias to assign to the public extension, in this account and
-  region. If you specify an alias for the extension, CloudFormation treats the alias as the
-  extension type name within this account and region. You must use the alias to refer to the
+  Region. If you specify an alias for the extension, CloudFormation treats the alias as the
+  extension type name within this account and Region. You must use the alias to refer to the
   extension in your templates, API calls, and CloudFormation console. An extension alias must
-  be unique within a given account and region. You can activate the same public resource
-  multiple times in the same account and region, using different type name aliases.
+  be unique within a given account and Region. You can activate the same public resource
+  multiple times in the same account and Region, using different type name aliases.
 - `"VersionBump"`: Manually updates a previously-activated type to a new major or minor
   version, if available. You can also use this parameter to update the value of AutoUpdate.
    MAJOR: CloudFormation updates the extension to the newest major version, if one is
@@ -64,7 +91,7 @@ end
     batch_describe_type_configurations(type_configuration_identifiers, params::Dict{String,<:Any})
 
 Returns configuration data for the specified CloudFormation extensions, from the
-CloudFormation registry for the account and region. For more information, see Configuring
+CloudFormation registry for the account and Region. For more information, see Configuring
 extensions at the account level in the CloudFormation User Guide.
 
 # Arguments
@@ -112,7 +139,13 @@ rolls back the update and reverts to the previous stack configuration.  You can 
 stacks that are in the UPDATE_IN_PROGRESS state.
 
 # Arguments
-- `stack_name`: The name or the unique stack ID that's associated with the stack.
+- `stack_name`:  If you don't pass a parameter to StackName, the API returns a response
+  that describes all resources in the account. The IAM policy below can be added to IAM
+  policies when you want to limit resource-level permissions and avoid returning a response
+  when no parameter is sent in the request:  { \"Version\": \"2012-10-17\", \"Statement\": [{
+  \"Effect\": \"Deny\", \"Action\": \"cloudformation:DescribeStacks\", \"NotResource\":
+  \"arn:aws:cloudformation:*:*:stack/*/*\" }] }   The name or the unique stack ID that's
+  associated with the stack.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -168,7 +201,7 @@ rollback to fail.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: A unique identifier for this ContinueUpdateRollback request.
-  Specify this token if you plan to retry requests so that CloudFormationknows that you're
+  Specify this token if you plan to retry requests so that CloudFormation knows that you're
   not attempting to continue the rollback to a stack with the same name. You might retry
   ContinueUpdateRollback requests to ensure that CloudFormation successfully received them.
 - `"ResourcesToSkip"`: A list of the logical IDs of the resources that CloudFormation skips
@@ -295,7 +328,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stack, specify CREATE. To create a change set for an existing stack, specify UPDATE. To
   create a change set for an import operation, specify IMPORT. If you create a change set for
   a new stack, CloudFormation creates a stack with a unique stack ID, but no template or
-  resources. The stack will be in the  REVIEW_IN_PROGRESS  state until you execute the change
+  resources. The stack will be in the REVIEW_IN_PROGRESS state until you execute the change
   set. By default, CloudFormation specifies UPDATE. You can't use the UPDATE type to create a
   change set for a new stack or the CREATE type to create a change set for an existing stack.
 - `"ClientToken"`: A unique identifier for this CreateChangeSet request. Specify this token
@@ -380,8 +413,8 @@ end
     create_stack(stack_name, params::Dict{String,<:Any})
 
 Creates a stack as specified in the template. After the call completes successfully, the
-stack creation starts. You can check the status of the stack through the
-DescribeStacksoperation.
+stack creation starts. You can check the status of the stack through the DescribeStacks
+operation.
 
 # Arguments
 - `stack_name`: The name that's associated with the stack. The name must be unique in the
@@ -739,10 +772,39 @@ function create_stack_set(
 end
 
 """
+    deactivate_organizations_access()
+    deactivate_organizations_access(params::Dict{String,<:Any})
+
+Deactivates trusted access with Organizations. If trusted access is deactivated, the
+management account does not have permissions to create and manage service-managed StackSets
+for your organization.
+
+"""
+function deactivate_organizations_access(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudformation(
+        "DeactivateOrganizationsAccess";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deactivate_organizations_access(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudformation(
+        "DeactivateOrganizationsAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     deactivate_type()
     deactivate_type(params::Dict{String,<:Any})
 
-Deactivates a public extension that was previously activated in this account and region.
+Deactivates a public extension that was previously activated in this account and Region.
 Once deactivated, an extension can't be used in any CloudFormation operation. This includes
 stack update operations where the stack template includes the extension, even if no updates
 are being made to the extension. In addition, deactivated extensions aren't automatically
@@ -750,11 +812,11 @@ updated if a new version of the extension is released.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Arn"`: The Amazon Resource Name (ARN) for the extension, in this account and region.
+- `"Arn"`: The Amazon Resource Name (ARN) for the extension, in this account and Region.
   Conditional: You must specify either Arn, or TypeName and Type.
 - `"Type"`: The extension type. Conditional: You must specify either Arn, or TypeName and
   Type.
-- `"TypeName"`: The type name of the extension, in this account and region. If you
+- `"TypeName"`: The type name of the extension, in this account and Region. If you
   specified a type name alias when enabling the extension, use the type name alias.
   Conditional: You must specify either Arn, or TypeName and Type.
 """
@@ -1158,6 +1220,43 @@ function describe_change_set_hooks(
 end
 
 """
+    describe_organizations_access()
+    describe_organizations_access(params::Dict{String,<:Any})
+
+Retrieves information about the account's OrganizationAccess status. This API can be called
+either by the management account or the delegated administrator by using the CallAs
+parameter. This API can also be called without the CallAs parameter by the management
+account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CallAs"`: [Service-managed permissions] Specifies whether you are acting as an account
+  administrator in the organization's management account or as a delegated administrator in a
+  member account. By default, SELF is specified.   If you are signed in to the management
+  account, specify SELF.   If you are signed in to a delegated administrator account, specify
+  DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated
+  administrator in the management account. For more information, see Register a delegated
+  administrator in the CloudFormation User Guide.
+"""
+function describe_organizations_access(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudformation(
+        "DescribeOrganizationsAccess";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_organizations_access(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudformation(
+        "DescribeOrganizationsAccess",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_publisher()
     describe_publisher(params::Dict{String,<:Any})
 
@@ -1191,7 +1290,7 @@ end
     describe_stack_drift_detection_status(stack_drift_detection_id, params::Dict{String,<:Any})
 
 Returns information about a stack drift detection operation. A stack drift detection
-operation detects whether a stack's actual configuration differs, or has drifted, from it's
+operation detects whether a stack's actual configuration differs, or has drifted, from its
 expected configuration, as defined in the stack template and any values specified as
 template parameters. A stack is considered to have drifted if one or more of its resources
 have drifted. For more information about stack and resource drift, see Detecting
@@ -1274,9 +1373,9 @@ end
     describe_stack_instance(stack_instance_account, stack_instance_region, stack_set_name)
     describe_stack_instance(stack_instance_account, stack_instance_region, stack_set_name, params::Dict{String,<:Any})
 
-Returns the stack instance that's associated with the specified stack set, Amazon Web
-Services account, and Region. For a list of stack instances that are associated with a
-specific stack set, use ListStackInstances.
+Returns the stack instance that's associated with the specified StackSet, Amazon Web
+Services account, and Amazon Web Services Region. For a list of stack instances that are
+associated with a specific StackSet, use ListStackInstances.
 
 # Arguments
 - `stack_instance_account`: The ID of an Amazon Web Services account that's associated with
@@ -1496,7 +1595,7 @@ end
     describe_stack_set(stack_set_name)
     describe_stack_set(stack_set_name, params::Dict{String,<:Any})
 
-Returns the description of the specified stack set.
+Returns the description of the specified StackSet.
 
 # Arguments
 - `stack_set_name`: The name or unique ID of the stack set whose description you want.
@@ -1539,7 +1638,7 @@ end
     describe_stack_set_operation(operation_id, stack_set_name)
     describe_stack_set_operation(operation_id, stack_set_name, params::Dict{String,<:Any})
 
-Returns the description of the specified stack set operation.
+Returns the description of the specified StackSet operation.
 
 # Arguments
 - `operation_id`: The unique ID of the stack set operation.
@@ -1600,10 +1699,16 @@ ValidationError is returned.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: A string that identifies the next page of stacks that you want to retrieve.
-- `"StackName"`: The name or the unique stack ID that's associated with the stack, which
-  aren't always interchangeable:   Running stacks: You can specify either the stack's name or
-  its unique stack ID.   Deleted stacks: You must specify the unique stack ID.   Default:
-  There is no default value.
+- `"StackName"`:  If you don't pass a parameter to StackName, the API returns a response
+  that describes all resources in the account. This requires ListStacks and DescribeStacks
+  permissions. The IAM policy below can be added to IAM policies when you want to limit
+  resource-level permissions and avoid returning a response when no parameter is sent in the
+  request: { \"Version\": \"2012-10-17\", \"Statement\": [{ \"Effect\": \"Deny\", \"Action\":
+  \"cloudformation:DescribeStacks\", \"NotResource\":
+  \"arn:aws:cloudformation:*:*:stack/*/*\" }] }  The name or the unique stack ID that's
+  associated with the stack, which aren't always interchangeable:   Running stacks: You can
+  specify either the stack's name or its unique stack ID.   Deleted stacks: You must specify
+  the unique stack ID.   Default: There is no default value.
 """
 function describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudformation(
@@ -1661,15 +1766,15 @@ end
     describe_type_registration(registration_token, params::Dict{String,<:Any})
 
 Returns information about an extension's registration, including its current status and
-type and version identifiers. When you initiate a registration request using  RegisterType
-, you can then use  DescribeTypeRegistration  to monitor the progress of that registration
-request. Once the registration request has completed, use  DescribeType  to return detailed
+type and version identifiers. When you initiate a registration request using RegisterType,
+you can then use DescribeTypeRegistration to monitor the progress of that registration
+request. Once the registration request has completed, use DescribeType to return detailed
 information about an extension.
 
 # Arguments
 - `registration_token`: The identifier for this registration request. This registration
   token is generated by CloudFormation when you initiate a registration request using
-  RegisterType .
+  RegisterType.
 
 """
 function describe_type_registration(
@@ -1703,7 +1808,7 @@ end
     detect_stack_drift(stack_name)
     detect_stack_drift(stack_name, params::Dict{String,<:Any})
 
-Detects whether a stack's actual configuration differs, or has drifted, from it's expected
+Detects whether a stack's actual configuration differs, or has drifted, from its expected
 configuration, as defined in the stack template and any values specified as template
 parameters. For each resource in the stack that supports drift detection, CloudFormation
 compares the actual configuration of the resource with its expected template configuration.
@@ -1756,7 +1861,7 @@ end
     detect_stack_resource_drift(logical_resource_id, stack_name, params::Dict{String,<:Any})
 
 Returns information about whether a resource's actual configuration differs, or has
-drifted, from it's expected configuration, as defined in the stack template and any values
+drifted, from its expected configuration, as defined in the stack template and any values
 specified as template parameters. This information includes actual and expected property
 values for resources in which CloudFormation detects drift. Only resource properties
 explicitly defined in the stack template are checked for drift. For more information about
@@ -1814,20 +1919,20 @@ Detect drift on a stack set. When CloudFormation performs drift detection on a s
 it performs drift detection on the stack associated with each stack instance in the stack
 set. For more information, see How CloudFormation performs drift detection on a stack set.
 DetectStackSetDrift returns the OperationId of the stack set drift detection operation. Use
-this operation id with  DescribeStackSetOperation  to monitor the progress of the drift
+this operation id with DescribeStackSetOperation to monitor the progress of the drift
 detection operation. The drift detection operation may take some time, depending on the
 number of stack instances included in the stack set, in addition to the number of resources
 included in each stack. Once the operation has completed, use the following actions to
-return drift information:   Use  DescribeStackSet  to return detailed information about the
+return drift information:   Use DescribeStackSet to return detailed information about the
 stack set, including detailed information about the last completed drift operation
 performed on the stack set. (Information about drift operations that are in progress isn't
-included.)   Use  ListStackInstances  to return a list of stack instances belonging to the
+included.)   Use ListStackInstances to return a list of stack instances belonging to the
 stack set, including the drift status and last drift time checked of each instance.   Use
-DescribeStackInstance  to return detailed information about a specific stack instance,
+DescribeStackInstance to return detailed information about a specific stack instance,
 including its drift status and last drift time checked.   For more information about
 performing a drift detection operation on a stack set, see Detecting unmanaged changes in
 stack sets. You can only run a single drift detection operation on a given stack set at one
-time. To stop a drift detection stack set operation, use  StopStackSetOperation .
+time. To stop a drift detection stack set operation, use StopStackSetOperation.
 
 # Arguments
 - `stack_set_name`: The name of the stack set on which to perform the drift detection
@@ -1844,7 +1949,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For more information, see Register a delegated administrator in the CloudFormation User
   Guide.
 - `"OperationId"`:  The ID of the stack set operation.
-- `"OperationPreferences"`:
+- `"OperationPreferences"`: The user-specified preferences for how CloudFormation performs
+  a stack set operation. For more information about maximum concurrent accounts and failure
+  tolerance, see Stack set operation options.
 """
 function detect_stack_set_drift(
     StackSetName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2098,7 +2205,7 @@ end
 Import existing stacks into a new stack sets. Use the stack import operation to import up
 to 10 stacks into a new stack set in the same account as the source stack or in a different
 administrator account and Region, by specifying the stack ID of the stack you intend to
-import.   ImportStacksToStackSet is only supported by self-managed permissions.
+import.
 
 # Arguments
 - `stack_set_name`: The name of the stack set. The name must be unique in the Region where
@@ -2110,7 +2217,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions.   If you are signed in to the management account, specify SELF.   For service
   managed stack sets, specify DELEGATED_ADMIN.
 - `"OperationId"`: A unique, user defined, identifier for the stack set operation.
-- `"OperationPreferences"`:
+- `"OperationPreferences"`: The user-specified preferences for how CloudFormation performs
+  a stack set operation. For more information about maximum concurrent accounts and failure
+  tolerance, see Stack set operation options.
 - `"OrganizationalUnitIds"`: The list of OU ID's to which the stacks being imported has to
   be mapped as deployment target.
 - `"StackIds"`: The IDs of the stacks you are importing into a stack set. You import up to
@@ -2194,8 +2303,8 @@ end
 
 Lists all exported output values in the account and Region in which you call this action.
 Use this action to see the exported output values that you can import into other stacks. To
-import values, use the  Fn::ImportValue  function. For more information, see
-CloudFormation export stack output values.
+import values, use the  Fn::ImportValue function. For more information, see  CloudFormation
+export stack output values.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2222,7 +2331,7 @@ end
 Lists all stacks that are importing an exported output value. To modify or remove an
 exported output value, first use this action to see which stacks are using it. To see the
 exported output values in your account, see ListExports. For more information about
-importing an exported output value, see the  Fn::ImportValue  function.
+importing an exported output value, see the Fn::ImportValue function.
 
 # Arguments
 - `export_name`: The name of the exported output value. CloudFormation returns the stack
@@ -2670,9 +2779,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The type of extension.
 - `"Visibility"`: The scope at which the extensions are visible and usable in
   CloudFormation operations. Valid values include:    PRIVATE: Extensions that are visible
-  and usable within this account and region. This includes:   Private extensions you have
-  registered in this account and region.   Public extensions that you have activated in this
-  account and region.      PUBLIC: Extensions that are publicly visible and available to be
+  and usable within this account and Region. This includes:   Private extensions you have
+  registered in this account and Region.   Public extensions that you have activated in this
+  account and Region.      PUBLIC: Extensions that are publicly visible and available to be
   activated within any Amazon Web Services account. This includes extensions from Amazon Web
   Services, in addition to third-party publishers.   The default is PRIVATE.
 """
@@ -2694,7 +2803,7 @@ end
     publish_type(params::Dict{String,<:Any})
 
 Publishes the specified extension to the CloudFormation registry as a public extension in
-this region. Public extensions are available for use by all CloudFormation users. For more
+this Region. Public extensions are available for use by all CloudFormation users. For more
 information about publishing extensions, see Publishing extensions to make them available
 for public use in the CloudFormation CLI User Guide. To publish an extension, you must be
 registered as a publisher with CloudFormation. For more information, see RegisterPublisher.
@@ -2825,10 +2934,10 @@ been specified for the extension.   Making the extension available for use in yo
   For more information about how to develop extensions and ready them for registration, see
 Creating Resource Providers in the CloudFormation CLI User Guide. You can have a maximum of
 50 resource extension versions registered at a time. This maximum is per account and per
-region. Use DeregisterType to deregister specific extension versions if necessary. Once you
-have initiated a registration request using  RegisterType , you can use
-DescribeTypeRegistration  to monitor the progress of the registration request. Once you
-have registered a private extension in your account and region, use SetTypeConfiguration to
+Region. Use DeregisterType to deregister specific extension versions if necessary. Once you
+have initiated a registration request using RegisterType, you can use
+DescribeTypeRegistration to monitor the progress of the registration request. Once you have
+registered a private extension in your account and Region, use SetTypeConfiguration to
 specify configuration properties for the extension. For more information, see Configuring
 extensions at the account level in the CloudFormation User Guide.
 
@@ -2993,7 +3102,7 @@ end
     set_type_configuration(configuration, params::Dict{String,<:Any})
 
 Specifies the configuration data for a registered CloudFormation extension, in the given
-account and region. To view the current configuration data for an extension, refer to the
+account and Region. To view the current configuration data for an extension, refer to the
 ConfigurationSchema element of DescribeType. For more information, see Configuring
 extensions at the account level in the CloudFormation User Guide.  It's strongly
 recommended that you use dynamic references to restrict sensitive configuration
@@ -3001,9 +3110,9 @@ definitions, such as third-party credentials. For more details on dynamic refere
 Using dynamic references to specify template values in the CloudFormation User Guide.
 
 # Arguments
-- `configuration`: The configuration data for the extension, in this account and region.
+- `configuration`: The configuration data for the extension, in this account and Region.
   The configuration data must be formatted as JSON, and validate against the schema returned
-  in the ConfigurationSchema response element of API_DescribeType. For more information, see
+  in the ConfigurationSchema response element of DescribeType. For more information, see
   Defining account-level configuration data for an extension in the CloudFormation CLI User
   Guide.
 
@@ -3015,9 +3124,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The type of extension. Conditional: You must specify ConfigurationArn, or Type
   and TypeName.
 - `"TypeArn"`: The Amazon Resource Name (ARN) for the extension, in this account and
-  region. For public extensions, this will be the ARN assigned when you activate the type in
-  this account and region. For private extensions, this will be the ARN assigned when you
-  register the type in this account and region. Do not include the extension versions suffix
+  Region. For public extensions, this will be the ARN assigned when you activate the type in
+  this account and Region. For private extensions, this will be the ARN assigned when you
+  register the type in this account and Region. Do not include the extension versions suffix
   at the end of the ARN. You can set the configuration for an extension, but not for a
   specific extension version.
 - `"TypeName"`: The name of the extension. Conditional: You must specify ConfigurationArn,
@@ -3219,7 +3328,7 @@ contracts tests defined for the type.   For modules, this includes determining i
 module's model meets all necessary requirements.   For more information, see Testing your
 public extension prior to publishing in the CloudFormation CLI User Guide. If you don't
 specify a version, CloudFormation uses the default version of the extension in your account
-and region for testing. To perform testing, CloudFormation assumes the execution role
+and Region for testing. To perform testing, CloudFormation assumes the execution role
 specified when the type was registered. For more information, see RegisterType. Once you've
 initiated testing on an extension using TestType, you can pass the returned TypeVersionArn
 into DescribeType to monitor the current test status and test status description for the
@@ -3244,7 +3353,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   TypeName and Type.
 - `"VersionId"`: The version of the extension to test. You can specify the version id with
   either Arn, or with TypeName and Type. If you don't specify a version, CloudFormation uses
-  the default version of the extension in this account and region for testing.
+  the default version of the extension in this account and Region for testing.
 """
 function test_type(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudformation(

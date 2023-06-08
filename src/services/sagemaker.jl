@@ -12037,6 +12037,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PipelineExecutionDescription"`: The description of the pipeline execution.
 - `"PipelineExecutionDisplayName"`: The display name of the pipeline execution.
 - `"PipelineParameters"`: Contains a list of pipeline parameters. This list can be empty.
+- `"SelectiveExecutionConfig"`: The selective execution configuration applied to the
+  pipeline run.
 """
 function start_pipeline_execution(
     ClientRequestToken, PipelineName; aws_config::AbstractAWSConfig=global_aws_config()

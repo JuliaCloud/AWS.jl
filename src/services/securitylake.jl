@@ -5,129 +5,96 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_aws_log_source(input_order)
-    create_aws_log_source(input_order, params::Dict{String,<:Any})
+    create_aws_log_source(sources)
+    create_aws_log_source(sources, params::Dict{String,<:Any})
 
 Adds a natively supported Amazon Web Service as an Amazon Security Lake source. Enables
 source types for member accounts in required Amazon Web Services Regions, based on the
 parameters you specify. You can choose any source type in any Region for either accounts
-that are part of a trusted organization or standalone accounts. At least one of the three
-dimensions is a mandatory input to this API. However, you can supply any combination of the
-three dimensions to this API.  By default, a dimension refers to the entire set. When you
-don't provide a dimension, Security Lake assumes that the missing dimension refers to the
-entire set. This is overridden when you supply any one of the inputs. For instance, when
-you do not specify members, the API enables all Security Lake member accounts for all
-sources. Similarly, when you do not specify Regions, Security Lake is enabled for all the
-Regions where Security Lake is available as a service. You can use this API only to enable
-natively supported Amazon Web Services as a source. Use CreateCustomLogSource to enable
-data collection from a custom source.
+that are part of a trusted organization or standalone accounts. Once you add an Amazon Web
+Service as a source, Security Lake starts collecting logs and events from it,  You can use
+this API only to enable natively supported Amazon Web Services as a source. Use
+CreateCustomLogSource to enable data collection from a custom source.
 
 # Arguments
-- `input_order`: Specifies the input order to enable dimensions in Security Lake, namely
-  Region, source type, and member account.
+- `sources`: Specify the natively-supported Amazon Web Services service to add as a source
+  in Security Lake.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"enableAllDimensions"`: Enables data collection from specific Amazon Web Services
-  sources in all specific accounts and specific Regions.
-- `"enableSingleDimension"`: Enables data collection from all Amazon Web Services sources
-  in specific accounts or Regions.
-- `"enableTwoDimensions"`: Enables data collection from specific Amazon Web Services
-  sources in specific accounts or Regions.
 """
-function create_aws_log_source(
-    inputOrder; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_aws_log_source(sources; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
         "POST",
-        "/v1/logsources/aws",
-        Dict{String,Any}("inputOrder" => inputOrder);
+        "/v1/datalake/logsources/aws",
+        Dict{String,Any}("sources" => sources);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_aws_log_source(
-    inputOrder,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
-        "/v1/logsources/aws",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("inputOrder" => inputOrder), params)
-        );
+        "/v1/datalake/logsources/aws",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    create_custom_log_source(custom_source_name, event_class, glue_invocation_role_arn, log_provider_account_id)
-    create_custom_log_source(custom_source_name, event_class, glue_invocation_role_arn, log_provider_account_id, params::Dict{String,<:Any})
+    create_custom_log_source(source_name)
+    create_custom_log_source(source_name, params::Dict{String,<:Any})
 
 Adds a third-party custom source in Amazon Security Lake, from the Amazon Web Services
 Region where you want to create a custom source. Security Lake can collect logs and events
 from third-party custom sources. After creating the appropriate IAM role to invoke Glue
 crawler, use this API to add a custom source name in Security Lake. This operation creates
 a partition in the Amazon S3 bucket for Security Lake as the target location for log files
-from the custom source in addition to an associated Glue table and an Glue crawler.
+from the custom source. In addition, this operation also creates an associated Glue table
+and an Glue crawler.
 
 # Arguments
-- `custom_source_name`: The name for a third-party custom source. This must be a Regionally
-  unique value.
-- `event_class`: The Open Cybersecurity Schema Framework (OCSF) event class which describes
-  the type of data that the custom source will send to Security Lake.
-- `glue_invocation_role_arn`: The Amazon Resource Name (ARN) of the Identity and Access
-  Management (IAM) role to be used by the Glue crawler. The recommended IAM policies are:
-  The managed policy AWSGlueServiceRole    A custom policy granting access to your Amazon S3
-  Data Lake
-- `log_provider_account_id`: The Amazon Web Services account ID of the custom source that
-  will write logs and events into the Amazon S3 Data Lake.
+- `source_name`: Specify the name for a third-party custom source. This must be a
+  Regionally unique value.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"configuration"`: The configuration for the third-party custom source.
+- `"eventClasses"`: The Open Cybersecurity Schema Framework (OCSF) event classes which
+  describes the type of data that the custom source will send to Security Lake. The supported
+  event classes are:    ACCESS_ACTIVITY     FILE_ACTIVITY     KERNEL_ACTIVITY
+  KERNEL_EXTENSION     MEMORY_ACTIVITY     MODULE_ACTIVITY     PROCESS_ACTIVITY
+  REGISTRY_KEY_ACTIVITY     REGISTRY_VALUE_ACTIVITY     RESOURCE_ACTIVITY
+  SCHEDULED_JOB_ACTIVITY     SECURITY_FINDING     ACCOUNT_CHANGE     AUTHENTICATION
+  AUTHORIZATION     ENTITY_MANAGEMENT_AUDIT     DHCP_ACTIVITY     NETWORK_ACTIVITY
+  DNS_ACTIVITY     FTP_ACTIVITY     HTTP_ACTIVITY     RDP_ACTIVITY     SMB_ACTIVITY
+  SSH_ACTIVITY     CONFIG_STATE     INVENTORY_INFO     EMAIL_ACTIVITY     API_ACTIVITY
+  CLOUD_API
+- `"sourceVersion"`: Specify the source version for the third-party custom source, to limit
+  log collection to a specific version of custom data source.
 """
 function create_custom_log_source(
-    customSourceName,
-    eventClass,
-    glueInvocationRoleArn,
-    logProviderAccountId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    sourceName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
-        "/v1/logsources/custom",
-        Dict{String,Any}(
-            "customSourceName" => customSourceName,
-            "eventClass" => eventClass,
-            "glueInvocationRoleArn" => glueInvocationRoleArn,
-            "logProviderAccountId" => logProviderAccountId,
-        );
+        "/v1/datalake/logsources/custom",
+        Dict{String,Any}("sourceName" => sourceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_custom_log_source(
-    customSourceName,
-    eventClass,
-    glueInvocationRoleArn,
-    logProviderAccountId,
+    sourceName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return securitylake(
         "POST",
-        "/v1/logsources/custom",
+        "/v1/datalake/logsources/custom",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "customSourceName" => customSourceName,
-                    "eventClass" => eventClass,
-                    "glueInvocationRoleArn" => glueInvocationRoleArn,
-                    "logProviderAccountId" => logProviderAccountId,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("sourceName" => sourceName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -135,92 +102,62 @@ function create_custom_log_source(
 end
 
 """
-    create_datalake()
-    create_datalake(params::Dict{String,<:Any})
+    create_data_lake(configurations, meta_store_manager_role_arn)
+    create_data_lake(configurations, meta_store_manager_role_arn, params::Dict{String,<:Any})
 
 Initializes an Amazon Security Lake instance with the provided (or default) configuration.
 You can enable Security Lake in Amazon Web Services Regions with customized settings before
-enabling log collection in Regions. You can either use the enableAll parameter to specify
-all Regions or specify the Regions where you want to enable Security Lake. To specify
-particular Regions, use the Regions parameter and then configure these Regions using the
-configurations parameter. If you have already enabled Security Lake in a Region when you
-call this command, the command will update the Region if you provide new configuration
-parameters. If you have not already enabled Security Lake in the Region when you call this
-API, it will set up the data lake in the Region with the specified configurations. When you
-enable Security Lake, it starts ingesting security data after the CreateAwsLogSource call.
-This includes ingesting security data from sources, storing data, and making data
-accessible to subscribers. Security Lake also enables all the existing settings and
-resources that it stores or maintains for your Amazon Web Services account in the current
-Region, including security log and event data. For more information, see the Amazon
-Security Lake User Guide.
+enabling log collection in Regions. By default, the CreateDataLake Security Lake in all
+Regions. To specify particular Regions, configure these Regions using the configurations
+parameter. If you have already enabled Security Lake in a Region when you call this
+command, the command will update the Region if you provide new configuration parameters. If
+you have not already enabled Security Lake in the Region when you call this API, it will
+set up the data lake in the Region with the specified configurations. When you enable
+Security Lake, it starts ingesting security data after the CreateAwsLogSource call. This
+includes ingesting security data from sources, storing data, and making data accessible to
+subscribers. Security Lake also enables all the existing settings and resources that it
+stores or maintains for your Amazon Web Services account in the current Region, including
+security log and event data. For more information, see the Amazon Security Lake User Guide.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"configurations"`: Specify the Region or Regions that will contribute data to the rollup
+# Arguments
+- `configurations`: Specify the Region or Regions that will contribute data to the rollup
   region.
-- `"enableAll"`: Enable Security Lake in all Regions.
-- `"metaStoreManagerRoleArn"`: The Amazon Resource Name (ARN) used to create and update the
-  Glue table. This table contains partitions generated by the ingestion and normalization of
-  Amazon Web Services log sources and custom sources.
-- `"regions"`: Enable Security Lake in the specified Regions. To enable Security Lake in
-  specific Amazon Web Services Regions, such as us-east-1 or ap-northeast-3, provide the
-  Region codes. For a list of Region codes, see Amazon Security Lake endpoints in the Amazon
-  Web Services General Reference.
+- `meta_store_manager_role_arn`: The Amazon Resource Name (ARN) used to create and update
+  the Glue table. This table contains partitions generated by the ingestion and normalization
+  of Amazon Web Services log sources and custom sources.
+
 """
-function create_datalake(; aws_config::AbstractAWSConfig=global_aws_config())
-    return securitylake(
-        "POST", "/v1/datalake"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function create_datalake(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function create_data_lake(
+    configurations,
+    metaStoreManagerRoleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return securitylake(
         "POST",
         "/v1/datalake",
-        params;
+        Dict{String,Any}(
+            "configurations" => configurations,
+            "metaStoreManagerRoleArn" => metaStoreManagerRoleArn,
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-
-"""
-    create_datalake_auto_enable(configuration_for_new_accounts)
-    create_datalake_auto_enable(configuration_for_new_accounts, params::Dict{String,<:Any})
-
-Automatically enables Amazon Security Lake for new member accounts in your organization.
-Security Lake is not automatically enabled for any existing member accounts in your
-organization.
-
-# Arguments
-- `configuration_for_new_accounts`: Enable Security Lake with the specified configuration
-  settings to begin collecting security data for new accounts in your organization.
-
-"""
-function create_datalake_auto_enable(
-    configurationForNewAccounts; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "POST",
-        "/v1/datalake/autoenable",
-        Dict{String,Any}("configurationForNewAccounts" => configurationForNewAccounts);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_datalake_auto_enable(
-    configurationForNewAccounts,
+function create_data_lake(
+    configurations,
+    metaStoreManagerRoleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return securitylake(
         "POST",
-        "/v1/datalake/autoenable",
+        "/v1/datalake",
         Dict{String,Any}(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "configurationForNewAccounts" => configurationForNewAccounts
+                    "configurations" => configurations,
+                    "metaStoreManagerRoleArn" => metaStoreManagerRoleArn,
                 ),
                 params,
             ),
@@ -231,44 +168,8 @@ function create_datalake_auto_enable(
 end
 
 """
-    create_datalake_delegated_admin(account)
-    create_datalake_delegated_admin(account, params::Dict{String,<:Any})
-
-Designates the Amazon Security Lake delegated administrator account for the organization.
-This API can only be called by the organization management account. The organization
-management account cannot be the delegated administrator account.
-
-# Arguments
-- `account`: The Amazon Web Services account ID of the Security Lake delegated
-  administrator.
-
-"""
-function create_datalake_delegated_admin(
-    account; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "POST",
-        "/v1/datalake/delegate",
-        Dict{String,Any}("account" => account);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function create_datalake_delegated_admin(
-    account, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "POST",
-        "/v1/datalake/delegate",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("account" => account), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    create_datalake_exceptions_subscription(notification_endpoint, subscription_protocol)
-    create_datalake_exceptions_subscription(notification_endpoint, subscription_protocol, params::Dict{String,<:Any})
+    create_data_lake_exception_subscription(notification_endpoint, subscription_protocol)
+    create_data_lake_exception_subscription(notification_endpoint, subscription_protocol, params::Dict{String,<:Any})
 
 Creates the specified notification subscription in Amazon Security Lake for the
 organization you specify.
@@ -279,8 +180,11 @@ organization you specify.
 - `subscription_protocol`: The subscription protocol to which exception notifications are
   posted.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"exceptionTimeToLive"`: The expiration period and time-to-live (TTL).
 """
-function create_datalake_exceptions_subscription(
+function create_data_lake_exception_subscription(
     notificationEndpoint,
     subscriptionProtocol;
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -296,7 +200,7 @@ function create_datalake_exceptions_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function create_datalake_exceptions_subscription(
+function create_data_lake_exception_subscription(
     notificationEndpoint,
     subscriptionProtocol,
     params::AbstractDict{String};
@@ -321,21 +225,61 @@ function create_datalake_exceptions_subscription(
 end
 
 """
-    create_subscriber(account_id, external_id, source_types, subscriber_name)
-    create_subscriber(account_id, external_id, source_types, subscriber_name, params::Dict{String,<:Any})
+    create_data_lake_organization_configuration(auto_enable_new_account)
+    create_data_lake_organization_configuration(auto_enable_new_account, params::Dict{String,<:Any})
+
+Automatically enables Amazon Security Lake for new member accounts in your organization.
+Security Lake is not automatically enabled for any existing member accounts in your
+organization.
+
+# Arguments
+- `auto_enable_new_account`: Enable Security Lake with the specified configuration
+  settings, to begin collecting security data for new accounts in your organization.
+
+"""
+function create_data_lake_organization_configuration(
+    autoEnableNewAccount; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/organization/configuration",
+        Dict{String,Any}("autoEnableNewAccount" => autoEnableNewAccount);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_data_lake_organization_configuration(
+    autoEnableNewAccount,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/organization/configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("autoEnableNewAccount" => autoEnableNewAccount),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_subscriber(sources, subscriber_identity, subscriber_name)
+    create_subscriber(sources, subscriber_identity, subscriber_name, params::Dict{String,<:Any})
 
 Creates a subscription permission for accounts that are already enabled in Amazon Security
 Lake. You can create a subscriber with access to data in the current Amazon Web Services
 Region.
 
 # Arguments
-- `account_id`: The Amazon Web Services account ID used to access your data.
-- `external_id`: The external ID of the subscriber. This lets the user that is assuming the
-  role assert the circumstances in which they are operating. It also provides a way for the
-  account owner to permit the role to be assumed only under specific circumstances.
-- `source_types`: The supported Amazon Web Services from which logs and events are
-  collected. Security Lake supports log and event collection for natively supported Amazon
-  Web Services.
+- `sources`: The supported Amazon Web Services from which logs and events are collected.
+  Security Lake supports log and event collection for natively supported Amazon Web Services.
+- `subscriber_identity`: The AWS identity used to access your data.
 - `subscriber_name`: The name of your Security Lake subscriber account.
 
 # Optional Parameters
@@ -344,9 +288,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscriberDescription"`: The description for your subscriber account in Security Lake.
 """
 function create_subscriber(
-    accountId,
-    externalId,
-    sourceTypes,
+    sources,
+    subscriberIdentity,
     subscriberName;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -354,9 +297,8 @@ function create_subscriber(
         "POST",
         "/v1/subscribers",
         Dict{String,Any}(
-            "accountId" => accountId,
-            "externalId" => externalId,
-            "sourceTypes" => sourceTypes,
+            "sources" => sources,
+            "subscriberIdentity" => subscriberIdentity,
             "subscriberName" => subscriberName,
         );
         aws_config=aws_config,
@@ -364,9 +306,8 @@ function create_subscriber(
     )
 end
 function create_subscriber(
-    accountId,
-    externalId,
-    sourceTypes,
+    sources,
+    subscriberIdentity,
     subscriberName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -378,9 +319,8 @@ function create_subscriber(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "accountId" => accountId,
-                    "externalId" => externalId,
-                    "sourceTypes" => sourceTypes,
+                    "sources" => sources,
+                    "subscriberIdentity" => subscriberIdentity,
                     "subscriberName" => subscriberName,
                 ),
                 params,
@@ -392,47 +332,118 @@ function create_subscriber(
 end
 
 """
-    create_subscription_notification_configuration(subscription_id)
-    create_subscription_notification_configuration(subscription_id, params::Dict{String,<:Any})
+    create_subscriber_notification(configuration, subscriber_id)
+    create_subscriber_notification(configuration, subscriber_id, params::Dict{String,<:Any})
 
 Notifies the subscriber when new data is written to the data lake for the sources that the
 subscriber consumes in Security Lake. You can create only one subscriber notification per
 subscriber.
 
 # Arguments
-- `subscription_id`: The subscription ID for the notification subscription.
+- `configuration`: Specify the configuration using which you want to create the subscriber
+  notification.
+- `subscriber_id`: The subscriber ID for the notification subscription.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"createSqs"`: Create an Amazon Simple Queue Service queue.
-- `"httpsApiKeyName"`: The key name for the notification subscription.
-- `"httpsApiKeyValue"`: The key value for the notification subscription.
-- `"httpsMethod"`: The HTTPS method used for the notification subscription.
-- `"roleArn"`: The Amazon Resource Name (ARN) of the EventBridge API destinations IAM role
-  that you created. For more information about ARNs and how to use them in policies, see
-  Managing data access and Amazon Web Services Managed Policies in the Amazon Security Lake
-  User Guide.
-- `"subscriptionEndpoint"`: The subscription endpoint in Security Lake. If you prefer
-  notification with an HTTPs endpoint, populate this field.
 """
-function create_subscription_notification_configuration(
-    subscriptionId; aws_config::AbstractAWSConfig=global_aws_config()
+function create_subscriber_notification(
+    configuration, subscriberId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
-        "/subscription-notifications/$(subscriptionId)";
+        "/v1/subscribers/$(subscriberId)/notification",
+        Dict{String,Any}("configuration" => configuration);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function create_subscription_notification_configuration(
-    subscriptionId,
+function create_subscriber_notification(
+    configuration,
+    subscriberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return securitylake(
         "POST",
-        "/subscription-notifications/$(subscriptionId)",
+        "/v1/subscribers/$(subscriberId)/notification",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_aws_log_source(sources)
+    delete_aws_log_source(sources, params::Dict{String,<:Any})
+
+Removes a natively supported Amazon Web Service as an Amazon Security Lake source. You can
+remove a source for one or more Regions. When you remove the source, Security Lake stops
+collecting data from that source in the specified Regions and accounts, and subscribers can
+no longer consume new data from the source. However, subscribers can still consume data
+that Security Lake collected from the source before removal. You can choose any source type
+in any Amazon Web Services Region for either accounts that are part of a trusted
+organization or standalone accounts.
+
+# Arguments
+- `sources`: Specify the natively-supported Amazon Web Services service to remove as a
+  source in Security Lake.
+
+"""
+function delete_aws_log_source(sources; aws_config::AbstractAWSConfig=global_aws_config())
+    return securitylake(
+        "POST",
+        "/v1/datalake/logsources/aws/delete",
+        Dict{String,Any}("sources" => sources);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_aws_log_source(
+    sources, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/logsources/aws/delete",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("sources" => sources), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_custom_log_source(source_name)
+    delete_custom_log_source(source_name, params::Dict{String,<:Any})
+
+Removes a custom log source from Amazon Security Lake, to stop sending data from the custom
+source to Security Lake.
+
+# Arguments
+- `source_name`: The source name of custom log source that you want to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"sourceVersion"`: The source version for the third-party custom source. You can limit
+  the custom source removal to the specified source version.
+"""
+function delete_custom_log_source(
+    sourceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "DELETE",
+        "/v1/datalake/logsources/custom/$(sourceName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_custom_log_source(
+    sourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securitylake(
+        "DELETE",
+        "/v1/datalake/logsources/custom/$(sourceName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -440,129 +451,66 @@ function create_subscription_notification_configuration(
 end
 
 """
-    delete_aws_log_source(input_order)
-    delete_aws_log_source(input_order, params::Dict{String,<:Any})
+    delete_data_lake(regions)
+    delete_data_lake(regions, params::Dict{String,<:Any})
 
-Removes a natively supported Amazon Web Service as an Amazon Security Lake source. When you
-remove the source, Security Lake stops collecting data from that source, and subscribers
-can no longer consume new data from the source. Subscribers can still consume data that
-Security Lake collected from the source before disablement. You can choose any source type
-in any Amazon Web Services Region for either accounts that are part of a trusted
-organization or standalone accounts. At least one of the three dimensions is a mandatory
-input to this API. However, you can supply any combination of the three dimensions to this
-API.  By default, a dimension refers to the entire set. This is overridden when you supply
-any one of the inputs. For instance, when you do not specify members, the API disables all
-Security Lake member accounts for sources. Similarly, when you do not specify Regions,
-Security Lake is disabled for all the Regions where Security Lake is available as a
-service. When you don't provide a dimension, Security Lake assumes that the missing
-dimension refers to the entire set. For example, if you don't provide specific accounts,
-the API applies to the entire set of accounts in your organization.
-
-# Arguments
-- `input_order`: This is a mandatory input. Specify the input order to disable dimensions
-  in Security Lake, namely Region (Amazon Web Services Region code, source type, and member
-  (account ID of a specific Amazon Web Services account).
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"disableAllDimensions"`: Removes the specific Amazon Web Services sources from specific
-  accounts and specific Regions.
-- `"disableSingleDimension"`: Removes all Amazon Web Services sources from specific
-  accounts or Regions.
-- `"disableTwoDimensions"`: Remove a specific Amazon Web Services source from specific
-  accounts or Regions.
-"""
-function delete_aws_log_source(
-    inputOrder; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "POST",
-        "/v1/logsources/aws/delete",
-        Dict{String,Any}("inputOrder" => inputOrder);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_aws_log_source(
-    inputOrder,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return securitylake(
-        "POST",
-        "/v1/logsources/aws/delete",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("inputOrder" => inputOrder), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_custom_log_source(custom_source_name)
-    delete_custom_log_source(custom_source_name, params::Dict{String,<:Any})
-
-Removes a custom log source from Amazon Security Lake.
-
-# Arguments
-- `custom_source_name`: The custom source name for the custom log source.
-
-"""
-function delete_custom_log_source(
-    customSourceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "DELETE",
-        "/v1/logsources/custom",
-        Dict{String,Any}("customSourceName" => customSourceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_custom_log_source(
-    customSourceName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return securitylake(
-        "DELETE",
-        "/v1/logsources/custom",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("customSourceName" => customSourceName), params
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_datalake()
-    delete_datalake(params::Dict{String,<:Any})
-
-When you delete Amazon Security Lake from your account, Security Lake is disabled in all
-Amazon Web Services Regions. Also, this API automatically takes steps to remove the account
-from Security Lake .  This operation disables security data collection from sources,
-deletes data stored, and stops making data accessible to subscribers. Security Lake also
-deletes all the existing settings and resources that it stores or maintains for your Amazon
-Web Services account in the current Region, including security log and event data. The
-DeleteDatalake operation does not delete the Amazon S3 bucket, which is owned by your
+When you disable Amazon Security Lake from your account, Security Lake is disabled in all
+Amazon Web Services Regions and it stops collecting data from your sources. Also, this API
+automatically takes steps to remove the account from Security Lake. However, Security Lake
+retains all of your existing settings and the resources that it created in your Amazon Web
+Services account in the current Amazon Web Services Region. The DeleteDataLake operation
+does not delete the data that is stored in your Amazon S3 bucket, which is owned by your
 Amazon Web Services account. For more information, see the Amazon Security Lake User Guide.
 
+# Arguments
+- `regions`: The list of Regions where Security Lake is enabled.
+
 """
-function delete_datalake(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_data_lake(regions; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
-        "DELETE", "/v1/datalake"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+        "POST",
+        "/v1/datalake/delete",
+        Dict{String,Any}("regions" => regions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
-function delete_datalake(
+function delete_data_lake(
+    regions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/delete",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("regions" => regions), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_lake_exception_subscription()
+    delete_data_lake_exception_subscription(params::Dict{String,<:Any})
+
+Deletes the specified notification subscription in Amazon Security Lake for the
+organization you specify.
+
+"""
+function delete_data_lake_exception_subscription(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "DELETE",
+        "/v1/datalake/exceptions/subscription";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_data_lake_exception_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "DELETE",
-        "/v1/datalake",
+        "/v1/datalake/exceptions/subscription",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -570,48 +518,43 @@ function delete_datalake(
 end
 
 """
-    delete_datalake_auto_enable(remove_from_configuration_for_new_accounts)
-    delete_datalake_auto_enable(remove_from_configuration_for_new_accounts, params::Dict{String,<:Any})
+    delete_data_lake_organization_configuration(auto_enable_new_account)
+    delete_data_lake_organization_configuration(auto_enable_new_account, params::Dict{String,<:Any})
 
- DeleteDatalakeAutoEnable removes automatic enablement of configuration settings for new
-member accounts (but keeps settings for the delegated administrator) from Amazon Security
-Lake. You must run this API using credentials of the delegated administrator. When you run
-this API, new member accounts that are added after the organization enables Security Lake
-won't contribute to the data lake.
+Removes automatic the enablement of configuration settings for new member accounts (but
+retains the settings for the delegated administrator) from Amazon Security Lake. You must
+run this API using the credentials of the delegated administrator. When you run this API,
+new member accounts that are added after the organization enables Security Lake won't
+contribute to the data lake.
 
 # Arguments
-- `remove_from_configuration_for_new_accounts`: Remove automatic enablement of
-  configuration settings for new member accounts in Security Lake.
+- `auto_enable_new_account`: Removes the automatic enablement of configuration settings for
+  new member accounts in Security Lake.
 
 """
-function delete_datalake_auto_enable(
-    removeFromConfigurationForNewAccounts; aws_config::AbstractAWSConfig=global_aws_config()
+function delete_data_lake_organization_configuration(
+    autoEnableNewAccount; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
-        "/v1/datalake/autoenable/delete",
-        Dict{String,Any}(
-            "removeFromConfigurationForNewAccounts" => removeFromConfigurationForNewAccounts
-        );
+        "/v1/datalake/organization/configuration/delete",
+        Dict{String,Any}("autoEnableNewAccount" => autoEnableNewAccount);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function delete_datalake_auto_enable(
-    removeFromConfigurationForNewAccounts,
+function delete_data_lake_organization_configuration(
+    autoEnableNewAccount,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return securitylake(
         "POST",
-        "/v1/datalake/autoenable/delete",
+        "/v1/datalake/organization/configuration/delete",
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "removeFromConfigurationForNewAccounts" =>
-                        removeFromConfigurationForNewAccounts,
-                ),
+                Dict{String,Any}("autoEnableNewAccount" => autoEnableNewAccount),
                 params,
             ),
         );
@@ -621,33 +564,35 @@ function delete_datalake_auto_enable(
 end
 
 """
-    delete_datalake_delegated_admin(account)
-    delete_datalake_delegated_admin(account, params::Dict{String,<:Any})
+    delete_subscriber(subscriber_id)
+    delete_subscriber(subscriber_id, params::Dict{String,<:Any})
 
-Deletes the Amazon Security Lake delegated administrator account for the organization. This
-API can only be called by the organization management account. The organization management
-account cannot be the delegated administrator account.
+Deletes the subscription permission and all notification settings for accounts that are
+already enabled in Amazon Security Lake. When you run DeleteSubscriber, the subscriber will
+no longer consume data from Security Lake and the subscriber is removed. This operation
+deletes the subscriber and removes access to data in the current Amazon Web Services Region.
 
 # Arguments
-- `account`: The account ID the Security Lake delegated administrator.
+- `subscriber_id`: A value created by Security Lake that uniquely identifies your
+  DeleteSubscriber API request.
 
 """
-function delete_datalake_delegated_admin(
-    account; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function delete_subscriber(subscriberId; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
         "DELETE",
-        "/v1/datalake/delegate/$(account)";
+        "/v1/subscribers/$(subscriberId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function delete_datalake_delegated_admin(
-    account, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+function delete_subscriber(
+    subscriberId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return securitylake(
         "DELETE",
-        "/v1/datalake/delegate/$(account)",
+        "/v1/subscribers/$(subscriberId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -655,28 +600,93 @@ function delete_datalake_delegated_admin(
 end
 
 """
-    delete_datalake_exceptions_subscription()
-    delete_datalake_exceptions_subscription(params::Dict{String,<:Any})
+    delete_subscriber_notification(subscriber_id)
+    delete_subscriber_notification(subscriber_id, params::Dict{String,<:Any})
 
 Deletes the specified notification subscription in Amazon Security Lake for the
 organization you specify.
 
+# Arguments
+- `subscriber_id`: The ID of the Security Lake subscriber account.
+
 """
-function delete_datalake_exceptions_subscription(;
+function delete_subscriber_notification(
+    subscriberId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "DELETE",
+        "/v1/subscribers/$(subscriberId)/notification";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_subscriber_notification(
+    subscriberId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securitylake(
+        "DELETE",
+        "/v1/subscribers/$(subscriberId)/notification",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deregister_data_lake_delegated_administrator()
+    deregister_data_lake_delegated_administrator(params::Dict{String,<:Any})
+
+Deletes the Amazon Security Lake delegated administrator account for the organization. This
+API can only be called by the organization management account. The organization management
+account cannot be the delegated administrator account.
+
+"""
+function deregister_data_lake_delegated_administrator(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "DELETE",
+        "/v1/datalake/delegate";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deregister_data_lake_delegated_administrator(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "DELETE",
+        "/v1/datalake/delegate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_lake_exception_subscription()
+    get_data_lake_exception_subscription(params::Dict{String,<:Any})
+
+Retrieves the details of exception notifications for the account in Amazon Security Lake.
+
+"""
+function get_data_lake_exception_subscription(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "GET",
         "/v1/datalake/exceptions/subscription";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function delete_datalake_exceptions_subscription(
+function get_data_lake_exception_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
-        "DELETE",
+        "GET",
         "/v1/datalake/exceptions/subscription",
         params;
         aws_config=aws_config,
@@ -685,181 +695,30 @@ function delete_datalake_exceptions_subscription(
 end
 
 """
-    delete_subscriber(id)
-    delete_subscriber(id, params::Dict{String,<:Any})
-
-Deletes the subscription permission for accounts that are already enabled in Amazon
-Security Lake. You can delete a subscriber and remove access to data in the current Amazon
-Web Services Region.
-
-# Arguments
-- `id`: A value created by Security Lake that uniquely identifies your DeleteSubscriber API
-  request.
-
-"""
-function delete_subscriber(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return securitylake(
-        "DELETE",
-        "/v1/subscribers",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_subscriber(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "DELETE",
-        "/v1/subscribers",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    delete_subscription_notification_configuration(subscription_id)
-    delete_subscription_notification_configuration(subscription_id, params::Dict{String,<:Any})
-
-Deletes the specified notification subscription in Amazon Security Lake for the
-organization you specify.
-
-# Arguments
-- `subscription_id`: The ID of the Security Lake subscriber account.
-
-"""
-function delete_subscription_notification_configuration(
-    subscriptionId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "DELETE",
-        "/subscription-notifications/$(subscriptionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function delete_subscription_notification_configuration(
-    subscriptionId,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return securitylake(
-        "DELETE",
-        "/subscription-notifications/$(subscriptionId)",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_datalake()
-    get_datalake(params::Dict{String,<:Any})
-
-Retrieves the Amazon Security Lake configuration object for the specified Amazon Web
-Services account ID. You can use the GetDatalake API to know whether Security Lake is
-enabled for the current Region. This API does not take input parameters.
-
-"""
-function get_datalake(; aws_config::AbstractAWSConfig=global_aws_config())
-    return securitylake(
-        "GET", "/v1/datalake"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
-function get_datalake(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "GET",
-        "/v1/datalake",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_datalake_auto_enable()
-    get_datalake_auto_enable(params::Dict{String,<:Any})
+    get_data_lake_organization_configuration()
+    get_data_lake_organization_configuration(params::Dict{String,<:Any})
 
 Retrieves the configuration that will be automatically set up for accounts added to the
 organization after the organization has onboarded to Amazon Security Lake. This API does
 not take input parameters.
 
 """
-function get_datalake_auto_enable(; aws_config::AbstractAWSConfig=global_aws_config())
-    return securitylake(
-        "GET",
-        "/v1/datalake/autoenable";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_datalake_auto_enable(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "GET",
-        "/v1/datalake/autoenable",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_datalake_exceptions_expiry()
-    get_datalake_exceptions_expiry(params::Dict{String,<:Any})
-
-Retrieves the expiration period and time-to-live (TTL) for which the exception message will
-remain. Exceptions are stored by default, for 2 weeks from when a record was created in
-Amazon Security Lake. This API does not take input parameters.
-
-"""
-function get_datalake_exceptions_expiry(; aws_config::AbstractAWSConfig=global_aws_config())
-    return securitylake(
-        "GET",
-        "/v1/datalake/exceptions/expiry";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function get_datalake_exceptions_expiry(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "GET",
-        "/v1/datalake/exceptions/expiry",
-        params;
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    get_datalake_exceptions_subscription()
-    get_datalake_exceptions_subscription(params::Dict{String,<:Any})
-
-Retrieves the details of exception notifications for the account in Amazon Security Lake.
-
-"""
-function get_datalake_exceptions_subscription(;
+function get_data_lake_organization_configuration(;
     aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "GET",
-        "/v1/datalake/exceptions/subscription";
+        "/v1/datalake/organization/configuration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function get_datalake_exceptions_subscription(
+function get_data_lake_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "GET",
-        "/v1/datalake/exceptions/subscription",
+        "/v1/datalake/organization/configuration",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -867,38 +726,38 @@ function get_datalake_exceptions_subscription(
 end
 
 """
-    get_datalake_status()
-    get_datalake_status(params::Dict{String,<:Any})
+    get_data_lake_sources()
+    get_data_lake_sources(params::Dict{String,<:Any})
 
 Retrieves a snapshot of the current Region, including whether Amazon Security Lake is
 enabled for those accounts and which sources Security Lake is collecting data from.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accountSet"`: The Amazon Web Services account ID for which a static snapshot of the
+- `"accounts"`: The Amazon Web Services account ID for which a static snapshot of the
   current Amazon Web Services Region, including enabled accounts and log sources, is
   retrieved.
-- `"maxAccountResults"`: The maximum limit of accounts for which the static snapshot of the
+- `"maxResults"`: The maximum limit of accounts for which the static snapshot of the
   current Region, including enabled accounts and log sources, is retrieved.
 - `"nextToken"`: Lists if there are more results available. The value of nextToken is a
   unique pagination token for each page. Repeat the call using the returned token to retrieve
-  the next page. Keep all other arguments unchanged.  Each pagination token expires after 24
+  the next page. Keep all other arguments unchanged. Each pagination token expires after 24
   hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
 """
-function get_datalake_status(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_data_lake_sources(; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
         "POST",
-        "/v1/datalake/status";
+        "/v1/datalake/sources";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function get_datalake_status(
+function get_data_lake_sources(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
-        "/v1/datalake/status",
+        "/v1/datalake/sources",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -906,31 +765,33 @@ function get_datalake_status(
 end
 
 """
-    get_subscriber(id)
-    get_subscriber(id, params::Dict{String,<:Any})
+    get_subscriber(subscriber_id)
+    get_subscriber(subscriber_id, params::Dict{String,<:Any})
 
 Retrieves the subscription information for the specified subscription ID. You can get
 information about a specific subscriber.
 
 # Arguments
-- `id`: A value created by Amazon Security Lake that uniquely identifies your GetSubscriber
-  API request.
+- `subscriber_id`: A value created by Amazon Security Lake that uniquely identifies your
+  GetSubscriber API request.
 
 """
-function get_subscriber(id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_subscriber(subscriberId; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
         "GET",
-        "/v1/subscribers/$(id)";
+        "/v1/subscribers/$(subscriberId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_subscriber(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    subscriberId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return securitylake(
         "GET",
-        "/v1/subscribers/$(id)",
+        "/v1/subscribers/$(subscriberId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -938,22 +799,22 @@ function get_subscriber(
 end
 
 """
-    list_datalake_exceptions()
-    list_datalake_exceptions(params::Dict{String,<:Any})
+    list_data_lake_exceptions()
+    list_data_lake_exceptions(params::Dict{String,<:Any})
 
 Lists the Amazon Security Lake exceptions that you can use to find the source of problems
 and fix them.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxFailures"`: List the maximum number of failures in Security Lake.
+- `"maxResults"`: List the maximum number of failures in Security Lake.
 - `"nextToken"`: List if there are more results available. The value of nextToken is a
   unique pagination token for each page. Repeat the call using the returned token to retrieve
-  the next page. Keep all other arguments unchanged.  Each pagination token expires after 24
+  the next page. Keep all other arguments unchanged. Each pagination token expires after 24
   hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
-- `"regionSet"`: List the Amazon Web Services Regions from which exceptions are retrieved.
+- `"regions"`: List the Amazon Web Services Regions from which exceptions are retrieved.
 """
-function list_datalake_exceptions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_data_lake_exceptions(; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
         "POST",
         "/v1/datalake/exceptions";
@@ -961,12 +822,41 @@ function list_datalake_exceptions(; aws_config::AbstractAWSConfig=global_aws_con
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function list_datalake_exceptions(
+function list_data_lake_exceptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
         "/v1/datalake/exceptions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_lakes()
+    list_data_lakes(params::Dict{String,<:Any})
+
+Retrieves the Amazon Security Lake configuration object for the specified Amazon Web
+Services account ID. You can use the ListDataLakes API to know whether Security Lake is
+enabled for any region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"regions"`: The list of regions where Security Lake is enabled.
+"""
+function list_data_lakes(; aws_config::AbstractAWSConfig=global_aws_config())
+    return securitylake(
+        "GET", "/v1/datalakes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_data_lakes(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "GET",
+        "/v1/datalakes",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -981,23 +871,18 @@ Retrieves the log sources in the current Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"inputOrder"`: Lists the log sources in input order, namely Region, source type, and
-  member account.
-- `"listAllDimensions"`: List the view of log sources for enabled Amazon Security Lake
-  accounts for specific Amazon Web Services sources from specific accounts and specific
-  Regions.
-- `"listSingleDimension"`: List the view of log sources for enabled Security Lake accounts
-  for all Amazon Web Services sources from specific accounts or specific Regions.
-- `"listTwoDimensions"`: Lists the view of log sources for enabled Security Lake accounts
-  for specific Amazon Web Services sources from specific accounts or specific Regions.
+- `"accounts"`: The list of Amazon Web Services accounts for which log sources are
+  displayed.
 - `"maxResults"`: The maximum number of accounts for which the log sources are displayed.
 - `"nextToken"`: If nextToken is returned, there are more results available. You can repeat
   the call using the returned token to retrieve the next page.
+- `"regions"`: The list of regions for which log sources are displayed.
+- `"sources"`: The list of sources for which log sources are displayed.
 """
 function list_log_sources(; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
         "POST",
-        "/v1/logsources/list";
+        "/v1/datalake/logsources/list";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1007,7 +892,7 @@ function list_log_sources(
 )
     return securitylake(
         "POST",
-        "/v1/logsources/list",
+        "/v1/datalake/logsources/list",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1046,8 +931,48 @@ function list_subscribers(
 end
 
 """
-    update_datalake(configurations)
-    update_datalake(configurations, params::Dict{String,<:Any})
+    register_data_lake_delegated_administrator(account_id)
+    register_data_lake_delegated_administrator(account_id, params::Dict{String,<:Any})
+
+Designates the Amazon Security Lake delegated administrator account for the organization.
+This API can only be called by the organization management account. The organization
+management account cannot be the delegated administrator account.
+
+# Arguments
+- `account_id`: The Amazon Web Services account ID of the Security Lake delegated
+  administrator.
+
+"""
+function register_data_lake_delegated_administrator(
+    accountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/delegate",
+        Dict{String,Any}("accountId" => accountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function register_data_lake_delegated_administrator(
+    accountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/datalake/delegate",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("accountId" => accountId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_data_lake(configurations)
+    update_data_lake(configurations, params::Dict{String,<:Any})
 
 Specifies where to store your security data and for how long. You can add a rollup Region
 to consolidate data from multiple Amazon Web Services Regions.
@@ -1057,7 +982,7 @@ to consolidate data from multiple Amazon Web Services Regions.
   region.
 
 """
-function update_datalake(configurations; aws_config::AbstractAWSConfig=global_aws_config())
+function update_data_lake(configurations; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
         "PUT",
         "/v1/datalake",
@@ -1066,7 +991,7 @@ function update_datalake(configurations; aws_config::AbstractAWSConfig=global_aw
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function update_datalake(
+function update_data_lake(
     configurations,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -1083,51 +1008,8 @@ function update_datalake(
 end
 
 """
-    update_datalake_exceptions_expiry(exception_message_expiry)
-    update_datalake_exceptions_expiry(exception_message_expiry, params::Dict{String,<:Any})
-
-Update the expiration period for the exception message to your preferred time, and control
-the time-to-live (TTL) for the exception message to remain. Exceptions are stored by
-default for 2 weeks from when a record was created in Amazon Security Lake.
-
-# Arguments
-- `exception_message_expiry`: The time-to-live (TTL) for the exception message to remain.
-
-"""
-function update_datalake_exceptions_expiry(
-    exceptionMessageExpiry; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return securitylake(
-        "PUT",
-        "/v1/datalake/exceptions/expiry",
-        Dict{String,Any}("exceptionMessageExpiry" => exceptionMessageExpiry);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-function update_datalake_exceptions_expiry(
-    exceptionMessageExpiry,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return securitylake(
-        "PUT",
-        "/v1/datalake/exceptions/expiry",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("exceptionMessageExpiry" => exceptionMessageExpiry),
-                params,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
-
-"""
-    update_datalake_exceptions_subscription(notification_endpoint, subscription_protocol)
-    update_datalake_exceptions_subscription(notification_endpoint, subscription_protocol, params::Dict{String,<:Any})
+    update_data_lake_exception_subscription(notification_endpoint, subscription_protocol)
+    update_data_lake_exception_subscription(notification_endpoint, subscription_protocol, params::Dict{String,<:Any})
 
 Updates the specified notification subscription in Amazon Security Lake for the
 organization you specify.
@@ -1135,11 +1017,13 @@ organization you specify.
 # Arguments
 - `notification_endpoint`: The account that is subscribed to receive exception
   notifications.
-- `subscription_protocol`: The subscription protocol to which exception messages are
-  posted.
+- `subscription_protocol`: The subscription protocol to which exception messages are posted.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"exceptionTimeToLive"`: The time-to-live (TTL) for the exception message to remain.
 """
-function update_datalake_exceptions_subscription(
+function update_data_lake_exception_subscription(
     notificationEndpoint,
     subscriptionProtocol;
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -1155,7 +1039,7 @@ function update_datalake_exceptions_subscription(
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function update_datalake_exceptions_subscription(
+function update_data_lake_exception_subscription(
     notificationEndpoint,
     subscriptionProtocol,
     params::AbstractDict{String};
@@ -1180,94 +1064,81 @@ function update_datalake_exceptions_subscription(
 end
 
 """
-    update_subscriber(id, source_types)
-    update_subscriber(id, source_types, params::Dict{String,<:Any})
+    update_subscriber(subscriber_id)
+    update_subscriber(subscriber_id, params::Dict{String,<:Any})
 
 Updates an existing subscription for the given Amazon Security Lake account ID. You can
 update a subscriber by changing the sources that the subscriber consumes data from.
 
 # Arguments
-- `id`: A value created by Security Lake that uniquely identifies your subscription.
-- `source_types`: The supported Amazon Web Services from which logs and events are
-  collected. For the list of supported Amazon Web Services, see the Amazon Security Lake User
-  Guide.
+- `subscriber_id`: A value created by Security Lake that uniquely identifies your
+  subscription.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"externalId"`: The external ID of the Security Lake account.
+- `"sources"`: The supported Amazon Web Services from which logs and events are collected.
+  For the list of supported Amazon Web Services, see the Amazon Security Lake User Guide.
 - `"subscriberDescription"`: The description of the Security Lake account subscriber.
+- `"subscriberIdentity"`: The AWS identity used to access your data.
 - `"subscriberName"`: The name of the Security Lake account subscriber.
 """
-function update_subscriber(
-    id, sourceTypes; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function update_subscriber(subscriberId; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
         "PUT",
-        "/v1/subscribers/$(id)",
-        Dict{String,Any}("sourceTypes" => sourceTypes);
+        "/v1/subscribers/$(subscriberId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_subscriber(
-    id,
-    sourceTypes,
+    subscriberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return securitylake(
         "PUT",
-        "/v1/subscribers/$(id)",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("sourceTypes" => sourceTypes), params)
-        );
+        "/v1/subscribers/$(subscriberId)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    update_subscription_notification_configuration(subscription_id)
-    update_subscription_notification_configuration(subscription_id, params::Dict{String,<:Any})
+    update_subscriber_notification(configuration, subscriber_id)
+    update_subscriber_notification(configuration, subscriber_id, params::Dict{String,<:Any})
 
 Updates an existing notification method for the subscription (SQS or HTTPs endpoint) or
 switches the notification subscription endpoint for a subscriber.
 
 # Arguments
-- `subscription_id`: The subscription ID for which the subscription notification is
-  specified.
+- `configuration`: The configuration for subscriber notification.
+- `subscriber_id`: The subscription ID for which the subscription notification is specified.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"createSqs"`: Create a new subscription notification for the specified subscription ID
-  in Amazon Security Lake.
-- `"httpsApiKeyName"`: The key name for the subscription notification.
-- `"httpsApiKeyValue"`: The key value for the subscription notification.
-- `"httpsMethod"`: The HTTPS method used for the subscription notification.
-- `"roleArn"`: The Amazon Resource Name (ARN) specifying the role of the subscriber. For
-  more information about ARNs and how to use them in policies, see, see the Managing data
-  access and Amazon Web Services Managed Policiesin the Amazon Security Lake User Guide.
-- `"subscriptionEndpoint"`: The subscription endpoint in Security Lake.
 """
-function update_subscription_notification_configuration(
-    subscriptionId; aws_config::AbstractAWSConfig=global_aws_config()
+function update_subscriber_notification(
+    configuration, subscriberId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "PUT",
-        "/subscription-notifications/$(subscriptionId)";
+        "/v1/subscribers/$(subscriberId)/notification",
+        Dict{String,Any}("configuration" => configuration);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function update_subscription_notification_configuration(
-    subscriptionId,
+function update_subscriber_notification(
+    configuration,
+    subscriberId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return securitylake(
         "PUT",
-        "/subscription-notifications/$(subscriptionId)",
-        params;
+        "/v1/subscribers/$(subscriberId)/notification",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("configuration" => configuration), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -11379,34 +11379,45 @@ function deregister_image(
 end
 
 """
-    deregister_instance_event_notification_attributes()
-    deregister_instance_event_notification_attributes(params::Dict{String,<:Any})
+    deregister_instance_event_notification_attributes(instance_tag_attribute)
+    deregister_instance_event_notification_attributes(instance_tag_attribute, params::Dict{String,<:Any})
 
 Deregisters tag keys to prevent tags that have the specified tag keys from being included
 in scheduled event notifications for resources in the Region.
+
+# Arguments
+- `instance_tag_attribute`: Information about the tag keys to deregister.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"InstanceTagAttribute"`: Information about the tag keys to deregister.
 """
-function deregister_instance_event_notification_attributes(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+function deregister_instance_event_notification_attributes(
+    InstanceTagAttribute; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ec2(
-        "DeregisterInstanceEventNotificationAttributes";
+        "DeregisterInstanceEventNotificationAttributes",
+        Dict{String,Any}("InstanceTagAttribute" => InstanceTagAttribute);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function deregister_instance_event_notification_attributes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceTagAttribute,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return ec2(
         "DeregisterInstanceEventNotificationAttributes",
-        params;
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceTagAttribute" => InstanceTagAttribute),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -27383,34 +27394,45 @@ function register_image(
 end
 
 """
-    register_instance_event_notification_attributes()
-    register_instance_event_notification_attributes(params::Dict{String,<:Any})
+    register_instance_event_notification_attributes(instance_tag_attribute)
+    register_instance_event_notification_attributes(instance_tag_attribute, params::Dict{String,<:Any})
 
 Registers a set of tag keys to include in scheduled event notifications for your resources.
  To remove tags, use DeregisterInstanceEventNotificationAttributes.
+
+# Arguments
+- `instance_tag_attribute`: Information about the tag keys to register.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"InstanceTagAttribute"`: Information about the tag keys to register.
 """
-function register_instance_event_notification_attributes(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+function register_instance_event_notification_attributes(
+    InstanceTagAttribute; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return ec2(
-        "RegisterInstanceEventNotificationAttributes";
+        "RegisterInstanceEventNotificationAttributes",
+        Dict{String,Any}("InstanceTagAttribute" => InstanceTagAttribute);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function register_instance_event_notification_attributes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceTagAttribute,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return ec2(
         "RegisterInstanceEventNotificationAttributes",
-        params;
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceTagAttribute" => InstanceTagAttribute),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -828,7 +828,7 @@ end
 Creates an X.509 certificate using the specified certificate signing request.  Requires
 permission to access the CreateCertificateFromCsr action.   The CSR must include a public
 key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST
-P-25 or NIST P-384 curves. For supported certificates, consult  Certificate signing
+P-256 or NIST P-384 curves. For supported certificates, consult  Certificate signing
 algorithms supported by IoT.    Reusing the same certificate signing request (CSR) results
 in a distinct certificate.  You can create multiple certificates in a batch by creating a
 directory, copying multiple .csr files into that directory, and then specifying that
@@ -1214,6 +1214,9 @@ Creates a job. Requires permission to access the CreateJob action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"abortConfig"`: Allows you to create the criteria to abort a job.
 - `"description"`: A short text description of the job.
+- `"destinationPackageVersions"`: The package version Amazon Resource Names (ARNs) that are
+  installed on the device when the job successfully completes.   Note:The following Length
+  Constraints relates to a single string. Up to five strings are allowed.
 - `"document"`: The job document. Required if you don't specify a value for documentSource.
 - `"documentParameters"`: Parameters of an Amazon Web Services managed template that you
   can specify to create the job document.   documentParameters can only be used when creating
@@ -1222,7 +1225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"documentSource"`: An S3 link, or S3 object URL, to the job document. The link is an
   Amazon S3 object URL and is required if you don't specify a value for document. For
   example, --document-source
-  https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0. For more
+  https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0  For more
   information, see Methods for accessing a bucket.
 - `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
 - `"jobExecutionsRolloutConfig"`: Allows you to create a staged rollout of the job.
@@ -1287,6 +1290,9 @@ Creates a job template. Requires permission to access the CreateJobTemplate acti
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"abortConfig"`:
+- `"destinationPackageVersions"`: The package version Amazon Resource Names (ARNs) that are
+  installed on the device when the job successfully completes.   Note:The following Length
+  Constraints relates to a single string. Up to five strings are allowed.
 - `"document"`: The job document. Required if you don't specify a value for documentSource.
 - `"documentSource"`: An S3 link to the job document to use in the template. Required if
   you don't specify a value for document.  If the job document resides in an S3 bucket, you
@@ -1484,6 +1490,101 @@ function create_otaupdate(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_package(package_name)
+    create_package(package_name, params::Dict{String,<:Any})
+
+Creates an IoT software package that can be deployed to your fleet. Requires permission to
+access the CreatePackage and GetIndexingConfiguration actions.
+
+# Arguments
+- `package_name`: The name of the new package.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+- `"description"`: A summary of the package being created. This can be used to outline the
+  package's contents or purpose.
+- `"tags"`: Metadata that can be used to manage the package.
+"""
+function create_package(packageName; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot(
+        "PUT",
+        "/packages/$(packageName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_package(
+    packageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "PUT",
+        "/packages/$(packageName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_package_version(package_name, version_name)
+    create_package_version(package_name, version_name, params::Dict{String,<:Any})
+
+Creates a new version for an existing IoT software package. Requires permission to access
+the CreatePackageVersion and GetIndexingConfiguration actions.
+
+# Arguments
+- `package_name`: The name of the associated package.
+- `version_name`: The name of the new package version.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"attributes"`: Metadata that can be used to define a package version’s configuration.
+  For example, the S3 file location, configuration options that are being sent to the device
+  or fleet. The combined size of all the attributes on a package version is limited to 3KB.
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+- `"description"`: A summary of the package version being created. This can be used to
+  outline the package's contents or purpose.
+- `"tags"`: Metadata that can be used to manage the package version.
+"""
+function create_package_version(
+    packageName, versionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "PUT",
+        "/packages/$(packageName)/versions/$(versionName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_package_version(
+    packageName,
+    versionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "PUT",
+        "/packages/$(packageName)/versions/$(versionName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2784,6 +2885,94 @@ function delete_otaupdate(
         "DELETE",
         "/otaUpdates/$(otaUpdateId)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_package(package_name)
+    delete_package(package_name, params::Dict{String,<:Any})
+
+Deletes a specific version from a software package.  Note: All package versions must be
+deleted before deleting the software package. Requires permission to access the
+DeletePackageVersion action.
+
+# Arguments
+- `package_name`: The name of the target package.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+"""
+function delete_package(packageName; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot(
+        "DELETE",
+        "/packages/$(packageName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_package(
+    packageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "DELETE",
+        "/packages/$(packageName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_package_version(package_name, version_name)
+    delete_package_version(package_name, version_name, params::Dict{String,<:Any})
+
+Deletes a specific version from a software package.  Note: If a package version is
+designated as default, you must remove the designation from the package using the
+UpdatePackage action.
+
+# Arguments
+- `package_name`: The name of the associated package.
+- `version_name`: The name of the target package version.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+"""
+function delete_package_version(
+    packageName, versionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "DELETE",
+        "/packages/$(packageName)/versions/$(versionName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_package_version(
+    packageName,
+    versionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "DELETE",
+        "/packages/$(packageName)/versions/$(versionName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -5020,6 +5209,104 @@ function get_otaupdate(
 end
 
 """
+    get_package(package_name)
+    get_package(package_name, params::Dict{String,<:Any})
+
+Gets information about the specified software package. Requires permission to access the
+GetPackage action.
+
+# Arguments
+- `package_name`: The name of the target package.
+
+"""
+function get_package(packageName; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot(
+        "GET",
+        "/packages/$(packageName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_package(
+    packageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "GET",
+        "/packages/$(packageName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_package_configuration()
+    get_package_configuration(params::Dict{String,<:Any})
+
+Gets information about the specified software package's configuration. Requires permission
+to access the GetPackageConfiguration action.
+
+"""
+function get_package_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot(
+        "GET",
+        "/package-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_package_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "GET",
+        "/package-configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_package_version(package_name, version_name)
+    get_package_version(package_name, version_name, params::Dict{String,<:Any})
+
+Gets information about the specified package version.  Requires permission to access the
+GetPackageVersion action.
+
+# Arguments
+- `package_name`: The name of the associated package.
+- `version_name`: The name of the target package version.
+
+"""
+function get_package_version(
+    packageName, versionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "GET",
+        "/packages/$(packageName)/versions/$(versionName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_package_version(
+    packageName,
+    versionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "GET",
+        "/packages/$(packageName)/versions/$(versionName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_percentiles(query_string)
     get_percentiles(query_string, params::Dict{String,<:Any})
 
@@ -6344,6 +6631,70 @@ function list_outgoing_certificates(
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_package_versions(package_name)
+    list_package_versions(package_name, params::Dict{String,<:Any})
+
+Lists the software package versions associated to the account. Requires permission to
+access the ListPackageVersions action.
+
+# Arguments
+- `package_name`: The name of the target package.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return at one time.
+- `"nextToken"`: The token for the next set of results.
+- `"status"`: The status of the package version. For more information, see Package version
+  lifecycle.
+"""
+function list_package_versions(
+    packageName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "GET",
+        "/packages/$(packageName)/versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_package_versions(
+    packageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "GET",
+        "/packages/$(packageName)/versions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_packages()
+    list_packages(params::Dict{String,<:Any})
+
+Lists the software packages associated to the account. Requires permission to access the
+ListPackages action.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results returned at one time.
+- `"nextToken"`: The token for the next set of results.
+"""
+function list_packages(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot("GET", "/packages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_packages(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "GET", "/packages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -9257,6 +9608,144 @@ function update_mitigation_action(
         "PATCH",
         "/mitigationactions/actions/$(actionName)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_package(package_name)
+    update_package(package_name, params::Dict{String,<:Any})
+
+Updates the supported fields for a specific package. Requires permission to access the
+UpdatePackage and GetIndexingConfiguration actions.
+
+# Arguments
+- `package_name`: The name of the target package.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+- `"defaultVersionName"`: The name of the default package version.  Note: You cannot name a
+  defaultVersion and set unsetDefaultVersion equal to true at the same time.
+- `"description"`: The package description.
+- `"unsetDefaultVersion"`: Indicates whether you want to remove the named default package
+  version from the software package. Set as true to remove the default package version.
+  Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the
+  same time.
+"""
+function update_package(packageName; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot(
+        "PATCH",
+        "/packages/$(packageName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_package(
+    packageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "PATCH",
+        "/packages/$(packageName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_package_configuration()
+    update_package_configuration(params::Dict{String,<:Any})
+
+Updates the package configuration. Requires permission to access the
+UpdatePackageConfiguration and iam:PassRole actions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+- `"versionUpdateByJobsConfig"`: Configuration to manage job's package version reporting.
+  This updates the thing's reserved named shadow that the job targets.
+"""
+function update_package_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot(
+        "PATCH",
+        "/package-configuration",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_package_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "PATCH",
+        "/package-configuration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_package_version(package_name, version_name)
+    update_package_version(package_name, version_name, params::Dict{String,<:Any})
+
+Updates the supported fields for a specific package version. Requires permission to access
+the UpdatePackageVersion and GetIndexingConfiguration actions.
+
+# Arguments
+- `package_name`: The name of the associated software package.
+- `version_name`: The name of the target package version.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"action"`: The status that the package version should be assigned. For more information,
+  see Package version lifecycle.
+- `"attributes"`: Metadata that can be used to define a package version’s configuration.
+  For example, the S3 file location, configuration options that are being sent to the device
+  or fleet.   Note: Attributes can be updated only when the package version is in a draft
+  state. The combined size of all the attributes on a package version is limited to 3KB.
+- `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
+  idempotency of the request. Don't reuse this client token if a new idempotent request is
+  required.
+- `"description"`: The package version description.
+"""
+function update_package_version(
+    packageName, versionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "PATCH",
+        "/packages/$(packageName)/versions/$(versionName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_package_version(
+    packageName,
+    versionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "PATCH",
+        "/packages/$(packageName)/versions/$(versionName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

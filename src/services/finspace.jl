@@ -52,6 +52,340 @@ function create_environment(
 end
 
 """
+    create_kx_changeset(change_requests, client_token, database_name, environment_id)
+    create_kx_changeset(change_requests, client_token, database_name, environment_id, params::Dict{String,<:Any})
+
+ Creates a changeset for a kdb database. A changeset allows you to add and delete existing
+files by using an ordered list of change requests.
+
+# Arguments
+- `change_requests`: A list of change request objects that are run in order. A change
+  request object consists of changeType , s3Path, and a dbPath. A changeType can has the
+  following values:    PUT – Adds or updates files in a database.   DELETE – Deletes
+  files in a database.   All the change requests require a mandatory dbPath attribute that
+  defines the path within the database directory. The s3Path attribute defines the s3 source
+  file path and is required for a PUT change type. Here is an example of how you can use the
+  change request object:  [ { \"changeType\": \"PUT\",
+  \"s3Path\":\"s3://bucket/db/2020.01.02/\", \"dbPath\":\"/2020.01.02/\"}, { \"changeType\":
+  \"PUT\", \"s3Path\":\"s3://bucket/db/sym\", \"dbPath\":\"/\"}, { \"changeType\":
+  \"DELETE\", \"dbPath\": \"/2020.01.01/\"} ]  In this example, the first request with PUT
+  change type allows you to add files in the given s3Path under the 2020.01.02 partition of
+  the database. The second request with PUT change type allows you to add a single sym file
+  at database root location. The last request with DELETE change type allows you to delete
+  the files under the 2020.01.01 partition of the database.
+- `client_token`: A token that ensures idempotency. This token expires in 10 minutes.
+- `database_name`: The name of the kdb database.
+- `environment_id`: A unique identifier of the kdb environment.
+
+"""
+function create_kx_changeset(
+    changeRequests,
+    clientToken,
+    databaseName,
+    environmentId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "POST",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets",
+        Dict{String,Any}("changeRequests" => changeRequests, "clientToken" => clientToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_kx_changeset(
+    changeRequests,
+    clientToken,
+    databaseName,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "POST",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "changeRequests" => changeRequests, "clientToken" => clientToken
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_kx_cluster(az_mode, capacity_configuration, cluster_name, cluster_type, environment_id, release_label)
+    create_kx_cluster(az_mode, capacity_configuration, cluster_name, cluster_type, environment_id, release_label, params::Dict{String,<:Any})
+
+Creates a new kdb cluster.
+
+# Arguments
+- `az_mode`: The number of availability zones you want to assign per cluster. This can be
+  one of the following     SINGLE – Assigns one availability zone per cluster.    MULTI –
+  Assigns all the availability zones per cluster.
+- `capacity_configuration`: A structure for the metadata of a cluster. It includes
+  information about like the CPUs needed, memory of instances, number of instances, and the
+  port used while establishing a connection.
+- `cluster_name`: A unique name for the cluster that you want to create.
+- `cluster_type`: Specifies the type of KDB database that is being created. The following
+  types are available:    HDB – A Historical Database. The data is only accessible with
+  read-only permissions from one of the FinSpace managed kdb databases mounted to the
+  cluster.   RDB – A Realtime Database. This type of database captures all the data from a
+  ticker plant and stores it in memory until the end of day, after which it writes all of its
+  data to a disk and reloads the HDB. This cluster type requires local storage for temporary
+  storage of data during the savedown process. If you specify this field in your request, you
+  must provide the savedownStorageConfiguration parameter.   GATEWAY – A gateway cluster
+  allows you to access data across processes in kdb systems. It allows you to create your own
+  routing logic using the initialization scripts and custom code. This type of cluster does
+  not require a writable local storage.
+- `environment_id`: A unique identifier for the kdb environment.
+- `release_label`: The version of FinSpace managed kdb to run.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"autoScalingConfiguration"`: The configuration based on which FinSpace will scale in or
+  scale out nodes in your cluster.
+- `"availabilityZoneId"`: The availability zone identifiers for the requested regions.
+- `"cacheStorageConfigurations"`: The configurations for a read only cache storage
+  associated with a cluster. This cache will be stored as an FSx Lustre that reads from the
+  S3 store.
+- `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+- `"clusterDescription"`: A description of the cluster.
+- `"code"`: The details of the custom code that you want to use inside a cluster when
+  analyzing a data. It consists of the S3 source bucket, location, S3 object version, and the
+  relative path from where the custom code is loaded into the cluster.
+- `"commandLineArguments"`: Defines the key-value pairs to make them available inside the
+  cluster.
+- `"databases"`: A list of databases that will be available for querying.
+- `"executionRole"`: An IAM role that defines a set of permissions associated with a
+  cluster. These permissions are assumed when a cluster attempts to access another cluster.
+- `"initializationScript"`: Specifies a Q program that will be run at launch of a cluster.
+  It is a relative path within .zip file that contains the custom code, which will be loaded
+  on the cluster. It must include the file name itself. For example, somedir/init.q.
+- `"savedownStorageConfiguration"`: The size and type of the temporary storage that is used
+  to hold data during the savedown process. This parameter is required when you choose
+  clusterType as RDB. All the data written to this storage space is lost when the cluster
+  node is restarted.
+- `"tags"`: A list of key-value pairs to label the cluster. You can add up to 50 tags to a
+  cluster.
+- `"vpcConfiguration"`: Configuration details about the network where the Privatelink
+  endpoint of the cluster resides.
+"""
+function create_kx_cluster(
+    azMode,
+    capacityConfiguration,
+    clusterName,
+    clusterType,
+    environmentId,
+    releaseLabel;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "POST",
+        "/kx/environments/$(environmentId)/clusters",
+        Dict{String,Any}(
+            "azMode" => azMode,
+            "capacityConfiguration" => capacityConfiguration,
+            "clusterName" => clusterName,
+            "clusterType" => clusterType,
+            "releaseLabel" => releaseLabel,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_kx_cluster(
+    azMode,
+    capacityConfiguration,
+    clusterName,
+    clusterType,
+    environmentId,
+    releaseLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "POST",
+        "/kx/environments/$(environmentId)/clusters",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "azMode" => azMode,
+                    "capacityConfiguration" => capacityConfiguration,
+                    "clusterName" => clusterName,
+                    "clusterType" => clusterType,
+                    "releaseLabel" => releaseLabel,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_kx_database(client_token, database_name, environment_id)
+    create_kx_database(client_token, database_name, environment_id, params::Dict{String,<:Any})
+
+Creates a new kdb database in the environment.
+
+# Arguments
+- `client_token`: A token that ensures idempotency. This token expires in 10 minutes.
+- `database_name`: The name of the kdb database.
+- `environment_id`: A unique identifier for the kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A description of the database.
+- `"tags"`: A list of key-value pairs to label the kdb database. You can add up to 50 tags
+  to your kdb database
+"""
+function create_kx_database(
+    clientToken,
+    databaseName,
+    environmentId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "POST",
+        "/kx/environments/$(environmentId)/databases",
+        Dict{String,Any}("clientToken" => clientToken, "databaseName" => databaseName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_kx_database(
+    clientToken,
+    databaseName,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "POST",
+        "/kx/environments/$(environmentId)/databases",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken, "databaseName" => databaseName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_kx_environment(kms_key_id, name)
+    create_kx_environment(kms_key_id, name, params::Dict{String,<:Any})
+
+Creates a managed kdb environment for the account.
+
+# Arguments
+- `kms_key_id`: The KMS key ID to encrypt your data in the FinSpace environment.
+- `name`: The name of the kdb environment that you want to create.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+- `"description"`: A description for the kdb environment.
+- `"tags"`: A list of key-value pairs to label the kdb environment. You can add up to 50
+  tags to your kdb environment.
+"""
+function create_kx_environment(
+    kmsKeyId, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "POST",
+        "/kx/environments",
+        Dict{String,Any}("kmsKeyId" => kmsKeyId, "name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_kx_environment(
+    kmsKeyId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "POST",
+        "/kx/environments",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("kmsKeyId" => kmsKeyId, "name" => name), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_kx_user(environment_id, iam_role, user_name)
+    create_kx_user(environment_id, iam_role, user_name, params::Dict{String,<:Any})
+
+Creates a user in FinSpace kdb environment with an associated IAM role.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment where you want to create a
+  user.
+- `iam_role`: The IAM role ARN that will be associated with the user.
+- `user_name`: A unique identifier for the user.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+- `"tags"`: A list of key-value pairs to label the user. You can add up to 50 tags to a
+  user.
+"""
+function create_kx_user(
+    environmentId, iamRole, userName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "POST",
+        "/kx/environments/$(environmentId)/users",
+        Dict{String,Any}("iamRole" => iamRole, "userName" => userName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_kx_user(
+    environmentId,
+    iamRole,
+    userName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "POST",
+        "/kx/environments/$(environmentId)/users",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("iamRole" => iamRole, "userName" => userName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_environment(environment_id)
     delete_environment(environment_id, params::Dict{String,<:Any})
 
@@ -79,6 +413,164 @@ function delete_environment(
     return finspace(
         "DELETE",
         "/environment/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_kx_cluster(cluster_name, environment_id)
+    delete_kx_cluster(cluster_name, environment_id, params::Dict{String,<:Any})
+
+Deletes a kdb cluster.
+
+# Arguments
+- `cluster_name`: The name of the cluster that you want to delete.
+- `environment_id`: A unique identifier for the kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+"""
+function delete_kx_cluster(
+    clusterName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "DELETE",
+        "/kx/environments/$(environmentId)/clusters/$(clusterName)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_kx_cluster(
+    clusterName,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "DELETE",
+        "/kx/environments/$(environmentId)/clusters/$(clusterName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_kx_database(client_token, database_name, environment_id)
+    delete_kx_database(client_token, database_name, environment_id, params::Dict{String,<:Any})
+
+Deletes the specified database and all of its associated data. This action is irreversible.
+You must copy any data out of the database before deleting it if the data is to be retained.
+
+# Arguments
+- `client_token`: A token that ensures idempotency. This token expires in 10 minutes.
+- `database_name`: The name of the kdb database that you want to delete.
+- `environment_id`: A unique identifier for the kdb environment.
+
+"""
+function delete_kx_database(
+    clientToken,
+    databaseName,
+    environmentId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "DELETE",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)",
+        Dict{String,Any}("clientToken" => clientToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_kx_database(
+    clientToken,
+    databaseName,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "DELETE",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_kx_environment(environment_id)
+    delete_kx_environment(environment_id, params::Dict{String,<:Any})
+
+Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will
+remove all the associated data and any services running in it.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment.
+
+"""
+function delete_kx_environment(
+    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "DELETE",
+        "/kx/environments/$(environmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_kx_environment(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "DELETE",
+        "/kx/environments/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_kx_user(environment_id, user_name)
+    delete_kx_user(environment_id, user_name, params::Dict{String,<:Any})
+
+Deletes a user in the specified kdb environment.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment.
+- `user_name`: A unique identifier for the user that you want to delete.
+
+"""
+function delete_kx_user(
+    environmentId, userName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "DELETE",
+        "/kx/environments/$(environmentId)/users/$(userName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_kx_user(
+    environmentId,
+    userName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "DELETE",
+        "/kx/environments/$(environmentId)/users/$(userName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -118,6 +610,237 @@ function get_environment(
 end
 
 """
+    get_kx_changeset(changeset_id, database_name, environment_id)
+    get_kx_changeset(changeset_id, database_name, environment_id, params::Dict{String,<:Any})
+
+Returns information about a kdb changeset.
+
+# Arguments
+- `changeset_id`: A unique identifier of the changeset for which you want to retrieve data.
+- `database_name`: The name of the kdb database.
+- `environment_id`: A unique identifier for the kdb environment.
+
+"""
+function get_kx_changeset(
+    changesetId,
+    databaseName,
+    environmentId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets/$(changesetId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_kx_changeset(
+    changesetId,
+    databaseName,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets/$(changesetId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_kx_cluster(cluster_name, environment_id)
+    get_kx_cluster(cluster_name, environment_id, params::Dict{String,<:Any})
+
+Retrieves information about a kdb cluster.
+
+# Arguments
+- `cluster_name`: The name of the cluster that you want to retrieve.
+- `environment_id`: A unique identifier for the kdb environment.
+
+"""
+function get_kx_cluster(
+    clusterName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/clusters/$(clusterName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_kx_cluster(
+    clusterName,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/clusters/$(clusterName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_kx_connection_string(cluster_name, environment_id, user_arn)
+    get_kx_connection_string(cluster_name, environment_id, user_arn, params::Dict{String,<:Any})
+
+Retrieves a connection string for a user to connect to a kdb cluster. You must call this
+API using the same role that you have defined while creating a user.
+
+# Arguments
+- `cluster_name`: A name of the kdb cluster.
+- `environment_id`: A unique identifier for the kdb environment.
+- `user_arn`:  The Amazon Resource Name (ARN) that identifies the user. For more
+  information about ARNs and how to use ARNs in policies, see IAM Identifiers in the IAM User
+  Guide.
+
+"""
+function get_kx_connection_string(
+    clusterName, environmentId, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/connectionString",
+        Dict{String,Any}("clusterName" => clusterName, "userArn" => userArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_kx_connection_string(
+    clusterName,
+    environmentId,
+    userArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/connectionString",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("clusterName" => clusterName, "userArn" => userArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_kx_database(database_name, environment_id)
+    get_kx_database(database_name, environment_id, params::Dict{String,<:Any})
+
+Returns database information for the specified environment ID.
+
+# Arguments
+- `database_name`: The name of the kdb database.
+- `environment_id`: A unique identifier for the kdb environment.
+
+"""
+function get_kx_database(
+    databaseName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_kx_database(
+    databaseName,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_kx_environment(environment_id)
+    get_kx_environment(environment_id, params::Dict{String,<:Any})
+
+Retrieves all the information for the specified kdb environment.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment.
+
+"""
+function get_kx_environment(
+    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_kx_environment(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_kx_user(environment_id, user_name)
+    get_kx_user(environment_id, user_name, params::Dict{String,<:Any})
+
+Retrieves information about the specified kdb user.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment.
+- `user_name`: A unique identifier for the user.
+
+"""
+function get_kx_user(
+    environmentId, userName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/users/$(userName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_kx_user(
+    environmentId,
+    userName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/users/$(userName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_environments()
     list_environments(params::Dict{String,<:Any})
 
@@ -127,8 +850,8 @@ A list of all of your FinSpace environments.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of results to return in this request.
 - `"nextToken"`: A token generated by FinSpace that specifies where to continue pagination
-  if a previous request was truncated. To get the next set of pages, pass in the nextToken
-  value from the response object of the previous page call.
+  if a previous request was truncated. To get the next set of pages, pass in the
+  nextTokennextToken value from the response object of the previous page call.
 """
 function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
     return finspace(
@@ -141,6 +864,233 @@ function list_environments(
     return finspace(
         "GET",
         "/environment",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_kx_changesets(database_name, environment_id)
+    list_kx_changesets(database_name, environment_id, params::Dict{String,<:Any})
+
+Returns a list of all the changesets for a database.
+
+# Arguments
+- `database_name`: The name of the kdb database.
+- `environment_id`: A unique identifier for the kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in this request.
+- `"nextToken"`: A token that indicates where a results page should begin.
+"""
+function list_kx_changesets(
+    databaseName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_kx_changesets(
+    databaseName,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)/changesets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_kx_cluster_nodes(cluster_name, environment_id)
+    list_kx_cluster_nodes(cluster_name, environment_id, params::Dict{String,<:Any})
+
+Lists all the nodes in a kdb cluster.
+
+# Arguments
+- `cluster_name`: A unique name for the cluster.
+- `environment_id`: A unique identifier for the kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in this request.
+- `"nextToken"`: A token that indicates where a results page should begin.
+"""
+function list_kx_cluster_nodes(
+    clusterName, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/clusters/$(clusterName)/nodes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_kx_cluster_nodes(
+    clusterName,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/clusters/$(clusterName)/nodes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_kx_clusters(environment_id)
+    list_kx_clusters(environment_id, params::Dict{String,<:Any})
+
+Returns a list of clusters.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clusterType"`: Specifies the type of KDB database that is being created. The following
+  types are available:    HDB – A Historical Database. The data is only accessible with
+  read-only permissions from one of the FinSpace managed kdb databases mounted to the
+  cluster.   RDB – A Realtime Database. This type of database captures all the data from a
+  ticker plant and stores it in memory until the end of day, after which it writes all of its
+  data to a disk and reloads the HDB. This cluster type requires local storage for temporary
+  storage of data during the savedown process. If you specify this field in your request, you
+  must provide the savedownStorageConfiguration parameter.   GATEWAY – A gateway cluster
+  allows you to access data across processes in kdb systems. It allows you to create your own
+  routing logic using the initialization scripts and custom code. This type of cluster does
+  not require a writable local storage.
+- `"maxResults"`: The maximum number of results to return in this request.
+- `"nextToken"`: A token that indicates where a results page should begin.
+"""
+function list_kx_clusters(environmentId; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/clusters";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_kx_clusters(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/clusters",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_kx_databases(environment_id)
+    list_kx_databases(environment_id, params::Dict{String,<:Any})
+
+Returns a list of all the databases in the kdb environment.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in this request.
+- `"nextToken"`: A token that indicates where a results page should begin.
+"""
+function list_kx_databases(environmentId; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/databases";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_kx_databases(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/databases",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_kx_environments()
+    list_kx_environments(params::Dict{String,<:Any})
+
+Returns a list of kdb environments created in an account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in this request.
+- `"nextToken"`: A token that indicates where a results page should begin.
+"""
+function list_kx_environments(; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace(
+        "GET", "/kx/environments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_kx_environments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "GET",
+        "/kx/environments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_kx_users(environment_id)
+    list_kx_users(environment_id, params::Dict{String,<:Any})
+
+Lists all the users in a kdb environment.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in this request.
+- `"nextToken"`: A token that indicates where a results page should begin.
+"""
+function list_kx_users(environmentId; aws_config::AbstractAWSConfig=global_aws_config())
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/users";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_kx_users(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "GET",
+        "/kx/environments/$(environmentId)/users",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -291,6 +1241,226 @@ function update_environment(
         "PUT",
         "/environment/$(environmentId)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_kx_cluster_databases(cluster_name, databases, environment_id)
+    update_kx_cluster_databases(cluster_name, databases, environment_id, params::Dict{String,<:Any})
+
+Updates the databases mounted on a kdb cluster, which includes the changesetId and all the
+dbPaths to be cached. This API does not allow you to change a database name or add a
+database if you created a cluster without one.  Using this API you can point a cluster to a
+different changeset and modify a list of partitions being cached.
+
+# Arguments
+- `cluster_name`: A unique name for the cluster that you want to modify.
+- `databases`:  The structure of databases mounted on the cluster.
+- `environment_id`: The unique identifier of a kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+"""
+function update_kx_cluster_databases(
+    clusterName, databases, environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "PUT",
+        "/kx/environments/$(environmentId)/clusters/$(clusterName)/configuration/databases",
+        Dict{String,Any}("databases" => databases);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_kx_cluster_databases(
+    clusterName,
+    databases,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "PUT",
+        "/kx/environments/$(environmentId)/clusters/$(clusterName)/configuration/databases",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("databases" => databases), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_kx_database(client_token, database_name, environment_id)
+    update_kx_database(client_token, database_name, environment_id, params::Dict{String,<:Any})
+
+Updates information for the given kdb database.
+
+# Arguments
+- `client_token`: A token that ensures idempotency. This token expires in 10 minutes.
+- `database_name`: The name of the kdb database.
+- `environment_id`: A unique identifier for the kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A description of the database.
+"""
+function update_kx_database(
+    clientToken,
+    databaseName,
+    environmentId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "PUT",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)",
+        Dict{String,Any}("clientToken" => clientToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_kx_database(
+    clientToken,
+    databaseName,
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "PUT",
+        "/kx/environments/$(environmentId)/databases/$(databaseName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => clientToken), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_kx_environment(environment_id)
+    update_kx_environment(environment_id, params::Dict{String,<:Any})
+
+Updates information for the given kdb environment.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+- `"description"`: A description of the kdb environment.
+- `"name"`: The name of the kdb environment.
+"""
+function update_kx_environment(
+    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "PUT",
+        "/kx/environments/$(environmentId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_kx_environment(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "PUT",
+        "/kx/environments/$(environmentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_kx_environment_network(environment_id)
+    update_kx_environment_network(environment_id, params::Dict{String,<:Any})
+
+Updates environment network to connect to your internal network by using a transit gateway.
+This API supports request to create a transit gateway attachment from FinSpace VPC to your
+transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request
+to update a network, you cannot change it again. Network update might require termination
+of any clusters that are running in the existing network.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+- `"customDNSConfiguration"`: A list of DNS server name and server IP. This is used to set
+  up Route-53 outbound resolvers.
+- `"transitGatewayConfiguration"`: Specifies the transit gateway and network configuration
+  to connect the kdb environment to an internal network.
+"""
+function update_kx_environment_network(
+    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "PUT",
+        "/kx/environments/$(environmentId)/network";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_kx_environment_network(
+    environmentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "PUT",
+        "/kx/environments/$(environmentId)/network",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_kx_user(environment_id, iam_role, user_name)
+    update_kx_user(environment_id, iam_role, user_name, params::Dict{String,<:Any})
+
+Updates the user details. You can only update the IAM role associated with a user.
+
+# Arguments
+- `environment_id`: A unique identifier for the kdb environment.
+- `iam_role`: The IAM role ARN that is associated with the user.
+- `user_name`: A unique identifier for the user.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A token that ensures idempotency. This token expires in 10 minutes.
+"""
+function update_kx_user(
+    environmentId, iamRole, userName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return finspace(
+        "PUT",
+        "/kx/environments/$(environmentId)/users/$(userName)",
+        Dict{String,Any}("iamRole" => iamRole);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_kx_user(
+    environmentId,
+    iamRole,
+    userName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return finspace(
+        "PUT",
+        "/kx/environments/$(environmentId)/users/$(userName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("iamRole" => iamRole), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

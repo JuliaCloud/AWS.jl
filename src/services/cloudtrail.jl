@@ -14,15 +14,15 @@ Tag key names must be unique; you cannot have two keys with the same name but di
 values. If you specify a key without a value, the tag will be created with the specified
 key and a value of null. You can tag a trail or event data store that applies to all Amazon
 Web Services Regions only from the Region in which the trail or event data store was
-created (also known as its home region).
+created (also known as its home Region).
 
 # Arguments
 - `resource_id`: Specifies the ARN of the trail, event data store, or channel to which one
   or more tags will be added. The format of a trail ARN is:
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  The format of an event data store
   ARN is:
-  arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
-   The format of a channel ARN is:
+  arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
+    The format of a channel ARN is:
   arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
 - `tags_list`: Contains a list of tags, up to a limit of 50
 
@@ -184,11 +184,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
   12345678-1234-1234-1234-123456789012
 - `"MultiRegionEnabled"`: Specifies whether the event data store includes events from all
-  regions, or only from the region in which the event data store is created.
+  Regions, or only from the Region in which the event data store is created.
 - `"OrganizationEnabled"`: Specifies whether an event data store collects events logged for
   an organization in Organizations.
 - `"RetentionPeriod"`: The retention period of the event data store, in days. You can set a
   retention period of up to 2557 days, the equivalent of seven years.
+- `"StartIngestion"`: Specifies whether the event data store should start ingesting live
+  events. The default is true.
 - `"TagsList"`:
 - `"TerminationProtectionEnabled"`: Specifies whether termination protection is enabled for
   the event data store. If termination protection is enabled, you cannot delete the event
@@ -248,9 +250,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   whenever you stop CloudTrail logging or delete a trail.
 - `"IncludeGlobalServiceEvents"`: Specifies whether the trail is publishing events from
   global services such as IAM to the log files.
-- `"IsMultiRegionTrail"`: Specifies whether the trail is created in the current region or
-  in all regions. The default is false, which creates a trail only in the region where you
-  are signed in. As a best practice, consider creating trails that log events in all regions.
+- `"IsMultiRegionTrail"`: Specifies whether the trail is created in the current Region or
+  in all Regions. The default is false, which creates a trail only in the Region where you
+  are signed in. As a best practice, consider creating trails that log events in all Regions.
 - `"IsOrganizationTrail"`: Specifies whether the trail is created for all accounts in an
   organization in Organizations, or only for the current Amazon Web Services account. The
   default is false, and cannot be true unless the call is made on behalf of an Amazon Web
@@ -412,9 +414,9 @@ end
     delete_trail(name)
     delete_trail(name, params::Dict{String,<:Any})
 
-Deletes a trail. This operation must be called from the region in which the trail was
+Deletes a trail. This operation must be called from the Region in which the trail was
 created. DeleteTrail cannot be called on the shadow trails (replicated trails in other
-regions) of a trail that is enabled in all regions.
+Regions) of a trail that is enabled in all Regions.
 
 # Arguments
 - `name`: Specifies the name or the CloudTrail ARN of the trail to be deleted. The
@@ -521,26 +523,26 @@ end
     describe_trails()
     describe_trails(params::Dict{String,<:Any})
 
-Retrieves settings for one or more trails associated with the current region for your
+Retrieves settings for one or more trails associated with the current Region for your
 account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"includeShadowTrails"`: Specifies whether to include shadow trails in the response. A
-  shadow trail is the replication in a region of a trail that was created in a different
-  region, or in the case of an organization trail, the replication of an organization trail
+  shadow trail is the replication in a Region of a trail that was created in a different
+  Region, or in the case of an organization trail, the replication of an organization trail
   in member accounts. If you do not include shadow trails, organization trails in a member
-  account and region replication trails will not be returned. The default is true.
+  account and Region replication trails will not be returned. The default is true.
 - `"trailNameList"`: Specifies a list of trail names, trail ARNs, or both, of the trails to
   describe. The format of a trail ARN is:
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  If an empty list is specified,
-  information for the trail in the current region is returned.   If an empty list is
+  information for the trail in the current Region is returned.   If an empty list is
   specified and IncludeShadowTrails is false, then information for all trails in the current
-  region is returned.   If an empty list is specified and IncludeShadowTrails is null or
-  true, then information for all trails in the current region and any associated shadow
-  trails in other regions is returned.    If one or more trail names are specified,
+  Region is returned.   If an empty list is specified and IncludeShadowTrails is null or
+  true, then information for all trails in the current Region and any associated shadow
+  trails in other Regions is returned.    If one or more trail names are specified,
   information is returned only if the names match the names of trails belonging only to the
-  current region and current account. To return information about a trail in another region,
+  current Region and current account. To return information about a trail in another Region,
   you must specify its trail ARN.
 """
 function describe_trails(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -852,13 +854,13 @@ end
 
 Returns a JSON-formatted list of information about the specified trail. Fields include
 information on delivery errors, Amazon SNS and Amazon S3 errors, and start and stop logging
-times for each trail. This operation returns trail status from a single region. To return
-trail status from all regions, you must call the operation on each region.
+times for each trail. This operation returns trail status from a single Region. To return
+trail status from all Regions, you must call the operation on each Region.
 
 # Arguments
 - `name`: Specifies the name or the CloudTrail ARN of the trail for which you are
   requesting status. To get the status of a shadow trail (a replication of the trail in
-  another region), you must specify its ARN. The following is the format of a trail ARN.
+  another Region), you must specify its ARN. The following is the format of a trail ARN.
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
 
 """
@@ -912,7 +914,7 @@ end
     list_event_data_stores()
     list_event_data_stores(params::Dict{String,<:Any})
 
-Returns information about all event data stores in the account, in the current region.
+Returns information about all event data stores in the account, in the current Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1004,8 +1006,8 @@ end
 Returns all public keys whose private keys were used to sign the digest files within the
 specified time range. The public key is needed to validate digest files that were signed
 with its corresponding private key.  CloudTrail uses different private and public key pairs
-per region. Each digest file is signed with a private key unique to its region. When you
-validate a digest file from a specific region, you must look in the same region for its
+per Region. Each digest file is signed with a private key unique to its Region. When you
+validate a digest file from a specific Region, you must look in the same Region for its
 corresponding public key.
 
 # Optional Parameters
@@ -1082,11 +1084,16 @@ end
     list_tags(resource_id_list)
     list_tags(resource_id_list, params::Dict{String,<:Any})
 
-Lists the tags for the trail, event data store, or channel in the current region.
+Lists the tags for the specified trails, event data stores, or channels in the current
+Region.
 
 # Arguments
 - `resource_id_list`: Specifies a list of trail, event data store, or channel ARNs whose
-  tags will be listed. The list has a limit of 20 ARNs.
+  tags will be listed. The list has a limit of 20 ARNs.  Example trail ARN format:
+  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN
+  format:
+  arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
+    Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1144,14 +1151,14 @@ end
     lookup_events(params::Dict{String,<:Any})
 
 Looks up management events or CloudTrail Insights events that are captured by CloudTrail.
-You can look up events that occurred in a region within the last 90 days. Lookup supports
+You can look up events that occurred in a Region within the last 90 days. Lookup supports
 the following attributes for management events:   Amazon Web Services access key   Event ID
   Event name   Event source   Read only   Resource name   Resource type   User name
 Lookup supports the following attributes for Insights events:   Event ID   Event name
 Event source   All attributes are optional. The default number of results returned is 50,
 with a maximum of 50 possible. The response includes a token that you can use to get the
 next page of results.  The rate of lookup requests is limited to two per second, per
-account, per region. If this limit is exceeded, a throttling error occurs.
+account, per Region. If this limit is exceeded, a throttling error occurs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1205,7 +1212,7 @@ occur in your account.   CloudTrail evaluates whether the events match your even
 selectors.   The RunInstances is a write-only event and it matches your event selector. The
 trail logs the event.   The GetConsoleOutput is a read-only event that doesn't match your
 event selector. The trail doesn't log the event.    The PutEventSelectors operation must be
-called from the region in which the trail was created; otherwise, an
+called from the Region in which the trail was created; otherwise, an
 InvalidHomeRegionException exception is thrown. You can configure up to five event
 selectors for each trail. For more information, see Logging management events, Logging data
 events, and Quotas in CloudTrail in the CloudTrail User Guide. You can add advanced event
@@ -1416,8 +1423,8 @@ Removes the specified tags from a trail, event data store, or channel.
   tags should be removed.  Example trail ARN format:
   arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN
   format:
-  arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
-   Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
+  arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
+    Example channel ARN format: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
 - `tags_list`: Specifies a list of tags to be removed.
 
 """
@@ -1491,6 +1498,44 @@ function restore_event_data_store(
 end
 
 """
+    start_event_data_store_ingestion(event_data_store)
+    start_event_data_store_ingestion(event_data_store, params::Dict{String,<:Any})
+
+Starts the ingestion of live events on an event data store specified as either an ARN or
+the ID portion of the ARN. To start ingestion, the event data store Status must be
+STOPPED_INGESTION and the eventCategory must be Management, Data, or ConfigurationItem.
+
+# Arguments
+- `event_data_store`: The ARN (or ID suffix of the ARN) of the event data store for which
+  you want to start ingestion.
+
+"""
+function start_event_data_store_ingestion(
+    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "StartEventDataStoreIngestion",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_event_data_store_ingestion(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "StartEventDataStoreIngestion",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_import()
     start_import(params::Dict{String,<:Any})
 
@@ -1542,9 +1587,9 @@ end
     start_logging(name, params::Dict{String,<:Any})
 
 Starts the recording of Amazon Web Services API calls and log file delivery for a trail.
-For a trail that is enabled in all regions, this operation must be called from the region
+For a trail that is enabled in all Regions, this operation must be called from the Region
 in which the trail was created. This operation cannot be called on the shadow trails
-(replicated trails in other regions) of a trail that is enabled in all regions.
+(replicated trails in other Regions) of a trail that is enabled in all Regions.
 
 # Arguments
 - `name`: Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs
@@ -1611,6 +1656,44 @@ function start_query(
 end
 
 """
+    stop_event_data_store_ingestion(event_data_store)
+    stop_event_data_store_ingestion(event_data_store, params::Dict{String,<:Any})
+
+Stops the ingestion of live events on an event data store specified as either an ARN or the
+ID portion of the ARN. To stop ingestion, the event data store Status must be ENABLED and
+the eventCategory must be Management, Data, or ConfigurationItem.
+
+# Arguments
+- `event_data_store`: The ARN (or ID suffix of the ARN) of the event data store for which
+  you want to stop ingestion.
+
+"""
+function stop_event_data_store_ingestion(
+    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "StopEventDataStoreIngestion",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_event_data_store_ingestion(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "StopEventDataStoreIngestion",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_import(import_id)
     stop_import(import_id, params::Dict{String,<:Any})
 
@@ -1650,10 +1733,10 @@ end
 Suspends the recording of Amazon Web Services API calls and log file delivery for the
 specified trail. Under most circumstances, there is no need to use this action. You can
 update a trail without stopping it first. This action is the only way to stop recording.
-For a trail enabled in all regions, this operation must be called from the region in which
+For a trail enabled in all Regions, this operation must be called from the Region in which
 the trail was created, or an InvalidHomeRegionException will occur. This operation cannot
-be called on the shadow trails (replicated trails in other regions) of a trail enabled in
-all regions.
+be called on the shadow trails (replicated trails in other Regions) of a trail enabled in
+all Regions.
 
 # Arguments
 - `name`: Specifies the name or the CloudTrail ARN of the trail for which CloudTrail will
@@ -1752,7 +1835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
   12345678-1234-1234-1234-123456789012
 - `"MultiRegionEnabled"`: Specifies whether an event data store collects events from all
-  regions, or only from the region in which it was created.
+  Regions, or only from the Region in which it was created.
 - `"Name"`: The event data store name.
 - `"OrganizationEnabled"`: Specifies whether an event data store collects events logged for
   an organization in Organizations.
@@ -1793,7 +1876,7 @@ Updates trail settings that control what events you are logging, and how to hand
 files. Changes to a trail do not require stopping the CloudTrail service. Use this action
 to designate an existing bucket for log delivery. If the existing bucket has previously
 been a target for CloudTrail log files, an IAM policy exists for the bucket. UpdateTrail
-must be called from the region in which the trail was created; otherwise, an
+must be called from the Region in which the trail was created; otherwise, an
 InvalidHomeRegionException is thrown.
 
 # Arguments
@@ -1823,12 +1906,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   whenever you stop CloudTrail logging or delete a trail.
 - `"IncludeGlobalServiceEvents"`: Specifies whether the trail is publishing events from
   global services such as IAM to the log files.
-- `"IsMultiRegionTrail"`: Specifies whether the trail applies only to the current region or
-  to all regions. The default is false. If the trail exists only in the current region and
+- `"IsMultiRegionTrail"`: Specifies whether the trail applies only to the current Region or
+  to all Regions. The default is false. If the trail exists only in the current Region and
   this value is set to true, shadow trails (replications of the trail) will be created in the
-  other regions. If the trail exists in all regions and this value is set to false, the trail
-  will remain in the region where it was created, and its shadow trails in other regions will
-  be deleted. As a best practice, consider using trails that log events in all regions.
+  other Regions. If the trail exists in all Regions and this value is set to false, the trail
+  will remain in the Region where it was created, and its shadow trails in other Regions will
+  be deleted. As a best practice, consider using trails that log events in all Regions.
 - `"IsOrganizationTrail"`: Specifies whether the trail is applied to all accounts in an
   organization in Organizations, or only for the current Amazon Web Services account. The
   default is false, and cannot be true unless the call is made on behalf of an Amazon Web

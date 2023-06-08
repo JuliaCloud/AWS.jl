@@ -141,7 +141,10 @@ end
     cancel_capacity_reservation(name)
     cancel_capacity_reservation(name, params::Dict{String,<:Any})
 
-Cancels the capacity reservation with the specified name.
+Cancels the capacity reservation with the specified name. Cancelled reservations remain in
+your account and will be deleted 45 days after cancellation. During the 45 days, you cannot
+re-purpose or reuse a reservation that has been cancelled, but you can refer to its tags
+and view it for historical reference.
 
 # Arguments
 - `name`: The name of the capacity reservation to cancel.
@@ -517,6 +520,41 @@ function create_work_group(
 )
     return athena(
         "CreateWorkGroup",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_capacity_reservation(name)
+    delete_capacity_reservation(name, params::Dict{String,<:Any})
+
+Deletes a cancelled capacity reservation. A reservation must be cancelled before it can be
+deleted. A deleted reservation is immediately removed from your account and can no longer
+be referenced, including by its ARN. A deleted reservation cannot be called by
+GetCapacityReservation, and deleted reservations do not appear in the output of
+ListCapacityReservations.
+
+# Arguments
+- `name`: The name of the capacity reservation to delete.
+
+"""
+function delete_capacity_reservation(
+    Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "DeleteCapacityReservation",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_capacity_reservation(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return athena(
+        "DeleteCapacityReservation",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

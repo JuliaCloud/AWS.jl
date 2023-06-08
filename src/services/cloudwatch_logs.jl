@@ -181,9 +181,9 @@ specified time, use PutRetentionPolicy. If you associate an KMS key with the log
 ingested data is encrypted using the KMS key. This association is stored as long as the
 data encrypted with the KMS key is still within CloudWatch Logs. This enables CloudWatch
 Logs to decrypt this data whenever it is requested. If you attempt to associate a KMS key
-with the log group but the KMS keydoes not exist or the KMS key is disabled, you receive an
-InvalidParameterException error.   CloudWatch Logs supports only symmetric KMS keys. Do not
-associate an asymmetric KMS key with your log group. For more information, see Using
+with the log group but the KMS key does not exist or the KMS key is disabled, you receive
+an InvalidParameterException error.   CloudWatch Logs supports only symmetric KMS keys. Do
+not associate an asymmetric KMS key with your log group. For more information, see Using
 Symmetric and Asymmetric Keys.
 
 # Arguments
@@ -265,6 +265,49 @@ function create_log_stream(
                 Dict{String,Any}(
                     "logGroupName" => logGroupName, "logStreamName" => logStreamName
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_account_policy(policy_name, policy_type)
+    delete_account_policy(policy_name, policy_type, params::Dict{String,<:Any})
+
+Deletes a CloudWatch Logs account policy. To use this operation, you must be signed on with
+the logs:DeleteDataProtectionPolicy and logs:DeleteAccountPolicy permissions.
+
+# Arguments
+- `policy_name`: The name of the policy to delete.
+- `policy_type`: The type of policy to delete. Currently, the only valid value is
+  DATA_PROTECTION_POLICY.
+
+"""
+function delete_account_policy(
+    policyName, policyType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DeleteAccountPolicy",
+        Dict{String,Any}("policyName" => policyName, "policyType" => policyType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_account_policy(
+    policyName,
+    policyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DeleteAccountPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("policyName" => policyName, "policyType" => policyType),
                 params,
             ),
         );
@@ -620,6 +663,52 @@ function delete_subscription_filter(
 end
 
 """
+    describe_account_policies(policy_type)
+    describe_account_policies(policy_type, params::Dict{String,<:Any})
+
+Returns a list of all CloudWatch Logs account policies in the account.
+
+# Arguments
+- `policy_type`: Use this parameter to limit the returned policies to only the policies
+  that match the policy type that you specify. Currently, the only valid value is
+  DATA_PROTECTION_POLICY.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountIdentifiers"`: If you are using an account that is set up as a monitoring
+  account for CloudWatch unified cross-account observability, you can use this to specify the
+  account ID of a source account. If you do, the operation returns the account policy for the
+  specified account. Currently, you can specify only one account ID in this parameter. If you
+  omit this parameter, only the policy in the current account is returned.
+- `"policyName"`: Use this parameter to limit the returned policies to only the policy with
+  the name that you specify.
+"""
+function describe_account_policies(
+    policyType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudwatch_logs(
+        "DescribeAccountPolicies",
+        Dict{String,Any}("policyType" => policyType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_account_policies(
+    policyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "DescribeAccountPolicies",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("policyType" => policyType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_destinations()
     describe_destinations(params::Dict{String,<:Any})
 
@@ -707,16 +796,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have the operation return log groups in the accounts listed in accountIdentifiers. If this
   parameter is set to true and accountIdentifiers contains a null value, the operation
   returns all log groups in the monitoring account and all log groups in all source accounts
-  that are linked to the monitoring account.    If you specify includeLinkedAccounts in your
-  request, then metricFilterCount, retentionInDays, and storedBytes are not included in the
-  response.
+  that are linked to the monitoring account.
 - `"limit"`: The maximum number of items returned. If you don't specify a value, the
   default is up to 50 items.
 - `"logGroupNamePattern"`: If you specify a string for this parameter, the operation
   returns only log groups that have names that match the string based on a case-sensitive
   substring search. For example, if you specify Foo, log groups named FooBar, aws/Foo, and
-  GroupFoo would match, but foo, F/o/o and Froo would not match.   logGroupNamePattern and
-  logGroupNamePrefix are mutually exclusive. Only one of these parameters can be passed.
+  GroupFoo would match, but foo, F/o/o and Froo would not match. If you specify
+  logGroupNamePattern in your request, then only arn, creationTime, and logGroupName are
+  included in the response.    logGroupNamePattern and logGroupNamePrefix are mutually
+  exclusive. Only one of these parameters can be passed.
 - `"logGroupNamePrefix"`: The prefix to match.   logGroupNamePrefix and logGroupNamePattern
   are mutually exclusive. Only one of these parameters can be passed.
 - `"nextToken"`: The token for the next set of items to return. (You received this token
@@ -1002,7 +1091,7 @@ end
 
 Lists log events from the specified log group. You can list all the log events or filter
 the results using a filter pattern, a time range, and the name of the log stream. You must
-have the logs;FilterLogEvents permission to perform this operation. You can specify the log
+have the logs:FilterLogEvents permission to perform this operation. You can specify the log
 group to search by using either logGroupIdentifier or logGroupName. You must include one of
 these two parameters, but you can't include both.  By default, this operation returns as
 many log events as can fit in 1 MB (up to 10,000 log events) or all the events found within
@@ -1367,6 +1456,105 @@ function list_tags_log_group(
 end
 
 """
+    put_account_policy(policy_document, policy_name, policy_type)
+    put_account_policy(policy_document, policy_name, policy_type, params::Dict{String,<:Any})
+
+Creates an account-level data protection policy that applies to all log groups in the
+account. A data protection policy can help safeguard sensitive data that's ingested by your
+log groups by auditing and masking the sensitive log data. Each account can have only one
+account-level policy.  Sensitive data is detected and masked when it is ingested into a log
+group. When you set a data protection policy, log events ingested into the log groups
+before that time are not masked.  If you use PutAccountPolicy to create a data protection
+policy for your whole account, it applies to both existing log groups and all log groups
+that are created later in this account. The account policy is applied to existing log
+groups with eventual consistency. It might take up to 5 minutes before sensitive data in
+existing log groups begins to be masked. By default, when a user views a log event that
+includes masked data, the sensitive data is replaced by asterisks. A user who has the
+logs:Unmask permission can use a GetLogEvents or FilterLogEvents operation with the unmask
+parameter set to true to view the unmasked log events. Users with the logs:Unmask can also
+view unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights
+query with the unmask query command. For more information, including a list of types of
+data that can be audited and masked, see Protect sensitive log data with masking. To use
+the PutAccountPolicy operation, you must be signed on with the logs:PutDataProtectionPolicy
+and logs:PutAccountPolicy permissions. The PutAccountPolicy operation applies to all log
+groups in the account. You can also use PutDataProtectionPolicy to create a data protection
+policy that applies to just one log group. If a log group has its own data protection
+policy and the account also has an account-level data protection policy, then the two
+policies are cumulative. Any sensitive term specified in either policy is masked.
+
+# Arguments
+- `policy_document`: Specify the data protection policy, in JSON. This policy must include
+  two JSON blocks:   The first block must include both a DataIdentifer array and an Operation
+  property with an Audit action. The DataIdentifer array lists the types of sensitive data
+  that you want to mask. For more information about the available options, see Types of data
+  that you can mask. The Operation property with an Audit action is required to find the
+  sensitive data terms. This Audit action must contain a FindingsDestination object. You can
+  optionally use that FindingsDestination object to list one or more destinations to send
+  audit findings to. If you specify destinations such as log groups, Kinesis Data Firehose
+  streams, and S3 buckets, they must already exist.   The second block must include both a
+  DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer
+  array must exactly match the DataIdentifer array in the first block of the policy. The
+  Operation property with the Deidentify action is what actually masks the data, and it must
+  contain the  \"MaskConfig\": {} object. The  \"MaskConfig\": {} object must be empty.   For
+  an example data protection policy, see the Examples section on this page.  The contents of
+  the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the
+  policyDocument can also include Name, Description, and Version fields. The Name is
+  different than the operation's policyName parameter, and is used as a dimension when
+  CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON specified in
+  policyDocument can be up to 30,720 characters.
+- `policy_name`: A name for the policy. This must be unique within the account.
+- `policy_type`: Currently the only valid value for this parameter is
+  DATA_PROTECTION_POLICY.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"scope"`: Currently the only valid value for this parameter is GLOBAL, which specifies
+  that the data protection policy applies to all log groups in the account. If you omit this
+  parameter, the default of GLOBAL is used.
+"""
+function put_account_policy(
+    policyDocument,
+    policyName,
+    policyType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutAccountPolicy",
+        Dict{String,Any}(
+            "policyDocument" => policyDocument,
+            "policyName" => policyName,
+            "policyType" => policyType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_account_policy(
+    policyDocument,
+    policyName,
+    policyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudwatch_logs(
+        "PutAccountPolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "policyDocument" => policyDocument,
+                    "policyName" => policyName,
+                    "policyType" => policyType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_data_protection_policy(log_group_identifier, policy_document)
     put_data_protection_policy(log_group_identifier, policy_document, params::Dict{String,<:Any})
 
@@ -1380,7 +1568,13 @@ permission can use a GetLogEvents or FilterLogEvents operation with the unmask p
 set to true to view the unmasked log events. Users with the logs:Unmask can also view
 unmasked data in the CloudWatch Logs console by running a CloudWatch Logs Insights query
 with the unmask query command. For more information, including a list of types of data that
-can be audited and masked, see Protect sensitive log data with masking.
+can be audited and masked, see Protect sensitive log data with masking. The
+PutDataProtectionPolicy operation applies to only the specified log group. You can also use
+PutAccountPolicy to create an account-level data protection policy that applies to all log
+groups in the account, including both existing log groups and log groups that are created
+level. If a log group has its own data protection policy and the account also has an
+account-level data protection policy, then the two policies are cumulative. Any sensitive
+term specified in either policy is masked.
 
 # Arguments
 - `log_group_identifier`: Specify either the log group name or log group ARN.
@@ -1398,7 +1592,10 @@ can be audited and masked, see Protect sensitive log data with masking.
   Operation property with the Deidentify action is what actually masks the data, and it must
   contain the  \"MaskConfig\": {} object. The  \"MaskConfig\": {} object must be empty.   For
   an example data protection policy, see the Examples section on this page.  The contents of
-  two DataIdentifer arrays must match exactly.
+  the two DataIdentifer arrays must match exactly.  In addition to the two JSON blocks, the
+  policyDocument can also include Name, Description, and Version fields. The Name is used as
+  a dimension when CloudWatch Logs reports audit findings metrics to CloudWatch. The JSON
+  specified in policyDocument can be up to 30,720 characters.
 
 """
 function put_data_protection_policy(
@@ -1516,13 +1713,13 @@ subscription filter against a given destination.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"forceUpdate"`: Specify true if you are updating an existing destination policy to grant
-  permission to an organization ID instead of granting permission to individual AWS accounts.
-  Before you update a destination policy this way, you must first update the subscription
-  filters in the accounts that send logs to this destination. If you do not, the subscription
-  filters might stop working. By specifying true for forceUpdate, you are affirming that you
-  have already updated the subscription filters. For more information, see  Updating an
-  existing cross-account subscription  If you omit this parameter, the default of false is
-  used.
+  permission to an organization ID instead of granting permission to individual Amazon Web
+  Services accounts. Before you update a destination policy this way, you must first update
+  the subscription filters in the accounts that send logs to this destination. If you do not,
+  the subscription filters might stop working. By specifying true for forceUpdate, you are
+  affirming that you have already updated the subscription filters. For more information, see
+   Updating an existing cross-account subscription  If you omit this parameter, the default
+  of false is used.
 """
 function put_destination_policy(
     accessPolicy, destinationName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1576,12 +1773,13 @@ that the event occurred, expressed as the number of milliseconds after Jan 1, 19
 UTC. (In Amazon Web Services Tools for PowerShell and the Amazon Web Services SDK for .NET,
 the timestamp is specified in .NET format: yyyy-mm-ddThh:mm:ss. For example,
 2017-09-15T13:45:30.)    A batch of log events in a single request cannot span more than 24
-hours. Otherwise, the operation fails.   The maximum number of log events in a batch is
-10,000.    The quota of five requests per second per log stream has been removed. Instead,
-PutLogEvents actions are throttled based on a per-second per-account quota. You can request
-an increase to the per-second throttling quota by using the Service Quotas service.    If a
-call to PutLogEvents returns \"UnrecognizedClientException\" the most likely cause is a
-non-valid Amazon Web Services access key ID or secret key.
+hours. Otherwise, the operation fails.   Each log event can be no larger than 256 KB.   The
+maximum number of log events in a batch is 10,000.    The quota of five requests per second
+per log stream has been removed. Instead, PutLogEvents actions are throttled based on a
+per-second per-account quota. You can request an increase to the per-second throttling
+quota by using the Service Quotas service.    If a call to PutLogEvents returns
+\"UnrecognizedClientException\" the most likely cause is a non-valid Amazon Web Services
+access key ID or secret key.
 
 # Arguments
 - `log_events`: The log events.
@@ -1881,7 +2079,8 @@ subscription filter, for same-account delivery.   An Lambda function that belong
 same account as the subscription filter, for same-account delivery.   Each log group can
 have up to two subscription filters associated with it. If you are updating an existing
 filter, you must specify the correct name in filterName.  To perform a
-PutSubscriptionFilter operation, you must also have the iam:PassRole permission.
+PutSubscriptionFilter operation for any destination except a Lambda function, you must also
+have the iam:PassRole permission.
 
 # Arguments
 - `destination_arn`: The ARN of the destination to deliver matching log events to.
@@ -1962,13 +2161,13 @@ end
 
 Schedules a query of a log group using CloudWatch Logs Insights. You specify the log group
 and time range to query and the query string to use. For more information, see CloudWatch
-Logs Insights Query Syntax. Queries time out after 15 minutes of runtime. If your queries
+Logs Insights Query Syntax. Queries time out after 60 minutes of runtime. If your queries
 are timing out, reduce the time range being searched or partition your query into a number
 of queries. If you are using CloudWatch cross-account observability, you can use this
 operation in a monitoring account to start a query in a linked source account. For more
 information, see CloudWatch cross-account observability. For a cross-account StartQuery
 operation, the query definition must be defined in the monitoring account. You can have up
-to 20 concurrent CloudWatch Logs insights queries, including queries that have been added
+to 30 concurrent CloudWatch Logs insights queries, including queries that have been added
 to dashboards.
 
 # Arguments

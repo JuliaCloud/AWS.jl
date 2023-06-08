@@ -67,6 +67,71 @@ function add_profile_key(
 end
 
 """
+    create_calculated_attribute_definition(attribute_details, calculated_attribute_name, domain_name, statistic)
+    create_calculated_attribute_definition(attribute_details, calculated_attribute_name, domain_name, statistic, params::Dict{String,<:Any})
+
+Creates a new calculated attribute definition. After creation, new object data ingested
+into Customer Profiles will be included in the calculated attribute, which can be retrieved
+for a profile using the GetCalculatedAttributeForProfile API. Defining a calculated
+attribute makes it available for all profiles within a domain. Each calculated attribute
+can only reference one ObjectType and at most, two fields from that ObjectType.
+
+# Arguments
+- `attribute_details`: Mathematical expression and a list of attribute items specified in
+  that expression.
+- `calculated_attribute_name`: The unique name of the calculated attribute.
+- `domain_name`: The unique name of the domain.
+- `statistic`: The aggregation operation to perform for the calculated attribute.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Conditions"`: The conditions including range, object count, and threshold for the
+  calculated attribute.
+- `"Description"`: The description of the calculated attribute.
+- `"DisplayName"`: The display name of the calculated attribute.
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_calculated_attribute_definition(
+    AttributeDetails,
+    CalculatedAttributeName,
+    DomainName,
+    Statistic;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
+        Dict{String,Any}("AttributeDetails" => AttributeDetails, "Statistic" => Statistic);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_calculated_attribute_definition(
+    AttributeDetails,
+    CalculatedAttributeName,
+    DomainName,
+    Statistic,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AttributeDetails" => AttributeDetails, "Statistic" => Statistic
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_domain(default_expiration_days, domain_name)
     create_domain(default_expiration_days, domain_name, params::Dict{String,<:Any})
 
@@ -128,6 +193,52 @@ function create_domain(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_event_stream(domain_name, event_stream_name, uri)
+    create_event_stream(domain_name, event_stream_name, uri, params::Dict{String,<:Any})
+
+Creates an event stream, which is a subscription to real-time events, such as when profiles
+are created and updated through Amazon Connect Customer Profiles. Each event stream can be
+associated with only one Kinesis Data Stream destination in the same region and Amazon Web
+Services account as the customer profiles domain
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `event_stream_name`: The name of the event stream.
+- `uri`: The StreamARN of the destination to deliver profile events to. For example,
+  arn:aws:kinesis:region:account-id:stream/stream-name
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_event_stream(
+    DomainName, EventStreamName, Uri; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/event-streams/$(EventStreamName)",
+        Dict{String,Any}("Uri" => Uri);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_event_stream(
+    DomainName,
+    EventStreamName,
+    Uri,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/event-streams/$(EventStreamName)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Uri" => Uri), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -266,6 +377,45 @@ function create_profile(
 end
 
 """
+    delete_calculated_attribute_definition(calculated_attribute_name, domain_name)
+    delete_calculated_attribute_definition(calculated_attribute_name, domain_name, params::Dict{String,<:Any})
+
+Deletes an existing calculated attribute definition. Note that deleting a default
+calculated attribute is possible, however once deleted, you will be unable to undo that
+action and will need to recreate it on your own using the
+CreateCalculatedAttributeDefinition API if you want it back.
+
+# Arguments
+- `calculated_attribute_name`: The unique name of the calculated attribute.
+- `domain_name`: The unique name of the domain.
+
+"""
+function delete_calculated_attribute_definition(
+    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_calculated_attribute_definition(
+    CalculatedAttributeName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_domain(domain_name)
     delete_domain(domain_name, params::Dict{String,<:Any})
 
@@ -292,6 +442,42 @@ function delete_domain(
     return customer_profiles(
         "DELETE",
         "/domains/$(DomainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_event_stream(domain_name, event_stream_name)
+    delete_event_stream(domain_name, event_stream_name, params::Dict{String,<:Any})
+
+Disables and deletes the specified event stream.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `event_stream_name`: The name of the event stream
+
+"""
+function delete_event_stream(
+    DomainName, EventStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/event-streams/$(EventStreamName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_event_stream(
+    DomainName,
+    EventStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "DELETE",
+        "/domains/$(DomainName)/event-streams/$(EventStreamName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -633,6 +819,83 @@ function get_auto_merging_preview(
 end
 
 """
+    get_calculated_attribute_definition(calculated_attribute_name, domain_name)
+    get_calculated_attribute_definition(calculated_attribute_name, domain_name, params::Dict{String,<:Any})
+
+Provides more information on a calculated attribute definition for Customer Profiles.
+
+# Arguments
+- `calculated_attribute_name`: The unique name of the calculated attribute.
+- `domain_name`: The unique name of the domain.
+
+"""
+function get_calculated_attribute_definition(
+    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_calculated_attribute_definition(
+    CalculatedAttributeName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_calculated_attribute_for_profile(calculated_attribute_name, domain_name, profile_id)
+    get_calculated_attribute_for_profile(calculated_attribute_name, domain_name, profile_id, params::Dict{String,<:Any})
+
+Retrieve a calculated attribute for a customer profile.
+
+# Arguments
+- `calculated_attribute_name`: The unique name of the calculated attribute.
+- `domain_name`: The unique name of the domain.
+- `profile_id`: The unique identifier of a customer profile.
+
+"""
+function get_calculated_attribute_for_profile(
+    CalculatedAttributeName,
+    DomainName,
+    ProfileId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes/$(CalculatedAttributeName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_calculated_attribute_for_profile(
+    CalculatedAttributeName,
+    DomainName,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes/$(CalculatedAttributeName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_domain(domain_name)
     get_domain(domain_name, params::Dict{String,<:Any})
 
@@ -658,6 +921,42 @@ function get_domain(
     return customer_profiles(
         "GET",
         "/domains/$(DomainName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_event_stream(domain_name, event_stream_name)
+    get_event_stream(domain_name, event_stream_name, params::Dict{String,<:Any})
+
+Returns information about the specified event stream in a specific domain.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `event_stream_name`: The name of the event stream provided during create operations.
+
+"""
+function get_event_stream(
+    DomainName, EventStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-streams/$(EventStreamName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_event_stream(
+    DomainName,
+    EventStreamName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-streams/$(EventStreamName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -977,6 +1276,86 @@ function list_account_integrations(
 end
 
 """
+    list_calculated_attribute_definitions(domain_name)
+    list_calculated_attribute_definitions(domain_name, params::Dict{String,<:Any})
+
+Lists calculated attribute definitions for Customer Profiles
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of calculated attribute definitions returned per page.
+- `"next-token"`: The pagination token from the previous call to
+  ListCalculatedAttributeDefinitions.
+"""
+function list_calculated_attribute_definitions(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/calculated-attributes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_calculated_attribute_definitions(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/calculated-attributes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_calculated_attributes_for_profile(domain_name, profile_id)
+    list_calculated_attributes_for_profile(domain_name, profile_id, params::Dict{String,<:Any})
+
+Retrieve a list of calculated attributes for a customer profile.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `profile_id`: The unique identifier of a customer profile.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of calculated attributes returned per page.
+- `"next-token"`: The pagination token from the previous call to
+  ListCalculatedAttributesForProfile.
+"""
+function list_calculated_attributes_for_profile(
+    DomainName, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_calculated_attributes_for_profile(
+    DomainName,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profile/$(ProfileId)/calculated-attributes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_domains()
     list_domains(params::Dict{String,<:Any})
 
@@ -997,6 +1376,42 @@ function list_domains(
 )
     return customer_profiles(
         "GET", "/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_event_streams(domain_name)
+    list_event_streams(domain_name, params::Dict{String,<:Any})
+
+Returns a list of all the event streams in a specific domain.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of objects returned per page.
+- `"next-token"`: Identifies the next page of results to return.
+"""
+function list_event_streams(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-streams";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_event_streams(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/event-streams",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1156,8 +1571,7 @@ Returns a list of objects associated with a profile of a given ProfileObjectType
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ObjectFilter"`: Applies a filter to the response to include profile objects with the
-  specified index values. This filter is only supported for ObjectTypeName _asset, _case and
-  _order.
+  specified index values.
 - `"max-results"`: The maximum number of objects returned per page.
 - `"next-token"`: The pagination token from the previous call to ListProfileObjects.
 """
@@ -1652,6 +2066,50 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_calculated_attribute_definition(calculated_attribute_name, domain_name)
+    update_calculated_attribute_definition(calculated_attribute_name, domain_name, params::Dict{String,<:Any})
+
+Updates an existing calculated attribute definition. When updating the Conditions, note
+that increasing the date range of a calculated attribute will not trigger inclusion of
+historical data greater than the current date range.
+
+# Arguments
+- `calculated_attribute_name`: The unique name of the calculated attribute.
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Conditions"`: The conditions including range, object count, and threshold for the
+  calculated attribute.
+- `"Description"`: The description of the calculated attribute.
+- `"DisplayName"`: The display name of the calculated attribute.
+"""
+function update_calculated_attribute_definition(
+    CalculatedAttributeName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_calculated_attribute_definition(
+    CalculatedAttributeName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "PUT",
+        "/domains/$(DomainName)/calculated-attributes/$(CalculatedAttributeName)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

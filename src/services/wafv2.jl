@@ -914,6 +914,92 @@ function delete_web_acl(
 end
 
 """
+    describe_all_managed_products(scope)
+    describe_all_managed_products(scope, params::Dict{String,<:Any})
+
+Provides high-level information for the Amazon Web Services Managed Rules rule groups and
+Amazon Web Services Marketplace managed rule groups.
+
+# Arguments
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
+  regional application. A regional application can be an Application Load Balancer (ALB), an
+  Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App
+  Runner service, or an Amazon Web Services Verified Access instance.  To work with
+  CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI -
+  Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT
+  --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
+
+"""
+function describe_all_managed_products(
+    Scope; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wafv2(
+        "DescribeAllManagedProducts",
+        Dict{String,Any}("Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_all_managed_products(
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wafv2(
+        "DescribeAllManagedProducts",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Scope" => Scope), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_managed_products_by_vendor(scope, vendor_name)
+    describe_managed_products_by_vendor(scope, vendor_name, params::Dict{String,<:Any})
+
+Provides high-level information for the managed rule groups owned by a specific vendor.
+
+# Arguments
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
+  regional application. A regional application can be an Application Load Balancer (ALB), an
+  Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App
+  Runner service, or an Amazon Web Services Verified Access instance.  To work with
+  CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI -
+  Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT
+  --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
+- `vendor_name`: The name of the managed rule group vendor. You use this, along with the
+  rule group name, to identify a rule group.
+
+"""
+function describe_managed_products_by_vendor(
+    Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wafv2(
+        "DescribeManagedProductsByVendor",
+        Dict{String,Any}("Scope" => Scope, "VendorName" => VendorName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_managed_products_by_vendor(
+    Scope,
+    VendorName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wafv2(
+        "DescribeManagedProductsByVendor",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Scope" => Scope, "VendorName" => VendorName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_managed_rule_group(name, scope, vendor_name)
     describe_managed_rule_group(name, scope, vendor_name, params::Dict{String,<:Any})
 
@@ -931,7 +1017,7 @@ rules.
   Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 - `vendor_name`: The name of the managed rule group vendor. You use this, along with the
-  rule group name, to identify the rule group.
+  rule group name, to identify a rule group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1756,7 +1842,7 @@ Returns a list of the available versions for the specified managed rule group.
   Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 - `vendor_name`: The name of the managed rule group vendor. You use this, along with the
-  rule group name, to identify the rule group.
+  rule group name, to identify a rule group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

@@ -2904,6 +2904,7 @@ and biometrics laws, and as required under the AWS service terms for the Amazon 
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CallLeg"`: Specifies which call leg to stream for speaker search.
 - `"ClientRequestToken"`: The unique identifier for the client request. Use a different
   token for different speaker search tasks.
 """

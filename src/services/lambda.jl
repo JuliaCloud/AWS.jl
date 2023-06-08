@@ -479,8 +479,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   container image Dockerfile.
 - `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key that's
   used to encrypt your function's environment variables. When Lambda SnapStart is activated,
-  this key is also used to encrypt your function's snapshot. If you don't provide a customer
-  managed key, Lambda uses a default service key.
+  Lambda also uses this key is to encrypt your function's snapshot. If you deploy your
+  function using a container image, Lambda also uses this key to encrypt your function when
+  it's deployed. Note that this is not the same key that's used to protect your container
+  image in the Amazon Elastic Container Registry (Amazon ECR). If you don't provide a
+  customer managed key, Lambda uses a default service key.
 - `"Layers"`: A list of function layers to add to the function's execution environment.
   Specify each layer by its ARN, including the version.
 - `"MemorySize"`: The amount of memory available to the function at runtime. Increasing the
@@ -2092,7 +2095,8 @@ are compatible with that architecture.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CompatibleArchitecture"`: The compatible instruction set architecture.
-- `"CompatibleRuntime"`: A runtime identifier. For example, go1.x.
+- `"CompatibleRuntime"`: A runtime identifier. For example, go1.x. The following list
+  includes deprecated runtimes. For more information, see Runtime deprecation policy.
 - `"Marker"`: A pagination token returned by a previous call.
 - `"MaxItems"`: The maximum number of versions to return.
 """
@@ -2130,7 +2134,8 @@ that instruction set architecture.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CompatibleArchitecture"`: The compatible instruction set architecture.
-- `"CompatibleRuntime"`: A runtime identifier. For example, go1.x.
+- `"CompatibleRuntime"`: A runtime identifier. For example, go1.x. The following list
+  includes deprecated runtimes. For more information, see Runtime deprecation policy.
 - `"Marker"`: A pagination token returned by a previous call.
 - `"MaxItems"`: The maximum number of layers to return.
 """
@@ -2285,7 +2290,8 @@ or UpdateFunctionConfiguration.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CompatibleArchitectures"`: A list of compatible instruction set architectures.
 - `"CompatibleRuntimes"`: A list of compatible function runtimes. Used for filtering with
-  ListLayers and ListLayerVersions.
+  ListLayers and ListLayerVersions. The following list includes deprecated runtimes. For more
+  information, see Runtime deprecation policy.
 - `"Description"`: The description of the version.
 - `"LicenseInfo"`: The layer's software license. It can be any of the following:   An SPDX
   license identifier. For example, MIT.   The URL of a license hosted on the internet. For
@@ -3126,8 +3132,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   container image Docker file.
 - `"KMSKeyArn"`: The ARN of the Key Management Service (KMS) customer managed key that's
   used to encrypt your function's environment variables. When Lambda SnapStart is activated,
-  this key is also used to encrypt your function's snapshot. If you don't provide a customer
-  managed key, Lambda uses a default service key.
+  Lambda also uses this key is to encrypt your function's snapshot. If you deploy your
+  function using a container image, Lambda also uses this key to encrypt your function when
+  it's deployed. Note that this is not the same key that's used to protect your container
+  image in the Amazon Elastic Container Registry (Amazon ECR). If you don't provide a
+  customer managed key, Lambda uses a default service key.
 - `"Layers"`: A list of function layers to add to the function's execution environment.
   Specify each layer by its ARN, including the version.
 - `"MemorySize"`: The amount of memory available to the function at runtime. Increasing the

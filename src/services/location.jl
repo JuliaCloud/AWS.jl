@@ -1517,9 +1517,14 @@ Retrieves glyphs used to display labels on a map.
   VectorOpenDataVisualizationLight, VectorOpenDataVisualizationDark – Amazon Ember
   Regular,Noto Sans Regular | Amazon Ember Bold,Noto Sans Bold | Amazon Ember Medium,Noto
   Sans Medium | Amazon Ember Regular Italic,Noto Sans Italic | Amazon Ember Condensed RC
-  Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold     The fonts
-  used by the Open Data map styles are combined fonts that use Amazon Ember for most glyphs
-  but Noto Sans for glyphs unsupported by Amazon Ember.
+  Regular,Noto Sans Regular | Amazon Ember Condensed RC Bold,Noto Sans Bold | Amazon Ember
+  Regular,Noto Sans Regular,Noto Sans Arabic Regular | Amazon Ember Condensed RC Bold,Noto
+  Sans Bold,Noto Sans Arabic Condensed Bold | Amazon Ember Bold,Noto Sans Bold,Noto Sans
+  Arabic Bold | Amazon Ember Regular Italic,Noto Sans Italic,Noto Sans Arabic Regular |
+  Amazon Ember Condensed RC Regular,Noto Sans Regular,Noto Sans Arabic Condensed Regular |
+  Amazon Ember Medium,Noto Sans Medium,Noto Sans Arabic Medium     The fonts used by the Open
+  Data map styles are combined fonts that use Amazon Ember for most glyphs but Noto Sans for
+  glyphs unsupported by Amazon Ember.
 - `font_unicode_range`: A Unicode range of characters to download glyphs for. Each response
   will contain 256 characters. For example, 0–255 includes all characters from range U+0000
   to 00FF. Must be aligned to multiples of 256.
@@ -2513,6 +2518,8 @@ Updates the specified properties of a given map resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfigurationUpdate"`: Updates the parts of the map configuration that can be updated,
+  including the political view.
 - `"Description"`: Updates the description for the map resource.
 - `"PricingPlan"`: No longer used. If included, the only allowed value is RequestBasedUsage.
 """
