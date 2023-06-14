@@ -485,37 +485,32 @@ function deregister_organization_delegated_admin(
 end
 
 """
-    describe_query(query_id)
-    describe_query(query_id, params::Dict{String,<:Any})
+    describe_query()
+    describe_query(params::Dict{String,<:Any})
 
 Returns metadata about a query, including query run time in milliseconds, number of events
-scanned and matched, and query status. You must specify an ARN for EventDataStore, and a
-value for QueryID.
-
-# Arguments
-- `query_id`: The query ID.
+scanned and matched, and query status. If the query results were delivered to an S3 bucket,
+the response also provides the S3 URI and the delivery status. You must specify either a
+QueryID or a QueryAlias. Specifying the QueryAlias parameter returns information about the
+last query run for the alias.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EventDataStore"`: The ARN (or the ID suffix of the ARN) of an event data store on which
   the specified query was run.
+- `"QueryAlias"`:  The alias that identifies a query template.
+- `"QueryId"`: The query ID.
 """
-function describe_query(QueryId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_query(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
-        "DescribeQuery",
-        Dict{String,Any}("QueryId" => QueryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_query(
-    QueryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "DescribeQuery",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("QueryId" => QueryId), params));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "DescribeQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -751,7 +746,7 @@ end
     get_query_results(query_id, params::Dict{String,<:Any})
 
 Gets event data results of a query. You must specify the QueryID value returned by the
-StartQuery operation, and an ARN for EventDataStore.
+StartQuery operation.
 
 # Arguments
 - `query_id`: The ID of the query for which you want to get results.
@@ -1617,41 +1612,32 @@ function start_logging(
 end
 
 """
-    start_query(query_statement)
-    start_query(query_statement, params::Dict{String,<:Any})
+    start_query()
+    start_query(params::Dict{String,<:Any})
 
-Starts a CloudTrail Lake query. The required QueryStatement parameter provides your SQL
-query, enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to
-deliver the query results to an S3 bucket.
-
-# Arguments
-- `query_statement`: The SQL code of your query.
+Starts a CloudTrail Lake query. Use the QueryStatement parameter to provide your SQL query,
+enclosed in single quotation marks. Use the optional DeliveryS3Uri parameter to deliver the
+query results to an S3 bucket.  StartQuery requires you specify either the QueryStatement
+parameter, or a QueryAlias and any QueryParameters. In the current release, the QueryAlias
+and QueryParameters parameters are used only for the queries that populate the CloudTrail
+Lake dashboards.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DeliveryS3Uri"`:  The URI for the S3 bucket where CloudTrail delivers the query
   results.
+- `"QueryAlias"`:  The alias that identifies a query template.
+- `"QueryParameters"`:  The query parameters for the specified QueryAlias.
+- `"QueryStatement"`: The SQL code of your query.
 """
-function start_query(QueryStatement; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudtrail(
-        "StartQuery",
-        Dict{String,Any}("QueryStatement" => QueryStatement);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
+function start_query(; aws_config::AbstractAWSConfig=global_aws_config())
+    return cloudtrail("StartQuery"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function start_query(
-    QueryStatement,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
-        "StartQuery",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("QueryStatement" => QueryStatement), params)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "StartQuery", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1807,9 +1793,9 @@ specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid 
 integers between 90 and 2557. By default, TerminationProtection is enabled. For event data
 stores for CloudTrail events, AdvancedEventSelectors includes or excludes management and
 data events in your event data store. For more information about AdvancedEventSelectors,
-see PutEventSelectorsRequestAdvancedEventSelectors.   For event data stores for Config
-configuration items, Audit Manager evidence, or non-Amazon Web Services events,
-AdvancedEventSelectors includes events of that type in your event data store.
+see AdvancedEventSelectors.  For event data stores for Config configuration items, Audit
+Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events
+of that type in your event data store.
 
 # Arguments
 - `event_data_store`: The ARN (or the ID suffix of the ARN) of the event data store that

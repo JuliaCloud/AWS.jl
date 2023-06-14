@@ -49,6 +49,45 @@ function associate_lenses(
 end
 
 """
+    associate_profiles(profile_arns, workload_id)
+    associate_profiles(profile_arns, workload_id, params::Dict{String,<:Any})
+
+Associate a profile with a workload.
+
+# Arguments
+- `profile_arns`: The list of profile ARNs to associate with the workload.
+- `workload_id`:
+
+"""
+function associate_profiles(
+    ProfileArns, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/associateProfiles",
+        Dict{String,Any}("ProfileArns" => ProfileArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_profiles(
+    ProfileArns,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/associateProfiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileArns" => ProfileArns), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_lens_share(client_request_token, lens_alias, shared_with)
     create_lens_share(client_request_token, lens_alias, shared_with, params::Dict{String,<:Any})
 
@@ -223,6 +262,122 @@ function create_milestone(
 end
 
 """
+    create_profile(client_request_token, profile_description, profile_name, profile_questions)
+    create_profile(client_request_token, profile_description, profile_name, profile_questions, params::Dict{String,<:Any})
+
+Create a profile.
+
+# Arguments
+- `client_request_token`:
+- `profile_description`: The profile description.
+- `profile_name`: Name of the profile.
+- `profile_questions`: The profile questions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The tags assigned to the profile.
+"""
+function create_profile(
+    ClientRequestToken,
+    ProfileDescription,
+    ProfileName,
+    ProfileQuestions;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/profiles",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken,
+            "ProfileDescription" => ProfileDescription,
+            "ProfileName" => ProfileName,
+            "ProfileQuestions" => ProfileQuestions,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_profile(
+    ClientRequestToken,
+    ProfileDescription,
+    ProfileName,
+    ProfileQuestions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/profiles",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken,
+                    "ProfileDescription" => ProfileDescription,
+                    "ProfileName" => ProfileName,
+                    "ProfileQuestions" => ProfileQuestions,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_profile_share(client_request_token, profile_arn, shared_with)
+    create_profile_share(client_request_token, profile_arn, shared_with, params::Dict{String,<:Any})
+
+Create a profile share.
+
+# Arguments
+- `client_request_token`:
+- `profile_arn`: The profile ARN.
+- `shared_with`:
+
+"""
+function create_profile_share(
+    ClientRequestToken,
+    ProfileArn,
+    SharedWith;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/profiles/$(ProfileArn)/shares",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_profile_share(
+    ClientRequestToken,
+    ProfileArn,
+    SharedWith,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/profiles/$(ProfileArn)/shares",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_workload(client_request_token, description, environment, lenses, workload_name)
     create_workload(client_request_token, description, environment, lenses, workload_name, params::Dict{String,<:Any})
 
@@ -254,6 +409,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NonAwsRegions"`:
 - `"Notes"`:
 - `"PillarPriorities"`:
+- `"ProfileArns"`: The list of profile ARNs associated with the workload.
 - `"ReviewOwner"`:
 - `"Tags"`: The tags to be associated with the workload.
 """
@@ -486,6 +642,97 @@ function delete_lens_share(
 end
 
 """
+    delete_profile(client_request_token, profile_arn)
+    delete_profile(client_request_token, profile_arn, params::Dict{String,<:Any})
+
+Delete a profile.   Disclaimer  By sharing your profile with other Amazon Web Services
+accounts, you acknowledge that Amazon Web Services will make your profile available to
+those other accounts. Those other accounts may continue to access and use your shared
+profile even if you delete the profile from your own Amazon Web Services account or
+terminate your Amazon Web Services account.
+
+# Arguments
+- `client_request_token`:
+- `profile_arn`: The profile ARN.
+
+"""
+function delete_profile(
+    ClientRequestToken, ProfileArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "DELETE",
+        "/profiles/$(ProfileArn)",
+        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_profile(
+    ClientRequestToken,
+    ProfileArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/profiles/$(ProfileArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_profile_share(client_request_token, profile_arn, share_id)
+    delete_profile_share(client_request_token, profile_arn, share_id, params::Dict{String,<:Any})
+
+Delete a profile share.
+
+# Arguments
+- `client_request_token`:
+- `profile_arn`: The profile ARN.
+- `share_id`:
+
+"""
+function delete_profile_share(
+    ClientRequestToken,
+    ProfileArn,
+    ShareId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/profiles/$(ProfileArn)/shares/$(ShareId)",
+        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_profile_share(
+    ClientRequestToken,
+    ProfileArn,
+    ShareId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/profiles/$(ProfileArn)/shares/$(ShareId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_workload(client_request_token, workload_id)
     delete_workload(client_request_token, workload_id, params::Dict{String,<:Any})
 
@@ -607,6 +854,45 @@ function disassociate_lenses(
         "/workloads/$(WorkloadId)/disassociateLenses",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("LensAliases" => LensAliases), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_profiles(profile_arns, workload_id)
+    disassociate_profiles(profile_arns, workload_id, params::Dict{String,<:Any})
+
+Disassociate a profile from a workload.
+
+# Arguments
+- `profile_arns`: The list of profile ARNs to disassociate from the workload.
+- `workload_id`:
+
+"""
+function disassociate_profiles(
+    ProfileArns, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/disassociateProfiles",
+        Dict{String,Any}("ProfileArns" => ProfileArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_profiles(
+    ProfileArns,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/workloads/$(WorkloadId)/disassociateProfiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileArns" => ProfileArns), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -923,6 +1209,65 @@ function get_milestone(
 end
 
 """
+    get_profile(profile_arn)
+    get_profile(profile_arn, params::Dict{String,<:Any})
+
+Get profile information.
+
+# Arguments
+- `profile_arn`: The profile ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ProfileVersion"`: The profile version.
+"""
+function get_profile(ProfileArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET",
+        "/profiles/$(ProfileArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_profile(
+    ProfileArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/profiles/$(ProfileArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_profile_template()
+    get_profile_template(params::Dict{String,<:Any})
+
+Get profile template.
+
+"""
+function get_profile_template(; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET", "/profileTemplate"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_profile_template(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/profileTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_workload(workload_id)
     get_workload(workload_id, params::Dict{String,<:Any})
 
@@ -1032,6 +1377,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MilestoneNumber"`:
 - `"NextToken"`:
 - `"PillarId"`:
+- `"QuestionPriority"`: The priority of the question.
 """
 function list_answers(
     LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1210,6 +1556,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MilestoneNumber"`:
 - `"NextToken"`:
 - `"PillarId"`:
+- `"QuestionPriority"`: The priority of the question.
 """
 function list_lens_review_improvements(
     LensAlias, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1405,6 +1752,107 @@ function list_notifications(
 end
 
 """
+    list_profile_notifications()
+    list_profile_notifications(params::Dict{String,<:Any})
+
+List profile notifications.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:
+- `"NextToken"`:
+- `"WorkloadId"`:
+"""
+function list_profile_notifications(; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET",
+        "/profileNotifications/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_profile_notifications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/profileNotifications/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_profile_shares(profile_arn)
+    list_profile_shares(profile_arn, params::Dict{String,<:Any})
+
+List profile shares.
+
+# Arguments
+- `profile_arn`: The profile ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return for this request.
+- `"NextToken"`:
+- `"SharedWithPrefix"`: The Amazon Web Services account ID, IAM role, organization ID, or
+  organizational unit (OU) ID with which the profile is shared.
+- `"Status"`:
+"""
+function list_profile_shares(ProfileArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET",
+        "/profiles/$(ProfileArn)/shares";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_profile_shares(
+    ProfileArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/profiles/$(ProfileArn)/shares",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_profiles()
+    list_profiles(params::Dict{String,<:Any})
+
+List profiles.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:
+- `"NextToken"`:
+- `"ProfileNamePrefix"`: Prefix for profile name.
+- `"ProfileOwnerType"`: Profile owner type.
+"""
+function list_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET", "/profileSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/profileSummaries",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_share_invitations()
     list_share_invitations(params::Dict{String,<:Any})
 
@@ -1416,6 +1864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the results.
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
+- `"ProfileNamePrefix"`: Profile name prefix.
 - `"ShareResourceType"`: The type of share invitations to be returned.
 - `"WorkloadNamePrefix"`:
 """
@@ -1440,8 +1889,8 @@ end
     list_tags_for_resource(workload_arn)
     list_tags_for_resource(workload_arn, params::Dict{String,<:Any})
 
-List the tags for a resource.  The WorkloadArn parameter can be either a workload ARN or a
-custom lens ARN.
+List the tags for a resource.  The WorkloadArn parameter can be a workload ARN, a custom
+lens ARN, or a profile ARN.
 
 # Arguments
 - `workload_arn`:
@@ -1546,8 +1995,8 @@ end
     tag_resource(tags, workload_arn)
     tag_resource(tags, workload_arn, params::Dict{String,<:Any})
 
-Adds one or more tags to the specified resource.  The WorkloadArn parameter can be either a
-workload ARN or a custom lens ARN.
+Adds one or more tags to the specified resource.  The WorkloadArn parameter can be a
+workload ARN, a custom lens ARN, or a profile ARN.
 
 # Arguments
 - `tags`: The tags for the resource.
@@ -1582,9 +2031,9 @@ end
     untag_resource(workload_arn, tag_keys)
     untag_resource(workload_arn, tag_keys, params::Dict{String,<:Any})
 
-Deletes specified tags from a resource.  The WorkloadArn parameter can be either a workload
-ARN or a custom lens ARN.  To specify multiple tags, use separate tagKeys parameters, for
-example:  DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
+Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a
+custom lens ARN, or a profile ARN.  To specify multiple tags, use separate tagKeys
+parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
 
 # Arguments
 - `workload_arn`:
@@ -1727,6 +2176,42 @@ function update_lens_review(
     return wellarchitected(
         "PATCH",
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_profile(profile_arn)
+    update_profile(profile_arn, params::Dict{String,<:Any})
+
+Update a profile.
+
+# Arguments
+- `profile_arn`: The profile ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ProfileDescription"`: The profile description.
+- `"ProfileQuestions"`: Profile questions.
+"""
+function update_profile(ProfileArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "PATCH",
+        "/profiles/$(ProfileArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_profile(
+    ProfileArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/profiles/$(ProfileArn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1913,6 +2398,51 @@ function upgrade_lens_review(
         "/workloads/$(WorkloadId)/lensReviews/$(LensAlias)/upgrade",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("MilestoneName" => MilestoneName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    upgrade_profile_version(profile_arn, workload_id)
+    upgrade_profile_version(profile_arn, workload_id, params::Dict{String,<:Any})
+
+Upgrade a profile.
+
+# Arguments
+- `profile_arn`: The profile ARN.
+- `workload_id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"MilestoneName"`:
+"""
+function upgrade_profile_version(
+    ProfileArn, WorkloadId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PUT",
+        "/workloads/$(WorkloadId)/profiles/$(ProfileArn)/upgrade",
+        Dict{String,Any}("ClientRequestToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function upgrade_profile_version(
+    ProfileArn,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PUT",
+        "/workloads/$(WorkloadId)/profiles/$(ProfileArn)/upgrade",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => string(uuid4())), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

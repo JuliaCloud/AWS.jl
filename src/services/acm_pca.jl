@@ -40,12 +40,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you change the idempotency token for each call, Amazon Web Services Private CA recognizes
   that you are requesting multiple certificate authorities.
 - `"KeyStorageSecurityStandard"`: Specifies a cryptographic key management compliance
-  standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER  Note:
-  FIPS_140_2_LEVEL_3_OR_HIGHER is not supported in the following Regions:   ap-northeast-3
-  ap-southeast-3   When creating a CA in these Regions, you must provide
-  FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for KeyStorageSecurityStandard. Failure to do
-  this results in an InvalidArgsException with the message, \"A certificate authority cannot
-  be created in this region with the specified security standard.\"
+  standard used for handling CA keys. Default: FIPS_140_2_LEVEL_3_OR_HIGHER  Some Amazon Web
+  Services Regions do not support the default. When creating a CA in these Regions, you must
+  provide FIPS_140_2_LEVEL_2_OR_HIGHER as the argument for KeyStorageSecurityStandard.
+  Failure to do this results in an InvalidArgsException with the message, \"A certificate
+  authority cannot be created in this region with the specified security standard.\" For
+  information about security standard support in various Regions, see Storage and security
+  compliance of Amazon Web Services Private CA private keys.
 - `"RevocationConfiguration"`: Contains information to enable Online Certificate Status
   Protocol (OCSP) support, to enable a certificate revocation list (CRL), to enable both, or
   to enable neither. The default is for both certificate validation mechanisms to be
@@ -839,7 +840,7 @@ the ARNs of the certificates that you issue by using Amazon Web Services Private
 - `signing_algorithm`: The name of the algorithm that will be used to sign the certificate
   to be issued.  This parameter should not be confused with the SigningAlgorithm parameter
   used to sign a CSR in the CreateCertificateAuthority action.  The specified signing
-  algorithm family (RSA or ECDSA) much match the algorithm family of the CA's secret key.
+  algorithm family (RSA or ECDSA) must match the algorithm family of the CA's secret key.
 - `validity`: Information describing the end of the validity period of the certificate.
   This parameter sets the “Not After” date for the certificate. Certificate validity is
   the period of time during which a certificate is valid. Validity can be expressed as an

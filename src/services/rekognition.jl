@@ -5,6 +5,83 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_faces(collection_id, face_ids, user_id)
+    associate_faces(collection_id, face_ids, user_id, params::Dict{String,<:Any})
+
+Associates one or more faces with an existing UserID. Takes an array of FaceIds. Each
+FaceId that are present in the FaceIds list is associated with the provided UserID. The
+maximum number of total FaceIds per UserID is 100.  The UserMatchThreshold parameter
+specifies the minimum user match confidence required for the face to be associated with a
+UserID that has at least one FaceID already associated. This ensures that the FaceIds are
+associated with the right UserID. The value ranges from 0-100 and default value is 75.  If
+successful, an array of AssociatedFace objects containing the associated FaceIds is
+returned. If a given face is already associated with the given UserID, it will be ignored
+and will not be returned in the response. If a given face is already associated to a
+different UserID, isn't found in the collection, doesn’t meet the UserMatchThreshold, or
+there are already 100 faces associated with the UserID, it will be returned as part of an
+array of UnsuccessfulFaceAssociations.  The UserStatus reflects the status of an operation
+which updates a UserID representation with a list of given faces. The UserStatus can be:
+ACTIVE - All associations or disassociations of FaceID(s) for a UserID are complete.
+CREATED - A UserID has been created, but has no FaceID(s) associated with it.   UPDATING -
+A UserID is being updated and there are current associations or disassociations of
+FaceID(s) taking place.
+
+# Arguments
+- `collection_id`: The ID of an existing collection containing the UserID.
+- `face_ids`: An array of FaceIDs to associate with the UserID.
+- `user_id`: The ID for the existing UserID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: Idempotent token used to identify the request to AssociateFaces.
+  If you use the same token with multiple AssociateFaces requests, the same response is
+  returned. Use ClientRequestToken to prevent the same request from being processed more than
+  once.
+- `"UserMatchThreshold"`: An optional value specifying the minimum confidence in the UserID
+  match to return. The default value is 75.
+"""
+function associate_faces(
+    CollectionId, FaceIds, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "AssociateFaces",
+        Dict{String,Any}(
+            "CollectionId" => CollectionId,
+            "FaceIds" => FaceIds,
+            "UserId" => UserId,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_faces(
+    CollectionId,
+    FaceIds,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "AssociateFaces",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CollectionId" => CollectionId,
+                    "FaceIds" => FaceIds,
+                    "UserId" => UserId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     compare_faces(source_image, target_image)
     compare_faces(source_image, target_image, params::Dict{String,<:Any})
 
@@ -585,6 +662,68 @@ function create_stream_processor(
 end
 
 """
+    create_user(collection_id, user_id)
+    create_user(collection_id, user_id, params::Dict{String,<:Any})
+
+Creates a new User within a collection specified by CollectionId. Takes UserId as a
+parameter, which is a user provided ID which should be unique within the collection. The
+provided UserId will alias the system generated UUID to make the UserId more user friendly.
+ Uses a ClientToken, an idempotency token that ensures a call to CreateUser completes only
+once. If the value is not supplied, the AWS SDK generates an idempotency token for the
+requests. This prevents retries after a network error results from making multiple
+CreateUser calls.
+
+# Arguments
+- `collection_id`: The ID of an existing collection to which the new UserID needs to be
+  created.
+- `user_id`: ID for the UserID to be created. This ID needs to be unique within the
+  collection.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: Idempotent token used to identify the request to CreateUser. If
+  you use the same token with multiple CreateUser requests, the same response is returned.
+  Use ClientRequestToken to prevent the same request from being processed more than once.
+"""
+function create_user(
+    CollectionId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "CreateUser",
+        Dict{String,Any}(
+            "CollectionId" => CollectionId,
+            "UserId" => UserId,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_user(
+    CollectionId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "CreateUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CollectionId" => CollectionId,
+                    "UserId" => UserId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_collection(collection_id)
     delete_collection(collection_id, params::Dict{String,<:Any})
 
@@ -857,6 +996,65 @@ function delete_stream_processor(
     return rekognition(
         "DeleteStreamProcessor",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_user(collection_id, user_id)
+    delete_user(collection_id, user_id, params::Dict{String,<:Any})
+
+Deletes the specified UserID within the collection. Faces that are associated with the
+UserID are disassociated from the UserID before deleting the specified UserID. If the
+specified Collection or UserID is already deleted or not found, a ResourceNotFoundException
+will be thrown. If the action is successful with a 200 response, an empty HTTP body is
+returned.
+
+# Arguments
+- `collection_id`: The ID of an existing collection from which the UserID needs to be
+  deleted.
+- `user_id`: ID for the UserID to be deleted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: Idempotent token used to identify the request to DeleteUser. If
+  you use the same token with multiple DeleteUser requests, the same response is returned.
+  Use ClientRequestToken to prevent the same request from being processed more than once.
+"""
+function delete_user(
+    CollectionId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "DeleteUser",
+        Dict{String,Any}(
+            "CollectionId" => CollectionId,
+            "UserId" => UserId,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_user(
+    CollectionId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "DeleteUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CollectionId" => CollectionId,
+                    "UserId" => UserId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1433,6 +1631,71 @@ function detect_text(
     return rekognition(
         "DetectText",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Image" => Image), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_faces(collection_id, face_ids, user_id)
+    disassociate_faces(collection_id, face_ids, user_id, params::Dict{String,<:Any})
+
+Removes the association between a Face supplied in an array of FaceIds and the User. If the
+User is not present already, then a ResourceNotFound exception is thrown. If successful, an
+array of faces that are disassociated from the User is returned. If a given face is already
+disassociated from the given UserID, it will be ignored and not be returned in the
+response. If a given face is already associated with a different User or not found in the
+collection it will be returned as part of UnsuccessfulDisassociations. You can remove 1 -
+100 face IDs from a user at one time.
+
+# Arguments
+- `collection_id`: The ID of an existing collection containing the UserID.
+- `face_ids`: An array of face IDs to disassociate from the UserID.
+- `user_id`: ID for the existing UserID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`: Idempotent token used to identify the request to
+  DisassociateFaces. If you use the same token with multiple DisassociateFaces requests, the
+  same response is returned. Use ClientRequestToken to prevent the same request from being
+  processed more than once.
+"""
+function disassociate_faces(
+    CollectionId, FaceIds, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "DisassociateFaces",
+        Dict{String,Any}(
+            "CollectionId" => CollectionId,
+            "FaceIds" => FaceIds,
+            "UserId" => UserId,
+            "ClientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_faces(
+    CollectionId,
+    FaceIds,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "DisassociateFaces",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CollectionId" => CollectionId,
+                    "FaceIds" => FaceIds,
+                    "UserId" => UserId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2328,10 +2591,12 @@ rekognition:ListFaces action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FaceIds"`: An array of face IDs to match when listing faces in a collection.
 - `"MaxResults"`: Maximum number of faces to return.
 - `"NextToken"`: If the previous response was incomplete (because there is more data to
   retrieve), Amazon Rekognition returns a pagination token in the response. You can use this
   pagination token to retrieve the next set of faces.
+- `"UserId"`: An array of user IDs to match when listing faces in a collection.
 """
 function list_faces(CollectionId; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
@@ -2464,6 +2729,47 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_users(collection_id)
+    list_users(collection_id, params::Dict{String,<:Any})
+
+Returns metadata of the User such as UserID in the specified collection. Anonymous User (to
+reserve faces without any identity) is not returned as part of this request. The results
+are sorted by system generated primary key ID. If the response is truncated, NextToken is
+returned in the response that can be used in the subsequent request to retrieve the next
+set of identities.
+
+# Arguments
+- `collection_id`: The ID of an existing collection.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Maximum number of UsersID to return.
+- `"NextToken"`: Pagingation token to receive the next set of UsersID.
+"""
+function list_users(CollectionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return rekognition(
+        "ListUsers",
+        Dict{String,Any}("CollectionId" => CollectionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_users(
+    CollectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "ListUsers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2726,6 +3032,108 @@ function search_faces_by_image(
 )
     return rekognition(
         "SearchFacesByImage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("CollectionId" => CollectionId, "Image" => Image),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_users(collection_id)
+    search_users(collection_id, params::Dict{String,<:Any})
+
+Searches for UserIDs within a collection based on a FaceId or UserId. This API can be used
+to find the closest UserID (with a highest similarity) to associate a face. The request
+must be provided with either FaceId or UserId. The operation returns an array of UserID
+that match the FaceId or UserId, ordered by similarity score with the highest similarity
+first.
+
+# Arguments
+- `collection_id`: The ID of an existing collection containing the UserID, used with a
+  UserId or FaceId. If a FaceId is provided, UserId isn’t required to be present in the
+  Collection.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FaceId"`: ID for the existing face.
+- `"MaxUsers"`: Maximum number of identities to return.
+- `"UserId"`: ID for the existing User.
+- `"UserMatchThreshold"`: Optional value that specifies the minimum confidence in the
+  matched UserID to return. Default value of 80.
+"""
+function search_users(CollectionId; aws_config::AbstractAWSConfig=global_aws_config())
+    return rekognition(
+        "SearchUsers",
+        Dict{String,Any}("CollectionId" => CollectionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_users(
+    CollectionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "SearchUsers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("CollectionId" => CollectionId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_users_by_image(collection_id, image)
+    search_users_by_image(collection_id, image, params::Dict{String,<:Any})
+
+Searches for UserIDs using a supplied image. It first detects the largest face in the
+image, and then searches a specified collection for matching UserIDs.  The operation
+returns an array of UserIDs that match the face in the supplied image, ordered by
+similarity score with the highest similarity first. It also returns a bounding box for the
+face found in the input image.  Information about faces detected in the supplied image, but
+not used for the search, is returned in an array of UnsearchedFace objects. If no valid
+face is detected in the image, the response will contain an empty UserMatches list and no
+SearchedFace object.
+
+# Arguments
+- `collection_id`: The ID of an existing collection containing the UserID.
+- `image`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxUsers"`: Maximum number of UserIDs to return.
+- `"QualityFilter"`: A filter that specifies a quality bar for how much filtering is done
+  to identify faces. Filtered faces aren't searched for in the collection. The default value
+  is NONE.
+- `"UserMatchThreshold"`: Specifies the minimum confidence in the UserID match to return.
+  Default value is 80.
+"""
+function search_users_by_image(
+    CollectionId, Image; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rekognition(
+        "SearchUsersByImage",
+        Dict{String,Any}("CollectionId" => CollectionId, "Image" => Image);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_users_by_image(
+    CollectionId,
+    Image,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rekognition(
+        "SearchUsersByImage",
         Dict{String,Any}(
             mergewith(
                 _merge,

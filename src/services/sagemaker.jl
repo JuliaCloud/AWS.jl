@@ -7719,7 +7719,7 @@ end
 Describes the details of a pipeline.
 
 # Arguments
-- `pipeline_name`: The name of the pipeline to describe.
+- `pipeline_name`: The name or Amazon Resource Name (ARN) of the pipeline to describe.
 
 """
 function describe_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -8760,8 +8760,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified time.
 - `"CreationTimeBefore"`: A filter that returns only AppImageConfigs created on or before
   the specified time.
-- `"MaxResults"`: The maximum number of AppImageConfigs to return in the response. The
-  default value is 10.
+- `"MaxResults"`: The total number of items to return in the response. If the total number
+  of items available is more than the value specified, a NextToken is provided in the
+  response. To resume pagination, provide the NextToken value in the as part of a subsequent
+  call. The default value is 10.
 - `"ModifiedTimeAfter"`: A filter that returns only AppImageConfigs modified on or after
   the specified time.
 - `"ModifiedTimeBefore"`: A filter that returns only AppImageConfigs modified on or before
@@ -8798,7 +8800,10 @@ Lists apps.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DomainIdEquals"`: A parameter to search for the domain ID.
-- `"MaxResults"`: Returns a list up to a specified limit.
+- `"MaxResults"`: The total number of items to return in the response. If the total number
+  of items available is more than the value specified, a NextToken is provided in the
+  response. To resume pagination, provide the NextToken value in the as part of a subsequent
+  call. The default value is 10.
 - `"NextToken"`: If the previous response was truncated, you will receive this token. Use
   it in your next request to receive the next set of results.
 - `"SortBy"`: The parameter by which to sort the results. The default is CreationTime.
@@ -9200,7 +9205,10 @@ Lists the domains.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: Returns a list up to a specified limit.
+- `"MaxResults"`: The total number of items to return in the response. If the total number
+  of items available is more than the value specified, a NextToken is provided in the
+  response. To resume pagination, provide the NextToken value in the as part of a subsequent
+  call. The default value is 10.
 - `"NextToken"`: If the previous response was truncated, you will receive this token. Use
   it in your next request to receive the next set of results.
 """
@@ -10773,7 +10781,7 @@ end
 Gets a list of the pipeline executions.
 
 # Arguments
-- `pipeline_name`: The name of the pipeline.
+- `pipeline_name`: The name or Amazon Resource Name (ARN) of the pipeline.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -10971,7 +10979,10 @@ Lists spaces.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DomainIdEquals"`: A parameter to search for the Domain ID.
-- `"MaxResults"`: Returns a list up to a specified limit.
+- `"MaxResults"`: The total number of items to return in the response. If the total number
+  of items available is more than the value specified, a NextToken is provided in the
+  response. To resume pagination, provide the NextToken value in the as part of a subsequent
+  call. The default value is 10.
 - `"NextToken"`: If the previous response was truncated, you will receive this token. Use
   it in your next request to receive the next set of results.
 - `"SortBy"`: The parameter by which to sort the results. The default is CreationTime.
@@ -11057,8 +11068,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   after the specified time.
 - `"CreationTimeBefore"`: A filter that returns only Lifecycle Configurations created on or
   before the specified time.
-- `"MaxResults"`: The maximum number of Studio Lifecycle Configurations to return in the
-  response. The default value is 10.
+- `"MaxResults"`: The total number of items to return in the response. If the total number
+  of items available is more than the value specified, a NextToken is provided in the
+  response. To resume pagination, provide the NextToken value in the as part of a subsequent
+  call. The default value is 10.
 - `"ModifiedTimeAfter"`: A filter that returns only Lifecycle Configurations modified after
   the specified time.
 - `"ModifiedTimeBefore"`: A filter that returns only Lifecycle Configurations modified
@@ -11391,7 +11404,10 @@ Lists user profiles.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DomainIdEquals"`: A parameter by which to filter the results.
-- `"MaxResults"`: Returns a list up to a specified limit.
+- `"MaxResults"`: The total number of items to return in the response. If the total number
+  of items available is more than the value specified, a NextToken is provided in the
+  response. To resume pagination, provide the NextToken value in the as part of a subsequent
+  call. The default value is 10.
 - `"NextToken"`: If the previous response was truncated, you will receive this token. Use
   it in your next request to receive the next set of results.
 - `"SortBy"`: The parameter by which to sort the results. The default is CreationTime.
@@ -12028,7 +12044,7 @@ Starts a pipeline execution.
 # Arguments
 - `client_request_token`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the operation. An idempotent operation completes no more than once.
-- `pipeline_name`: The name of the pipeline.
+- `pipeline_name`: The name or Amazon Resource Name (ARN) of the pipeline.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

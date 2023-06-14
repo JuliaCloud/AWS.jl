@@ -298,6 +298,7 @@ OpenSearch Service.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConnectionMode"`: The connection mode.
+- `"ConnectionProperties"`: The ConnectionProperties for the outbound connection.
 """
 function create_outbound_connection(
     ConnectionAlias,

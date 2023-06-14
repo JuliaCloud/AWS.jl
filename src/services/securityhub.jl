@@ -113,6 +113,48 @@ function accept_invitation(
 end
 
 """
+    batch_delete_automation_rules(automation_rules_arns)
+    batch_delete_automation_rules(automation_rules_arns, params::Dict{String,<:Any})
+
+ Deletes one or more automation rules.
+
+# Arguments
+- `automation_rules_arns`:  A list of Amazon Resource Names (ARNs) for the rules that are
+  to be deleted.
+
+"""
+function batch_delete_automation_rules(
+    AutomationRulesArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/automationrules/delete",
+        Dict{String,Any}("AutomationRulesArns" => AutomationRulesArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_delete_automation_rules(
+    AutomationRulesArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/automationrules/delete",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AutomationRulesArns" => AutomationRulesArns),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_disable_standards(standards_subscription_arns)
     batch_disable_standards(standards_subscription_arns, params::Dict{String,<:Any})
 
@@ -191,6 +233,48 @@ function batch_enable_standards(
                 Dict{String,Any}(
                     "StandardsSubscriptionRequests" => StandardsSubscriptionRequests
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_automation_rules(automation_rules_arns)
+    batch_get_automation_rules(automation_rules_arns, params::Dict{String,<:Any})
+
+ Retrieves a list of details for automation rules based on rule Amazon Resource Names
+(ARNs).
+
+# Arguments
+- `automation_rules_arns`:  A list of rule ARNs to get details for.
+
+"""
+function batch_get_automation_rules(
+    AutomationRulesArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "POST",
+        "/automationrules/get",
+        Dict{String,Any}("AutomationRulesArns" => AutomationRulesArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_automation_rules(
+    AutomationRulesArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/automationrules/get",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AutomationRulesArns" => AutomationRulesArns),
                 params,
             ),
         );
@@ -337,6 +421,53 @@ function batch_import_findings(
         "/findings/import",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Findings" => Findings), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_update_automation_rules(update_automation_rules_request_items)
+    batch_update_automation_rules(update_automation_rules_request_items, params::Dict{String,<:Any})
+
+ Updates one or more automation rules based on rule Amazon Resource Names (ARNs) and input
+parameters.
+
+# Arguments
+- `update_automation_rules_request_items`:  An array of ARNs for the rules that are to be
+  updated. Optionally, you can also include RuleStatus and RuleOrder.
+
+"""
+function batch_update_automation_rules(
+    UpdateAutomationRulesRequestItems; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "PATCH",
+        "/automationrules/update",
+        Dict{String,Any}(
+            "UpdateAutomationRulesRequestItems" => UpdateAutomationRulesRequestItems
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_update_automation_rules(
+    UpdateAutomationRulesRequestItems,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "PATCH",
+        "/automationrules/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "UpdateAutomationRulesRequestItems" => UpdateAutomationRulesRequestItems
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -504,6 +635,90 @@ function create_action_target(
             mergewith(
                 _merge,
                 Dict{String,Any}("Description" => Description, "Id" => Id, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_automation_rule(actions, criteria, description, rule_name, rule_order)
+    create_automation_rule(actions, criteria, description, rule_name, rule_order, params::Dict{String,<:Any})
+
+ Creates an automation rule based on input parameters.
+
+# Arguments
+- `actions`:  One or more actions to update finding fields if a finding matches the
+  conditions specified in Criteria.
+- `criteria`:  A set of ASFF finding field attributes and corresponding expected values
+  that Security Hub uses to filter findings. If a finding matches the conditions specified in
+  this parameter, Security Hub applies the rule action to the finding.
+- `description`:  A description of the rule.
+- `rule_name`:  The name of the rule.
+- `rule_order`: An integer ranging from 1 to 1000 that represents the order in which the
+  rule action is applied to findings. Security Hub applies rules with lower values for this
+  parameter first.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IsTerminal"`: Specifies whether a rule is the last to be applied with respect to a
+  finding that matches the rule criteria. This is useful when a finding matches the criteria
+  for multiple rules, and each rule has different actions. If the value of this field is set
+  to true for a rule, Security Hub applies the rule action to a finding that matches the rule
+  criteria and won't evaluate other rules for the finding. The default value of this field is
+  false.
+- `"RuleStatus"`:  Whether the rule is active after it is created. If this parameter is
+  equal to Enabled, Security Hub will apply the rule to findings and finding updates after
+  the rule is created. To change the value of this parameter after creating a rule, use
+  BatchUpdateAutomationRules.
+- `"Tags"`:  User-defined tags that help you label the purpose of a rule.
+"""
+function create_automation_rule(
+    Actions,
+    Criteria,
+    Description,
+    RuleName,
+    RuleOrder;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/automationrules/create",
+        Dict{String,Any}(
+            "Actions" => Actions,
+            "Criteria" => Criteria,
+            "Description" => Description,
+            "RuleName" => RuleName,
+            "RuleOrder" => RuleOrder,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_automation_rule(
+    Actions,
+    Criteria,
+    Description,
+    RuleName,
+    RuleOrder,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securityhub(
+        "POST",
+        "/automationrules/create",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Actions" => Actions,
+                    "Criteria" => Criteria,
+                    "Description" => Description,
+                    "RuleName" => RuleName,
+                    "RuleOrder" => RuleOrder,
+                ),
                 params,
             ),
         );
@@ -1832,6 +2047,40 @@ function invite_members(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountIds" => AccountIds), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_automation_rules()
+    list_automation_rules(params::Dict{String,<:Any})
+
+ A list of automation rules and their metadata for the calling account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:  The maximum number of rules to return in the response. This currently
+  ranges from 1 to 100.
+- `"NextToken"`:  A token to specify where to start paginating the response. This is the
+  NextToken from a previously truncated response. On your first call to the
+  ListAutomationRules API, set the value of this parameter to NULL.
+"""
+function list_automation_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+    return securityhub(
+        "GET",
+        "/automationrules/list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_automation_rules(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securityhub(
+        "GET",
+        "/automationrules/list",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
