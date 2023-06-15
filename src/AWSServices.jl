@@ -144,6 +144,9 @@ const codedeploy = AWS.JSONService(
 const codeguru_reviewer = AWS.RestJSONService(
     "codeguru-reviewer", "codeguru-reviewer", "2019-09-19"
 )
+const codeguru_security = AWS.RestJSONService(
+    "codeguru-security", "codeguru-security", "2018-05-10"
+)
 const codeguruprofiler = AWS.RestJSONService(
     "codeguru-profiler", "codeguru-profiler", "2019-07-18"
 )
@@ -533,6 +536,16 @@ const organizations = AWS.JSONService(
 const osis = AWS.RestJSONService("osis", "osis", "2022-01-01")
 const outposts = AWS.RestJSONService("outposts", "outposts", "2019-12-03")
 const panorama = AWS.RestJSONService("panorama", "panorama", "2019-07-24")
+const payment_cryptography = AWS.JSONService(
+    "payment-cryptography",
+    "controlplane.payment-cryptography",
+    "2021-09-14",
+    "1.0",
+    "PaymentCryptographyControlPlane",
+)
+const payment_cryptography_data = AWS.RestJSONService(
+    "payment-cryptography", "dataplane.payment-cryptography", "2022-02-03"
+)
 const personalize = AWS.JSONService(
     "personalize", "personalize", "2018-05-22", "1.1", "AmazonPersonalize"
 )
@@ -716,6 +729,9 @@ const transfer = AWS.JSONService(
 )
 const translate = AWS.JSONService(
     "translate", "translate", "2017-07-01", "1.1", "AWSShineFrontendService_20170701"
+)
+const verifiedpermissions = AWS.JSONService(
+    "verifiedpermissions", "verifiedpermissions", "2021-12-01", "1.0", "VerifiedPermissions"
 )
 const voice_id = AWS.JSONService("voiceid", "voiceid", "2021-09-27", "1.0", "VoiceID")
 const vpc_lattice = AWS.RestJSONService("vpc-lattice", "vpc-lattice", "2022-11-30")

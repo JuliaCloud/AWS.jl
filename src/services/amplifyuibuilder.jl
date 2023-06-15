@@ -64,7 +64,7 @@ end
     create_form(app_id, environment_name, form_to_create)
     create_form(app_id, environment_name, form_to_create, params::Dict{String,<:Any})
 
-Creates a new form for an Amplify app.
+Creates a new form for an Amplify.
 
 # Arguments
 - `app_id`: The unique ID of the Amplify app to associate with the form.
@@ -431,6 +431,45 @@ function export_themes(
 end
 
 """
+    get_codegen_job(app_id, environment_name, id)
+    get_codegen_job(app_id, environment_name, id, params::Dict{String,<:Any})
+
+Returns an existing code generation job.
+
+# Arguments
+- `app_id`: The unique ID of the Amplify app associated with the code generation job.
+- `environment_name`: The name of the backend environment that is a part of the Amplify app
+  associated with the code generation job.
+- `id`: The unique ID of the code generation job.
+
+"""
+function get_codegen_job(
+    appId, environmentName, id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/codegen-jobs/$(id)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_codegen_job(
+    appId,
+    environmentName,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/codegen-jobs/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_component(app_id, environment_name, id)
     get_component(app_id, environment_name, id, params::Dict{String,<:Any})
 
@@ -574,6 +613,47 @@ function get_theme(
     return amplifyuibuilder(
         "GET",
         "/app/$(appId)/environment/$(environmentName)/themes/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_codegen_jobs(app_id, environment_name)
+    list_codegen_jobs(app_id, environment_name, params::Dict{String,<:Any})
+
+Retrieves a list of code generation jobs for a specified Amplify app and backend
+environment.
+
+# Arguments
+- `app_id`: The unique ID for the Amplify app.
+- `environment_name`: The name of the backend environment that is a part of the Amplify app.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of jobs to retrieve.
+- `"nextToken"`: The token to request the next page of results.
+"""
+function list_codegen_jobs(
+    appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/codegen-jobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_codegen_jobs(
+    appId,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/app/$(appId)/environment/$(environmentName)/codegen-jobs",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -779,6 +859,63 @@ function refresh_token(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("refreshTokenBody" => refreshTokenBody), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_codegen_job(app_id, codegen_job_to_create, environment_name)
+    start_codegen_job(app_id, codegen_job_to_create, environment_name, params::Dict{String,<:Any})
+
+Starts a code generation job for for a specified Amplify app and backend environment.
+
+# Arguments
+- `app_id`: The unique ID for the Amplify app.
+- `codegen_job_to_create`: The code generation job resource configuration.
+- `environment_name`: The name of the backend environment that is a part of the Amplify app.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The idempotency token used to ensure that the code generation job
+  request completes only once.
+"""
+function start_codegen_job(
+    appId,
+    codegenJobToCreate,
+    environmentName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/app/$(appId)/environment/$(environmentName)/codegen-jobs",
+        Dict{String,Any}(
+            "codegenJobToCreate" => codegenJobToCreate, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_codegen_job(
+    appId,
+    codegenJobToCreate,
+    environmentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/app/$(appId)/environment/$(environmentName)/codegen-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "codegenJobToCreate" => codegenJobToCreate,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
             ),
         );
         aws_config=aws_config,

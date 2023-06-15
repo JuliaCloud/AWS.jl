@@ -6169,6 +6169,94 @@ function search_available_phone_numbers(
 end
 
 """
+    search_hours_of_operations(instance_id)
+    search_hours_of_operations(instance_id, params::Dict{String,<:Any})
+
+Searches the hours of operation in an Amazon Connect instance, with optional filtering.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per page.
+- `"NextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"SearchCriteria"`: The search criteria to be used to return hours of operations.
+- `"SearchFilter"`: Filters to be applied to search results.
+"""
+function search_hours_of_operations(
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/search-hours-of-operations",
+        Dict{String,Any}("InstanceId" => InstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_hours_of_operations(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/search-hours-of-operations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_prompts(instance_id)
+    search_prompts(instance_id, params::Dict{String,<:Any})
+
+Searches prompts in an Amazon Connect instance, with optional filtering.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per page.
+- `"NextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"SearchCriteria"`: The search criteria to be used to return prompts.
+- `"SearchFilter"`: Filters to be applied to search results.
+"""
+function search_prompts(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return connect(
+        "POST",
+        "/search-prompts",
+        Dict{String,Any}("InstanceId" => InstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_prompts(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/search-prompts",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     search_queues(instance_id)
     search_queues(instance_id, params::Dict{String,<:Any})
 
@@ -6207,6 +6295,51 @@ function search_queues(
     return connect(
         "POST",
         "/search-queues",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_quick_connects(instance_id)
+    search_quick_connects(instance_id, params::Dict{String,<:Any})
+
+Searches quick connects in an Amazon Connect instance, with optional filtering.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per page.
+- `"NextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"SearchCriteria"`: The search criteria to be used to return quick connects.
+- `"SearchFilter"`: Filters to be applied to search results.
+"""
+function search_quick_connects(
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/search-quick-connects",
+        Dict{String,Any}("InstanceId" => InstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_quick_connects(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/search-quick-connects",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );

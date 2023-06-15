@@ -5,6 +5,54 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_source_network_stack(cfn_stack_name, source_network_id)
+    associate_source_network_stack(cfn_stack_name, source_network_id, params::Dict{String,<:Any})
+
+Associate a Source Network to an existing CloudFormation Stack and modify launch templates
+to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
+
+# Arguments
+- `cfn_stack_name`: CloudFormation template to associate with a Source Network.
+- `source_network_id`: The Source Network ID to associate with CloudFormation template.
+
+"""
+function associate_source_network_stack(
+    cfnStackName, sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/AssociateSourceNetworkStack",
+        Dict{String,Any}(
+            "cfnStackName" => cfnStackName, "sourceNetworkID" => sourceNetworkID
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_source_network_stack(
+    cfnStackName,
+    sourceNetworkID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/AssociateSourceNetworkStack",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "cfnStackName" => cfnStackName, "sourceNetworkID" => sourceNetworkID
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_extended_source_server(source_server_arn)
     create_extended_source_server(source_server_arn, params::Dict{String,<:Any})
 
@@ -58,6 +106,7 @@ Creates a new Launch Configuration Template.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"copyPrivateIp"`: Copy private IP.
 - `"copyTags"`: Copy tags.
+- `"exportBucketArn"`: S3 bucket ARN to export Source Network templates.
 - `"launchDisposition"`: Launch disposition.
 - `"licensing"`: Licensing.
 - `"tags"`: Request to associate tags during creation of a Launch Configuration Template.
@@ -192,6 +241,62 @@ function create_replication_configuration_template(
                     "stagingAreaSubnetId" => stagingAreaSubnetId,
                     "stagingAreaTags" => stagingAreaTags,
                     "useDedicatedReplicationServer" => useDedicatedReplicationServer,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_source_network(origin_account_id, origin_region, vpc_id)
+    create_source_network(origin_account_id, origin_region, vpc_id, params::Dict{String,<:Any})
+
+Create a new Source Network resource for a provided VPC ID.
+
+# Arguments
+- `origin_account_id`: Account containing the VPC to protect.
+- `origin_region`: Region containing the VPC to protect.
+- `vpc_id`: Which VPC ID to protect.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: A set of tags to be associated with the Source Network resource.
+"""
+function create_source_network(
+    originAccountID, originRegion, vpcID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/CreateSourceNetwork",
+        Dict{String,Any}(
+            "originAccountID" => originAccountID,
+            "originRegion" => originRegion,
+            "vpcID" => vpcID,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_source_network(
+    originAccountID,
+    originRegion,
+    vpcID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/CreateSourceNetwork",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "originAccountID" => originAccountID,
+                    "originRegion" => originRegion,
+                    "vpcID" => vpcID,
                 ),
                 params,
             ),
@@ -357,6 +462,45 @@ function delete_replication_configuration_template(
                         replicationConfigurationTemplateID,
                 ),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_source_network(source_network_id)
+    delete_source_network(source_network_id, params::Dict{String,<:Any})
+
+Delete Source Network resource.
+
+# Arguments
+- `source_network_id`: ID of the Source Network to delete.
+
+"""
+function delete_source_network(
+    sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/DeleteSourceNetwork",
+        Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_source_network(
+    sourceNetworkID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/DeleteSourceNetwork",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("sourceNetworkID" => sourceNetworkID), params
             ),
         );
         aws_config=aws_config,
@@ -615,6 +759,38 @@ function describe_replication_configuration_templates(
 end
 
 """
+    describe_source_networks()
+    describe_source_networks(params::Dict{String,<:Any})
+
+Lists all Source Networks or multiple Source Networks filtered by ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: A set of filters by which to return Source Networks.
+- `"maxResults"`: Maximum number of Source Networks to retrieve.
+- `"nextToken"`: The token of the next Source Networks to retrieve.
+"""
+function describe_source_networks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return drs(
+        "POST",
+        "/DescribeSourceNetworks";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_source_networks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/DescribeSourceNetworks",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_source_servers()
     describe_source_servers(params::Dict{String,<:Any})
 
@@ -734,6 +910,46 @@ function disconnect_source_server(
         "/DisconnectSourceServer",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    export_source_network_cfn_template(source_network_id)
+    export_source_network_cfn_template(source_network_id, params::Dict{String,<:Any})
+
+Export the Source Network CloudFormation template to an S3 bucket.
+
+# Arguments
+- `source_network_id`: The Source Network ID to export its CloudFormation template to an S3
+  bucket.
+
+"""
+function export_source_network_cfn_template(
+    sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/ExportSourceNetworkCfnTemplate",
+        Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function export_source_network_cfn_template(
+    sourceNetworkID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/ExportSourceNetworkCfnTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("sourceNetworkID" => sourceNetworkID), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1199,6 +1415,89 @@ function start_replication(
 end
 
 """
+    start_source_network_recovery(source_networks)
+    start_source_network_recovery(source_networks, params::Dict{String,<:Any})
+
+Deploy VPC for the specified Source Network and modify launch templates to use this
+network. The VPC will be deployed using a dedicated CloudFormation stack.
+
+# Arguments
+- `source_networks`: The Source Networks that we want to start a Recovery Job for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"deployAsNew"`: Don't update existing CloudFormation Stack, recover the network using a
+  new stack.
+- `"tags"`: The tags to be associated with the Source Network recovery Job.
+"""
+function start_source_network_recovery(
+    sourceNetworks; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/StartSourceNetworkRecovery",
+        Dict{String,Any}("sourceNetworks" => sourceNetworks);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_source_network_recovery(
+    sourceNetworks,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/StartSourceNetworkRecovery",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("sourceNetworks" => sourceNetworks), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_source_network_replication(source_network_id)
+    start_source_network_replication(source_network_id, params::Dict{String,<:Any})
+
+Starts replication for a Source Network. This action would make the Source Network
+protected.
+
+# Arguments
+- `source_network_id`: ID of the Source Network to replicate.
+
+"""
+function start_source_network_replication(
+    sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/StartSourceNetworkReplication",
+        Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_source_network_replication(
+    sourceNetworkID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/StartSourceNetworkReplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("sourceNetworkID" => sourceNetworkID), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_failback(recovery_instance_id)
     stop_failback(recovery_instance_id, params::Dict{String,<:Any})
 
@@ -1268,6 +1567,46 @@ function stop_replication(
         "/StopReplication",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("sourceServerID" => sourceServerID), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_source_network_replication(source_network_id)
+    stop_source_network_replication(source_network_id, params::Dict{String,<:Any})
+
+Stops replication for a Source Network. This action would make the Source Network
+unprotected.
+
+# Arguments
+- `source_network_id`: ID of the Source Network to stop replication.
+
+"""
+function stop_source_network_replication(
+    sourceNetworkID; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/StopSourceNetworkReplication",
+        Dict{String,Any}("sourceNetworkID" => sourceNetworkID);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_source_network_replication(
+    sourceNetworkID,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/StopSourceNetworkReplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("sourceNetworkID" => sourceNetworkID), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1503,6 +1842,7 @@ Updates an existing Launch Configuration Template by ID.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"copyPrivateIp"`: Copy private IP.
 - `"copyTags"`: Copy tags.
+- `"exportBucketArn"`: S3 bucket ARN to export Source Network templates.
 - `"launchDisposition"`: Launch disposition.
 - `"licensing"`: Licensing.
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.

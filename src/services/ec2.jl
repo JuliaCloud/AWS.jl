@@ -373,30 +373,22 @@ to a different Amazon Web Services account. You can allocate an Elastic IP addre
 address pool owned by Amazon Web Services or from an address pool created from a public
 IPv4 address range that you have brought to Amazon Web Services for use with your Amazon
 Web Services resources using bring your own IP addresses (BYOIP). For more information, see
-Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide.
-[EC2-VPC] If you release an Elastic IP address, you might be able to recover it. You cannot
-recover an Elastic IP address that you released after it is allocated to another Amazon Web
-Services account. You cannot recover an Elastic IP address for EC2-Classic. To attempt to
-recover an Elastic IP address that you released, specify it in this operation. An Elastic
-IP address is for use either in the EC2-Classic platform or in a VPC. By default, you can
-allocate 5 Elastic IP addresses for EC2-Classic per Region and 5 Elastic IP addresses for
-EC2-VPC per Region. For more information, see Elastic IP Addresses in the Amazon Elastic
-Compute Cloud User Guide. You can allocate a carrier IP address which is a public IP
-address from a telecommunication carrier, to a network interface which resides in a subnet
-in a Wavelength Zone (for example an EC2 instance).   We are retiring EC2-Classic. We
-recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate
-from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+Bring Your Own IP Addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. If you
+release an Elastic IP address, you might be able to recover it. You cannot recover an
+Elastic IP address that you released after it is allocated to another Amazon Web Services
+account. To attempt to recover an Elastic IP address that you released, specify it in this
+operation. For more information, see Elastic IP Addresses in the Amazon Elastic Compute
+Cloud User Guide. You can allocate a carrier IP address which is a public IP address from a
+telecommunication carrier, to a network interface which resides in a subnet in a Wavelength
+Zone (for example an EC2 instance).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Address"`: [EC2-VPC] The Elastic IP address to recover or an IPv4 address from an
-  address pool.
+- `"Address"`: The Elastic IP address to recover or an IPv4 address from an address pool.
 - `"CustomerOwnedIpv4Pool"`: The ID of a customer-owned address pool. Use this parameter to
   let Amazon EC2 select an address from the address pool. Alternatively, specify a specific
   address from the address pool.
-- `"Domain"`: Indicates whether the Elastic IP address is for use with instances in a VPC
-  or instances in EC2-Classic. Default: If the Region supports EC2-Classic, the default is
-  standard. Otherwise, the default is vpc.
+- `"Domain"`: The network (vpc).
 - `"NetworkBorderGroup"`:  A unique set of Availability Zones, Local Zones, or Wavelength
   Zones from which Amazon Web Services advertises IP addresses. Use this parameter to limit
   the IP address to this location. IP addresses cannot move between network border groups.
@@ -498,10 +490,12 @@ end
     allocate_ipam_pool_cidr(ipam_pool_id)
     allocate_ipam_pool_cidr(ipam_pool_id, params::Dict{String,<:Any})
 
-Allocate a CIDR from an IPAM pool. In IPAM, an allocation is a CIDR assignment from an IPAM
-pool to another IPAM pool or to a resource. For more information, see Allocate CIDRs in the
-Amazon VPC IPAM User Guide.  This action creates an allocation with strong consistency. The
-returned CIDR will not overlap with any other allocations from the same pool.
+Allocate a CIDR from an IPAM pool. The Region you use should be the IPAM pool locale. The
+locale is the Amazon Web Services Region where this IPAM pool is available for allocations.
+In IPAM, an allocation is a CIDR assignment from an IPAM pool to another IPAM pool or to a
+resource. For more information, see Allocate CIDRs in the Amazon VPC IPAM User Guide.  This
+action creates an allocation with strong consistency. The returned CIDR will not overlap
+with any other allocations from the same pool.
 
 # Arguments
 - `ipam_pool_id`: The ID of the IPAM pool from which you would like to allocate a CIDR.
@@ -804,51 +798,36 @@ end
 
 Associates an Elastic IP address, or carrier IP address (for instances that are in subnets
 in Wavelength Zones) with an instance or a network interface. Before you can use an Elastic
-IP address, you must allocate it to your account. An Elastic IP address is for use in
-either the EC2-Classic platform or in a VPC. For more information, see Elastic IP Addresses
-in the Amazon Elastic Compute Cloud User Guide. [EC2-Classic, VPC in an EC2-VPC-only
-account] If the Elastic IP address is already associated with a different instance, it is
-disassociated from that instance and associated with the specified instance. If you
-associate an Elastic IP address with an instance that has an existing Elastic IP address,
-the existing address is disassociated from the instance, but remains allocated to your
-account. [VPC in an EC2-Classic account] If you don't specify a private IP address, the
-Elastic IP address is associated with the primary IP address. If the Elastic IP address is
-already associated with a different instance or a network interface, you get an error
-unless you allow reassociation. You cannot associate an Elastic IP address with an instance
-or network interface that has an existing Elastic IP address. [Subnets in Wavelength Zones]
-You can associate an IP address from the telecommunication carrier to the instance or
-network interface.  You cannot associate an Elastic IP address with an interface in a
-different network border group.  This is an idempotent operation. If you perform the
-operation more than once, Amazon EC2 doesn't return an error, and you may be charged for
-each time the Elastic IP address is remapped to the same instance. For more information,
-see the Elastic IP Addresses section of Amazon EC2 Pricing.   We are retiring EC2-Classic.
-We recommend that you migrate from EC2-Classic to a VPC. For more information, see Migrate
-from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+IP address, you must allocate it to your account. If the Elastic IP address is already
+associated with a different instance, it is disassociated from that instance and associated
+with the specified instance. If you associate an Elastic IP address with an instance that
+has an existing Elastic IP address, the existing address is disassociated from the
+instance, but remains allocated to your account. [Subnets in Wavelength Zones] You can
+associate an IP address from the telecommunication carrier to the instance or network
+interface.  You cannot associate an Elastic IP address with an interface in a different
+network border group.  This is an idempotent operation. If you perform the operation more
+than once, Amazon EC2 doesn't return an error, and you may be charged for each time the
+Elastic IP address is remapped to the same instance. For more information, see the Elastic
+IP Addresses section of Amazon EC2 Pricing.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllocationId"`: [EC2-VPC] The allocation ID. This is required for EC2-VPC.
+- `"AllocationId"`: The allocation ID. This is required.
 - `"InstanceId"`: The ID of the instance. The instance must have exactly one attached
-  network interface. For EC2-VPC, you can specify either the instance ID or the network
-  interface ID, but not both. For EC2-Classic, you must specify an instance ID and the
-  instance must be in the running state.
-- `"PublicIp"`: [EC2-Classic] The Elastic IP address to associate with the instance. This
-  is required for EC2-Classic.
-- `"allowReassociation"`: [EC2-VPC] For a VPC in an EC2-Classic account, specify true to
-  allow an Elastic IP address that is already associated with an instance or network
-  interface to be reassociated with the specified instance or network interface. Otherwise,
-  the operation fails. In a VPC in an EC2-VPC-only account, reassociation is automatic,
-  therefore you can specify false to ensure the operation fails if the Elastic IP address is
-  already associated with another resource.
+  network interface. You can specify either the instance ID or the network interface ID, but
+  not both.
+- `"PublicIp"`: Deprecated.
+- `"allowReassociation"`: Reassociation is automatic, but you can specify false to ensure
+  the operation fails if the Elastic IP address is already associated with another resource.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"networkInterfaceId"`: [EC2-VPC] The ID of the network interface. If the instance has
-  more than one network interface, you must specify a network interface ID. For EC2-VPC, you
-  can specify either the instance ID or the network interface ID, but not both.
-- `"privateIpAddress"`: [EC2-VPC] The primary or secondary private IP address to associate
-  with the Elastic IP address. If no private IP address is specified, the Elastic IP address
-  is associated with the primary private IP address.
+- `"networkInterfaceId"`: The ID of the network interface. If the instance has more than
+  one network interface, you must specify a network interface ID. You can specify either the
+  instance ID or the network interface ID, but not both.
+- `"privateIpAddress"`: The primary or secondary private IP address to associate with the
+  Elastic IP address. If no private IP address is specified, the Elastic IP address is
+  associated with the primary private IP address.
 """
 function associate_address(; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2("AssociateAddress"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -4058,6 +4037,64 @@ function create_image(
 end
 
 """
+    create_instance_connect_endpoint(subnet_id)
+    create_instance_connect_endpoint(subnet_id, params::Dict{String,<:Any})
+
+Creates an EC2 Instance Connect Endpoint. An EC2 Instance Connect Endpoint allows you to
+connect to a resource, without requiring the resource to have a public IPv4 address. For
+more information, see Connect to your resources without requiring a public IPv4 address
+using EC2 Instance Connect Endpoint in the Amazon EC2 User Guide.
+
+# Arguments
+- `subnet_id`: The ID of the subnet in which to create the EC2 Instance Connect Endpoint.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"PreserveClientIp"`: Indicates whether your client's IP address is preserved as the
+  source. The value is true or false.   If true, your client's IP address is used when you
+  connect to a resource.   If false, the elastic network interface IP address is used when
+  you connect to a resource.   Default: true
+- `"SecurityGroupId"`: One or more security groups to associate with the endpoint. If you
+  don't specify a security group, the default security group for your VPC will be associated
+  with the endpoint.
+- `"TagSpecification"`: The tags to apply to the EC2 Instance Connect Endpoint during
+  creation.
+"""
+function create_instance_connect_endpoint(
+    SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "CreateInstanceConnectEndpoint",
+        Dict{String,Any}("SubnetId" => SubnetId, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_instance_connect_endpoint(
+    SubnetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "CreateInstanceConnectEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("SubnetId" => SubnetId, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_instance_event_window()
     create_instance_event_window(params::Dict{String,<:Any})
 
@@ -5243,7 +5280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see Ensuring Idempotency.
 - `"InterfaceType"`: The type of network interface. The default is interface. The only
-  supported values are efa and trunk.
+  supported values are interface, efa, and trunk.
 - `"Ipv4Prefix"`: The IPv4 prefixes assigned to the network interface. You can't specify
   IPv4 prefixes if you've specified one of the following: a count of IPv4 prefixes, specific
   private IPv4 addresses, or a count of private IPv4 addresses.
@@ -8437,6 +8474,50 @@ function delete_fpga_image(
 end
 
 """
+    delete_instance_connect_endpoint(instance_connect_endpoint_id)
+    delete_instance_connect_endpoint(instance_connect_endpoint_id, params::Dict{String,<:Any})
+
+Deletes the specified EC2 Instance Connect Endpoint.
+
+# Arguments
+- `instance_connect_endpoint_id`: The ID of the EC2 Instance Connect Endpoint to delete.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_instance_connect_endpoint(
+    InstanceConnectEndpointId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DeleteInstanceConnectEndpoint",
+        Dict{String,Any}("InstanceConnectEndpointId" => InstanceConnectEndpointId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_instance_connect_endpoint(
+    InstanceConnectEndpointId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeleteInstanceConnectEndpoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceConnectEndpointId" => InstanceConnectEndpointId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_instance_event_window(instance_event_window_id)
     delete_instance_event_window(instance_event_window_id, params::Dict{String,<:Any})
 
@@ -11541,7 +11622,13 @@ end
     describe_address_transfers(params::Dict{String,<:Any})
 
 Describes an Elastic IP address transfer. For more information, see Transfer Elastic IP
-addresses in the Amazon Virtual Private Cloud User Guide.
+addresses in the Amazon Virtual Private Cloud User Guide. When you transfer an Elastic IP
+address, there is a two-step handshake between the source and transfer Amazon Web Services
+accounts. When the source account starts the transfer, the transfer account has seven days
+to accept the Elastic IP address transfer. During those seven days, the source account can
+view the pending transfer by using this action. After seven days, the transfer expires and
+ownership of the Elastic IP address returns to the source account. Accepted transfers are
+visible to the source account for three days after the transfers have been accepted.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -11573,32 +11660,25 @@ end
     describe_addresses()
     describe_addresses(params::Dict{String,<:Any})
 
-Describes the specified Elastic IP addresses or all of your Elastic IP addresses. An
-Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For more
-information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.  We
-are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more
-information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User
-Guide.
+Describes the specified Elastic IP addresses or all of your Elastic IP addresses.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllocationId"`: [EC2-VPC] Information about the allocation IDs.
+- `"AllocationId"`: Information about the allocation IDs.
 - `"Filter"`: One or more filters. Filter names and values are case-sensitive.
-  allocation-id - [EC2-VPC] The allocation ID for the address.    association-id - [EC2-VPC]
-  The association ID for the address.    domain - Indicates whether the address is for use in
-  EC2-Classic (standard) or in a VPC (vpc).    instance-id - The ID of the instance the
-  address is associated with, if any.    network-border-group - A unique set of Availability
-  Zones, Local Zones, or Wavelength Zones from where Amazon Web Services advertises IP
-  addresses.     network-interface-id - [EC2-VPC] The ID of the network interface that the
-  address is associated with, if any.    network-interface-owner-id - The Amazon Web Services
-  account ID of the owner.    private-ip-address - [EC2-VPC] The private IP address
-  associated with the Elastic IP address.    public-ip - The Elastic IP address, or the
-  carrier IP address.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the
-  resource. Use the tag key in the filter name and the tag value as the filter value. For
-  example, to find all resources that have a tag with the key Owner and the value TeamA,
-  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
-  of a tag assigned to the resource. Use this filter to find all resources assigned a tag
-  with a specific key, regardless of the tag value.
+  allocation-id - The allocation ID for the address.    association-id - The association ID
+  for the address.    instance-id - The ID of the instance the address is associated with, if
+  any.    network-border-group - A unique set of Availability Zones, Local Zones, or
+  Wavelength Zones from where Amazon Web Services advertises IP addresses.
+  network-interface-id - The ID of the network interface that the address is associated with,
+  if any.    network-interface-owner-id - The Amazon Web Services account ID of the owner.
+  private-ip-address - The private IP address associated with the Elastic IP address.
+  public-ip - The Elastic IP address, or the carrier IP address.    tag:&lt;key&gt; - The
+  key/value combination of a tag assigned to the resource. Use the tag key in the filter name
+  and the tag value as the filter value. For example, to find all resources that have a tag
+  with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for
+  the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter
+  to find all resources assigned a tag with a specific key, regardless of the tag value.
 - `"PublicIp"`: One or more Elastic IP addresses. Default: Describes all your Elastic IP
   addresses.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
@@ -13480,6 +13560,58 @@ function describe_instance_attribute(
 end
 
 """
+    describe_instance_connect_endpoints()
+    describe_instance_connect_endpoints(params::Dict{String,<:Any})
+
+Describes the specified EC2 Instance Connect Endpoints or all EC2 Instance Connect
+Endpoints.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters.    instance-connect-endpoint-id - The ID of the EC2
+  Instance Connect Endpoint.    state - The state of the EC2 Instance Connect Endpoint
+  (create-in-progress | create-complete | create-failed | delete-in-progress |
+  delete-complete | delete-failed).    subnet-id - The ID of the subnet in which the EC2
+  Instance Connect Endpoint was created.    tag:&lt;key&gt; - The key/value combination of a
+  tag assigned to the resource. Use the tag key in the filter name and the tag value as the
+  filter value. For example, to find all resources that have a tag with the key Owner and the
+  value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.
+  tag-key - The key of a tag assigned to the resource. Use this filter to find all resources
+  assigned a tag with a specific key, regardless of the tag value.    tag-value - The value
+  of a tag assigned to the resource. Use this filter to find all resources that have a tag
+  with a specific value, regardless of tag key.    vpc-id - The ID of the VPC in which the
+  EC2 Instance Connect Endpoint was created.
+- `"InstanceConnectEndpointId"`: One or more EC2 Instance Connect Endpoint IDs.
+- `"MaxResults"`: The maximum number of items to return for this request. To get the next
+  page of items, make another request with the token returned in the output. For more
+  information, see Pagination.
+- `"NextToken"`: The token returned from a previous paginated request. Pagination continues
+  from the end of the items returned by the previous request.
+"""
+function describe_instance_connect_endpoints(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeInstanceConnectEndpoints";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_instance_connect_endpoints(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeInstanceConnectEndpoints",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_instance_credit_specifications()
     describe_instance_credit_specifications(params::Dict{String,<:Any})
 
@@ -14674,8 +14806,8 @@ end
     describe_moving_addresses()
     describe_moving_addresses(params::Dict{String,<:Any})
 
-Describes your Elastic IP addresses that are being moved to the EC2-VPC platform, or that
-are being restored to the EC2-Classic platform. This request does not return information
+ This action is deprecated.  Describes your Elastic IP addresses that are being moved from
+or being restored to the EC2-Classic platform. This request does not return information
 about any other Elastic IP addresses in your account.
 
 # Optional Parameters
@@ -19047,17 +19179,13 @@ end
     disassociate_address(params::Dict{String,<:Any})
 
 Disassociates an Elastic IP address from the instance or network interface it's associated
-with. An Elastic IP address is for use in either the EC2-Classic platform or in a VPC. For
-more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User Guide.
-We are retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For
-more information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud
-User Guide.  This is an idempotent operation. If you perform the operation more than once,
-Amazon EC2 doesn't return an error.
+with. This is an idempotent operation. If you perform the operation more than once, Amazon
+EC2 doesn't return an error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AssociationId"`: [EC2-VPC] The association ID. Required for EC2-VPC.
-- `"PublicIp"`: [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
+- `"AssociationId"`: The association ID. This parameter is required.
+- `"PublicIp"`: Deprecated.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -21452,9 +21580,11 @@ end
     get_ipam_pool_allocations(ipam_pool_id)
     get_ipam_pool_allocations(ipam_pool_id, params::Dict{String,<:Any})
 
-Get a list of all the CIDR allocations in an IPAM pool.  If you use this action after
-AllocateIpamPoolCidr or ReleaseIpamPoolAllocation, note that all EC2 API actions follow an
-eventual consistency model.
+Get a list of all the CIDR allocations in an IPAM pool. The Region you use should be the
+IPAM pool locale. The locale is the Amazon Web Services Region where this IPAM pool is
+available for allocations.  If you use this action after AllocateIpamPoolCidr or
+ReleaseIpamPoolAllocation, note that all EC2 API actions follow an eventual consistency
+model.
 
 # Arguments
 - `ipam_pool_id`: The ID of the IPAM pool you want to see the allocations for.
@@ -26791,14 +26921,12 @@ end
     move_address_to_vpc(public_ip)
     move_address_to_vpc(public_ip, params::Dict{String,<:Any})
 
-Moves an Elastic IP address from the EC2-Classic platform to the EC2-VPC platform. The
-Elastic IP address must be allocated to your account for more than 24 hours, and it must
-not be associated with an instance. After the Elastic IP address is moved, it is no longer
-available for use in the EC2-Classic platform, unless you move it back using the
-RestoreAddressToClassic request. You cannot move an Elastic IP address that was originally
-allocated for use in the EC2-VPC platform to the EC2-Classic platform.  We are retiring
-EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more information,
-see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User Guide.
+ This action is deprecated.  Moves an Elastic IP address from the EC2-Classic platform to
+the EC2-VPC platform. The Elastic IP address must be allocated to your account for more
+than 24 hours, and it must not be associated with an instance. After the Elastic IP address
+is moved, it is no longer available for use in the EC2-Classic platform, unless you move it
+back using the RestoreAddressToClassic request. You cannot move an Elastic IP address that
+was originally allocated for use in the EC2-VPC platform to the EC2-Classic platform.
 
 # Arguments
 - `public_ip`: The Elastic IP address.
@@ -27791,31 +27919,27 @@ end
     release_address()
     release_address(params::Dict{String,<:Any})
 
-Releases the specified Elastic IP address. [EC2-Classic, default VPC] Releasing an Elastic
-IP address automatically disassociates it from any instance that it's associated with. To
-disassociate an Elastic IP address without releasing it, use DisassociateAddress.  We are
-retiring EC2-Classic. We recommend that you migrate from EC2-Classic to a VPC. For more
-information, see Migrate from EC2-Classic to a VPC in the Amazon Elastic Compute Cloud User
-Guide.  [Nondefault VPC] You must use DisassociateAddress to disassociate the Elastic IP
-address before you can release it. Otherwise, Amazon EC2 returns an error
-(InvalidIPAddress.InUse). After releasing an Elastic IP address, it is released to the IP
-address pool. Be sure to update your DNS records and any servers or devices that
-communicate with the address. If you attempt to release an Elastic IP address that you
-already released, you'll get an AuthFailure error if the address is already allocated to
-another Amazon Web Services account. [EC2-VPC] After you release an Elastic IP address for
-use in a VPC, you might be able to recover it. For more information, see AllocateAddress.
-For more information, see Elastic IP Addresses in the Amazon Elastic Compute Cloud User
-Guide.
+Releases the specified Elastic IP address. [Default VPC] Releasing an Elastic IP address
+automatically disassociates it from any instance that it's associated with. To disassociate
+an Elastic IP address without releasing it, use DisassociateAddress. [Nondefault VPC] You
+must use DisassociateAddress to disassociate the Elastic IP address before you can release
+it. Otherwise, Amazon EC2 returns an error (InvalidIPAddress.InUse). After releasing an
+Elastic IP address, it is released to the IP address pool. Be sure to update your DNS
+records and any servers or devices that communicate with the address. If you attempt to
+release an Elastic IP address that you already released, you'll get an AuthFailure error if
+the address is already allocated to another Amazon Web Services account. After you release
+an Elastic IP address, you might be able to recover it. For more information, see
+AllocateAddress.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AllocationId"`: [EC2-VPC] The allocation ID. Required for EC2-VPC.
+- `"AllocationId"`: The allocation ID. This parameter is required.
 - `"NetworkBorderGroup"`: The set of Availability Zones, Local Zones, or Wavelength Zones
   from which Amazon Web Services advertises IP addresses. If you provide an incorrect network
   border group, you receive an InvalidAddress.NotFound error. You cannot use a network border
   group with EC2 Classic. If you attempt this operation on EC2 classic, you receive an
   InvalidParameterCombination error.
-- `"PublicIp"`: [EC2-Classic] The Elastic IP address. Required for EC2-Classic.
+- `"PublicIp"`: Deprecated.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -27871,11 +27995,12 @@ end
     release_ipam_pool_allocation(cidr, ipam_pool_allocation_id, ipam_pool_id)
     release_ipam_pool_allocation(cidr, ipam_pool_allocation_id, ipam_pool_id, params::Dict{String,<:Any})
 
-Release an allocation within an IPAM pool. You can only use this action to release manual
-allocations. To remove an allocation for a resource without deleting the resource, set its
-monitored state to false using ModifyIpamResourceCidr. For more information, see Release an
-allocation in the Amazon VPC IPAM User Guide.   All EC2 API actions follow an eventual
-consistency model.
+Release an allocation within an IPAM pool. The Region you use should be the IPAM pool
+locale. The locale is the Amazon Web Services Region where this IPAM pool is available for
+allocations. You can only use this action to release manual allocations. To remove an
+allocation for a resource without deleting the resource, set its monitored state to false
+using ModifyIpamResourceCidr. For more information, see Release an allocation in the Amazon
+VPC IPAM User Guide.   All EC2 API actions follow an eventual consistency model.
 
 # Arguments
 - `cidr`: The CIDR of the allocation you want to release.
@@ -28863,12 +28988,10 @@ end
     restore_address_to_classic(public_ip)
     restore_address_to_classic(public_ip, params::Dict{String,<:Any})
 
-Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to
-the EC2-Classic platform. You cannot move an Elastic IP address that was originally
-allocated for use in EC2-VPC. The Elastic IP address must not be associated with an
-instance or network interface.  We are retiring EC2-Classic. We recommend that you migrate
-from EC2-Classic to a VPC. For more information, see Migrate from EC2-Classic to a VPC in
-the Amazon Elastic Compute Cloud User Guide.
+ This action is deprecated.  Restores an Elastic IP address that was previously moved to
+the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP
+address that was originally allocated for use in EC2-VPC. The Elastic IP address must not
+be associated with an instance or network interface.
 
 # Arguments
 - `public_ip`: The Elastic IP address.

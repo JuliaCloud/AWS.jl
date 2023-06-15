@@ -3529,7 +3529,7 @@ end
     get_certificates(params::Dict{String,<:Any})
 
 Returns information about one or more Amazon Lightsail SSL/TLS certificates.  To get a
-summary of a certificate, ommit includeCertificateDetails from your request. The response
+summary of a certificate, omit includeCertificateDetails from your request. The response
 will include only the certificate Amazon Resource Name (ARN), certificate name, domain
 name, and tags.
 
@@ -3545,6 +3545,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeCertificateDetails"`: Indicates whether to include detailed information about
   the certificates in the response. When omitted, the response includes only the certificate
   names, Amazon Resource Names (ARNs), domain names, and tags.
+- `"pageToken"`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetCertificates request. If your results are paginated,
+  the response will return a next page token that you can specify as the page token in a
+  subsequent request.
 """
 function get_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
     return lightsail(
@@ -3955,12 +3959,12 @@ will not generate for a resource that has been deleted.
 
 # Arguments
 - `end_time`: The cost estimate end time. Constraints:   Specified in Coordinated Universal
-  Time (UTC).   Specified in the Unix time format. For example, if you wish to use an end
+  Time (UTC).   Specified in the Unix time format. For example, if you want to use an end
   time of October 1, 2018, at 9 PM UTC, specify 1538427600 as the end time.   You can convert
   a human-friendly time to Unix time format using a converter like Epoch converter.
 - `resource_name`: The resource name.
 - `start_time`: The cost estimate start time. Constraints:   Specified in Coordinated
-  Universal Time (UTC).   Specified in the Unix time format. For example, if you wish to use
+  Universal Time (UTC).   Specified in the Unix time format. For example, if you want to use
   a start time of October 1, 2018, at 8 PM UTC, specify 1538424000 as the start time.   You
   can convert a human-friendly time to Unix time format using a converter like Epoch
   converter.

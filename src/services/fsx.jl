@@ -255,13 +255,14 @@ end
 Creates an Amazon FSx for Lustre data repository association (DRA). A data repository
 association is a link between a directory on the file system and an Amazon S3 bucket or
 prefix. You can have a maximum of 8 data repository associations on a file system. Data
-repository associations are supported for all file systems except for Scratch_1 deployment
-type. Each data repository association must have a unique Amazon FSx file system directory
-and a unique S3 bucket or prefix associated with it. You can configure a data repository
-association for automatic import only, for automatic export only, or for both. To learn
-more about linking a data repository to your file system, see Linking your file system to
-an S3 bucket.   CreateDataRepositoryAssociation isn't supported on Amazon File Cache
-resources. To create a DRA on Amazon File Cache, use the CreateFileCache operation.
+repository associations are supported on all FSx for Lustre 2.12 and newer file systems,
+excluding scratch_1 deployment type. Each data repository association must have a unique
+Amazon FSx file system directory and a unique S3 bucket or prefix associated with it. You
+can configure a data repository association for automatic import only, for automatic export
+only, or for both. To learn more about linking a data repository to your file system, see
+Linking your file system to an S3 bucket.   CreateDataRepositoryAssociation isn't supported
+on Amazon File Cache resources. To create a DRA on Amazon File Cache, use the
+CreateFileCache operation.
 
 # Arguments
 - `data_repository_path`: The path to the Amazon S3 data repository that will be linked to
@@ -1054,7 +1055,8 @@ Deletes a data repository association on an Amazon FSx for Lustre file system. D
 data repository association unlinks the file system from the Amazon S3 bucket. When
 deleting a data repository association, you have the option of deleting the data in the
 file system that corresponds to the data repository association. Data repository
-associations are supported for all file systems except for Scratch_1 deployment type.
+associations are supported on all FSx for Lustre 2.12 and newer file systems, excluding
+scratch_1 deployment type.
 
 # Arguments
 - `association_id`: The ID of the data repository association that you want to delete.
@@ -1406,8 +1408,8 @@ end
 Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data
 repository associations, if one or more AssociationIds values are provided in the request,
 or if filters are used in the request. Data repository associations are supported on Amazon
-File Cache resources and all Amazon FSx for Lustre file systems excluding Scratch_1
-deployment types. You can use filters to narrow the response to include just data
+File Cache resources and all FSx for Lustre 2.12 and newer file systems, excluding
+scratch_1 deployment type. You can use filters to narrow the response to include just data
 repository associations for specific file systems (use the file-system-id filter with the
 ID of the file system) or caches (use the file-cache-id filter with the ID of the cache),
 or data repository associations for a specific repository type (use the
@@ -2037,8 +2039,8 @@ end
     update_data_repository_association(association_id, params::Dict{String,<:Any})
 
 Updates the configuration of an existing data repository association on an Amazon FSx for
-Lustre file system. Data repository associations are supported for all file systems except
-for Scratch_1 deployment type.
+Lustre file system. Data repository associations are supported on all FSx for Lustre 2.12
+and newer file systems, excluding scratch_1 deployment type.
 
 # Arguments
 - `association_id`: The ID of the data repository association that you are updating.
@@ -2169,8 +2171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `"LustreConfiguration"`:
 - `"OntapConfiguration"`:
-- `"OpenZFSConfiguration"`: The configuration updates for an Amazon FSx for OpenZFS file
-  system.
+- `"OpenZFSConfiguration"`: The configuration updates for an FSx for OpenZFS file system.
 - `"StorageCapacity"`: Use this parameter to increase the storage capacity of an FSx for
   Windows File Server, FSx for Lustre, FSx for OpenZFS, or FSx for ONTAP file system.
   Specifies the storage capacity target value, in GiB, to increase the storage capacity for
@@ -2189,7 +2190,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Windows file systems, the storage capacity target value must be at least 10 percent greater
   than the current storage capacity value. To increase storage capacity, the file system must
   have at least 16 MBps of throughput capacity. For more information, see Managing storage
-  capacity in the Amazon FSx for Windows File Server User Guide. For ONTAP file systems, the
+  capacity in the Amazon FSxfor Windows File Server User Guide. For ONTAP file systems, the
   storage capacity target value must be at least 10 percent greater than the current storage
   capacity value. For more information, see Managing storage capacity and provisioned IOPS in
   the Amazon FSx for NetApp ONTAP User Guide.
@@ -2284,7 +2285,7 @@ end
     update_storage_virtual_machine(storage_virtual_machine_id)
     update_storage_virtual_machine(storage_virtual_machine_id, params::Dict{String,<:Any})
 
-Updates an Amazon FSx for ONTAP storage virtual machine (SVM).
+Updates an FSx for ONTAP storage virtual machine (SVM).
 
 # Arguments
 - `storage_virtual_machine_id`: The ID of the SVM that you want to update, in the format
@@ -2292,10 +2293,10 @@ Updates an Amazon FSx for ONTAP storage virtual machine (SVM).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ActiveDirectoryConfiguration"`: Updates the Microsoft Active Directory (AD)
-  configuration for an SVM that is joined to an AD.
+- `"ActiveDirectoryConfiguration"`: Specifies updates to an SVM's Microsoft Active
+  Directory (AD) configuration.
 - `"ClientRequestToken"`:
-- `"SvmAdminPassword"`: Enter a new SvmAdminPassword if you are updating it.
+- `"SvmAdminPassword"`: Specifies a new SvmAdminPassword.
 """
 function update_storage_virtual_machine(
     StorageVirtualMachineId; aws_config::AbstractAWSConfig=global_aws_config()
