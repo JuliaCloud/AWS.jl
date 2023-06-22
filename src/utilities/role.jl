@@ -1,23 +1,23 @@
 """
-    assume_role(role; kwargs...) -> AWSConfig
-    assume_role(::Type{AWSConfig}, role; kwargs...) -> AWSConfig
-    assume_role(::Type{AWSCredentials}, role; kwargs...) -> AWSCredentials
+    assume_role(principal, role; kwargs...) -> AWSConfig
+    assume_role(::Type{AWSConfig}, principal, role; kwargs...) -> AWSConfig
+    assume_role(::Type{AWSCredentials}, principal, role; kwargs...) -> AWSCredentials
 
-Assumes the IAM `role` via temporary credentials. The current user or role (specified via
-the `aws_config` keyword) must be included in the trust policy of the `role`.
+Assumes the IAM `role` via temporary credentials via the `principal` entity. The `principal`
+entity must be included in the trust policy of the `role`.
 
 [Role chaining](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-role-chaining)
-must be manually specified by nesting `assume_role` calls together (e.g. "role-a" has
-permissions to assume "role-b": `assume_role("role-a"; aws_config=assume_role("role_a")`).
+must be manually specified by multiple `assume_role` calls (e.g. "role-a" has permissions to
+assume "role-b": `assume_role(assume_role(AWSConfig(), "role-a"), "role-b")`).
 
 # Arguments
+- `principal::AbstractAWSConfig`: The AWS configuration and credentials of the principal
+  entity (user or role) performing the `sts:AssumeRole` action.
 - `role::AbstractString`: The AWS IAM role to assume. Either a full role ARN or just the
   role name. If only the role name is specified the role will be assumed to reside in the
-  same account used in `aws_config`.
+  same account used in the `principal` argument.
 
 # Keywords
-- `aws_config::AbstractAWSConfig` (optional): User or role attempting to assume the
-  specified `role`
 - `duration::Integer` (optional): Role session duration in seconds.
 - `mfa_serial::AbstractString` (optional): The identification number of the MFA device that
   is associated with the user making the `AssumeRole` API call. Either a serial number for a
@@ -31,27 +31,28 @@ permissions to assume "role-b": `assume_role("role-a"; aws_config=assume_role("r
 """
 function assume_role end
 
-assume_role(role; kwargs...) = assume_role(AWSConfig, role; kwargs...)
+assume_role(principal, role; kwargs...) = assume_role(AWSConfig, principal, role; kwargs...)
 
-function assume_role(::Type{AWSConfig}, role; aws_config=global_aws_config(), kwargs...)
-    creds = assume_role(AWSCredentials, role; aws_config, kwargs...)
-    return AWSConfig(creds, aws_config.region, aws_config.output, aws_config.max_attempts)
+function assume_role(::Type{AWSConfig}, principal::AWSConfig, role; kwargs...)
+    creds = assume_role(AWSCredentials, principal, role; kwargs...)
+    return AWSConfig(creds, principal.region, principal.output, principal.max_attempts)
 end
 
 function assume_role(
     ::Type{AWSCredentials},
+    principal::AbstractAWSConfig,
     role::AbstractString;
-    aws_config::AbstractAWSConfig=global_aws_config(),
     duration::Union{Integer,Nothing}=nothing,
     mfa_serial::Union{AbstractString,Nothing}=nothing,
     token::Union{AbstractString,Nothing}=nothing,
     session_name::Union{AbstractString,Nothing}=nothing,
 )
     if startswith(role, "arn:aws:iam")
-        account_id = ""  # Avoiding unnecessary parsing ARN and expensive API call
+        # Avoiding unnecessary parsing the role ARN or performing an expensive API call
+        account_id = ""
         role_arn = role
     else
-        account_id = aws_account_number(aws_config)
+        account_id = aws_account_number(principal)
         role_arn = "arn:aws:iam::$account_id:role/$role"
     end
 
@@ -86,7 +87,7 @@ function assume_role(
     response = AWSServices.sts(
         "AssumeRole",
         params;
-        aws_config,
+        aws_config=principal,
         feature_set=AWS.FeatureSet(; use_response_type=true),
     )
     body = parse(response)
@@ -100,6 +101,23 @@ function assume_role(
         account_id;  # May as well populate "account_number" field when we have it
         expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
         # Avoid passing the `token` into the credential renew function as it will be expired
-        renew=() -> assume_role(AWSCredentials, role_arn; aws_config, duration, mfa_serial, session_name),
+        renew=() -> assume_role(AWSCredentials, principal, role_arn; duration, mfa_serial, session_name),
     )
 end
+
+"""
+    assume_role(role; kwargs...) -> Function
+
+Create a function that assumes the IAM `role` via a deferred principal entity, i.e. a
+function equivalent to `principal -> assume_role(principal, role; kwargs...)`. Useful for
+[role chaining](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-role-chaining).
+
+# Examples
+
+Assume "role-a" which in turn assumes "role-b":
+
+```julia
+AWSConfig() |> assume_role("role-a") |> assume_role("role-b")
+```
+"""
+assume_role(role; kwargs...) = principal -> assume_role(principal, role; kwargs...)

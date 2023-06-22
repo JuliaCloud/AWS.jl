@@ -62,6 +62,7 @@ end
         AWS.DEFAULT_BACKEND[] = backend()
         include("AWS.jl")
         include("AWSCredentials.jl")
+        include("role.jl")
         include("issues.jl")
 
         if TEST_MINIO
