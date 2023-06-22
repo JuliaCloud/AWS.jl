@@ -19,7 +19,7 @@ export @service
 export _merge
 export AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
 export ec2_instance_metadata, ec2_instance_region
-export generate_service_url, global_aws_config, set_user_agent
+export assume_role, generate_service_url, global_aws_config, set_user_agent
 export sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService, set_features
 
@@ -36,6 +36,7 @@ include(joinpath("utilities", "request.jl"))
 include(joinpath("utilities", "response.jl"))
 include(joinpath("utilities", "sign.jl"))
 include(joinpath("utilities", "downloads_backend.jl"))
+include(joinpath("utilities", "role.jl"))
 
 include("deprecated.jl")
 
