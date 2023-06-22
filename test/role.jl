@@ -68,12 +68,14 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
     @testset "session_name" begin
         session_prefix = "AWS.jl-" * ENV["USER"]
         creds = assume_role(AWSCredentials, config, role_a; session_name=nothing)
-        @test contains(creds.user_arn, r":assumed-role/" * (role_a * '/' * session_prefix) * r"-\d{8}T\d{6}Z$")
+        regex = r":assumed-role/" * (role_a * '/' * session_prefix) * r"-\d{8}T\d{6}Z$"
+        @test contains(creds.user_arn, regex)
         @test get_assumed_role(creds) == role_a
 
         session_name = "assume-role-session-name-testset-" * randstring(5)
         creds = assume_role(AWSCredentials, config, role_a; session_name)
-        @test contains(creds.user_arn, r":assumed-role/" * (role_a * '/' * session_name) * r"$")
+        regex = r":assumed-role/" * (role_a * '/' * session_name) * r"$"
+        @test contains(creds.user_arn, regex)
         @test get_assumed_role(creds) == role_a
     end
 
@@ -81,7 +83,9 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
         cfg = assume_role(assume_role(config, role_a), role_b)
         @test get_assumed_role(cfg) == role_b
 
+        #! format: off
         cfg = config |> assume_role(role_a) |> assume_role(role_b)
+        #! format: on
         @test get_assumed_role(cfg) == role_b
     end
 end

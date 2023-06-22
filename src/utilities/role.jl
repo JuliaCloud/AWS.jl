@@ -81,7 +81,8 @@ function assume_role(
             read(t, String)
         end
     elseif mfa_serial === nothing && token !== nothing
-        throw(ArgumentError("Keyword `token` cannot be be specified when `mfa_serial` is not set"))
+        msg = "Keyword `token` cannot be be specified when `mfa_serial` is not set"
+        throw(ArgumentError(msg))
     end
 
     response = AWSServices.sts(
@@ -93,6 +94,13 @@ function assume_role(
     body = parse(response)
     role_creds = body["AssumeRoleResult"]["Credentials"]
     role_user = body["AssumeRoleResult"]["AssumedRoleUser"]
+    renew = function ()
+        # Avoid passing the `token` into the credential renew function as it will be expired
+        return assume_role(
+            AWSCredentials, principal, role_arn; duration, mfa_serial, session_name
+        )
+    end
+
     return AWSCredentials(
         role_creds["AccessKeyId"],
         role_creds["SecretAccessKey"],
@@ -100,8 +108,7 @@ function assume_role(
         role_user["Arn"],
         account_id;  # May as well populate "account_number" field when we have it
         expiry=DateTime(rstrip(role_creds["Expiration"], 'Z')),
-        # Avoid passing the `token` into the credential renew function as it will be expired
-        renew=() -> assume_role(AWSCredentials, principal, role_arn; duration, mfa_serial, session_name),
+        renew,
     )
 end
 
