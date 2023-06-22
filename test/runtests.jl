@@ -50,6 +50,8 @@ function _now_formatted()
     return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
 end
 
+testset_role(role_name) = "AWS.jl-$role_name"
+
 @testset "AWS.jl" begin
     include("AWSExceptions.jl")
     include("AWSMetadataUtilities.jl")
