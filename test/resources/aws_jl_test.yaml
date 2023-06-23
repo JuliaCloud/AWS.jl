@@ -20,6 +20,11 @@ Parameters:
     AllowedPattern: ^[\w.-]+$
     Default: AWS.jl
 
+Outputs:
+  MFAUserAccessKey:
+    Value: !Ref MFAUserAccessKey
+  MFAUserSecretKey:
+    Value: !GetAtt MFAUserAccessKey.SecretAccessKey
 
 Resources:
   PublicCIRole:
@@ -236,7 +241,9 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS: !GetAtt AssumeRoleTestsetRole.Arn
+              AWS:
+                - !GetAtt AssumeRoleTestsetRole.Arn
+                - !GetAtt MFAUser.Arn
             Action: sts:AssumeRole
 
   RoleAPolicy:
@@ -263,3 +270,51 @@ Resources:
             Principal:
               AWS: !GetAtt RoleA.Arn
             Action: sts:AssumeRole
+
+  # !!! Important !!!
+  # Be extremely careful to limit the MFAUser to have limited access such that if the
+  # access keys for this user ever leaked there wouldn't be any harm done.
+
+  MFAUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: aws-jl-mfa-user
+
+  MFAUserAccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref MFAUser
+
+  MFAUserPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: ManageMFA
+      Users:
+        - !Ref MFAUser
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          # https://repost.aws/knowledge-center/mfa-iam-user-aws-cli
+          - Effect: Deny
+            NotAction:
+              - iam:CreateVirtualMFADevice
+              - iam:EnableMFADevice
+              - iam:DeactivateMFADevice
+              - iam:DeleteVirtualMFADevice
+            Resource: "*"
+            Condition:
+              BoolIfExists:
+                aws:MultiFactorAuthPresent: false
+          - Effect: Allow
+            Action:
+              - iam:CreateVirtualMFADevice
+              - iam:DeleteVirtualMFADevice
+            Resource: !Sub arn:aws:iam::${AWS::AccountId}:mfa/aws-jl-*
+          - Effect: Allow
+            Action:
+              - iam:EnableMFADevice
+              - iam:DeactivateMFADevice
+            Resource: !Sub arn:aws:iam::${AWS::AccountId}:user/${MFAUser}
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Resource: !GetAtt RoleA.Arn
