@@ -31,7 +31,9 @@ assume "role-b": `assume_role(assume_role(AWSConfig(), "role-a"), "role-b")`).
 """
 function assume_role end
 
-assume_role(principal, role; kwargs...) = assume_role(AWSConfig, principal, role; kwargs...)
+function assume_role(principal, role; kwargs...)
+    return assume_role(typeof(principal), principal, role; kwargs...)
+end
 
 function assume_role(::Type{AWSConfig}, principal::AWSConfig, role; kwargs...)
     creds = assume_role(AWSCredentials, principal, role; kwargs...)
