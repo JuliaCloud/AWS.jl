@@ -53,8 +53,6 @@ time_step(; duration=30, t=time(), t0=0) = div(floor(Int64, t - t0), duration)
 
 
 function gen_mfa_device(f, config::AbstractAWSConfig; username, mfa_device_name)
-     # IAM users are limited to 8 MFA devices.
-    # https://aws.amazon.com/blogs/security/you-can-now-assign-multiple-mfa-devices-in-iam/
     r = AWSServices.iam(
         "CreateVirtualMFADevice",
         Dict("VirtualMFADeviceName" => mfa_device_name);
@@ -77,33 +75,6 @@ function gen_mfa_device(f, config::AbstractAWSConfig; username, mfa_device_name)
         aws_config=config,
         feature_set=AWS.FeatureSet(; use_response_type=true),
     )
-
-    # @show mfa_serial
-    # mfa_serials = []
-    # while !(mfa_serial in mfa_serials)
-    #     r = AWSServices.iam(
-    #         "ListMFADevices",
-    #         Dict(
-    #             "UserName" => username,
-    #             "SerialNumber" => mfa_serial,
-    #             "AuthenticationCode1" => totp(secret),
-    #             "AuthenticationCode2" => totp(secret; skip=1),
-    #         );
-    #         aws_config=config,
-    #         feature_set=AWS.FeatureSet(; use_response_type=true),
-    #     )
-    #     body = parse(r)
-    #     members = body["ListMFADevicesResult"]["MFADevices"]["member"]
-
-    #     @show now(UTC)
-    #     for m in members
-    #         @show m
-    #     end
-
-    #     mfa_serials = map(m -> m["SerialNumber"], body["ListMFADevicesResult"]["MFADevices"]["member"])
-    #     @show mfa_serials
-    #     sleep(1)
-    # end
 
     # After associating an MFA device there appears to be a lag before the MFA device can
     # be used. Using the "ListMFADevices" doesn't help here as the MFA device is shown to be
@@ -203,6 +174,9 @@ end
         # devices are associated with the user.
         @test_throws AWSException assume_role_creds(mfa_user_cfg, role_a)
 
+        # Generate a unique MFA device per test to allow for concurrent tests. Note that
+        # IAM users are limited to 8 MFA devices.
+        # https://aws.amazon.com/blogs/security/you-can-now-assign-multiple-mfa-devices-in-iam/
         gen_mfa_device(config; username="aws-jl-mfa-user", mfa_device_name="aws-jl-$(randstring(5))") do mfa_serial, secret
             creds = assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token=totp(secret))
             @test get_assumed_role(creds) == role_a
