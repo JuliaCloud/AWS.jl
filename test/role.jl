@@ -79,6 +79,19 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
         @test get_assumed_role(creds) == role_a
     end
 
+    @testset "renew" begin
+        creds = assume_role_creds(config, role_a; duration=nothing)
+        @test creds.renew isa Function
+        @test get_assumed_role(creds) == role_a
+
+        new_creds = creds.renew()
+        @test new_creds isa AWSCredentials
+        @test get_assumed_role(new_creds) == role_a
+        @test new_creds.access_key_id != creds.access_key_id
+        @test new_creds.secret_key != creds.secret_key
+        @test new_creds.expiry >= creds.expiry
+    end
+
     @testset "role chaining" begin
         cfg = assume_role(assume_role(config, role_a), role_b)
         @test get_assumed_role(cfg) == role_b

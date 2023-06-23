@@ -115,9 +115,7 @@ function assume_role_creds(
     role_user = body["AssumeRoleResult"]["AssumedRoleUser"]
     renew = function ()
         # Avoid passing the `token` into the credential renew function as it will be expired
-        return assume_role(
-            AWSCredentials, principal, role_arn; duration, mfa_serial, session_name
-        )
+        return assume_role_creds(principal, role_arn; duration, mfa_serial, session_name)
     end
 
     return AWSCredentials(
