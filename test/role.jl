@@ -78,6 +78,38 @@ function gen_mfa_device(f, config::AbstractAWSConfig; username, mfa_device_name)
         feature_set=AWS.FeatureSet(; use_response_type=true),
     )
 
+    # @show mfa_serial
+    # mfa_serials = []
+    # while !(mfa_serial in mfa_serials)
+    #     r = AWSServices.iam(
+    #         "ListMFADevices",
+    #         Dict(
+    #             "UserName" => username,
+    #             "SerialNumber" => mfa_serial,
+    #             "AuthenticationCode1" => totp(secret),
+    #             "AuthenticationCode2" => totp(secret; skip=1),
+    #         );
+    #         aws_config=config,
+    #         feature_set=AWS.FeatureSet(; use_response_type=true),
+    #     )
+    #     body = parse(r)
+    #     members = body["ListMFADevicesResult"]["MFADevices"]["member"]
+
+    #     @show now(UTC)
+    #     for m in members
+    #         @show m
+    #     end
+
+    #     mfa_serials = map(m -> m["SerialNumber"], body["ListMFADevicesResult"]["MFADevices"]["member"])
+    #     @show mfa_serials
+    #     sleep(1)
+    # end
+
+    # After associating an MFA device there appears to be a lag before the MFA device can
+    # be used. Using the "ListMFADevices" doesn't help here as the MFA device is shown to be
+    # associated with the user and is enabled.
+    sleep(10)
+
     try
         return f(mfa_serial, secret)
     finally
@@ -167,7 +199,11 @@ end
         creds = AWSCredentials(ENV["MFA_USER_ACCESS_KEY_ID"], ENV["MFA_USER_SECRET_ACCESS_KEY"])
         mfa_user_cfg = AWSConfig(; creds)
 
-        gen_mfa_device(mfa_user_cfg; username="aws-jl-mfa-user", mfa_device_name="aws-jl-$(randstring(5))") do mfa_serial, secret
+        # User policy should deny "sts:AssumeRole" when MFA is not present even when no MFA
+        # devices are associated with the user.
+        @test_throws AWSException assume_role_creds(mfa_user_cfg, role_a)
+
+        gen_mfa_device(config; username="aws-jl-mfa-user", mfa_device_name="aws-jl-$(randstring(5))") do mfa_serial, secret
             creds = assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token=totp(secret))
             @test get_assumed_role(creds) == role_a
 
