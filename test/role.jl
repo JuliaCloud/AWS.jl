@@ -1,5 +1,23 @@
 using Dates
 
+function get_assumed_role(aws_config::AbstractAWSConfig=global_aws_config())
+    r = AWSServices.sts(
+        "GetCallerIdentity";
+        aws_config,
+        feature_set=AWS.FeatureSet(; use_response_type=true),
+    )
+    result = parse(r)
+    arn = result["GetCallerIdentityResult"]["Arn"]
+    m = match(r":assumed-role/(?<role>[^/]+)", arn)
+    if m !== nothing
+        return m["role"]
+    else
+        error("Caller Identity ARN is not an assumed role: $arn")
+    end
+end
+
+get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
+
 @testset "assume_role / assume_role_creds" begin
     # In order to mitigate the effects of using `assume_role` in order to test itself we'll
     # use the lowest-level call with as many defaults as possible.

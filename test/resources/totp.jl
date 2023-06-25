@@ -1,24 +1,6 @@
 using SHA: hmac_sha1
 using CodecBase: Base32Decoder, Base64Decoder, transcode
 
-function get_assumed_role(aws_config::AbstractAWSConfig=global_aws_config())
-    r = AWSServices.sts(
-        "GetCallerIdentity";
-        aws_config,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
-    )
-    result = parse(r)
-    arn = result["GetCallerIdentityResult"]["Arn"]
-    m = match(r":assumed-role/(?<role>[^/]+)", arn)
-    if m !== nothing
-        return m["role"]
-    else
-        error("Caller Identity ARN is not an assumed role: $arn")
-    end
-end
-
-get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
-
 # As defined in https://datatracker.ietf.org/doc/html/rfc4226#section-5
 # Using fixed number of digits (6)
 function hotp(k, c)
