@@ -94,22 +94,20 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
 
         r = AWSServices.secrets_manager(
             "GetSecretValue",
-            Dict("SecretId" => "aws-jl-mfa-user-virtual-mfa-device");
+            Dict("SecretId" => "aws-jl-mfa-user-virtual-mfa-devices");
             aws_config=config,
             feature_set=AWS.FeatureSet(; use_response_type=true),
         )
-        json = JSON.parse(parse(r)["SecretString"])
-        mfa_serial = json["mfa_serial"]
-        secret = json["secret"]
-
-        @show mfa_serial secret
+        mfa_devices = JSON.parse(parse(r)["SecretString"])
 
         # User policy should deny "sts:AssumeRole" when MFA is not present.
         @test_throws AWSException assume_role_creds(mfa_user_cfg, role_a)
 
-        token = _totp()
-        @show now() token
-        creds = assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token)
+        @info "demo call"
+        creds = demo(mfa_devices) do mfa_serial, token
+            @show now() mfa_serial token
+            assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token)
+        end
         @test get_assumed_role(creds) == role_a
     end
 

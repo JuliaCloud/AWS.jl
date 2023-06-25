@@ -55,3 +55,27 @@ end
 - `t0::Number=0`: UNIX time to start counting time steps (default 0 is the UNIX epoch).
 """
 time_step_window(; duration=30, t=time(), t0=0) = div(floor(Int64, t - t0), duration)
+
+function demo(f, mfa_devices; duration=30, window_retries=2)
+    num_window_attempts = 0
+    while num_window_attempts <= window_retries
+        num_window_attempts += 1
+
+        for d in mfa_devices
+            token = totp(d["seed"]; duration)
+            try
+                return f(d["mfa_serial"], token)
+            catch e
+                if e isa AWSException && e.message == "MultiFactorAuthentication failed with invalid MFA one time pass code."
+                    @info "Invalid MFA token"
+                    continue
+                else
+                    rethrow()
+                end
+            end
+        end
+
+        # Wait until next time step window
+        sleep(duration - (time() % duration) + 1)
+    end
+end

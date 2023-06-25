@@ -19,6 +19,8 @@ using JSON
 # TODO: Support PascalCase
 @service Secrets_Manager use_response_type=true
 
+global_aws_config(; region="us-east-1")
+
 include("totp.jl")
 
 function create_or_update_stack(args...; kwargs...)
@@ -62,8 +64,6 @@ function create_or_update_secret(secret_id, params)
     return r
 end
 
-global_aws_config(; region="us-east-1")
-
 template_body = read("aws_jl_test.yaml", String)
 create_or_update_stack(
     "AWS-jl-test",
@@ -81,39 +81,52 @@ create_or_update_stack(
 #     - A maximum of 8 MFA devices per user limiting test concurrency
 #     - A lag between when an MFA device is associated with a user and when we can use it
 
-account_id = aws_account_number(AWSConfig())
+
 username = "aws-jl-mfa-user"
-mfa_device_name = "aws-jl-mfa-device"
-mfa_serial = "arn:aws:iam::$account_id:mfa/$mfa_device_name"
 
 # TODO: Should be `list_mfa_devices`
-r = IAM.list_mfadevices(Dict("UserName" => username))
-mfa_device_exists = !isempty(parse(r)["ListMFADevicesResult"]["MFADevices"])
-
-if mfa_device_exists
-    @info "Deleting existing MFA device"
-    IAM.deactivate_mfadevice(mfa_serial, username)
-    IAM.delete_virtual_mfadevice(mfa_serial)
+existing_mfa_devices = let r
+    r = IAM.list_mfadevices(Dict("UserName" => username))
+    parse(r)["ListMFADevicesResult"]["MFADevices"]["member"]
 end
 
-@info "Creating MFA device"
-r = IAM.create_virtual_mfadevice(mfa_device_name)
-mfa_device = parse(r)["CreateVirtualMFADeviceResult"]["VirtualMFADevice"]
-mfa_serial = mfa_device["SerialNumber"]
-secret = String(transcode(Base64Decoder(), mfa_device["Base32StringSeed"]))
+# When only a single MFA device is associated with the `username` then a `AbstractDict` will
+# be returned instead of a `AbstractVector`.
+if existing_mfa_devices isa AbstractDict
+    existing_mfa_devices = [existing_mfa_devices]
+end
 
-# TODO: Interface is horrible
-# `AccessDenied -- MultiFactorAuthentication failed with invalid MFA one time pass code.`
-IAM.enable_mfadevice(totp(secret, offset=-1), totp(secret), mfa_serial, username)
+if !isempty(existing_mfa_devices)
+    @info "Deleting existing MFA devices for $username"
+    for mfa_device in existing_mfa_devices
+        mfa_serial = mfa_device["SerialNumber"]
+        IAM.deactivate_mfadevice(mfa_serial, username)
+        IAM.delete_virtual_mfadevice(mfa_serial)
+    end
+end
 
-@info "Storing MFA device secret"
-mfa_device_secret = "aws-jl-mfa-user-virtual-mfa-device"
+mfa_devices = NamedTuple{(:mfa_serial, :seed), Tuple{String, String}}[]
+
+@info "Creating MFA devices for $username"
+for i in 1:2
+    mfa_device_name = "aws-jl-mfa-device-$i"
+    r = IAM.create_virtual_mfadevice(mfa_device_name)
+    mfa_device = parse(r)["CreateVirtualMFADeviceResult"]["VirtualMFADevice"]
+    mfa_serial = mfa_device["SerialNumber"]
+    seed = String(transcode(Base64Decoder(), mfa_device["Base32StringSeed"]))
+
+    # TODO: Interface is horrible
+    # `AccessDenied -- MultiFactorAuthentication failed with invalid MFA one time pass code.`
+    IAM.enable_mfadevice(totp(seed, offset=-1), totp(seed), mfa_serial, username)
+
+    push!(mfa_devices, (; mfa_serial, seed))
+end
+
+@show mfa_devices
+
+@info "Storing MFA device details"
+mfa_device_secret = "aws-jl-mfa-user-virtual-mfa-devices"
 create_or_update_secret(
     mfa_device_secret,
-    Dict(
-        "SecretString" => JSON.json(Dict(
-            "mfa_serial" => mfa_serial,
-            "secret" => secret,
-        ))
-    )
+    Dict("SecretString" => JSON.json(mfa_devices)),
 )
