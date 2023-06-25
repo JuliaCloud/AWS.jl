@@ -23,12 +23,19 @@ end
 
 # As defined in https://datatracker.ietf.org/doc/html/rfc6238#section-4
 function totp(k::Vector{UInt8}; duration=30, offset=0)
-    t = time_step(; duration)
+    t = time_step_window(; duration)
     c = reinterpret(UInt8, [hton(t + offset)]) # Convert to big-endian
     return hotp(k, c)
 end
 
 totp(k::AbstractString; kwargs...) = totp(transcode(Base32Decoder(), k); kwargs...)
 
-# `t` is number of seconds since midnight UTC of January 1, 1970 (UNIX epoch)
-time_step(; duration=30, t=time(), t0=0) = div(floor(Int64, t - t0), duration)
+"""
+    time_step_window(; duration=30, t=time(), t0=0) -> Int
+
+# Keywords
+- `duration::Integer`: Time step in seconds.
+- `t::Number=time()`: Number of seconds since midnight UTC of January 1, 1970 (UNIX epoch).
+- `t0::Number=0`: UNIX time to start counting time steps (default 0 is the UNIX epoch).
+"""
+time_step_window(; duration=30, t=time(), t0=0) = div(floor(Int64, t - t0), duration)
