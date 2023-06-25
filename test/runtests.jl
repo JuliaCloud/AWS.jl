@@ -52,6 +52,21 @@ end
 
 testset_role(role_name) = "AWS.jl-$role_name"
 
+function throttle(f; delay)
+    prev = 0
+    function (args...; kwargs...)
+        t = time()
+        delta = t - prev
+        delta < delay && sleep(delay - delta)
+        prev = time()
+        return f(args...; kwargs...)
+    end
+end
+
+throttled_totp = throttle(totp; delay=10)
+
+_totp = consumed_totp("...")
+
 @testset "AWS.jl" begin
     include("AWSExceptions.jl")
     include("AWSMetadataUtilities.jl")

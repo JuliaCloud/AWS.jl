@@ -107,25 +107,9 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
         # User policy should deny "sts:AssumeRole" when MFA is not present.
         @test_throws AWSException assume_role_creds(mfa_user_cfg, role_a)
 
-        # AccessDenied -- MultiFactorAuthentication failed, unable to validate MFA code.  Please verify your MFA serial number is valid and associated with this user.
-
-        # AccessDenied -- MultiFactorAuthentication failed with invalid MFA one time pass code.
-        offset = 0
-        while offset < 2
-            @show now() totp(secret; offset)
-            try
-                creds = assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token=totp(secret; offset))
-                break
-            catch e
-                if e isa AWSException && contains(e.message, "MultiFactorAuthentication failed with invalid MFA one time pass code.")
-                    @info "Invalid MFA token"
-                    offset += 1
-                else
-                    rethrow()
-                end
-            end
-        end
-
+        token = _totp()
+        @show now() token
+        creds = assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token)
         @test get_assumed_role(creds) == role_a
     end
 

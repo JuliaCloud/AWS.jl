@@ -30,6 +30,22 @@ end
 
 totp(k::AbstractString; kwargs...) = totp(transcode(Base32Decoder(), k); kwargs...)
 
+function consumed_totp(k; duration=30, offset=0)
+    last_window = 0
+    function ()
+        t = time()
+        window = time_step_window(; duration, t)
+
+        if window <= last_window
+            sleep(duration - (t % duration) + 1)
+            window += 1
+        end
+
+        last_window = window
+        return totp(k; duration, offset)
+    end
+end
+
 """
     time_step_window(; duration=30, t=time(), t0=0) -> Int
 
