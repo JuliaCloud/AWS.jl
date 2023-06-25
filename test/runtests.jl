@@ -38,6 +38,7 @@ using StableRNGs
 Mocking.activate()
 
 include("patch.jl")
+include("resources/totp.jl")
 
 const TEST_MINIO = begin
     all(k -> haskey(ENV, k), ("MINIO_ACCESS_KEY", "MINIO_SECRET_KEY", "MINIO_REGION_NAME"))

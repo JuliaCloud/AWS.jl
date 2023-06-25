@@ -20,12 +20,6 @@ Parameters:
     AllowedPattern: ^[\w.-]+$
     Default: AWS.jl
 
-Outputs:
-  MFAUserAccessKey:
-    Value: !Ref MFAUserAccessKey
-  MFAUserSecretKey:
-    Value: !GetAtt MFAUserAccessKey.SecretAccessKey
-
 Resources:
   PublicCIRole:
     Type: AWS::IAM::Role
@@ -229,17 +223,10 @@ Resources:
             Action: sts:AssumeRole
             Resource: !GetAtt RoleA.Arn
           - Effect: Allow
-            Action:
-              - iam:CreateVirtualMFADevice
-              - iam:DeleteVirtualMFADevice
-            Resource: !Sub arn:aws:iam::${AWS::AccountId}:mfa/aws-jl-*
-          - Effect: Allow
-            Action:
-              - iam:EnableMFADevice
-              - iam:ListMFADevices
-              - iam:DeactivateMFADevice
-            Resource: !Sub arn:aws:iam::${AWS::AccountId}:user/${MFAUser}
-
+            Action: secretsmanager:GetSecretValue
+            Resource:
+              - !Ref MFAUserAccessKeySecret
+              - !Sub arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:aws-jl-mfa-user-virtual-mfa-device-*
 
   # No permissions are required to perform the `sts:GetCallerIdentity` action
   # https://docs.aws.amazon.com/STS/latest/APIReference/API_GetCallerIdentity.html
@@ -309,7 +296,8 @@ Resources:
           # Deny all actions when MFA is not passed in. A more restrictive version of:
           # https://repost.aws/knowledge-center/mfa-iam-user-aws-cli
           - Effect: Deny
-            NotAction: []
+            NotAction:
+              - sts:GetCallerIdentity
             Resource: "*"
             Condition:
               BoolIfExists:
@@ -317,3 +305,9 @@ Resources:
           - Effect: Allow
             Action: sts:AssumeRole
             Resource: !GetAtt RoleA.Arn
+
+  MFAUserAccessKeySecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: aws-jl-mfa-user-credentials
+      SecretString: !Sub '{"username": "${MFAUser}", "access_key_id": "${MFAUserAccessKey}", "secret_access_key": "${MFAUserAccessKey.SecretAccessKey}"}'

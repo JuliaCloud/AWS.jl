@@ -1,107 +1,4 @@
-using SHA: hmac_sha1
-using CodecBase: Base32Decoder, Base64Decoder, transcode
-
-function get_assumed_role(aws_config::AbstractAWSConfig=global_aws_config())
-    r = AWSServices.sts(
-        "GetCallerIdentity";
-        aws_config,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
-    )
-    result = parse(r)
-    arn = result["GetCallerIdentityResult"]["Arn"]
-    m = match(r":assumed-role/(?<role>[^/]+)", arn)
-    if m !== nothing
-        return m["role"]
-    else
-        error("Caller Identity ARN is not an assumed role: $arn")
-    end
-end
-
-get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
-
-# As defined in https://datatracker.ietf.org/doc/html/rfc4226#section-5
-# Using fixed number of digits (6)
-function hotp(k, c)
-    digits = 6
-    hs = hmac_sha1(k, c)
-    dbc1 = dynamic_truncation(hs)
-    otp = Int32(dbc1 % 10^digits)
-    return lpad(otp, digits, '0')
-end
-
-function dynamic_truncation(hmac_result::Vector{UInt8})
-    offset = hmac_result[20] & 0x0f  # lower 4-bits
-    return (
-        UInt32(hmac_result[offset + 1] & 0x7f) << 24 |
-        UInt32(hmac_result[offset + 2] & 0xff) << 16 |
-        UInt32(hmac_result[offset + 3] & 0xff) << 8 |
-        UInt32(hmac_result[offset + 4] & 0xff)
-    )  # big-endian
-end
-
-# As defined in https://datatracker.ietf.org/doc/html/rfc6238#section-4
-function totp(k::Vector{UInt8}; duration=30, skip=0)
-    t = time_step(; duration)
-    c = reinterpret(UInt8, [hton(t + skip)]) # Convert to big-endian
-    return hotp(k, c)
-end
-
-totp(k::AbstractString; kwargs...) = totp(transcode(Base32Decoder(), k); kwargs...)
-
-# `t` is number of seconds since midnight UTC of January 1, 1970 (UNIX epoch)
-time_step(; duration=30, t=time(), t0=0) = div(floor(Int64, t - t0), duration)
-
-
-function gen_mfa_device(f, config::AbstractAWSConfig; username, mfa_device_name)
-    r = AWSServices.iam(
-        "CreateVirtualMFADevice",
-        Dict("VirtualMFADeviceName" => mfa_device_name);
-        aws_config=config,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
-    )
-    body = parse(r)
-    mfa_device = body["CreateVirtualMFADeviceResult"]["VirtualMFADevice"]
-    mfa_serial = mfa_device["SerialNumber"]
-    secret = String(transcode(Base64Decoder(), mfa_device["Base32StringSeed"]))
-
-    AWSServices.iam(
-        "EnableMFADevice",
-        Dict(
-            "UserName" => username,
-            "SerialNumber" => mfa_serial,
-            "AuthenticationCode1" => totp(secret),
-            "AuthenticationCode2" => totp(secret; skip=1),
-        );
-        aws_config=config,
-        feature_set=AWS.FeatureSet(; use_response_type=true),
-    )
-
-    # After associating an MFA device there appears to be a lag before the MFA device can
-    # be used. Using the "ListMFADevices" doesn't help here as the MFA device is shown to be
-    # associated with the user and is enabled.
-    sleep(10)
-
-    try
-        return f(mfa_serial, secret)
-    finally
-        AWSServices.iam(
-            "DeactivateMFADevice",
-            Dict(
-                "UserName" => username,
-                "SerialNumber" => mfa_serial,
-            );
-            aws_config=config,
-            feature_set=AWS.FeatureSet(; use_response_type=true),
-        )
-
-        AWSServices.iam(
-            "DeleteVirtualMFADevice",
-            Dict("SerialNumber" => mfa_serial);
-            aws_config=config,
-            feature_set=AWS.FeatureSet(; use_response_type=true),
-        )
-    end
-end
+using Dates
 
 @testset "assume_role / assume_role_creds" begin
     # In order to mitigate the effects of using `assume_role` in order to test itself we'll
@@ -167,22 +64,51 @@ end
     end
 
     @testset "mfa_serial / token" begin
-        creds = AWSCredentials(ENV["MFA_USER_ACCESS_KEY_ID"], ENV["MFA_USER_SECRET_ACCESS_KEY"])
-        mfa_user_cfg = AWSConfig(; creds)
+        r = AWSServices.secrets_manager(
+            "GetSecretValue",
+            Dict("SecretId" => "aws-jl-mfa-user-credentials");
+            aws_config=config,
+            feature_set=AWS.FeatureSet(; use_response_type=true),
+        )
+        json = JSON.parse(parse(r)["SecretString"])
+        mfa_user_creds = AWSCredentials(json["access_key_id"], json["secret_access_key"])
+        mfa_user_cfg = AWSConfig(; creds=mfa_user_creds)
 
-        # User policy should deny "sts:AssumeRole" when MFA is not present even when no MFA
-        # devices are associated with the user.
+        r = AWSServices.secrets_manager(
+            "GetSecretValue",
+            Dict("SecretId" => "aws-jl-mfa-user-virtual-mfa-device");
+            aws_config=config,
+            feature_set=AWS.FeatureSet(; use_response_type=true),
+        )
+        json = JSON.parse(parse(r)["SecretString"])
+        mfa_serial = json["mfa_serial"]
+        secret = json["secret"]
+
+        @show mfa_serial secret
+
+        # User policy should deny "sts:AssumeRole" when MFA is not present.
         @test_throws AWSException assume_role_creds(mfa_user_cfg, role_a)
 
-        # Generate a unique MFA device per test to allow for concurrent tests. Note that
-        # IAM users are limited to 8 MFA devices.
-        # https://aws.amazon.com/blogs/security/you-can-now-assign-multiple-mfa-devices-in-iam/
-        gen_mfa_device(config; username="aws-jl-mfa-user", mfa_device_name="aws-jl-$(randstring(5))") do mfa_serial, secret
-            creds = assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token=totp(secret))
-            @test get_assumed_role(creds) == role_a
+        # AccessDenied -- MultiFactorAuthentication failed, unable to validate MFA code.  Please verify your MFA serial number is valid and associated with this user.
 
-            @test_throws AWSException assume_role_creds(mfa_user_cfg, role_a)
+        # AccessDenied -- MultiFactorAuthentication failed with invalid MFA one time pass code.
+        offset = 0
+        while offset < 2
+            @show now() totp(secret; skip=offset)
+            try
+                creds = assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token=totp(secret; skip=offset))
+                break
+            catch e
+                if e isa AWSException && contains(e.message, "MultiFactorAuthentication failed with invalid MFA one time pass code.")
+                    @info "Invalid MFA token"
+                    offset += 1
+                else
+                    rethrow()
+                end
+            end
         end
+
+        @test get_assumed_role(creds) == role_a
     end
 
     @testset "renew" begin
