@@ -94,9 +94,9 @@ using Dates
         # AccessDenied -- MultiFactorAuthentication failed with invalid MFA one time pass code.
         offset = 0
         while offset < 2
-            @show now() totp(secret; skip=offset)
+            @show now() totp(secret; offset)
             try
-                creds = assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token=totp(secret; skip=offset))
+                creds = assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token=totp(secret; offset))
                 break
             catch e
                 if e isa AWSException && contains(e.message, "MultiFactorAuthentication failed with invalid MFA one time pass code.")

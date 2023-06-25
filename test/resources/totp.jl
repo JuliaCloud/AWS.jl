@@ -40,9 +40,9 @@ function dynamic_truncation(hmac_result::Vector{UInt8})
 end
 
 # As defined in https://datatracker.ietf.org/doc/html/rfc6238#section-4
-function totp(k::Vector{UInt8}; duration=30, skip=0)
+function totp(k::Vector{UInt8}; duration=30, offset=0)
     t = time_step(; duration)
-    c = reinterpret(UInt8, [hton(t + skip)]) # Convert to big-endian
+    c = reinterpret(UInt8, [hton(t + offset)]) # Convert to big-endian
     return hotp(k, c)
 end
 

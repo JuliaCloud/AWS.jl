@@ -104,7 +104,7 @@ secret = String(transcode(Base64Decoder(), mfa_device["Base32StringSeed"]))
 
 # TODO: Interface is horrible
 # `AccessDenied -- MultiFactorAuthentication failed with invalid MFA one time pass code.`
-IAM.enable_mfadevice(totp(secret, skip=-1), totp(secret), mfa_serial, username)
+IAM.enable_mfadevice(totp(secret, offset=-1), totp(secret), mfa_serial, username)
 
 @info "Storing MFA device secret"
 mfa_device_secret = "aws-jl-mfa-user-virtual-mfa-device"
