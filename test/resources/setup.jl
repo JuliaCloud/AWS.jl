@@ -6,9 +6,9 @@ using AWS
 using AWS: AWSException
 using JSON
 
-@service CloudFormation use_response_type=true
-@service IAM use_response_type=true
-@service Secrets_Manager use_response_type=true  # TODO: Support PascalCase
+@service CloudFormation use_response_type = true
+@service IAM use_response_type = true
+@service Secrets_Manager use_response_type = true  # TODO: Support PascalCase
 
 global_aws_config(; region="us-east-1")
 
@@ -21,9 +21,17 @@ function create_or_update_stack(args...; kwargs...)
         response = CloudFormation.update_stack(args...; kwargs...)
         result_key = "UpdateStackResult"
     catch e
-        if e isa AWSException && e.code == "ValidationError" && e.message == "No updates are to be performed."
+        if (
+            e isa AWSException &&
+            e.code == "ValidationError" &&
+            e.message == "No updates are to be performed."
+        )
             nothing
-        elseif e isa AWSException && e.code == "ValidationError" && contains(e.message, r"^Stack .* does not exist$")
+        elseif (
+            e isa AWSException &&
+            e.code == "ValidationError" &&
+            contains(e.message, r"^Stack .* does not exist$")
+        )
             response = CloudFormation.create_stack(args...; kwargs...)
             result_key = "CreateStackResult"
         else
@@ -138,7 +146,7 @@ function create_or_update_mfa_devices(; user_name, secret_id, num_devices=8)
     end
 
     @info "Creating $num_devices MFA devices for $user_name"
-    mfa_devices = NamedTuple{(:mfa_serial, :seed), Tuple{String, String}}[]
+    mfa_devices = NamedTuple{(:mfa_serial, :seed),Tuple{String,String}}[]
     for mfa_device_name in mfa_device_names
         r = IAM.create_virtual_mfadevice(mfa_device_name)
         mfa_device = parse(r)["CreateVirtualMFADeviceResult"]["VirtualMFADevice"]
@@ -151,34 +159,34 @@ function create_or_update_mfa_devices(; user_name, secret_id, num_devices=8)
         # issues.
         # https://aws.amazon.com/blogs/security/how-to-enable-mfa-protection-on-your-aws-api-calls/
         # TODO: Argument ordering here is horrible
-        IAM.enable_mfadevice(totp(seed, offset=-1), totp(seed), mfa_serial, user_name)
+        IAM.enable_mfadevice(totp(seed; offset=-1), totp(seed), mfa_serial, user_name)
 
         push!(mfa_devices, (; mfa_serial, seed))
     end
 
     @info "Storing MFA device details"
-    create_or_update_secret(
-        secret_id,
-        Dict("SecretString" => JSON.json(mfa_devices)),
+    return create_or_update_secret(
+        secret_id, Dict("SecretString" => JSON.json(mfa_devices))
     )
 end
 
 if @__FILE__() == abspath(PROGRAM_FILE)
     stack_name = "AWS-jl-test"
     prefix = "AWS.jl"
-    cfn_params = Dict("GitHubRepo" => prefix)
+    stack_params = Dict("GitHubRepo" => prefix)
     template_body = read("aws_jl_test.yaml", String)
 
     @info "Creating/updating stack: $stack_name"
+    parameters = [
+        Dict("ParameterKey" => k, "ParameterValue" => v) for (k, v) in stack_params
+    ]
     create_or_update_stack(
         stack_name,
         Dict(
             "Capabilities" => ["CAPABILITY_NAMED_IAM"],
             "TemplateBody" => template_body,
-            "Parameters" => [
-                Dict("ParameterKey" => k, "ParameterValue" => v) for (k, v) in cfn_params
-            ],
-        )
+            "Parameters" => parameters,
+        ),
     )
 
     # When the stack is first created we need to wait for the user to be created
@@ -187,7 +195,6 @@ if @__FILE__() == abspath(PROGRAM_FILE)
     wait_for_user_to_exist(mfa_user)
 
     create_or_update_mfa_devices(;
-        user_name=mfa_user,
-        secret_id="$prefix-mfa-user-virtual-mfa-devices",
+        user_name=mfa_user, secret_id="$prefix-mfa-user-virtual-mfa-devices"
     )
 end

@@ -76,7 +76,10 @@ function mfa_device_pool(f, mfa_devices; duration=30, max_windows=3, debug=false
                 # Examples of MFA token failures to retry:
                 # "MultiFactorAuthentication failed with invalid MFA one time pass code."
                 # "MultiFactorAuthentication failed, unable to validate MFA code.  Please verify your MFA serial number is valid and associated with this user."
-                if e isa AWSException && contains(e.message, "MultiFactorAuthentication failed")
+                if (
+                    e isa AWSException &&
+                    contains(e.message, "MultiFactorAuthentication failed")
+                )
                     debug && println("MFA token has been consumed")
                     continue
                 else
@@ -93,6 +96,8 @@ function mfa_device_pool(f, mfa_devices; duration=30, max_windows=3, debug=false
 
     error(
         "Unable to find a working TOTP token after $(length(mfa_devices) * max_windows) " *
-        "attempts over $(duration * (max_windows - 1)) seconds."
+        "attempts over $(duration * (max_windows - 1)) seconds.",
     )
+
+    return nothing
 end
