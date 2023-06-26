@@ -56,18 +56,27 @@ end
 """
 time_step_window(; duration=30, t=time(), t0=0) = div(floor(Int64, t - t0), duration)
 
-function demo(f, mfa_devices; duration=30, window_retries=2)
-    num_window_attempts = 0
-    while num_window_attempts <= window_retries
-        num_window_attempts += 1
+# Utilize all MFA devices associated with a user in order to reduce throttling due to TOTP
+# tokens being consumed.
+function mfa_pool(f, mfa_devices; duration=30, max_windows=3, debug=false)
+    num_windows = 0
+    while num_windows < max_windows
+        num_windows += 1
 
-        for d in mfa_devices
-            token = totp(d["seed"]; duration)
+        # Attempt to authenticate with each MFA device associated with the user until one
+        # succeeds. If an invalid MFA OTP error is found then the OTP has been already
+        # consumed.
+        for d in shuffle(mfa_devices)
+            token = totp(d.seed; duration)
+            debug && println("$(now(UTC))Z - $(d.mfa_serial) - $token")
             try
-                return f(d["mfa_serial"], token)
+                return f(d.mfa_serial, token)
             catch e
-                if e isa AWSException && e.message == "MultiFactorAuthentication failed with invalid MFA one time pass code."
-                    @info "Invalid MFA token"
+                # Examples of MFA token failures to retry:
+                # "MultiFactorAuthentication failed with invalid MFA one time pass code."
+                # "MultiFactorAuthentication failed, unable to validate MFA code.  Please verify your MFA serial number is valid and associated with this user."
+                if e isa AWSException && contains(e.message, "MultiFactorAuthentication failed")
+                    debug && println("MFA token has been consumed")
                     continue
                 else
                     rethrow()
@@ -75,7 +84,14 @@ function demo(f, mfa_devices; duration=30, window_retries=2)
             end
         end
 
-        # Wait until next time step window
+        # Wait until the next time step window as the MFA device's OTP codes have been
+        # consumed for this window.
+        debug && println("All MFA tokens have been consumed. Waiting for next window...")
         sleep(duration - (time() % duration) + 1)
     end
+
+    error(
+        "Unable to find a working TOTP token after $(length(mfa_devices) * max_windows) " *
+        "attempts over $(duration * (max_windows - 1)) seconds."
+    )
 end
