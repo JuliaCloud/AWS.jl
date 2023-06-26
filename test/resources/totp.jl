@@ -1,5 +1,6 @@
-using SHA: hmac_sha1
 using CodecBase: Base32Decoder, Base64Decoder, transcode
+using Dates: UTC, now
+using SHA: hmac_sha1
 
 # As defined in https://datatracker.ietf.org/doc/html/rfc4226#section-5
 # Using fixed number of digits (6)

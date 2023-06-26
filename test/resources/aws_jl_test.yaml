@@ -1,7 +1,4 @@
-# ```
-# aws cloudformation update-stack --stack-name AWS-jl-test --template-body file://aws_jl_test.yaml --capabilities CAPABILITY_NAMED_IAM --region us-east-1
-# ```
-
+# Deploy CloudFormation template via `setup.jl`
 ---
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
@@ -277,7 +274,7 @@ Resources:
   MFAUser:
     Type: AWS::IAM::User
     Properties:
-      UserName: aws-jl-mfa-user
+      UserName: !Sub ${GitHubRepo}-mfa-user
 
   MFAUserAccessKey:
     Type: AWS::IAM::AccessKey
@@ -309,5 +306,5 @@ Resources:
   MFAUserAccessKeySecret:
     Type: AWS::SecretsManager::Secret
     Properties:
-      Name: aws-jl-mfa-user-credentials
+      Name: !Sub ${GitHubRepo}-mfa-user-credentials
       SecretString: !Sub '{"username": "${MFAUser}", "access_key_id": "${MFAUserAccessKey}", "secret_access_key": "${MFAUserAccessKey.SecretAccessKey}"}'

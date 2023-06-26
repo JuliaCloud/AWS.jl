@@ -1,5 +1,3 @@
-using Dates
-
 function get_assumed_role(aws_config::AbstractAWSConfig=global_aws_config())
     r = AWSServices.sts(
         "GetCallerIdentity";
@@ -21,7 +19,7 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
 function mfa_user_credentials(config::AbstractAWSConfig)
     r = AWSServices.secrets_manager(
         "GetSecretValue",
-        Dict("SecretId" => "aws-jl-mfa-user-credentials");
+        Dict("SecretId" => "AWS.jl-mfa-user-credentials");
         aws_config=config,
         feature_set=AWS.FeatureSet(; use_response_type=true),
     )
@@ -31,7 +29,7 @@ function mfa_user_credentials(config::AbstractAWSConfig)
 
     r = AWSServices.secrets_manager(
         "GetSecretValue",
-        Dict("SecretId" => "aws-jl-mfa-user-virtual-mfa-devices");
+        Dict("SecretId" => "AWS.jl-mfa-user-virtual-mfa-devices");
         aws_config=config,
         feature_set=AWS.FeatureSet(; use_response_type=true),
     )
