@@ -223,7 +223,7 @@ Resources:
             Action: secretsmanager:GetSecretValue
             Resource:
               - !Ref MFAUserAccessKeySecret
-              - !Sub arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:aws-jl-mfa-user-virtual-mfa-devices-*
+              - !Sub arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${GitHubRepo}-mfa-user-virtual-mfa-devices-*
 
   # No permissions are required to perform the `sts:GetCallerIdentity` action
   # https://docs.aws.amazon.com/STS/latest/APIReference/API_GetCallerIdentity.html
@@ -268,8 +268,8 @@ Resources:
             Action: sts:AssumeRole
 
   # !!! Important !!!
-  # Be extremely careful to limit the MFAUser to have limited access such that if the
-  # access keys for this user ever leaked there wouldn't be any harm done.
+  # Be extremely careful to limit the access of the MFAUser such that if the
+  # access keys for this user ever leaked there would be no harm done.
 
   MFAUser:
     Type: AWS::IAM::User
