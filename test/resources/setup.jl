@@ -1,4 +1,4 @@
-#!/usr/bin/env julia
+#!/usr/bin/env julia --project
 
 # Using AWS.jl to bootstrap AWS.jl test resources.
 
