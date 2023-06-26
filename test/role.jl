@@ -110,7 +110,7 @@ end
         # User policy should deny "sts:AssumeRole" when MFA is not present.
         @test_throws AWSException assume_role_creds(mfa_user_cfg, role_a)
 
-        creds = mfa_pool(shuffle!(mfa_devices)) do mfa_serial, token
+        creds = mfa_device_pool(mfa_devices) do mfa_serial, token
             assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token)
         end
         @test get_assumed_role(creds) == role_a

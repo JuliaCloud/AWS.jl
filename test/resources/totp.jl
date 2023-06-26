@@ -58,7 +58,7 @@ time_step_window(; duration=30, t=time(), t0=0) = div(floor(Int64, t - t0), dura
 
 # Utilize all MFA devices associated with a user in order to reduce throttling due to TOTP
 # tokens being consumed.
-function mfa_pool(f, mfa_devices; duration=30, max_windows=3, debug=false)
+function mfa_device_pool(f, mfa_devices; duration=30, max_windows=3, debug=false)
     num_windows = 0
     while num_windows < max_windows
         num_windows += 1
