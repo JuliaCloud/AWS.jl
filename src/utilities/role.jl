@@ -1,7 +1,5 @@
 """
-    assume_role(principal, role; kwargs...) -> AWSConfig
-    assume_role(::Type{AWSConfig}, principal, role; kwargs...) -> AWSConfig
-    assume_role(::Type{AWSCredentials}, principal, role; kwargs...) -> AWSCredentials
+    assume_role(principal::AbstractAWSConfig, role; kwargs...) -> AbstractAWSConfig
 
 Assumes the IAM `role` via temporary credentials via the `principal` entity. The `principal`
 entity must be included in the trust policy of the `role`.
@@ -29,19 +27,38 @@ assume "role-b": `assume_role(assume_role(AWSConfig(), "role-a"), "role-b")`).
 - `session_name::AbstractString` (optional): The unique role session name associated with
   this API request.
 """
-function assume_role end
-
-function assume_role(principal, role; kwargs...)
-    return assume_role(typeof(principal), principal, role; kwargs...)
-end
-
-function assume_role(::Type{AWSConfig}, principal::AWSConfig, role; kwargs...)
-    creds = assume_role(AWSCredentials, principal, role; kwargs...)
+function assume_role(principal::AWSConfig, role; kwargs...)
+    creds = assume_role_creds(principal, role; kwargs...)
     return AWSConfig(creds, principal.region, principal.output, principal.max_attempts)
 end
 
-function assume_role(
-    ::Type{AWSCredentials},
+"""
+    assume_role(role; kwargs...) -> Function
+
+Create a function that assumes the IAM `role` via a deferred principal entity, i.e. a
+function equivalent to `principal -> assume_role(principal, role; kwargs...)`. Useful for
+[role chaining](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-role-chaining).
+
+# Examples
+
+Assume "role-a" which in turn assumes "role-b":
+
+```julia
+AWSConfig() |> assume_role("role-a") |> assume_role("role-b")
+```
+"""
+assume_role(role; kwargs...) = principal -> assume_role(principal, role; kwargs...)
+
+"""
+    assume_role_creds(principal, role; kwargs...) -> AWSCredentials
+
+Assumes the IAM `role` via temporary credentials via the `principal` entity and returns
+`AWSCredentials`. Typically, end-users should use [`assume_role`](@ref) instead.
+
+Details on the arguments and keywords for `assume_role_creds` can be found in the docstring
+for [`assume_role`](@ref).
+"""
+function assume_role_creds(
     principal::AbstractAWSConfig,
     role::AbstractString;
     duration::Union{Integer,Nothing}=nothing,
@@ -113,20 +130,3 @@ function assume_role(
         renew,
     )
 end
-
-"""
-    assume_role(role; kwargs...) -> Function
-
-Create a function that assumes the IAM `role` via a deferred principal entity, i.e. a
-function equivalent to `principal -> assume_role(principal, role; kwargs...)`. Useful for
-[role chaining](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-role-chaining).
-
-# Examples
-
-Assume "role-a" which in turn assumes "role-b":
-
-```julia
-AWSConfig() |> assume_role("role-a") |> assume_role("role-b")
-```
-"""
-assume_role(role; kwargs...) = principal -> assume_role(principal, role; kwargs...)

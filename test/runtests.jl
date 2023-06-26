@@ -1,6 +1,5 @@
 using AWS
-using AWS: AWSCredentials
-using AWS: AWSServices
+using AWS: AWSCredentials, AWSServices, assume_role_creds
 using AWS.AWSExceptions: AWSException, InvalidFileName, NoCredentials, ProtocolNotDefined
 using AWS.AWSMetadata:
     ServiceFile,

@@ -16,11 +16,11 @@ end
 
 get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
 
-@testset "assume_role" begin
+@testset "assume_role / assume_role_creds" begin
     # In order to mitigate the effects of using `assume_role` in order to test itself we'll
     # use the lowest-level call with as many defaults as possible.
     base_config = aws
-    creds = assume_role(AWSCredentials, base_config, testset_role("AssumeRoleTestset"))
+    creds = assume_role_creds(base_config, testset_role("AssumeRoleTestset"))
     config = AWSConfig(; creds)
     @test get_assumed_role(config) == testset_role("AssumeRoleTestset")
 
@@ -28,12 +28,12 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
     role_b = testset_role("RoleB")
 
     @testset "basic" begin
-        creds = assume_role(AWSCredentials, config, role_a)
+        creds = assume_role_creds(config, role_a)
         @test creds isa AWSCredentials
         @test creds.token != ""  # Temporary credentials
         @test creds.renew !== nothing
 
-        cfg = assume_role(AWSConfig, config, role_a)
+        cfg = assume_role(config, role_a)
         @test cfg isa AWSConfig
         @test cfg.credentials isa AWSCredentials
         @test cfg.region == config.region
@@ -44,11 +44,11 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
     @testset "role name/ARN" begin
         account_id = aws_account_number(config)
 
-        creds = assume_role(AWSCredentials, config, role_a)
+        creds = assume_role_creds(config, role_a)
         @test contains(creds.user_arn, r":assumed-role/" * (role_a * '/'))
         @test creds.account_number == account_id
 
-        creds = assume_role(AWSCredentials, config, "arn:aws:iam::$account_id:role/$role_a")
+        creds = assume_role_creds(config, "arn:aws:iam::$account_id:role/$role_a")
         @test contains(creds.user_arn, r":assumed-role/" * (role_a * '/'))
         @test creds.account_number == ""
     end
@@ -56,24 +56,24 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
     @testset "duration" begin
         drift = Second(1)
 
-        creds = assume_role(AWSCredentials, config, role_a; duration=nothing)
+        creds = assume_role_creds(config, role_a; duration=nothing)
         t = floor(now(UTC), Second)
         @test t <= creds.expiry <= t + Second(3600) + drift
 
-        creds = assume_role(AWSCredentials, config, role_a; duration=900)
+        creds = assume_role_creds(config, role_a; duration=900)
         t = floor(now(UTC), Second)
         @test t <= creds.expiry <= t + Second(900) + drift
     end
 
     @testset "session_name" begin
         session_prefix = "AWS.jl-" * ENV["USER"]
-        creds = assume_role(AWSCredentials, config, role_a; session_name=nothing)
+        creds = assume_role_creds(config, role_a; session_name=nothing)
         regex = r":assumed-role/" * (role_a * '/' * session_prefix) * r"-\d{8}T\d{6}Z$"
         @test contains(creds.user_arn, regex)
         @test get_assumed_role(creds) == role_a
 
         session_name = "assume-role-session-name-testset-" * randstring(5)
-        creds = assume_role(AWSCredentials, config, role_a; session_name)
+        creds = assume_role_creds(config, role_a; session_name)
         regex = r":assumed-role/" * (role_a * '/' * session_name) * r"$"
         @test contains(creds.user_arn, regex)
         @test get_assumed_role(creds) == role_a
