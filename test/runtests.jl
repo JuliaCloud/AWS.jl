@@ -1,6 +1,5 @@
 using AWS
-using AWS: AWSCredentials
-using AWS: AWSServices
+using AWS: AWSCredentials, AWSServices, assume_role_creds
 using AWS.AWSExceptions: AWSException, InvalidFileName, NoCredentials, ProtocolNotDefined
 using AWS.AWSMetadata:
     ServiceFile,
@@ -50,6 +49,8 @@ function _now_formatted()
     return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
 end
 
+testset_role(role_name) = "AWS.jl-$role_name"
+
 @testset "AWS.jl" begin
     include("AWSExceptions.jl")
     include("AWSMetadataUtilities.jl")
@@ -62,6 +63,7 @@ end
         AWS.DEFAULT_BACKEND[] = backend()
         include("AWS.jl")
         include("AWSCredentials.jl")
+        include("role.jl")
         include("issues.jl")
 
         if TEST_MINIO

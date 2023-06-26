@@ -1,4 +1,7 @@
-# `aws cloudformation create-stack --stack-name AWS-jl-test --template-body file://aws_jl_test.yaml --capabilities CAPABILITY_NAMED_IAM`
+# ```
+# aws cloudformation update-stack --stack-name AWS-jl-test --template-body file://aws_jl_test.yaml --capabilities CAPABILITY_NAMED_IAM --region us-east-1
+# ```
+
 ---
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
@@ -43,6 +46,24 @@ Resources:
                   - !Sub repo:${GitHubOrg}/${GitHubRepo}:pull_request
                   - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/master
                   - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/tags/*
+          # - Effect: Allow
+          #   Principal:
+          #     AWS: !Sub arn:aws:iam::${AWS::AccountId}:root
+          #   Action: sts:AssumeRole
+
+  PublicCIAssumePolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: PublicCIAssumeRoles
+      Roles:
+        - !Ref PublicCIRole
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - sts:AssumeRole
+            Resource: !Sub arn:aws:iam::${AWS::AccountId}:role/*
 
   StackInfoPolicy:
     Type: AWS::IAM::ManagedPolicy
@@ -173,3 +194,72 @@ Resources:
               - sqs:SendMessageBatch
               - sqs:SetQueueAttributes
             Resource: !Sub arn:aws:sqs:*:${AWS::AccountId}:aws-jl-test-*
+
+  ###
+  ### Testset specific roles/policies
+  ###
+
+  AssumeRoleTestsetRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${GitHubRepo}-AssumeRoleTestset
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !GetAtt PublicCIRole.Arn
+            Action: sts:AssumeRole
+
+  AssumeRoleTestsetPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub ${GitHubRepo}-AssumeRoleTestset
+      Roles:
+        - !Ref AssumeRoleTestsetRole
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Resource: !GetAtt RoleA.Arn
+
+  # No permissions are required to perform the `sts:GetCallerIdentity` action
+  # https://docs.aws.amazon.com/STS/latest/APIReference/API_GetCallerIdentity.html
+
+  RoleA:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${GitHubRepo}-RoleA
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !GetAtt AssumeRoleTestsetRole.Arn
+            Action: sts:AssumeRole
+
+  RoleAPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: !Sub ${GitHubRepo}-RoleA
+      Roles:
+        - !Ref RoleA
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Resource: !GetAtt RoleB.Arn
+
+  RoleB:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${GitHubRepo}-RoleB
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !GetAtt RoleA.Arn
+            Action: sts:AssumeRole
