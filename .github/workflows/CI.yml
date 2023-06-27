@@ -42,7 +42,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/AWS.jl
           aws-region: us-east-1
       - name: MinIO server setup
-        if: runner.os != 'Windows'
+        # if: runner.os != 'Windows'
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: minio123
