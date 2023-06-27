@@ -43,12 +43,12 @@ jobs:
           aws-region: us-east-1
       - name: MinIO server setup
         if: runner.os != 'Windows'
+        env:
+          MINIO_ACCESS_KEY: minio
+          MINIO_SECRET_KEY: minio123
+          MINIO_REGION_NAME: aregion
         shell: bash
         run: |
-          echo "MINIO_ACCESS_KEY=minio" | tee -a "$GITHUB_ENV"
-          echo "MINIO_SECRET_KEY=minio123" | tee -a "$GITHUB_ENV"
-          echo "MINIO_REGION_NAME=aregion" | tee -a "$GITHUB_ENV"
-
           case "$RUNNER_OS" in
             Linux)
               host_os="linux-amd64"
@@ -65,6 +65,7 @@ jobs:
           mkdir data
           chmod +x ./minio
           ./minio server --compat --quiet data 2>&1 > minio.log &
+          env | grep ^MINIO_ | tee -a "$GITHUB_ENV"
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}
