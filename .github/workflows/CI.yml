@@ -33,10 +33,6 @@ jobs:
           - os: ubuntu-latest
             version: "1.6"
             arch: x64
-    env:
-      MINIO_ACCESS_KEY: minio
-      MINIO_SECRET_KEY: minio123
-      MINIO_REGION_NAME: aregion
     steps:
       - uses: actions/checkout@v2
       - name: Assume AWS role
@@ -45,6 +41,12 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/AWS.jl
           aws-region: us-east-1
       - name: MinIO server setup
+        if: runner.os != 'Windows'
+        env:
+          MINIO_ACCESS_KEY: minio
+          MINIO_SECRET_KEY: minio123
+          MINIO_REGION_NAME: aregion
+        shell: bash
         run: |
           case "$RUNNER_OS" in
             Linux)
@@ -58,10 +60,11 @@ jobs:
               exit 1
               ;;
           esac
-          curl -LO "https://dl.minio.io/server/minio/release/${host_os}/minio"
+          curl -sSLO "https://dl.minio.io/server/minio/release/${host_os}/minio"
           mkdir data
           chmod +x ./minio
           ./minio server --compat --quiet data 2>&1 > minio.log &
+          env | grep ^MINIO_ | tee -a "$GITHUB_ENV"
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}

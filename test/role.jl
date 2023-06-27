@@ -16,6 +16,12 @@ end
 
 get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
 
+@testset "_whoami" begin
+    user = AWS._whoami()
+    @test user isa AbstractString
+    @test !isempty(user)
+end
+
 @testset "assume_role / assume_role_creds" begin
     # In order to mitigate the effects of using `assume_role` in order to test itself we'll
     # use the lowest-level call with as many defaults as possible.
@@ -54,21 +60,23 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
     end
 
     @testset "duration" begin
-        drift = Second(1)
+        # Have seen up to 3 seconds of drift on CI jobs
+        drift = Second(5)
 
         creds = assume_role_creds(config, role_a; duration=nothing)
         t = floor(now(UTC), Second)
         @test t <= creds.expiry <= t + Second(3600) + drift
 
-        creds = assume_role_creds(config, role_a; duration=900)
+        duration = 900  # Minimum allowed duration
+        creds = assume_role_creds(config, role_a; duration)
         t = floor(now(UTC), Second)
-        @test t <= creds.expiry <= t + Second(900) + drift
+        @test t <= creds.expiry <= t + Second(duration) + drift
     end
 
     @testset "session_name" begin
-        session_prefix = "AWS.jl-" * ENV["USER"]
+        session_prefix = "AWS.jl-"
         creds = assume_role_creds(config, role_a; session_name=nothing)
-        regex = r":assumed-role/" * (role_a * '/' * session_prefix) * r"-\d{8}T\d{6}Z$"
+        regex = r":assumed-role/" * (role_a * '/' * session_prefix) * r".*-\d{8}T\d{6}Z$"
         @test contains(creds.user_arn, regex)
         @test get_assumed_role(creds) == role_a
 
