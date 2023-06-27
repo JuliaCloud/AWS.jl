@@ -16,6 +16,12 @@ end
 
 get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
 
+@testset "_whoami" begin
+    user = AWS._whoami()
+    @test user isa String
+    @test !isempty(user)
+end
+
 @testset "assume_role / assume_role_creds" begin
     # In order to mitigate the effects of using `assume_role` in order to test itself we'll
     # use the lowest-level call with as many defaults as possible.
@@ -68,9 +74,9 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
     end
 
     @testset "session_name" begin
-        session_prefix = "AWS.jl-" * ENV["USER"]
+        session_prefix = "AWS.jl-"
         creds = assume_role_creds(config, role_a; session_name=nothing)
-        regex = r":assumed-role/" * (role_a * '/' * session_prefix) * r"-\d{8}T\d{6}Z$"
+        regex = r":assumed-role/" * (role_a * '/' * session_prefix) * r".*-\d{8}T\d{6}Z$"
         @test contains(creds.user_arn, regex)
         @test get_assumed_role(creds) == role_a
 
