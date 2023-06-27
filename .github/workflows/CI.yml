@@ -34,10 +34,6 @@ jobs:
           - os: ubuntu-latest
             version: "1.6"
             arch: x64
-    env:
-      MINIO_ACCESS_KEY: minio
-      MINIO_SECRET_KEY: minio123
-      MINIO_REGION_NAME: aregion
     steps:
       - uses: actions/checkout@v2
       - name: Assume AWS role
@@ -46,7 +42,13 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/AWS.jl
           aws-region: us-east-1
       - name: MinIO server setup
+        if: runner.os != 'Windows'
+        shell: bash
         run: |
+          echo "MINIO_ACCESS_KEY=minio" | tee -a "$GITHUB_ENV"
+          echo "MINIO_SECRET_KEY=minio123" | tee -a "$GITHUB_ENV"
+          echo "MINIO_REGION_NAME=aregion" | tee -a "$GITHUB_ENV"
+
           case "$RUNNER_OS" in
             Linux)
               host_os="linux-amd64"
