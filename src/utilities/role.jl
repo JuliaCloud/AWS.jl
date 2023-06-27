@@ -132,11 +132,11 @@ end
 """
     _whoami() -> AbstractString
 
-The identity the current user has assumed (i.e. effective user name). May differ from the
+The identity of the current user (i.e. effective user name). May differ from the
 logged in user if the current user has been assumed, perhaps by means of `su`.
 
 Note that the environmental variables `USER` or `USERNAME` are
 [not Bash built-in variables](https://tldp.org/LDP/abs/html/internalvariables.html#AMIROOT)
-and are typically not present in containers.
+and by default are not present in containers.
 """
 _whoami() = readchomp(`id -un`)  # The `whoami` utility is marked as obsolete
