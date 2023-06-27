@@ -8,7 +8,8 @@ using JSON
 
 @service CloudFormation use_response_type = true
 @service IAM use_response_type = true
-@service Secrets_Manager use_response_type = true  # TODO: Support PascalCase
+# TODO: Support PascalCase, https://github.com/JuliaCloud/AWS.jl/issues/642
+@service Secrets_Manager use_response_type = true
 
 global_aws_config(; region="us-east-1")
 
