@@ -130,7 +130,7 @@ function assume_role_creds(
 end
 
 """
-    _whoami() -> String
+    _whoami() -> AbstractString
 
 The identity the current user has assumed (i.e. effective user name). May differ from the
 logged in user if the current user has been assumed, perhaps by means of `su`.

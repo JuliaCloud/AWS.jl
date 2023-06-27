@@ -18,7 +18,7 @@ get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
 
 @testset "_whoami" begin
     user = AWS._whoami()
-    @test user isa String
+    @test user isa AbstractString
     @test !isempty(user)
 end
 
