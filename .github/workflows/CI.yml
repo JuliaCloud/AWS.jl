@@ -26,6 +26,7 @@ jobs:
         os:
           - ubuntu-latest
           - macOS-latest
+          - windows-latest
         arch:
           - x64
         include:
@@ -35,55 +36,14 @@ jobs:
             arch: x64
     steps:
       - uses: actions/checkout@v2
-      - name: Assume AWS role
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/AWS.jl
-          aws-region: us-east-1
-      - name: MinIO server setup
-        if: runner.os != 'Windows'
-        env:
-          MINIO_ACCESS_KEY: minio
-          MINIO_SECRET_KEY: minio123
-          MINIO_REGION_NAME: aregion
-        shell: bash
-        run: |
-          case "$RUNNER_OS" in
-            Linux)
-              host_os="linux-amd64"
-              ;;
-            macOS)
-              host_os="darwin-amd64"
-              ;;
-            *)
-              echo "$RUNNER_OS not supported" >&2
-              exit 1
-              ;;
-          esac
-          curl -sSLO "https://dl.minio.io/server/minio/release/${host_os}/minio"
-          mkdir data
-          chmod +x ./minio
-          ./minio server --compat --quiet data 2>&1 > minio.log &
-          env | grep ^MINIO_ | tee -a "$GITHUB_ENV"
       - uses: julia-actions/setup-julia@v1
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
-      - uses: actions/cache@v1
-        env:
-          cache-name: cache-artifacts
-        with:
-          path: ~/.julia/artifacts
-          key: ${{ runner.os }}-test-${{ env.cache-name }}-${{ hashFiles('**/Project.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-test-${{ env.cache-name }}-
-            ${{ runner.os }}-test-
-            ${{ runner.os }}-
-      - uses: julia-actions/julia-buildpkg@latest
-      - run: |
-          git config --global user.name Tester
-          git config --global user.email te@st.er
-      - uses: julia-actions/julia-runtest@latest
+      - shell: julia --color=yes {0}
+        run: |
+          _whoami() = readchomp(`id -un`)
+          @show _whoami() readchomp(`whoami`)
   docs:
     name: Documentation
     runs-on: ubuntu-latest
