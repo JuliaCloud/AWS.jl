@@ -81,7 +81,7 @@ function assume_role_creds(
     else
         params["RoleSessionName"] = _role_session_name(
             "AWS.jl-",
-            ENV["USER"],
+            _whoami(),
             "-" * Dates.format(now(UTC), dateformat"yyyymmdd\THHMMSS\Z"),
         )
     end
@@ -128,3 +128,15 @@ function assume_role_creds(
         renew,
     )
 end
+
+"""
+    _whoami() -> String
+
+The identity the current user has assumed (i.e. effective user name). May differ from the
+logged in user if the current user has been assumed, perhaps by means of `su`.
+
+Note that the environmental variables `USER` or `USERNAME` are
+[not Bash built-in variables](https://tldp.org/LDP/abs/html/internalvariables.html#AMIROOT)
+and are typically not present in containers.
+"""
+_whoami() = readchomp(`id -un`)  # The `whoami` utility is marked as obsolete
