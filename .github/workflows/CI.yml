@@ -61,7 +61,7 @@ jobs:
               exit 1
               ;;
           esac
-          curl -LO "https://dl.minio.io/server/minio/release/${host_os}/minio"
+          curl -sSLO "https://dl.minio.io/server/minio/release/${host_os}/minio"
           mkdir data
           chmod +x ./minio
           ./minio server --compat --quiet data 2>&1 > minio.log &
