@@ -1,7 +1,4 @@
-# ```
-# aws cloudformation update-stack --stack-name AWS-jl-test --template-body file://aws_jl_test.yaml --capabilities CAPABILITY_NAMED_IAM --region us-east-1
-# ```
-
+# Deploy CloudFormation template via `setup.jl`
 ---
 AWSTemplateFormatVersion: 2010-09-09
 Description: >-
@@ -19,7 +16,6 @@ Parameters:
     Type: String
     AllowedPattern: ^[\w.-]+$
     Default: AWS.jl
-
 
 Resources:
   PublicCIRole:
@@ -223,6 +219,11 @@ Resources:
           - Effect: Allow
             Action: sts:AssumeRole
             Resource: !GetAtt RoleA.Arn
+          - Effect: Allow
+            Action: secretsmanager:GetSecretValue
+            Resource:
+              - !Ref MFAUserAccessKeySecret
+              - !Sub arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${GitHubRepo}-mfa-user-virtual-mfa-devices-*
 
   # No permissions are required to perform the `sts:GetCallerIdentity` action
   # https://docs.aws.amazon.com/STS/latest/APIReference/API_GetCallerIdentity.html
@@ -236,7 +237,9 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS: !GetAtt AssumeRoleTestsetRole.Arn
+              AWS:
+                - !GetAtt AssumeRoleTestsetRole.Arn
+                - !GetAtt MFAUser.Arn
             Action: sts:AssumeRole
 
   RoleAPolicy:
@@ -263,3 +266,45 @@ Resources:
             Principal:
               AWS: !GetAtt RoleA.Arn
             Action: sts:AssumeRole
+
+  # !!! Important !!!
+  # Be extremely careful to limit the access of the MFAUser such that if the
+  # access keys for this user ever leaked there would be no harm done.
+
+  MFAUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Sub ${GitHubRepo}-mfa-user
+
+  MFAUserAccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName: !Ref MFAUser
+
+  MFAUserPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: ManageMFA
+      Users:
+        - !Ref MFAUser
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          # Deny all actions when MFA is not passed in. A more restrictive version of:
+          # https://repost.aws/knowledge-center/mfa-iam-user-aws-cli
+          - Effect: Deny
+            NotAction:
+              - sts:GetCallerIdentity
+            Resource: "*"
+            Condition:
+              BoolIfExists:
+                aws:MultiFactorAuthPresent: false
+          - Effect: Allow
+            Action: sts:AssumeRole
+            Resource: !GetAtt RoleA.Arn
+
+  MFAUserAccessKeySecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub ${GitHubRepo}-mfa-user-credentials
+      SecretString: !Sub '{"username": "${MFAUser}", "access_key_id": "${MFAUserAccessKey}", "secret_access_key": "${MFAUserAccessKey.SecretAccessKey}"}'

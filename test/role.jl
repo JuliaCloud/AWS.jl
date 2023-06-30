@@ -16,6 +16,29 @@ end
 
 get_assumed_role(creds::AWSCredentials) = get_assumed_role(AWSConfig(; creds))
 
+function mfa_user_credentials(config::AbstractAWSConfig)
+    r = AWSServices.secrets_manager(
+        "GetSecretValue",
+        Dict("SecretId" => "AWS.jl-mfa-user-credentials");
+        aws_config=config,
+        feature_set=AWS.FeatureSet(; use_response_type=true),
+    )
+    json = JSON.parse(parse(r)["SecretString"])
+    mfa_user_creds = AWSCredentials(json["access_key_id"], json["secret_access_key"])
+    mfa_user_cfg = AWSConfig(; creds=mfa_user_creds)
+
+    r = AWSServices.secrets_manager(
+        "GetSecretValue",
+        Dict("SecretId" => "AWS.jl-mfa-user-virtual-mfa-devices");
+        aws_config=config,
+        feature_set=AWS.FeatureSet(; use_response_type=true),
+    )
+    json = JSON.parse(parse(r)["SecretString"])
+    mfa_devices = [(; mfa_serial=d["mfa_serial"], seed=d["seed"]) for d in json]
+
+    return mfa_user_cfg, mfa_devices
+end
+
 @testset "_whoami" begin
     user = AWS._whoami()
     @test user isa AbstractString
@@ -84,6 +107,18 @@ end
         creds = assume_role_creds(config, role_a; session_name)
         regex = r":assumed-role/" * (role_a * '/' * session_name) * r"$"
         @test contains(creds.user_arn, regex)
+        @test get_assumed_role(creds) == role_a
+    end
+
+    @testset "mfa_serial / token" begin
+        mfa_user_cfg, mfa_devices = mfa_user_credentials(config)
+
+        # User policy should deny "sts:AssumeRole" when MFA is not present.
+        @test_throws AWSException assume_role_creds(mfa_user_cfg, role_a)
+
+        creds = mfa_device_pool(mfa_devices) do mfa_serial, token
+            assume_role_creds(mfa_user_cfg, role_a; mfa_serial, token)
+        end
         @test get_assumed_role(creds) == role_a
     end
 
