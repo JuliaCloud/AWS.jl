@@ -207,3 +207,6 @@ function legacy_response(
         return (return_headers ? (body, response.headers) : body)
     end
 end
+
+@deprecate ec2_instance_metadata(path::AbstractString) IMDS.get(path)
+@deprecate ec2_instance_region() IMDS.region()

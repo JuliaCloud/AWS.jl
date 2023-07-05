@@ -44,32 +44,6 @@ end
     @test AWS._role_session_name("a"^22, "b"^22, "c"^22) == "a"^22 * "b"^20 * "c"^22
 end
 
-@testset "ec2_instance_metadata" begin
-    @testset "connect timeout" begin
-        apply(Patches._instance_metadata_timeout_patch) do
-            @test AWS.ec2_instance_metadata("/latest/meta-data") === nothing
-        end
-    end
-end
-
-@testset "ec2_instance_region" begin
-    @testset "available" begin
-        patch = @patch function HTTP.request(method::String, url; kwargs...)
-            return HTTP.Response("ap-atlantis-1")  # Made up region
-        end
-
-        apply(patch) do
-            @test AWS.ec2_instance_region() == "ap-atlantis-1"
-        end
-    end
-
-    @testset "unavailable" begin
-        apply(Patches._instance_metadata_timeout_patch) do
-            @test AWS.ec2_instance_region() === nothing
-        end
-    end
-end
-
 @testset "aws_get_profile_settings" begin
     @testset "no profile" begin
         @test aws_get_profile_settings("foo", Inifile()) === nothing

@@ -18,7 +18,7 @@ using XMLDict
 export @service
 export _merge
 export AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
-export ec2_instance_metadata, ec2_instance_region
+export IMDS
 export assume_role, generate_service_url, global_aws_config, set_user_agent
 export sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService, set_features
@@ -31,6 +31,7 @@ include("AWSExceptions.jl")
 include("AWSCredentials.jl")
 include("AWSConfig.jl")
 include("AWSMetadata.jl")
+include("IMDS.jl")
 
 include(joinpath("utilities", "request.jl"))
 include(joinpath("utilities", "response.jl"))
