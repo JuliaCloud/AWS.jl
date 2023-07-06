@@ -241,14 +241,16 @@ end
         end
 
         # Running on a webserver which doesn't understand our requests and returns HTTP 404.
-        # This exact scenario occurs in GHA CI.
+        # This exact scenario occurs in GHA CI and can be reproduced locally with the
+        # `aws-vault exec --ec2-server` which provides a very limited implementation of
+        # IMDSv1.
         router = Router([
             response_route("PUT", "/**", HTTP.Response(404)),
             response_route("GET", "/**", HTTP.Response(404)),
         ])
         apply(_imds_patch(router)) do
             session = IMDS.Session()
-            @test IMDS.region(session) === nothing
+            @test_throws HTTP.Exceptions.StatusError IMDS.region(session)
         end
 
         # Requested metadata available via IMDSv1

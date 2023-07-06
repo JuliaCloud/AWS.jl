@@ -144,15 +144,7 @@ end
 Determine the AWS region of the machine executing this code if running inside of an EC2
 instance, otherwise `nothing` is returned.
 """
-function region(session::Session)
-    # TODO: The try/catch is used to work around testing scenarios which require IMDS to not
-    # be present.
-    return try
-        get(session, "/latest/meta-data/placement/region")
-    catch
-        nothing
-    end
-end
+region(session::Session) = get(session, "/latest/meta-data/placement/region")
 
 const _SESSION = Ref{Session}()
 

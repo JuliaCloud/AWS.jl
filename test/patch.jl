@@ -229,4 +229,9 @@ function sso_service_patches(access_key_id, secret_access_key)
 
     return [p, _sso_access_token_patch]
 end
+
+function _imds_region_patch(region)
+    return @patch IMDS.region() = region
+end
+
 end
