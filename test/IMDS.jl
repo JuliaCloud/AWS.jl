@@ -1,62 +1,77 @@
-using HTTP.Messages: field_name_isequal
-using HTTP.Pairs: getbyfirst
-
-function get_header(h::Vector{<:Pair}, k, d="")
-    return getbyfirst(h, k, k => d, field_name_isequal)[2]
+struct Route
+    method::String
+    path::String
+    handler
 end
 
-function _imds_patch(; available=true, token=nothing, status=nothing, region=nothing, instance_id=nothing)
-    patch = @patch function HTTP.request(method, uri::HTTP.URI, headers=[], body=""; kwargs...)
-        if !available && uri.host == "169.254.169.254"
+function register!(router::HTTP.Router, route::Route)
+    return HTTP.register!(router, route.method, route.path, route.handler)
+end
+
+function Router(routes)
+    router = HTTP.Router()
+    for route in routes
+        register!(router, route)
+    end
+    return router
+end
+
+function token_route(token)
+    handler = function (req::HTTP.Request)
+        ttl_secs = HTTP.header(req, "X-aws-ec2-metadata-token-ttl-seconds", nothing)
+        if !isnothing(ttl_secs)
+            HTTP.Response(200, token)
+        else
+            HTTP.Response(400)
+        end
+    end
+
+    return Route("PUT", "/latest/api/token", handler)
+end
+
+function secure_route(route::Route, token)
+    wrapper = function (req::HTTP.Request)
+        if HTTP.header(req, "X-aws-ec2-metadata-token", nothing) == token
+            route.handler(req)
+        else
+            HTTP.Response(403)
+        end
+    end
+
+    return Route(route.method, route.path, wrapper)
+end
+
+function response_route(method, path, response::HTTP.Response)
+    handler = function (req::HTTP.Request)
+        return HTTP.Response(
+            response.version,
+            response.status,
+            response.headers,
+            response.body,
+            req
+        )
+    end
+    return Route(method, path, handler)
+end
+
+function _imds_patch(router::HTTP.Router=HTTP.Router(); available=true)
+    patch = @patch function HTTP.request(method, url, headers=[], body=HTTP.nobody; status_exception=true, kwargs...)
+        uri = HTTP.URI(url)
+        if available && uri.host == "169.254.169.254"
+            request = HTTP.Request(method, uri.path, headers, body)
+            response = router(request)
+            if status_exception && response.status >= 300
+                throw(HTTP.Exceptions.StatusError(response.status, request.method, request.target, response))
+            end
+            return response
+        elseif !available && uri.host == "169.254.169.254"
             connect_timeout = HTTP.ConnectionPool.ConnectTimeout(uri.host, uri.port)
             throw(HTTP.ConnectError(string(uri), connect_timeout))
-        elseif !available
-            error("Internal error: patch misconfigured")
-        end
-
-        header_token = get_header(headers, "X-aws-ec2-metadata-token", nothing)
-        if token !== nothing
-            ttl = get_header(headers, "X-aws-ec2-metadata-token-ttl-seconds", nothing)
-            # @show token ttl
-            if method == "PUT" && uri.path == "/latest/api/token" && ttl !== nothing
-                return HTTP.Response(token)
-            elseif token != header_token
-                # TODO: Assuming response for IMDSv2 only setup
-                return HTTP.Response(401)
-            end
-        elseif header_token !== nothing
-            error("Internal error: Unexpected use of token header: $header_token")
-        end
-
-        if status !== nothing
-            request = HTTP.Request(method, uri.path, headers, body)
-            return HTTP.Response(status; request)
-        elseif region !== nothing && method == "GET" && uri.path == "/latest/meta-data/placement/region"
-            return HTTP.Response(region)
-        elseif instance_id !== nothing && method == "GET" && uri.path == "/latest/meta-data/instance-id"
-            return HTTP.Response(instance_id)
         else
-            return HTTP.Response(404)
+            error("Internal error: Unexpected HTTP call to non-IMDS service: $url")
         end
     end
 end
-
-# function _imds_v1_patch(; available=false, region=nothing)
-
-
-#     patch = @patch function HTTP.request(method, uri::URI, args...; kwargs...)
-#         if !available && uri.host == "169.254.169.254"
-#             connect_timeout = HTTP.ConnectionPool.ConnectTimeout(uri.host, uri.port)
-#             throw(HTTP.ConnectError(string(uri), connect_timeout))
-#         elseif region !== nothing && method == "GET" && uri.path == "/latest/meta-data/placement/region"
-#             HTTP.Response("ap-atlantis-1")  # Made up region
-#         elseif available
-#             HTTP.Response(404)
-#         else
-#             error("Internal error: patch misconfigured")
-#         end
-#     end
-# end
 
 @testset "IMDS" begin
     @testset "refresh_token!" begin
@@ -71,13 +86,15 @@ end
         end
 
         # HTTP server is available but non-functional
-        apply(_imds_patch(; available=true, status=500)) do
+        router = Router([response_route("PUT", "/latest/api/token", HTTP.Response(500))])
+        apply(_imds_patch(router; available=true)) do
             session = IMDS.Session()
             @test_throws HTTP.Exceptions.StatusError IMDS.refresh_token!(session)
         end
 
         # IMDSv1 is available
-        apply(_imds_patch(; available=true)) do
+        router = Router([response_route("PUT", "/latest/api/token", HTTP.Response(404))])
+        apply(_imds_patch(router; available=true)) do
             session = IMDS.Session()
             @test IMDS.refresh_token!(session) === session
             @test isempty(session.token)
@@ -86,17 +103,20 @@ end
         end
 
         # IMDSv2 is available
-        apply(_imds_patch(; available=true, token="foo")) do
+        token = "foo"
+        router = Router([token_route(token)])
+        apply(_imds_patch(router; available=true)) do
             session = IMDS.Session(; duration=60)
             t = floor(Int64, time())
             @test IMDS.refresh_token!(session) === session
-            @test session.token == "foo"
+            @test session.token == token
             @test session.duration == 60
             @test 0 <= session.expiration - (t + session.duration) <= 5
         end
     end
 
     @testset "request" begin
+        instance_id = "123"
         path = "/latest/meta-data/instance-id"
 
         # IMDS is unavailable
@@ -106,31 +126,39 @@ end
         end
 
         # Requested metadata is missing
-        apply(_imds_patch(; available=true, token="token")) do
+        router = Router([response_route("GET", path, HTTP.Response(500))])
+        apply(_imds_patch(router; available=true)) do
             session = IMDS.Session()
-            @show IMDS.request(session, "GET", path)
             @test_throws HTTP.Exceptions.StatusError IMDS.request(session, "GET", path)
         end
 
         # Requested metadata available via IMDSv1
-        apply(_imds_patch(; available=true, instance_id="123")) do
+        router = Router([response_route("GET", path, HTTP.Response(instance_id))])
+        apply(_imds_patch(router; available=true)) do
             session = IMDS.Session()
             r = IMDS.request(session, "GET", path)
             @test r isa HTTP.Response
             @test r.status == 200
-            @test String(r.body) == "123"
+            @test String(r.body) == instance_id
+            @test isempty(session.token)
         end
 
         # Requested metadata available via IMDSv2
-        apply(_imds_patch(; available=true, token="token", instance_id="123")) do
+        token = "token"
+        router = Router([
+            token_route(token),
+            response_route("GET", path, HTTP.Response(instance_id)),
+        ])
+        apply(_imds_patch(router; available=true)) do
             session = IMDS.Session()
             r = IMDS.request(session, "GET", path)
             @test r isa HTTP.Response
             @test r.status == 200
-            @test String(r.body) == "123"
+            @test String(r.body) == instance_id
+            @test session.token == token
         end
     end
-#=
+
     @testset "get" begin
         @testset "connect timeout" begin
             apply(_imds_patch(; available=false)) do
@@ -141,7 +169,10 @@ end
 
     @testset "region" begin
         @testset "available" begin
-            apply(_imds_patch(; region="ap-atlantis-1")) do
+            region = "ap-atlantis-1"  # Made up region
+            path = "/latest/meta-data/placement/region"
+            router = Router([response_route("GET", path, HTTP.Response(region))])
+            apply(_imds_patch(router)) do
                 @test IMDS.region() == "ap-atlantis-1"
             end
         end
@@ -152,5 +183,4 @@ end
             end
         end
     end
-=#
 end
