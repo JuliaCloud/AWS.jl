@@ -240,6 +240,17 @@ end
             @test IMDS.region(session) === nothing
         end
 
+        # Running on a webserver which doesn't understand our requests and returns HTTP 404.
+        # This exact scenario occurs in GHA CI.
+        router = Router([
+            response_route("PUT", "/**", HTTP.Response(404)),
+            response_route("GET", "/**", HTTP.Response(404)),
+        ])
+        apply(_imds_patch(router)) do
+            session = IMDS.Session()
+            @test IMDS.region(session) === nothing
+        end
+
         # Requested metadata available via IMDSv1
         router = Router([response_route("GET", path, HTTP.Response(region))])
         apply(_imds_patch(router)) do

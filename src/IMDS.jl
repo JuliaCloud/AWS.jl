@@ -60,7 +60,9 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
         session.duration = 0
         session.expiration = typemax(Int64)  # Use IMDSv1 indefinitely
     else
-        throw(StatusError(r.status, r.request.method, r.request.target, r))
+        # Could also populate the `StatusError` via `r.request.method` and
+        # `r.request.target` however `r.request` may not be populated under test scenarios.
+        throw(StatusError(r.status, "PUT", uri.path, r))
     end
 
     return session
@@ -142,7 +144,15 @@ end
 Determine the AWS region of the machine executing this code if running inside of an EC2
 instance, otherwise `nothing` is returned.
 """
-region(session::Session) = get(session, "/latest/meta-data/placement/region")
+function region(session::Session)
+    # TODO: The try/catch is used to work around testing scenarios which require IMDS to not
+    # be present.
+    return try
+        get(session, "/latest/meta-data/placement/region")
+    catch
+        nothing
+    end
+end
 
 const _SESSION = Ref{Session}()
 
