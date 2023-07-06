@@ -16,16 +16,28 @@ using HTTP: HTTP
 using Mocking
 
 const IPv4_ADDRESS = "169.254.169.254"
+const DEFAULT_DURATION = 600  # 5 minutes, in seconds
 
 mutable struct Session
-    duration::Int
     token::String
+    duration::Int16
     expiration::Int64
 end
 
-Session(; duration=21600) = Session(duration, "", 0)
+"""
+    Session(; duration=$DEFAULT_DURATION)
 
-token_expired(session::Session) = time() - session.expiration > 0
+An IMDS `Session` which retains the IMDSv2 token over multiple requests. When IMDSv2 is
+unavailable the session switches to IMDSv1 mode and avoids future requests for IMDSv2
+tokens.
+
+# Keywords
+- `duration` (optional): Requested session duration, in seconds, for the IMDSv2 token. Can
+  be a minimum of one second and a maximum of six hours (21600).
+"""
+Session(; duration=DEFAULT_DURATION) = Session("", duration, 0)
+
+token_expired(session::Session; drift=10) = time() - session.expiration - drift > 0
 
 function refresh_token!(session::Session, duration::Integer=session.duration)
     t = floor(Int64, time())
@@ -38,7 +50,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
     r = _http_request("PUT", uri, headers; status_exception=false)
 
     # Store the session token when we receive an HTTP 200. If we receive an HTTP 404 assume
-    # that the server is only supports IMDSv1. Otherwise throw the `StatusError`.
+    # that the server is only supports IMDSv1. Otherwise "rethrow" the `StatusError`.
     if r.status == 200
         session.token = String(r.body)
         session.duration = duration
