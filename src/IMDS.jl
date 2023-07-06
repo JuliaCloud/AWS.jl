@@ -143,6 +143,9 @@ end
 
 Determine the AWS region of the machine executing this code if running inside of an EC2
 instance, otherwise `nothing` is returned.
+
+# Arguments
+- `session` (optional): The IMDS `Session` used to store the IMDSv2 token.
 """
 region(session::Session) = get(session, "/latest/meta-data/placement/region")
 
