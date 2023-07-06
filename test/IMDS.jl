@@ -87,7 +87,7 @@ end
         apply(_imds_patch(; listening=false)) do
             session = IMDS.Session()
             @test isempty(session.token)
-            @test session.duration == 21600
+            @test session.duration == IMDS.DEFAULT_DURATION
             @test IMDS.token_expired(session)
 
             @test_throws IMDSUnavailable IMDS.refresh_token!(session)
@@ -218,13 +218,15 @@ end
 
         # Running outside of an EC2 instancee
         apply(_imds_patch(; listening=false)) do
-            @test IMDS.get(path) === nothing
+            session = IMDS.Session()
+            @test IMDS.get(session, path) === nothing
         end
 
         # Requested metadata available via IMDSv1
         router = Router([response_route("GET", path, HTTP.Response(instance_id))])
         apply(_imds_patch(router)) do
-            @test IMDS.get(path) == instance_id
+            session = IMDS.Session()
+            @test IMDS.get(session, path) == instance_id
         end
     end
 
@@ -234,13 +236,15 @@ end
 
         # Running outside of an EC2 instance
         apply(_imds_patch(; listening=false)) do
-            @test IMDS.region() === nothing
+            session = IMDS.Session()
+            @test IMDS.region(session) === nothing
         end
 
         # Requested metadata available via IMDSv1
         router = Router([response_route("GET", path, HTTP.Response(region))])
         apply(_imds_patch(router)) do
-            @test IMDS.region() == region
+            session = IMDS.Session()
+            @test IMDS.region(session) == region
         end
     end
 end
