@@ -37,12 +37,14 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
     uri = HTTP.URI(; scheme="http", host=IPv4_ADDRESS, path="/latest/api/token")
     r = _http_request("PUT", uri, headers; status_exception=false)
 
+    # @show r
+
     # Store the session token when we receive an HTTP 200. If we receive an HTTP 404 assume
     # that the server is only supports IMDSv1. Otherwise throw the `StatusError`.
     if r.status == 200
         session.token = String(r.body)
         session.duration = duration
-        session.expiration = t + duration - 10
+        session.expiration = t + duration
     elseif r.status == 404
         session.duration = 0
         session.expiration = typemax(Int64)  # Use IMDSv1 indefinitly

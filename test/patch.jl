@@ -147,15 +147,6 @@ _github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
     end
 end
 
-_instance_metadata_timeout_patch = @patch function HTTP.request(args...; kwargs...)
-    return throw(
-        HTTP.ConnectError(
-            "http://169.254.169.254/latest/meta-data/iam/info",
-            HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"),
-        ),
-    )
-end
-
 # This patch causes `HTTP.request` to return all of its keyword arguments
 # except `require_ssl_verification` and `response_stream`. This is used to
 # test which other options are being passed to `HTTP.Request` inside of
