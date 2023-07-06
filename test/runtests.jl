@@ -64,6 +64,7 @@ testset_role(role_name) = "AWS.jl-$role_name"
     @testset "Backend: $(nameof(backend))" for backend in backends
         AWS.DEFAULT_BACKEND[] = backend()
         include("AWS.jl")
+        include("IMDS.jl")
         include("AWSCredentials.jl")
         include("role.jl")
         include("issues.jl")
