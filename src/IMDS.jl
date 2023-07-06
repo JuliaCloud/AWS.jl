@@ -37,8 +37,6 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
     uri = HTTP.URI(; scheme="http", host=IPv4_ADDRESS, path="/latest/api/token")
     r = _http_request("PUT", uri, headers; status_exception=false)
 
-    # @show r
-
     # Store the session token when we receive an HTTP 200. If we receive an HTTP 404 assume
     # that the server is only supports IMDSv1. Otherwise throw the `StatusError`.
     if r.status == 200
@@ -47,7 +45,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
         session.expiration = t + duration
     elseif r.status == 404
         session.duration = 0
-        session.expiration = typemax(Int64)  # Use IMDSv1 indefinitly
+        session.expiration = typemax(Int64)  # Use IMDSv1 indefinitely
     else
         throw(HTTP.Exceptions.StatusError(r.status, r.request.method, r.request.target, r))
     end
@@ -75,11 +73,14 @@ function _http_request(args...; status_exception=true, kwargs...)
         # Always throw status exceptions so we can determine if the IMDS service is available
         @mock HTTP.request(args...; connect_timeout=1, retry=false, kwargs..., status_exception=true)
     catch e
-        # TODO: Verify that when running on EC2 instances where IMDS is turned off that a 403 is returned
+        # When running outside of an EC2 instance the link-local address will be unavailable
+        # and connections will fail. On EC2 instances where IMDS is disabled a HTTP 403 is
+        # returned.
         # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#instance-metadata-returns
         if e isa HTTP.Exceptions.ConnectError || e isa HTTP.Exceptions.StatusError && e.status == 403
             throw(IMDSUnavailable())
-        # Return the status exception when `status_exception=false`
+        # Return the status exception when `status_exception=false`. We must always cause
+        # `HTTP.request` to throw status errors for our `IMDSUnavailable` check.
         elseif !status_exception && e isa HTTP.Exceptions.StatusError
             e.response
         else
@@ -94,8 +95,9 @@ end
     get([session::Session], path::AbstractString) -> Union{String, Nothing}
 
 Retrieve the AWS instance metadata from the provided HTTP `path`. If no instance metadata is
-available (typically due to being executed outside of an EC2 instance) then `nothing` will
-be returned. For details on available metadata see the official AWS documentation on:
+available (due to the instance metadata service being disabled or not being run from within
+an EC2 instance) then `nothing` will be returned. For details on available metadata see the
+official AWS documentation on:
 ["Instance metadata and user data"](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html).
 
 # Arguments
@@ -122,13 +124,7 @@ end
 Determine the AWS region of the machine executing this code if running inside of an EC2
 instance, otherwise `nothing` is returned.
 """
-function region(session::Session)
-    # return try
-        get(session, "/latest/meta-data/placement/region")
-    # catch
-    #     nothing
-    # end
-end
+region(session::Session) = get(session, "/latest/meta-data/placement/region")
 
 const _SESSION = Ref{Session}()
 

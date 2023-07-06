@@ -54,29 +54,34 @@ function response_route(method, path, response::HTTP.Response)
     return Route(method, path, handler)
 end
 
-function _imds_patch(router::HTTP.Router=HTTP.Router(); available=true)
+function _imds_patch(router::HTTP.Router=HTTP.Router(); listening=true, enabled=true)
     patch = @patch function HTTP.request(method, url, headers=[], body=HTTP.nobody; status_exception=true, kwargs...)
         uri = HTTP.URI(url)
-        if available && uri.host == "169.254.169.254"
-            request = HTTP.Request(method, uri.path, headers, body)
-            response = router(request)
-            if status_exception && response.status >= 300
-                throw(HTTP.Exceptions.StatusError(response.status, request.method, request.target, response))
-            end
-            return response
-        elseif !available && uri.host == "169.254.169.254"
-            connect_timeout = HTTP.ConnectionPool.ConnectTimeout(uri.host, uri.port)
-            throw(HTTP.ConnectError(string(uri), connect_timeout))
-        else
+        if uri.host != "169.254.169.254"
             error("Internal error: Unexpected HTTP call to non-IMDS service: $url")
         end
+
+        request = HTTP.Request(method, uri.path, headers, body)
+        response = if listening && enabled
+            router(request)
+        elseif listening && !enabled
+            HTTP.Response(403)
+        else
+            connect_timeout = HTTP.ConnectionPool.ConnectTimeout(uri.host, uri.port)
+            throw(HTTP.ConnectError(string(uri), connect_timeout))
+        end
+
+        if status_exception && response.status >= 300
+            throw(HTTP.Exceptions.StatusError(response.status, request.method, request.target, response))
+        end
+        return response
     end
 end
 
 @testset "IMDS" begin
     @testset "refresh_token!" begin
-        # IMDS is unavailable
-        apply(_imds_patch(; available=false)) do
+        # Running outside of an EC2 instance
+        apply(_imds_patch(; listening=false)) do
             session = IMDS.Session()
             @test isempty(session.token)
             @test session.duration == 21600
@@ -85,16 +90,22 @@ end
             @test_throws IMDSUnavailable IMDS.refresh_token!(session)
         end
 
-        # HTTP server is available but non-functional
+        # Running on an EC2 instance where IMDS is disabled
+        apply(_imds_patch(; enabled=false)) do
+            session = IMDS.Session()
+            @test_throws IMDSUnavailable IMDS.refresh_token!(session)
+        end
+
+        # IMDS is non-functional
         router = Router([response_route("PUT", "/latest/api/token", HTTP.Response(500))])
-        apply(_imds_patch(router; available=true)) do
+        apply(_imds_patch(router)) do
             session = IMDS.Session()
             @test_throws HTTP.Exceptions.StatusError IMDS.refresh_token!(session)
         end
 
         # IMDSv1 is available
         router = Router([response_route("PUT", "/latest/api/token", HTTP.Response(404))])
-        apply(_imds_patch(router; available=true)) do
+        apply(_imds_patch(router)) do
             session = IMDS.Session()
             @test IMDS.refresh_token!(session) === session
             @test isempty(session.token)
@@ -105,7 +116,7 @@ end
         # IMDSv2 is available
         token = "foo"
         router = Router([token_route(token)])
-        apply(_imds_patch(router; available=true)) do
+        apply(_imds_patch(router)) do
             session = IMDS.Session(; duration=60)
             t = floor(Int64, time())
             @test IMDS.refresh_token!(session) === session
@@ -119,22 +130,28 @@ end
         instance_id = "123"
         path = "/latest/meta-data/instance-id"
 
-        # IMDS is unavailable
-        apply(_imds_patch(; available=false)) do
+        # Running outside of an EC2 instance
+        apply(_imds_patch(; listening=false)) do
+            session = IMDS.Session()
+            @test_throws IMDSUnavailable IMDS.request(session, "GET", path)
+        end
+
+        # Running on an EC2 instance where IMDS is disabled
+        apply(_imds_patch(; enabled=false)) do
             session = IMDS.Session()
             @test_throws IMDSUnavailable IMDS.request(session, "GET", path)
         end
 
         # Requested metadata is missing
         router = Router([response_route("GET", path, HTTP.Response(500))])
-        apply(_imds_patch(router; available=true)) do
+        apply(_imds_patch(router)) do
             session = IMDS.Session()
             @test_throws HTTP.Exceptions.StatusError IMDS.request(session, "GET", path)
         end
 
         # Requested metadata available via IMDSv1
         router = Router([response_route("GET", path, HTTP.Response(instance_id))])
-        apply(_imds_patch(router; available=true)) do
+        apply(_imds_patch(router)) do
             session = IMDS.Session()
             r = IMDS.request(session, "GET", path)
             @test r isa HTTP.Response
@@ -149,7 +166,7 @@ end
             token_route(token),
             secure_route(response_route("GET", path, HTTP.Response(instance_id)), token),
         ])
-        apply(_imds_patch(router; available=true)) do
+        apply(_imds_patch(router)) do
             session = IMDS.Session()
             r = IMDS.request(session, "GET", path)
             @test r isa HTTP.Response
@@ -163,7 +180,7 @@ end
             token_route("good"),
             secure_route(response_route("GET", path, HTTP.Response(instance_id)), "bad"),
         ])
-        apply(_imds_patch(router; available=true)) do
+        apply(_imds_patch(router)) do
             session = IMDS.Session()
             r = IMDS.request(session, "GET", path; status_exception=false)
             @test r isa HTTP.Response
@@ -175,14 +192,14 @@ end
         instance_id = "123"
         path = "/latest/meta-data/instance-id"
 
-        # IMDS is unavailable
-        apply(_imds_patch(; available=false)) do
+        # Running outside of an EC2 instancee
+        apply(_imds_patch(; listening=false)) do
             @test IMDS.get(path) === nothing
         end
 
         # Requested metadata available via IMDSv1
         router = Router([response_route("GET", path, HTTP.Response(instance_id))])
-        apply(_imds_patch(router; available=true)) do
+        apply(_imds_patch(router)) do
             @test IMDS.get(path) == instance_id
         end
     end
@@ -191,8 +208,8 @@ end
         region = "ap-atlantis-1"  # Made up region
         path = "/latest/meta-data/placement/region"
 
-        # IMDS is unavailable
-        apply(_imds_patch(; available=false)) do
+        # Running outside of an EC2 instance
+        apply(_imds_patch(; listening=false)) do
             @test IMDS.region() === nothing
         end
 
