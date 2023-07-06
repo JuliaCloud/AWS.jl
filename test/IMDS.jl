@@ -54,6 +54,8 @@ function response_route(method, path, response::HTTP.Response)
     return Route(method, path, handler)
 end
 
+# Use Mocking to re-route requests to 169.254.169.254 without having to actually start an
+# HTTP.jl server. Should result in faster running tests.
 function _imds_patch(router::HTTP.Router=HTTP.Router(); listening=true, enabled=true)
     patch = @patch function HTTP.request(method, url, headers=[], body=HTTP.nobody; status_exception=true, kwargs...)
         uri = HTTP.URI(url)
