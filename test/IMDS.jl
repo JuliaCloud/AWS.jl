@@ -22,7 +22,7 @@ function token_route(token)
         if !isnothing(ttl_secs)
             HTTP.Response(200, token)
         else
-            HTTP.Response(400)
+            HTTP.Response(400)  # Behavior when required header is missing
         end
     end
 
@@ -34,7 +34,7 @@ function secure_route(route::Route, token)
         if HTTP.header(req, "X-aws-ec2-metadata-token", nothing) == token
             route.handler(req)
         else
-            HTTP.Response(403)
+            HTTP.Response(401)  # Behavior when IMDSv2 is required
         end
     end
 
@@ -147,7 +147,7 @@ end
         token = "token"
         router = Router([
             token_route(token),
-            response_route("GET", path, HTTP.Response(instance_id)),
+            secure_route(response_route("GET", path, HTTP.Response(instance_id)), token),
         ])
         apply(_imds_patch(router; available=true)) do
             session = IMDS.Session()
@@ -157,30 +157,49 @@ end
             @test String(r.body) == instance_id
             @test session.token == token
         end
+
+        # Invalid token used with IMDSv2
+        router = Router([
+            token_route("good"),
+            secure_route(response_route("GET", path, HTTP.Response(instance_id)), "bad"),
+        ])
+        apply(_imds_patch(router; available=true)) do
+            session = IMDS.Session()
+            r = IMDS.request(session, "GET", path; status_exception=false)
+            @test r isa HTTP.Response
+            @test r.status == 401
+        end
     end
 
     @testset "get" begin
-        @testset "connect timeout" begin
-            apply(_imds_patch(; available=false)) do
-                @test IMDS.get("/latest/meta-data") === nothing
-            end
+        instance_id = "123"
+        path = "/latest/meta-data/instance-id"
+
+        # IMDS is unavailable
+        apply(_imds_patch(; available=false)) do
+            @test IMDS.get(path) === nothing
+        end
+
+        # Requested metadata available via IMDSv1
+        router = Router([response_route("GET", path, HTTP.Response(instance_id))])
+        apply(_imds_patch(router; available=true)) do
+            @test IMDS.get(path) == instance_id
         end
     end
 
     @testset "region" begin
-        @testset "available" begin
-            region = "ap-atlantis-1"  # Made up region
-            path = "/latest/meta-data/placement/region"
-            router = Router([response_route("GET", path, HTTP.Response(region))])
-            apply(_imds_patch(router)) do
-                @test IMDS.region() == "ap-atlantis-1"
-            end
+        region = "ap-atlantis-1"  # Made up region
+        path = "/latest/meta-data/placement/region"
+
+        # IMDS is unavailable
+        apply(_imds_patch(; available=false)) do
+            @test IMDS.region() === nothing
         end
 
-        @testset "unavailable" begin
-            apply(_imds_patch(; available=false)) do
-                @test IMDS.region() === nothing
-            end
+        # Requested metadata available via IMDSv1
+        router = Router([response_route("GET", path, HTTP.Response(region))])
+        apply(_imds_patch(router)) do
+            @test IMDS.region() == region
         end
     end
 end
