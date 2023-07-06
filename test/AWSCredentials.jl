@@ -917,7 +917,7 @@ end
             session_token=session_token,
             role_arn=role_arn,
         )
-        ec2_metadata_patch = @patch function HTTP.request(method::String, url; kwargs...)
+        ec2_metadata_patch = @patch function HTTP.request(method, url, args...; kwargs...)
             url = string(url)
             security_credentials = test_values["Security-Credentials"]
 
@@ -1325,7 +1325,7 @@ end
 
         @testset "instance profile" begin
             withenv("AWS_DEFAULT_REGION" => nothing, "AWS_CONFIG_FILE" => tempname()) do
-                patch = @patch function HTTP.request(method::String, url; kwargs...)
+                patch = @patch function HTTP.request(method, url, args...; kwargs...)
                     return HTTP.Response("ap-atlantis-1")  # Made up region
                 end
 
