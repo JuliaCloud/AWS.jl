@@ -188,6 +188,27 @@ end
             @test r isa HTTP.Response
             @test r.status == 401
         end
+
+        # Unlikely scenario where the instance metadata services has switched over from
+        # IMDSv2 being optional to required while a long running Julia service on that
+        # instance has session which is set to use IMDSv1 indefinitely.
+        # TODO: We may want to have the code automatically attempt a token refresh when this
+        # occurs but I doubt this scenario will occur in scenario will occur in reality as
+        # instances cannot be configured to use IMDSv1 only.
+        token = "token"
+        router = Router([
+            token_route(token),
+            secure_route(response_route("GET", path, HTTP.Response(instance_id)), token),
+        ])
+        apply(_imds_patch(router)) do
+            # Emulate a pre-existing session where IMDSv2 was not available.
+            session = IMDS.Session("", 60, typemax(Int64))
+
+            # Request attempts to use IMDSv1 but now only IMDSv2 is enabled
+            r = IMDS.request(session, "GET", path; status_exception=false)
+            @test r isa HTTP.Response
+            @test r.status == 401
+        end
     end
 
     @testset "get" begin
