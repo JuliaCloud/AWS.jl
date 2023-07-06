@@ -44,11 +44,7 @@ end
 function response_route(method, path, response::HTTP.Response)
     handler = function (req::HTTP.Request)
         return HTTP.Response(
-            response.version,
-            response.status,
-            response.headers,
-            response.body,
-            req
+            response.version, response.status, response.headers, response.body, req
         )
     end
     return Route(method, path, handler)
@@ -57,7 +53,9 @@ end
 # Use Mocking to re-route requests to 169.254.169.254 without having to actually start an
 # HTTP.jl server. Should result in faster running tests.
 function _imds_patch(router::HTTP.Router=HTTP.Router(); listening=true, enabled=true)
-    patch = @patch function HTTP.request(method, url, headers=[], body=HTTP.nobody; status_exception=true, kwargs...)
+    patch = @patch function HTTP.request(
+        method, url, headers=[], body=HTTP.nobody; status_exception=true, kwargs...
+    )
         uri = HTTP.URI(url)
         if uri.host != "169.254.169.254"
             error("Internal error: Unexpected HTTP call to non-IMDS service: $url")
@@ -70,11 +68,14 @@ function _imds_patch(router::HTTP.Router=HTTP.Router(); listening=true, enabled=
             HTTP.Response(403)
         else
             connect_timeout = HTTP.ConnectionPool.ConnectTimeout(uri.host, uri.port)
-            throw(HTTP.ConnectError(string(uri), connect_timeout))
+            throw(HTTP.Exceptions.ConnectError(string(uri), connect_timeout))
         end
 
         if status_exception && response.status >= 300
-            throw(HTTP.Exceptions.StatusError(response.status, request.method, request.target, response))
+            ex = HTTP.Exceptions.StatusError(
+                response.status, request.method, request.target, response
+            )
+            throw(ex)
         end
         return response
     end

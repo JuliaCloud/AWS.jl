@@ -10,7 +10,9 @@ export AWSException, IMDSUnavailable, ProtocolNotDefined, InvalidFileName, NoCre
 struct IMDSUnavailable <: Exception end
 
 function Base.show(io::IO, e::IMDSUnavailable)
-    println(io, "$IMDSUnavailable: The Instance Metadata Service is unavailable on the host")
+    msg = "$IMDSUnavailable: The Instance Metadata Service is unavailable on the host"
+    println(io, msg)
+    return nothing
 end
 
 struct ProtocolNotDefined <: Exception

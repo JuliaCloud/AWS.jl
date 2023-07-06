@@ -13,6 +13,7 @@ module IMDS
 using ..AWSExceptions: IMDSUnavailable
 
 using HTTP: HTTP
+using HTTP.Exceptions: ConnectError, StatusError
 using Mocking
 
 const IPv4_ADDRESS = "169.254.169.254"
@@ -59,7 +60,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
         session.duration = 0
         session.expiration = typemax(Int64)  # Use IMDSv1 indefinitely
     else
-        throw(HTTP.Exceptions.StatusError(r.status, r.request.method, r.request.target, r))
+        throw(StatusError(r.status, r.request.method, r.request.target, r))
     end
 
     return session
@@ -83,17 +84,22 @@ end
 function _http_request(args...; status_exception=true, kwargs...)
     response = try
         # Always throw status exceptions so we can determine if the IMDS service is available
-        @mock HTTP.request(args...; connect_timeout=1, retry=false, kwargs..., status_exception=true)
+        @mock HTTP.request(
+            args...; connect_timeout=1, retry=false, kwargs..., status_exception=true
+        )
     catch e
         # When running outside of an EC2 instance the link-local address will be unavailable
         # and connections will fail. On EC2 instances where IMDS is disabled a HTTP 403 is
         # returned.
         # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#instance-metadata-returns
-        if e isa HTTP.Exceptions.ConnectError || e isa HTTP.Exceptions.StatusError && e.status == 403
+        if e isa ConnectError || e isa StatusError && e.status == 403
             throw(IMDSUnavailable())
+
+        #! format: off
         # Return the status exception when `status_exception=false`. We must always cause
         # `HTTP.request` to throw status errors for our `IMDSUnavailable` check.
-        elseif !status_exception && e isa HTTP.Exceptions.StatusError
+        #! format: on
+        elseif !status_exception && e isa StatusError
             e.response
         else
             rethrow()
@@ -142,6 +148,7 @@ const _SESSION = Ref{Session}()
 
 function __init__()
     _SESSION[] = Session()
+    return nothing
 end
 
 get(path::AbstractString) = get(_SESSION[], path)
