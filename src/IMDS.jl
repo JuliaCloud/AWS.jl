@@ -25,6 +25,13 @@ mutable struct Session
     expiration::Int64
 end
 
+const _SESSION = Ref{Session}()
+
+function __init__()
+    _SESSION[] = Session()
+    return nothing
+end
+
 """
     Session(; duration=$DEFAULT_DURATION)
 
@@ -138,6 +145,8 @@ function get(session::Session, path::AbstractString)
     return !isnothing(response) ? String(response.body) : nothing
 end
 
+get(path::AbstractString) = get(_SESSION[], path)
+
 """
     region([session::Session]) -> Union{String, Nothing}
 
@@ -148,15 +157,6 @@ instance, otherwise `nothing` is returned.
 - `session` (optional): The IMDS `Session` used to store the IMDSv2 token.
 """
 region(session::Session) = get(session, "/latest/meta-data/placement/region")
-
-const _SESSION = Ref{Session}()
-
-function __init__()
-    _SESSION[] = Session()
-    return nothing
-end
-
-get(path::AbstractString) = get(_SESSION[], path)
 region() = region(_SESSION[])
 
 end
