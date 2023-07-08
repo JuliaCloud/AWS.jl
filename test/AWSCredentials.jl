@@ -44,32 +44,6 @@ end
     @test AWS._role_session_name("a"^22, "b"^22, "c"^22) == "a"^22 * "b"^20 * "c"^22
 end
 
-@testset "ec2_instance_metadata" begin
-    @testset "connect timeout" begin
-        apply(Patches._instance_metadata_timeout_patch) do
-            @test AWS.ec2_instance_metadata("/latest/meta-data") === nothing
-        end
-    end
-end
-
-@testset "ec2_instance_region" begin
-    @testset "available" begin
-        patch = @patch function HTTP.request(method::String, url; kwargs...)
-            return HTTP.Response("ap-atlantis-1")  # Made up region
-        end
-
-        apply(patch) do
-            @test AWS.ec2_instance_region() == "ap-atlantis-1"
-        end
-    end
-
-    @testset "unavailable" begin
-        apply(Patches._instance_metadata_timeout_patch) do
-            @test AWS.ec2_instance_region() === nothing
-        end
-    end
-end
-
 @testset "aws_get_profile_settings" begin
     @testset "no profile" begin
         @test aws_get_profile_settings("foo", Inifile()) === nothing
@@ -563,6 +537,7 @@ end
                             session_token="TOK_WEB",
                         ),
                         Patches.sso_service_patches("AKI_SSO", "SAK_SSO"),
+                        Patches._imds_region_patch(nothing),
                     ]
 
                     withenv(
@@ -943,7 +918,7 @@ end
             session_token=session_token,
             role_arn=role_arn,
         )
-        ec2_metadata_patch = @patch function HTTP.request(method::String, url; kwargs...)
+        ec2_metadata_patch = @patch function HTTP.request(method, url, args...; kwargs...)
             url = string(url)
             security_credentials = test_values["Security-Credentials"]
 
@@ -1310,9 +1285,12 @@ end
 
         @testset "unknown profile" begin
             withenv("AWS_DEFAULT_REGION" => nothing) do
-                @test aws_get_region(; config=ini, profile="unknown") == AWS.DEFAULT_REGION
-                @test aws_get_region(; config=config_file, profile="unknown") ==
-                    AWS.DEFAULT_REGION
+                apply(Patches._imds_region_patch(nothing)) do
+                    @test aws_get_region(; config=ini, profile="unknown") ==
+                        AWS.DEFAULT_REGION
+                    @test aws_get_region(; config=config_file, profile="unknown") ==
+                        AWS.DEFAULT_REGION
+                end
             end
 
             withenv(
@@ -1320,18 +1298,22 @@ end
                 "AWS_CONFIG_FILE" => config_file,
                 "AWS_PROFILE" => "unknown",
             ) do
-                @test aws_get_region() == AWS.DEFAULT_REGION
+                apply(Patches._imds_region_patch(nothing)) do
+                    @test aws_get_region() == AWS.DEFAULT_REGION
+                end
             end
         end
 
         @testset "default keyword" begin
             default = nothing
             withenv("AWS_DEFAULT_REGION" => nothing) do
-                @test aws_get_region(; config=ini, profile="unknown", default=default) ===
-                    default
-                @test aws_get_region(;
-                    config=config_file, profile="unknown", default=default
-                ) === default
+                apply(Patches._imds_region_patch(nothing)) do
+                    @test aws_get_region(; config=ini, profile="unknown", default) ===
+                        default
+                    @test aws_get_region(;
+                        config=config_file, profile="unknown", default
+                    ) === default
+                end
             end
 
             withenv(
@@ -1339,23 +1321,23 @@ end
                 "AWS_CONFIG_FILE" => config_file,
                 "AWS_PROFILE" => "unknown",
             ) do
-                @test aws_get_region(; default=default) === default
+                apply(Patches._imds_region_patch(nothing)) do
+                    @test aws_get_region(; default=default) === default
+                end
             end
         end
 
         @testset "no such config file" begin
             withenv("AWS_DEFAULT_REGION" => nothing, "AWS_CONFIG_FILE" => tempname()) do
-                @test aws_get_region() == AWS.DEFAULT_REGION
+                apply(Patches._imds_region_patch(nothing)) do
+                    @test aws_get_region() == AWS.DEFAULT_REGION
+                end
             end
         end
 
         @testset "instance profile" begin
             withenv("AWS_DEFAULT_REGION" => nothing, "AWS_CONFIG_FILE" => tempname()) do
-                patch = @patch function HTTP.request(method::String, url; kwargs...)
-                    return HTTP.Response("ap-atlantis-1")  # Made up region
-                end
-
-                apply(patch) do
+                apply(Patches._imds_region_patch("ap-atlantis-1")) do
                     @test aws_get_region() == "ap-atlantis-1"
                 end
             end

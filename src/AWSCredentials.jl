@@ -213,45 +213,6 @@ end
 check_credentials(aws_creds::Nothing) = aws_creds
 
 """
-    ec2_instance_metadata(path::AbstractString) -> Union{String, Nothing}
-
-Retrieve the AWS EC2 instance metadata as a string using the provided `path`. If no instance
-metadata is available (typically due to not running within an EC2 instance) then `nothing`
-will be returned. See the AWS documentation for details on what metadata is available:
-https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html
-
-# Arguments
-- `path`: The URI path to used to specify that metadata to return
-"""
-function ec2_instance_metadata(path::AbstractString)
-    uri = HTTP.URI(; scheme="http", host="169.254.169.254", path=path)
-    request = try
-        @mock HTTP.request("GET", uri; connect_timeout=1)
-    catch e
-        if e isa HTTP.ConnectError
-            nothing
-        else
-            rethrow()
-        end
-    end
-
-    return request !== nothing ? String(request.body) : nothing
-end
-
-"""
-    ec2_instance_region() -> Union{String, Nothing}
-
-Determine the AWS region of the machine executing this code if running inside of an EC2
-instance, otherwise `nothing` is returned.
-"""
-ec2_instance_region() =
-    try
-        ec2_instance_metadata("/latest/meta-data/placement/region")
-    catch
-        nothing
-    end
-
-"""
     ec2_instance_credentials(profile::AbstractString) -> AWSCredentials
 
 Parse the EC2 metadata to retrieve AWSCredentials.
@@ -269,13 +230,13 @@ function ec2_instance_credentials(profile::AbstractString)
         source == "Ec2InstanceMetadata" || return nothing
     end
 
-    info = ec2_instance_metadata("/latest/meta-data/iam/info")
+    info = IMDS.get("/latest/meta-data/iam/info")
     info === nothing && return nothing
     info = JSON.parse(info)
 
     # Get credentials for the role associated to the instance via instance profile.
-    name = ec2_instance_metadata("/latest/meta-data/iam/security-credentials/")
-    creds = ec2_instance_metadata("/latest/meta-data/iam/security-credentials/$name")
+    name = IMDS.get("/latest/meta-data/iam/security-credentials/")
+    creds = IMDS.get("/latest/meta-data/iam/security-credentials/$name")
     parsed = JSON.parse(creds)
     instance_profile_creds = AWSCredentials(
         parsed["AccessKeyId"],
@@ -695,7 +656,7 @@ function aws_get_region(; profile=nothing, config=nothing, default=DEFAULT_REGIO
     @something(
         get(ENV, "AWS_DEFAULT_REGION", nothing),
         get(_aws_profile_config(config, profile), "region", nothing),
-        ec2_instance_region(),
+        @mock(IMDS.region()),
         Some(default),
     )
 end

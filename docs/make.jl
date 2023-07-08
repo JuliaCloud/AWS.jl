@@ -71,6 +71,7 @@ makedocs(;
         "Home" => "index.md",
         "Backends" => "backends.md",
         "AWS" => "aws.md",
+        "IMDS" => "imds.md",
         "Services" => _generate_high_level_services_docs(),
     ],
     strict=true,

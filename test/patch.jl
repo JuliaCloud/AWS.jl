@@ -147,17 +147,6 @@ _github_tree_patch = @patch function tree(repo, tree_obj; kwargs...)
     end
 end
 
-_instance_metadata_timeout_patch = @patch function HTTP.request(
-    method::String, url; kwargs...
-)
-    return throw(
-        HTTP.ConnectError(
-            "http://169.254.169.254/latest/meta-data/iam/info",
-            HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", "80"),
-        ),
-    )
-end
-
 # This patch causes `HTTP.request` to return all of its keyword arguments
 # except `require_ssl_verification` and `response_stream`. This is used to
 # test which other options are being passed to `HTTP.Request` inside of
@@ -240,4 +229,9 @@ function sso_service_patches(access_key_id, secret_access_key)
 
     return [p, _sso_access_token_patch]
 end
+
+function _imds_region_patch(region)
+    return @patch IMDS.region() = region
+end
+
 end

@@ -1,6 +1,7 @@
 using AWS
 using AWS: AWSCredentials, AWSServices, assume_role_creds
-using AWS.AWSExceptions: AWSException, InvalidFileName, NoCredentials, ProtocolNotDefined
+using AWS.AWSExceptions:
+    AWSException, IMDSUnavailable, InvalidFileName, NoCredentials, ProtocolNotDefined
 using AWS.AWSMetadata:
     ServiceFile,
     _clean_documentation,
@@ -63,6 +64,7 @@ testset_role(role_name) = "AWS.jl-$role_name"
     @testset "Backend: $(nameof(backend))" for backend in backends
         AWS.DEFAULT_BACKEND[] = backend()
         include("AWS.jl")
+        include("IMDS.jl")
         include("AWSCredentials.jl")
         include("role.jl")
         include("issues.jl")

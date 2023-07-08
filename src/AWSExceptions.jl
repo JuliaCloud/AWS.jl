@@ -5,7 +5,15 @@ using JSON
 using XMLDict
 using XMLDict: XMLDictElement
 
-export AWSException, ProtocolNotDefined, InvalidFileName, NoCredentials
+export AWSException, IMDSUnavailable, ProtocolNotDefined, InvalidFileName, NoCredentials
+
+struct IMDSUnavailable <: Exception end
+
+function Base.show(io::IO, e::IMDSUnavailable)
+    msg = "$IMDSUnavailable: The Instance Metadata Service is unavailable on the host"
+    println(io, msg)
+    return nothing
+end
 
 struct ProtocolNotDefined <: Exception
     message::String
