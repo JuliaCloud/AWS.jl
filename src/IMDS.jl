@@ -101,7 +101,7 @@ function _http_request(args...; status_exception=true, kwargs...)
         # and connections will fail. On EC2 instances where IMDS is disabled a HTTP 403 is
         # returned.
         # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#instance-metadata-returns
-        if e isa ConnectError || e isa StatusError && e.status == 403
+        if is_connection_exception(e) || e isa StatusError && e.status == 403
             throw(IMDSUnavailable())
 
         #! format: off
@@ -116,6 +116,14 @@ function _http_request(args...; status_exception=true, kwargs...)
     end
 
     return response
+end
+
+is_connection_exception(e::ConnectError) = true
+is_connection_exception(e::Exception) = false
+
+# https://github.com/JuliaCloud/AWS.jl/issues/649
+function is_connection_exception(e::HTTP.Exceptions.RequestError)
+    return e.error == Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
 end
 
 """
