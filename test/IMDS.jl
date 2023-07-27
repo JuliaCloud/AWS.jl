@@ -83,8 +83,9 @@ end
 
 @testset "IMDS" begin
     @testset "is_connection_exception" begin
+        url = "http://169.254.169.254/latest/api/token"
         connect_timeout = HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", 80)
-        e = HTTP.Exceptions.ConnectError("http://169.254.169.254/latest/api/token", connect_timeout)
+        e = HTTP.Exceptions.ConnectError(url, connect_timeout)
         @test IMDS.is_connection_exception(e)
 
         request = HTTP.Request("PUT", "/latest/api/token", [], HTTP.nobody)
