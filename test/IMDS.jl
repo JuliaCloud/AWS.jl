@@ -82,6 +82,20 @@ function _imds_patch(router::HTTP.Router=HTTP.Router(); listening=true, enabled=
 end
 
 @testset "IMDS" begin
+    @testset "is_connection_exception" begin
+        connect_timeout = HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", 80)
+        e = HTTP.Exceptions.ConnectError("http://169.254.169.254/latest/api/token", connect_timeout)
+        @test IMDS.is_connection_exception(e)
+
+        request = HTTP.Request("PUT", "/latest/api/token", [], HTTP.nobody)
+        io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
+        e = HTTP.Exceptions.RequestError(request, io_error)
+        @test IMDS.is_connection_exception(e)
+
+        e = ErrorException("non-connection error")
+        @test !IMDS.is_connection_exception(e)
+    end
+
     @testset "refresh_token!" begin
         # Running outside of an EC2 instance
         apply(_imds_patch(; listening=false)) do
