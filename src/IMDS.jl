@@ -16,6 +16,7 @@ using HTTP: HTTP
 using HTTP.Exceptions: ConnectError, StatusError
 using Mocking
 
+# Local-link address (https://en.wikipedia.org/wiki/Link-local_address)
 const IPv4_ADDRESS = "169.254.169.254"
 const DEFAULT_DURATION = 600  # 5 minutes, in seconds
 
