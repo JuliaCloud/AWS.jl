@@ -243,6 +243,21 @@ end
             session = IMDS.Session()
             @test IMDS.get(session, path) == instance_id
         end
+
+        # When using GitHub Action CI a non-IMDS service uses the same local-link address
+        # and returns HTTP 404.
+        # https://github.com/JuliaCloud/AWS.jl/issues/652
+        iam_path = "/latest/meta-data/iam/info"
+        router = Router([
+            response_route("PUT", "/**", HTTP.Response(404)),
+            response_route("GET", "/**", HTTP.Response(404)),
+        ])
+        apply(_imds_patch(router)) do
+            session = IMDS.Session()
+            response = IMDS.request(session, "GET", iam_path; status_exception=false)
+            @test response.status == 404
+            @test IMDS.get(session, iam_path) === nothing
+        end
     end
 
     @testset "region" begin
@@ -265,7 +280,9 @@ end
         ])
         apply(_imds_patch(router)) do
             session = IMDS.Session()
-            @test_throws HTTP.Exceptions.StatusError IMDS.region(session)
+            response = IMDS.request(session, "GET", path; status_exception=false)
+            @test response.status == 404
+            @test IMDS.region(session) === nothing
         end
 
         # Requested metadata available via IMDSv1
