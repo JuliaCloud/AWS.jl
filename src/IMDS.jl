@@ -16,6 +16,7 @@ using HTTP: HTTP
 using HTTP.Exceptions: ConnectError, StatusError
 using Mocking
 
+# Local-link address (https://en.wikipedia.org/wiki/Link-local_address)
 const IPv4_ADDRESS = "169.254.169.254"
 const DEFAULT_DURATION = 600  # 5 minutes, in seconds
 
@@ -129,10 +130,10 @@ end
 """
     get([session::Session], path::AbstractString) -> Union{String, Nothing}
 
-Retrieve the AWS instance metadata from the provided HTTP `path`. If no instance metadata is
-available (due to the instance metadata service being disabled or not being run from within
-an EC2 instance) then `nothing` will be returned. For details on available metadata see the
-official AWS documentation on:
+Retrieve the AWS instance metadata from the provided HTTP `path`. If the specific metadata
+resource is unavailable or the instance metadata is unavailable (due to the instance metadata
+service being disabled or not being run from within an EC2 instance) then `nothing` will be
+returned. For details on available metadata see the official AWS documentation on:
 ["Instance metadata and user data"](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html).
 
 # Arguments
@@ -143,7 +144,7 @@ function get(session::Session, path::AbstractString)
     response = try
         request(session, "GET", path)
     catch e
-        if e isa IMDSUnavailable
+        if e isa IMDSUnavailable || e isa StatusError && e.status == 404
             nothing
         else
             rethrow()
