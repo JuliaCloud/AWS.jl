@@ -243,7 +243,8 @@ end
         ])
         apply(_imds_patch(router)) do
             session = IMDS.Session()
-            r = @test_warn r"IMDSv2 token request rejected due to reaching hop limit" begin
+            msg_regex = r"IMDSv2 token request rejected due to reaching hop limit"
+            r = @test_logs (:warn, msg_regex) begin
                 IMDS.request(session, "GET", path; status_exception=false)
             end
             @test r isa HTTP.Response
