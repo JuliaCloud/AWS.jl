@@ -82,19 +82,22 @@ function _imds_patch(router::HTTP.Router=HTTP.Router(); listening=true, enabled=
 end
 
 @testset "IMDS" begin
-    @testset "is_connection_exception" begin
+    @testset "is_connection_exception / is_ttl_expired_exception" begin
         url = "http://169.254.169.254/latest/api/token"
         connect_timeout = HTTP.ConnectionPool.ConnectTimeout("169.254.169.254", 80)
         e = HTTP.Exceptions.ConnectError(url, connect_timeout)
         @test IMDS.is_connection_exception(e)
+        @test !IMDS.is_ttl_expired_exception(e)
 
         request = HTTP.Request("PUT", "/latest/api/token", [], HTTP.nobody)
         io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
         e = HTTP.Exceptions.RequestError(request, io_error)
-        @test IMDS.is_connection_exception(e)
+        @test !IMDS.is_connection_exception(e)
+        @test IMDS.is_ttl_expired_exception(e)
 
         e = ErrorException("non-connection error")
         @test !IMDS.is_connection_exception(e)
+        @test !IMDS.is_ttl_expired_exception(e)
     end
 
     @testset "refresh_token!" begin
@@ -224,6 +227,26 @@ end
             r = IMDS.request(session, "GET", path; status_exception=false)
             @test r isa HTTP.Response
             @test r.status == 401
+        end
+
+        # When running in a container running on an EC2 instance and the hop limit is 1 the
+        # IMDSv2 token retrieval will fail so we should fall back to using IMDSv1.
+        # https://github.com/JuliaCloud/AWS.jl/issues/654
+        # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#imds-considerations
+        router = Router([
+            Route("PUT", "/latest/api/token", req -> begin
+                io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
+                throw(HTTP.Exceptions.RequestError(request, io_error))
+            end),
+            response_route("GET", path, HTTP.Response(instance_id)),
+        ])
+        apply(_imds_patch(router)) do
+            session = IMDS.Session()
+            r = IMDS.request(session, "GET", path; status_exception=false)
+            @test r isa HTTP.Response
+            @test r.status == 200
+            @test String(r.body) == instance_id
+            @test isempty(session.token)
         end
     end
 

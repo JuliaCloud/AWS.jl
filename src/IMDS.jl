@@ -57,7 +57,22 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
     # version specific path.
     # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#imds-considerations
     uri = URI(; scheme="http", host=IPv4_ADDRESS, path="/latest/api/token")
-    r = _http_request("PUT", uri, headers; status_exception=false)
+    r = try
+        _http_request("PUT", uri, headers; status_exception=false)
+    catch e
+        # The IMDSv2 uses a default Time To Live (TTL) of 1 (also known as the hop limit) at
+        # the IP layer to ensure token requests occur on the instance. When this occurs we
+        # need to fall back to using IMDSv1. Users may wish to increase the hop limit to
+        # allow for IMDSv2 use in container based environments:
+        # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#imds-considerations
+        if is_ttl_expired_exception(e)
+            session.duration = 0
+            session.expiration = typemax(Int64)  # Use IMDSv1 indefinitely
+            return session
+        else
+            rethrow()
+        end
+    end
 
     # Store the session token when we receive an HTTP 200. If we receive an HTTP 404 assume
     # that the server is only supports IMDSv1. Otherwise "rethrow" the `StatusError`.
@@ -123,10 +138,12 @@ end
 is_connection_exception(e::ConnectError) = true
 is_connection_exception(e::Exception) = false
 
+# https://github.com/JuliaCloud/AWS.jl/issues/654
 # https://github.com/JuliaCloud/AWS.jl/issues/649
-function is_connection_exception(e::HTTP.Exceptions.RequestError)
+function is_ttl_expired_exception(e::HTTP.Exceptions.RequestError)
     return e.error == Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
 end
+is_ttl_expired_exception(e::Exception) = false
 
 """
     get([session::Session], path::AbstractString) -> Union{String, Nothing}
