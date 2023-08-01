@@ -15,6 +15,7 @@ using ..AWSExceptions: IMDSUnavailable
 using HTTP: HTTP
 using HTTP.Exceptions: ConnectError, StatusError
 using Mocking
+using URIs: URI
 
 # Local-link address (https://en.wikipedia.org/wiki/Link-local_address)
 const IPv4_ADDRESS = "169.254.169.254"
@@ -55,7 +56,7 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
     # For IMDSv2, you must use `/latest/api/token` when retrieving the token instead of a
     # version specific path.
     # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#imds-considerations
-    uri = HTTP.URI(; scheme="http", host=IPv4_ADDRESS, path="/latest/api/token")
+    uri = URI(; scheme="http", host=IPv4_ADDRESS, path="/latest/api/token")
     r = _http_request("PUT", uri, headers; status_exception=false)
 
     # Store the session token when we receive an HTTP 200. If we receive an HTTP 404 assume
@@ -87,7 +88,7 @@ function request(session::Session, method::AbstractString, path::AbstractString;
     # Only using the IPv4 endpoint as the IPv6 endpoint has to be explicitly enabled and
     # does not disable IPv4 support.
     # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-IMDS-new-instances.html#configure-IMDS-new-instances-ipv4-ipv6-endpoints
-    uri = HTTP.URI(; scheme="http", host=IPv4_ADDRESS, path)
+    uri = URI(; scheme="http", host=IPv4_ADDRESS, path)
     return _http_request(method, uri, headers; kwargs...)
 end
 
