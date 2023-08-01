@@ -242,7 +242,9 @@ end
         ])
         apply(_imds_patch(router)) do
             session = IMDS.Session()
-            r = IMDS.request(session, "GET", path; status_exception=false)
+            r = @test_warn r"IMDSv2 token request rejected due to reaching hop limit" begin
+                IMDS.request(session, "GET", path; status_exception=false)
+            end
             @test r isa HTTP.Response
             @test r.status == 200
             @test String(r.body) == instance_id

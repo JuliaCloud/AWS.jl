@@ -66,6 +66,11 @@ function refresh_token!(session::Session, duration::Integer=session.duration)
         # allow for IMDSv2 use in container based environments:
         # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#imds-considerations
         if is_ttl_expired_exception(e)
+            @warn "IMDSv2 token request rejected due to reaching hop limit. Consider " *
+                "increasing the hop limit to avoid delays upon initial use:\n" *
+                "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/" *
+                "instancedata-data-retrieval.html#imds-considerations"
+
             session.duration = 0
             session.expiration = typemax(Int64)  # Use IMDSv1 indefinitely
             return session
