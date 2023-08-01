@@ -233,11 +233,12 @@ end
         # IMDSv2 token retrieval will fail so we should fall back to using IMDSv1.
         # https://github.com/JuliaCloud/AWS.jl/issues/654
         # https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instancedata-data-retrieval.html#imds-considerations
+        connection_timeout = function (req::HTTP.Request)
+            io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
+            throw(HTTP.Exceptions.RequestError(request, io_error))
+        end
         router = Router([
-            Route("PUT", "/latest/api/token", req -> begin
-                io_error = Base.IOError("read: connection timed out (ETIMEDOUT)", -110)
-                throw(HTTP.Exceptions.RequestError(request, io_error))
-            end),
+            Route("PUT", "/latest/api/token", connection_timeout),
             response_route("GET", path, HTTP.Response(instance_id)),
         ])
         apply(_imds_patch(router)) do
