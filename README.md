@@ -54,8 +54,7 @@ Working with public buckets that require "--no-sign-request", e.g. [copernicus d
 using AWS: @service
 @service S3
 
-aws_config = AWSConfig(;creds=nothing)
-aws_config.region = "eu-central-1"
+aws_config = AWSConfig(; creds=nothing, region="eu-central-1")
 a = S3.list_objects("copernicus-dem-30m/"; aws_config)
 ```
 
