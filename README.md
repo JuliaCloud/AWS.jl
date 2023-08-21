@@ -48,6 +48,17 @@ using AWS: @service
 S3.list_objects("your-bucket") # note: no '/' in front of bucket name
 ```
 
+Working with public buckets that require "--no-sign-request", e.g. [copernicus data](https://registry.opendata.aws/copernicus-dem/),  you'll need to set AWS credentials to `nothing`:
+
+```julia
+using AWS: @service
+@service S3
+
+aws_config = AWSConfig(; creds=nothing, region="eu-central-1")
+a = S3.list_objects("copernicus-dem-30m/"; aws_config)
+```
+
+
 The high-level function calls are wrapped around the low-level function calls, meaning you can still pass along any low-level `kwargs` such as `aws_config` when making these requests.
 
 **Note:** When calling the `@service` macro you **CANNOT** match the predefined constant for the low level API. The low level API constants are named in all lowercase, and spaces are replaced with underscores.
