@@ -5628,7 +5628,7 @@ GetBucketVersioning.  For more information about related Amazon S3 APIs, see the
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Body"`: Object data.
+- `"body"`: Object data.
 - `"Cache-Control"`:  Can be used to specify caching behavior along the request/reply
   chain. For more information, see
   http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
@@ -6616,7 +6616,7 @@ CompleteMultipartUpload     AbortMultipartUpload     ListParts     ListMultipart
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Body"`: Object data.
+- `"body"`: Object data.
 - `"Content-Length"`: Size of the body in bytes. This parameter is useful when the size of
   the body cannot be determined automatically.
 - `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the part data. This parameter
