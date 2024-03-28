@@ -16,16 +16,14 @@ Adds tags to on-premises instances.
   both required. Keys cannot be null or empty strings. Value-only tags are not allowed.
 
 """
-function add_tags_to_on_premises_instances(
+add_tags_to_on_premises_instances(
     instanceNames, tags; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "AddTagsToOnPremisesInstances",
+    Dict{String,Any}("instanceNames" => instanceNames, "tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "AddTagsToOnPremisesInstances",
-        Dict{String,Any}("instanceNames" => instanceNames, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_tags_to_on_premises_instances(
     instanceNames,
     tags,
@@ -61,16 +59,14 @@ revisions that can be returned is 25.
   RevisionLocation objects you can specify is 25.
 
 """
-function batch_get_application_revisions(
+batch_get_application_revisions(
     applicationName, revisions; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "BatchGetApplicationRevisions",
+    Dict{String,Any}("applicationName" => applicationName, "revisions" => revisions);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "BatchGetApplicationRevisions",
-        Dict{String,Any}("applicationName" => applicationName, "revisions" => revisions);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_application_revisions(
     applicationName,
     revisions,
@@ -105,16 +101,14 @@ can be returned is 100.
   of application names you can specify is 100.
 
 """
-function batch_get_applications(
+batch_get_applications(
     applicationNames; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "BatchGetApplications",
+    Dict{String,Any}("applicationNames" => applicationNames);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "BatchGetApplications",
-        Dict{String,Any}("applicationNames" => applicationNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_applications(
     applicationNames,
     params::AbstractDict{String};
@@ -140,23 +134,21 @@ Gets information about one or more deployment groups.
 
 # Arguments
 - `application_name`: The name of an CodeDeploy application associated with the applicable
-  IAM or Amazon Web Services account.
+  user or Amazon Web Services account.
 - `deployment_group_names`: The names of the deployment groups.
 
 """
-function batch_get_deployment_groups(
+batch_get_deployment_groups(
     applicationName, deploymentGroupNames; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "BatchGetDeploymentGroups",
+    Dict{String,Any}(
+        "applicationName" => applicationName,
+        "deploymentGroupNames" => deploymentGroupNames,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "BatchGetDeploymentGroups",
-        Dict{String,Any}(
-            "applicationName" => applicationName,
-            "deploymentGroupNames" => deploymentGroupNames,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_deployment_groups(
     applicationName,
     deploymentGroupNames,
@@ -195,16 +187,14 @@ with all compute platforms. The maximum number of instances that can be returned
   instance IDs you can specify is 25.
 
 """
-function batch_get_deployment_instances(
+batch_get_deployment_instances(
     deploymentId, instanceIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "BatchGetDeploymentInstances",
+    Dict{String,Any}("deploymentId" => deploymentId, "instanceIds" => instanceIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "BatchGetDeploymentInstances",
-        Dict{String,Any}("deploymentId" => deploymentId, "instanceIds" => instanceIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_deployment_instances(
     deploymentId,
     instanceIds,
@@ -228,8 +218,8 @@ function batch_get_deployment_instances(
 end
 
 """
-    batch_get_deployment_targets()
-    batch_get_deployment_targets(params::Dict{String,<:Any})
+    batch_get_deployment_targets(deployment_id, target_ids)
+    batch_get_deployment_targets(deployment_id, target_ids, params::Dict{String,<:Any})
 
  Returns an array of one or more targets associated with a deployment. This method works
 with all compute types and should be used instead of the deprecated
@@ -240,10 +230,9 @@ about Lambda functions targets.     Amazon ECS: Information about Amazon ECS ser
 targets.     CloudFormation: Information about targets of blue/green deployments initiated
 by a CloudFormation stack update.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"deploymentId"`:  The unique ID of a deployment.
-- `"targetIds"`:  The unique IDs of the deployment targets. The compute platform of the
+# Arguments
+- `deployment_id`:  The unique ID of a deployment.
+- `target_ids`:  The unique IDs of the deployment targets. The compute platform of the
   deployment determines the type of the targets and their formats. The maximum number of
   deployment target IDs you can specify is 25.    For deployments that use the
   EC2/On-premises compute platform, the target IDs are Amazon EC2 or on-premises instances
@@ -254,18 +243,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   &lt;clustername&gt;:&lt;servicename&gt;. Their target type is ecsTarget.     For
   deployments that are deployed with CloudFormation, the target IDs are CloudFormation stack
   IDs. Their target type is cloudFormationTarget.
+
 """
-function batch_get_deployment_targets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
-        "BatchGetDeploymentTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+batch_get_deployment_targets(
+    deploymentId, targetIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "BatchGetDeploymentTargets",
+    Dict{String,Any}("deploymentId" => deploymentId, "targetIds" => targetIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_deployment_targets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    deploymentId,
+    targetIds,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return codedeploy(
         "BatchGetDeploymentTargets",
-        params;
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("deploymentId" => deploymentId, "targetIds" => targetIds),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -283,16 +285,13 @@ be returned is 25.
   deployment IDs you can specify is 25.
 
 """
-function batch_get_deployments(
-    deploymentIds; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+batch_get_deployments(deploymentIds; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "BatchGetDeployments",
         Dict{String,Any}("deploymentIds" => deploymentIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_get_deployments(
     deploymentIds,
     params::AbstractDict{String};
@@ -320,16 +319,14 @@ instances that can be returned is 25.
   The maximum number of instance names you can specify is 25.
 
 """
-function batch_get_on_premises_instances(
+batch_get_on_premises_instances(
     instanceNames; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "BatchGetOnPremisesInstances",
+    Dict{String,Any}("instanceNames" => instanceNames);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "BatchGetOnPremisesInstances",
-        Dict{String,Any}("instanceNames" => instanceNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_on_premises_instances(
     instanceNames,
     params::AbstractDict{String};
@@ -363,11 +360,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   indicates that the deployment is ready to start shifting traffic. TERMINATION_WAIT
   indicates that the traffic is shifted, but the original target is not terminated.
 """
-function continue_deployment(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
-        "ContinueDeployment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+continue_deployment(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy("ContinueDeployment"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function continue_deployment(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -384,7 +378,7 @@ Creates an application.
 
 # Arguments
 - `application_name`: The name of the application. This name must be unique with the
-  applicable IAM or Amazon Web Services account.
+  applicable user or Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -394,16 +388,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and categorize them. Each tag consists of a key and an optional value, both of which you
   define.
 """
-function create_application(
-    applicationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+create_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "CreateApplication",
         Dict{String,Any}("applicationName" => applicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_application(
     applicationName,
     params::AbstractDict{String};
@@ -428,16 +419,16 @@ end
 Deploys an application revision through the specified deployment group.
 
 # Arguments
-- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+- `application_name`: The name of an CodeDeploy application associated with the user or
   Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"autoRollbackConfiguration"`: Configuration information for an automatic rollback that
   is added when a deployment is created.
-- `"deploymentConfigName"`: The name of a deployment configuration associated with the IAM
-  user or Amazon Web Services account. If not specified, the value configured in the
-  deployment group is used as the default. If the deployment group does not have a deployment
+- `"deploymentConfigName"`: The name of a deployment configuration associated with the user
+  or Amazon Web Services account. If not specified, the value configured in the deployment
+  group is used as the default. If the deployment group does not have a deployment
   configuration associated with it, CodeDeployDefault.OneAtATime is used by default.
 - `"deploymentGroupName"`: The name of the deployment group.
 - `"description"`: A comment about the deployment.
@@ -481,16 +472,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"updateOutdatedInstancesOnly"`:  Indicates whether to deploy to all instances or only to
   instances that are not running the latest application revision.
 """
-function create_deployment(
-    applicationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+create_deployment(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "CreateDeployment",
         Dict{String,Any}("applicationName" => applicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_deployment(
     applicationName,
     params::AbstractDict{String};
@@ -533,17 +521,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   FLEET_PERCENT and a value of 95.
 - `"trafficRoutingConfig"`: The configuration that specifies how the deployment traffic is
   routed.
+- `"zonalConfig"`: Configure the ZonalConfig object if you want CodeDeploy to deploy your
+  application to one Availability Zone at a time, within an Amazon Web Services Region. For
+  more information about the zonal configuration feature, see zonal configuration in the
+  CodeDeploy User Guide.
 """
-function create_deployment_config(
+create_deployment_config(
     deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "CreateDeploymentConfig",
+    Dict{String,Any}("deploymentConfigName" => deploymentConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "CreateDeploymentConfig",
-        Dict{String,Any}("deploymentConfigName" => deploymentConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_deployment_config(
     deploymentConfigName,
     params::AbstractDict{String};
@@ -570,7 +560,7 @@ end
 Creates a deployment group to which application revisions are deployed.
 
 # Arguments
-- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+- `application_name`: The name of an CodeDeploy application associated with the user or
   Amazon Web Services account.
 - `deployment_group_name`: The name of a new deployment group for the specified application.
 - `service_role_arn`: A service role Amazon Resource Name (ARN) that allows CodeDeploy to
@@ -621,27 +611,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  The metadata that you apply to CodeDeploy deployment groups to help you
   organize and categorize them. Each tag consists of a key and an optional value, both of
   which you define.
+- `"terminationHookEnabled"`: This parameter only applies if you are using CodeDeploy with
+  Amazon EC2 Auto Scaling. For more information, see Integrating CodeDeploy with Amazon EC2
+  Auto Scaling in the CodeDeploy User Guide. Set terminationHookEnabled to true to have
+  CodeDeploy install a termination hook into your Auto Scaling group when you create a
+  deployment group. When this hook is installed, CodeDeploy will perform termination
+  deployments. For information about termination deployments, see Enabling termination
+  deployments during Auto Scaling scale-in events in the CodeDeploy User Guide. For more
+  information about Auto Scaling scale-in events, see the Scale in topic in the Amazon EC2
+  Auto Scaling User Guide.
 - `"triggerConfigurations"`: Information about triggers to create when the deployment group
   is created. For examples, see Create a Trigger for an CodeDeploy Event in the CodeDeploy
   User Guide.
 """
-function create_deployment_group(
+create_deployment_group(
     applicationName,
     deploymentGroupName,
     serviceRoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codedeploy(
+    "CreateDeploymentGroup",
+    Dict{String,Any}(
+        "applicationName" => applicationName,
+        "deploymentGroupName" => deploymentGroupName,
+        "serviceRoleArn" => serviceRoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "CreateDeploymentGroup",
-        Dict{String,Any}(
-            "applicationName" => applicationName,
-            "deploymentGroupName" => deploymentGroupName,
-            "serviceRoleArn" => serviceRoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_deployment_group(
     applicationName,
     deploymentGroupName,
@@ -674,20 +671,17 @@ end
 Deletes an application.
 
 # Arguments
-- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+- `application_name`: The name of an CodeDeploy application associated with the user or
   Amazon Web Services account.
 
 """
-function delete_application(
-    applicationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+delete_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "DeleteApplication",
         Dict{String,Any}("applicationName" => applicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_application(
     applicationName,
     params::AbstractDict{String};
@@ -713,20 +707,18 @@ Deletes a deployment configuration.  A deployment configuration cannot be delete
 currently in use. Predefined configurations cannot be deleted.
 
 # Arguments
-- `deployment_config_name`: The name of a deployment configuration associated with the IAM
-  user or Amazon Web Services account.
+- `deployment_config_name`: The name of a deployment configuration associated with the user
+  or Amazon Web Services account.
 
 """
-function delete_deployment_config(
+delete_deployment_config(
     deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "DeleteDeploymentConfig",
+    Dict{String,Any}("deploymentConfigName" => deploymentConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "DeleteDeploymentConfig",
-        Dict{String,Any}("deploymentConfigName" => deploymentConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_deployment_config(
     deploymentConfigName,
     params::AbstractDict{String};
@@ -753,24 +745,22 @@ end
 Deletes a deployment group.
 
 # Arguments
-- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+- `application_name`: The name of an CodeDeploy application associated with the user or
   Amazon Web Services account.
 - `deployment_group_name`: The name of a deployment group for the specified application.
 
 """
-function delete_deployment_group(
+delete_deployment_group(
     applicationName, deploymentGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "DeleteDeploymentGroup",
+    Dict{String,Any}(
+        "applicationName" => applicationName,
+        "deploymentGroupName" => deploymentGroupName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "DeleteDeploymentGroup",
-        Dict{String,Any}(
-            "applicationName" => applicationName,
-            "deploymentGroupName" => deploymentGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_deployment_group(
     applicationName,
     deploymentGroupName,
@@ -804,11 +794,10 @@ Deletes a GitHub account connection.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tokenName"`: The name of the GitHub account connection to delete.
 """
-function delete_git_hub_account_token(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
+delete_git_hub_account_token(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "DeleteGitHubAccountToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function delete_git_hub_account_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -824,22 +813,23 @@ end
     delete_resources_by_external_id()
     delete_resources_by_external_id(params::Dict{String,<:Any})
 
-Deletes resources linked to an external ID.
+Deletes resources linked to an external ID. This action only applies if you have configured
+blue/green deployments through CloudFormation.   It is not necessary to call this action
+directly. CloudFormation calls it on your behalf when it needs to delete stack resources.
+This action is offered publicly in case you need to delete resources to comply with General
+Data Protection Regulation (GDPR) requirements.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"externalId"`: The unique ID of an external resource (for example, a CloudFormation
   stack ID) that is linked to one or more CodeDeploy resources.
 """
-function delete_resources_by_external_id(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+delete_resources_by_external_id(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "DeleteResourcesByExternalId";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_resources_by_external_id(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -861,16 +851,14 @@ Deregisters an on-premises instance.
 - `instance_name`: The name of the on-premises instance to deregister.
 
 """
-function deregister_on_premises_instance(
+deregister_on_premises_instance(
     instanceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "DeregisterOnPremisesInstance",
+    Dict{String,Any}("instanceName" => instanceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "DeregisterOnPremisesInstance",
-        Dict{String,Any}("instanceName" => instanceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_on_premises_instance(
     instanceName,
     params::AbstractDict{String};
@@ -893,18 +881,17 @@ end
 Gets information about an application.
 
 # Arguments
-- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+- `application_name`: The name of an CodeDeploy application associated with the user or
   Amazon Web Services account.
 
 """
-function get_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
+get_application(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "GetApplication",
         Dict{String,Any}("applicationName" => applicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_application(
     applicationName,
     params::AbstractDict{String};
@@ -934,16 +921,14 @@ Gets information about an application revision.
   location.
 
 """
-function get_application_revision(
+get_application_revision(
     applicationName, revision; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "GetApplicationRevision",
+    Dict{String,Any}("applicationName" => applicationName, "revision" => revision);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "GetApplicationRevision",
-        Dict{String,Any}("applicationName" => applicationName, "revision" => revision);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_application_revision(
     applicationName,
     revision,
@@ -975,18 +960,17 @@ the returned revision is always null. Use GetApplicationRevision and the sha256 
 the returned appSpecContent object to get the content of the deployment’s AppSpec file.
 
 # Arguments
-- `deployment_id`:  The unique ID of a deployment associated with the IAM user or Amazon
-  Web Services account.
+- `deployment_id`:  The unique ID of a deployment associated with the user or Amazon Web
+  Services account.
 
 """
-function get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
+get_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "GetDeployment",
         Dict{String,Any}("deploymentId" => deploymentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -1009,20 +993,18 @@ end
 Gets information about a deployment configuration.
 
 # Arguments
-- `deployment_config_name`: The name of a deployment configuration associated with the IAM
-  user or Amazon Web Services account.
+- `deployment_config_name`: The name of a deployment configuration associated with the user
+  or Amazon Web Services account.
 
 """
-function get_deployment_config(
+get_deployment_config(
     deploymentConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "GetDeploymentConfig",
+    Dict{String,Any}("deploymentConfigName" => deploymentConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "GetDeploymentConfig",
-        Dict{String,Any}("deploymentConfigName" => deploymentConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_deployment_config(
     deploymentConfigName,
     params::AbstractDict{String};
@@ -1049,24 +1031,22 @@ end
 Gets information about a deployment group.
 
 # Arguments
-- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+- `application_name`: The name of an CodeDeploy application associated with the user or
   Amazon Web Services account.
 - `deployment_group_name`: The name of a deployment group for the specified application.
 
 """
-function get_deployment_group(
+get_deployment_group(
     applicationName, deploymentGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "GetDeploymentGroup",
+    Dict{String,Any}(
+        "applicationName" => applicationName,
+        "deploymentGroupName" => deploymentGroupName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "GetDeploymentGroup",
-        Dict{String,Any}(
-            "applicationName" => applicationName,
-            "deploymentGroupName" => deploymentGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_deployment_group(
     applicationName,
     deploymentGroupName,
@@ -1101,16 +1081,14 @@ Gets information about an instance as part of a deployment.
 - `instance_id`:  The unique ID of an instance in the deployment group.
 
 """
-function get_deployment_instance(
+get_deployment_instance(
     deploymentId, instanceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "GetDeploymentInstance",
+    Dict{String,Any}("deploymentId" => deploymentId, "instanceId" => instanceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "GetDeploymentInstance",
-        Dict{String,Any}("deploymentId" => deploymentId, "instanceId" => instanceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_deployment_instance(
     deploymentId,
     instanceId,
@@ -1134,27 +1112,39 @@ function get_deployment_instance(
 end
 
 """
-    get_deployment_target()
-    get_deployment_target(params::Dict{String,<:Any})
+    get_deployment_target(deployment_id, target_id)
+    get_deployment_target(deployment_id, target_id, params::Dict{String,<:Any})
 
  Returns information about a deployment target.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"deploymentId"`:  The unique ID of a deployment.
-- `"targetId"`:  The unique ID of a deployment target.
+# Arguments
+- `deployment_id`:  The unique ID of a deployment.
+- `target_id`:  The unique ID of a deployment target.
+
 """
-function get_deployment_target(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
-        "GetDeploymentTarget"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_deployment_target(
+    deploymentId, targetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "GetDeploymentTarget",
+    Dict{String,Any}("deploymentId" => deploymentId, "targetId" => targetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_deployment_target(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    deploymentId,
+    targetId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return codedeploy(
         "GetDeploymentTarget",
-        params;
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("deploymentId" => deploymentId, "targetId" => targetId),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1170,16 +1160,13 @@ end
 - `instance_name`:  The name of the on-premises instance about which to get information.
 
 """
-function get_on_premises_instance(
-    instanceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+get_on_premises_instance(instanceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "GetOnPremisesInstance",
         Dict{String,Any}("instanceName" => instanceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_on_premises_instance(
     instanceName,
     params::AbstractDict{String};
@@ -1202,8 +1189,8 @@ end
 Lists information about revisions for an application.
 
 # Arguments
-- `application_name`:  The name of an CodeDeploy application associated with the IAM user
-  or Amazon Web Services account.
+- `application_name`:  The name of an CodeDeploy application associated with the user or
+  Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1226,16 +1213,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   order.    descending: descending order.   If not specified, the results are sorted in
   ascending order. If set to null, the results are sorted in an arbitrary order.
 """
-function list_application_revisions(
+list_application_revisions(
     applicationName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "ListApplicationRevisions",
+    Dict{String,Any}("applicationName" => applicationName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "ListApplicationRevisions",
-        Dict{String,Any}("applicationName" => applicationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_application_revisions(
     applicationName,
     params::AbstractDict{String};
@@ -1257,18 +1242,15 @@ end
     list_applications()
     list_applications(params::Dict{String,<:Any})
 
-Lists the applications registered with the IAM user or Amazon Web Services account.
+Lists the applications registered with the user or Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: An identifier returned from the previous list applications call. It can be
   used to return the next set of applications in the list.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
-        "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy("ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1281,18 +1263,16 @@ end
     list_deployment_configs()
     list_deployment_configs(params::Dict{String,<:Any})
 
-Lists the deployment configurations with the IAM user or Amazon Web Services account.
+Lists the deployment configurations with the user or Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: An identifier returned from the previous ListDeploymentConfigs call. It
   can be used to return the next set of deployment configurations in the list.
 """
-function list_deployment_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
-        "ListDeploymentConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_deployment_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = codedeploy(
+    "ListDeploymentConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_deployment_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1308,11 +1288,11 @@ end
     list_deployment_groups(application_name)
     list_deployment_groups(application_name, params::Dict{String,<:Any})
 
-Lists the deployment groups for an application registered with the IAM user or Amazon Web
-Services account.
+Lists the deployment groups for an application registered with the Amazon Web Services user
+or Amazon Web Services account.
 
 # Arguments
-- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+- `application_name`: The name of an CodeDeploy application associated with the user or
   Amazon Web Services account.
 
 # Optional Parameters
@@ -1320,16 +1300,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier returned from the previous list deployment groups call. It
   can be used to return the next set of deployment groups in the list.
 """
-function list_deployment_groups(
-    applicationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+list_deployment_groups(applicationName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "ListDeploymentGroups",
         Dict{String,Any}("applicationName" => applicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_deployment_groups(
     applicationName,
     params::AbstractDict{String};
@@ -1354,7 +1331,7 @@ end
   The newer BatchGetDeploymentTargets should be used instead because it works with all
 compute types. ListDeploymentInstances throws an exception if it is used with a compute
 platform other than EC2/On-premises or Lambda.    Lists the instance for a deployment
-associated with the IAM user or Amazon Web Services account.
+associated with the user or Amazon Web Services account.
 
 # Arguments
 - `deployment_id`:  The unique ID of a deployment.
@@ -1373,16 +1350,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier returned from the previous list deployment instances call.
   It can be used to return the next set of deployment instances in the list.
 """
-function list_deployment_instances(
-    deploymentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+list_deployment_instances(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "ListDeploymentInstances",
         Dict{String,Any}("deploymentId" => deploymentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_deployment_instances(
     deploymentId,
     params::AbstractDict{String};
@@ -1399,14 +1373,16 @@ function list_deployment_instances(
 end
 
 """
-    list_deployment_targets()
-    list_deployment_targets(params::Dict{String,<:Any})
+    list_deployment_targets(deployment_id)
+    list_deployment_targets(deployment_id, params::Dict{String,<:Any})
 
  Returns an array of target IDs that are associated a deployment.
 
+# Arguments
+- `deployment_id`:  The unique ID of a deployment.
+
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"deploymentId"`:  The unique ID of a deployment.
 - `"nextToken"`:  A token identifier returned from the previous ListDeploymentTargets call.
   It can be used to return the next set of deployment targets in the list.
 - `"targetFilters"`:  A key used to filter the returned targets. The two valid values are:
@@ -1414,17 +1390,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Skipped, Succeeded, or Unknown.     ServerInstanceLabel - A ServerInstanceLabel filter
   string can be Blue or Green.
 """
-function list_deployment_targets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
-        "ListDeploymentTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+list_deployment_targets(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
+        "ListDeploymentTargets",
+        Dict{String,Any}("deploymentId" => deploymentId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_deployment_targets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    deploymentId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return codedeploy(
         "ListDeploymentTargets",
-        params;
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("deploymentId" => deploymentId), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1434,13 +1416,13 @@ end
     list_deployments()
     list_deployments(params::Dict{String,<:Any})
 
-Lists the deployments in a deployment group for an application registered with the IAM user
-or Amazon Web Services account.
+Lists the deployments in a deployment group for an application registered with the user or
+Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"applicationName"`: The name of an CodeDeploy application associated with the IAM user
-  or Amazon Web Services account.  If applicationName is specified, then deploymentGroupName
+- `"applicationName"`: The name of an CodeDeploy application associated with the user or
+  Amazon Web Services account.  If applicationName is specified, then deploymentGroupName
   must be specified. If it is not specified, then deploymentGroupName must not be specified.
 - `"createTimeRange"`: A time range (start and end) for returning a subset of the list of
   deployments.
@@ -1458,11 +1440,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier returned from the previous list deployments call. It can be
   used to return the next set of deployments in the list.
 """
-function list_deployments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
-        "ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_deployments(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy("ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1482,15 +1461,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: An identifier returned from the previous ListGitHubAccountTokenNames call.
   It can be used to return the next set of names in the list.
 """
-function list_git_hub_account_token_names(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+list_git_hub_account_token_names(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "ListGitHubAccountTokenNames";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_git_hub_account_token_names(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1521,11 +1497,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tagFilters"`: The on-premises instance tags that are used to restrict the on-premises
   instance names returned.
 """
-function list_on_premises_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
+list_on_premises_instances(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "ListOnPremisesInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_on_premises_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1553,16 +1528,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An identifier returned from the previous ListTagsForResource call. It can
   be used to return the next set of applications in the list.
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1600,15 +1572,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The values listed in Valid Values are valid for lifecycle statuses in general; however,
   only Succeeded and Failed can be passed successfully in your API call.
 """
-function put_lifecycle_event_hook_execution_status(;
+put_lifecycle_event_hook_execution_status(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "PutLifecycleEventHookExecutionStatus";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "PutLifecycleEventHookExecutionStatus";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_lifecycle_event_hook_execution_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1627,7 +1597,7 @@ end
 Registers with CodeDeploy a revision for the specified application.
 
 # Arguments
-- `application_name`: The name of an CodeDeploy application associated with the IAM user or
+- `application_name`: The name of an CodeDeploy application associated with the user or
   Amazon Web Services account.
 - `revision`: Information about the application revision to register, including type and
   location.
@@ -1636,16 +1606,14 @@ Registers with CodeDeploy a revision for the specified application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A comment about the revision.
 """
-function register_application_revision(
+register_application_revision(
     applicationName, revision; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "RegisterApplicationRevision",
+    Dict{String,Any}("applicationName" => applicationName, "revision" => revision);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "RegisterApplicationRevision",
-        Dict{String,Any}("applicationName" => applicationName, "revision" => revision);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_application_revision(
     applicationName,
     revision,
@@ -1681,18 +1649,16 @@ is supported in the request. You cannot use both.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"iamSessionArn"`: The ARN of the IAM session to associate with the on-premises instance.
-- `"iamUserArn"`: The ARN of the IAM user to associate with the on-premises instance.
+- `"iamUserArn"`: The ARN of the user to associate with the on-premises instance.
 """
-function register_on_premises_instance(
+register_on_premises_instance(
     instanceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "RegisterOnPremisesInstance",
+    Dict{String,Any}("instanceName" => instanceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "RegisterOnPremisesInstance",
-        Dict{String,Any}("instanceName" => instanceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_on_premises_instance(
     instanceName,
     params::AbstractDict{String};
@@ -1719,16 +1685,14 @@ Removes one or more tags from one or more on-premises instances.
 - `tags`: The tag key-value pairs to remove from the on-premises instances.
 
 """
-function remove_tags_from_on_premises_instances(
+remove_tags_from_on_premises_instances(
     instanceNames, tags; aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "RemoveTagsFromOnPremisesInstances",
+    Dict{String,Any}("instanceNames" => instanceNames, "tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "RemoveTagsFromOnPremisesInstances",
-        Dict{String,Any}("instanceNames" => instanceNames, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_tags_from_on_premises_instances(
     instanceNames,
     tags,
@@ -1761,15 +1725,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deploymentId"`:  The unique ID of a blue/green deployment for which you want to skip
   the instance termination wait time.
 """
-function skip_wait_time_for_instance_termination(;
+skip_wait_time_for_instance_termination(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = codedeploy(
+    "SkipWaitTimeForInstanceTermination";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "SkipWaitTimeForInstanceTermination";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function skip_wait_time_for_instance_termination(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1796,14 +1758,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have been updated should be rolled back to the previous version of the application
   revision.
 """
-function stop_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
+stop_deployment(deploymentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "StopDeployment",
         Dict{String,Any}("deploymentId" => deploymentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_deployment(
     deploymentId,
     params::AbstractDict{String};
@@ -1833,14 +1794,13 @@ the ResourceArn input parameter.
   identified by the ResourceArn input parameter.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1876,16 +1836,13 @@ input parameter.
   disassociated from the resource specified by the ResourceArn input parameter.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codedeploy(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1917,11 +1874,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"applicationName"`: The current name of the application you want to change.
 - `"newApplicationName"`: The new name to give the application.
 """
-function update_application(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codedeploy(
-        "UpdateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+update_application(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codedeploy("UpdateApplication"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function update_application(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1985,25 +1939,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deployment to update the new Amazon EC2 instances. This may result in instances having
   different revisions.
 - `"serviceRoleArn"`: A replacement ARN for the service role, if you want to change it.
+- `"terminationHookEnabled"`: This parameter only applies if you are using CodeDeploy with
+  Amazon EC2 Auto Scaling. For more information, see Integrating CodeDeploy with Amazon EC2
+  Auto Scaling in the CodeDeploy User Guide. Set terminationHookEnabled to true to have
+  CodeDeploy install a termination hook into your Auto Scaling group when you update a
+  deployment group. When this hook is installed, CodeDeploy will perform termination
+  deployments. For information about termination deployments, see Enabling termination
+  deployments during Auto Scaling scale-in events in the CodeDeploy User Guide. For more
+  information about Auto Scaling scale-in events, see the Scale in topic in the Amazon EC2
+  Auto Scaling User Guide.
 - `"triggerConfigurations"`: Information about triggers to change when the deployment group
   is updated. For examples, see Edit a Trigger in a CodeDeploy Deployment Group in the
   CodeDeploy User Guide.
 """
-function update_deployment_group(
+update_deployment_group(
     applicationName,
     currentDeploymentGroupName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codedeploy(
+    "UpdateDeploymentGroup",
+    Dict{String,Any}(
+        "applicationName" => applicationName,
+        "currentDeploymentGroupName" => currentDeploymentGroupName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codedeploy(
-        "UpdateDeploymentGroup",
-        Dict{String,Any}(
-            "applicationName" => applicationName,
-            "currentDeploymentGroupName" => currentDeploymentGroupName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_deployment_group(
     applicationName,
     currentDeploymentGroupName,

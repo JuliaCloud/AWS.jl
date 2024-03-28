@@ -11,14 +11,13 @@ using AWS.UUIDs
 Lists the Linux subscriptions service settings.
 
 """
-function get_service_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return license_manager_linux_subscriptions(
+get_service_settings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    license_manager_linux_subscriptions(
         "POST",
         "/subscription/GetServiceSettings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_service_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -50,16 +49,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
-function list_linux_subscription_instances(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return license_manager_linux_subscriptions(
+list_linux_subscription_instances(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    license_manager_linux_subscriptions(
         "POST",
         "/subscription/ListLinuxSubscriptionInstances";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_linux_subscription_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -91,14 +87,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
-function list_linux_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return license_manager_linux_subscriptions(
+list_linux_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    license_manager_linux_subscriptions(
         "POST",
         "/subscription/ListLinuxSubscriptions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_linux_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -130,22 +125,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscriptions. If you allow updates, you can aggregate Linux subscription data in more than
   one home Region.
 """
-function update_service_settings(
+update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = license_manager_linux_subscriptions(
+    "POST",
+    "/subscription/UpdateServiceSettings",
+    Dict{String,Any}(
+        "LinuxSubscriptionsDiscovery" => LinuxSubscriptionsDiscovery,
+        "LinuxSubscriptionsDiscoverySettings" => LinuxSubscriptionsDiscoverySettings,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return license_manager_linux_subscriptions(
-        "POST",
-        "/subscription/UpdateServiceSettings",
-        Dict{String,Any}(
-            "LinuxSubscriptionsDiscovery" => LinuxSubscriptionsDiscovery,
-            "LinuxSubscriptionsDiscoverySettings" => LinuxSubscriptionsDiscoverySettings,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings,

@@ -10,9 +10,13 @@ using AWS.UUIDs
 
 Cancels a job in an Batch job queue. Jobs that are in the SUBMITTED or PENDING are
 canceled. A job inRUNNABLE remains in RUNNABLE until it reaches the head of the job queue.
-Then the job status is updated to FAILED. Jobs that progressed to the STARTING or RUNNING
-state aren't canceled. However, the API operation still succeeds, even if no job is
-canceled. These jobs must be terminated with the TerminateJob operation.
+Then the job status is updated to FAILED.  A PENDING job is canceled after all dependency
+jobs are completed. Therefore, it may take longer than expected to cancel a job in PENDING
+status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all
+child jobs. The array parent job is canceled when all child jobs are completed.  Jobs that
+progressed to the STARTING or RUNNING state aren't canceled. However, the API operation
+still succeeds, even if no job is canceled. These jobs must be terminated with the
+TerminateJob operation.
 
 # Arguments
 - `job_id`: The Batch job ID of the job to cancel.
@@ -21,15 +25,13 @@ canceled. These jobs must be terminated with the TerminateJob operation.
   recorded in the Batch activity logs.
 
 """
-function cancel_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/canceljob",
-        Dict{String,Any}("jobId" => jobId, "reason" => reason);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/canceljob",
+    Dict{String,Any}("jobId" => jobId, "reason" => reason);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function cancel_job(
     jobId,
     reason,
@@ -86,13 +88,15 @@ compute environment.   In April 2022, Batch added enhanced support for updating 
 environments. For more information, see Updating compute environments. To use the enhanced
 updating of compute environments to update AMIs, follow these rules:   Either don't set the
 service role (serviceRole) parameter or set it to the AWSBatchServiceRole service-linked
-role.   Set the allocation strategy (allocationStrategy) parameter to BEST_FIT_PROGRESSIVE
-or SPOT_CAPACITY_OPTIMIZED.   Set the update to latest image version
-(updateToLatestImageVersion) parameter to true.   Don't specify an AMI ID in imageId,
-imageIdOverride (in  ec2Configuration ), or in the launch template (launchTemplate). In
-that case, Batch selects the latest Amazon ECS optimized AMI that's supported by Batch at
-the time the infrastructure update is initiated. Alternatively, you can specify the AMI ID
-in the imageId or imageIdOverride parameters, or the launch template identified by the
+role.   Set the allocation strategy (allocationStrategy) parameter to BEST_FIT_PROGRESSIVE,
+SPOT_CAPACITY_OPTIMIZED, or SPOT_PRICE_CAPACITY_OPTIMIZED.   Set the update to latest image
+version (updateToLatestImageVersion) parameter to true. The updateToLatestImageVersion
+parameter is used when you update a compute environment. This parameter is ignored when you
+create a compute environment.   Don't specify an AMI ID in imageId, imageIdOverride (in
+ec2Configuration ), or in the launch template (launchTemplate). In that case, Batch selects
+the latest Amazon ECS optimized AMI that's supported by Batch at the time the
+infrastructure update is initiated. Alternatively, you can specify the AMI ID in the
+imageId or imageIdOverride parameters, or the launch template identified by the
 LaunchTemplate properties. Changing any of these properties starts an infrastructure
 update. If the AMI ID is specified in the launch template, it can't be replaced by
 specifying an AMI ID in either the imageId or imageIdOverride parameters. It can only be
@@ -157,19 +161,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   capacity is reserved.  This parameter is only supported when the type parameter is set to
   UNMANAGED.
 """
-function create_compute_environment(
+create_compute_environment(
     computeEnvironmentName, type; aws_config::AbstractAWSConfig=global_aws_config()
+) = batch(
+    "POST",
+    "/v1/createcomputeenvironment",
+    Dict{String,Any}("computeEnvironmentName" => computeEnvironmentName, "type" => type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return batch(
-        "POST",
-        "/v1/createcomputeenvironment",
-        Dict{String,Any}(
-            "computeEnvironmentName" => computeEnvironmentName, "type" => type
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_compute_environment(
     computeEnvironmentName,
     type,
@@ -225,6 +225,9 @@ preference for scheduling jobs to that compute environment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"jobStateTimeLimitActions"`: The set of actions that Batch performs on jobs that remain
+  at the head of the job queue in the specified state longer than specified times. Batch will
+  perform each action after maxTimeSeconds has passed.
 - `"schedulingPolicyArn"`: The Amazon Resource Name (ARN) of the fair share scheduling
   policy. If this parameter is specified, the job queue uses a fair share scheduling policy.
   If this parameter isn't specified, the job queue uses a first in, first out (FIFO)
@@ -239,24 +242,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your resources. Each tag consists of a key and an optional value. For more information, see
   Tagging your Batch resources in Batch User Guide.
 """
-function create_job_queue(
+create_job_queue(
     computeEnvironmentOrder,
     jobQueueName,
     priority;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = batch(
+    "POST",
+    "/v1/createjobqueue",
+    Dict{String,Any}(
+        "computeEnvironmentOrder" => computeEnvironmentOrder,
+        "jobQueueName" => jobQueueName,
+        "priority" => priority,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return batch(
-        "POST",
-        "/v1/createjobqueue",
-        Dict{String,Any}(
-            "computeEnvironmentOrder" => computeEnvironmentOrder,
-            "jobQueueName" => jobQueueName,
-            "priority" => priority,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_job_queue(
     computeEnvironmentOrder,
     jobQueueName,
@@ -302,15 +303,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Reference. These tags can be updated or removed using the TagResource and UntagResource API
   operations.
 """
-function create_scheduling_policy(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/createschedulingpolicy",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_scheduling_policy(name; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/createschedulingpolicy",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_scheduling_policy(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -339,17 +338,15 @@ invalid state.
   to delete.
 
 """
-function delete_compute_environment(
+delete_compute_environment(
     computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()
+) = batch(
+    "POST",
+    "/v1/deletecomputeenvironment",
+    Dict{String,Any}("computeEnvironment" => computeEnvironment);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return batch(
-        "POST",
-        "/v1/deletecomputeenvironment",
-        Dict{String,Any}("computeEnvironment" => computeEnvironment);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_compute_environment(
     computeEnvironment,
     params::AbstractDict{String};
@@ -382,15 +379,13 @@ DeleteJobQueue request.
 - `job_queue`: The short name or full Amazon Resource Name (ARN) of the queue to delete.
 
 """
-function delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/deletejobqueue",
-        Dict{String,Any}("jobQueue" => jobQueue);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/deletejobqueue",
+    Dict{String,Any}("jobQueue" => jobQueue);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_job_queue(
     jobQueue,
     params::AbstractDict{String};
@@ -418,15 +413,13 @@ in any job queues.
 - `arn`: The Amazon Resource Name (ARN) of the scheduling policy to delete.
 
 """
-function delete_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/deleteschedulingpolicy",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/deleteschedulingpolicy",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_scheduling_policy(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -450,17 +443,15 @@ Deregisters an Batch job definition. Job definitions are permanently deleted aft
   (ARN) of the job definition to deregister.
 
 """
-function deregister_job_definition(
+deregister_job_definition(
     jobDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+) = batch(
+    "POST",
+    "/v1/deregisterjobdefinition",
+    Dict{String,Any}("jobDefinition" => jobDefinition);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return batch(
-        "POST",
-        "/v1/deregisterjobdefinition",
-        Dict{String,Any}("jobDefinition" => jobDefinition);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_job_definition(
     jobDefinition,
     params::AbstractDict{String};
@@ -503,14 +494,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Treat this token as an opaque identifier that's only used to retrieve the next items in a
   list and not for other programmatic purposes.
 """
-function describe_compute_environments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/describecomputeenvironments";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_compute_environments(; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/describecomputeenvironments";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_compute_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -536,7 +525,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"jobDefinitions"`: A list of up to 100 job definitions. Each entry in the list can
   either be an ARN in the format
   arn:aws:batch:{Region}:{Account}:job-definition/{JobDefinitionName}:{Revision} or a short
-  version using the form {JobDefinitionName}:{Revision}.
+  version using the form {JobDefinitionName}:{Revision}. This parameter can't be used with
+  other parameters.
 - `"maxResults"`: The maximum number of results returned by DescribeJobDefinitions in
   paginated output. When this parameter is used, DescribeJobDefinitions only returns
   maxResults results in a single page and a nextToken response element. The remaining results
@@ -552,14 +542,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and not for other programmatic purposes.
 - `"status"`: The status used to filter job definitions.
 """
-function describe_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/describejobdefinitions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/describejobdefinitions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_job_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -595,14 +583,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   opaque identifier that's only used to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-function describe_job_queues(; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/describejobqueues";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_job_queues(; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/describejobqueues";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_job_queues(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -625,15 +611,13 @@ Describes a list of Batch jobs.
 - `jobs`: A list of up to 100 job IDs.
 
 """
-function describe_jobs(jobs; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/describejobs",
-        Dict{String,Any}("jobs" => jobs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_jobs(jobs; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/describejobs",
+    Dict{String,Any}("jobs" => jobs);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_jobs(
     jobs, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -656,17 +640,14 @@ Describes one or more of your scheduling policies.
 - `arns`: A list of up to 100 scheduling policy Amazon Resource Name (ARN) entries.
 
 """
-function describe_scheduling_policies(
-    arns; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return batch(
+describe_scheduling_policies(arns; aws_config::AbstractAWSConfig=global_aws_config()) =
+    batch(
         "POST",
         "/v1/describeschedulingpolicies",
         Dict{String,Any}("arns" => arns);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_scheduling_policies(
     arns, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -739,11 +720,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier that's only used to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST", "/v1/listjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    batch("POST", "/v1/listjobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -778,14 +756,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token as an opaque identifier that's only used to retrieve the next items in a list
   and not for other programmatic purposes.
 """
-function list_scheduling_policies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/listschedulingpolicies";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_scheduling_policies(; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/listschedulingpolicies";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_scheduling_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -813,16 +789,13 @@ jobs of array and multi-node parallel (MNP) jobs aren't supported.
   multi-node parallel (MNP) jobs aren't supported.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return batch(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    batch(
         "GET",
         "/v1/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -848,25 +821,28 @@ Registers an Batch job definition.
   letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and
   underscores (_).
 - `type`: The type of job definition. For more information about multi-node parallel jobs,
-  see Creating a multi-node parallel job definition in the Batch User Guide.  If the job is
-  run on Fargate resources, then multinode isn't supported.
+  see Creating a multi-node parallel job definition in the Batch User Guide.   If the value
+  is container, then one of the following is required: containerProperties, ecsProperties, or
+  eksProperties.   If the value is multinode, then nodeProperties is required.    If the job
+  is run on Fargate resources, then multinode isn't supported.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"containerProperties"`: An object with various properties specific to Amazon ECS based
+- `"containerProperties"`: An object with properties specific to Amazon ECS-based
   single-node container-based jobs. If the job definition's type parameter is container, then
   you must specify either containerProperties or nodeProperties. This must not be specified
-  for Amazon EKS based job definitions.  If the job runs on Fargate resources, then you must
+  for Amazon EKS-based job definitions.  If the job runs on Fargate resources, then you must
   not specify nodeProperties; use only containerProperties.
-- `"eksProperties"`: An object with various properties that are specific to Amazon EKS
-  based jobs. This must not be specified for Amazon ECS based job definitions.
-- `"nodeProperties"`: An object with various properties specific to multi-node parallel
-  jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For
-  more information, see Multi-node Parallel Jobs in the Batch User Guide. If the job
-  definition's type parameter is container, then you must specify either containerProperties
-  or nodeProperties.  If the job runs on Fargate resources, then you must not specify
-  nodeProperties; use containerProperties instead.   If the job runs on Amazon EKS resources,
-  then you must not specify nodeProperties.
+- `"ecsProperties"`: An object with properties that are specific to Amazon ECS-based jobs.
+  This must not be specified for Amazon EKS-based job definitions.
+- `"eksProperties"`: An object with properties that are specific to Amazon EKS-based jobs.
+  This must not be specified for Amazon ECS based job definitions.
+- `"nodeProperties"`: An object with properties specific to multi-node parallel jobs. If
+  you specify node properties for a job, it becomes a multi-node parallel job. For more
+  information, see Multi-node Parallel Jobs in the Batch User Guide.  If the job runs on
+  Fargate resources, then you must not specify nodeProperties; use containerProperties
+  instead.   If the job runs on Amazon EKS resources, then you must not specify
+  nodeProperties.
 - `"parameters"`: Default parameter substitution placeholders to set in the job definition.
   Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request
   override any corresponding parameter defaults from the job definition.
@@ -897,17 +873,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the timeout configuration defined here. For more information, see Job Timeouts in the Batch
   User Guide.
 """
-function register_job_definition(
+register_job_definition(
     jobDefinitionName, type; aws_config::AbstractAWSConfig=global_aws_config()
+) = batch(
+    "POST",
+    "/v1/registerjobdefinition",
+    Dict{String,Any}("jobDefinitionName" => jobDefinitionName, "type" => type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return batch(
-        "POST",
-        "/v1/registerjobdefinition",
-        Dict{String,Any}("jobDefinitionName" => jobDefinitionName, "type" => type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_job_definition(
     jobDefinitionName,
     type,
@@ -961,20 +935,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"arrayProperties"`: The array properties for the submitted job, such as the size of the
   array. The array size can be between 2 and 10,000. If you specify array properties for a
   job, it becomes an array job. For more information, see Array Jobs in the Batch User Guide.
-- `"containerOverrides"`: An object with various properties that override the defaults for
-  the job definition that specify the name of a container in the specified job definition and
-  the overrides it should receive. You can override the default command for a container,
-  which is specified in the job definition or the Docker image, with a command override. You
-  can also override existing environment variables on a container or add new environment
-  variables to it with an environment override.
+- `"containerOverrides"`: An object with properties that override the defaults for the job
+  definition that specify the name of a container in the specified job definition and the
+  overrides it should receive. You can override the default command for a container, which is
+  specified in the job definition or the Docker image, with a command override. You can also
+  override existing environment variables on a container or add new environment variables to
+  it with an environment override.
 - `"dependsOn"`: A list of dependencies for the job. A job can depend upon a maximum of 20
   jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array
   jobs so that each child array job completes sequentially, starting at index 0. You can also
   specify an N_TO_N type dependency with a job ID for array jobs. In that case, each index
   child of this job must wait for the corresponding index child of each dependency to
   complete before it can begin.
-- `"eksPropertiesOverride"`: An object that can only be specified for jobs that are run on
-  Amazon EKS resources with various properties that override defaults for the job definition.
+- `"ecsPropertiesOverride"`: An object, with properties that override defaults for the job
+  definition, can only be specified for jobs that are run on Amazon ECS resources.
+- `"eksPropertiesOverride"`: An object, with properties that override defaults for the job
+  definition, can only be specified for jobs that are run on Amazon EKS resources.
 - `"nodeOverrides"`: A list of node overrides in JSON format that specify the node range to
   target and the container overrides for that node range.  This parameter isn't applicable to
   jobs that are running on Fargate resources; use containerOverrides instead.
@@ -994,11 +970,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schedulingPriorityOverride"`: The scheduling priority for the job. This only affects
   jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are
   scheduled before jobs with a lower scheduling priority. This overrides any scheduling
-  priority in the job definition. The minimum supported value is 0 and the maximum supported
-  value is 9999.
-- `"shareIdentifier"`: The share identifier for the job. If the job queue doesn't have a
-  scheduling policy, then this parameter must not be specified. If the job queue has a
-  scheduling policy, then this parameter must be specified.
+  priority in the job definition and works only within a single share identifier. The minimum
+  supported value is 0 and the maximum supported value is 9999.
+- `"shareIdentifier"`: The share identifier for the job. Don't specify this parameter if
+  the job queue doesn't have a scheduling policy. If the job queue has a scheduling policy,
+  then this parameter must be specified. This string is limited to 255 alphanumeric
+  characters, and can be followed by an asterisk (*).
 - `"tags"`: The tags that you apply to the job request to help you categorize and organize
   your resources. Each tag consists of a key and an optional value. For more information, see
   Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
@@ -1010,19 +987,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   job. For more information, see Job Timeouts in the Amazon Elastic Container Service
   Developer Guide.
 """
-function submit_job(
+submit_job(
     jobDefinition, jobName, jobQueue; aws_config::AbstractAWSConfig=global_aws_config()
+) = batch(
+    "POST",
+    "/v1/submitjob",
+    Dict{String,Any}(
+        "jobDefinition" => jobDefinition, "jobName" => jobName, "jobQueue" => jobQueue
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return batch(
-        "POST",
-        "/v1/submitjob",
-        Dict{String,Any}(
-            "jobDefinition" => jobDefinition, "jobName" => jobName, "jobQueue" => jobQueue
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function submit_job(
     jobDefinition,
     jobName,
@@ -1070,15 +1045,13 @@ jobs aren't supported.
   Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/tags/$(resourceArn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     resourceArn,
     tags,
@@ -1109,15 +1082,13 @@ STARTING state are cancelled.
   recorded in the Batch activity logs.
 
 """
-function terminate_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/terminatejob",
-        Dict{String,Any}("jobId" => jobId, "reason" => reason);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+terminate_job(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/terminatejob",
+    Dict{String,Any}("jobId" => jobId, "reason" => reason);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function terminate_job(
     jobId,
     reason,
@@ -1151,17 +1122,14 @@ Deletes specified tags from an Batch resource.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return batch(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    batch(
         "DELETE",
         "/v1/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1229,17 +1197,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment. For more information about infrastructure updates, see Updating compute
   environments in the Batch User Guide.
 """
-function update_compute_environment(
+update_compute_environment(
     computeEnvironment; aws_config::AbstractAWSConfig=global_aws_config()
+) = batch(
+    "POST",
+    "/v1/updatecomputeenvironment",
+    Dict{String,Any}("computeEnvironment" => computeEnvironment);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return batch(
-        "POST",
-        "/v1/updatecomputeenvironment",
-        Dict{String,Any}("computeEnvironment" => computeEnvironment);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_compute_environment(
     computeEnvironment,
     params::AbstractDict{String};
@@ -1277,6 +1243,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EC2 and Fargate compute environments can't be mixed.  All compute environments that are
   associated with a job queue must share the same architecture. Batch doesn't support mixing
   compute environment architecture types in a single job queue.
+- `"jobStateTimeLimitActions"`: The set of actions that Batch perform on jobs that remain
+  at the head of the job queue in the specified state longer than specified times. Batch will
+  perform each action after maxTimeSeconds has passed.
 - `"priority"`: The priority of the job queue. Job queues with a higher priority (or a
   higher integer value for the priority parameter) are evaluated first when associated with
   the same compute environment. Priority is determined in descending order. For example, a
@@ -1291,15 +1260,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ENABLED, it can accept jobs. If the job queue state is DISABLED, new jobs can't be added to
   the queue, but jobs already in the queue can finish.
 """
-function update_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/updatejobqueue",
-        Dict{String,Any}("jobQueue" => jobQueue);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_job_queue(jobQueue; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/updatejobqueue",
+    Dict{String,Any}("jobQueue" => jobQueue);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_job_queue(
     jobQueue,
     params::AbstractDict{String};
@@ -1329,15 +1296,13 @@ Updates a scheduling policy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"fairsharePolicy"`: The fair share policy.
 """
-function update_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return batch(
-        "POST",
-        "/v1/updateschedulingpolicy",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_scheduling_policy(arn; aws_config::AbstractAWSConfig=global_aws_config()) = batch(
+    "POST",
+    "/v1/updateschedulingpolicy",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_scheduling_policy(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

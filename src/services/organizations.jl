@@ -16,13 +16,13 @@ for an invitation to join must have the organizations:AcceptHandshake permission
 enabled all features in the organization, the user must also have the
 iam:CreateServiceLinkedRole permission so that Organizations can create the required
 service-linked role named AWSServiceRoleForOrganizations. For more information, see
-Organizations and Service-Linked Roles in the Organizations User Guide.    Enable all
+Organizations and service-linked roles in the Organizations User Guide.    Enable all
 features final confirmation handshake: only a principal from the management account. For
 more information about invitations, see Inviting an Amazon Web Services account to join
 your organization in the Organizations User Guide. For more information about requests to
 enable all features in the organization, see Enabling all features in your organization in
-the Organizations User Guide.    After you accept a handshake, it continues to appear in
-the results of relevant APIs for only 30 days. After that, it's deleted.
+the Organizations User Guide.   After you accept a handshake, it continues to appear in the
+results of relevant APIs for only 30 days. After that, it's deleted.
 
 # Arguments
 - `handshake_id`: The unique identifier (ID) of the handshake that you want to accept. The
@@ -30,14 +30,13 @@ the results of relevant APIs for only 30 days. After that, it's deleted.
   letters or digits.
 
 """
-function accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+accept_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "AcceptHandshake",
         Dict{String,Any}("HandshakeId" => HandshakeId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function accept_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -61,7 +60,8 @@ Attaches a policy to a root, an organizational unit (OU), or an individual accou
 policy affects accounts depends on the type of policy. Refer to the Organizations User
 Guide for information about each policy type:    AISERVICES_OPT_OUT_POLICY
 BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY    This operation can be called
-only from the organization's management account.
+only from the organization's management account or by a member account that is a delegated
+administrator for an Amazon Web Services service.
 
 # Arguments
 - `policy_id`: The unique identifier (ID) of the policy that you want to attach to the
@@ -79,16 +79,13 @@ only from the organization's management account.
   letters or digits.
 
 """
-function attach_policy(
-    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+attach_policy(PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "AttachPolicy",
         Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function attach_policy(
     PolicyId,
     TargetId,
@@ -126,14 +123,13 @@ that, it's deleted.
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+cancel_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "CancelHandshake",
         Dict{String,Any}("HandshakeId" => HandshakeId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -165,32 +161,28 @@ progress, Account status will indicate PENDING_CLOSURE. When the close account r
 completes, the status will change to SUSPENDED.    Check the CloudTrail log for the
 CloseAccountResult event that gets published after the account closes successfully. For
 information on using CloudTrail with Organizations, see Logging and monitoring in
-Organizations in the Organizations User Guide.       You can close only 10% of member
-accounts, between 10 and 200, within a rolling 30 day period. This quota is not bound by a
+Organizations in the Organizations User Guide.      You can close only 10% of member
+accounts, between 10 and 1000, within a rolling 30 day period. This quota is not bound by a
 calendar month, but starts when you close an account. After you reach this limit, you can
-close additional accounts in the Billing console. For more information, see Closing an
-account in the Amazon Web Services Billing and Cost Management User Guide.   To reinstate a
+close additional accounts. For more information, see Closing a member account in your
+organization and Quotas for Organizationsin the Organizations User Guide.    To reinstate a
 closed account, contact Amazon Web Services Support within the 90-day grace period while
 the account is in SUSPENDED status.    If the Amazon Web Services account you attempt to
 close is linked to an Amazon Web Services GovCloud (US) account, the CloseAccount request
 will close both accounts. To learn important pre-closure details, see  Closing an Amazon
-Web Services GovCloud (US) account in the  Amazon Web Services GovCloud User Guide.    For
-more information about closing accounts, see Closing an Amazon Web Services account in the
-Organizations User Guide.
+Web Services GovCloud (US) account in the  Amazon Web Services GovCloud User Guide.
 
 # Arguments
 - `account_id`: Retrieves the Amazon Web Services account Id for the current CloseAccount
   API request.
 
 """
-function close_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "CloseAccount",
-        Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+close_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "CloseAccount",
+    Dict{String,Any}("AccountId" => AccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function close_account(
     AccountId,
     params::AbstractDict{String};
@@ -219,11 +211,11 @@ account. To check the status of the request, do one of the following:   Use the 
 the CreateAccountStatus response element from this operation to provide as a parameter to
 the DescribeCreateAccountStatus operation.   Check the CloudTrail log for the
 CreateAccountResult event. For information on using CloudTrail with Organizations, see
-Logging and monitoring in Organizations in the Organizations User Guide.    The user who
+Logging and monitoring in Organizations in the Organizations User Guide.   The user who
 calls the API to create an account must have the organizations:CreateAccount permission. If
 you enabled all features in the organization, Organizations creates the required
 service-linked role named AWSServiceRoleForOrganizations. For more information, see
-Organizations and Service-Linked Roles in the Organizations User Guide. If the request
+Organizations and service-linked roles in the Organizations User Guide. If the request
 includes tags, then the requester must have the organizations:TagResource permission.
 Organizations preconfigures the new member account with a role (named
 OrganizationAccountAccessRole by default) that grants users in the management account
@@ -231,27 +223,27 @@ administrator permissions in the new member account. Principals in the managemen
 can assume the role. Organizations clones the company name and address information for the
 new account from the organization's management account. This operation can be called only
 from the organization's management account. For more information about creating accounts,
-see Creating an Amazon Web Services account in Your Organization in the Organizations User
-Guide.     When you create an account in an organization using the Organizations console,
-API, or CLI commands, the information required for the account to operate as a standalone
-account, such as a payment method and signing the end user license agreement (EULA) is not
-automatically collected. If you must remove an account from your organization later, you
-can do so only after you provide the missing information. Follow the steps at  To leave an
-organization as a member account in the Organizations User Guide.   If you get an exception
-that indicates that you exceeded your account limits for the organization, contact Amazon
-Web Services Support.   If you get an exception that indicates that the operation failed
-because your organization is still initializing, wait one hour and then try again. If the
-error persists, contact Amazon Web Services Support.   Using CreateAccount to create
-multiple temporary accounts isn't recommended. You can only close an account from the
-Billing and Cost Management console, and you must be signed in as the root user. For
-information on the requirements and process for closing an account, see Closing an Amazon
-Web Services account in the Organizations User Guide.     When you create a member account
-with this operation, you can choose whether to create the account with the IAM User and
-Role Access to Billing Information switch enabled. If you enable it, IAM users and roles
-that have appropriate permissions can view billing information for the account. If you
-disable it, only the account root user can access billing information. For information
-about how to disable this switch for an account, see Granting Access to Your Billing
-Information and Tools.
+see Creating a member account in your organization in the Organizations User Guide.    When
+you create an account in an organization using the Organizations console, API, or CLI
+commands, the information required for the account to operate as a standalone account, such
+as a payment method and signing the end user license agreement (EULA) is not automatically
+collected. If you must remove an account from your organization later, you can do so only
+after you provide the missing information. For more information, see Considerations before
+removing an account from an organization in the Organizations User Guide.   If you get an
+exception that indicates that you exceeded your account limits for the organization,
+contact Amazon Web Services Support.   If you get an exception that indicates that the
+operation failed because your organization is still initializing, wait one hour and then
+try again. If the error persists, contact Amazon Web Services Support.   Using
+CreateAccount to create multiple temporary accounts isn't recommended. You can only close
+an account from the Billing and Cost Management console, and you must be signed in as the
+root user. For information on the requirements and process for closing an account, see
+Closing a member account in your organization in the Organizations User Guide.     When you
+create a member account with this operation, you can choose whether to create the account
+with the IAM User and Role Access to Billing Information switch enabled. If you enable it,
+IAM users and roles that have appropriate permissions can view billing information for the
+account. If you disable it, only the account root user can access billing information. For
+information about how to disable this switch for an account, see Granting access to your
+billing information and tools.
 
 # Arguments
 - `account_name`: The friendly name of the member account.
@@ -273,7 +265,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IamUserAccessToBilling"`: If set to ALLOW, the new account enables IAM users to access
   account billing information if they have the required permissions. If set to DENY, only the
   root user of the new account can access account billing information. For more information,
-  see Activating Access to the Billing and Cost Management Console in the Amazon Web Services
+  see About IAM access to the Billing and Cost Management console in the Amazon Web Services
   Billing and Cost Management User Guide. If you don't specify this parameter, the value
   defaults to ALLOW, and IAM users and roles with the required permissions can access billing
   information for the new account.
@@ -283,11 +275,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrator. The role has administrator permissions in the new member account. If you
   don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For
   more information about how to use this role to access the member account, see the following
-  links:    Accessing and Administering the Member Accounts in Your Organization in the
-  Organizations User Guide    Steps 2 and 3 in Tutorial: Delegate Access Across Amazon Web
-  Services accounts Using IAM Roles in the IAM User Guide    The regex pattern that is used
-  to validate this parameter. The pattern can include uppercase letters, lowercase letters,
-  digits with no spaces, and any of the following characters: =,.@-
+  links:    Creating the OrganizationAccountAccessRole in an invited member account in the
+  Organizations User Guide    Steps 2 and 3 in IAM Tutorial: Delegate access across Amazon
+  Web Services accounts using IAM roles in the IAM User Guide    The regex pattern that is
+  used to validate this parameter. The pattern can include uppercase letters, lowercase
+  letters, digits with no spaces, and any of the following characters: =,.@-
 - `"Tags"`: A list of tags that you want to attach to the newly created account. For each
   tag in the list, you must specify both a tag key and a value. You can set the value to an
   empty string, but you can't set it to null. For more information about tagging, see Tagging
@@ -295,16 +287,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid or if you exceed the maximum allowed number of tags for an account, then the entire
   request fails and the account is not created.
 """
-function create_account(
-    AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+create_account(AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "CreateAccount",
         Dict{String,Any}("AccountName" => AccountName, "Email" => Email);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_account(
     AccountName,
     Email,
@@ -337,7 +326,7 @@ paired with a management account of an organization in the commercial Region.   
 this action from the management account of your organization in the commercial Region.
 You have the organizations:CreateGovCloudAccount permission.    Organizations automatically
 creates the required service-linked role named AWSServiceRoleForOrganizations. For more
-information, see Organizations and Service-Linked Roles in the Organizations User Guide.
+information, see Organizations and service-linked roles in the Organizations User Guide.
 Amazon Web Services automatically enables CloudTrail for Amazon Web Services GovCloud (US)
 accounts, but you should also do the following:   Verify that CloudTrail is enabled to
 store logs.   Create an Amazon S3 bucket for CloudTrail log storage. For more information,
@@ -360,8 +349,8 @@ account. To check the status of the request, do one of the following:   Use the 
 response element from this operation to provide as a parameter to the
 DescribeCreateAccountStatus operation.   Check the CloudTrail log for the
 CreateAccountResult event. For information on using CloudTrail with Organizations, see
-Monitoring the Activity in Your Organization in the Organizations User Guide.     When you
-call the CreateGovCloudAccount action, you create two accounts: a standalone account in the
+Logging and monitoring in Organizations in the Organizations User Guide.    When you call
+the CreateGovCloudAccount action, you create two accounts: a standalone account in the
 Amazon Web Services GovCloud (US) Region and an associated account in the commercial Region
 for billing and support purposes. The account in the commercial Region is automatically a
 member of the organization whose credentials made the request. Both accounts are associated
@@ -372,28 +361,29 @@ commercial account that you just created. A role is also created in the new Amaz
 Services GovCloud (US) account that can be assumed by the Amazon Web Services GovCloud (US)
 account that is associated with the management account of the commercial organization. For
 more information and to view a diagram that explains how account access works, see
-Organizations in the Amazon Web Services GovCloud User Guide.  For more information about
-creating accounts, see Creating an Amazon Web Services account in Your Organization in the
-Organizations User Guide.     When you create an account in an organization using the
-Organizations console, API, or CLI commands, the information required for the account to
-operate as a standalone account is not automatically collected. This includes a payment
-method and signing the end user license agreement (EULA). If you must remove an account
-from your organization later, you can do so only after you provide the missing information.
-Follow the steps at  To leave an organization as a member account in the Organizations User
-Guide.    If you get an exception that indicates that you exceeded your account limits for
-the organization, contact Amazon Web Services Support.   If you get an exception that
-indicates that the operation failed because your organization is still initializing, wait
-one hour and then try again. If the error persists, contact Amazon Web Services Support.
-Using CreateGovCloudAccount to create multiple temporary accounts isn't recommended. You
-can only close an account from the Amazon Web Services Billing and Cost Management console,
-and you must be signed in as the root user. For information on the requirements and process
-for closing an account, see Closing an Amazon Web Services account in the Organizations
-User Guide.     When you create a member account with this operation, you can choose
-whether to create the account with the IAM User and Role Access to Billing Information
-switch enabled. If you enable it, IAM users and roles that have appropriate permissions can
-view billing information for the account. If you disable it, only the account root user can
-access billing information. For information about how to disable this switch for an
-account, see Granting Access to Your Billing Information and Tools.
+Organizations in the Amazon Web Services GovCloud User Guide. For more information about
+creating accounts, see Creating a member account in your organization in the Organizations
+User Guide.    When you create an account in an organization using the Organizations
+console, API, or CLI commands, the information required for the account to operate as a
+standalone account is not automatically collected. This includes a payment method and
+signing the end user license agreement (EULA). If you must remove an account from your
+organization later, you can do so only after you provide the missing information. For more
+information, see Considerations before removing an account from an organization in the
+Organizations User Guide.   If you get an exception that indicates that you exceeded your
+account limits for the organization, contact Amazon Web Services Support.   If you get an
+exception that indicates that the operation failed because your organization is still
+initializing, wait one hour and then try again. If the error persists, contact Amazon Web
+Services Support.   Using CreateGovCloudAccount to create multiple temporary accounts isn't
+recommended. You can only close an account from the Amazon Web Services Billing and Cost
+Management console, and you must be signed in as the root user. For information on the
+requirements and process for closing an account, see Closing a member account in your
+organization in the Organizations User Guide.     When you create a member account with
+this operation, you can choose whether to create the account with the IAM User and Role
+Access to Billing Information switch enabled. If you enable it, IAM users and roles that
+have appropriate permissions can view billing information for the account. If you disable
+it, only the account root user can access billing information. For information about how to
+disable this switch for an account, see Granting access to your billing information and
+tools.
 
 # Arguments
 - `account_name`: The friendly name of the member account.  The account name can consist of
@@ -419,8 +409,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IamUserAccessToBilling"`: If set to ALLOW, the new linked account in the commercial
   Region enables IAM users to access account billing information if they have the required
   permissions. If set to DENY, only the root user of the new account can access account
-  billing information. For more information, see Activating Access to the Billing and Cost
-  Management Console in the Amazon Web Services Billing and Cost Management User Guide.  If
+  billing information. For more information, see About IAM access to the Billing and Cost
+  Management console in the Amazon Web Services Billing and Cost Management User Guide. If
   you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with
   the required permissions can access billing information for the new account.
 - `"RoleName"`: (Optional) The name of an IAM role that Organizations automatically
@@ -429,12 +419,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   users in the management account to assume the role, as permitted by the management account
   administrator. The role has administrator permissions in the new member account. If you
   don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For
-  more information about how to use this role to access the member account, see Accessing and
-  Administering the Member Accounts in Your Organization in the Organizations User Guide and
-  steps 2 and 3 in Tutorial: Delegate Access Across Amazon Web Services accounts Using IAM
-  Roles in the IAM User Guide.  The regex pattern that is used to validate this parameter.
-  The pattern can include uppercase letters, lowercase letters, digits with no spaces, and
-  any of the following characters: =,.@-
+  more information about how to use this role to access the member account, see the following
+  links:    Creating the OrganizationAccountAccessRole in an invited member account in the
+  Organizations User Guide    Steps 2 and 3 in IAM Tutorial: Delegate access across Amazon
+  Web Services accounts using IAM roles in the IAM User Guide    The regex pattern that is
+  used to validate this parameter. The pattern can include uppercase letters, lowercase
+  letters, digits with no spaces, and any of the following characters: =,.@-
 - `"Tags"`: A list of tags that you want to attach to the newly created account. These tags
   are attached to the commercial account associated with the GovCloud account, and not to the
   GovCloud account itself. To add tags to the actual GovCloud account, call the TagResource
@@ -445,16 +435,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid or if you exceed the maximum allowed number of tags for an account, then the entire
   request fails and the account is not created.
 """
-function create_gov_cloud_account(
+create_gov_cloud_account(
     AccountName, Email; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "CreateGovCloudAccount",
+    Dict{String,Any}("AccountName" => AccountName, "Email" => Email);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "CreateGovCloudAccount",
-        Dict{String,Any}("AccountName" => AccountName, "Email" => Email);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_gov_cloud_account(
     AccountName,
     Email,
@@ -487,26 +475,24 @@ IAM permissions. By default (or if you set the FeatureSet parameter to ALL), the
 organization is created with all features enabled and service control policies
 automatically enabled in the root. If you instead choose to create the organization
 supporting only the consolidated billing features by setting the FeatureSet parameter to
-CONSOLIDATED_BILLING\", no policy types are enabled by default, and you can't use
-organization policies
+CONSOLIDATED_BILLING, no policy types are enabled by default and you can't use organization
+policies.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"FeatureSet"`: Specifies the feature set supported by the new organization. Each feature
   set supports different levels of functionality.    CONSOLIDATED_BILLING: All member
   accounts have their bills consolidated to and paid by the management account. For more
-  information, see Consolidated billing in the Organizations User Guide.   The consolidated
+  information, see Consolidated billing in the Organizations User Guide.  The consolidated
   billing feature subset isn't available for organizations in the Amazon Web Services
   GovCloud (US) Region.    ALL: In addition to all the features supported by the consolidated
   billing feature set, the management account can also apply any policy type to any member
   account in the organization. For more information, see All features in the Organizations
   User Guide.
 """
-function create_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "CreateOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+create_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "CreateOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function create_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -523,8 +509,8 @@ Creates an organizational unit (OU) within a root or parent OU. An OU is a conta
 accounts that enables you to organize your accounts to apply policies according to your
 business requirements. The number of levels deep that you can nest OUs is dependent upon
 the policy types enabled for that root. For service control policies, the limit is five.
-For more information about OUs, see Managing Organizational Units in the Organizations User
-Guide.  If the request includes tags, then the requester must have the
+For more information about OUs, see Managing organizational units (OUs) in the
+Organizations User Guide. If the request includes tags, then the requester must have the
 organizations:TagResource permission. This operation can be called only from the
 organization's management account.
 
@@ -546,16 +532,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid or if you exceed the allowed number of tags for an OU, then the entire request fails
   and the OU is not created.
 """
-function create_organizational_unit(
+create_organizational_unit(
     Name, ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "CreateOrganizationalUnit",
+    Dict{String,Any}("Name" => Name, "ParentId" => ParentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "CreateOrganizationalUnit",
-        Dict{String,Any}("Name" => Name, "ParentId" => ParentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_organizational_unit(
     Name,
     ParentId,
@@ -580,13 +564,16 @@ end
 
 Creates a policy of a specified type that you can attach to a root, an organizational unit
 (OU), or an individual Amazon Web Services account. For more information about policies and
-their use, see Managing Organization Policies. If the request includes tags, then the
+their use, see Managing Organizations policies. If the request includes tags, then the
 requester must have the organizations:TagResource permission. This operation can be called
-only from the organization's management account.
+only from the organization's management account or by a member account that is a delegated
+administrator for an Amazon Web Services service.
 
 # Arguments
 - `content`: The policy text content to add to the new policy. The text that you supply
-  must adhere to the rules of the policy type you specify in the Type parameter.
+  must adhere to the rules of the policy type you specify in the Type parameter.  The maximum
+  size of a policy document depends on the policy's type. For more information, see Maximum
+  and minimum values in the Organizations User Guide.
 - `description`: An optional description to assign to the policy.
 - `name`: The friendly name to assign to the policy. The regex pattern that is used to
   validate this parameter is a string of any of the characters in the ASCII character range.
@@ -602,21 +589,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   valid or if you exceed the allowed number of tags for a policy, then the entire request
   fails and the policy is not created.
 """
-function create_policy(
+create_policy(
     Content, Description, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "CreatePolicy",
+    Dict{String,Any}(
+        "Content" => Content,
+        "Description" => Description,
+        "Name" => Name,
+        "Type" => Type,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "CreatePolicy",
-        Dict{String,Any}(
-            "Content" => Content,
-            "Description" => Description,
-            "Name" => Name,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_policy(
     Content,
     Description,
@@ -661,14 +646,13 @@ relevant APIs for only 30 days. After that, it's deleted.
   ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+decline_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DeclineHandshake",
         Dict{String,Any}("HandshakeId" => HandshakeId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function decline_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -692,11 +676,9 @@ Deletes the organization. You can delete an organization only by using credentia
 management account. The organization must be empty of member accounts.
 
 """
-function delete_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DeleteOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "DeleteOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function delete_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -721,16 +703,14 @@ only from the organization's management account.
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 """
-function delete_organizational_unit(
+delete_organizational_unit(
     OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "DeleteOrganizationalUnit",
+    Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "DeleteOrganizationalUnit",
-        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_organizational_unit(
     OrganizationalUnitId,
     params::AbstractDict{String};
@@ -756,7 +736,8 @@ end
 
 Deletes the specified policy from your organization. Before you perform this operation, you
 must first detach the policy from all organizational units (OUs), roots, and accounts. This
-operation can be called only from the organization's management account.
+operation can be called only from the organization's management account or by a member
+account that is a delegated administrator for an Amazon Web Services service.
 
 # Arguments
 - `policy_id`: The unique identifier (ID) of the policy that you want to delete. You can
@@ -765,14 +746,12 @@ operation can be called only from the organization's management account.
   letters, digits, or the underscore character (_).
 
 """
-function delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DeletePolicy",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "DeletePolicy",
+    Dict{String,Any}("PolicyId" => PolicyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -796,11 +775,9 @@ Deletes the resource policy from your organization. You can only call this opera
 the organization's management account.
 
 """
-function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function delete_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -836,16 +813,14 @@ This operation can be called only from the organization's management account.
   administrator, the operation also revokes Organizations read action permissions.
 
 """
-function deregister_delegated_administrator(
+deregister_delegated_administrator(
     AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "DeregisterDelegatedAdministrator",
+    Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "DeregisterDelegatedAdministrator",
-        Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_delegated_administrator(
     AccountId,
     ServicePrincipal,
@@ -882,14 +857,13 @@ delegated administrator for an Amazon Web Services service.
   operations. The regex pattern for an account ID string requires exactly 12 digits.
 
 """
-function describe_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+describe_account(AccountId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DescribeAccount",
         Dict{String,Any}("AccountId" => AccountId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_account(
     AccountId,
     params::AbstractDict{String};
@@ -921,16 +895,14 @@ account that is a delegated administrator for an Amazon Web Services service.
   lowercase letters or digits.
 
 """
-function describe_create_account_status(
+describe_create_account_status(
     CreateAccountRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "DescribeCreateAccountStatus",
+    Dict{String,Any}("CreateAccountRequestId" => CreateAccountRequestId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "DescribeCreateAccountStatus",
-        Dict{String,Any}("CreateAccountRequestId" => CreateAccountRequestId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_create_account_status(
     CreateAccountRequestId,
     params::AbstractDict{String};
@@ -958,9 +930,9 @@ Returns the contents of the effective policy for specified policy type and accou
 effective policy is the aggregation of any policies of the specified type that the account
 inherits, plus any policy of that type that is directly attached to the account. This
 operation applies only to policy types other than service control policies (SCPs). For more
-information about policy inheritance, see How Policy Inheritance Works in the Organizations
-User Guide. This operation can be called only from the organization's management account or
-by a member account that is a delegated administrator for an Amazon Web Services service.
+information about policy inheritance, see Understanding management policy inheritance in
+the Organizations User Guide. This operation can be called from any account in the
+organization.
 
 # Arguments
 - `policy_type`: The type of policy that you want information about. You can specify one of
@@ -972,16 +944,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account that you want details about. Specifying an organization root or organizational unit
   (OU) as the target is not supported.
 """
-function describe_effective_policy(
-    PolicyType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+describe_effective_policy(PolicyType; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DescribeEffectivePolicy",
         Dict{String,Any}("PolicyType" => PolicyType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_effective_policy(
     PolicyType,
     params::AbstractDict{String};
@@ -1014,14 +983,13 @@ operation can be called from any account in the organization.
   handshake ID string requires \"h-\" followed by from 8 to 32 lowercase letters or digits.
 
 """
-function describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+describe_handshake(HandshakeId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DescribeHandshake",
         Dict{String,Any}("HandshakeId" => HandshakeId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_handshake(
     HandshakeId,
     params::AbstractDict{String};
@@ -1048,11 +1016,9 @@ with DisablePolicyType. Use ListRoots to see the status of policy types for a sp
 root.
 
 """
-function describe_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "DescribeOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "DescribeOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1080,16 +1046,14 @@ administrator for an Amazon Web Services service.
   followed by a second \"-\" dash and from 8 to 32 additional lowercase letters or digits.
 
 """
-function describe_organizational_unit(
+describe_organizational_unit(
     OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "DescribeOrganizationalUnit",
+    Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "DescribeOrganizationalUnit",
-        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_organizational_unit(
     OrganizationalUnitId,
     params::AbstractDict{String};
@@ -1124,14 +1088,13 @@ for an Amazon Web Services service.
   letters, digits, or the underscore character (_).
 
 """
-function describe_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+describe_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DescribePolicy",
         Dict{String,Any}("PolicyId" => PolicyId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -1151,16 +1114,15 @@ end
     describe_resource_policy()
     describe_resource_policy(params::Dict{String,<:Any})
 
-Retrieves information about a resource policy. You can only call this operation from the
+Retrieves information about a resource policy. This operation can be called only from the
 organization's management account or by a member account that is a delegated administrator
 for an Amazon Web Services service.
 
 """
-function describe_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+describe_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DescribeResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function describe_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1186,7 +1148,8 @@ authorization strategy of an \"allow list\". If you instead attach a second SCP 
 the FullAWSAccess SCP still attached, and specify \"Effect\": \"Deny\" in the second SCP to
 override the \"Effect\": \"Allow\" in the FullAWSAccess policy (or any other attached SCP),
 you're using the authorization strategy of a \"deny list\". This operation can be called
-only from the organization's management account.
+only from the organization's management account or by a member account that is a delegated
+administrator for an Amazon Web Services service.
 
 # Arguments
 - `policy_id`: The unique identifier (ID) of the policy you want to detach. You can get the
@@ -1204,16 +1167,13 @@ only from the organization's management account.
   letters or digits.
 
 """
-function detach_policy(
-    PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+detach_policy(PolicyId, TargetId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DetachPolicy",
         Dict{String,Any}("PolicyId" => PolicyId, "TargetId" => TargetId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function detach_policy(
     PolicyId,
     TargetId,
@@ -1269,9 +1229,9 @@ resources in the organization's accounts depends on that service. For more infor
 the documentation for the other Amazon Web Services service.   After you perform the
 DisableAWSServiceAccess operation, the specified service can no longer perform operations
 in your organization's accounts  For more information about integrating other services with
-Organizations, including the list of services that work with Organizations, see Integrating
-Organizations with Other Amazon Web Services Services in the Organizations User Guide.
-This operation can be called only from the organization's management account.
+Organizations, including the list of services that work with Organizations, see Using
+Organizations with other Amazon Web Services services in the Organizations User Guide. This
+operation can be called only from the organization's management account.
 
 # Arguments
 - `service_principal`: The service principal name of the Amazon Web Services service for
@@ -1279,16 +1239,14 @@ This operation can be called only from the organization's management account.
   of a URL, such as  service-abbreviation.amazonaws.com.
 
 """
-function disable_awsservice_access(
+disable_awsservice_access(
     ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "DisableAWSServiceAccess",
+    Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "DisableAWSServiceAccess",
-        Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_awsservice_access(
     ServicePrincipal,
     params::AbstractDict{String};
@@ -1319,7 +1277,8 @@ performs in the background. If you disable a policy type for a root, it still ap
 enabled for the organization if all features are enabled for the organization. Amazon Web
 Services recommends that you first use ListRoots to see the status of policy types for a
 specified root, and then use this operation. This operation can be called only from the
-organization's management account.  To view the status of available policy types in the
+organization's management account or by a member account that is a delegated administrator
+for an Amazon Web Services service.  To view the status of available policy types in the
 organization, use DescribeOrganization.
 
 # Arguments
@@ -1331,16 +1290,13 @@ organization, use DescribeOrganization.
   string requires \"r-\" followed by from 4 to 32 lowercase letters or digits.
 
 """
-function disable_policy_type(
-    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+disable_policy_type(PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "DisablePolicyType",
         Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disable_policy_type(
     PolicyType,
     RootId,
@@ -1369,7 +1325,7 @@ Enables all features in an organization. This enables the use of organization po
 can restrict the services and actions that can be called in each account. Until you enable
 all features, you have access only to consolidated billing, and you can't use any of the
 advanced account administration features that Organizations supports. For more information,
-see Enabling All Features in Your Organization in the Organizations User Guide.   This
+see Enabling all features in your organization in the Organizations User Guide.  This
 operation is required only for organizations that were created explicitly with only the
 consolidated billing features enabled. Calling this operation sends a handshake to every
 invited account in the organization. The feature set change can be finalized and the
@@ -1387,11 +1343,9 @@ account administrators are aware of this. This operation can be called only from
 organization's management account.
 
 """
-function enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "EnableAllFeatures"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+enable_all_features(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "EnableAllFeatures"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function enable_all_features(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1414,8 +1368,8 @@ specified service. Doing so ensures that the service is aware that it can create
 resources that are required for the integration. How the service creates those resources in
 the organization's accounts depends on that service. For more information, see the
 documentation for the other Amazon Web Services service.  For more information about
-enabling services to integrate with Organizations, see Integrating Organizations with Other
-Amazon Web Services Services in the Organizations User Guide.  You can only call this
+enabling services to integrate with Organizations, see Using Organizations with other
+Amazon Web Services services in the Organizations User Guide. You can only call this
 operation from the organization's management account and only if the organization has
 enabled all features.
 
@@ -1425,16 +1379,14 @@ enabled all features.
   of a URL, such as  service-abbreviation.amazonaws.com.
 
 """
-function enable_awsservice_access(
+enable_awsservice_access(
     ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "EnableAWSServiceAccess",
+    Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "EnableAWSServiceAccess",
-        Dict{String,Any}("ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function enable_awsservice_access(
     ServicePrincipal,
     params::AbstractDict{String};
@@ -1462,7 +1414,8 @@ You can undo this by using the DisablePolicyType operation. This is an asynchron
 that Amazon Web Services performs in the background. Amazon Web Services recommends that
 you first use ListRoots to see the status of policy types for a specified root, and then
 use this operation. This operation can be called only from the organization's management
-account. You can enable a policy type in a root only if that policy type is available in
+account or by a member account that is a delegated administrator for an Amazon Web Services
+service. You can enable a policy type in a root only if that policy type is available in
 the organization. To view the status of available policy types in the organization, use
 DescribeOrganization.
 
@@ -1475,16 +1428,13 @@ DescribeOrganization.
   string requires \"r-\" followed by from 4 to 32 lowercase letters or digits.
 
 """
-function enable_policy_type(
-    PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+enable_policy_type(PolicyType, RootId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "EnablePolicyType",
         Dict{String,Any}("PolicyType" => PolicyType, "RootId" => RootId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function enable_policy_type(
     PolicyType,
     RootId,
@@ -1517,7 +1467,7 @@ the management account. For example, if your organization's management account w
 by Amazon Internet Services Pvt. Ltd (AISPL), an Amazon Web Services seller in India, you
 can invite only other AISPL accounts to your organization. You can't combine accounts from
 AISPL and Amazon Web Services or from any other Amazon Web Services seller. For more
-information, see Consolidated Billing in India.   If you receive an exception that
+information, see Consolidated billing in India.   If you receive an exception that
 indicates that you exceeded your account limits for the organization or that the operation
 failed because your organization is still initializing, wait one hour and then try again.
 If the error persists after an hour, contact Amazon Web Services Support.    If the request
@@ -1551,16 +1501,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exceed the allowed number of tags for an account, then the entire request fails and
   invitations are not sent.
 """
-function invite_account_to_organization(
-    Target; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+invite_account_to_organization(Target; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "InviteAccountToOrganization",
         Dict{String,Any}("Target" => Target);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function invite_account_to_organization(
     Target, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1591,27 +1538,27 @@ standalone, you must perform the following steps. If any of the steps are alread
 for this account, that step doesn't appear.   Choose a support plan   Provide and verify
 the required contact information   Provide a current payment method   Amazon Web Services
 uses the payment method to charge for any billable (not free tier) Amazon Web Services
-activity that occurs while the account isn't attached to an organization. Follow the steps
-at  To leave an organization when all required account information has not yet been
-provided in the Organizations User Guide.    The account that you want to leave must not be
-a delegated administrator account for any Amazon Web Services service enabled for your
-organization. If the account is a delegated administrator, you must first change the
-delegated administrator account to another account that is remaining in the organization.
-You can leave an organization only after you enable IAM user access to billing in your
-account. For more information, see Activating Access to the Billing and Cost Management
-Console in the Amazon Web Services Billing and Cost Management User Guide.    After the
-account leaves the organization, all tags that were attached to the account object in the
-organization are deleted. Amazon Web Services accounts outside of an organization do not
-support tags.   A newly created account has a waiting period before it can be removed from
-its organization. If you get an error that indicates that a wait period is required, then
-try again in a few days.
+activity that occurs while the account isn't attached to an organization. For more
+information, see Considerations before removing an account from an organization in the
+Organizations User Guide.   The account that you want to leave must not be a delegated
+administrator account for any Amazon Web Services service enabled for your organization. If
+the account is a delegated administrator, you must first change the delegated administrator
+account to another account that is remaining in the organization.   You can leave an
+organization only after you enable IAM user access to billing in your account. For more
+information, see About IAM access to the Billing and Cost Management console in the Amazon
+Web Services Billing and Cost Management User Guide.   After the account leaves the
+organization, all tags that were attached to the account object in the organization are
+deleted. Amazon Web Services accounts outside of an organization do not support tags.   A
+newly created account has a waiting period before it can be removed from its organization.
+If you get an error that indicates that a wait period is required, then try again in a few
+days.   If you are using an organization principal to call LeaveOrganization across
+multiple accounts, you can only do this up to 5 accounts per second in a single
+organization.
 
 """
-function leave_organization(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "LeaveOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+leave_organization(; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "LeaveOrganization"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function leave_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1648,11 +1595,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations("ListAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1695,16 +1639,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_accounts_for_parent(
-    ParentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+list_accounts_for_parent(ParentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListAccountsForParent",
         Dict{String,Any}("ParentId" => ParentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_accounts_for_parent(
     ParentId,
     params::AbstractDict{String};
@@ -1728,9 +1669,9 @@ Returns a list of the Amazon Web Services services that you enabled to integrate
 organization. After a service on this list creates the resources that it requires for the
 integration, it can perform operations on your organization and its accounts. For more
 information about integrating other services with Organizations, including the list of
-services that currently work with Organizations, see Integrating Organizations with Other
-Amazon Web Services Services in the Organizations User Guide.  This operation can be called
-only from the organization's management account or by a member account that is a delegated
+services that currently work with Organizations, see Using Organizations with other Amazon
+Web Services services in the Organizations User Guide. This operation can be called only
+from the organization's management account or by a member account that is a delegated
 administrator for an Amazon Web Services service.
 
 # Optional Parameters
@@ -1748,15 +1689,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_awsservice_access_for_organization(;
+list_awsservice_access_for_organization(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "ListAWSServiceAccessForOrganization";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "ListAWSServiceAccessForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_awsservice_access_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1805,16 +1744,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_children(
-    ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+list_children(ChildType, ParentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListChildren",
         Dict{String,Any}("ChildType" => ChildType, "ParentId" => ParentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_children(
     ChildType,
     ParentId,
@@ -1864,11 +1800,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"States"`: A list of one or more states that you want included in the response. If this
   parameter isn't present, all requests are included in the response.
 """
-function list_create_account_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+list_create_account_status(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListCreateAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_create_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1908,13 +1843,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a service principal, the operation lists all delegated administrators for all
   services in your organization.
 """
-function list_delegated_administrators(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+list_delegated_administrators(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListDelegatedAdministrators";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_delegated_administrators(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1953,16 +1887,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_delegated_services_for_account(
+list_delegated_services_for_account(
     AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "ListDelegatedServicesForAccount",
+    Dict{String,Any}("AccountId" => AccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "ListDelegatedServicesForAccount",
-        Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_delegated_services_for_account(
     AccountId,
     params::AbstractDict{String};
@@ -2012,11 +1944,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_handshakes_for_account(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+list_handshakes_for_account(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListHandshakesForAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_handshakes_for_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2065,15 +1996,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_handshakes_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+list_handshakes_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListHandshakesForOrganization";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_handshakes_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2120,16 +2048,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_organizational_units_for_parent(
+list_organizational_units_for_parent(
     ParentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "ListOrganizationalUnitsForParent",
+    Dict{String,Any}("ParentId" => ParentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "ListOrganizationalUnitsForParent",
-        Dict{String,Any}("ParentId" => ParentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_organizational_units_for_parent(
     ParentId,
     params::AbstractDict{String};
@@ -2182,14 +2108,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_parents(ChildId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListParents",
-        Dict{String,Any}("ChildId" => ChildId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_parents(ChildId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "ListParents",
+    Dict{String,Any}("ChildId" => ChildId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_parents(
     ChildId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2233,14 +2157,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_policies(Filter; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListPolicies",
-        Dict{String,Any}("Filter" => Filter);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_policies(Filter; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "ListPolicies",
+    Dict{String,Any}("Filter" => Filter);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_policies(
     Filter, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2292,16 +2214,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_policies_for_target(
+list_policies_for_target(
     Filter, TargetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "ListPoliciesForTarget",
+    Dict{String,Any}("Filter" => Filter, "TargetId" => TargetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "ListPoliciesForTarget",
-        Dict{String,Any}("Filter" => Filter, "TargetId" => TargetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_policies_for_target(
     Filter,
     TargetId,
@@ -2350,11 +2270,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_roots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "ListRoots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_roots(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations("ListRoots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_roots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2388,16 +2305,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_tags_for_resource(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+list_tags_for_resource(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListTagsForResource",
         Dict{String,Any}("ResourceId" => ResourceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceId,
     params::AbstractDict{String};
@@ -2445,16 +2359,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. Set this parameter to the value of the previous call's NextToken response to
   indicate where the output should continue from.
 """
-function list_targets_for_policy(
-    PolicyId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+list_targets_for_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "ListTargetsForPolicy",
         Dict{String,Any}("PolicyId" => PolicyId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_targets_for_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -2497,23 +2408,21 @@ organization's management account.
   lowercase letters or digits.
 
 """
-function move_account(
+move_account(
     AccountId,
     DestinationParentId,
     SourceParentId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = organizations(
+    "MoveAccount",
+    Dict{String,Any}(
+        "AccountId" => AccountId,
+        "DestinationParentId" => DestinationParentId,
+        "SourceParentId" => SourceParentId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "MoveAccount",
-        Dict{String,Any}(
-            "AccountId" => AccountId,
-            "DestinationParentId" => DestinationParentId,
-            "SourceParentId" => SourceParentId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function move_account(
     AccountId,
     DestinationParentId,
@@ -2549,7 +2458,7 @@ organization's management account.
 # Arguments
 - `content`: If provided, the new content for the resource policy. The text must be
   correctly formatted JSON that complies with the syntax for the resource policy's type. For
-  more information, see Service Control Policy Syntax in the Organizations User Guide.
+  more information, see SCP syntax in the Organizations User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2561,14 +2470,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   one of the tags is not valid or if you exceed the allowed number of tags for the resource
   policy, then the entire request fails and the resource policy is not created.
 """
-function put_resource_policy(Content; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+put_resource_policy(Content; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "PutResourcePolicy",
         Dict{String,Any}("Content" => Content);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_resource_policy(
     Content, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2600,16 +2508,14 @@ from the organization's management account.
   you want to make the member account a delegated administrator.
 
 """
-function register_delegated_administrator(
+register_delegated_administrator(
     AccountId, ServicePrincipal; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "RegisterDelegatedAdministrator",
+    Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "RegisterDelegatedAdministrator",
-        Dict{String,Any}("AccountId" => AccountId, "ServicePrincipal" => ServicePrincipal);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_delegated_administrator(
     AccountId,
     ServicePrincipal,
@@ -2645,20 +2551,14 @@ management account. Member accounts can remove themselves with LeaveOrganization
  You can remove an account from your organization only if the account is configured with
 the information required to operate as a standalone account. When you create an account in
 an organization using the Organizations console, API, or CLI commands, the information
-required of standalone accounts is not automatically collected. For an account that you
-want to make standalone, you must choose a support plan, provide and verify the required
-contact information, and provide a current payment method. Amazon Web Services uses the
-payment method to charge for any billable (not free tier) Amazon Web Services activity that
-occurs while the account isn't attached to an organization. To remove an account that
-doesn't yet have this information, you must sign in as the member account and follow the
-steps at  To leave an organization when all required account information has not yet been
-provided in the Organizations User Guide.    The account that you want to leave must not be
-a delegated administrator account for any Amazon Web Services service enabled for your
-organization. If the account is a delegated administrator, you must first change the
-delegated administrator account to another account that is remaining in the organization.
-After the account leaves the organization, all tags that were attached to the account
-object in the organization are deleted. Amazon Web Services accounts outside of an
-organization do not support tags.
+required of standalone accounts is not automatically collected. For more information, see
+Considerations before removing an account from an organization in the Organizations User
+Guide.   The account that you want to leave must not be a delegated administrator account
+for any Amazon Web Services service enabled for your organization. If the account is a
+delegated administrator, you must first change the delegated administrator account to
+another account that is remaining in the organization.   After the account leaves the
+organization, all tags that were attached to the account object in the organization are
+deleted. Amazon Web Services accounts outside of an organization do not support tags.
 
 # Arguments
 - `account_id`: The unique identifier (ID) of the member account that you want to remove
@@ -2666,16 +2566,14 @@ organization do not support tags.
   digits.
 
 """
-function remove_account_from_organization(
+remove_account_from_organization(
     AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "RemoveAccountFromOrganization",
+    Dict{String,Any}("AccountId" => AccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "RemoveAccountFromOrganization",
-        Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_account_from_organization(
     AccountId,
     params::AbstractDict{String};
@@ -2698,7 +2596,8 @@ end
 Adds one or more tags to the specified resource. Currently, you can attach tags to the
 following resources in Organizations.   Amazon Web Services account   Organization root
 Organizational unit (OU)   Policy (any type)   This operation can be called only from the
-organization's management account.
+organization's management account or by a member account that is a delegated administrator
+for an Amazon Web Services service.
 
 # Arguments
 - `resource_id`: The ID of the resource to add a tag to. You can specify any of the
@@ -2713,14 +2612,13 @@ organization's management account.
   number of tags for a resource, then the entire request fails.
 
 """
-function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
+tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "TagResource",
         Dict{String,Any}("ResourceId" => ResourceId, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceId,
     Tags,
@@ -2746,7 +2644,8 @@ end
 Removes any tags with the specified keys from the specified resource. You can attach tags
 to the following resources in Organizations.   Amazon Web Services account   Organization
 root   Organizational unit (OU)   Policy (any type)   This operation can be called only
-from the organization's management account.
+from the organization's management account or by a member account that is a delegated
+administrator for an Amazon Web Services service.
 
 # Arguments
 - `resource_id`: The ID of the resource to remove a tag from. You can specify any of the
@@ -2758,16 +2657,13 @@ from the organization's management account.
 - `tag_keys`: The list of keys for tags to remove from the specified resource.
 
 """
-function untag_resource(
-    ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return organizations(
+untag_resource(ResourceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    organizations(
         "UntagResource",
         Dict{String,Any}("ResourceId" => ResourceId, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceId,
     TagKeys,
@@ -2809,16 +2705,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to validate this parameter is a string of any of the characters in the ASCII character
   range.
 """
-function update_organizational_unit(
+update_organizational_unit(
     OrganizationalUnitId; aws_config::AbstractAWSConfig=global_aws_config()
+) = organizations(
+    "UpdateOrganizationalUnit",
+    Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return organizations(
-        "UpdateOrganizationalUnit",
-        Dict{String,Any}("OrganizationalUnitId" => OrganizationalUnitId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_organizational_unit(
     OrganizationalUnitId,
     params::AbstractDict{String};
@@ -2844,7 +2738,8 @@ end
 
 Updates an existing policy with a new name, description, or content. If you don't supply
 any parameter, that value remains unchanged. You can't change a policy's type. This
-operation can be called only from the organization's management account.
+operation can be called only from the organization's management account or by a member
+account that is a delegated administrator for an Amazon Web Services service.
 
 # Arguments
 - `policy_id`: The unique identifier (ID) of the policy that you want to update. The regex
@@ -2855,19 +2750,19 @@ operation can be called only from the organization's management account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Content"`: If provided, the new content for the policy. The text must be correctly
   formatted JSON that complies with the syntax for the policy's type. For more information,
-  see Service Control Policy Syntax in the Organizations User Guide.
+  see SCP syntax in the Organizations User Guide. The maximum size of a policy document
+  depends on the policy's type. For more information, see Maximum and minimum values in the
+  Organizations User Guide.
 - `"Description"`: If provided, the new description for the policy.
 - `"Name"`: If provided, the new name for the policy. The regex pattern that is used to
   validate this parameter is a string of any of the characters in the ASCII character range.
 """
-function update_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return organizations(
-        "UpdatePolicy",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = organizations(
+    "UpdatePolicy",
+    Dict{String,Any}("PolicyId" => PolicyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_policy(
     PolicyId,
     params::AbstractDict{String};

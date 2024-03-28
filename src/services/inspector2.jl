@@ -17,15 +17,13 @@ ListMembers for multiple accounts or GetMembers for a single account.
 - `account_id`: The Amazon Web Services account ID of the member account to be associated.
 
 """
-function associate_member(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST",
-        "/members/associate",
-        Dict{String,Any}("accountId" => accountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+associate_member(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST",
+    "/members/associate",
+    Dict{String,Any}("accountId" => accountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function associate_member(
     accountId,
     params::AbstractDict{String};
@@ -54,11 +52,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountIds"`: The 12-digit Amazon Web Services account IDs of the accounts to retrieve
   Amazon Inspector status for.
 """
-function batch_get_account_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST", "/status/batch/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+batch_get_account_status(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST", "/status/batch/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function batch_get_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -66,6 +62,76 @@ function batch_get_account_status(
         "POST",
         "/status/batch/get",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_code_snippet(finding_arns)
+    batch_get_code_snippet(finding_arns, params::Dict{String,<:Any})
+
+Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities
+in.
+
+# Arguments
+- `finding_arns`: An array of finding ARNs for the findings you want to retrieve code
+  snippets from.
+
+"""
+batch_get_code_snippet(findingArns; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
+        "POST",
+        "/codesnippet/batchget",
+        Dict{String,Any}("findingArns" => findingArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_get_code_snippet(
+    findingArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/codesnippet/batchget",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("findingArns" => findingArns), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_get_finding_details(finding_arns)
+    batch_get_finding_details(finding_arns, params::Dict{String,<:Any})
+
+Gets vulnerability details for findings.
+
+# Arguments
+- `finding_arns`: A list of finding ARNs.
+
+"""
+batch_get_finding_details(findingArns; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
+        "POST",
+        "/findings/details/batch/get",
+        Dict{String,Any}("findingArns" => findingArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function batch_get_finding_details(
+    findingArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/findings/details/batch/get",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("findingArns" => findingArns), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -81,17 +147,14 @@ Gets free trial status for multiple Amazon Web Services accounts.
 - `account_ids`: The account IDs to get free trial status for.
 
 """
-function batch_get_free_trial_info(
-    accountIds; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return inspector2(
+batch_get_free_trial_info(accountIds; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/freetrialinfo/batchget",
         Dict{String,Any}("accountIds" => accountIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_get_free_trial_info(
     accountIds,
     params::AbstractDict{String};
@@ -121,16 +184,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountIds"`: The unique identifiers for the Amazon Web Services accounts to retrieve
   Amazon Inspector deep inspection activation status for.  &lt;/p&gt;
 """
-function batch_get_member_ec2_deep_inspection_status(;
+batch_get_member_ec2_deep_inspection_status(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/ec2deepinspectionstatus/member/batch/get";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return inspector2(
-        "POST",
-        "/ec2deepinspectionstatus/member/batch/get";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_member_ec2_deep_inspection_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -156,17 +217,15 @@ Inspector to use this API.
   Amazon Inspector deep inspection status for.
 
 """
-function batch_update_member_ec2_deep_inspection_status(
+batch_update_member_ec2_deep_inspection_status(
     accountIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/ec2deepinspectionstatus/member/batch/update",
+    Dict{String,Any}("accountIds" => accountIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return inspector2(
-        "POST",
-        "/ec2deepinspectionstatus/member/batch/update",
-        Dict{String,Any}("accountIds" => accountIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_update_member_ec2_deep_inspection_status(
     accountIds,
     params::AbstractDict{String};
@@ -193,15 +252,14 @@ Cancels the given findings report.
 - `report_id`: The ID of the report to be canceled.
 
 """
-function cancel_findings_report(reportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
+cancel_findings_report(reportId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/reporting/cancel",
         Dict{String,Any}("reportId" => reportId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_findings_report(
     reportId,
     params::AbstractDict{String};
@@ -219,10 +277,108 @@ function cancel_findings_report(
 end
 
 """
+    cancel_sbom_export(report_id)
+    cancel_sbom_export(report_id, params::Dict{String,<:Any})
+
+Cancels a software bill of materials (SBOM) report.
+
+# Arguments
+- `report_id`: The report ID of the SBOM export to cancel.
+
+"""
+cancel_sbom_export(reportId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
+        "POST",
+        "/sbomexport/cancel",
+        Dict{String,Any}("reportId" => reportId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function cancel_sbom_export(
+    reportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/sbomexport/cancel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("reportId" => reportId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_cis_scan_configuration(scan_name, schedule, security_level, targets)
+    create_cis_scan_configuration(scan_name, schedule, security_level, targets, params::Dict{String,<:Any})
+
+Creates a CIS scan configuration.
+
+# Arguments
+- `scan_name`: The scan name for the CIS scan configuration.
+- `schedule`: The schedule for the CIS scan configuration.
+- `security_level`:  The security level for the CIS scan configuration. Security level
+  refers to the Benchmark levels that CIS assigns to a profile.
+- `targets`: The targets for the CIS scan configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: The tags for the CIS scan configuration.
+"""
+create_cis_scan_configuration(
+    scanName,
+    schedule,
+    securityLevel,
+    targets;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = inspector2(
+    "POST",
+    "/cis/scan-configuration/create",
+    Dict{String,Any}(
+        "scanName" => scanName,
+        "schedule" => schedule,
+        "securityLevel" => securityLevel,
+        "targets" => targets,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_cis_scan_configuration(
+    scanName,
+    schedule,
+    securityLevel,
+    targets,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/cis/scan-configuration/create",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "scanName" => scanName,
+                    "schedule" => schedule,
+                    "securityLevel" => securityLevel,
+                    "targets" => targets,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_filter(action, filter_criteria, name)
     create_filter(action, filter_criteria, name, params::Dict{String,<:Any})
 
-Creates a filter resource using specified filter criteria.
+Creates a filter resource using specified filter criteria. When the filter action is set to
+SUPPRESS this action creates a suppression rule.
 
 # Arguments
 - `action`: Defines the action that is to be applied to the findings that match the filter.
@@ -237,19 +393,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reason"`: The reason for creating the filter.
 - `"tags"`: A list of tags for the filter.
 """
-function create_filter(
+create_filter(
     action, filterCriteria, name; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/filters/create",
+    Dict{String,Any}(
+        "action" => action, "filterCriteria" => filterCriteria, "name" => name
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return inspector2(
-        "POST",
-        "/filters/create",
-        Dict{String,Any}(
-            "action" => action, "filterCriteria" => filterCriteria, "name" => name
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_filter(
     action,
     filterCriteria,
@@ -290,17 +444,15 @@ criteria.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filterCriteria"`: The filter criteria to apply to the results of the finding report.
 """
-function create_findings_report(
+create_findings_report(
     reportFormat, s3Destination; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/reporting/create",
+    Dict{String,Any}("reportFormat" => reportFormat, "s3Destination" => s3Destination);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return inspector2(
-        "POST",
-        "/reporting/create",
-        Dict{String,Any}("reportFormat" => reportFormat, "s3Destination" => s3Destination);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_findings_report(
     reportFormat,
     s3Destination,
@@ -325,6 +477,92 @@ function create_findings_report(
 end
 
 """
+    create_sbom_export(report_format, s3_destination)
+    create_sbom_export(report_format, s3_destination, params::Dict{String,<:Any})
+
+Creates a software bill of materials (SBOM) report.
+
+# Arguments
+- `report_format`: The output format for the software bill of materials (SBOM) report.
+- `s3_destination`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"resourceFilterCriteria"`: The resource filter criteria for the software bill of
+  materials (SBOM) report.
+"""
+create_sbom_export(
+    reportFormat, s3Destination; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/sbomexport/create",
+    Dict{String,Any}("reportFormat" => reportFormat, "s3Destination" => s3Destination);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_sbom_export(
+    reportFormat,
+    s3Destination,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/sbomexport/create",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "reportFormat" => reportFormat, "s3Destination" => s3Destination
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_cis_scan_configuration(scan_configuration_arn)
+    delete_cis_scan_configuration(scan_configuration_arn, params::Dict{String,<:Any})
+
+Deletes a CIS scan configuration.
+
+# Arguments
+- `scan_configuration_arn`: The ARN of the CIS scan configuration.
+
+"""
+delete_cis_scan_configuration(
+    scanConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/cis/scan-configuration/delete",
+    Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_cis_scan_configuration(
+    scanConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/cis/scan-configuration/delete",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_filter(arn)
     delete_filter(arn, params::Dict{String,<:Any})
 
@@ -334,15 +572,13 @@ Deletes a filter resource.
 - `arn`: The Amazon Resource Number (ARN) of the filter to be deleted.
 
 """
-function delete_filter(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST",
-        "/filters/delete",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_filter(arn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST",
+    "/filters/delete",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_filter(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -362,16 +598,13 @@ end
 Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
 
 """
-function describe_organization_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return inspector2(
+describe_organization_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/organizationconfiguration/describe";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_organization_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -396,11 +629,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountIds"`: An array of account IDs you want to disable Amazon Inspector scans for.
 - `"resourceTypes"`: The resource scan types you want to disable.
 """
-function disable(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST", "/disable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+disable(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2("POST", "/disable"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function disable(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -420,17 +650,15 @@ Disables the Amazon Inspector delegated administrator for your organization.
   Inspector delegated administrator.
 
 """
-function disable_delegated_admin_account(
+disable_delegated_admin_account(
     delegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/delegatedadminaccounts/disable",
+    Dict{String,Any}("delegatedAdminAccountId" => delegatedAdminAccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return inspector2(
-        "POST",
-        "/delegatedadminaccounts/disable",
-        Dict{String,Any}("delegatedAdminAccountId" => delegatedAdminAccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_delegated_admin_account(
     delegatedAdminAccountId,
     params::AbstractDict{String};
@@ -461,15 +689,14 @@ Disassociates a member account from an Amazon Inspector delegated administrator.
 - `account_id`: The Amazon Web Services account ID of the member account to disassociate.
 
 """
-function disassociate_member(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
+disassociate_member(accountId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/members/disassociate",
         Dict{String,Any}("accountId" => accountId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disassociate_member(
     accountId,
     params::AbstractDict{String};
@@ -500,17 +727,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountIds"`: A list of account IDs you want to enable Amazon Inspector scans for.
 - `"clientToken"`: The idempotency token for the request.
 """
-function enable(resourceTypes; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST",
-        "/enable",
-        Dict{String,Any}(
-            "resourceTypes" => resourceTypes, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+enable(resourceTypes; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST",
+    "/enable",
+    Dict{String,Any}("resourceTypes" => resourceTypes, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function enable(
     resourceTypes,
     params::AbstractDict{String};
@@ -547,20 +770,18 @@ Enables the Amazon Inspector delegated administrator for your Organizations orga
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: The idempotency token for the request.
 """
-function enable_delegated_admin_account(
+enable_delegated_admin_account(
     delegatedAdminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/delegatedadminaccounts/enable",
+    Dict{String,Any}(
+        "delegatedAdminAccountId" => delegatedAdminAccountId,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return inspector2(
-        "POST",
-        "/delegatedadminaccounts/enable",
-        Dict{String,Any}(
-            "delegatedAdminAccountId" => delegatedAdminAccountId,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function enable_delegated_admin_account(
     delegatedAdminAccountId,
     params::AbstractDict{String};
@@ -585,17 +806,108 @@ function enable_delegated_admin_account(
 end
 
 """
+    get_cis_scan_report(scan_arn)
+    get_cis_scan_report(scan_arn, params::Dict{String,<:Any})
+
+Retrieves a CIS scan report.
+
+# Arguments
+- `scan_arn`: The scan ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"targetAccounts"`: The target accounts.
+"""
+get_cis_scan_report(scanArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
+        "POST",
+        "/cis/scan/report/get",
+        Dict{String,Any}("scanArn" => scanArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_cis_scan_report(
+    scanArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/cis/scan/report/get",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("scanArn" => scanArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_cis_scan_result_details(account_id, scan_arn, target_resource_id)
+    get_cis_scan_result_details(account_id, scan_arn, target_resource_id, params::Dict{String,<:Any})
+
+Retrieves CIS scan result details.
+
+# Arguments
+- `account_id`: The account ID.
+- `scan_arn`: The scan ARN.
+- `target_resource_id`: The target resource ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filterCriteria"`: The filter criteria.
+- `"maxResults"`: The maximum number of CIS scan result details to be returned in a single
+  page of results.
+- `"nextToken"`: The pagination token from a previous request that's used to retrieve the
+  next page of results.
+- `"sortBy"`: The sort by order.
+- `"sortOrder"`: The sort order.
+"""
+get_cis_scan_result_details(
+    accountId, scanArn, targetResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/cis/scan-result/details/get",
+    Dict{String,Any}(
+        "accountId" => accountId,
+        "scanArn" => scanArn,
+        "targetResourceId" => targetResourceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_cis_scan_result_details(
+    accountId,
+    scanArn,
+    targetResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/cis/scan-result/details/get",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "accountId" => accountId,
+                    "scanArn" => scanArn,
+                    "targetResourceId" => targetResourceId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_configuration()
     get_configuration(params::Dict{String,<:Any})
 
 Retrieves setting configurations for Inspector scans.
 
 """
-function get_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST", "/configuration/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST", "/configuration/get"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -616,14 +928,13 @@ Retrieves information about the Amazon Inspector delegated administrator for you
 organization.
 
 """
-function get_delegated_admin_account(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
+get_delegated_admin_account(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/delegatedadminaccounts/get";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_delegated_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -644,16 +955,13 @@ Retrieves the activation status of Amazon Inspector deep inspection and custom p
 associated with your account.
 
 """
-function get_ec2_deep_inspection_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return inspector2(
+get_ec2_deep_inspection_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/ec2deepinspectionconfiguration/get";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_ec2_deep_inspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -661,6 +969,47 @@ function get_ec2_deep_inspection_configuration(
         "POST",
         "/ec2deepinspectionconfiguration/get",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_encryption_key(resource_type, scan_type)
+    get_encryption_key(resource_type, scan_type, params::Dict{String,<:Any})
+
+Gets an encryption key.
+
+# Arguments
+- `resource_type`: The resource type the key encrypts.
+- `scan_type`: The scan type the key encrypts.
+
+"""
+get_encryption_key(
+    resourceType, scanType; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "GET",
+    "/encryptionkey/get",
+    Dict{String,Any}("resourceType" => resourceType, "scanType" => scanType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_encryption_key(
+    resourceType,
+    scanType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "GET",
+        "/encryptionkey/get",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceType" => resourceType, "scanType" => scanType),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -676,14 +1025,13 @@ Gets the status of a findings report.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"reportId"`: The ID of the report to retrieve the status of.
 """
-function get_findings_report_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
+get_findings_report_status(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/reporting/status/get";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_findings_report_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -707,15 +1055,13 @@ Gets member information for your organization.
   information on.
 
 """
-function get_member(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST",
-        "/members/get",
-        Dict{String,Any}("accountId" => accountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_member(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST",
+    "/members/get",
+    Dict{String,Any}("accountId" => accountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_member(
     accountId,
     params::AbstractDict{String};
@@ -733,6 +1079,39 @@ function get_member(
 end
 
 """
+    get_sbom_export(report_id)
+    get_sbom_export(report_id, params::Dict{String,<:Any})
+
+Gets details of a software bill of materials (SBOM) report.
+
+# Arguments
+- `report_id`: The report ID of the SBOM export to get details for.
+
+"""
+get_sbom_export(reportId; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST",
+    "/sbomexport/get",
+    Dict{String,Any}("reportId" => reportId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_sbom_export(
+    reportId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/sbomexport/get",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("reportId" => reportId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_account_permissions()
     list_account_permissions(params::Dict{String,<:Any})
 
@@ -740,27 +1119,174 @@ Lists the permissions an account has to configure Amazon Inspector.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results the response can return. If your request
+  would return more than the maximum the response will return a nextToken value, use this
+  value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
-  listing results after the first page.
+  Set the value of this parameter to null for the first request to a list action. If your
+  response returns more than the maxResults maximum value it will also return a nextToken
+  value. For subsequent calls, use the NextToken value returned from the previous request to
+  continue listing results after the first page.
 - `"service"`: The service scan type to check permissions for.
 """
-function list_account_permissions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST",
-        "/accountpermissions/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_account_permissions(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST",
+    "/accountpermissions/list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_account_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return inspector2(
         "POST",
         "/accountpermissions/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cis_scan_configurations()
+    list_cis_scan_configurations(params::Dict{String,<:Any})
+
+Lists CIS scan configurations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filterCriteria"`: The CIS scan configuration filter criteria.
+- `"maxResults"`: The maximum number of CIS scan configurations to be returned in a single
+  page of results.
+- `"nextToken"`: The pagination token from a previous request that's used to retrieve the
+  next page of results.
+- `"sortBy"`: The CIS scan configuration sort by order.
+- `"sortOrder"`: The CIS scan configuration sort order order.
+"""
+list_cis_scan_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
+        "POST",
+        "/cis/scan-configuration/list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_cis_scan_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/cis/scan-configuration/list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cis_scan_results_aggregated_by_checks(scan_arn)
+    list_cis_scan_results_aggregated_by_checks(scan_arn, params::Dict{String,<:Any})
+
+Lists scan results aggregated by checks.
+
+# Arguments
+- `scan_arn`: The scan ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filterCriteria"`: The filter criteria.
+- `"maxResults"`: The maximum number of scan results aggregated by checks to be returned in
+  a single page of results.
+- `"nextToken"`: The pagination token from a previous request that's used to retrieve the
+  next page of results.
+- `"sortBy"`: The sort by order.
+- `"sortOrder"`: The sort order.
+"""
+list_cis_scan_results_aggregated_by_checks(
+    scanArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/cis/scan-result/check/list",
+    Dict{String,Any}("scanArn" => scanArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_cis_scan_results_aggregated_by_checks(
+    scanArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/cis/scan-result/check/list",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("scanArn" => scanArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cis_scan_results_aggregated_by_target_resource(scan_arn)
+    list_cis_scan_results_aggregated_by_target_resource(scan_arn, params::Dict{String,<:Any})
+
+Lists scan results aggregated by a target resource.
+
+# Arguments
+- `scan_arn`: The scan ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filterCriteria"`: The filter criteria.
+- `"maxResults"`: The maximum number of scan results aggregated by a target resource to be
+  returned in a single page of results.
+- `"nextToken"`: The pagination token from a previous request that's used to retrieve the
+  next page of results.
+- `"sortBy"`: The sort by order.
+- `"sortOrder"`: The sort order.
+"""
+list_cis_scan_results_aggregated_by_target_resource(
+    scanArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/cis/scan-result/resource/list",
+    Dict{String,Any}("scanArn" => scanArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_cis_scan_results_aggregated_by_target_resource(
+    scanArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/cis/scan-result/resource/list",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("scanArn" => scanArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cis_scans()
+    list_cis_scans(params::Dict{String,<:Any})
+
+Returns a CIS scan list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"detailLevel"`: The detail applied to the CIS scan.
+- `"filterCriteria"`: The CIS scan filter criteria.
+- `"maxResults"`: The maximum number of results to be returned.
+- `"nextToken"`: The pagination token from a previous request that's used to retrieve the
+  next page of results.
+- `"sortBy"`: The CIS scans sort by order.
+- `"sortOrder"`: The CIS scans sort order.
+"""
+list_cis_scans(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST", "/cis/scan/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_cis_scans(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return inspector2(
+        "POST",
+        "/cis/scan/list",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -777,17 +1303,18 @@ Lists coverage details for you environment.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filterCriteria"`: An object that contains details on the filters to apply to the
   coverage data for your environment.
-- `"maxResults"`: The maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results the response can return. If your request
+  would return more than the maximum the response will return a nextToken value, use this
+  value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
-  listing results after the first page.
+  Set the value of this parameter to null for the first request to a list action. If your
+  response returns more than the maxResults maximum value it will also return a nextToken
+  value. For subsequent calls, use the nextToken value returned from the previous request to
+  continue listing results after the first page.
 """
-function list_coverage(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST", "/coverage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_coverage(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST", "/coverage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_coverage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -816,14 +1343,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent calls, use the NextToken value returned from the previous request to continue
   listing results after the first page.
 """
-function list_coverage_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST",
-        "/coverage/statistics/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_coverage_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST",
+    "/coverage/statistics/list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_coverage_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -844,20 +1369,22 @@ Lists information about the Amazon Inspector delegated administrator of your org
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results the response can return. If your request
+  would return more than the maximum the response will return a nextToken value, use this
+  value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
-  listing results after the first page.
+  Set the value of this parameter to null for the first request to a list action. If your
+  response returns more than the maxResults maximum value it will also return a nextToken
+  value. For subsequent calls, use the nextToken value returned from the previous request to
+  continue listing results after the first page.
 """
-function list_delegated_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
+list_delegated_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/delegatedadminaccounts/list";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_delegated_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -880,17 +1407,18 @@ Lists the filters associated with your account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"action"`: The action the filter applies to matched findings.
 - `"arns"`: The Amazon resource number (ARN) of the filter.
-- `"maxResults"`: The maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results the response can return. If your request
+  would return more than the maximum the response will return a nextToken value, use this
+  value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
-  listing results after the first page.
+  Set the value of this parameter to null for the first request to a list action. If your
+  response returns more than the maxResults maximum value it will also return a nextToken
+  value. For subsequent calls, use the nextToken value returned from the previous request to
+  continue listing results after the first page.
 """
-function list_filters(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST", "/filters/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_filters(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST", "/filters/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_filters(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -918,23 +1446,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for.
 - `"aggregationRequest"`: Details of the aggregation request that is used to filter your
   aggregation results.
-- `"maxResults"`: The maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results the response can return. If your request
+  would return more than the maximum the response will return a nextToken value, use this
+  value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
-  listing results after the first page.
+  Set the value of this parameter to null for the first request to a list action. If your
+  response returns more than the maxResults maximum value it will also return a nextToken
+  value. For subsequent calls, use the nextToken value returned from the previous request to
+  continue listing results after the first page.
 """
-function list_finding_aggregations(
+list_finding_aggregations(
     aggregationType; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/findings/aggregation/list",
+    Dict{String,Any}("aggregationType" => aggregationType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return inspector2(
-        "POST",
-        "/findings/aggregation/list",
-        Dict{String,Any}("aggregationType" => aggregationType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_finding_aggregations(
     aggregationType,
     params::AbstractDict{String};
@@ -962,18 +1491,19 @@ Lists findings for your environment.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filterCriteria"`: Details on the filters to apply to your finding results.
-- `"maxResults"`: The maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results the response can return. If your request
+  would return more than the maximum the response will return a nextToken value, use this
+  value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
-  listing results after the first page.
+  Set the value of this parameter to null for the first request to a list action. If your
+  response returns more than the maxResults maximum value it will also return a nextToken
+  value. For subsequent calls, use the nextToken value returned from the previous request to
+  continue listing results after the first page.
 - `"sortCriteria"`: Details on the sort criteria to apply to your finding results.
 """
-function list_findings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST", "/findings/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_findings(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST", "/findings/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_findings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -995,19 +1525,20 @@ organization.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results the response can return. If your request
+  would return more than the maximum the response will return a nextToken value, use this
+  value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
-  listing results after the first page.
+  Set the value of this parameter to null for the first request to a list action. If your
+  response returns more than the maxResults maximum value it will also return a nextToken
+  value. For subsequent calls, use the nextToken value returned from the previous request to
+  continue listing results after the first page.
 - `"onlyAssociated"`: Specifies whether to list only currently associated members if True
   or to list all members within the organization if False.
 """
-function list_members(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST", "/members/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_members(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST", "/members/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_members(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1030,16 +1561,13 @@ Lists all tags attached to a given resource.
 - `resource_arn`: The Amazon resource number (ARN) of the resource to list tags of.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return inspector2(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1063,17 +1591,18 @@ Lists the Amazon Inspector usage totals over the last 30 days.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountIds"`: The Amazon Web Services account IDs to retrieve usage totals for.
-- `"maxResults"`: The maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results the response can return. If your request
+  would return more than the maximum the response will return a nextToken value, use this
+  value when you call the action again to get the remaining results.
 - `"nextToken"`: A token to use for paginating results that are returned in the response.
-  Set the value of this parameter to null for the first request to a list action. For
-  subsequent calls, use the NextToken value returned from the previous request to continue
-  listing results after the first page.
+  Set the value of this parameter to null for the first request to a list action. If your
+  response returns more than the maxResults maximum value it will also return a nextToken
+  value. For subsequent calls, use the nextToken value returned from the previous request to
+  continue listing results after the first page.
 """
-function list_usage_totals(; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST", "/usage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_usage_totals(; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST", "/usage/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_usage_totals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1081,6 +1610,48 @@ function list_usage_totals(
         "POST",
         "/usage/list",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reset_encryption_key(resource_type, scan_type)
+    reset_encryption_key(resource_type, scan_type, params::Dict{String,<:Any})
+
+Resets an encryption key. After the key is reset your resources will be encrypted by an
+Amazon Web Services owned key.
+
+# Arguments
+- `resource_type`: The resource type the key encrypts.
+- `scan_type`: The scan type the key encrypts.
+
+"""
+reset_encryption_key(
+    resourceType, scanType; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "PUT",
+    "/encryptionkey/reset",
+    Dict{String,Any}("resourceType" => resourceType, "scanType" => scanType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function reset_encryption_key(
+    resourceType,
+    scanType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "PUT",
+        "/encryptionkey/reset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("resourceType" => resourceType, "scanType" => scanType),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1102,17 +1673,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent calls, use the NextToken value returned from the previous request to continue
   listing results after the first page.
 """
-function search_vulnerabilities(
-    filterCriteria; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return inspector2(
+search_vulnerabilities(filterCriteria; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/vulnerabilities/search",
         Dict{String,Any}("filterCriteria" => filterCriteria);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_vulnerabilities(
     filterCriteria,
     params::AbstractDict{String};
@@ -1130,6 +1698,193 @@ function search_vulnerabilities(
 end
 
 """
+    send_cis_session_health(scan_job_id, session_token)
+    send_cis_session_health(scan_job_id, session_token, params::Dict{String,<:Any})
+
+ Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
+communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this
+API to start a CIS scan session for the scan ID supplied by the service.
+
+# Arguments
+- `scan_job_id`: A unique identifier for the scan job.
+- `session_token`: The unique token that identifies the CIS session.
+
+"""
+send_cis_session_health(
+    scanJobId, sessionToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "PUT",
+    "/cissession/health/send",
+    Dict{String,Any}("scanJobId" => scanJobId, "sessionToken" => sessionToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function send_cis_session_health(
+    scanJobId,
+    sessionToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "PUT",
+        "/cissession/health/send",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("scanJobId" => scanJobId, "sessionToken" => sessionToken),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    send_cis_session_telemetry(messages, scan_job_id, session_token)
+    send_cis_session_telemetry(messages, scan_job_id, session_token, params::Dict{String,<:Any})
+
+ Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
+communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this
+API to start a CIS scan session for the scan ID supplied by the service.
+
+# Arguments
+- `messages`: The CIS session telemetry messages.
+- `scan_job_id`: A unique identifier for the scan job.
+- `session_token`: The unique token that identifies the CIS session.
+
+"""
+send_cis_session_telemetry(
+    messages, scanJobId, sessionToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "PUT",
+    "/cissession/telemetry/send",
+    Dict{String,Any}(
+        "messages" => messages, "scanJobId" => scanJobId, "sessionToken" => sessionToken
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function send_cis_session_telemetry(
+    messages,
+    scanJobId,
+    sessionToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "PUT",
+        "/cissession/telemetry/send",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "messages" => messages,
+                    "scanJobId" => scanJobId,
+                    "sessionToken" => sessionToken,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_cis_session(message, scan_job_id)
+    start_cis_session(message, scan_job_id, params::Dict{String,<:Any})
+
+ Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
+with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start
+a CIS scan session for the scan ID supplied by the service.
+
+# Arguments
+- `message`: The start CIS session message.
+- `scan_job_id`: A unique identifier for the scan job.
+
+"""
+start_cis_session(message, scanJobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
+        "PUT",
+        "/cissession/start",
+        Dict{String,Any}("message" => message, "scanJobId" => scanJobId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function start_cis_session(
+    message,
+    scanJobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "PUT",
+        "/cissession/start",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("message" => message, "scanJobId" => scanJobId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_cis_session(message, scan_job_id, session_token)
+    stop_cis_session(message, scan_job_id, session_token, params::Dict{String,<:Any})
+
+ Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate
+with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start
+a CIS scan session for the scan ID supplied by the service.
+
+# Arguments
+- `message`: The stop CIS session message.
+- `scan_job_id`: A unique identifier for the scan job.
+- `session_token`: The unique token that identifies the CIS session.
+
+"""
+stop_cis_session(
+    message, scanJobId, sessionToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "PUT",
+    "/cissession/stop",
+    Dict{String,Any}(
+        "message" => message, "scanJobId" => scanJobId, "sessionToken" => sessionToken
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function stop_cis_session(
+    message,
+    scanJobId,
+    sessionToken,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "PUT",
+        "/cissession/stop",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "message" => message,
+                    "scanJobId" => scanJobId,
+                    "sessionToken" => sessionToken,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
@@ -1140,15 +1895,14 @@ Adds tags to a resource.
 - `tags`: The tags to be added to a resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -1175,17 +1929,14 @@ Removes tags from a resource.
 - `tag_keys`: The tag keys to remove from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return inspector2(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1196,6 +1947,52 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_cis_scan_configuration(scan_configuration_arn)
+    update_cis_scan_configuration(scan_configuration_arn, params::Dict{String,<:Any})
+
+Updates a CIS scan configuration.
+
+# Arguments
+- `scan_configuration_arn`: The CIS scan configuration ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"scanName"`: The scan name for the CIS scan configuration.
+- `"schedule"`: The schedule for the CIS scan configuration.
+- `"securityLevel"`:  The security level for the CIS scan configuration. Security level
+  refers to the Benchmark levels that CIS assigns to a profile.
+- `"targets"`: The targets for the CIS scan configuration.
+"""
+update_cis_scan_configuration(
+    scanConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/cis/scan-configuration/update",
+    Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_cis_scan_configuration(
+    scanConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "POST",
+        "/cis/scan-configuration/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("scanConfigurationArn" => scanConfigurationArn),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1214,17 +2011,14 @@ manage. Member accounts in an organization cannot update this setting.
   environment.
 
 """
-function update_configuration(
-    ecrConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return inspector2(
+update_configuration(ecrConfiguration; aws_config::AbstractAWSConfig=global_aws_config()) =
+    inspector2(
         "POST",
         "/configuration/update",
         Dict{String,Any}("ecrConfiguration" => ecrConfiguration);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_configuration(
     ecrConfiguration,
     params::AbstractDict{String};
@@ -1259,16 +2053,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"packagePaths"`: The Amazon Inspector deep inspection custom paths you are adding for
   your account.
 """
-function update_ec2_deep_inspection_configuration(;
+update_ec2_deep_inspection_configuration(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/ec2deepinspectionconfiguration/update";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return inspector2(
-        "POST",
-        "/ec2deepinspectionconfiguration/update";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_ec2_deep_inspection_configuration(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1276,6 +2068,56 @@ function update_ec2_deep_inspection_configuration(
         "POST",
         "/ec2deepinspectionconfiguration/update",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_encryption_key(kms_key_id, resource_type, scan_type)
+    update_encryption_key(kms_key_id, resource_type, scan_type, params::Dict{String,<:Any})
+
+Updates an encryption key. A ResourceNotFoundException means that an Amazon Web Services
+owned key is being used for encryption.
+
+# Arguments
+- `kms_key_id`: A KMS key ID for the encryption key.
+- `resource_type`: The resource type for the encryption key.
+- `scan_type`: The scan type for the encryption key.
+
+"""
+update_encryption_key(
+    kmsKeyId, resourceType, scanType; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "PUT",
+    "/encryptionkey/update",
+    Dict{String,Any}(
+        "kmsKeyId" => kmsKeyId, "resourceType" => resourceType, "scanType" => scanType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_encryption_key(
+    kmsKeyId,
+    resourceType,
+    scanType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return inspector2(
+        "PUT",
+        "/encryptionkey/update",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "kmsKeyId" => kmsKeyId,
+                    "resourceType" => resourceType,
+                    "scanType" => scanType,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1299,15 +2141,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the filter.
 - `"reason"`: The reason the filter was updated.
 """
-function update_filter(filterArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return inspector2(
-        "POST",
-        "/filters/update",
-        Dict{String,Any}("filterArn" => filterArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_filter(filterArn; aws_config::AbstractAWSConfig=global_aws_config()) = inspector2(
+    "POST",
+    "/filters/update",
+    Dict{String,Any}("filterArn" => filterArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_filter(
     filterArn,
     params::AbstractDict{String};
@@ -1336,17 +2176,15 @@ be an Amazon Inspector delegated administrator to use this API.
   your organization.
 
 """
-function update_org_ec2_deep_inspection_configuration(
+update_org_ec2_deep_inspection_configuration(
     orgPackagePaths; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/ec2deepinspectionconfiguration/org/update",
+    Dict{String,Any}("orgPackagePaths" => orgPackagePaths);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return inspector2(
-        "POST",
-        "/ec2deepinspectionconfiguration/org/update",
-        Dict{String,Any}("orgPackagePaths" => orgPackagePaths);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_org_ec2_deep_inspection_configuration(
     orgPackagePaths,
     params::AbstractDict{String};
@@ -1376,17 +2214,15 @@ Updates the configurations for your Amazon Inspector organization.
   Amazon Inspector organization.
 
 """
-function update_organization_configuration(
+update_organization_configuration(
     autoEnable; aws_config::AbstractAWSConfig=global_aws_config()
+) = inspector2(
+    "POST",
+    "/organizationconfiguration/update",
+    Dict{String,Any}("autoEnable" => autoEnable);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return inspector2(
-        "POST",
-        "/organizationconfiguration/update",
-        Dict{String,Any}("autoEnable" => autoEnable);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_organization_configuration(
     autoEnable,
     params::AbstractDict{String};

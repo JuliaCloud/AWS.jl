@@ -216,15 +216,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in JSON using the form: {\"FIELD-A\":{},\"FIELD-B\":{}} There are currently no options
   supported for statistics.
 """
-function search(q; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch_domain(
-        "GET",
-        "/2013-01-01/search?format=sdk&pretty=true",
-        Dict{String,Any}("q" => q);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search(q; aws_config::AbstractAWSConfig=global_aws_config()) = cloudsearch_domain(
+    "GET",
+    "/2013-01-01/search?format=sdk&pretty=true",
+    Dict{String,Any}("q" => q);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function search(
     q, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -261,15 +259,14 @@ also displayed on the domain dashboard in the Amazon CloudSearch console.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"size"`: Specifies the maximum number of suggestions to return.
 """
-function suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudsearch_domain(
+suggest(q, suggester; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudsearch_domain(
         "GET",
         "/2013-01-01/suggest?format=sdk&pretty=true",
         Dict{String,Any}("q" => q, "suggester" => suggester);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function suggest(
     q,
     suggester,
@@ -314,20 +311,18 @@ Amazon CloudSearch Developer Guide.
 - `documents`: A batch of documents formatted in JSON or HTML.
 
 """
-function upload_documents(
+upload_documents(
     Content_Type, documents; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloudsearch_domain(
+    "POST",
+    "/2013-01-01/documents/batch?format=sdk",
+    Dict{String,Any}(
+        "documents" => documents,
+        "headers" => Dict{String,Any}("Content-Type" => Content_Type),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudsearch_domain(
-        "POST",
-        "/2013-01-01/documents/batch?format=sdk",
-        Dict{String,Any}(
-            "documents" => documents,
-            "headers" => Dict{String,Any}("Content-Type" => Content_Type),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function upload_documents(
     Content_Type,
     documents,

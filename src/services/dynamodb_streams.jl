@@ -26,14 +26,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation.
 - `"Limit"`: The maximum number of shard objects to return. The upper limit is 100.
 """
-function describe_stream(StreamArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb_streams(
+describe_stream(StreamArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb_streams(
         "DescribeStream",
         Dict{String,Any}("StreamArn" => StreamArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_stream(
     StreamArn,
     params::AbstractDict{String};
@@ -70,14 +69,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of records to return from the shard. The upper limit is
   1000.
 """
-function get_records(ShardIterator; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb_streams(
+get_records(ShardIterator; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb_streams(
         "GetRecords",
         Dict{String,Any}("ShardIterator" => ShardIterator);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_records(
     ShardIterator,
     params::AbstractDict{String};
@@ -120,20 +118,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SequenceNumber"`: The sequence number of a stream record in the shard from which to
   start reading.
 """
-function get_shard_iterator(
+get_shard_iterator(
     ShardId, ShardIteratorType, StreamArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = dynamodb_streams(
+    "GetShardIterator",
+    Dict{String,Any}(
+        "ShardId" => ShardId,
+        "ShardIteratorType" => ShardIteratorType,
+        "StreamArn" => StreamArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return dynamodb_streams(
-        "GetShardIterator",
-        Dict{String,Any}(
-            "ShardId" => ShardId,
-            "ShardIteratorType" => ShardIteratorType,
-            "StreamArn" => StreamArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_shard_iterator(
     ShardId,
     ShardIteratorType,
@@ -176,11 +172,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TableName"`: If this parameter is provided, then only the streams associated with this
   table name are returned.
 """
-function list_streams(; aws_config::AbstractAWSConfig=global_aws_config())
-    return dynamodb_streams(
-        "ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_streams(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    dynamodb_streams("ListStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_streams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

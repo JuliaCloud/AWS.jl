@@ -15,17 +15,14 @@ Returns the description for the list of fields in the request parameters.
 - `fields`: A list of unique field identifiers.
 
 """
-function batch_get_field(
-    domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+batch_get_field(domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/fields-batch",
         Dict{String,Any}("fields" => fields);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_get_field(
     domainId,
     fields,
@@ -53,17 +50,15 @@ Creates and updates a set of field options for a single select field in a Cases 
 - `options`: A list of FieldOption objects.
 
 """
-function batch_put_field_options(
+batch_put_field_options(
     domainId, fieldId, options; aws_config::AbstractAWSConfig=global_aws_config()
+) = connectcases(
+    "PUT",
+    "/domains/$(domainId)/fields/$(fieldId)/options",
+    Dict{String,Any}("options" => options);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connectcases(
-        "PUT",
-        "/domains/$(domainId)/fields/$(fieldId)/options",
-        Dict{String,Any}("options" => options);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_put_field_options(
     domainId,
     fieldId,
@@ -84,13 +79,16 @@ end
     create_case(domain_id, fields, template_id)
     create_case(domain_id, fields, template_id, params::Dict{String,<:Any})
 
-Creates a case in the specified Cases domain. Case system and custom fields are taken as an
-array id/value pairs with a declared data types.  The following fields are required when
-creating a case:  &lt;ul&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;customer_id&lt;/code&gt; -
-You must provide the full customer profile ARN in this format:
-&lt;code&gt;arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain
-name/profiles/profile ID&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;
-&lt;code&gt;title&lt;/code&gt; &lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; &lt;/note&gt;
+ If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser
+permission on the User ARN resource that you provide   &lt;p&gt;Creates a case in the
+specified Cases domain. Case system and custom fields are taken as an array id/value pairs
+with a declared data types.&lt;/p&gt; &lt;p&gt;The following fields are required when
+creating a case:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;
+&lt;code&gt;customer_id&lt;/code&gt; - You must provide the full customer profile ARN in
+this format: &lt;code&gt;arn:aws:profile:your_AWS_Region:your_AWS_account
+ID:domains/your_profiles_domain_name/profiles/profile_ID&lt;/code&gt; &lt;/p&gt;
+&lt;/li&gt; &lt;li&gt; &lt;p&gt; &lt;code&gt;title&lt;/code&gt; &lt;/p&gt; &lt;/li&gt;
+&lt;/ul&gt;
 
 # Arguments
 - `domain_id`: The unique identifier of the Cases domain.
@@ -103,20 +101,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
+- `"performedBy"`:
 """
-function create_case(
+create_case(
     domainId, fields, templateId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connectcases(
+    "POST",
+    "/domains/$(domainId)/cases",
+    Dict{String,Any}(
+        "fields" => fields, "templateId" => templateId, "clientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/cases",
-        Dict{String,Any}(
-            "fields" => fields, "templateId" => templateId, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_case(
     domainId,
     fields,
@@ -151,22 +148,20 @@ Creates a domain, which is a container for all case data, such as cases, fields,
 and layouts. Each Amazon Connect instance can be associated with only one Cases domain.
 This will not associate your connect instance to Cases domain. Instead, use the Amazon
 Connect CreateIntegrationAssociation API. You need specific IAM permissions to successfully
-associate the Cases domain. For more information, see Onboard to Cases.
+associate the Cases domain. For more information, see Onboard to Cases.  &lt;/important&gt;
 
 # Arguments
 - `name`: The name for your Cases domain. It must be unique for your Amazon Web Services
   account.
 
 """
-function create_domain(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_domain(name; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -195,17 +190,14 @@ Creates a field in the Cases domain. This field is used to define the case objec
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the field.
 """
-function create_field(
-    domainId, name, type; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+create_field(domainId, name, type; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/fields",
         Dict{String,Any}("name" => name, "type" => type);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_field(
     domainId,
     name,
@@ -240,17 +232,14 @@ configurable.
 - `name`: The name of the layout. It must be unique for the Cases domain.
 
 """
-function create_layout(
-    content, domainId, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+create_layout(content, domainId, name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/layouts",
         Dict{String,Any}("content" => content, "name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_layout(
     content,
     domainId,
@@ -275,11 +264,13 @@ end
     create_related_item(case_id, content, domain_id, type)
     create_related_item(case_id, content, domain_id, type, params::Dict{String,<:Any})
 
-Creates a related item (comments, tasks, and contacts) and associates it with a case.  A
+Creates a related item (comments, tasks, and contacts) and associates it with a case.    A
 Related Item is a resource that is associated with a case. It may or may not have an
 external identifier linking it to an external resource (for example, a contactArn). All
 Related Items have their own internal identifier, the relatedItemArn. Examples of related
-items include comments and contacts.
+items include comments and contacts.   If you provide a value for performedBy.userArn you
+must also have DescribeUser permission on the ARN of the user that you provide.
+&lt;/note&gt;
 
 # Arguments
 - `case_id`: A unique identifier of the case.
@@ -287,18 +278,19 @@ items include comments and contacts.
 - `domain_id`: The unique identifier of the Cases domain.
 - `type`: The type of a related item.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"performedBy"`: Represents the creator of the related item.
 """
-function create_related_item(
+create_related_item(
     caseId, content, domainId, type; aws_config::AbstractAWSConfig=global_aws_config()
+) = connectcases(
+    "POST",
+    "/domains/$(domainId)/cases/$(caseId)/related-items/",
+    Dict{String,Any}("content" => content, "type" => type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/cases/$(caseId)/related-items/",
-        Dict{String,Any}("content" => content, "type" => type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_related_item(
     caseId,
     content,
@@ -343,15 +335,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   successfully created with this template.
 - `"status"`: The status of the template.
 """
-function create_template(domainId, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+create_template(domainId, name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/templates",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_template(
     domainId,
     name,
@@ -371,20 +362,22 @@ end
     delete_domain(domain_id)
     delete_domain(domain_id, params::Dict{String,<:Any})
 
-Deletes a domain.
+Deletes a Cases domain.  &lt;note&gt; &lt;p&gt;After deleting your domain you must
+disassociate the deleted domain from your Amazon Connect instance with another API call
+before being able to use Cases again with this Amazon Connect instance. See &lt;a
+href=&quot;https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAsso
+ciation.html&quot;&gt;DeleteIntegrationAssociation&lt;/a&gt;.&lt;/p&gt; &lt;/note&gt;
 
 # Arguments
 - `domain_id`: The unique identifier of the Cases domain.
 
 """
-function delete_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "DELETE",
-        "/domains/$(domainId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "DELETE",
+    "/domains/$(domainId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_domain(
     domainId,
     params::AbstractDict{String};
@@ -415,17 +408,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function get_case(
-    caseId, domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+get_case(caseId, domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/cases/$(caseId)",
         Dict{String,Any}("fields" => fields);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_case(
     caseId,
     domainId,
@@ -443,6 +433,45 @@ function get_case(
 end
 
 """
+    get_case_audit_events(case_id, domain_id)
+    get_case_audit_events(case_id, domain_id, params::Dict{String,<:Any})
+
+Returns the audit history about a specific case if it exists.
+
+# Arguments
+- `case_id`: A unique identifier of the case.
+- `domain_id`: The unique identifier of the Cases domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of audit events to return. The current maximum
+  supported value is 25. This is also the default when no other value is provided.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+get_case_audit_events(caseId, domainId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
+        "POST",
+        "/domains/$(domainId)/cases/$(caseId)/audit-history";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_case_audit_events(
+    caseId,
+    domainId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connectcases(
+        "POST",
+        "/domains/$(domainId)/cases/$(caseId)/audit-history",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_case_event_configuration(domain_id)
     get_case_event_configuration(domain_id, params::Dict{String,<:Any})
 
@@ -452,16 +481,13 @@ Returns the case event publishing configuration.
 - `domain_id`: The unique identifier of the Cases domain.
 
 """
-function get_case_event_configuration(
-    domainId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+get_case_event_configuration(domainId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/case-event-configuration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_case_event_configuration(
     domainId,
     params::AbstractDict{String};
@@ -486,14 +512,12 @@ Returns information about a specific domain if it exists.
 - `domain_id`: The unique identifier of the Cases domain.
 
 """
-function get_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_domain(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains/$(domainId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_domain(
     domainId,
     params::AbstractDict{String};
@@ -519,14 +543,13 @@ Returns the details for the requested layout.
 - `layout_id`: The unique identifier of the layout.
 
 """
-function get_layout(domainId, layoutId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+get_layout(domainId, layoutId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/layouts/$(layoutId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_layout(
     domainId,
     layoutId,
@@ -553,16 +576,13 @@ Returns the details for the requested template.
 - `template_id`: A unique identifier of a template.
 
 """
-function get_template(
-    domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+get_template(domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/templates/$(templateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_template(
     domainId,
     templateId,
@@ -594,17 +614,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_cases_for_contact(
+list_cases_for_contact(
     contactArn, domainId; aws_config::AbstractAWSConfig=global_aws_config()
+) = connectcases(
+    "POST",
+    "/domains/$(domainId)/list-cases-for-contact",
+    Dict{String,Any}("contactArn" => contactArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/list-cases-for-contact",
-        Dict{String,Any}("contactArn" => contactArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_cases_for_contact(
     contactArn,
     domainId,
@@ -635,11 +653,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST", "/domains-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST", "/domains-list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -669,16 +685,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"values"`: A list of FieldOption values to filter on for ListFieldOptions.
 """
-function list_field_options(
-    domainId, fieldId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+list_field_options(domainId, fieldId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/fields/$(fieldId)/options-list";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_field_options(
     domainId,
     fieldId,
@@ -709,14 +722,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_fields(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/fields-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_fields(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains/$(domainId)/fields-list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_fields(
     domainId,
     params::AbstractDict{String};
@@ -747,14 +758,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_layouts(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/layouts-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_layouts(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains/$(domainId)/layouts-list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_layouts(
     domainId,
     params::AbstractDict{String};
@@ -779,11 +788,10 @@ Lists tags for a resource.
 - `arn`: The Amazon Resource Name (ARN)
 
 """
-function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "GET", "/tags/$(arn)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -813,14 +821,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"status"`: A list of status values to filter on.
 """
-function list_templates(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/templates-list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_templates(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains/$(domainId)/templates-list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_templates(
     domainId,
     params::AbstractDict{String};
@@ -839,7 +845,8 @@ end
     put_case_event_configuration(domain_id, event_bridge)
     put_case_event_configuration(domain_id, event_bridge, params::Dict{String,<:Any})
 
-API for adding case event publishing configuration
+Adds case event publishing configuration. For a complete list of fields you can add to the
+event message, see Create case fields in the Amazon Connect Administrator Guide
 
 # Arguments
 - `domain_id`: The unique identifier of the Cases domain.
@@ -847,17 +854,15 @@ API for adding case event publishing configuration
   what data is delivered.
 
 """
-function put_case_event_configuration(
+put_case_event_configuration(
     domainId, eventBridge; aws_config::AbstractAWSConfig=global_aws_config()
+) = connectcases(
+    "PUT",
+    "/domains/$(domainId)/case-event-configuration",
+    Dict{String,Any}("eventBridge" => eventBridge);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return connectcases(
-        "PUT",
-        "/domains/$(domainId)/case-event-configuration",
-        Dict{String,Any}("eventBridge" => eventBridge);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_case_event_configuration(
     domainId,
     eventBridge,
@@ -899,14 +904,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sorts"`: A list of sorts where each sort specifies a field and their sort order to be
   applied to the results.
 """
-function search_cases(domainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/domains/$(domainId)/cases-search";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_cases(domainId; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/domains/$(domainId)/cases-search";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function search_cases(
     domainId,
     params::AbstractDict{String};
@@ -939,16 +942,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function search_related_items(
-    caseId, domainId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+search_related_items(caseId, domainId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "POST",
         "/domains/$(domainId)/cases/$(caseId)/related-items-search";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search_related_items(
     caseId,
     domainId,
@@ -976,15 +976,13 @@ Adds tags to a resource.
   organize, track, or control access for this resource.
 
 """
-function tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
-        "POST",
-        "/tags/$(arn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(arn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = connectcases(
+    "POST",
+    "/tags/$(arn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     arn,
     tags,
@@ -1011,15 +1009,14 @@ Untags a resource.
 - `tag_keys`: List of tag keys.
 
 """
-function untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+untag_resource(arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "DELETE",
         "/tags/$(arn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     arn,
     tagKeys,
@@ -1039,9 +1036,11 @@ end
     update_case(case_id, domain_id, fields)
     update_case(case_id, domain_id, fields, params::Dict{String,<:Any})
 
-Updates the values of fields on a case. Fields to be updated are received as an array of
-id/value pairs identical to the CreateCase input . If the action is successful, the service
-sends back an HTTP 200 response with an empty HTTP body.
+ If you provide a value for PerformedBy.UserArn you must also have connect:DescribeUser
+permission on the User ARN resource that you provide   &lt;p&gt;Updates the values of
+fields on a case. Fields to be updated are received as an array of id/value pairs identical
+to the &lt;code&gt;CreateCase&lt;/code&gt; input .&lt;/p&gt; &lt;p&gt;If the action is
+successful, the service sends back an HTTP 200 response with an empty HTTP body.&lt;/p&gt;
 
 # Arguments
 - `case_id`: A unique identifier of the case.
@@ -1049,18 +1048,18 @@ sends back an HTTP 200 response with an empty HTTP body.
 - `fields`: An array of objects with fieldId (matching ListFields/DescribeField) and value
   union data, structured identical to CreateCase.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"performedBy"`:
 """
-function update_case(
-    caseId, domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+update_case(caseId, domainId, fields; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "PUT",
         "/domains/$(domainId)/cases/$(caseId)",
         Dict{String,Any}("fields" => fields);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_case(
     caseId,
     domainId,
@@ -1092,14 +1091,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of a field.
 - `"name"`: The name of the field.
 """
-function update_field(domainId, fieldId; aws_config::AbstractAWSConfig=global_aws_config())
-    return connectcases(
+update_field(domainId, fieldId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "PUT",
         "/domains/$(domainId)/fields/$(fieldId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_field(
     domainId,
     fieldId,
@@ -1131,19 +1129,16 @@ layouts because they are not configurable.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"content"`: Information about which fields will be present in the layout, the order of
-  the fields, and a read-only attribute of the field.
+  the fields.
 - `"name"`: The name of the layout. It must be unique per domain.
 """
-function update_layout(
-    domainId, layoutId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+update_layout(domainId, layoutId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "PUT",
         "/domains/$(domainId)/layouts/$(layoutId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_layout(
     domainId,
     layoutId,
@@ -1181,16 +1176,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   successfully created with this template.
 - `"status"`: The status of the template.
 """
-function update_template(
-    domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return connectcases(
+update_template(domainId, templateId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    connectcases(
         "PUT",
         "/domains/$(domainId)/templates/$(templateId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_template(
     domainId,
     templateId,

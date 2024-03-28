@@ -48,16 +48,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   counted.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually
   exclusive. You can specify at most one of these in a request.
 """
-function count_closed_workflow_executions(
+count_closed_workflow_executions(
     domain; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "CountClosedWorkflowExecutions",
+    Dict{String,Any}("domain" => domain);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "CountClosedWorkflowExecutions",
-        Dict{String,Any}("domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function count_closed_workflow_executions(
     domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -105,16 +103,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   executionFilter, typeFilter and tagFilter are mutually exclusive. You can specify at most
   one of these in a request.
 """
-function count_open_workflow_executions(
+count_open_workflow_executions(
     domain, startTimeFilter; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "CountOpenWorkflowExecutions",
+    Dict{String,Any}("domain" => domain, "startTimeFilter" => startTimeFilter);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "CountOpenWorkflowExecutions",
-        Dict{String,Any}("domain" => domain, "startTimeFilter" => startTimeFilter);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function count_open_workflow_executions(
     domain,
     startTimeFilter,
@@ -157,16 +153,14 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `task_list`: The name of the task list.
 
 """
-function count_pending_activity_tasks(
+count_pending_activity_tasks(
     domain, taskList; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "CountPendingActivityTasks",
+    Dict{String,Any}("domain" => domain, "taskList" => taskList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "CountPendingActivityTasks",
-        Dict{String,Any}("domain" => domain, "taskList" => taskList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function count_pending_activity_tasks(
     domain,
     taskList,
@@ -207,16 +201,14 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `task_list`: The name of the task list.
 
 """
-function count_pending_decision_tasks(
+count_pending_decision_tasks(
     domain, taskList; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "CountPendingDecisionTasks",
+    Dict{String,Any}("domain" => domain, "taskList" => taskList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "CountPendingDecisionTasks",
-        Dict{String,Any}("domain" => domain, "taskList" => taskList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function count_pending_decision_tasks(
     domain,
     taskList,
@@ -260,16 +252,14 @@ Workflows in the Amazon SWF Developer Guide.
 - `domain`: The name of the domain in which the activity type is registered.
 
 """
-function deprecate_activity_type(
+deprecate_activity_type(
     activityType, domain; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "DeprecateActivityType",
+    Dict{String,Any}("activityType" => activityType, "domain" => domain);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "DeprecateActivityType",
-        Dict{String,Any}("activityType" => activityType, "domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deprecate_activity_type(
     activityType,
     domain,
@@ -313,14 +303,12 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `name`: The name of the domain to deprecate.
 
 """
-function deprecate_domain(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return swf(
-        "DeprecateDomain",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+deprecate_domain(name; aws_config::AbstractAWSConfig=global_aws_config()) = swf(
+    "DeprecateDomain",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function deprecate_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -357,16 +345,14 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
 - `workflow_type`: The workflow type to deprecate.
 
 """
-function deprecate_workflow_type(
+deprecate_workflow_type(
     domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "DeprecateWorkflowType",
+    Dict{String,Any}("domain" => domain, "workflowType" => workflowType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "DeprecateWorkflowType",
-        Dict{String,Any}("domain" => domain, "workflowType" => workflowType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deprecate_workflow_type(
     domain,
     workflowType,
@@ -410,16 +396,14 @@ see Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Develop
 - `domain`: The name of the domain in which the activity type is registered.
 
 """
-function describe_activity_type(
+describe_activity_type(
     activityType, domain; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "DescribeActivityType",
+    Dict{String,Any}("activityType" => activityType, "domain" => domain);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "DescribeActivityType",
-        Dict{String,Any}("activityType" => activityType, "domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_activity_type(
     activityType,
     domain,
@@ -458,14 +442,12 @@ Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer G
 - `name`: The name of the domain to describe.
 
 """
-function describe_domain(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return swf(
-        "DescribeDomain",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_domain(name; aws_config::AbstractAWSConfig=global_aws_config()) = swf(
+    "DescribeDomain",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -498,16 +480,14 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 - `execution`: The workflow execution to describe.
 
 """
-function describe_workflow_execution(
+describe_workflow_execution(
     domain, execution; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "DescribeWorkflowExecution",
+    Dict{String,Any}("domain" => domain, "execution" => execution);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "DescribeWorkflowExecution",
-        Dict{String,Any}("domain" => domain, "execution" => execution);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_workflow_execution(
     domain,
     execution,
@@ -551,16 +531,14 @@ Workflows in the Amazon SWF Developer Guide.
 - `workflow_type`: The workflow type to describe.
 
 """
-function describe_workflow_type(
+describe_workflow_type(
     domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "DescribeWorkflowType",
+    Dict{String,Any}("domain" => domain, "workflowType" => workflowType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "DescribeWorkflowType",
-        Dict{String,Any}("domain" => domain, "workflowType" => workflowType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_workflow_type(
     domain,
     workflowType,
@@ -615,16 +593,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reverseOrder"`: When set to true, returns the events in reverse order. By default the
   results are returned in ascending order of the eventTimeStamp of the events.
 """
-function get_workflow_execution_history(
+get_workflow_execution_history(
     domain, execution; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "GetWorkflowExecutionHistory",
+    Dict{String,Any}("domain" => domain, "execution" => execution);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "GetWorkflowExecutionHistory",
-        Dict{String,Any}("domain" => domain, "execution" => execution);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_workflow_execution_history(
     domain,
     execution,
@@ -681,16 +657,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reverseOrder"`: When set to true, returns the results in reverse order. By default, the
   results are returned in ascending alphabetical order by name of the activity types.
 """
-function list_activity_types(
+list_activity_types(
     domain, registrationStatus; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "ListActivityTypes",
+    Dict{String,Any}("domain" => domain, "registrationStatus" => registrationStatus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "ListActivityTypes",
-        Dict{String,Any}("domain" => domain, "registrationStatus" => registrationStatus);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_activity_types(
     domain,
     registrationStatus,
@@ -773,16 +747,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.   closeStatusFilter, executionFilter, typeFilter and tagFilter are mutually
   exclusive. You can specify at most one of these in a request.
 """
-function list_closed_workflow_executions(
-    domain; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return swf(
+list_closed_workflow_executions(domain; aws_config::AbstractAWSConfig=global_aws_config()) =
+    swf(
         "ListClosedWorkflowExecutions",
         Dict{String,Any}("domain" => domain);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_closed_workflow_executions(
     domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -828,14 +799,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reverseOrder"`: When set to true, returns the results in reverse order. By default, the
   results are returned in ascending alphabetical order by name of the domains.
 """
-function list_domains(registrationStatus; aws_config::AbstractAWSConfig=global_aws_config())
-    return swf(
-        "ListDomains",
-        Dict{String,Any}("registrationStatus" => registrationStatus);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_domains(registrationStatus; aws_config::AbstractAWSConfig=global_aws_config()) = swf(
+    "ListDomains",
+    Dict{String,Any}("registrationStatus" => registrationStatus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_domains(
     registrationStatus,
     params::AbstractDict{String};
@@ -900,16 +869,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.   executionFilter, typeFilter and tagFilter are mutually exclusive. You can
   specify at most one of these in a request.
 """
-function list_open_workflow_executions(
+list_open_workflow_executions(
     domain, startTimeFilter; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "ListOpenWorkflowExecutions",
+    Dict{String,Any}("domain" => domain, "startTimeFilter" => startTimeFilter);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "ListOpenWorkflowExecutions",
-        Dict{String,Any}("domain" => domain, "startTimeFilter" => startTimeFilter);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_open_workflow_executions(
     domain,
     startTimeFilter,
@@ -940,16 +907,13 @@ List tags for a given domain.
 - `resource_arn`: The Amazon Resource Name (ARN) for the Amazon SWF domain.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return swf(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    swf(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -998,16 +962,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reverseOrder"`: When set to true, returns the results in reverse order. By default the
   results are returned in ascending alphabetical order of the name of the workflow types.
 """
-function list_workflow_types(
+list_workflow_types(
     domain, registrationStatus; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "ListWorkflowTypes",
+    Dict{String,Any}("domain" => domain, "registrationStatus" => registrationStatus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "ListWorkflowTypes",
-        Dict{String,Any}("domain" => domain, "registrationStatus" => registrationStatus);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_workflow_types(
     domain,
     registrationStatus,
@@ -1066,16 +1028,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ActivityTaskStarted event in the workflow history. This enables diagnostic tracing when
   problems arise. The form of this identity is user defined.
 """
-function poll_for_activity_task(
+poll_for_activity_task(
     domain, taskList; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "PollForActivityTask",
+    Dict{String,Any}("domain" => domain, "taskList" => taskList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "PollForActivityTask",
-        Dict{String,Any}("domain" => domain, "taskList" => taskList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function poll_for_activity_task(
     domain,
     taskList,
@@ -1153,16 +1113,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   greater than or equal to eventTimestamp of the most recent DecisionTaskStarted event. By
   default, this parameter is set to false.
 """
-function poll_for_decision_task(
+poll_for_decision_task(
     domain, taskList; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "PollForDecisionTask",
+    Dict{String,Any}("domain" => domain, "taskList" => taskList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "PollForDecisionTask",
-        Dict{String,Any}("domain" => domain, "taskList" => taskList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function poll_for_decision_task(
     domain,
     taskList,
@@ -1221,16 +1179,14 @@ Using IAM to Manage Access to Amazon SWF Workflows in the Amazon SWF Developer G
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"details"`: If specified, contains details about the progress of the task.
 """
-function record_activity_task_heartbeat(
+record_activity_task_heartbeat(
     taskToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "RecordActivityTaskHeartbeat",
+    Dict{String,Any}("taskToken" => taskToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "RecordActivityTaskHeartbeat",
-        Dict{String,Any}("taskToken" => taskToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function record_activity_task_heartbeat(
     taskToken,
     params::AbstractDict{String};
@@ -1310,16 +1266,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unlimited duration.
 - `"description"`: A textual description of the activity type.
 """
-function register_activity_type(
+register_activity_type(
     domain, name, version; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "RegisterActivityType",
+    Dict{String,Any}("domain" => domain, "name" => name, "version" => version);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "RegisterActivityType",
-        Dict{String,Any}("domain" => domain, "name" => name, "version" => version);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_activity_type(
     domain,
     name,
@@ -1375,22 +1329,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags to be added when registering a domain. Tags may only contain unicode
   letters, digits, whitespace, or these symbols: _ . : / = + - @.
 """
-function register_domain(
+register_domain(
     name,
     workflowExecutionRetentionPeriodInDays;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = swf(
+    "RegisterDomain",
+    Dict{String,Any}(
+        "name" => name,
+        "workflowExecutionRetentionPeriodInDays" =>
+            workflowExecutionRetentionPeriodInDays,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "RegisterDomain",
-        Dict{String,Any}(
-            "name" => name,
-            "workflowExecutionRetentionPeriodInDays" =>
-                workflowExecutionRetentionPeriodInDays,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_domain(
     name,
     workflowExecutionRetentionPeriodInDays,
@@ -1488,16 +1440,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   greater than or equal to 0. You can use NONE to specify unlimited duration.
 - `"description"`: Textual description of the workflow type.
 """
-function register_workflow_type(
+register_workflow_type(
     domain, name, version; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "RegisterWorkflowType",
+    Dict{String,Any}("domain" => domain, "name" => name, "version" => version);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "RegisterWorkflowType",
-        Dict{String,Any}("domain" => domain, "name" => name, "version" => version);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_workflow_type(
     domain,
     name,
@@ -1548,16 +1498,14 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"runId"`: The runId of the workflow execution to cancel.
 """
-function request_cancel_workflow_execution(
+request_cancel_workflow_execution(
     domain, workflowId; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "RequestCancelWorkflowExecution",
+    Dict{String,Any}("domain" => domain, "workflowId" => workflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "RequestCancelWorkflowExecution",
-        Dict{String,Any}("domain" => domain, "workflowId" => workflowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function request_cancel_workflow_execution(
     domain,
     workflowId,
@@ -1610,16 +1558,14 @@ Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"details"`:  Information about the cancellation.
 """
-function respond_activity_task_canceled(
+respond_activity_task_canceled(
     taskToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "RespondActivityTaskCanceled",
+    Dict{String,Any}("taskToken" => taskToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "RespondActivityTaskCanceled",
-        Dict{String,Any}("taskToken" => taskToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function respond_activity_task_canceled(
     taskToken,
     params::AbstractDict{String};
@@ -1669,16 +1615,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"result"`: The result of the activity task. It is a free form string that is
   implementation specific.
 """
-function respond_activity_task_completed(
+respond_activity_task_completed(
     taskToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "RespondActivityTaskCompleted",
+    Dict{String,Any}("taskToken" => taskToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "RespondActivityTaskCompleted",
-        Dict{String,Any}("taskToken" => taskToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function respond_activity_task_completed(
     taskToken,
     params::AbstractDict{String};
@@ -1725,16 +1669,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"details"`:  Detailed information about the failure.
 - `"reason"`: Description of the error that may assist in diagnostics.
 """
-function respond_activity_task_failed(
-    taskToken; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return swf(
+respond_activity_task_failed(taskToken; aws_config::AbstractAWSConfig=global_aws_config()) =
+    swf(
         "RespondActivityTaskFailed",
         Dict{String,Any}("taskToken" => taskToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function respond_activity_task_failed(
     taskToken,
     params::AbstractDict{String};
@@ -1776,17 +1717,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"decisions"`: The list of decisions (possibly empty) made by the decider while
   processing this decision task. See the docs for the Decision structure for details.
 - `"executionContext"`: User defined context to add to workflow execution.
+- `"taskList"`: The task list to use for the future decision tasks of this workflow
+  execution. This list overrides the original task list you specified while starting the
+  workflow execution.
+- `"taskListScheduleToStartTimeout"`: Specifies a timeout (in seconds) for the task list
+  override. When this parameter is missing, the task list override is permanent. This
+  parameter makes it possible to temporarily override the task list. If a decision task
+  scheduled on the override task list is not started within the timeout, the decision task
+  will time out. Amazon SWF will revert the override and schedule a new decision task to the
+  original task list. If a decision task scheduled on the override task list is started
+  within the timeout, but not completed within the start-to-close timeout, Amazon SWF will
+  also revert the override and schedule a new decision task to the original task list.
 """
-function respond_decision_task_completed(
+respond_decision_task_completed(
     taskToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "RespondDecisionTaskCompleted",
+    Dict{String,Any}("taskToken" => taskToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "RespondDecisionTaskCompleted",
-        Dict{String,Any}("taskToken" => taskToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function respond_decision_task_completed(
     taskToken,
     params::AbstractDict{String};
@@ -1834,18 +1784,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   execution's history.
 - `"runId"`: The runId of the workflow execution to signal.
 """
-function signal_workflow_execution(
+signal_workflow_execution(
     domain, signalName, workflowId; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "SignalWorkflowExecution",
+    Dict{String,Any}(
+        "domain" => domain, "signalName" => signalName, "workflowId" => workflowId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "SignalWorkflowExecution",
-        Dict{String,Any}(
-            "domain" => domain, "signalName" => signalName, "workflowId" => workflowId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function signal_workflow_execution(
     domain,
     signalName,
@@ -1963,18 +1911,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is set nor a default task start-to-close timeout was specified at registration
   time then a fault is returned.
 """
-function start_workflow_execution(
+start_workflow_execution(
     domain, workflowId, workflowType; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "StartWorkflowExecution",
+    Dict{String,Any}(
+        "domain" => domain, "workflowId" => workflowId, "workflowType" => workflowType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "StartWorkflowExecution",
-        Dict{String,Any}(
-            "domain" => domain, "workflowId" => workflowId, "workflowType" => workflowType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_workflow_execution(
     domain,
     workflowId,
@@ -2012,14 +1958,12 @@ Add a tag to a Amazon SWF domain.  Amazon SWF supports a maximum of 50 tags per 
   digits, whitespace, or these symbols: _ . : / = + - @.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return swf(
-        "TagResource",
-        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = swf(
+    "TagResource",
+    Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     resourceArn,
     tags,
@@ -2083,16 +2027,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reason"`:  A descriptive reason for terminating the workflow execution.
 - `"runId"`: The runId of the workflow execution to terminate.
 """
-function terminate_workflow_execution(
+terminate_workflow_execution(
     domain, workflowId; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "TerminateWorkflowExecution",
+    Dict{String,Any}("domain" => domain, "workflowId" => workflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "TerminateWorkflowExecution",
-        Dict{String,Any}("domain" => domain, "workflowId" => workflowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function terminate_workflow_execution(
     domain,
     workflowId,
@@ -2137,16 +2079,14 @@ Workflows in the Amazon SWF Developer Guide.
 - `domain`: The name of the domain of the deprecated activity type.
 
 """
-function undeprecate_activity_type(
+undeprecate_activity_type(
     activityType, domain; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "UndeprecateActivityType",
+    Dict{String,Any}("activityType" => activityType, "domain" => domain);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "UndeprecateActivityType",
-        Dict{String,Any}("activityType" => activityType, "domain" => domain);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function undeprecate_activity_type(
     activityType,
     domain,
@@ -2188,14 +2128,12 @@ Developer Guide.
 - `name`: The name of the domain of the deprecated workflow type.
 
 """
-function undeprecate_domain(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return swf(
-        "UndeprecateDomain",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+undeprecate_domain(name; aws_config::AbstractAWSConfig=global_aws_config()) = swf(
+    "UndeprecateDomain",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function undeprecate_domain(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2231,16 +2169,14 @@ Workflows in the Amazon SWF Developer Guide.
 - `workflow_type`: The name of the domain of the deprecated workflow type.
 
 """
-function undeprecate_workflow_type(
+undeprecate_workflow_type(
     domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config()
+) = swf(
+    "UndeprecateWorkflowType",
+    Dict{String,Any}("domain" => domain, "workflowType" => workflowType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return swf(
-        "UndeprecateWorkflowType",
-        Dict{String,Any}("domain" => domain, "workflowType" => workflowType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function undeprecate_workflow_type(
     domain,
     workflowType,
@@ -2272,16 +2208,13 @@ Remove a tag from a Amazon SWF domain.
 - `tag_keys`: The list of tags to remove from the Amazon SWF domain.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return swf(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    swf(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,

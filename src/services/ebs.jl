@@ -10,7 +10,10 @@ using AWS.UUIDs
 
 Seals and completes the snapshot after all of the required blocks of data have been written
 to it. Completing the snapshot changes the status to completed. You cannot write new blocks
-to a snapshot after it has been completed.
+to a snapshot after it has been completed.  You should always retry requests that receive
+server (5xx) error responses, and ThrottlingException and RequestThrottledException client
+error responses. For more information see Error retries in the Amazon Elastic Compute Cloud
+User Guide.
 
 # Arguments
 - `snapshot_id`: The ID of the snapshot.
@@ -28,20 +31,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-Checksum-Algorithm"`: The algorithm used to generate the checksum. Currently, the
   only supported algorithm is SHA256.
 """
-function complete_snapshot(
+complete_snapshot(
     snapshotId, x_amz_ChangedBlocksCount; aws_config::AbstractAWSConfig=global_aws_config()
+) = ebs(
+    "POST",
+    "/snapshots/completion/$(snapshotId)",
+    Dict{String,Any}(
+        "headers" =>
+            Dict{String,Any}("x-amz-ChangedBlocksCount" => x_amz_ChangedBlocksCount),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ebs(
-        "POST",
-        "/snapshots/completion/$(snapshotId)",
-        Dict{String,Any}(
-            "headers" =>
-                Dict{String,Any}("x-amz-ChangedBlocksCount" => x_amz_ChangedBlocksCount),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function complete_snapshot(
     snapshotId,
     x_amz_ChangedBlocksCount,
@@ -71,7 +72,10 @@ end
     get_snapshot_block(block_index, block_token, snapshot_id)
     get_snapshot_block(block_index, block_token, snapshot_id, params::Dict{String,<:Any})
 
-Returns the data in a block in an Amazon Elastic Block Store snapshot.
+Returns the data in a block in an Amazon Elastic Block Store snapshot.  You should always
+retry requests that receive server (5xx) error responses, and ThrottlingException and
+RequestThrottledException client error responses. For more information see Error retries in
+the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `block_index`: The block index of the block in which to read the data. A block index is a
@@ -86,17 +90,15 @@ Returns the data in a block in an Amazon Elastic Block Store snapshot.
   Elastic Compute Cloud User Guide.
 
 """
-function get_snapshot_block(
+get_snapshot_block(
     blockIndex, blockToken, snapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+) = ebs(
+    "GET",
+    "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
+    Dict{String,Any}("blockToken" => blockToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ebs(
-        "GET",
-        "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
-        Dict{String,Any}("blockToken" => blockToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_snapshot_block(
     blockIndex,
     blockToken,
@@ -120,7 +122,10 @@ end
     list_changed_blocks(second_snapshot_id, params::Dict{String,<:Any})
 
 Returns information about the blocks that are different between two Amazon Elastic Block
-Store snapshots of the same volume/snapshot lineage.
+Store snapshots of the same volume/snapshot lineage.  You should always retry requests that
+receive server (5xx) error responses, and ThrottlingException and RequestThrottledException
+client error responses. For more information see Error retries in the Amazon Elastic
+Compute Cloud User Guide.
 
 # Arguments
 - `second_snapshot_id`: The ID of the second snapshot to use for the comparison.  The
@@ -143,16 +148,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the response will start from this block index or the next valid block index in the
   snapshots. If you specify NextToken, then StartingBlockIndex is ignored.
 """
-function list_changed_blocks(
-    secondSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ebs(
+list_changed_blocks(secondSnapshotId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ebs(
         "GET",
         "/snapshots/$(secondSnapshotId)/changedblocks";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_changed_blocks(
     secondSnapshotId,
     params::AbstractDict{String};
@@ -171,7 +173,10 @@ end
     list_snapshot_blocks(snapshot_id)
     list_snapshot_blocks(snapshot_id, params::Dict{String,<:Any})
 
-Returns information about the blocks in an Amazon Elastic Block Store snapshot.
+Returns information about the blocks in an Amazon Elastic Block Store snapshot.  You should
+always retry requests that receive server (5xx) error responses, and ThrottlingException
+and RequestThrottledException client error responses. For more information see Error
+retries in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `snapshot_id`: The ID of the snapshot from which to get block indexes and block tokens.
@@ -189,14 +194,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response will start from this block index or the next valid block index in the snapshot. If
   you specify NextToken, then StartingBlockIndex is ignored.
 """
-function list_snapshot_blocks(snapshotId; aws_config::AbstractAWSConfig=global_aws_config())
-    return ebs(
-        "GET",
-        "/snapshots/$(snapshotId)/blocks";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_snapshot_blocks(snapshotId; aws_config::AbstractAWSConfig=global_aws_config()) = ebs(
+    "GET",
+    "/snapshots/$(snapshotId)/blocks";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_snapshot_blocks(
     snapshotId,
     params::AbstractDict{String};
@@ -217,7 +220,10 @@ end
 
 Writes a block of data to a snapshot. If the specified block contains data, the existing
 data is overwritten. The target snapshot must be in the pending state. Data written to a
-snapshot must be aligned with 512-KiB sectors.
+snapshot must be aligned with 512-KiB sectors.  You should always retry requests that
+receive server (5xx) error responses, and ThrottlingException and RequestThrottledException
+client error responses. For more information see Error retries in the Amazon Elastic
+Compute Cloud User Guide.
 
 # Arguments
 - `block_data`: The data to write to the block. The block data is not signed as part of the
@@ -247,7 +253,7 @@ snapshot must be aligned with 512-KiB sectors.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-Progress"`: The progress of the write process, as a percentage.
 """
-function put_snapshot_block(
+put_snapshot_block(
     BlockData,
     blockIndex,
     snapshotId,
@@ -255,22 +261,20 @@ function put_snapshot_block(
     x_amz_Checksum_Algorithm,
     x_amz_Data_Length;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = ebs(
+    "PUT",
+    "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
+    Dict{String,Any}(
+        "BlockData" => BlockData,
+        "headers" => Dict{String,Any}(
+            "x-amz-Checksum" => x_amz_Checksum,
+            "x-amz-Checksum-Algorithm" => x_amz_Checksum_Algorithm,
+            "x-amz-Data-Length" => x_amz_Data_Length,
+        ),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ebs(
-        "PUT",
-        "/snapshots/$(snapshotId)/blocks/$(blockIndex)",
-        Dict{String,Any}(
-            "BlockData" => BlockData,
-            "headers" => Dict{String,Any}(
-                "x-amz-Checksum" => x_amz_Checksum,
-                "x-amz-Checksum-Algorithm" => x_amz_Checksum_Algorithm,
-                "x-amz-Data-Length" => x_amz_Data_Length,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_snapshot_block(
     BlockData,
     blockIndex,
@@ -309,7 +313,9 @@ end
 
 Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the
 request completes.  After creating the snapshot, use  PutSnapshotBlock to write blocks of
-data to the snapshot.
+data to the snapshot.  You should always retry requests that receive server (5xx) error
+responses, and ThrottlingException and RequestThrottledException client error responses.
+For more information see Error retries in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `volume_size`: The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB).
@@ -358,15 +364,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   after writing the last block of data.   If no value is specified, the timeout defaults to
   60 minutes.
 """
-function start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=global_aws_config())
-    return ebs(
-        "POST",
-        "/snapshots",
-        Dict{String,Any}("VolumeSize" => VolumeSize, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_snapshot(VolumeSize; aws_config::AbstractAWSConfig=global_aws_config()) = ebs(
+    "POST",
+    "/snapshots",
+    Dict{String,Any}("VolumeSize" => VolumeSize, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_snapshot(
     VolumeSize,
     params::AbstractDict{String};

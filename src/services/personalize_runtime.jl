@@ -5,6 +5,55 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    get_action_recommendations()
+    get_action_recommendations(params::Dict{String,<:Any})
+
+Returns a list of recommended actions in sorted in descending order by prediction score.
+Use the GetActionRecommendations API if you have a custom campaign that deploys a solution
+version trained with a PERSONALIZED_ACTIONS recipe.  For more information about
+PERSONALIZED_ACTIONS recipes, see PERSONALIZED_ACTIONS recipes. For more information about
+getting action recommendations, see Getting action recommendations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"campaignArn"`: The Amazon Resource Name (ARN) of the campaign to use for getting action
+  recommendations. This campaign must deploy a solution version trained with a
+  PERSONALIZED_ACTIONS recipe.
+- `"filterArn"`: The ARN of the filter to apply to the returned recommendations. For more
+  information, see Filtering Recommendations. When using this parameter, be sure the filter
+  resource is ACTIVE.
+- `"filterValues"`: The values to use when filtering recommendations. For each placeholder
+  parameter in your filter expression, provide the parameter name (in matching case) as a key
+  and the filter value(s) as the corresponding value. Separate multiple values for one
+  parameter with a comma.  For filter expressions that use an INCLUDE element to include
+  actions, you must provide values for all parameters that are defined in the expression. For
+  filters with expressions that use an EXCLUDE element to exclude actions, you can omit the
+  filter-values. In this case, Amazon Personalize doesn't use that portion of the expression
+  to filter recommendations. For more information, see Filtering recommendations and user
+  segments.
+- `"numResults"`: The number of results to return. The default is 5. The maximum is 100.
+- `"userId"`: The user ID of the user to provide action recommendations for.
+"""
+get_action_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    personalize_runtime(
+        "POST",
+        "/action-recommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_action_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize_runtime(
+        "POST",
+        "/action-recommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_personalized_ranking(campaign_arn, input_list, user_id)
     get_personalized_ranking(campaign_arn, input_list, user_id, params::Dict{String,<:Any})
 
@@ -16,7 +65,8 @@ campaign must have been created using a recipe of type PERSONALIZED_RANKING.
 - `campaign_arn`: The Amazon Resource Name (ARN) of the campaign to use for generating the
   personalized ranking.
 - `input_list`: A list of items (by itemId) to rank. If an item was not included in the
-  training dataset, the item is appended to the end of the reranked list. The maximum is 500.
+  training dataset, the item is appended to the end of the reranked list. If you are
+  including metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500.
 - `user_id`: The user for which you want the campaign to provide a personalized ranking.
 
 # Optional Parameters
@@ -35,20 +85,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filters with expressions that use an EXCLUDE element to exclude items, you can omit the
   filter-values.In this case, Amazon Personalize doesn't use that portion of the expression
   to filter recommendations. For more information, see Filtering Recommendations.
+- `"metadataColumns"`: If you enabled metadata in recommendations when you created or
+  updated the campaign, specify metadata columns from your Items dataset to include in the
+  personalized ranking. The map key is ITEMS and the value is a list of column names from
+  your Items dataset. The maximum number of columns you can provide is 10.  For information
+  about enabling metadata for a campaign, see Enabling metadata in recommendations for a
+  campaign.
 """
-function get_personalized_ranking(
+get_personalized_ranking(
     campaignArn, inputList, userId; aws_config::AbstractAWSConfig=global_aws_config()
+) = personalize_runtime(
+    "POST",
+    "/personalize-ranking",
+    Dict{String,Any}(
+        "campaignArn" => campaignArn, "inputList" => inputList, "userId" => userId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return personalize_runtime(
-        "POST",
-        "/personalize-ranking",
-        Dict{String,Any}(
-            "campaignArn" => campaignArn, "inputList" => inputList, "userId" => userId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_personalized_ranking(
     campaignArn,
     inputList,
@@ -109,7 +163,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   segments.
 - `"itemId"`: The item ID to provide recommendations for. Required for RELATED_ITEMS recipe
   type.
-- `"numResults"`: The number of results to return. The default is 25. The maximum is 500.
+- `"metadataColumns"`: If you enabled metadata in recommendations when you created or
+  updated the campaign or recommender, specify the metadata columns from your Items dataset
+  to include in item recommendations. The map key is ITEMS and the value is a list of column
+  names from your Items dataset. The maximum number of columns you can provide is 10.  For
+  information about enabling metadata for a campaign, see Enabling metadata in
+  recommendations for a campaign. For information about enabling metadata for a recommender,
+  see Enabling metadata in recommendations for a recommender.
+- `"numResults"`: The number of results to return. The default is 25. If you are including
+  metadata in recommendations, the maximum is 50. Otherwise, the maximum is 500.
 - `"promotions"`: The promotions to apply to the recommendation request. A promotion
   defines additional business rules that apply to a configurable subset of recommended items.
 - `"recommenderArn"`: The Amazon Resource Name (ARN) of the recommender to use to get
@@ -118,11 +180,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The user ID to provide recommendations for. Required for USER_PERSONALIZATION
   recipe type.
 """
-function get_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return personalize_runtime(
+get_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    personalize_runtime(
         "POST", "/recommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function get_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

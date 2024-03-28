@@ -37,17 +37,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request tokens are valid only for a few minutes. You cannot use request tokens to dedupe
   requests spanning hours or days.
 """
-function batch_create_table_rows(
+batch_create_table_rows(
     rowsToCreate, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
+) = honeycode(
+    "POST",
+    "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate",
+    Dict{String,Any}("rowsToCreate" => rowsToCreate);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchcreate",
-        Dict{String,Any}("rowsToCreate" => rowsToCreate);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_create_table_rows(
     rowsToCreate,
     tableId,
@@ -92,17 +90,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning
   hours or days.
 """
-function batch_delete_table_rows(
+batch_delete_table_rows(
     rowIds, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
+) = honeycode(
+    "POST",
+    "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete",
+    Dict{String,Any}("rowIds" => rowIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchdelete",
-        Dict{String,Any}("rowIds" => rowIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_delete_table_rows(
     rowIds,
     tableId,
@@ -151,17 +147,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning
   hours or days.
 """
-function batch_update_table_rows(
+batch_update_table_rows(
     rowsToUpdate, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
+) = honeycode(
+    "POST",
+    "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate",
+    Dict{String,Any}("rowsToUpdate" => rowsToUpdate);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupdate",
-        Dict{String,Any}("rowsToUpdate" => rowsToUpdate);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_update_table_rows(
     rowsToUpdate,
     tableId,
@@ -217,17 +211,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning
   hours or days.
 """
-function batch_upsert_table_rows(
+batch_upsert_table_rows(
     rowsToUpsert, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
+) = honeycode(
+    "POST",
+    "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert",
+    Dict{String,Any}("rowsToUpsert" => rowsToUpsert);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/batchupsert",
-        Dict{String,Any}("rowsToUpsert" => rowsToUpsert);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_upsert_table_rows(
     rowsToUpsert,
     tableId,
@@ -262,16 +254,14 @@ table data import job.
   the specified id could not be found, this API throws ResourceNotFoundException.
 
 """
-function describe_table_data_import_job(
+describe_table_data_import_job(
     jobId, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
+) = honeycode(
+    "GET",
+    "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return honeycode(
-        "GET",
-        "/workbooks/$(workbookId)/tables/$(tableId)/import/$(jobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_table_data_import_job(
     jobId,
     tableId,
@@ -314,19 +304,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   variable as defined on the screen. The value is an object which currently has only one
   property, rawValue, which holds the value of the variable to be passed to the screen.
 """
-function get_screen_data(
+get_screen_data(
     appId, screenId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
+) = honeycode(
+    "POST",
+    "/screendata",
+    Dict{String,Any}("appId" => appId, "screenId" => screenId, "workbookId" => workbookId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return honeycode(
-        "POST",
-        "/screendata",
-        Dict{String,Any}(
-            "appId" => appId, "screenId" => screenId, "workbookId" => workbookId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_screen_data(
     appId,
     screenId,
@@ -382,20 +368,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   property, rawValue, which holds the value of the variable to be passed to the screen. Any
   variables defined in a screen are required to be passed in the call.
 """
-function invoke_screen_automation(
+invoke_screen_automation(
     appId,
     automationId,
     screenId,
     workbookId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = honeycode(
+    "POST",
+    "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/apps/$(appId)/screens/$(screenId)/automations/$(automationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function invoke_screen_automation(
     appId,
     automationId,
@@ -433,16 +417,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token
   that was returned more than an hour back, the API will throw ValidationException.
 """
-function list_table_columns(
-    tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return honeycode(
+list_table_columns(tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    honeycode(
         "GET",
         "/workbooks/$(workbookId)/tables/$(tableId)/columns";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_table_columns(
     tableId,
     workbookId,
@@ -482,16 +463,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list, then only the specified row ids are returned in the result. If no row ids are
   specified here, then all the rows in the table are returned.
 """
-function list_table_rows(
-    tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return honeycode(
+list_table_rows(tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    honeycode(
         "POST",
         "/workbooks/$(workbookId)/tables/$(tableId)/rows/list";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_table_rows(
     tableId,
     workbookId,
@@ -524,14 +502,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token
   that was returned more than an hour back, the API will throw ValidationException.
 """
-function list_tables(workbookId; aws_config::AbstractAWSConfig=global_aws_config())
-    return honeycode(
-        "GET",
-        "/workbooks/$(workbookId)/tables";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tables(workbookId; aws_config::AbstractAWSConfig=global_aws_config()) = honeycode(
+    "GET",
+    "/workbooks/$(workbookId)/tables";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_tables(
     workbookId,
     params::AbstractDict{String};
@@ -556,16 +532,13 @@ end
 - `resource_arn`: The resource's Amazon Resource Name (ARN).
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return honeycode(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    honeycode(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -602,17 +575,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token
   that was returned more than an hour back, the API will throw ValidationException.
 """
-function query_table_rows(
+query_table_rows(
     filterFormula, tableId, workbookId; aws_config::AbstractAWSConfig=global_aws_config()
+) = honeycode(
+    "POST",
+    "/workbooks/$(workbookId)/tables/$(tableId)/rows/query",
+    Dict{String,Any}("filterFormula" => filterFormula);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/rows/query",
-        Dict{String,Any}("filterFormula" => filterFormula);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function query_table_rows(
     filterFormula,
     tableId,
@@ -659,7 +630,7 @@ request, you need to call the DescribeTableDataImportJob API.
   with the specified id could not be found, this API throws ResourceNotFoundException.
 
 """
-function start_table_data_import_job(
+start_table_data_import_job(
     clientRequestToken,
     dataFormat,
     dataSource,
@@ -667,20 +638,18 @@ function start_table_data_import_job(
     tableId,
     workbookId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = honeycode(
+    "POST",
+    "/workbooks/$(workbookId)/tables/$(tableId)/import",
+    Dict{String,Any}(
+        "clientRequestToken" => clientRequestToken,
+        "dataFormat" => dataFormat,
+        "dataSource" => dataSource,
+        "importOptions" => importOptions,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return honeycode(
-        "POST",
-        "/workbooks/$(workbookId)/tables/$(tableId)/import",
-        Dict{String,Any}(
-            "clientRequestToken" => clientRequestToken,
-            "dataFormat" => dataFormat,
-            "dataSource" => dataSource,
-            "importOptions" => importOptions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_table_data_import_job(
     clientRequestToken,
     dataFormat,
@@ -723,15 +692,14 @@ workbook, table, screen and screen-automation.
 - `tags`: A list of tags to apply to the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return honeycode(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    honeycode(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -759,17 +727,14 @@ includes workbook, table, screen and screen-automation.
 - `tag_keys`: A list of tag keys to remove from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return honeycode(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    honeycode(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,

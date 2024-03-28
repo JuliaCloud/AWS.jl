@@ -25,11 +25,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AmazonEC2. You can use the ServiceCode to filter the results in a GetProducts call. To
   retrieve a list of all services, leave this blank.
 """
-function describe_services(; aws_config::AbstractAWSConfig=global_aws_config())
-    return pricing(
-        "DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_services(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    pricing("DescribeServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -58,16 +55,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that indicates the next set of results that you want
   to retrieve.
 """
-function get_attribute_values(
+get_attribute_values(
     AttributeName, ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()
+) = pricing(
+    "GetAttributeValues",
+    Dict{String,Any}("AttributeName" => AttributeName, "ServiceCode" => ServiceCode);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pricing(
-        "GetAttributeValues",
-        Dict{String,Any}("AttributeName" => AttributeName, "ServiceCode" => ServiceCode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_attribute_values(
     AttributeName,
     ServiceCode,
@@ -98,25 +93,23 @@ end
 Services Price List API is subject to the Beta Service Participation terms of the Amazon
 Web Services Service Terms (Section 1.10).   This returns the URL that you can retrieve
 your Price List file from. This URL is based on the PriceListArn and FileFormat that you
-retrieve from the  ListPriceLists  response.
+retrieve from the ListPriceLists response.
 
 # Arguments
 - `file_format`: The format that you want to retrieve your Price List files in. The
-  FileFormat can be obtained from the  ListPriceLists  response.
+  FileFormat can be obtained from the ListPriceLists response.
 - `price_list_arn`: The unique identifier that maps to where your Price List files are
-  located. PriceListArn can be obtained from the  ListPriceLists  response.
+  located. PriceListArn can be obtained from the ListPriceLists response.
 
 """
-function get_price_list_file_url(
+get_price_list_file_url(
     FileFormat, PriceListArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = pricing(
+    "GetPriceListFileUrl",
+    Dict{String,Any}("FileFormat" => FileFormat, "PriceListArn" => PriceListArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pricing(
-        "GetPriceListFileUrl",
-        Dict{String,Any}("FileFormat" => FileFormat, "PriceListArn" => PriceListArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_price_list_file_url(
     FileFormat,
     PriceListArn,
@@ -158,14 +151,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that indicates the next set of results that you want
   to retrieve.
 """
-function get_products(ServiceCode; aws_config::AbstractAWSConfig=global_aws_config())
-    return pricing(
-        "GetProducts",
-        Dict{String,Any}("ServiceCode" => ServiceCode);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_products(ServiceCode; aws_config::AbstractAWSConfig=global_aws_config()) = pricing(
+    "GetProducts",
+    Dict{String,Any}("ServiceCode" => ServiceCode);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_products(
     ServiceCode,
     params::AbstractDict{String};
@@ -193,7 +184,7 @@ EffectiveDate. Use without a RegionCode filter to list Price List references fro
 available Amazon Web Services Regions. Use with a RegionCode filter to get the Price List
 reference that's specific to a specific Amazon Web Services Region. You can use the
 PriceListArn from the response to get your preferred Price List files through the
-GetPriceListFileUrl  API.
+GetPriceListFileUrl API.
 
 # Arguments
 - `currency_code`: The three alphabetical character ISO-4217 currency code that the Price
@@ -202,9 +193,9 @@ GetPriceListFileUrl  API.
 - `service_code`: The service code or the Savings Plan service code for the attributes that
   you want to retrieve. For example, to get the list of applicable Amazon EC2 price lists,
   use AmazonEC2. For a full list of service codes containing On-Demand and Reserved Instance
-  (RI) pricing, use the  DescribeServices  API. To retrieve the Compute Savings Plan price
-  lists, use ComputeSavingsPlans. To retrieve Machine Learning Savings Plans price lists, use
-  MachineLearningSavingsPlans.
+  (RI) pricing, use the DescribeServices API. To retrieve the Reserved Instance and Compute
+  Savings Plan price lists, use ComputeSavingsPlans.  To retrieve Machine Learning Savings
+  Plans price lists, use MachineLearningSavingsPlans.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -214,25 +205,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RegionCode"`: This is used to filter the Price List by Amazon Web Services Region. For
   example, to get the price list only for the US East (N. Virginia) Region, use us-east-1. If
   nothing is specified, you retrieve price lists for all applicable Regions. The available
-  RegionCode list can be retrieved from  GetAttributeValues  API.
+  RegionCode list can be retrieved from GetAttributeValues API.
 """
-function list_price_lists(
+list_price_lists(
     CurrencyCode,
     EffectiveDate,
     ServiceCode;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = pricing(
+    "ListPriceLists",
+    Dict{String,Any}(
+        "CurrencyCode" => CurrencyCode,
+        "EffectiveDate" => EffectiveDate,
+        "ServiceCode" => ServiceCode,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return pricing(
-        "ListPriceLists",
-        Dict{String,Any}(
-            "CurrencyCode" => CurrencyCode,
-            "EffectiveDate" => EffectiveDate,
-            "ServiceCode" => ServiceCode,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_price_lists(
     CurrencyCode,
     EffectiveDate,

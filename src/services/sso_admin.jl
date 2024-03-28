@@ -12,30 +12,28 @@ Attaches the specified customer managed policy to the specified PermissionSet.
 
 # Arguments
 - `customer_managed_policy_reference`: Specifies the name and path of a customer managed
-  policy. You must have an IAM policy that matches the name and path in each AWS account
-  where you want to deploy your permission set.
+  policy. You must have an IAM policy that matches the name and path in each Amazon Web
+  Services account where you want to deploy your permission set.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed.
 - `permission_set_arn`: The ARN of the PermissionSet.
 
 """
-function attach_customer_managed_policy_reference_to_permission_set(
+attach_customer_managed_policy_reference_to_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
     PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "AttachCustomerManagedPolicyReferenceToPermissionSet",
+    Dict{String,Any}(
+        "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "AttachCustomerManagedPolicyReferenceToPermissionSet",
-        Dict{String,Any}(
-            "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function attach_customer_managed_policy_reference_to_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
@@ -65,37 +63,36 @@ end
     attach_managed_policy_to_permission_set(instance_arn, managed_policy_arn, permission_set_arn)
     attach_managed_policy_to_permission_set(instance_arn, managed_policy_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Attaches an AWS managed policy ARN to a permission set.  If the permission set is already
-referenced by one or more account assignments, you will need to call
+Attaches an Amazon Web Services managed policy ARN to a permission set.  If the permission
+set is already referenced by one or more account assignments, you will need to call
 ProvisionPermissionSet  after this operation. Calling ProvisionPermissionSet applies the
 corresponding IAM policy updates to all assigned accounts.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
-- `managed_policy_arn`: The AWS managed policy ARN to be attached to a permission set.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+- `managed_policy_arn`: The Amazon Web Services managed policy ARN to be attached to a
+  permission set.
 - `permission_set_arn`: The ARN of the PermissionSet that the managed policy should be
   attached to.
 
 """
-function attach_managed_policy_to_permission_set(
+attach_managed_policy_to_permission_set(
     InstanceArn,
     ManagedPolicyArn,
     PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "AttachManagedPolicyToPermissionSet",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "ManagedPolicyArn" => ManagedPolicyArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "AttachManagedPolicyToPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "ManagedPolicyArn" => ManagedPolicyArn,
-            "PermissionSetArn" => PermissionSetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function attach_managed_policy_to_permission_set(
     InstanceArn,
     ManagedPolicyArn,
@@ -125,21 +122,21 @@ end
     create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
     create_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type, params::Dict{String,<:Any})
 
-Assigns access to a principal for a specified AWS account using a specified permission set.
- The term principal here refers to a user or group that is defined in IAM Identity Center.
- As part of a successful CreateAccountAssignment call, the specified permission set will
-automatically be provisioned to the account in the form of an IAM policy. That policy is
-attached to the IAM role created in IAM Identity Center. If the permission set is
-subsequently updated, the corresponding IAM policies attached to roles in your accounts
-will not be updated automatically. In this case, you must call  ProvisionPermissionSet  to
-make these updates.    After a successful response, call
+Assigns access to a principal for a specified Amazon Web Services account using a specified
+permission set.  The term principal here refers to a user or group that is defined in IAM
+Identity Center.   As part of a successful CreateAccountAssignment call, the specified
+permission set will automatically be provisioned to the account in the form of an IAM
+policy. That policy is attached to the IAM role created in IAM Identity Center. If the
+permission set is subsequently updated, the corresponding IAM policies attached to roles in
+your accounts will not be updated automatically. In this case, you must call
+ProvisionPermissionSet  to make these updates.    After a successful response, call
 DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation
 request.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set that the admin wants to grant the
   principal access to.
 - `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
@@ -147,12 +144,12 @@ request.
   information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity
   Store API Reference.
 - `principal_type`: The entity type for which the assignment will be created.
-- `target_id`: TargetID is an AWS account identifier, typically a 10-12 digit string (For
-  example, 123456789012).
+- `target_id`: TargetID is an Amazon Web Services account identifier, (For example,
+  123456789012).
 - `target_type`: The entity type for which the assignment will be created.
 
 """
-function create_account_assignment(
+create_account_assignment(
     InstanceArn,
     PermissionSetArn,
     PrincipalId,
@@ -160,21 +157,19 @@ function create_account_assignment(
     TargetId,
     TargetType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "CreateAccountAssignment",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+        "TargetId" => TargetId,
+        "TargetType" => TargetType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "CreateAccountAssignment",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-            "PrincipalId" => PrincipalId,
-            "PrincipalType" => PrincipalType,
-            "TargetId" => TargetId,
-            "TargetType" => TargetType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_account_assignment(
     InstanceArn,
     PermissionSetArn,
@@ -200,6 +195,176 @@ function create_account_assignment(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_application(application_provider_arn, instance_arn, name)
+    create_application(application_provider_arn, instance_arn, name, params::Dict{String,<:Any})
+
+Creates an application in IAM Identity Center for the given application provider.
+
+# Arguments
+- `application_provider_arn`: The ARN of the application provider under which the operation
+  will run.
+- `instance_arn`: The ARN of the instance of IAM Identity Center under which the operation
+  will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web
+  Services Service Namespaces in the Amazon Web Services General Reference.
+- `name`: The name of the .
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
+  idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value. If you don't provide this value, then Amazon Web
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
+- `"Description"`: The description of the .
+- `"PortalOptions"`: A structure that describes the options for the portal associated with
+  an application.
+- `"Status"`: Specifies whether the application is enabled or disabled.
+- `"Tags"`: Specifies tags to be attached to the application.
+"""
+create_application(
+    ApplicationProviderArn,
+    InstanceArn,
+    Name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "CreateApplication",
+    Dict{String,Any}(
+        "ApplicationProviderArn" => ApplicationProviderArn,
+        "InstanceArn" => InstanceArn,
+        "Name" => Name,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_application(
+    ApplicationProviderArn,
+    InstanceArn,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "CreateApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationProviderArn" => ApplicationProviderArn,
+                    "InstanceArn" => InstanceArn,
+                    "Name" => Name,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_application_assignment(application_arn, principal_id, principal_type)
+    create_application_assignment(application_arn, principal_id, principal_type, params::Dict{String,<:Any})
+
+Grant application access to a user or group.
+
+# Arguments
+- `application_arn`: The ARN of the application provider under which the operation will run.
+- `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
+  group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more
+  information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity
+  Store API Reference.
+- `principal_type`: The entity type for which the assignment will be created.
+
+"""
+create_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "CreateApplicationAssignment",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "CreateApplicationAssignment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_instance()
+    create_instance(params::Dict{String,<:Any})
+
+Creates an instance of IAM Identity Center for a standalone Amazon Web Services account
+that is not managed by Organizations or a member Amazon Web Services account in an
+organization. You can create only one instance per account and across all Amazon Web
+Services Regions. The CreateInstance request is rejected if the following apply:    The
+instance is created within the organization management account.   An instance already
+exists in the same account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
+  idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value. If you don't provide this value, then Amazon Web
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
+- `"Name"`: The name of the instance of IAM Identity Center.
+- `"Tags"`: Specifies tags to be attached to the instance of IAM Identity Center.
+"""
+create_instance(; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin(
+    "CreateInstance",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_instance(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "CreateInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -229,22 +394,20 @@ InstanceAccessControlAttributeConfiguration was created.
   will be executed.
 
 """
-function create_instance_access_control_attribute_configuration(
+create_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "CreateInstanceAccessControlAttributeConfiguration",
+    Dict{String,Any}(
+        "InstanceAccessControlAttributeConfiguration" =>
+            InstanceAccessControlAttributeConfiguration,
+        "InstanceArn" => InstanceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "CreateInstanceAccessControlAttributeConfiguration",
-        Dict{String,Any}(
-            "InstanceAccessControlAttributeConfiguration" =>
-                InstanceAccessControlAttributeConfiguration,
-            "InstanceArn" => InstanceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn,
@@ -274,12 +437,12 @@ end
     create_permission_set(instance_arn, name, params::Dict{String,<:Any})
 
 Creates a permission set within a specified IAM Identity Center instance.  To grant users
-and groups access to AWS account resources, use  CreateAccountAssignment .
+and groups access to Amazon Web Services account resources, use  CreateAccountAssignment .
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `name`: The name of the PermissionSet.
 
 # Optional Parameters
@@ -291,16 +454,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the ISO-8601 standard.
 - `"Tags"`: The tags to attach to the new PermissionSet.
 """
-function create_permission_set(
+create_permission_set(
     InstanceArn, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "CreatePermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "CreatePermissionSet",
-        Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_permission_set(
     InstanceArn,
     Name,
@@ -322,29 +483,107 @@ function create_permission_set(
 end
 
 """
+    create_trusted_token_issuer(instance_arn, name, trusted_token_issuer_configuration, trusted_token_issuer_type)
+    create_trusted_token_issuer(instance_arn, name, trusted_token_issuer_configuration, trusted_token_issuer_type, params::Dict{String,<:Any})
+
+Creates a connection to a trusted token issuer in an instance of IAM Identity Center. A
+trusted token issuer enables trusted identity propagation to be used with applications that
+authenticate outside of Amazon Web Services. This trusted token issuer describes an
+external identity provider (IdP) that can generate claims or assertions in the form of
+access tokens for a user. Applications enabled for IAM Identity Center can use these tokens
+for authentication.
+
+# Arguments
+- `instance_arn`: Specifies the ARN of the instance of IAM Identity Center to contain the
+  new trusted token issuer configuration.
+- `name`: Specifies the name of the new trusted token issuer configuration.
+- `trusted_token_issuer_configuration`: Specifies settings that apply to the new trusted
+  token issuer configuration. The settings that are available depend on what
+  TrustedTokenIssuerType you specify.
+- `trusted_token_issuer_type`: Specifies the type of the new trusted token issuer.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Specifies a unique, case-sensitive ID that you provide to ensure the
+  idempotency of the request. This lets you safely retry the request without accidentally
+  performing the same operation a second time. Passing the same value to a later call to an
+  operation requires that you also pass the same value for all other parameters. We recommend
+  that you use a UUID type of value.. If you don't provide this value, then Amazon Web
+  Services generates a random one for you. If you retry the operation with the same
+  ClientToken, but with different parameters, the retry fails with an
+  IdempotentParameterMismatch error.
+- `"Tags"`: Specifies tags to be attached to the new trusted token issuer configuration.
+"""
+create_trusted_token_issuer(
+    InstanceArn,
+    Name,
+    TrustedTokenIssuerConfiguration,
+    TrustedTokenIssuerType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "CreateTrustedTokenIssuer",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "Name" => Name,
+        "TrustedTokenIssuerConfiguration" => TrustedTokenIssuerConfiguration,
+        "TrustedTokenIssuerType" => TrustedTokenIssuerType,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_trusted_token_issuer(
+    InstanceArn,
+    Name,
+    TrustedTokenIssuerConfiguration,
+    TrustedTokenIssuerType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "CreateTrustedTokenIssuer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "Name" => Name,
+                    "TrustedTokenIssuerConfiguration" => TrustedTokenIssuerConfiguration,
+                    "TrustedTokenIssuerType" => TrustedTokenIssuerType,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type)
     delete_account_assignment(instance_arn, permission_set_arn, principal_id, principal_type, target_id, target_type, params::Dict{String,<:Any})
 
-Deletes a principal's access from a specified AWS account using a specified permission set.
- After a successful response, call DescribeAccountAssignmentCreationStatus to describe the
-status of an assignment deletion request.
+Deletes a principal's access from a specified Amazon Web Services account using a specified
+permission set.  After a successful response, call DescribeAccountAssignmentDeletionStatus
+to describe the status of an assignment deletion request.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
 - `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
   group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more
   information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity
   Store API Reference.
 - `principal_type`: The entity type for which the assignment will be deleted.
-- `target_id`: TargetID is an AWS account identifier, typically a 10-12 digit string (For
-  example, 123456789012).
+- `target_id`: TargetID is an Amazon Web Services account identifier, (For example,
+  123456789012).
 - `target_type`: The entity type for which the assignment will be deleted.
 
 """
-function delete_account_assignment(
+delete_account_assignment(
     InstanceArn,
     PermissionSetArn,
     PrincipalId,
@@ -352,21 +591,19 @@ function delete_account_assignment(
     TargetId,
     TargetType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "DeleteAccountAssignment",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+        "TargetId" => TargetId,
+        "TargetType" => TargetType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DeleteAccountAssignment",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-            "PrincipalId" => PrincipalId,
-            "PrincipalType" => PrincipalType,
-            "TargetId" => TargetId,
-            "TargetType" => TargetType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_account_assignment(
     InstanceArn,
     PermissionSetArn,
@@ -399,6 +636,225 @@ function delete_account_assignment(
 end
 
 """
+    delete_application(application_arn)
+    delete_application(application_arn, params::Dict{String,<:Any})
+
+Deletes the association with the application. The connected service resource still exists.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application. For more information about ARNs,
+  see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon
+  Web Services General Reference.
+
+"""
+delete_application(ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
+        "DeleteApplication",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_application(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_application_access_scope(application_arn, scope)
+    delete_application_access_scope(application_arn, scope, params::Dict{String,<:Any})
+
+Deletes an IAM Identity Center access scope from an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application with the access scope to delete.
+- `scope`: Specifies the name of the access scope to remove from the application.
+
+"""
+delete_application_access_scope(
+    ApplicationArn, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DeleteApplicationAccessScope",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application_access_scope(
+    ApplicationArn,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteApplicationAccessScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_application_assignment(application_arn, principal_id, principal_type)
+    delete_application_assignment(application_arn, principal_id, principal_type, params::Dict{String,<:Any})
+
+Revoke application access to an application by deleting application assignments for a user
+or group.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application.
+- `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
+  group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more
+  information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity
+  Store API Reference.
+- `principal_type`: The entity type for which the assignment will be deleted.
+
+"""
+delete_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "DeleteApplicationAssignment",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteApplicationAssignment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_application_authentication_method(application_arn, authentication_method_type)
+    delete_application_authentication_method(application_arn, authentication_method_type, params::Dict{String,<:Any})
+
+Deletes an authentication method from an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application with the authentication method to
+  delete.
+- `authentication_method_type`: Specifies the authentication method type to delete from the
+  application.
+
+"""
+delete_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethodType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "DeleteApplicationAuthenticationMethod",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "AuthenticationMethodType" => AuthenticationMethodType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethodType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteApplicationAuthenticationMethod",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "AuthenticationMethodType" => AuthenticationMethodType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_application_grant(application_arn, grant_type)
+    delete_application_grant(application_arn, grant_type, params::Dict{String,<:Any})
+
+Deletes a grant from an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application with the grant to delete.
+- `grant_type`: Specifies the type of grant to delete from the application.
+
+"""
+delete_application_grant(
+    ApplicationArn, GrantType; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DeleteApplicationGrant",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "GrantType" => GrantType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_application_grant(
+    ApplicationArn,
+    GrantType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteApplicationGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn, "GrantType" => GrantType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_inline_policy_from_permission_set(instance_arn, permission_set_arn)
     delete_inline_policy_from_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
@@ -406,23 +862,19 @@ Deletes the inline policy from a specified permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set that will be used to remove access.
 
 """
-function delete_inline_policy_from_permission_set(
+delete_inline_policy_from_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DeleteInlinePolicyFromPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DeleteInlinePolicyFromPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_inline_policy_from_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -446,6 +898,40 @@ function delete_inline_policy_from_permission_set(
 end
 
 """
+    delete_instance(instance_arn)
+    delete_instance(instance_arn, params::Dict{String,<:Any})
+
+Deletes the instance of IAM Identity Center. Only the account that owns the instance can
+call this API. Neither the delegated administrator nor member account can delete the
+organization instance, but those roles can delete their own instance.
+
+# Arguments
+- `instance_arn`: The ARN of the instance of IAM Identity Center under which the operation
+  will run.
+
+"""
+delete_instance(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin(
+    "DeleteInstance",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_instance(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_instance_access_control_attribute_configuration(instance_arn)
     delete_instance_access_control_attribute_configuration(instance_arn, params::Dict{String,<:Any})
 
@@ -460,16 +946,14 @@ Attribute-Based Access Control in the IAM Identity Center User Guide.
   will be executed.
 
 """
-function delete_instance_access_control_attribute_configuration(
+delete_instance_access_control_attribute_configuration(
     InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DeleteInstanceAccessControlAttributeConfiguration",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DeleteInstanceAccessControlAttributeConfiguration",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_instance_access_control_attribute_configuration(
     InstanceArn,
     params::AbstractDict{String};
@@ -493,23 +977,19 @@ Deletes the specified permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set that should be deleted.
 
 """
-function delete_permission_set(
+delete_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DeletePermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DeletePermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -544,18 +1024,14 @@ Deletes the permissions boundary from a specified PermissionSet.
 - `permission_set_arn`: The ARN of the PermissionSet.
 
 """
-function delete_permissions_boundary_from_permission_set(
+delete_permissions_boundary_from_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DeletePermissionsBoundaryFromPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DeletePermissionsBoundaryFromPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_permissions_boundary_from_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -579,6 +1055,46 @@ function delete_permissions_boundary_from_permission_set(
 end
 
 """
+    delete_trusted_token_issuer(trusted_token_issuer_arn)
+    delete_trusted_token_issuer(trusted_token_issuer_arn, params::Dict{String,<:Any})
+
+Deletes a trusted token issuer configuration from an instance of IAM Identity Center.
+Deleting this trusted token issuer configuration will cause users to lose access to any
+applications that are configured to use the trusted token issuer.
+
+# Arguments
+- `trusted_token_issuer_arn`: Specifies the ARN of the trusted token issuer configuration
+  to delete.
+
+"""
+delete_trusted_token_issuer(
+    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DeleteTrustedTokenIssuer",
+    Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_trusted_token_issuer(
+    TrustedTokenIssuerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DeleteTrustedTokenIssuer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_account_assignment_creation_status(account_assignment_creation_request_id, instance_arn)
     describe_account_assignment_creation_status(account_assignment_creation_request_id, instance_arn, params::Dict{String,<:Any})
 
@@ -588,25 +1104,23 @@ Describes the status of the assignment creation request.
 - `account_assignment_creation_request_id`: The identifier that is used to track the
   request operation progress.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 
 """
-function describe_account_assignment_creation_status(
+describe_account_assignment_creation_status(
     AccountAssignmentCreationRequestId,
     InstanceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "DescribeAccountAssignmentCreationStatus",
+    Dict{String,Any}(
+        "AccountAssignmentCreationRequestId" => AccountAssignmentCreationRequestId,
+        "InstanceArn" => InstanceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DescribeAccountAssignmentCreationStatus",
-        Dict{String,Any}(
-            "AccountAssignmentCreationRequestId" => AccountAssignmentCreationRequestId,
-            "InstanceArn" => InstanceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_account_assignment_creation_status(
     AccountAssignmentCreationRequestId,
     InstanceArn,
@@ -641,25 +1155,23 @@ Describes the status of the assignment deletion request.
 - `account_assignment_deletion_request_id`: The identifier that is used to track the
   request operation progress.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 
 """
-function describe_account_assignment_deletion_status(
+describe_account_assignment_deletion_status(
     AccountAssignmentDeletionRequestId,
     InstanceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "DescribeAccountAssignmentDeletionStatus",
+    Dict{String,Any}(
+        "AccountAssignmentDeletionRequestId" => AccountAssignmentDeletionRequestId,
+        "InstanceArn" => InstanceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DescribeAccountAssignmentDeletionStatus",
-        Dict{String,Any}(
-            "AccountAssignmentDeletionRequestId" => AccountAssignmentDeletionRequestId,
-            "InstanceArn" => InstanceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_account_assignment_deletion_status(
     AccountAssignmentDeletionRequestId,
     InstanceArn,
@@ -685,6 +1197,178 @@ function describe_account_assignment_deletion_status(
 end
 
 """
+    describe_application(application_arn)
+    describe_application(application_arn, params::Dict{String,<:Any})
+
+Retrieves the details of an application associated with an instance of IAM Identity Center.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application. For more information about ARNs,
+  see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon
+  Web Services General Reference.
+
+"""
+describe_application(ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
+        "DescribeApplication",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_application(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribeApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_application_assignment(application_arn, principal_id, principal_type)
+    describe_application_assignment(application_arn, principal_id, principal_type, params::Dict{String,<:Any})
+
+Retrieves a direct assignment of a user or group to an application. If the user doesn’t
+have a direct assignment to the application, the user may still have access to the
+application through a group. Therefore, don’t use this API to test access to an
+application for a user. Instead use ListApplicationAssignmentsForPrincipal.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application. For more information about ARNs,
+  see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon
+  Web Services General Reference.
+- `principal_id`: An identifier for an object in IAM Identity Center, such as a user or
+  group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more
+  information about PrincipalIds in IAM Identity Center, see the IAM Identity Center Identity
+  Store API Reference.
+- `principal_type`: The entity type for which the assignment will be created.
+
+"""
+describe_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "DescribeApplicationAssignment",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_application_assignment(
+    ApplicationArn,
+    PrincipalId,
+    PrincipalType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribeApplicationAssignment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_application_provider(application_provider_arn)
+    describe_application_provider(application_provider_arn, params::Dict{String,<:Any})
+
+Retrieves details about a provider that can be used to connect an Amazon Web Services
+managed application or customer managed application to IAM Identity Center.
+
+# Arguments
+- `application_provider_arn`: Specifies the ARN of the application provider for which you
+  want details.
+
+"""
+describe_application_provider(
+    ApplicationProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DescribeApplicationProvider",
+    Dict{String,Any}("ApplicationProviderArn" => ApplicationProviderArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_application_provider(
+    ApplicationProviderArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribeApplicationProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ApplicationProviderArn" => ApplicationProviderArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_instance(instance_arn)
+    describe_instance(instance_arn, params::Dict{String,<:Any})
+
+Returns the details of an instance of IAM Identity Center. The status can be one of the
+following:    CREATE_IN_PROGRESS - The instance is in the process of being created. When
+the instance is ready for use, DescribeInstance returns the status of ACTIVE. While the
+instance is in the CREATE_IN_PROGRESS state, you can call only DescribeInstance and
+DeleteInstance operations.    DELETE_IN_PROGRESS - The instance is being deleted. Returns
+AccessDeniedException after the delete operation completes.     ACTIVE - The instance is
+active.
+
+# Arguments
+- `instance_arn`: The ARN of the instance of IAM Identity Center under which the operation
+  will run.
+
+"""
+describe_instance(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
+        "DescribeInstance",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_instance(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribeInstance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_instance_access_control_attribute_configuration(instance_arn)
     describe_instance_access_control_attribute_configuration(instance_arn, params::Dict{String,<:Any})
 
@@ -699,16 +1383,14 @@ Identity Center User Guide.
   will be executed.
 
 """
-function describe_instance_access_control_attribute_configuration(
+describe_instance_access_control_attribute_configuration(
     InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DescribeInstanceAccessControlAttributeConfiguration",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DescribeInstanceAccessControlAttributeConfiguration",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_instance_access_control_attribute_configuration(
     InstanceArn,
     params::AbstractDict{String};
@@ -732,23 +1414,19 @@ Gets the details of the permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 """
-function describe_permission_set(
+describe_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DescribePermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DescribePermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -779,27 +1457,25 @@ Describes the status for the given permission set provisioning request.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `provision_permission_set_request_id`: The identifier that is provided by the
   ProvisionPermissionSet call to retrieve the current status of the provisioning workflow.
 
 """
-function describe_permission_set_provisioning_status(
+describe_permission_set_provisioning_status(
     InstanceArn,
     ProvisionPermissionSetRequestId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "DescribePermissionSetProvisioningStatus",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "ProvisionPermissionSetRequestId" => ProvisionPermissionSetRequestId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DescribePermissionSetProvisioningStatus",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "ProvisionPermissionSetRequestId" => ProvisionPermissionSetRequestId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_permission_set_provisioning_status(
     InstanceArn,
     ProvisionPermissionSetRequestId,
@@ -824,6 +1500,47 @@ function describe_permission_set_provisioning_status(
 end
 
 """
+    describe_trusted_token_issuer(trusted_token_issuer_arn)
+    describe_trusted_token_issuer(trusted_token_issuer_arn, params::Dict{String,<:Any})
+
+Retrieves details about a trusted token issuer configuration stored in an instance of IAM
+Identity Center. Details include the name of the trusted token issuer, the issuer URL, and
+the path of the source attribute and the destination attribute for a trusted token issuer
+configuration.
+
+# Arguments
+- `trusted_token_issuer_arn`: Specifies the ARN of the trusted token issuer configuration
+  that you want details about.
+
+"""
+describe_trusted_token_issuer(
+    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "DescribeTrustedTokenIssuer",
+    Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_trusted_token_issuer(
+    TrustedTokenIssuerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "DescribeTrustedTokenIssuer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     detach_customer_managed_policy_reference_from_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn)
     detach_customer_managed_policy_reference_from_permission_set(customer_managed_policy_reference, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
@@ -831,30 +1548,28 @@ Detaches the specified customer managed policy from the specified PermissionSet.
 
 # Arguments
 - `customer_managed_policy_reference`: Specifies the name and path of a customer managed
-  policy. You must have an IAM policy that matches the name and path in each AWS account
-  where you want to deploy your permission set.
+  policy. You must have an IAM policy that matches the name and path in each Amazon Web
+  Services account where you want to deploy your permission set.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
   will be executed.
 - `permission_set_arn`: The ARN of the PermissionSet.
 
 """
-function detach_customer_managed_policy_reference_from_permission_set(
+detach_customer_managed_policy_reference_from_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
     PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "DetachCustomerManagedPolicyReferenceFromPermissionSet",
+    Dict{String,Any}(
+        "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DetachCustomerManagedPolicyReferenceFromPermissionSet",
-        Dict{String,Any}(
-            "CustomerManagedPolicyReference" => CustomerManagedPolicyReference,
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function detach_customer_managed_policy_reference_from_permission_set(
     CustomerManagedPolicyReference,
     InstanceArn,
@@ -884,34 +1599,34 @@ end
     detach_managed_policy_from_permission_set(instance_arn, managed_policy_arn, permission_set_arn)
     detach_managed_policy_from_permission_set(instance_arn, managed_policy_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Detaches the attached AWS managed policy ARN from the specified permission set.
+Detaches the attached Amazon Web Services managed policy ARN from the specified permission
+set.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
-- `managed_policy_arn`: The AWS managed policy ARN to be detached from a permission set.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+- `managed_policy_arn`: The Amazon Web Services managed policy ARN to be detached from a
+  permission set.
 - `permission_set_arn`: The ARN of the PermissionSet from which the policy should be
   detached.
 
 """
-function detach_managed_policy_from_permission_set(
+detach_managed_policy_from_permission_set(
     InstanceArn,
     ManagedPolicyArn,
     PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "DetachManagedPolicyFromPermissionSet",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "ManagedPolicyArn" => ManagedPolicyArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "DetachManagedPolicyFromPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "ManagedPolicyArn" => ManagedPolicyArn,
-            "PermissionSetArn" => PermissionSetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function detach_managed_policy_from_permission_set(
     InstanceArn,
     ManagedPolicyArn,
@@ -938,6 +1653,170 @@ function detach_managed_policy_from_permission_set(
 end
 
 """
+    get_application_access_scope(application_arn, scope)
+    get_application_access_scope(application_arn, scope, params::Dict{String,<:Any})
+
+Retrieves the authorized targets for an IAM Identity Center access scope for an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application with the access scope that you
+  want to retrieve.
+- `scope`: Specifies the name of the access scope for which you want the authorized targets.
+
+"""
+get_application_access_scope(
+    ApplicationArn, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "GetApplicationAccessScope",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application_access_scope(
+    ApplicationArn,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "GetApplicationAccessScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_application_assignment_configuration(application_arn)
+    get_application_assignment_configuration(application_arn, params::Dict{String,<:Any})
+
+Retrieves the configuration of PutApplicationAssignmentConfiguration.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application. For more information about ARNs,
+  see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon
+  Web Services General Reference.
+
+"""
+get_application_assignment_configuration(
+    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "GetApplicationAssignmentConfiguration",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application_assignment_configuration(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "GetApplicationAssignmentConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_application_authentication_method(application_arn, authentication_method_type)
+    get_application_authentication_method(application_arn, authentication_method_type, params::Dict{String,<:Any})
+
+Retrieves details about an authentication method used by an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application.
+- `authentication_method_type`: Specifies the type of authentication method for which you
+  want details.
+
+"""
+get_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethodType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "GetApplicationAuthenticationMethod",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "AuthenticationMethodType" => AuthenticationMethodType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethodType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "GetApplicationAuthenticationMethod",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "AuthenticationMethodType" => AuthenticationMethodType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_application_grant(application_arn, grant_type)
+    get_application_grant(application_arn, grant_type, params::Dict{String,<:Any})
+
+Retrieves details about an application grant.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application that contains the grant.
+- `grant_type`: Specifies the type of grant.
+
+"""
+get_application_grant(
+    ApplicationArn, GrantType; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "GetApplicationGrant",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "GrantType" => GrantType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_application_grant(
+    ApplicationArn,
+    GrantType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "GetApplicationGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn, "GrantType" => GrantType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_inline_policy_for_permission_set(instance_arn, permission_set_arn)
     get_inline_policy_for_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
@@ -945,23 +1824,19 @@ Obtains the inline policy assigned to the permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 """
-function get_inline_policy_for_permission_set(
+get_inline_policy_for_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "GetInlinePolicyForPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "GetInlinePolicyForPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_inline_policy_for_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -996,18 +1871,14 @@ Obtains the permissions boundary for a specified PermissionSet.
 - `permission_set_arn`: The ARN of the PermissionSet.
 
 """
-function get_permissions_boundary_for_permission_set(
+get_permissions_boundary_for_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "GetPermissionsBoundaryForPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "GetPermissionsBoundaryForPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_permissions_boundary_for_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1034,13 +1905,13 @@ end
     list_account_assignment_creation_status(instance_arn)
     list_account_assignment_creation_status(instance_arn, params::Dict{String,<:Any})
 
-Lists the status of the AWS account assignment creation requests for a specified IAM
-Identity Center instance.
+Lists the status of the Amazon Web Services account assignment creation requests for a
+specified IAM Identity Center instance.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1049,16 +1920,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_account_assignment_creation_status(
+list_account_assignment_creation_status(
     InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "ListAccountAssignmentCreationStatus",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "ListAccountAssignmentCreationStatus",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_account_assignment_creation_status(
     InstanceArn,
     params::AbstractDict{String};
@@ -1078,13 +1947,13 @@ end
     list_account_assignment_deletion_status(instance_arn)
     list_account_assignment_deletion_status(instance_arn, params::Dict{String,<:Any})
 
-Lists the status of the AWS account assignment deletion requests for a specified IAM
-Identity Center instance.
+Lists the status of the Amazon Web Services account assignment deletion requests for a
+specified IAM Identity Center instance.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1093,16 +1962,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_account_assignment_deletion_status(
+list_account_assignment_deletion_status(
     InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "ListAccountAssignmentDeletionStatus",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "ListAccountAssignmentDeletionStatus",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_account_assignment_deletion_status(
     InstanceArn,
     params::AbstractDict{String};
@@ -1122,13 +1989,15 @@ end
     list_account_assignments(account_id, instance_arn, permission_set_arn)
     list_account_assignments(account_id, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Lists the assignee of the specified AWS account with the specified permission set.
+Lists the assignee of the specified Amazon Web Services account with the specified
+permission set.
 
 # Arguments
-- `account_id`: The identifier of the AWS account from which to list the assignments.
+- `account_id`: The identifier of the Amazon Web Services account from which to list the
+  assignments.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set from which to list assignments.
 
 # Optional Parameters
@@ -1137,23 +2006,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_account_assignments(
+list_account_assignments(
     AccountId,
     InstanceArn,
     PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "ListAccountAssignments",
+    Dict{String,Any}(
+        "AccountId" => AccountId,
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "ListAccountAssignments",
-        Dict{String,Any}(
-            "AccountId" => AccountId,
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_account_assignments(
     AccountId,
     InstanceArn,
@@ -1180,37 +2047,105 @@ function list_account_assignments(
 end
 
 """
+    list_account_assignments_for_principal(instance_arn, principal_id, principal_type)
+    list_account_assignments_for_principal(instance_arn, principal_id, principal_type, params::Dict{String,<:Any})
+
+Retrieves a list of the IAM Identity Center associated Amazon Web Services accounts that
+the principal has access to.
+
+# Arguments
+- `instance_arn`: Specifies the ARN of the instance of IAM Identity Center that contains
+  the principal.
+- `principal_id`: Specifies the principal for which you want to retrieve the list of
+  account assignments.
+- `principal_type`: Specifies the type of the principal.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: Specifies an Amazon Web Services account ID number. Results are filtered to
+  only those that match this ID number.
+- `"MaxResults"`: Specifies the total number of results that you want included in each
+  response. If additional items exist beyond the number you specify, the NextToken response
+  element is returned with a value (not null). Include the specified value as the NextToken
+  request parameter in the next call to the operation to get the next set of results. Note
+  that the service might return fewer results than the maximum even when there are more
+  results available. You should check NextToken after every operation to ensure that you
+  receive all of the results.
+- `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+"""
+list_account_assignments_for_principal(
+    InstanceArn,
+    PrincipalId,
+    PrincipalType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "ListAccountAssignmentsForPrincipal",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_account_assignments_for_principal(
+    InstanceArn,
+    PrincipalId,
+    PrincipalType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListAccountAssignmentsForPrincipal",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn)
     list_accounts_for_provisioned_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Lists all the AWS accounts where the specified permission set is provisioned.
+Lists all the Amazon Web Services accounts where the specified permission set is
+provisioned.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
-- `permission_set_arn`: The ARN of the PermissionSet from which the associated AWS accounts
-  will be listed.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
+- `permission_set_arn`: The ARN of the PermissionSet from which the associated Amazon Web
+  Services accounts will be listed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of results to display for the PermissionSet.
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
-- `"ProvisioningStatus"`: The permission set provisioning status for an AWS account.
+- `"ProvisioningStatus"`: The permission set provisioning status for an Amazon Web Services
+  account.
 """
-function list_accounts_for_provisioned_permission_set(
+list_accounts_for_provisioned_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "ListAccountsForProvisionedPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "ListAccountsForProvisionedPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_accounts_for_provisioned_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1234,6 +2169,331 @@ function list_accounts_for_provisioned_permission_set(
 end
 
 """
+    list_application_access_scopes(application_arn)
+    list_application_access_scopes(application_arn, params::Dict{String,<:Any})
+
+Lists the access scopes and authorized targets associated with an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies the total number of results that you want included in each
+  response. If additional items exist beyond the number you specify, the NextToken response
+  element is returned with a value (not null). Include the specified value as the NextToken
+  request parameter in the next call to the operation to get the next set of results. Note
+  that the service might return fewer results than the maximum even when there are more
+  results available. You should check NextToken after every operation to ensure that you
+  receive all of the results.
+- `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+"""
+list_application_access_scopes(
+    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "ListApplicationAccessScopes",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_access_scopes(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListApplicationAccessScopes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_application_assignments(application_arn)
+    list_application_assignments(application_arn, params::Dict{String,<:Any})
+
+Lists Amazon Web Services account users that are assigned to an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies the total number of results that you want included in each
+  response. If additional items exist beyond the number you specify, the NextToken response
+  element is returned with a value (not null). Include the specified value as the NextToken
+  request parameter in the next call to the operation to get the next set of results. Note
+  that the service might return fewer results than the maximum even when there are more
+  results available. You should check NextToken after every operation to ensure that you
+  receive all of the results.
+- `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+"""
+list_application_assignments(
+    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "ListApplicationAssignments",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_assignments(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListApplicationAssignments",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_application_assignments_for_principal(instance_arn, principal_id, principal_type)
+    list_application_assignments_for_principal(instance_arn, principal_id, principal_type, params::Dict{String,<:Any})
+
+Lists the applications to which a specified principal is assigned.
+
+# Arguments
+- `instance_arn`: Specifies the instance of IAM Identity Center that contains principal and
+  applications.
+- `principal_id`: Specifies the unique identifier of the principal for which you want to
+  retrieve its assignments.
+- `principal_type`: Specifies the type of the principal for which you want to retrieve its
+  assignments.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: Filters the output to include only assignments associated with the
+  application that has the specified ARN.
+- `"MaxResults"`: Specifies the total number of results that you want included in each
+  response. If additional items exist beyond the number you specify, the NextToken response
+  element is returned with a value (not null). Include the specified value as the NextToken
+  request parameter in the next call to the operation to get the next set of results. Note
+  that the service might return fewer results than the maximum even when there are more
+  results available. You should check NextToken after every operation to ensure that you
+  receive all of the results.
+- `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+"""
+list_application_assignments_for_principal(
+    InstanceArn,
+    PrincipalId,
+    PrincipalType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "ListApplicationAssignmentsForPrincipal",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PrincipalId" => PrincipalId,
+        "PrincipalType" => PrincipalType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_assignments_for_principal(
+    InstanceArn,
+    PrincipalId,
+    PrincipalType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListApplicationAssignmentsForPrincipal",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceArn" => InstanceArn,
+                    "PrincipalId" => PrincipalId,
+                    "PrincipalType" => PrincipalType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_application_authentication_methods(application_arn)
+    list_application_authentication_methods(application_arn, params::Dict{String,<:Any})
+
+Lists all of the authentication methods supported by the specified application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application with the authentication methods
+  you want to list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+"""
+list_application_authentication_methods(
+    ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "ListApplicationAuthenticationMethods",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_authentication_methods(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListApplicationAuthenticationMethods",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_application_grants(application_arn)
+    list_application_grants(application_arn, params::Dict{String,<:Any})
+
+List the grants associated with an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application whose grants you want to list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+"""
+list_application_grants(ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
+        "ListApplicationGrants",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_application_grants(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListApplicationGrants",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_application_providers()
+    list_application_providers(params::Dict{String,<:Any})
+
+Lists the application providers configured in the IAM Identity Center identity store.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies the total number of results that you want included in each
+  response. If additional items exist beyond the number you specify, the NextToken response
+  element is returned with a value (not null). Include the specified value as the NextToken
+  request parameter in the next call to the operation to get the next set of results. Note
+  that the service might return fewer results than the maximum even when there are more
+  results available. You should check NextToken after every operation to ensure that you
+  receive all of the results.
+- `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+"""
+list_application_providers(; aws_config::AbstractAWSConfig=global_aws_config()) = sso_admin(
+    "ListApplicationProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_application_providers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sso_admin(
+        "ListApplicationProviders",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_applications(instance_arn)
+    list_applications(instance_arn, params::Dict{String,<:Any})
+
+Lists all applications associated with the instance of IAM Identity Center. When listing
+applications for an instance in the management account, member accounts must use the
+applicationAccount parameter to filter the list to only applications created from that
+account.
+
+# Arguments
+- `instance_arn`: The ARN of the IAM Identity Center application under which the operation
+  will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web
+  Services Service Namespaces in the Amazon Web Services General Reference.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filter"`: Filters response results.
+- `"MaxResults"`: Specifies the total number of results that you want included in each
+  response. If additional items exist beyond the number you specify, the NextToken response
+  element is returned with a value (not null). Include the specified value as the NextToken
+  request parameter in the next call to the operation to get the next set of results. Note
+  that the service might return fewer results than the maximum even when there are more
+  results available. You should check NextToken after every operation to ensure that you
+  receive all of the results.
+- `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+"""
+list_applications(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
+        "ListApplications",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_applications(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListApplications",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_customer_managed_policy_references_in_permission_set(instance_arn, permission_set_arn)
     list_customer_managed_policy_references_in_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
@@ -1250,18 +2510,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_customer_managed_policy_references_in_permission_set(
+list_customer_managed_policy_references_in_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "ListCustomerManagedPolicyReferencesInPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "ListCustomerManagedPolicyReferencesInPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_customer_managed_policy_references_in_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1288,7 +2544,8 @@ end
     list_instances()
     list_instances(params::Dict{String,<:Any})
 
-Lists the IAM Identity Center instances that the caller has access to.
+Lists the details of the organization and account instances of IAM Identity Center that
+were created in or visible to the account calling this API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1296,11 +2553,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sso_admin(
-        "ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_instances(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin("ListInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1313,12 +2567,12 @@ end
     list_managed_policies_in_permission_set(instance_arn, permission_set_arn)
     list_managed_policies_in_permission_set(instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
-Lists the AWS managed policy that is attached to a specified permission set.
+Lists the Amazon Web Services managed policy that is attached to a specified permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the PermissionSet whose managed policies will be listed.
 
 # Optional Parameters
@@ -1327,18 +2581,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_managed_policies_in_permission_set(
+list_managed_policies_in_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "ListManagedPoliciesInPermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "ListManagedPoliciesInPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_managed_policies_in_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1370,8 +2620,8 @@ Center instance.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1380,16 +2630,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_permission_set_provisioning_status(
+list_permission_set_provisioning_status(
     InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "ListPermissionSetProvisioningStatus",
+    Dict{String,Any}("InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "ListPermissionSetProvisioningStatus",
-        Dict{String,Any}("InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_permission_set_provisioning_status(
     InstanceArn,
     params::AbstractDict{String};
@@ -1413,8 +2661,8 @@ Lists the PermissionSets in an IAM Identity Center instance.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1422,16 +2670,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_permission_sets(
-    InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
+list_permission_sets(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
         "ListPermissionSets",
         Dict{String,Any}("InstanceArn" => InstanceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_permission_sets(
     InstanceArn,
     params::AbstractDict{String};
@@ -1451,13 +2696,15 @@ end
     list_permission_sets_provisioned_to_account(account_id, instance_arn)
     list_permission_sets_provisioned_to_account(account_id, instance_arn, params::Dict{String,<:Any})
 
-Lists all the permission sets that are provisioned to a specified AWS account.
+Lists all the permission sets that are provisioned to a specified Amazon Web Services
+account.
 
 # Arguments
-- `account_id`: The identifier of the AWS account from which to list the assignments.
+- `account_id`: The identifier of the Amazon Web Services account from which to list the
+  assignments.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1466,16 +2713,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the output of previous API calls to make subsequent calls.
 - `"ProvisioningStatus"`: The status object for the permission set provisioning operation.
 """
-function list_permission_sets_provisioned_to_account(
+list_permission_sets_provisioned_to_account(
     AccountId, InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "ListPermissionSetsProvisionedToAccount",
+    Dict{String,Any}("AccountId" => AccountId, "InstanceArn" => InstanceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "ListPermissionSetsProvisionedToAccount",
-        Dict{String,Any}("AccountId" => AccountId, "InstanceArn" => InstanceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_permission_sets_provisioned_to_account(
     AccountId,
     InstanceArn,
@@ -1497,34 +2742,30 @@ function list_permission_sets_provisioned_to_account(
 end
 
 """
-    list_tags_for_resource(instance_arn, resource_arn)
-    list_tags_for_resource(instance_arn, resource_arn, params::Dict{String,<:Any})
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
 Lists the tags that are attached to a specified resource.
 
 # Arguments
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
 - `resource_arn`: The ARN of the resource with the tags to be listed.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceArn"`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `"NextToken"`: The pagination token for the list API. Initially the value is null. Use
   the output of previous API calls to make subsequent calls.
 """
-function list_tags_for_resource(
-    InstanceArn, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
         "ListTagsForResource",
-        Dict{String,Any}("InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn);
+        Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
-    InstanceArn,
     ResourceArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -1532,13 +2773,53 @@ function list_tags_for_resource(
     return sso_admin(
         "ListTagsForResource",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_trusted_token_issuers(instance_arn)
+    list_trusted_token_issuers(instance_arn, params::Dict{String,<:Any})
+
+Lists all the trusted token issuers configured in an instance of IAM Identity Center.
+
+# Arguments
+- `instance_arn`: Specifies the ARN of the instance of IAM Identity Center with the trusted
+  token issuer configurations that you want to list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies the total number of results that you want included in each
+  response. If additional items exist beyond the number you specify, the NextToken response
+  element is returned with a value (not null). Include the specified value as the NextToken
+  request parameter in the next call to the operation to get the next set of results. Note
+  that the service might return fewer results than the maximum even when there are more
+  results available. You should check NextToken after every operation to ensure that you
+  receive all of the results.
+- `"NextToken"`: Specifies that you want to receive the next page of results. Valid only if
+  you received a NextToken response in the previous request. If you did, it indicates that
+  more output is available. Set this parameter to the value provided by the previous call's
+  NextToken response to request the next page of results.
+"""
+list_trusted_token_issuers(InstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
+        "ListTrustedTokenIssuers",
+        Dict{String,Any}("InstanceArn" => InstanceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_trusted_token_issuers(
+    InstanceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "ListTrustedTokenIssuers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceArn" => InstanceArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1553,33 +2834,31 @@ The process by which a specified permission set is provisioned to the specified 
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 - `target_type`: The entity type for which the assignment will be created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TargetId"`: TargetID is an AWS account identifier, typically a 10-12 digit string (For
-  example, 123456789012).
+- `"TargetId"`: TargetID is an Amazon Web Services account identifier, (For example,
+  123456789012).
 """
-function provision_permission_set(
+provision_permission_set(
     InstanceArn,
     PermissionSetArn,
     TargetType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "ProvisionPermissionSet",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+        "TargetType" => TargetType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "ProvisionPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-            "TargetType" => TargetType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function provision_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1606,6 +2885,207 @@ function provision_permission_set(
 end
 
 """
+    put_application_access_scope(application_arn, scope)
+    put_application_access_scope(application_arn, scope, params::Dict{String,<:Any})
+
+Adds or updates the list of authorized targets for an IAM Identity Center access scope for
+an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application with the access scope with the
+  targets to add or update.
+- `scope`: Specifies the name of the access scope to be associated with the specified
+  targets.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthorizedTargets"`: Specifies an array list of ARNs that represent the authorized
+  targets for this access scope.
+"""
+put_application_access_scope(
+    ApplicationArn, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "PutApplicationAccessScope",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_application_access_scope(
+    ApplicationArn,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "PutApplicationAccessScope",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ApplicationArn" => ApplicationArn, "Scope" => Scope),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_application_assignment_configuration(application_arn, assignment_required)
+    put_application_assignment_configuration(application_arn, assignment_required, params::Dict{String,<:Any})
+
+Configure how users gain access to an application. If AssignmentsRequired is true (default
+value), users don’t have access to the application unless an assignment is created using
+the CreateApplicationAssignment API. If false, all users have access to the application. If
+an assignment is created using CreateApplicationAssignment., the user retains access if
+AssignmentsRequired is set to true.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application. For more information about ARNs,
+  see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon
+  Web Services General Reference.
+- `assignment_required`: If AssignmentsRequired is true (default value), users don’t have
+  access to the application unless an assignment is created using the
+  CreateApplicationAssignment API. If false, all users have access to the application.
+
+"""
+put_application_assignment_configuration(
+    ApplicationArn, AssignmentRequired; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "PutApplicationAssignmentConfiguration",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn, "AssignmentRequired" => AssignmentRequired
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_application_assignment_configuration(
+    ApplicationArn,
+    AssignmentRequired,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "PutApplicationAssignmentConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "AssignmentRequired" => AssignmentRequired,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_application_authentication_method(application_arn, authentication_method, authentication_method_type)
+    put_application_authentication_method(application_arn, authentication_method, authentication_method_type, params::Dict{String,<:Any})
+
+Adds or updates an authentication method for an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application with the authentication method to
+  add or update.
+- `authentication_method`: Specifies a structure that describes the authentication method
+  to add or update. The structure type you provide is determined by the
+  AuthenticationMethodType parameter.
+- `authentication_method_type`: Specifies the type of the authentication method that you
+  want to add or update.
+
+"""
+put_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethod,
+    AuthenticationMethodType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "PutApplicationAuthenticationMethod",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn,
+        "AuthenticationMethod" => AuthenticationMethod,
+        "AuthenticationMethodType" => AuthenticationMethodType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_application_authentication_method(
+    ApplicationArn,
+    AuthenticationMethod,
+    AuthenticationMethodType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "PutApplicationAuthenticationMethod",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "AuthenticationMethod" => AuthenticationMethod,
+                    "AuthenticationMethodType" => AuthenticationMethodType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_application_grant(application_arn, grant, grant_type)
+    put_application_grant(application_arn, grant, grant_type, params::Dict{String,<:Any})
+
+Adds a grant to an application.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application to update.
+- `grant`: Specifies a structure that describes the grant to update.
+- `grant_type`: Specifies the type of grant to update.
+
+"""
+put_application_grant(
+    ApplicationArn, Grant, GrantType; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "PutApplicationGrant",
+    Dict{String,Any}(
+        "ApplicationArn" => ApplicationArn, "Grant" => Grant, "GrantType" => GrantType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_application_grant(
+    ApplicationArn,
+    Grant,
+    GrantType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "PutApplicationGrant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationArn" => ApplicationArn,
+                    "Grant" => Grant,
+                    "GrantType" => GrantType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_inline_policy_to_permission_set(inline_policy, instance_arn, permission_set_arn)
     put_inline_policy_to_permission_set(inline_policy, instance_arn, permission_set_arn, params::Dict{String,<:Any})
 
@@ -1616,28 +3096,26 @@ this action to apply the corresponding IAM policy updates to all assigned accoun
 # Arguments
 - `inline_policy`: The inline policy to attach to a PermissionSet.
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 """
-function put_inline_policy_to_permission_set(
+put_inline_policy_to_permission_set(
     InlinePolicy,
     InstanceArn,
     PermissionSetArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "PutInlinePolicyToPermissionSet",
+    Dict{String,Any}(
+        "InlinePolicy" => InlinePolicy,
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "PutInlinePolicyToPermissionSet",
-        Dict{String,Any}(
-            "InlinePolicy" => InlinePolicy,
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_inline_policy_to_permission_set(
     InlinePolicy,
     InstanceArn,
@@ -1667,8 +3145,8 @@ end
     put_permissions_boundary_to_permission_set(instance_arn, permission_set_arn, permissions_boundary)
     put_permissions_boundary_to_permission_set(instance_arn, permission_set_arn, permissions_boundary, params::Dict{String,<:Any})
 
-Attaches an AWS managed or customer managed policy to the specified PermissionSet as a
-permissions boundary.
+Attaches an Amazon Web Services managed or customer managed policy to the specified
+PermissionSet as a permissions boundary.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
@@ -1678,23 +3156,21 @@ permissions boundary.
   PermissionSet.
 
 """
-function put_permissions_boundary_to_permission_set(
+put_permissions_boundary_to_permission_set(
     InstanceArn,
     PermissionSetArn,
     PermissionsBoundary;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "PutPermissionsBoundaryToPermissionSet",
+    Dict{String,Any}(
+        "InstanceArn" => InstanceArn,
+        "PermissionSetArn" => PermissionSetArn,
+        "PermissionsBoundary" => PermissionsBoundary,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "PutPermissionsBoundaryToPermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn,
-            "PermissionSetArn" => PermissionSetArn,
-            "PermissionsBoundary" => PermissionsBoundary,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_permissions_boundary_to_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1721,33 +3197,29 @@ function put_permissions_boundary_to_permission_set(
 end
 
 """
-    tag_resource(instance_arn, resource_arn, tags)
-    tag_resource(instance_arn, resource_arn, tags, params::Dict{String,<:Any})
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Associates a set of tags with a specified resource.
 
 # Arguments
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
 - `resource_arn`: The ARN of the resource with the tags to be listed.
 - `tags`: A set of key-value pairs that are used to manage the resource.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceArn"`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 """
-function tag_resource(
-    InstanceArn, ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
         "TagResource",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn, "Tags" => Tags
-        );
+        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
-    InstanceArn,
     ResourceArn,
     Tags,
     params::AbstractDict{String};
@@ -1758,11 +3230,7 @@ function tag_resource(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "InstanceArn" => InstanceArn,
-                    "ResourceArn" => ResourceArn,
-                    "Tags" => Tags,
-                ),
+                Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags),
                 params,
             ),
         );
@@ -1772,33 +3240,29 @@ function tag_resource(
 end
 
 """
-    untag_resource(instance_arn, resource_arn, tag_keys)
-    untag_resource(instance_arn, resource_arn, tag_keys, params::Dict{String,<:Any})
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
 Disassociates a set of tags from a specified resource.
 
 # Arguments
-- `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
 - `resource_arn`: The ARN of the resource with the tags to be listed.
 - `tag_keys`: The keys of tags that are attached to the resource.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceArn"`: The ARN of the IAM Identity Center instance under which the operation
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 """
-function untag_resource(
-    InstanceArn, ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_admin(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
         "UntagResource",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "ResourceArn" => ResourceArn, "TagKeys" => TagKeys
-        );
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
-    InstanceArn,
     ResourceArn,
     TagKeys,
     params::AbstractDict{String};
@@ -1809,11 +3273,89 @@ function untag_resource(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "InstanceArn" => InstanceArn,
-                    "ResourceArn" => ResourceArn,
-                    "TagKeys" => TagKeys,
-                ),
+                Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_application(application_arn)
+    update_application(application_arn, params::Dict{String,<:Any})
+
+Updates application properties.
+
+# Arguments
+- `application_arn`: Specifies the ARN of the application. For more information about ARNs,
+  see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon
+  Web Services General Reference.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The description of the .
+- `"Name"`: Specifies the updated name for the application.
+- `"PortalOptions"`: A structure that describes the options for the portal associated with
+  an application.
+- `"Status"`: Specifies whether the application is enabled or disabled.
+"""
+update_application(ApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
+        "UpdateApplication",
+        Dict{String,Any}("ApplicationArn" => ApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_application(
+    ApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "UpdateApplication",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationArn" => ApplicationArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_instance(instance_arn, name)
+    update_instance(instance_arn, name, params::Dict{String,<:Any})
+
+Update the details for the instance of IAM Identity Center that is owned by the Amazon Web
+Services account.
+
+# Arguments
+- `instance_arn`: The ARN of the instance of IAM Identity Center under which the operation
+  will run. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web
+  Services Service Namespaces in the Amazon Web Services General Reference.
+- `name`: Updates the instance name.
+
+"""
+update_instance(InstanceArn, Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_admin(
+        "UpdateInstance",
+        Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_instance(
+    InstanceArn,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "UpdateInstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceArn" => InstanceArn, "Name" => Name),
                 params,
             ),
         );
@@ -1841,22 +3383,20 @@ about ABAC, see Attribute-Based Access Control in the IAM Identity Center User G
   will be executed.
 
 """
-function update_instance_access_control_attribute_configuration(
+update_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sso_admin(
+    "UpdateInstanceAccessControlAttributeConfiguration",
+    Dict{String,Any}(
+        "InstanceAccessControlAttributeConfiguration" =>
+            InstanceAccessControlAttributeConfiguration,
+        "InstanceArn" => InstanceArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "UpdateInstanceAccessControlAttributeConfiguration",
-        Dict{String,Any}(
-            "InstanceAccessControlAttributeConfiguration" =>
-                InstanceAccessControlAttributeConfiguration,
-            "InstanceArn" => InstanceArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_instance_access_control_attribute_configuration(
     InstanceAccessControlAttributeConfiguration,
     InstanceArn,
@@ -1889,8 +3429,8 @@ Updates an existing permission set.
 
 # Arguments
 - `instance_arn`: The ARN of the IAM Identity Center instance under which the operation
-  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and AWS
-  Service Namespaces in the AWS General Reference.
+  will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and
+  Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
 - `permission_set_arn`: The ARN of the permission set.
 
 # Optional Parameters
@@ -1901,18 +3441,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SessionDuration"`: The length of time that the application user sessions are valid for
   in the ISO-8601 standard.
 """
-function update_permission_set(
+update_permission_set(
     InstanceArn, PermissionSetArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "UpdatePermissionSet",
+    Dict{String,Any}("InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_admin(
-        "UpdatePermissionSet",
-        Dict{String,Any}(
-            "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_permission_set(
     InstanceArn,
     PermissionSetArn,
@@ -1927,6 +3463,54 @@ function update_permission_set(
                 Dict{String,Any}(
                     "InstanceArn" => InstanceArn, "PermissionSetArn" => PermissionSetArn
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_trusted_token_issuer(trusted_token_issuer_arn)
+    update_trusted_token_issuer(trusted_token_issuer_arn, params::Dict{String,<:Any})
+
+Updates the name of the trusted token issuer, or the path of a source attribute or
+destination attribute for a trusted token issuer configuration.  Updating this trusted
+token issuer configuration might cause users to lose access to any applications that are
+configured to use the trusted token issuer.
+
+# Arguments
+- `trusted_token_issuer_arn`: Specifies the ARN of the trusted token issuer configuration
+  that you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Name"`: Specifies the updated name to be applied to the trusted token issuer
+  configuration.
+- `"TrustedTokenIssuerConfiguration"`: Specifies a structure with settings to apply to the
+  specified trusted token issuer. The settings that you can provide are determined by the
+  type of the trusted token issuer that you are updating.
+"""
+update_trusted_token_issuer(
+    TrustedTokenIssuerArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_admin(
+    "UpdateTrustedTokenIssuer",
+    Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_trusted_token_issuer(
+    TrustedTokenIssuerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_admin(
+        "UpdateTrustedTokenIssuer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("TrustedTokenIssuerArn" => TrustedTokenIssuerArn),
                 params,
             ),
         );

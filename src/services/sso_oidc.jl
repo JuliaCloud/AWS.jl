@@ -8,49 +8,52 @@ using AWS.UUIDs
     create_token(client_id, client_secret, grant_type)
     create_token(client_id, client_secret, grant_type, params::Dict{String,<:Any})
 
-Creates and returns an access token for the authorized client. The access token issued will
-be used to fetch short-term credentials for the assigned roles in the AWS account.
+Creates and returns access and refresh tokens for clients that are authenticated using
+client secrets. The access token can be used to fetch short-term credentials for the
+assigned AWS accounts or to access application APIs using bearer authentication.
 
 # Arguments
-- `client_id`: The unique identifier string for each client. This value should come from
-  the persisted result of the RegisterClient API.
+- `client_id`: The unique identifier string for the client or application. This value comes
+  from the result of the RegisterClient API.
 - `client_secret`: A secret string generated for the client. This value should come from
   the persisted result of the RegisterClient API.
-- `grant_type`: Supports grant types for the authorization code, refresh token, and device
-  code request. For device code requests, specify the following value:
-  urn:ietf:params:oauth:grant-type:device_code   For information about how to obtain the
-  device code, see the StartDeviceAuthorization topic.
+- `grant_type`: Supports the following OAuth grant types: Device Code and Refresh Token.
+  Specify either of the following values, depending on the grant type that you want: * Device
+  Code - urn:ietf:params:oauth:grant-type:device_code  * Refresh Token - refresh_token  For
+  information about how to obtain the device code, see the StartDeviceAuthorization topic.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"code"`: The authorization code received from the authorization service. This parameter
-  is required to perform an authorization grant request to get access to a token.
-- `"deviceCode"`: Used only when calling this API for the device code grant type. This
-  short-term code is used to identify this authentication attempt. This should come from an
-  in-memory reference to the result of the StartDeviceAuthorization API.
-- `"redirectUri"`: The location of the application that will receive the authorization
-  code. Users authorize the service to send the request to this location.
-- `"refreshToken"`: Currently, refreshToken is not yet implemented and is not supported.
+- `"code"`: Used only when calling this API for the Authorization Code grant type. The
+  short-term code is used to identify this authorization request. This grant type is
+  currently unsupported for the CreateToken API.
+- `"deviceCode"`: Used only when calling this API for the Device Code grant type. This
+  short-term code is used to identify this authorization request. This comes from the result
+  of the StartDeviceAuthorization API.
+- `"redirectUri"`: Used only when calling this API for the Authorization Code grant type.
+  This value specifies the location of the client or application that has registered to
+  receive the authorization code.
+- `"refreshToken"`: Used only when calling this API for the Refresh Token grant type. This
+  token is used to refresh short-term tokens, such as the access token, that might expire.
   For more information about the features and limitations of the current IAM Identity Center
   OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center
-  OIDC API Reference. The token used to obtain an access token in the event that the access
-  token is invalid or expired.
-- `"scope"`: The list of scopes that is defined by the client. Upon authorization, this
-  list is used to restrict permissions when granting an access token.
+  OIDC API Reference.
+- `"scope"`: The list of scopes for which authorization is requested. The access token that
+  is issued is limited to the scopes that are granted. If this value is not specified, IAM
+  Identity Center authorizes all scopes that are configured for the client during the call to
+  RegisterClient.
 """
-function create_token(
+create_token(
     clientId, clientSecret, grantType; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_oidc(
+    "POST",
+    "/token",
+    Dict{String,Any}(
+        "clientId" => clientId, "clientSecret" => clientSecret, "grantType" => grantType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_oidc(
-        "POST",
-        "/token",
-        Dict{String,Any}(
-            "clientId" => clientId, "clientSecret" => clientSecret, "grantType" => grantType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_token(
     clientId,
     clientSecret,
@@ -78,6 +81,89 @@ function create_token(
 end
 
 """
+    create_token_with_iam(client_id, grant_type)
+    create_token_with_iam(client_id, grant_type, params::Dict{String,<:Any})
+
+Creates and returns access and refresh tokens for clients and applications that are
+authenticated using IAM entities. The access token can be used to fetch short-term
+credentials for the assigned AWS accounts or to access application APIs using bearer
+authentication.
+
+# Arguments
+- `client_id`: The unique identifier string for the client or application. This value is an
+  application ARN that has OAuth grants configured.
+- `grant_type`: Supports the following OAuth grant types: Authorization Code, Refresh
+  Token, JWT Bearer, and Token Exchange. Specify one of the following values, depending on
+  the grant type that you want: * Authorization Code - authorization_code  * Refresh Token -
+  refresh_token  * JWT Bearer - urn:ietf:params:oauth:grant-type:jwt-bearer  * Token Exchange
+  - urn:ietf:params:oauth:grant-type:token-exchange
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"assertion"`: Used only when calling this API for the JWT Bearer grant type. This value
+  specifies the JSON Web Token (JWT) issued by a trusted token issuer. To authorize a trusted
+  token issuer, configure the JWT Bearer GrantOptions for the application.
+- `"code"`: Used only when calling this API for the Authorization Code grant type. This
+  short-term code is used to identify this authorization request. The code is obtained
+  through a redirect from IAM Identity Center to a redirect URI persisted in the
+  Authorization Code GrantOptions for the application.
+- `"redirectUri"`: Used only when calling this API for the Authorization Code grant type.
+  This value specifies the location of the client or application that has registered to
+  receive the authorization code.
+- `"refreshToken"`: Used only when calling this API for the Refresh Token grant type. This
+  token is used to refresh short-term tokens, such as the access token, that might expire.
+  For more information about the features and limitations of the current IAM Identity Center
+  OIDC implementation, see Considerations for Using this Guide in the IAM Identity Center
+  OIDC API Reference.
+- `"requestedTokenType"`: Used only when calling this API for the Token Exchange grant
+  type. This value specifies the type of token that the requester can receive. The following
+  values are supported: * Access Token - urn:ietf:params:oauth:token-type:access_token  *
+  Refresh Token - urn:ietf:params:oauth:token-type:refresh_token
+- `"scope"`: The list of scopes for which authorization is requested. The access token that
+  is issued is limited to the scopes that are granted. If the value is not specified, IAM
+  Identity Center authorizes all scopes configured for the application, including the
+  following default scopes: openid, aws, sts:identity_context.
+- `"subjectToken"`: Used only when calling this API for the Token Exchange grant type. This
+  value specifies the subject of the exchange. The value of the subject token must be an
+  access token issued by IAM Identity Center to a different client or application. The access
+  token must have authorized scopes that indicate the requested application as a target
+  audience.
+- `"subjectTokenType"`: Used only when calling this API for the Token Exchange grant type.
+  This value specifies the type of token that is passed as the subject of the exchange. The
+  following value is supported: * Access Token -
+  urn:ietf:params:oauth:token-type:access_token
+"""
+create_token_with_iam(
+    clientId, grantType; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_oidc(
+    "POST",
+    "/token?aws_iam=t",
+    Dict{String,Any}("clientId" => clientId, "grantType" => grantType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_token_with_iam(
+    clientId,
+    grantType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sso_oidc(
+        "POST",
+        "/token?aws_iam=t",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("clientId" => clientId, "grantType" => grantType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     register_client(client_name, client_type)
     register_client(client_name, client_type, params::Dict{String,<:Any})
 
@@ -95,17 +181,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scopes"`: The list of scopes that are defined by the client. Upon authorization, this
   list is used to restrict permissions when granting an access token.
 """
-function register_client(
-    clientName, clientType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sso_oidc(
+register_client(clientName, clientType; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sso_oidc(
         "POST",
         "/client/register",
         Dict{String,Any}("clientName" => clientName, "clientType" => clientType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function register_client(
     clientName,
     clientType,
@@ -140,23 +223,21 @@ authorization service.
   operation.
 - `client_secret`: A secret string that is generated for the client. This value should come
   from the persisted result of the RegisterClient API operation.
-- `start_url`: The URL for the AWS access portal. For more information, see Using the AWS
-  access portal in the IAM Identity Center User Guide.
+- `start_url`: The URL for the Amazon Web Services access portal. For more information, see
+  Using the Amazon Web Services access portal in the IAM Identity Center User Guide.
 
 """
-function start_device_authorization(
+start_device_authorization(
     clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=global_aws_config()
+) = sso_oidc(
+    "POST",
+    "/device_authorization",
+    Dict{String,Any}(
+        "clientId" => clientId, "clientSecret" => clientSecret, "startUrl" => startUrl
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sso_oidc(
-        "POST",
-        "/device_authorization",
-        Dict{String,Any}(
-            "clientId" => clientId, "clientSecret" => clientSecret, "startUrl" => startUrl
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_device_authorization(
     clientId,
     clientSecret,

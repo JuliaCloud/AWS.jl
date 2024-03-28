@@ -22,23 +22,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"profileVersion"`: The version of the signing profile.
 - `"revisionId"`: A unique identifier for the current profile revision.
 """
-function add_profile_permission(
+add_profile_permission(
     action,
     principal,
     profileName,
     statementId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = signer(
+    "POST",
+    "/signing-profiles/$(profileName)/permissions",
+    Dict{String,Any}(
+        "action" => action, "principal" => principal, "statementId" => statementId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return signer(
-        "POST",
-        "/signing-profiles/$(profileName)/permissions",
-        Dict{String,Any}(
-            "action" => action, "principal" => principal, "statementId" => statementId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_profile_permission(
     action,
     principal,
@@ -78,16 +76,13 @@ and is deleted two years after cancelation.
 - `profile_name`: The name of the signing profile to be canceled.
 
 """
-function cancel_signing_profile(
-    profileName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return signer(
+cancel_signing_profile(profileName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    signer(
         "DELETE",
         "/signing-profiles/$(profileName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_signing_profile(
     profileName,
     params::AbstractDict{String};
@@ -113,14 +108,12 @@ jobId value that is returned by the StartSigningJob operation.
 - `job_id`: The ID of the signing job on input.
 
 """
-function describe_signing_job(jobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return signer(
-        "GET",
-        "/signing-jobs/$(jobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_signing_job(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = signer(
+    "GET",
+    "/signing-jobs/$(jobId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_signing_job(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -144,35 +137,39 @@ signing certificate.
 - `certificate_hashes`: A list of composite signed hashes that identify certificates. A
   certificate identifier consists of a subject certificate TBS hash (signed by the parent CA)
   combined with a parent CA TBS hash (signed by the parent CA’s CA). Root certificates are
-  defined as their own CA.
+  defined as their own CA. The following example shows how to calculate a hash for this
+  parameter using OpenSSL commands:   openssl asn1parse -in childCert.pem -strparse 4 -out
+  childCert.tbs   openssl sha384 &lt; childCert.tbs -binary &gt; childCertTbsHash   openssl
+  asn1parse -in parentCert.pem -strparse 4 -out parentCert.tbs   openssl sha384 &lt;
+  parentCert.tbs -binary &gt; parentCertTbsHash xxd -p childCertTbsHash &gt;
+  certificateHash.hex xxd -p parentCertTbsHash &gt;&gt; certificateHash.hex   cat
+  certificateHash.hex | tr -d 'n'
 - `job_arn`: The ARN of a signing job.
 - `platform_id`: The ID of a signing platform.
 - `profile_version_arn`: The version of a signing profile.
 - `signature_timestamp`: The timestamp of the signature that validates the profile or job.
 
 """
-function get_revocation_status(
+get_revocation_status(
     certificateHashes,
     jobArn,
     platformId,
     profileVersionArn,
     signatureTimestamp;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = signer(
+    "GET",
+    "/revocations",
+    Dict{String,Any}(
+        "certificateHashes" => certificateHashes,
+        "jobArn" => jobArn,
+        "platformId" => platformId,
+        "profileVersionArn" => profileVersionArn,
+        "signatureTimestamp" => signatureTimestamp,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return signer(
-        "GET",
-        "/revocations",
-        Dict{String,Any}(
-            "certificateHashes" => certificateHashes,
-            "jobArn" => jobArn,
-            "platformId" => platformId,
-            "profileVersionArn" => profileVersionArn,
-            "signatureTimestamp" => signatureTimestamp,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_revocation_status(
     certificateHashes,
     jobArn,
@@ -213,14 +210,13 @@ Returns information on a specific signing platform.
 - `platform_id`: The ID of the target signing platform.
 
 """
-function get_signing_platform(platformId; aws_config::AbstractAWSConfig=global_aws_config())
-    return signer(
+get_signing_platform(platformId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    signer(
         "GET",
         "/signing-platforms/$(platformId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_signing_platform(
     platformId,
     params::AbstractDict{String};
@@ -248,14 +244,13 @@ Returns information on a specific signing profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"profileOwner"`: The AWS account ID of the profile owner.
 """
-function get_signing_profile(profileName; aws_config::AbstractAWSConfig=global_aws_config())
-    return signer(
+get_signing_profile(profileName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    signer(
         "GET",
         "/signing-profiles/$(profileName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_signing_profile(
     profileName,
     params::AbstractDict{String};
@@ -283,16 +278,13 @@ Lists the cross-account permissions associated with a signing profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: String for specifying the next set of paginated results.
 """
-function list_profile_permissions(
-    profileName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return signer(
+list_profile_permissions(profileName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    signer(
         "GET",
         "/signing-profiles/$(profileName)/permissions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_profile_permissions(
     profileName,
     params::AbstractDict{String};
@@ -312,11 +304,11 @@ end
     list_signing_jobs(params::Dict{String,<:Any})
 
 Lists all your signing jobs. You can use the maxResults parameter to limit the number of
-signing jobs that are returned in the response. If additional jobs remain to be listed,
-code signing returns a nextToken value. Use this value in subsequent calls to
-ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs
-with your maxResults parameter and with new values that code signing returns in the
-nextToken parameter until all of your signing jobs have been returned.
+signing jobs that are returned in the response. If additional jobs remain to be listed, AWS
+Signer returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to
+fetch the remaining values. You can continue calling ListSigningJobs with your maxResults
+parameter and with new values that Signer returns in the nextToken parameter until all of
+your signing jobs have been returned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -339,11 +331,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expiring before a specified timestamp.
 - `"status"`: A status value with which to filter your results.
 """
-function list_signing_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return signer(
-        "GET", "/signing-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_signing_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    signer("GET", "/signing-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_signing_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -360,12 +349,11 @@ end
     list_signing_platforms()
     list_signing_platforms(params::Dict{String,<:Any})
 
-Lists all signing platforms available in code signing that match the request parameters. If
-additional jobs remain to be listed, code signing returns a nextToken value. Use this value
-in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue
-calling ListSigningJobs with your maxResults parameter and with new values that code
-signing returns in the nextToken parameter until all of your signing jobs have been
-returned.
+Lists all signing platforms available in AWS Signer that match the request parameters. If
+additional jobs remain to be listed, Signer returns a nextToken value. Use this value in
+subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling
+ListSigningJobs with your maxResults parameter and with new values that Signer returns in
+the nextToken parameter until all of your signing jobs have been returned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -377,11 +365,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"partner"`: Any partner entities connected to a signing platform.
 - `"target"`: The validation template that is used by the target signing platform.
 """
-function list_signing_platforms(; aws_config::AbstractAWSConfig=global_aws_config())
-    return signer(
-        "GET", "/signing-platforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_signing_platforms(; aws_config::AbstractAWSConfig=global_aws_config()) = signer(
+    "GET", "/signing-platforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_signing_platforms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -400,10 +386,10 @@ end
 
 Lists all available signing profiles in your AWS account. Returns only profiles with an
 ACTIVE status unless the includeCanceled request field is set to true. If additional jobs
-remain to be listed, code signing returns a nextToken value. Use this value in subsequent
+remain to be listed, AWS Signer returns a nextToken value. Use this value in subsequent
 calls to ListSigningJobs to fetch the remaining values. You can continue calling
-ListSigningJobs with your maxResults parameter and with new values that code signing
-returns in the nextToken parameter until all of your signing jobs have been returned.
+ListSigningJobs with your maxResults parameter and with new values that Signer returns in
+the nextToken parameter until all of your signing jobs have been returned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -417,11 +403,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statuses"`: Filters results to return only signing jobs with statuses in the specified
   list.
 """
-function list_signing_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return signer(
-        "GET", "/signing-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_signing_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) = signer(
+    "GET", "/signing-profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_signing_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -444,16 +428,13 @@ Returns a list of the tags associated with a signing profile resource.
 - `resource_arn`: The Amazon Resource Name (ARN) for the signing profile.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return signer(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    signer(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -472,7 +453,7 @@ end
     put_signing_profile(platform_id, profile_name)
     put_signing_profile(platform_id, profile_name, params::Dict{String,<:Any})
 
-Creates a signing profile. A signing profile is a code signing template that can be used to
+Creates a signing profile. A signing profile is a code-signing template that can be used to
 carry out a pre-defined signing job.
 
 # Arguments
@@ -492,17 +473,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information that you want to use during signing.
 - `"tags"`: Tags to be associated with the signing profile that is being created.
 """
-function put_signing_profile(
+put_signing_profile(
     platformId, profileName; aws_config::AbstractAWSConfig=global_aws_config()
+) = signer(
+    "PUT",
+    "/signing-profiles/$(profileName)",
+    Dict{String,Any}("platformId" => platformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return signer(
-        "PUT",
-        "/signing-profiles/$(profileName)",
-        Dict{String,Any}("platformId" => platformId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_signing_profile(
     platformId,
     profileName,
@@ -533,17 +512,15 @@ Removes cross-account permissions from a signing profile.
 - `statement_id`: A unique identifier for the cross-account permissions statement.
 
 """
-function remove_profile_permission(
+remove_profile_permission(
     profileName, revisionId, statementId; aws_config::AbstractAWSConfig=global_aws_config()
+) = signer(
+    "DELETE",
+    "/signing-profiles/$(profileName)/permissions/$(statementId)",
+    Dict{String,Any}("revisionId" => revisionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return signer(
-        "DELETE",
-        "/signing-profiles/$(profileName)/permissions/$(statementId)",
-        Dict{String,Any}("revisionId" => revisionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_profile_permission(
     profileName,
     revisionId,
@@ -577,15 +554,13 @@ longer valid.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"jobOwner"`: AWS account ID of the job owner.
 """
-function revoke_signature(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config())
-    return signer(
-        "PUT",
-        "/signing-jobs/$(jobId)/revoke",
-        Dict{String,Any}("reason" => reason);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+revoke_signature(jobId, reason; aws_config::AbstractAWSConfig=global_aws_config()) = signer(
+    "PUT",
+    "/signing-jobs/$(jobId)/revoke",
+    Dict{String,Any}("reason" => reason);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function revoke_signature(
     jobId,
     reason,
@@ -617,25 +592,23 @@ using the signing profile after an effective start date are no longer valid.
 - `reason`: The reason for revoking a signing profile.
 
 """
-function revoke_signing_profile(
+revoke_signing_profile(
     effectiveTime,
     profileName,
     profileVersion,
     reason;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = signer(
+    "PUT",
+    "/signing-profiles/$(profileName)/revoke",
+    Dict{String,Any}(
+        "effectiveTime" => effectiveTime,
+        "profileVersion" => profileVersion,
+        "reason" => reason,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return signer(
-        "PUT",
-        "/signing-profiles/$(profileName)/revoke",
-        Dict{String,Any}(
-            "effectiveTime" => effectiveTime,
-            "profileVersion" => profileVersion,
-            "reason" => reason,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function revoke_signing_profile(
     effectiveTime,
     profileName,
@@ -671,28 +644,27 @@ Signs a binary payload and returns a signature envelope.
 
 # Arguments
 - `payload`: Specifies the object digest (hash) to sign.
-- `payload_format`: Payload content type
+- `payload_format`: Payload content type. The single valid type is
+  application/vnd.cncf.notary.payload.v1+json.
 - `profile_name`: The name of the signing profile.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"profileOwner"`: The AWS account ID of the profile owner.
 """
-function sign_payload(
+sign_payload(
     payload, payloadFormat, profileName; aws_config::AbstractAWSConfig=global_aws_config()
+) = signer(
+    "POST",
+    "/signing-jobs/with-payload",
+    Dict{String,Any}(
+        "payload" => payload,
+        "payloadFormat" => payloadFormat,
+        "profileName" => profileName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return signer(
-        "POST",
-        "/signing-jobs/with-payload",
-        Dict{String,Any}(
-            "payload" => payload,
-            "payloadFormat" => payloadFormat,
-            "profileName" => profileName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function sign_payload(
     payload,
     payloadFormat,
@@ -727,12 +699,12 @@ Initiates a signing job to be performed on the code provided. Signing jobs are v
 the ListSigningJobs operation for two years after they are performed. Note the following
 requirements:     You must create an Amazon S3 source bucket. For more information, see
 Creating a Bucket in the Amazon S3 Getting Started Guide.    Your S3 source bucket must be
-version enabled.   You must create an S3 destination bucket. Code signing uses your S3
+version enabled.   You must create an S3 destination bucket. AWS Signer uses your S3
 destination bucket to write your signed code.   You specify the name of the source and
 destination buckets when calling the StartSigningJob operation.   You must also specify a
-request token that identifies your request to code signing.   You can call the
-DescribeSigningJob and the ListSigningJobs actions after you call StartSigningJob. For a
-Java example that shows how to use this action, see StartSigningJob.
+request token that identifies your request to Signer.   You can call the DescribeSigningJob
+and the ListSigningJobs actions after you call StartSigningJob. For a Java example that
+shows how to use this action, see StartSigningJob.
 
 # Arguments
 - `client_request_token`: String that identifies the signing request. All calls after the
@@ -747,26 +719,24 @@ Java example that shows how to use this action, see StartSigningJob.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"profileOwner"`: The AWS account ID of the signing profile owner.
 """
-function start_signing_job(
+start_signing_job(
     clientRequestToken,
     destination,
     profileName,
     source;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = signer(
+    "POST",
+    "/signing-jobs",
+    Dict{String,Any}(
+        "clientRequestToken" => clientRequestToken,
+        "destination" => destination,
+        "profileName" => profileName,
+        "source" => source,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return signer(
-        "POST",
-        "/signing-jobs",
-        Dict{String,Any}(
-            "clientRequestToken" => clientRequestToken,
-            "destination" => destination,
-            "profileName" => profileName,
-            "source" => source,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_signing_job(
     clientRequestToken,
     destination,
@@ -809,15 +779,13 @@ key-value pair.
 - `tags`: One or more tags to be associated with the signing profile.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return signer(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = signer(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     resourceArn,
     tags,
@@ -845,17 +813,14 @@ keys.
 - `tag_keys`: A list of tag keys to be removed from the signing profile.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return signer(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    signer(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,

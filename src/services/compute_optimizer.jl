@@ -28,21 +28,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Activating enhanced infrastructure metrics in the Compute Optimizer User
   Guide.
 """
-function delete_recommendation_preferences(
+delete_recommendation_preferences(
     recommendationPreferenceNames,
     resourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = compute_optimizer(
+    "DeleteRecommendationPreferences",
+    Dict{String,Any}(
+        "recommendationPreferenceNames" => recommendationPreferenceNames,
+        "resourceType" => resourceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "DeleteRecommendationPreferences",
-        Dict{String,Any}(
-            "recommendationPreferenceNames" => recommendationPreferenceNames,
-            "resourceType" => resourceType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_recommendation_preferences(
     recommendationPreferenceNames,
     resourceType,
@@ -87,15 +85,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve the remaining results, make another request with the returned nextToken value.
 - `"nextToken"`: The token to advance to the next page of export jobs.
 """
-function describe_recommendation_export_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return compute_optimizer(
+describe_recommendation_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    compute_optimizer(
         "DescribeRecommendationExportJobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_recommendation_export_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -158,16 +153,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
   group recommendations to export.
 """
-function export_auto_scaling_group_recommendations(
+export_auto_scaling_group_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "ExportAutoScalingGroupRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "ExportAutoScalingGroupRecommendations",
-        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function export_auto_scaling_group_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -228,16 +221,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Recommendations for member accounts are not included in the export if this parameter, or
   the account IDs parameter, is omitted.
 """
-function export_ebsvolume_recommendations(
+export_ebsvolume_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "ExportEBSVolumeRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "ExportEBSVolumeRecommendations",
-        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function export_ebsvolume_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -307,16 +298,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
   instance recommendations to export.
 """
-function export_ec2_instance_recommendations(
+export_ec2_instance_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "ExportEC2InstanceRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "ExportEC2InstanceRecommendations",
-        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function export_ec2_instance_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -375,16 +364,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organization aren't included in the export file. If this parameter or the account ID
   parameter is omitted, recommendations for member accounts aren't included in the export.
 """
-function export_ecsservice_recommendations(
+export_ecsservice_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "ExportECSServiceRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "ExportECSServiceRecommendations",
-        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function export_ecsservice_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -445,16 +432,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Recommendations for member accounts are not included in the export if this parameter, or
   the account IDs parameter, is omitted.
 """
-function export_lambda_function_recommendations(
+export_lambda_function_recommendations(
     s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "ExportLambdaFunctionRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "ExportLambdaFunctionRecommendations",
-        Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function export_lambda_function_recommendations(
     s3DestinationConfig,
     params::AbstractDict{String};
@@ -462,6 +447,70 @@ function export_lambda_function_recommendations(
 )
     return compute_optimizer(
         "ExportLambdaFunctionRecommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    export_license_recommendations(s3_destination_config)
+    export_license_recommendations(s3_destination_config, params::Dict{String,<:Any})
+
+ Export optimization recommendations for your licenses.  Recommendations are exported in a
+comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON)
+file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For
+more information, see Exporting Recommendations in the Compute Optimizer User Guide. You
+can have only one license export job in progress per Amazon Web Services Region.
+
+# Arguments
+- `s3_destination_config`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountIds"`: The IDs of the Amazon Web Services accounts for which to export license
+  recommendations. If your account is the management account of an organization, use this
+  parameter to specify the member account for which you want to export recommendations. This
+  parameter can't be specified together with the include member accounts parameter. The
+  parameters are mutually exclusive. If this parameter is omitted, recommendations for member
+  accounts aren't included in the export. You can specify multiple account IDs per request.
+- `"fieldsToExport"`: The recommendations data to include in the export file. For more
+  information about the fields that can be exported, see Exported files in the Compute
+  Optimizer User Guide.
+- `"fileFormat"`: The format of the export file. A CSV file is the only export format
+  currently supported.
+- `"filters"`:  An array of objects to specify a filter that exports a more specific set of
+  license recommendations.
+- `"includeMemberAccounts"`: Indicates whether to include recommendations for resources in
+  all member accounts of the organization if your account is the management account of an
+  organization. The member accounts must also be opted in to Compute Optimizer, and trusted
+  access for Compute Optimizer must be enabled in the organization account. For more
+  information, see Compute Optimizer and Amazon Web Services Organizations trusted access in
+  the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member
+  accounts of the organization aren't included in the export file . This parameter cannot be
+  specified together with the account IDs parameter. The parameters are mutually exclusive.
+"""
+export_license_recommendations(
+    s3DestinationConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "ExportLicenseRecommendations",
+    Dict{String,Any}("s3DestinationConfig" => s3DestinationConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function export_license_recommendations(
+    s3DestinationConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return compute_optimizer(
+        "ExportLicenseRecommendations",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -501,15 +550,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Auto Scaling
   group recommendations to return in the response.
 """
-function get_auto_scaling_group_recommendations(;
+get_auto_scaling_group_recommendations(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "GetAutoScalingGroupRecommendations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "GetAutoScalingGroupRecommendations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_auto_scaling_group_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -545,13 +592,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"volumeArns"`: The Amazon Resource Name (ARN) of the volumes for which to return
   recommendations.
 """
-function get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer(
+get_ebsvolume_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    compute_optimizer(
         "GetEBSVolumeRecommendations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_ebsvolume_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -589,15 +635,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
   instance recommendations to return in the response.
 """
-function get_ec2_instance_recommendations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return compute_optimizer(
+get_ec2_instance_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    compute_optimizer(
         "GetEC2InstanceRecommendations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_ec2_instance_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -632,27 +675,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recommendationPreferences"`: An object to specify the preferences for the Amazon EC2
   recommendation projected metrics to return in the response.
 """
-function get_ec2_recommendation_projected_metrics(
+get_ec2_recommendation_projected_metrics(
     endTime,
     instanceArn,
     period,
     startTime,
     stat;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = compute_optimizer(
+    "GetEC2RecommendationProjectedMetrics",
+    Dict{String,Any}(
+        "endTime" => endTime,
+        "instanceArn" => instanceArn,
+        "period" => period,
+        "startTime" => startTime,
+        "stat" => stat,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "GetEC2RecommendationProjectedMetrics",
-        Dict{String,Any}(
-            "endTime" => endTime,
-            "instanceArn" => instanceArn,
-            "period" => period,
-            "startTime" => startTime,
-            "stat" => stat,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_ec2_recommendation_projected_metrics(
     endTime,
     instanceArn,
@@ -697,27 +738,25 @@ end
 - `stat`:  The statistic of the projected metrics.
 
 """
-function get_ecsservice_recommendation_projected_metrics(
+get_ecsservice_recommendation_projected_metrics(
     endTime,
     period,
     serviceArn,
     startTime,
     stat;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = compute_optimizer(
+    "GetECSServiceRecommendationProjectedMetrics",
+    Dict{String,Any}(
+        "endTime" => endTime,
+        "period" => period,
+        "serviceArn" => serviceArn,
+        "startTime" => startTime,
+        "stat" => stat,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "GetECSServiceRecommendationProjectedMetrics",
-        Dict{String,Any}(
-            "endTime" => endTime,
-            "period" => period,
-            "serviceArn" => serviceArn,
-            "startTime" => startTime,
-            "stat" => stat,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_ecsservice_recommendation_projected_metrics(
     endTime,
     period,
@@ -773,13 +812,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceArns"`:  The ARN that identifies the Amazon ECS service.   The following is the
   format of the ARN:   arn:aws:ecs:region:aws_account_id:service/cluster-name/service-name
 """
-function get_ecsservice_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer(
+get_ecsservice_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    compute_optimizer(
         "GetECSServiceRecommendations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_ecsservice_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -807,16 +845,14 @@ recommendation preferences that are in effect, or Active.
   currently supported.
 
 """
-function get_effective_recommendation_preferences(
+get_effective_recommendation_preferences(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "GetEffectiveRecommendationPreferences",
+    Dict{String,Any}("resourceArn" => resourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "GetEffectiveRecommendationPreferences",
-        Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_effective_recommendation_preferences(
     resourceArn,
     params::AbstractDict{String};
@@ -843,11 +879,10 @@ GetEnrollmentStatusesForOrganization action to get detailed information about th
 enrollment status of member accounts of an organization.
 
 """
-function get_enrollment_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer(
+get_enrollment_status(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    compute_optimizer(
         "GetEnrollmentStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function get_enrollment_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -876,15 +911,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   remaining results, make another request with the returned nextToken value.
 - `"nextToken"`: The token to advance to the next page of account enrollment statuses.
 """
-function get_enrollment_statuses_for_organization(;
+get_enrollment_statuses_for_organization(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "GetEnrollmentStatusesForOrganization";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "GetEnrollmentStatusesForOrganization";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_enrollment_statuses_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -924,20 +957,56 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken value.
 - `"nextToken"`: The token to advance to the next page of function recommendations.
 """
-function get_lambda_function_recommendations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return compute_optimizer(
+get_lambda_function_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    compute_optimizer(
         "GetLambdaFunctionRecommendations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_lambda_function_recommendations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return compute_optimizer(
         "GetLambdaFunctionRecommendations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_license_recommendations()
+    get_license_recommendations(params::Dict{String,<:Any})
+
+Returns license recommendations for Amazon EC2 instances that run on a specific license.
+Compute Optimizer generates recommendations for licenses that meet a specific set of
+requirements. For more information, see the Supported resources and requirements in the
+Compute Optimizer User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountIds"`: The ID of the Amazon Web Services account for which to return license
+  recommendations. If your account is the management account of an organization, use this
+  parameter to specify the member account for which you want to return license
+  recommendations. Only one account ID can be specified per request.
+- `"filters"`:  An array of objects to specify a filter that returns a more specific list
+  of license recommendations.
+- `"maxResults"`:  The maximum number of license recommendations to return with a single
+  request.   To retrieve the remaining results, make another request with the returned
+  nextToken value.
+- `"nextToken"`:  The token to advance to the next page of license recommendations.
+- `"resourceArns"`:  The ARN that identifies the Amazon EC2 instance.   The following is
+  the format of the ARN:   arn:aws:ec2:region:aws_account_id:instance/instance-id
+"""
+get_license_recommendations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    compute_optimizer(
+        "GetLicenseRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+function get_license_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return compute_optimizer(
+        "GetLicenseRecommendations",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -973,16 +1042,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Activating enhanced infrastructure metrics in the Compute Optimizer User
   Guide.
 """
-function get_recommendation_preferences(
+get_recommendation_preferences(
     resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "GetRecommendationPreferences",
+    Dict{String,Any}("resourceType" => resourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "GetRecommendationPreferences",
-        Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_recommendation_preferences(
     resourceType,
     params::AbstractDict{String};
@@ -1020,11 +1087,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nextToken value.
 - `"nextToken"`: The token to advance to the next page of recommendation summaries.
 """
-function get_recommendation_summaries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer(
+get_recommendation_summaries(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    compute_optimizer(
         "GetRecommendationSummaries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function get_recommendation_summaries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1067,6 +1133,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   To deactivate it, create a recommendation preference.  Specify the Inactive status to
   deactivate the feature, or specify Active to activate it. For more information, see
   Inferred workload types in the Compute Optimizer User Guide.
+- `"lookBackPeriod"`:  The preference to control the number of days the utilization metrics
+  of the Amazon Web Services resource are analyzed. When this preference isn't specified, we
+  use the default value DAYS_14.   You can only set this preference for the Amazon EC2
+  instance and Auto Scaling group resource types.
+- `"preferredResources"`:  The preference to control which resource type values are
+  considered when generating rightsizing recommendations. You can specify this preference as
+  a combination of include and exclude lists. You must specify either an includeList or
+  excludeList. If the preference is an empty set of resource type values, an error occurs.
+  You can only set this preference for the Amazon EC2 instance and Auto Scaling group
+  resource types.
+- `"savingsEstimationMode"`:  The status of the savings estimation mode preference to
+  create or update.  Specify the AfterDiscounts status to activate the preference, or specify
+  BeforeDiscounts to deactivate the preference. Only the account manager or delegated
+  administrator of your organization can activate this preference. For more information, see
+  Savings estimation mode in the Compute Optimizer User Guide.
 - `"scope"`: An object that describes the scope of the recommendation preference to create.
   You can create recommendation preferences at the organization level (for management
   accounts of an organization only), account level, and resource level. For more information,
@@ -1079,17 +1160,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   recommendation preferences at the resource level for instances that are part of an Auto
   Scaling group. You can create recommendation preferences at the resource level only for
   standalone instances.
+- `"utilizationPreferences"`:  The preference to control the resource’s CPU utilization
+  thresholds - threshold and headroom. When this preference isn't specified, we use the
+  following default values:     P99_5 for threshold    PERCENT_17 for headroom    You can
+  only set this preference for the Amazon EC2 instance resource type.
 """
-function put_recommendation_preferences(
+put_recommendation_preferences(
     resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+) = compute_optimizer(
+    "PutRecommendationPreferences",
+    Dict{String,Any}("resourceType" => resourceType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return compute_optimizer(
-        "PutRecommendationPreferences",
-        Dict{String,Any}("resourceType" => resourceType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_recommendation_preferences(
     resourceType,
     params::AbstractDict{String};
@@ -1135,14 +1218,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the
   organization if the account is the management account of an organization.
 """
-function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_aws_config())
-    return compute_optimizer(
+update_enrollment_status(status; aws_config::AbstractAWSConfig=global_aws_config()) =
+    compute_optimizer(
         "UpdateEnrollmentStatus",
         Dict{String,Any}("status" => status);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_enrollment_status(
     status, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

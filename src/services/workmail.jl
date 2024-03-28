@@ -11,25 +11,29 @@ using AWS.UUIDs
 Adds a member (user or group) to the resource's set of delegates.
 
 # Arguments
-- `entity_id`: The member (user or group) to associate to the resource.
+- `entity_id`: The member (user or group) to associate to the resource. The entity ID can
+  accept UserId or GroupID, Username or Groupname, or email.   Entity:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: entity@domain.tld   Entity: entity
 - `organization_id`: The organization under which the resource exists.
-- `resource_id`: The resource for which members (users or groups) are associated.
+- `resource_id`: The resource for which members (users or groups) are associated. The
+  identifier can accept ResourceId, Resourcename, or email. The following identity formats
+  are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address:
+  resource@domain.tld   Resource name: resource
 
 """
-function associate_delegate_to_resource(
+associate_delegate_to_resource(
     EntityId, OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "AssociateDelegateToResource",
+    Dict{String,Any}(
+        "EntityId" => EntityId,
+        "OrganizationId" => OrganizationId,
+        "ResourceId" => ResourceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "AssociateDelegateToResource",
-        Dict{String,Any}(
-            "EntityId" => EntityId,
-            "OrganizationId" => OrganizationId,
-            "ResourceId" => ResourceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_delegate_to_resource(
     EntityId,
     OrganizationId,
@@ -62,23 +66,28 @@ end
 Adds a member (user or group) to the group's set.
 
 # Arguments
-- `group_id`: The group to which the member (user or group) is associated.
-- `member_id`: The member (user or group) to associate to the group.
+- `group_id`: The group to which the member (user or group) is associated. The identifier
+  can accept GroupId, Groupname, or email. The following identity formats are available:
+  Group ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group
+  name: group
+- `member_id`: The member (user or group) to associate to the group. The member ID can
+  accept UserID or GroupId, Username or Groupname, or email.   Member:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: member@domain.tld   Member name: member
 - `organization_id`: The organization under which the group exists.
 
 """
-function associate_member_to_group(
+associate_member_to_group(
     GroupId, MemberId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "AssociateMemberToGroup",
+    Dict{String,Any}(
+        "GroupId" => GroupId, "MemberId" => MemberId, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "AssociateMemberToGroup",
-        Dict{String,Any}(
-            "GroupId" => GroupId, "MemberId" => MemberId, "OrganizationId" => OrganizationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_member_to_group(
     GroupId,
     MemberId,
@@ -117,18 +126,16 @@ authentication token you can use to make impersonated calls.
   assumed.
 
 """
-function assume_impersonation_role(
+assume_impersonation_role(
     ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "AssumeImpersonationRole",
+    Dict{String,Any}(
+        "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "AssumeImpersonationRole",
-        Dict{String,Any}(
-            "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function assume_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
@@ -165,20 +172,18 @@ be possible to cancel it.
 - `organization_id`: The organization ID.
 
 """
-function cancel_mailbox_export_job(
+cancel_mailbox_export_job(
     ClientToken, JobId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "CancelMailboxExportJob",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "JobId" => JobId,
+        "OrganizationId" => OrganizationId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "CancelMailboxExportJob",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "JobId" => JobId,
-            "OrganizationId" => OrganizationId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_mailbox_export_job(
     ClientToken,
     JobId,
@@ -216,18 +221,16 @@ Adds an alias to the set of a given member (user or group) of WorkMail.
 - `organization_id`: The organization under which the member (user or group) exists.
 
 """
-function create_alias(
+create_alias(
     Alias, EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "CreateAlias",
+    Dict{String,Any}(
+        "Alias" => Alias, "EntityId" => EntityId, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "CreateAlias",
-        Dict{String,Any}(
-            "Alias" => Alias, "EntityId" => EntityId, "OrganizationId" => OrganizationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_alias(
     Alias,
     EntityId,
@@ -273,20 +276,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LambdaProvider"`: Lambda availability provider definition. The request must contain
   exactly one provider definition, either EwsProvider or LambdaProvider.
 """
-function create_availability_configuration(
+create_availability_configuration(
     DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "CreateAvailabilityConfiguration",
+    Dict{String,Any}(
+        "DomainName" => DomainName,
+        "OrganizationId" => OrganizationId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "CreateAvailabilityConfiguration",
-        Dict{String,Any}(
-            "DomainName" => DomainName,
-            "OrganizationId" => OrganizationId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_availability_configuration(
     DomainName,
     OrganizationId,
@@ -321,17 +322,18 @@ Creates a group that can be used in WorkMail by calling the RegisterToWorkMail o
 - `name`: The name of the group.
 - `organization_id`: The organization under which the group is to be created.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HiddenFromGlobalAddressList"`: If this parameter is enabled, the group will be hidden
+  from the address book.
 """
-function create_group(
-    Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmail(
+create_group(Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "CreateGroup",
         Dict{String,Any}("Name" => Name, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_group(
     Name,
     OrganizationId,
@@ -373,22 +375,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: The idempotency token for the client request.
 - `"Description"`: The description of the new impersonation role.
 """
-function create_impersonation_role(
+create_impersonation_role(
     Name, OrganizationId, Rules, Type; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "CreateImpersonationRole",
+    Dict{String,Any}(
+        "Name" => Name,
+        "OrganizationId" => OrganizationId,
+        "Rules" => Rules,
+        "Type" => Type,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "CreateImpersonationRole",
-        Dict{String,Any}(
-            "Name" => Name,
-            "OrganizationId" => OrganizationId,
-            "Rules" => Rules,
-            "Type" => Type,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_impersonation_role(
     Name,
     OrganizationId,
@@ -445,21 +445,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotDeviceUserAgents"`: Device user agents that the rule will not match. All other
   device user agents will match.
 """
-function create_mobile_device_access_rule(
+create_mobile_device_access_rule(
     Effect, Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "CreateMobileDeviceAccessRule",
+    Dict{String,Any}(
+        "Effect" => Effect,
+        "Name" => Name,
+        "OrganizationId" => OrganizationId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "CreateMobileDeviceAccessRule",
-        Dict{String,Any}(
-            "Effect" => Effect,
-            "Name" => Name,
-            "OrganizationId" => OrganizationId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_mobile_device_access_rule(
     Effect,
     Name,
@@ -516,14 +514,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the request.
 - `"KmsKeyArn"`: The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
 """
-function create_organization(Alias; aws_config::AbstractAWSConfig=global_aws_config())
-    return workmail(
-        "CreateOrganization",
-        Dict{String,Any}("Alias" => Alias, "ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_organization(Alias; aws_config::AbstractAWSConfig=global_aws_config()) = workmail(
+    "CreateOrganization",
+    Dict{String,Any}("Alias" => Alias, "ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_organization(
     Alias, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -553,19 +549,20 @@ Creates a new WorkMail resource.
   is created.
 - `type`: The type of the new resource. The available types are equipment and room.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Resource description.
+- `"HiddenFromGlobalAddressList"`: If this parameter is enabled, the resource will be
+  hidden from the address book.
 """
-function create_resource(
+create_resource(
     Name, OrganizationId, Type; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "CreateResource",
+    Dict{String,Any}("Name" => Name, "OrganizationId" => OrganizationId, "Type" => Type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "CreateResource",
-        Dict{String,Any}(
-            "Name" => Name, "OrganizationId" => OrganizationId, "Type" => Type
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_resource(
     Name,
     OrganizationId,
@@ -590,8 +587,8 @@ function create_resource(
 end
 
 """
-    create_user(display_name, name, organization_id, password)
-    create_user(display_name, name, organization_id, password, params::Dict{String,<:Any})
+    create_user(display_name, name, organization_id)
+    create_user(display_name, name, organization_id, params::Dict{String,<:Any})
 
 Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation.
 
@@ -600,33 +597,31 @@ Creates a user who can be used in WorkMail by calling the RegisterToWorkMail ope
 - `name`: The name for the new user. WorkMail directory user names have a maximum length of
   64. All others have a maximum length of 20.
 - `organization_id`: The identifier of the organization for which the user is created.
-- `password`: The password for the new user.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirstName"`: The first name of the new user.
+- `"HiddenFromGlobalAddressList"`: If this parameter is enabled, the user will be hidden
+  from the address book.
+- `"LastName"`: The last name of the new user.
+- `"Password"`: The password for the new user.
+- `"Role"`: The role of the new user. You cannot pass SYSTEM_USER or RESOURCE role in a
+  single request. When a user role is not selected, the default role of USER is selected.
 """
-function create_user(
-    DisplayName,
-    Name,
-    OrganizationId,
-    Password;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+create_user(
+    DisplayName, Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "CreateUser",
+    Dict{String,Any}(
+        "DisplayName" => DisplayName, "Name" => Name, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "CreateUser",
-        Dict{String,Any}(
-            "DisplayName" => DisplayName,
-            "Name" => Name,
-            "OrganizationId" => OrganizationId,
-            "Password" => Password,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user(
     DisplayName,
     Name,
     OrganizationId,
-    Password,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -639,7 +634,6 @@ function create_user(
                     "DisplayName" => DisplayName,
                     "Name" => Name,
                     "OrganizationId" => OrganizationId,
-                    "Password" => Password,
                 ),
                 params,
             ),
@@ -662,16 +656,14 @@ back an HTTP 200 response with an empty HTTP body.
 - `organization_id`: The identifier for the organization.
 
 """
-function delete_access_control_rule(
+delete_access_control_rule(
     Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeleteAccessControlRule",
+    Dict{String,Any}("Name" => Name, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteAccessControlRule",
-        Dict{String,Any}("Name" => Name, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_access_control_rule(
     Name,
     OrganizationId,
@@ -706,18 +698,16 @@ Remove one or more specified aliases from a set of aliases for a given user.
 - `organization_id`: The identifier for the organization under which the user exists.
 
 """
-function delete_alias(
+delete_alias(
     Alias, EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeleteAlias",
+    Dict{String,Any}(
+        "Alias" => Alias, "EntityId" => EntityId, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteAlias",
-        Dict{String,Any}(
-            "Alias" => Alias, "EntityId" => EntityId, "OrganizationId" => OrganizationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_alias(
     Alias,
     EntityId,
@@ -755,16 +745,14 @@ Deletes the AvailabilityConfiguration for the given WorkMail organization and do
   be deleted.
 
 """
-function delete_availability_configuration(
+delete_availability_configuration(
     DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeleteAvailabilityConfiguration",
+    Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteAvailabilityConfiguration",
-        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_availability_configuration(
     DomainName,
     OrganizationId,
@@ -798,16 +786,14 @@ Deletes the email monitoring configuration for a specified organization.
   configuration is deleted.
 
 """
-function delete_email_monitoring_configuration(
+delete_email_monitoring_configuration(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeleteEmailMonitoringConfiguration",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteEmailMonitoringConfiguration",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_email_monitoring_configuration(
     OrganizationId,
     params::AbstractDict{String};
@@ -830,20 +816,20 @@ end
 Deletes a group from WorkMail.
 
 # Arguments
-- `group_id`: The identifier of the group to be deleted.
+- `group_id`: The identifier of the group to be deleted. The identifier can be the GroupId,
+  or Groupname. The following identity formats are available:   Group ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Group name: group
 - `organization_id`: The organization that contains the group.
 
 """
-function delete_group(
-    GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmail(
+delete_group(GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "DeleteGroup",
         Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_group(
     GroupId,
     OrganizationId,
@@ -875,18 +861,16 @@ Deletes an impersonation role for the given WorkMail organization.
 - `organization_id`: The WorkMail organization from which to delete the impersonation role.
 
 """
-function delete_impersonation_role(
+delete_impersonation_role(
     ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeleteImpersonationRole",
+    Dict{String,Any}(
+        "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteImpersonationRole",
-        Dict{String,Any}(
-            "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
@@ -917,27 +901,32 @@ end
 Deletes permissions granted to a member (user or group).
 
 # Arguments
-- `entity_id`: The identifier of the member (user or group) that owns the mailbox.
-- `grantee_id`: The identifier of the member (user or group) for which to delete granted
-  permissions.
+- `entity_id`: The identifier of the entity that owns the mailbox. The identifier can be
+  UserId or Group Id, Username or Groupname, or email.   Entity ID:
+  12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity
+  name: entity
+- `grantee_id`: The identifier of the entity for which to delete granted permissions. The
+  identifier can be UserId, ResourceID, or Group Id, Username or Groupname, or email.
+  Grantee ID: 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789, or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: grantee@domain.tld   Grantee
+  name: grantee
 - `organization_id`: The identifier of the organization under which the member (user or
   group) exists.
 
 """
-function delete_mailbox_permissions(
+delete_mailbox_permissions(
     EntityId, GranteeId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeleteMailboxPermissions",
+    Dict{String,Any}(
+        "EntityId" => EntityId,
+        "GranteeId" => GranteeId,
+        "OrganizationId" => OrganizationId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteMailboxPermissions",
-        Dict{String,Any}(
-            "EntityId" => EntityId,
-            "GranteeId" => GranteeId,
-            "OrganizationId" => OrganizationId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_mailbox_permissions(
     EntityId,
     GranteeId,
@@ -982,18 +971,16 @@ those cases, the service sends back an HTTP 200 response with an empty HTTP body
   name: user
 
 """
-function delete_mobile_device_access_override(
+delete_mobile_device_access_override(
     DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeleteMobileDeviceAccessOverride",
+    Dict{String,Any}(
+        "DeviceId" => DeviceId, "OrganizationId" => OrganizationId, "UserId" => UserId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteMobileDeviceAccessOverride",
-        Dict{String,Any}(
-            "DeviceId" => DeviceId, "OrganizationId" => OrganizationId, "UserId" => UserId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_mobile_device_access_override(
     DeviceId,
     OrganizationId,
@@ -1032,21 +1019,19 @@ service sends back an HTTP 200 response with an empty HTTP body.
 - `organization_id`: The WorkMail organization under which the rule will be deleted.
 
 """
-function delete_mobile_device_access_rule(
+delete_mobile_device_access_rule(
     MobileDeviceAccessRuleId,
     OrganizationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workmail(
+    "DeleteMobileDeviceAccessRule",
+    Dict{String,Any}(
+        "MobileDeviceAccessRuleId" => MobileDeviceAccessRuleId,
+        "OrganizationId" => OrganizationId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteMobileDeviceAccessRule",
-        Dict{String,Any}(
-            "MobileDeviceAccessRuleId" => MobileDeviceAccessRuleId,
-            "OrganizationId" => OrganizationId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_mobile_device_access_rule(
     MobileDeviceAccessRuleId,
     OrganizationId,
@@ -1086,21 +1071,21 @@ more information, see Removing an organization in the WorkMail Administrator Gui
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: The idempotency token associated with the request.
+- `"ForceDelete"`: Deletes a WorkMail organization even if the organization has enabled
+  users.
 """
-function delete_organization(
+delete_organization(
     DeleteDirectory, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeleteOrganization",
+    Dict{String,Any}(
+        "DeleteDirectory" => DeleteDirectory,
+        "OrganizationId" => OrganizationId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteOrganization",
-        Dict{String,Any}(
-            "DeleteDirectory" => DeleteDirectory,
-            "OrganizationId" => OrganizationId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_organization(
     DeleteDirectory,
     OrganizationId,
@@ -1134,19 +1119,19 @@ Deletes the specified resource.
 # Arguments
 - `organization_id`: The identifier associated with the organization from which the
   resource is deleted.
-- `resource_id`: The identifier of the resource to be deleted.
+- `resource_id`: The identifier of the resource to be deleted. The identifier can accept
+  ResourceId, or Resourcename. The following identity formats are available:   Resource ID:
+  r-0123456789a0123456789b0123456789   Resource name: resource
 
 """
-function delete_resource(
+delete_resource(
     OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeleteResource",
+    Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteResource",
-        Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_resource(
     OrganizationId,
     ResourceId,
@@ -1180,16 +1165,14 @@ Deletes the specified retention policy from the specified organization.
 - `organization_id`: The organization ID.
 
 """
-function delete_retention_policy(
+delete_retention_policy(
     Id, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeleteRetentionPolicy",
+    Dict{String,Any}("Id" => Id, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeleteRetentionPolicy",
-        Dict{String,Any}("Id" => Id, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_retention_policy(
     Id,
     OrganizationId,
@@ -1221,19 +1204,19 @@ days before they are permanently removed.
 
 # Arguments
 - `organization_id`: The organization that contains the user to be deleted.
-- `user_id`: The identifier of the user to be deleted.
+- `user_id`: The identifier of the user to be deleted. The identifier can be the UserId or
+  Username. The following identity formats are available:   User ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   User
+  name: user
 
 """
-function delete_user(
-    OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmail(
+delete_user(OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "DeleteUser",
         Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_user(
     OrganizationId,
     UserId,
@@ -1263,21 +1246,23 @@ the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days 
 are permanently removed. The functionality in the console is Disable.
 
 # Arguments
-- `entity_id`: The identifier for the member (user or group) to be updated.
+- `entity_id`: The identifier for the member to be updated. The identifier can be UserId,
+  ResourceId, or Group Id, Username, Resourcename, or Groupname, or email.   Entity ID:
+  12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity
+  name: entity
 - `organization_id`: The identifier for the organization under which the WorkMail entity
   exists.
 
 """
-function deregister_from_work_mail(
+deregister_from_work_mail(
     EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeregisterFromWorkMail",
+    Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeregisterFromWorkMail",
-        Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_from_work_mail(
     EntityId,
     OrganizationId,
@@ -1314,16 +1299,14 @@ the domain.
 - `organization_id`: The WorkMail organization for which the domain will be deregistered.
 
 """
-function deregister_mail_domain(
+deregister_mail_domain(
     DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DeregisterMailDomain",
+    Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DeregisterMailDomain",
-        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_mail_domain(
     DomainName,
     OrganizationId,
@@ -1357,16 +1340,14 @@ Describes the current email monitoring configuration for a specified organizatio
   configuration is described.
 
 """
-function describe_email_monitoring_configuration(
+describe_email_monitoring_configuration(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DescribeEmailMonitoringConfiguration",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DescribeEmailMonitoringConfiguration",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_email_monitoring_configuration(
     OrganizationId,
     params::AbstractDict{String};
@@ -1383,26 +1364,64 @@ function describe_email_monitoring_configuration(
 end
 
 """
+    describe_entity(email, organization_id)
+    describe_entity(email, organization_id, params::Dict{String,<:Any})
+
+Returns basic details about an entity in WorkMail.
+
+# Arguments
+- `email`: The email under which the entity exists.
+- `organization_id`: The identifier for the organization under which the entity exists.
+
+"""
+describe_entity(Email, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
+        "DescribeEntity",
+        Dict{String,Any}("Email" => Email, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_entity(
+    Email,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DescribeEntity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Email" => Email, "OrganizationId" => OrganizationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_group(group_id, organization_id)
     describe_group(group_id, organization_id, params::Dict{String,<:Any})
 
 Returns the data available for the group.
 
 # Arguments
-- `group_id`: The identifier for the group to be described.
+- `group_id`: The identifier for the group to be described. The identifier can accept
+  GroupId, Groupname, or email. The following identity formats are available:   Group ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: group@domain.tld   Group name: group
 - `organization_id`: The identifier for the organization under which the group exists.
 
 """
-function describe_group(
-    GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmail(
+describe_group(GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "DescribeGroup",
         Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_group(
     GroupId,
     OrganizationId,
@@ -1433,16 +1452,14 @@ Lists the settings in a DMARC policy for a specified organization.
 - `organization_id`: Lists the ID of the given organization.
 
 """
-function describe_inbound_dmarc_settings(
+describe_inbound_dmarc_settings(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DescribeInboundDmarcSettings",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DescribeInboundDmarcSettings",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_inbound_dmarc_settings(
     OrganizationId,
     params::AbstractDict{String};
@@ -1469,16 +1486,14 @@ Describes the current status of a mailbox export job.
 - `organization_id`: The organization ID.
 
 """
-function describe_mailbox_export_job(
+describe_mailbox_export_job(
     JobId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DescribeMailboxExportJob",
+    Dict{String,Any}("JobId" => JobId, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DescribeMailboxExportJob",
-        Dict{String,Any}("JobId" => JobId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_mailbox_export_job(
     JobId,
     OrganizationId,
@@ -1509,16 +1524,13 @@ Provides more information regarding a given organization based on its identifier
 - `organization_id`: The identifier for the organization to be described.
 
 """
-function describe_organization(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmail(
+describe_organization(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "DescribeOrganization",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_organization(
     OrganizationId,
     params::AbstractDict{String};
@@ -1543,19 +1555,20 @@ Returns the data available for the resource.
 # Arguments
 - `organization_id`: The identifier associated with the organization for which the resource
   is described.
-- `resource_id`: The identifier of the resource to be described.
+- `resource_id`: The identifier of the resource to be described. The identifier can accept
+  ResourceId, Resourcename, or email. The following identity formats are available:
+  Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld
+  Resource name: resource
 
 """
-function describe_resource(
+describe_resource(
     OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DescribeResource",
+    Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DescribeResource",
-        Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_resource(
     OrganizationId,
     ResourceId,
@@ -1586,19 +1599,19 @@ Provides information regarding the user.
 
 # Arguments
 - `organization_id`: The identifier for the organization under which the user exists.
-- `user_id`: The identifier for the user to be described.
+- `user_id`: The identifier for the user to be described. The identifier can be the UserId,
+  Username, or email. The following identity formats are available:   User ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: user@domain.tld   User name: user
 
 """
-function describe_user(
-    OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmail(
+describe_user(OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "DescribeUser",
         Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_user(
     OrganizationId,
     UserId,
@@ -1627,26 +1640,29 @@ Removes a member from the resource's set of delegates.
 
 # Arguments
 - `entity_id`: The identifier for the member (user, group) to be removed from the
-  resource's delegates.
+  resource's delegates. The entity ID can accept UserId or GroupID, Username or Groupname, or
+  email.   Entity: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity:
+  entity
 - `organization_id`: The identifier for the organization under which the resource exists.
 - `resource_id`: The identifier of the resource from which delegates' set members are
-  removed.
+  removed.  The identifier can accept ResourceId, Resourcename, or email. The following
+  identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email
+  address: resource@domain.tld   Resource name: resource
 
 """
-function disassociate_delegate_from_resource(
+disassociate_delegate_from_resource(
     EntityId, OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DisassociateDelegateFromResource",
+    Dict{String,Any}(
+        "EntityId" => EntityId,
+        "OrganizationId" => OrganizationId,
+        "ResourceId" => ResourceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DisassociateDelegateFromResource",
-        Dict{String,Any}(
-            "EntityId" => EntityId,
-            "OrganizationId" => OrganizationId,
-            "ResourceId" => ResourceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_delegate_from_resource(
     EntityId,
     OrganizationId,
@@ -1679,23 +1695,28 @@ end
 Removes a member from a group.
 
 # Arguments
-- `group_id`: The identifier for the group from which members are removed.
-- `member_id`: The identifier for the member to be removed to the group.
+- `group_id`: The identifier for the group from which members are removed. The identifier
+  can accept GroupId, Groupname, or email. The following identity formats are available:
+  Group ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group
+  name: group
+- `member_id`: The identifier for the member to be removed from the group. The member ID
+  can accept UserID or GroupId, Username or Groupname, or email.   Member ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: member@domain.tld   Member name: member
 - `organization_id`: The identifier for the organization under which the group exists.
 
 """
-function disassociate_member_from_group(
+disassociate_member_from_group(
     GroupId, MemberId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "DisassociateMemberFromGroup",
+    Dict{String,Any}(
+        "GroupId" => GroupId, "MemberId" => MemberId, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "DisassociateMemberFromGroup",
-        Dict{String,Any}(
-            "GroupId" => GroupId, "MemberId" => MemberId, "OrganizationId" => OrganizationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_member_from_group(
     GroupId,
     MemberId,
@@ -1741,18 +1762,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ImpersonationRoleId"`: The impersonation role ID.
 - `"UserId"`: The user ID.
 """
-function get_access_control_effect(
+get_access_control_effect(
     Action, IpAddress, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "GetAccessControlEffect",
+    Dict{String,Any}(
+        "Action" => Action, "IpAddress" => IpAddress, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "GetAccessControlEffect",
-        Dict{String,Any}(
-            "Action" => Action, "IpAddress" => IpAddress, "OrganizationId" => OrganizationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_access_control_effect(
     Action,
     IpAddress,
@@ -1788,16 +1807,14 @@ Gets the default retention policy details for the specified organization.
 - `organization_id`: The organization ID.
 
 """
-function get_default_retention_policy(
+get_default_retention_policy(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "GetDefaultRetentionPolicy",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "GetDefaultRetentionPolicy",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_default_retention_policy(
     OrganizationId,
     params::AbstractDict{String};
@@ -1825,18 +1842,16 @@ Gets the impersonation role details for the given WorkMail organization.
   role.
 
 """
-function get_impersonation_role(
+get_impersonation_role(
     ImpersonationRoleId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "GetImpersonationRole",
+    Dict{String,Any}(
+        "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "GetImpersonationRole",
-        Dict{String,Any}(
-            "ImpersonationRoleId" => ImpersonationRoleId, "OrganizationId" => OrganizationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_impersonation_role(
     ImpersonationRoleId,
     OrganizationId,
@@ -1875,23 +1890,21 @@ Tests whether the given impersonation role can impersonate a target user.
   name: user
 
 """
-function get_impersonation_role_effect(
+get_impersonation_role_effect(
     ImpersonationRoleId,
     OrganizationId,
     TargetUser;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workmail(
+    "GetImpersonationRoleEffect",
+    Dict{String,Any}(
+        "ImpersonationRoleId" => ImpersonationRoleId,
+        "OrganizationId" => OrganizationId,
+        "TargetUser" => TargetUser,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "GetImpersonationRoleEffect",
-        Dict{String,Any}(
-            "ImpersonationRoleId" => ImpersonationRoleId,
-            "OrganizationId" => OrganizationId,
-            "TargetUser" => TargetUser,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_impersonation_role_effect(
     ImpersonationRoleId,
     OrganizationId,
@@ -1929,16 +1942,14 @@ with recommended security.
 - `organization_id`: The WorkMail organization for which the domain is retrieved.
 
 """
-function get_mail_domain(
+get_mail_domain(
     DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "GetMailDomain",
+    Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "GetMailDomain",
-        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_mail_domain(
     DomainName,
     OrganizationId,
@@ -1970,19 +1981,21 @@ Requests a user's mailbox details for a specified organization and user.
 # Arguments
 - `organization_id`: The identifier for the organization that contains the user whose
   mailbox details are being requested.
-- `user_id`: The identifier for the user whose mailbox details are being requested.
+- `user_id`: The identifier for the user whose mailbox details are being requested. The
+  identifier can be the UserId, Username, or email. The following identity formats are
+  available:   User ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name:
+  user
 
 """
-function get_mailbox_details(
+get_mailbox_details(
     OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "GetMailboxDetails",
+    Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "GetMailboxDetails",
-        Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_mailbox_details(
     OrganizationId,
     UserId,
@@ -2021,16 +2034,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeviceType"`: Device type the simulated user will report.
 - `"DeviceUserAgent"`: Device user agent the simulated user will report.
 """
-function get_mobile_device_access_effect(
+get_mobile_device_access_effect(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "GetMobileDeviceAccessEffect",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "GetMobileDeviceAccessEffect",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_mobile_device_access_effect(
     OrganizationId,
     params::AbstractDict{String};
@@ -2063,18 +2074,16 @@ device.
   name: user
 
 """
-function get_mobile_device_access_override(
+get_mobile_device_access_override(
     DeviceId, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "GetMobileDeviceAccessOverride",
+    Dict{String,Any}(
+        "DeviceId" => DeviceId, "OrganizationId" => OrganizationId, "UserId" => UserId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "GetMobileDeviceAccessOverride",
-        Dict{String,Any}(
-            "DeviceId" => DeviceId, "OrganizationId" => OrganizationId, "UserId" => UserId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_mobile_device_access_override(
     DeviceId,
     OrganizationId,
@@ -2110,16 +2119,14 @@ Lists the access control rules for the specified organization.
 - `organization_id`: The identifier for the organization.
 
 """
-function list_access_control_rules(
+list_access_control_rules(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ListAccessControlRules",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "ListAccessControlRules",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_access_control_rules(
     OrganizationId,
     params::AbstractDict{String};
@@ -2151,16 +2158,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
 """
-function list_aliases(
-    EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmail(
+list_aliases(EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "ListAliases",
         Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_aliases(
     EntityId,
     OrganizationId,
@@ -2199,16 +2203,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not require a token.
 """
-function list_availability_configurations(
+list_availability_configurations(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ListAvailabilityConfigurations",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "ListAvailabilityConfigurations",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_availability_configurations(
     OrganizationId,
     params::AbstractDict{String};
@@ -2232,7 +2234,10 @@ Returns an overview of the members of a group. Users and groups can be members o
 
 # Arguments
 - `group_id`: The identifier for the group to which the members (users or groups) are
-  associated.
+  associated. The identifier can accept GroupId, Groupname, or email. The following identity
+  formats are available:   Group ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group
+  name: group
 - `organization_id`: The identifier for the organization under which the group exists.
 
 # Optional Parameters
@@ -2241,16 +2246,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  The token to use to retrieve the next page of results. The first call
   does not contain any tokens.
 """
-function list_group_members(
+list_group_members(
     GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ListGroupMembers",
+    Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "ListGroupMembers",
-        Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_group_members(
     GroupId,
     OrganizationId,
@@ -2282,18 +2285,18 @@ Returns summaries of the organization's groups.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Limit the search results based on the filter criteria. Only one filter per
+  request is supported.
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
 """
-function list_groups(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workmail(
-        "ListGroups",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_groups(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail(
+    "ListGroups",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_groups(
     OrganizationId,
     params::AbstractDict{String};
@@ -2303,6 +2306,56 @@ function list_groups(
         "ListGroups",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_groups_for_entity(entity_id, organization_id)
+    list_groups_for_entity(entity_id, organization_id, params::Dict{String,<:Any})
+
+Returns all the groups to which an entity belongs.
+
+# Arguments
+- `entity_id`: The identifier for the entity. The entity ID can accept UserId or GroupID,
+  Username or Groupname, or email.   Entity ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity
+  name: entity
+- `organization_id`: The identifier for the organization under which the entity exists.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Limit the search results based on the filter criteria.
+- `"MaxResults"`: The maximum number of results to return in a single call.
+- `"NextToken"`: The token to use to retrieve the next page of results. The first call does
+  not contain any tokens.
+"""
+list_groups_for_entity(
+    EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ListGroupsForEntity",
+    Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_groups_for_entity(
+    EntityId,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "ListGroupsForEntity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EntityId" => EntityId, "OrganizationId" => OrganizationId
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2325,16 +2378,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token used to retrieve the next page of results. The first call
   doesn't require a token.
 """
-function list_impersonation_roles(
+list_impersonation_roles(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ListImpersonationRoles",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "ListImpersonationRoles",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_impersonation_roles(
     OrganizationId,
     params::AbstractDict{String};
@@ -2365,16 +2416,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not require a token.
 """
-function list_mail_domains(
-    OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmail(
+list_mail_domains(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "ListMailDomains",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_mail_domains(
     OrganizationId,
     params::AbstractDict{String};
@@ -2405,16 +2453,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: The token to use to retrieve the next page of results.
 """
-function list_mailbox_export_jobs(
+list_mailbox_export_jobs(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ListMailboxExportJobs",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "ListMailboxExportJobs",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_mailbox_export_jobs(
     OrganizationId,
     params::AbstractDict{String};
@@ -2437,8 +2483,11 @@ end
 Lists the mailbox permissions associated with a user, group, or resource mailbox.
 
 # Arguments
-- `entity_id`: The identifier of the user, group, or resource for which to list mailbox
-  permissions.
+- `entity_id`: The identifier of the user, or resource for which to list mailbox
+  permissions. The entity ID can accept UserId or ResourceId, Username or Resourcename, or
+  email.   Entity ID: 12345678-1234-1234-1234-123456789012, or
+  r-0123456789a0123456789b0123456789   Email address: entity@domain.tld   Entity name: entity
+  
 - `organization_id`: The identifier of the organization under which the user, group, or
   resource exists.
 
@@ -2448,16 +2497,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
 """
-function list_mailbox_permissions(
+list_mailbox_permissions(
     EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ListMailboxPermissions",
+    Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "ListMailboxPermissions",
-        Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_mailbox_permissions(
     EntityId,
     OrganizationId,
@@ -2502,16 +2549,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
   Email address: user@domain.tld    User name: user
 """
-function list_mobile_device_access_overrides(
+list_mobile_device_access_overrides(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ListMobileDeviceAccessOverrides",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "ListMobileDeviceAccessOverrides",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_mobile_device_access_overrides(
     OrganizationId,
     params::AbstractDict{String};
@@ -2537,16 +2582,14 @@ Lists the mobile device access rules for the specified WorkMail organization.
 - `organization_id`: The WorkMail organization for which to list the rules.
 
 """
-function list_mobile_device_access_rules(
+list_mobile_device_access_rules(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ListMobileDeviceAccessRules",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "ListMobileDeviceAccessRules",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_mobile_device_access_rules(
     OrganizationId,
     params::AbstractDict{String};
@@ -2574,11 +2617,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
 """
-function list_organizations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workmail(
-        "ListOrganizations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_organizations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail("ListOrganizations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_organizations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2597,7 +2637,10 @@ and answer requests on behalf of the resource.
 # Arguments
 - `organization_id`: The identifier for the organization that contains the resource for
   which delegates are listed.
-- `resource_id`: The identifier for the resource whose delegates are listed.
+- `resource_id`: The identifier for the resource whose delegates are listed. The identifier
+  can accept ResourceId, Resourcename, or email. The following identity formats are
+  available:   Resource ID: r-0123456789a0123456789b0123456789   Email address:
+  resource@domain.tld   Resource name: resource
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2605,16 +2648,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token used to paginate through the delegates associated with a
   resource.
 """
-function list_resource_delegates(
+list_resource_delegates(
     OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ListResourceDelegates",
+    Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "ListResourceDelegates",
-        Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_resource_delegates(
     OrganizationId,
     ResourceId,
@@ -2648,18 +2689,19 @@ Returns summaries of the organization's resources.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Limit the resource search results based on the filter criteria. You can only
+  use one filter per request.
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
 """
-function list_resources(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workmail(
+list_resources(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "ListResources",
         Dict{String,Any}("OrganizationId" => OrganizationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_resources(
     OrganizationId,
     params::AbstractDict{String};
@@ -2685,16 +2727,13 @@ Lists the tags applied to an WorkMail organization resource.
 - `resource_arn`: The resource ARN.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmail(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -2721,18 +2760,18 @@ Returns summaries of the organization's users.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Limit the user search results based on the filter criteria. You can only use
+  one filter per request.
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
 """
-function list_users(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return workmail(
-        "ListUsers",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_users(OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) = workmail(
+    "ListUsers",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_users(
     OrganizationId,
     params::AbstractDict{String};
@@ -2776,25 +2815,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotUserIds"`: User IDs to exclude from the rule.
 - `"UserIds"`: User IDs to include in the rule.
 """
-function put_access_control_rule(
+put_access_control_rule(
     Description,
     Effect,
     Name,
     OrganizationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workmail(
+    "PutAccessControlRule",
+    Dict{String,Any}(
+        "Description" => Description,
+        "Effect" => Effect,
+        "Name" => Name,
+        "OrganizationId" => OrganizationId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "PutAccessControlRule",
-        Dict{String,Any}(
-            "Description" => Description,
-            "Effect" => Effect,
-            "Name" => Name,
-            "OrganizationId" => OrganizationId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_access_control_rule(
     Description,
     Effect,
@@ -2837,20 +2874,18 @@ Creates or updates the email monitoring configuration for a specified organizati
   monitoring configuration.
 
 """
-function put_email_monitoring_configuration(
+put_email_monitoring_configuration(
     LogGroupArn, OrganizationId, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "PutEmailMonitoringConfiguration",
+    Dict{String,Any}(
+        "LogGroupArn" => LogGroupArn,
+        "OrganizationId" => OrganizationId,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "PutEmailMonitoringConfiguration",
-        Dict{String,Any}(
-            "LogGroupArn" => LogGroupArn,
-            "OrganizationId" => OrganizationId,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_email_monitoring_configuration(
     LogGroupArn,
     OrganizationId,
@@ -2887,16 +2922,14 @@ Enables or disables a DMARC policy for a given organization.
 - `organization_id`: The ID of the organization that you are applying the DMARC policy to.
 
 """
-function put_inbound_dmarc_settings(
+put_inbound_dmarc_settings(
     Enforced, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "PutInboundDmarcSettings",
+    Dict{String,Any}("Enforced" => Enforced, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "PutInboundDmarcSettings",
-        Dict{String,Any}("Enforced" => Enforced, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_inbound_dmarc_settings(
     Enforced,
     OrganizationId,
@@ -2926,10 +2959,16 @@ end
 Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
 
 # Arguments
-- `entity_id`: The identifier of the user, group, or resource for which to update mailbox
-  permissions.
+- `entity_id`: The identifier of the user or resource for which to update mailbox
+  permissions. The identifier can be UserId, ResourceID, or Group Id, Username, Resourcename,
+  or Groupname, or email.   Entity ID: 12345678-1234-1234-1234-123456789012,
+  r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email
+  address: entity@domain.tld   Entity name: entity
 - `grantee_id`: The identifier of the user, group, or resource to which to grant the
-  permissions.
+  permissions. The identifier can be UserId, ResourceID, or Group Id, Username, Resourcename,
+  or Groupname, or email.   Grantee ID: 12345678-1234-1234-1234-123456789012,
+  r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email
+  address: grantee@domain.tld   Grantee name: grantee
 - `organization_id`: The identifier of the organization under which the user, group, or
   resource exists.
 - `permission_values`: The permissions granted to the grantee. SEND_AS allows the grantee
@@ -2940,25 +2979,23 @@ Sets permissions for a user, group, or resource. This replaces any pre-existing 
   the mailbox.
 
 """
-function put_mailbox_permissions(
+put_mailbox_permissions(
     EntityId,
     GranteeId,
     OrganizationId,
     PermissionValues;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workmail(
+    "PutMailboxPermissions",
+    Dict{String,Any}(
+        "EntityId" => EntityId,
+        "GranteeId" => GranteeId,
+        "OrganizationId" => OrganizationId,
+        "PermissionValues" => PermissionValues,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "PutMailboxPermissions",
-        Dict{String,Any}(
-            "EntityId" => EntityId,
-            "GranteeId" => GranteeId,
-            "OrganizationId" => OrganizationId,
-            "PermissionValues" => PermissionValues,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_mailbox_permissions(
     EntityId,
     GranteeId,
@@ -3007,25 +3044,23 @@ user, and device.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the override.
 """
-function put_mobile_device_access_override(
+put_mobile_device_access_override(
     DeviceId,
     Effect,
     OrganizationId,
     UserId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workmail(
+    "PutMobileDeviceAccessOverride",
+    Dict{String,Any}(
+        "DeviceId" => DeviceId,
+        "Effect" => Effect,
+        "OrganizationId" => OrganizationId,
+        "UserId" => UserId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "PutMobileDeviceAccessOverride",
-        Dict{String,Any}(
-            "DeviceId" => DeviceId,
-            "Effect" => Effect,
-            "OrganizationId" => OrganizationId,
-            "UserId" => UserId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_mobile_device_access_override(
     DeviceId,
     Effect,
@@ -3069,23 +3104,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The retention policy description.
 - `"Id"`: The retention policy ID.
 """
-function put_retention_policy(
+put_retention_policy(
     FolderConfigurations,
     Name,
     OrganizationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workmail(
+    "PutRetentionPolicy",
+    Dict{String,Any}(
+        "FolderConfigurations" => FolderConfigurations,
+        "Name" => Name,
+        "OrganizationId" => OrganizationId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "PutRetentionPolicy",
-        Dict{String,Any}(
-            "FolderConfigurations" => FolderConfigurations,
-            "Name" => Name,
-            "OrganizationId" => OrganizationId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_retention_policy(
     FolderConfigurations,
     Name,
@@ -3128,20 +3161,18 @@ emails.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Idempotency token used when retrying requests.
 """
-function register_mail_domain(
+register_mail_domain(
     DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "RegisterMailDomain",
+    Dict{String,Any}(
+        "DomainName" => DomainName,
+        "OrganizationId" => OrganizationId,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "RegisterMailDomain",
-        Dict{String,Any}(
-            "DomainName" => DomainName,
-            "OrganizationId" => OrganizationId,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_mail_domain(
     DomainName,
     OrganizationId,
@@ -3180,23 +3211,25 @@ information, see DeregisterFromWorkMail.
 
 # Arguments
 - `email`: The email for the user, group, or resource to be updated.
-- `entity_id`: The identifier for the user, group, or resource to be updated.
+- `entity_id`: The identifier for the user, group, or resource to be updated. The
+  identifier can accept UserId, ResourceId, or GroupId, or Username, Resourcename, or
+  Groupname. The following identity formats are available:   Entity ID:
+  12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+  S-1-1-12-1234567890-123456789-123456789-1234   Entity name: entity
 - `organization_id`: The identifier for the organization under which the user, group, or
   resource exists.
 
 """
-function register_to_work_mail(
+register_to_work_mail(
     Email, EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "RegisterToWorkMail",
+    Dict{String,Any}(
+        "Email" => Email, "EntityId" => EntityId, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "RegisterToWorkMail",
-        Dict{String,Any}(
-            "Email" => Email, "EntityId" => EntityId, "OrganizationId" => OrganizationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_to_work_mail(
     Email,
     EntityId,
@@ -3235,18 +3268,16 @@ Allows the administrator to reset the password for a user.
 - `user_id`: The identifier of the user for whom the password is reset.
 
 """
-function reset_password(
+reset_password(
     OrganizationId, Password, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "ResetPassword",
+    Dict{String,Any}(
+        "OrganizationId" => OrganizationId, "Password" => Password, "UserId" => UserId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "ResetPassword",
-        Dict{String,Any}(
-            "OrganizationId" => OrganizationId, "Password" => Password, "UserId" => UserId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function reset_password(
     OrganizationId,
     Password,
@@ -3282,7 +3313,12 @@ For more information, see Exporting mailbox content in the WorkMail Administrato
 
 # Arguments
 - `client_token`: The idempotency token for the client request.
-- `entity_id`: The identifier of the user or resource associated with the mailbox.
+- `entity_id`: The identifier of the user or resource associated with the mailbox. The
+  identifier can accept UserId or ResourceId, Username or Resourcename, or email. The
+  following identity formats are available:   Entity ID:
+  12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789 , or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity
+  name: entity
 - `kms_key_arn`: The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service
   (AWS KMS) key that encrypts the exported mailbox content.
 - `organization_id`: The identifier associated with the organization.
@@ -3295,7 +3331,7 @@ For more information, see Exporting mailbox content in the WorkMail Administrato
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The mailbox export job description.
 """
-function start_mailbox_export_job(
+start_mailbox_export_job(
     ClientToken,
     EntityId,
     KmsKeyArn,
@@ -3304,22 +3340,20 @@ function start_mailbox_export_job(
     S3BucketName,
     S3Prefix;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workmail(
+    "StartMailboxExportJob",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "EntityId" => EntityId,
+        "KmsKeyArn" => KmsKeyArn,
+        "OrganizationId" => OrganizationId,
+        "RoleArn" => RoleArn,
+        "S3BucketName" => S3BucketName,
+        "S3Prefix" => S3Prefix,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "StartMailboxExportJob",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "EntityId" => EntityId,
-            "KmsKeyArn" => KmsKeyArn,
-            "OrganizationId" => OrganizationId,
-            "RoleArn" => RoleArn,
-            "S3BucketName" => S3BucketName,
-            "S3Prefix" => S3Prefix,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_mailbox_export_job(
     ClientToken,
     EntityId,
@@ -3364,14 +3398,13 @@ Applies the specified tags to the specified WorkMailorganization resource.
 - `tags`: The tag key-value pairs.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return workmail(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -3415,16 +3448,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EwsProvider"`:
 - `"LambdaProvider"`:
 """
-function test_availability_configuration(
+test_availability_configuration(
     OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "TestAvailabilityConfiguration",
+    Dict{String,Any}("OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "TestAvailabilityConfiguration",
-        Dict{String,Any}("OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function test_availability_configuration(
     OrganizationId,
     params::AbstractDict{String};
@@ -3451,16 +3482,13 @@ Untags the specified tags from the specified WorkMail organization resource.
 - `tag_keys`: The tag keys.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workmail(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -3502,16 +3530,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exactly one provider definition, either EwsProvider or LambdaProvider. The previously
   stored provider will be overridden by the one provided.
 """
-function update_availability_configuration(
+update_availability_configuration(
     DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "UpdateAvailabilityConfiguration",
+    Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "UpdateAvailabilityConfiguration",
-        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_availability_configuration(
     DomainName,
     OrganizationId,
@@ -3547,16 +3573,14 @@ have one default domain.
 - `organization_id`: The WorkMail organization for which to list domains.
 
 """
-function update_default_mail_domain(
+update_default_mail_domain(
     DomainName, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "UpdateDefaultMailDomain",
+    Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "UpdateDefaultMailDomain",
-        Dict{String,Any}("DomainName" => DomainName, "OrganizationId" => OrganizationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_default_mail_domain(
     DomainName,
     OrganizationId,
@@ -3571,6 +3595,51 @@ function update_default_mail_domain(
                 Dict{String,Any}(
                     "DomainName" => DomainName, "OrganizationId" => OrganizationId
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_group(group_id, organization_id)
+    update_group(group_id, organization_id, params::Dict{String,<:Any})
+
+Updates attibutes in a group.
+
+# Arguments
+- `group_id`: The identifier for the group to be updated. The identifier can accept
+  GroupId, Groupname, or email. The following identity formats are available:   Group ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: group@domain.tld   Group name: group
+- `organization_id`: The identifier for the organization under which the group exists.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HiddenFromGlobalAddressList"`: If enabled, the group is hidden from the global address
+  list.
+"""
+update_group(GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
+        "UpdateGroup",
+        Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_group(
+    GroupId,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "UpdateGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId),
                 params,
             ),
         );
@@ -3597,27 +3666,25 @@ Updates an impersonation role for the given WorkMail organization.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The updated impersonation role description.
 """
-function update_impersonation_role(
+update_impersonation_role(
     ImpersonationRoleId,
     Name,
     OrganizationId,
     Rules,
     Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workmail(
+    "UpdateImpersonationRole",
+    Dict{String,Any}(
+        "ImpersonationRoleId" => ImpersonationRoleId,
+        "Name" => Name,
+        "OrganizationId" => OrganizationId,
+        "Rules" => Rules,
+        "Type" => Type,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "UpdateImpersonationRole",
-        Dict{String,Any}(
-            "ImpersonationRoleId" => ImpersonationRoleId,
-            "Name" => Name,
-            "OrganizationId" => OrganizationId,
-            "Rules" => Rules,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_impersonation_role(
     ImpersonationRoleId,
     Name,
@@ -3657,23 +3724,25 @@ Updates a user's current mailbox quota for a specified organization and user.
 - `mailbox_quota`: The updated mailbox quota, in MB, for the specified user.
 - `organization_id`: The identifier for the organization that contains the user for whom to
   update the mailbox quota.
-- `user_id`: The identifer for the user for whom to update the mailbox quota.
+- `user_id`: The identifer for the user for whom to update the mailbox quota. The
+  identifier can be the UserId, Username, or email. The following identity formats are
+  available:   User ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name:
+  user
 
 """
-function update_mailbox_quota(
+update_mailbox_quota(
     MailboxQuota, OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "UpdateMailboxQuota",
+    Dict{String,Any}(
+        "MailboxQuota" => MailboxQuota,
+        "OrganizationId" => OrganizationId,
+        "UserId" => UserId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "UpdateMailboxQuota",
-        Dict{String,Any}(
-            "MailboxQuota" => MailboxQuota,
-            "OrganizationId" => OrganizationId,
-            "UserId" => UserId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_mailbox_quota(
     MailboxQuota,
     OrganizationId,
@@ -3727,25 +3796,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotDeviceUserAgents"`: User agents that the updated rule will not match. All other user
   agents will match.
 """
-function update_mobile_device_access_rule(
+update_mobile_device_access_rule(
     Effect,
     MobileDeviceAccessRuleId,
     Name,
     OrganizationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workmail(
+    "UpdateMobileDeviceAccessRule",
+    Dict{String,Any}(
+        "Effect" => Effect,
+        "MobileDeviceAccessRuleId" => MobileDeviceAccessRuleId,
+        "Name" => Name,
+        "OrganizationId" => OrganizationId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "UpdateMobileDeviceAccessRule",
-        Dict{String,Any}(
-            "Effect" => Effect,
-            "MobileDeviceAccessRuleId" => MobileDeviceAccessRuleId,
-            "Name" => Name,
-            "OrganizationId" => OrganizationId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_mobile_device_access_rule(
     Effect,
     MobileDeviceAccessRuleId,
@@ -3783,22 +3850,24 @@ and the email provided in the input is promoted as the primary.
 
 # Arguments
 - `email`: The value of the email to be updated as primary.
-- `entity_id`: The user, group, or resource to update.
+- `entity_id`: The user, group, or resource to update. The identifier can accept UseriD,
+  ResourceId, or GroupId, Username, Resourcename, or Groupname, or email. The following
+  identity formats are available:   Entity ID: 12345678-1234-1234-1234-123456789012,
+  r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email
+  address: entity@domain.tld   Entity name: entity
 - `organization_id`: The organization that contains the user, group, or resource to update.
 
 """
-function update_primary_email_address(
+update_primary_email_address(
     Email, EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "UpdatePrimaryEmailAddress",
+    Dict{String,Any}(
+        "Email" => Email, "EntityId" => EntityId, "OrganizationId" => OrganizationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "UpdatePrimaryEmailAddress",
-        Dict{String,Any}(
-            "Email" => Email, "EntityId" => EntityId, "OrganizationId" => OrganizationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_primary_email_address(
     Email,
     EntityId,
@@ -3835,23 +3904,28 @@ performing another DescribeResource call.
 # Arguments
 - `organization_id`: The identifier associated with the organization for which the resource
   is updated.
-- `resource_id`: The identifier of the resource to be updated.
+- `resource_id`: The identifier of the resource to be updated. The identifier can accept
+  ResourceId, Resourcename, or email. The following identity formats are available:
+  Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld
+  Resource name: resource
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BookingOptions"`: The resource's booking options to be updated.
+- `"Description"`: Updates the resource description.
+- `"HiddenFromGlobalAddressList"`: If enabled, the resource is hidden from the global
+  address list.
 - `"Name"`: The name of the resource to be updated.
+- `"Type"`: Updates the resource type.
 """
-function update_resource(
+update_resource(
     OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workmail(
+    "UpdateResource",
+    Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workmail(
-        "UpdateResource",
-        Dict{String,Any}("OrganizationId" => OrganizationId, "ResourceId" => ResourceId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_resource(
     OrganizationId,
     ResourceId,
@@ -3866,6 +3940,67 @@ function update_resource(
                 Dict{String,Any}(
                     "OrganizationId" => OrganizationId, "ResourceId" => ResourceId
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_user(organization_id, user_id)
+    update_user(organization_id, user_id, params::Dict{String,<:Any})
+
+Updates data for the user. To have the latest information, it must be preceded by a
+DescribeUser call. The dataset in the request should be the one expected when performing
+another DescribeUser call.
+
+# Arguments
+- `organization_id`: The identifier for the organization under which the user exists.
+- `user_id`: The identifier for the user to be updated. The identifier can be the UserId,
+  Username, or email. The following identity formats are available:   User ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: user@domain.tld   User name: user
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"City"`: Updates the user's city.
+- `"Company"`: Updates the user's company.
+- `"Country"`: Updates the user's country.
+- `"Department"`: Updates the user's department.
+- `"DisplayName"`: Updates the display name of the user.
+- `"FirstName"`: Updates the user's first name.
+- `"HiddenFromGlobalAddressList"`: If enabled, the user is hidden from the global address
+  list.
+- `"Initials"`: Updates the user's initials.
+- `"JobTitle"`: Updates the user's job title.
+- `"LastName"`: Updates the user's last name.
+- `"Office"`: Updates the user's office.
+- `"Role"`: Updates the user role. You cannot pass SYSTEM_USER or RESOURCE.
+- `"Street"`: Updates the user's street address.
+- `"Telephone"`: Updates the user's contact details.
+- `"ZipCode"`: Updates the user's zipcode.
+"""
+update_user(OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workmail(
+        "UpdateUser",
+        Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_user(
+    OrganizationId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "UpdateUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId),
                 params,
             ),
         );

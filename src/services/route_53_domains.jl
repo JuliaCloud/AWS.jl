@@ -24,16 +24,14 @@ from Aws Account 111122223333 has been cancelled.
   request.
 
 """
-function accept_domain_transfer_from_another_aws_account(
+accept_domain_transfer_from_another_aws_account(
     DomainName, Password; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "AcceptDomainTransferFromAnotherAwsAccount",
+    Dict{String,Any}("DomainName" => DomainName, "Password" => Password);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "AcceptDomainTransferFromAnotherAwsAccount",
-        Dict{String,Any}("DomainName" => DomainName, "Password" => Password);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function accept_domain_transfer_from_another_aws_account(
     DomainName,
     Password,
@@ -70,18 +68,14 @@ see Configuring DNSSEC signing in the Route 53 developer guide.
   key-value, and flags.
 
 """
-function associate_delegation_signer_to_domain(
+associate_delegation_signer_to_domain(
     DomainName, SigningAttributes; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "AssociateDelegationSignerToDomain",
+    Dict{String,Any}("DomainName" => DomainName, "SigningAttributes" => SigningAttributes);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "AssociateDelegationSignerToDomain",
-        Dict{String,Any}(
-            "DomainName" => DomainName, "SigningAttributes" => SigningAttributes
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_delegation_signer_to_domain(
     DomainName,
     SigningAttributes,
@@ -121,16 +115,14 @@ information, for example, Domain Transfer from Aws Account 111122223333 has been
   another Amazon Web Services account.
 
 """
-function cancel_domain_transfer_to_another_aws_account(
+cancel_domain_transfer_to_another_aws_account(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "CancelDomainTransferToAnotherAwsAccount",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "CancelDomainTransferToAnotherAwsAccount",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_domain_transfer_to_another_aws_account(
     DomainName,
     params::AbstractDict{String};
@@ -170,16 +162,13 @@ availability of the domain name.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IdnLangCode"`: Reserved for future use.
 """
-function check_domain_availability(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route_53_domains(
+check_domain_availability(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "CheckDomainAvailability",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function check_domain_availability(
     DomainName,
     params::AbstractDict{String};
@@ -216,16 +205,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   code to transfer the domain, the code that you got from the current registrar for the
   domain.
 """
-function check_domain_transferability(
+check_domain_transferability(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "CheckDomainTransferability",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "CheckDomainTransferability",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function check_domain_transferability(
     DomainName,
     params::AbstractDict{String};
@@ -259,14 +246,13 @@ noreply@domainnameverification.net or noreply@registrar.amazon.com.
 - `domain_name`: Name of the domain to be deleted.
 
 """
-function delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return route_53_domains(
+delete_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "DeleteDomain",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_domain(
     DomainName,
     params::AbstractDict{String};
@@ -294,16 +280,14 @@ consistent; subsequent operations might not immediately represent all issued ope
 - `tags_to_delete`: A list of tag keys to delete.
 
 """
-function delete_tags_for_domain(
+delete_tags_for_domain(
     DomainName, TagsToDelete; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "DeleteTagsForDomain",
+    Dict{String,Any}("DomainName" => DomainName, "TagsToDelete" => TagsToDelete);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "DeleteTagsForDomain",
-        Dict{String,Any}("DomainName" => DomainName, "TagsToDelete" => TagsToDelete);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_tags_for_domain(
     DomainName,
     TagsToDelete,
@@ -336,16 +320,13 @@ This operation disables automatic renewal of domain registration for the specifi
 - `domain_name`: The name of the domain that you want to disable automatic renewal for.
 
 """
-function disable_domain_auto_renew(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route_53_domains(
+disable_domain_auto_renew(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "DisableDomainAutoRenew",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disable_domain_auto_renew(
     DomainName,
     params::AbstractDict{String};
@@ -376,16 +357,14 @@ registrant will be notified by email.
 - `domain_name`: The name of the domain that you want to remove the transfer lock for.
 
 """
-function disable_domain_transfer_lock(
+disable_domain_transfer_lock(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "DisableDomainTransferLock",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "DisableDomainTransferLock",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_domain_transfer_lock(
     DomainName,
     params::AbstractDict{String};
@@ -413,16 +392,14 @@ Deletes a delegation signer (DS) record in the registry zone for this domain nam
   You can retrieve it as part of DNSSEC information returned by GetDomainDetail.
 
 """
-function disassociate_delegation_signer_from_domain(
+disassociate_delegation_signer_from_domain(
     DomainName, Id; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "DisassociateDelegationSignerFromDomain",
+    Dict{String,Any}("DomainName" => DomainName, "Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "DisassociateDelegationSignerFromDomain",
-        Dict{String,Any}("DomainName" => DomainName, "Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_delegation_signer_from_domain(
     DomainName,
     Id,
@@ -457,16 +434,13 @@ the deadline.
 - `domain_name`: The name of the domain that you want to enable automatic renewal for.
 
 """
-function enable_domain_auto_renew(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route_53_domains(
+enable_domain_auto_renew(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "EnableDomainAutoRenew",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function enable_domain_auto_renew(
     DomainName,
     params::AbstractDict{String};
@@ -495,16 +469,13 @@ request is not completed successfully, the domain registrant will be notified by
 - `domain_name`: The name of the domain that you want to set the transfer lock for.
 
 """
-function enable_domain_transfer_lock(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route_53_domains(
+enable_domain_transfer_lock(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "EnableDomainTransferLock",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function enable_domain_transfer_lock(
     DomainName,
     params::AbstractDict{String};
@@ -534,15 +505,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`: The name of the domain for which you want to know whether the registrant
   contact has confirmed that the email address is valid.
 """
-function get_contact_reachability_status(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route_53_domains(
+get_contact_reachability_status(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "GetContactReachabilityStatus";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_contact_reachability_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -566,14 +534,13 @@ returned as part of the output.
 - `domain_name`: The name of the domain that you want to get detailed information about.
 
 """
-function get_domain_detail(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return route_53_domains(
+get_domain_detail(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "GetDomainDetail",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_domain_detail(
     DomainName,
     params::AbstractDict{String};
@@ -614,23 +581,21 @@ The GetDomainSuggestions operation returns a list of suggested domain names.
   return. Specify a value between 1 and 50.
 
 """
-function get_domain_suggestions(
+get_domain_suggestions(
     DomainName,
     OnlyAvailable,
     SuggestionCount;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = route_53_domains(
+    "GetDomainSuggestions",
+    Dict{String,Any}(
+        "DomainName" => DomainName,
+        "OnlyAvailable" => OnlyAvailable,
+        "SuggestionCount" => SuggestionCount,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "GetDomainSuggestions",
-        Dict{String,Any}(
-            "DomainName" => DomainName,
-            "OnlyAvailable" => OnlyAvailable,
-            "SuggestionCount" => SuggestionCount,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_domain_suggestions(
     DomainName,
     OnlyAvailable,
@@ -667,16 +632,13 @@ This operation returns the current status of an operation that is not completed.
   Route 53 returned the identifier in the response to the original request.
 
 """
-function get_operation_detail(
-    OperationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route_53_domains(
+get_operation_detail(OperationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "GetOperationDetail",
         Dict{String,Any}("OperationId" => OperationId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_operation_detail(
     OperationId,
     params::AbstractDict{String};
@@ -714,11 +676,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortCondition"`: A complex type that contains information about the requested ordering
   of domains in the returned list.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route_53_domains(
-        "ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -744,18 +703,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of NextPageMarker in the Marker element.
 - `"MaxItems"`: Number of domains to be returned. Default: 20
 - `"SortBy"`:  The sort type for returned values.
-- `"SortOrder"`:  The sort order ofr returned values, either ascending or descending.
+- `"SortOrder"`:  The sort order for returned values, either ascending or descending.
 - `"Status"`:  The status of the operations.
 - `"SubmittedSince"`: An optional parameter that lets you get information about all the
   operations that you submitted after a specified date and time. Specify the date and time in
   Unix time format and Coordinated Universal time (UTC).
 - `"Type"`:  An arrays of the domains operation types.
 """
-function list_operations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route_53_domains(
-        "ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_operations(; aws_config::AbstractAWSConfig=global_aws_config()) = route_53_domains(
+    "ListOperations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_operations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -785,11 +742,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   .net. If a Tld value is not provided, a list of prices for all TLDs supported by Route 53
   is returned.
 """
-function list_prices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route_53_domains(
-        "ListPrices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_prices(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains("ListPrices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_prices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -810,14 +764,13 @@ represent all issued operations.
 - `domain_name`: The domain for which you want to get a list of tags.
 
 """
-function list_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
-    return route_53_domains(
+list_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "ListTagsForDomain",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -846,14 +799,13 @@ domain is ready to be transferred to another registrar.
 - `target`:  New IPS tag for the domain.
 
 """
-function push_domain(DomainName, Target; aws_config::AbstractAWSConfig=global_aws_config())
-    return route_53_domains(
+push_domain(DomainName, Target; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "PushDomain",
         Dict{String,Any}("DomainName" => DomainName, "Target" => Target);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function push_domain(
     DomainName,
     Target,
@@ -878,24 +830,22 @@ end
     register_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact)
     register_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact, params::Dict{String,<:Any})
 
-This operation registers a domain. Domains are registered either by Amazon Registrar (for
-.com, .net, and .org domains) or by our registrar associate, Gandi (for all other domains).
-For some top-level domains (TLDs), this operation requires extra parameters. When you
-register a domain, Amazon Route 53 does the following:   Creates a Route 53 hosted zone
-that has the same name as the domain. Route 53 assigns four name servers to your hosted
-zone and automatically updates your domain registration with the names of these name
-servers.   Enables auto renew, so your domain registration will renew automatically each
-year. We'll notify you in advance of the renewal date so you can choose whether to renew
-the registration.   Optionally enables privacy protection, so WHOIS queries return contact
-information either for Amazon Registrar (for .com, .net, and .org domains) or for our
-registrar associate, Gandi (for all other TLDs). If you don't enable privacy protection,
-WHOIS queries return the information that you entered for the administrative, registrant,
-and technical contacts.  You must specify the same privacy setting for the administrative,
-registrant, and technical contacts.    If registration is successful, returns an operation
-ID that you can use to track the progress and completion of the action. If the request is
-not completed successfully, the domain registrant is notified by email.   Charges your
-Amazon Web Services account an amount based on the top-level domain. For more information,
-see Amazon Route 53 Pricing.
+This operation registers a domain. For some top-level domains (TLDs), this operation
+requires extra parameters. When you register a domain, Amazon Route 53 does the following:
+ Creates a Route 53 hosted zone that has the same name as the domain. Route 53 assigns four
+name servers to your hosted zone and automatically updates your domain registration with
+the names of these name servers.   Enables auto renew, so your domain registration will
+renew automatically each year. We'll notify you in advance of the renewal date so you can
+choose whether to renew the registration.   Optionally enables privacy protection, so WHOIS
+queries return contact for the registrar or the phrase \"REDACTED FOR PRIVACY\", or \"On
+behalf of &lt;domain name&gt; owner.\" If you don't enable privacy protection, WHOIS
+queries return the information that you entered for the administrative, registrant, and
+technical contacts.  While some domains may allow different privacy settings per contact,
+we recommend specifying the same privacy setting for all contacts.    If registration is
+successful, returns an operation ID that you can use to track the progress and completion
+of the action. If the request is not completed successfully, the domain registrant is
+notified by email.   Charges your Amazon Web Services account an amount based on the
+top-level domain. For more information, see Amazon Route 53 Pricing.
 
 # Arguments
 - `admin_contact`: Provides detailed contact information. For information about the values
@@ -923,48 +873,53 @@ see Amazon Route 53 Pricing.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoRenew"`: Indicates whether the domain will be automatically renewed (true) or not
   (false). Auto renewal only takes effect after the account is charged. Default: true
+- `"BillingContact"`: Provides detailed contact information. For information about the
+  values that you specify for each element, see ContactDetail.
 - `"IdnLangCode"`: Reserved for future use.
 - `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
-  either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
-  associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the admin contact.  You must specify the same privacy
-  setting for the administrative, registrant, and technical contacts.  Default: true
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify false,
+  WHOIS queries return the information that you entered for the admin contact.  You must
+  specify the same privacy setting for the administrative, billing, registrant, and technical
+  contacts.  Default: true
+- `"PrivacyProtectBillingContact"`: Whether you want to conceal contact information from
+  WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify false,
+  WHOIS queries return the information that you entered for the billing contact.  You must
+  specify the same privacy setting for the administrative, billing, registrant, and technical
+  contacts.
 - `"PrivacyProtectRegistrantContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
-  either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
-  associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the registrant contact (the domain owner).  You must
-  specify the same privacy setting for the administrative, registrant, and technical
-  contacts.  Default: true
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify false,
+  WHOIS queries return the information that you entered for the registrant contact (the
+  domain owner).  You must specify the same privacy setting for the administrative, billing,
+  registrant, and technical contacts.  Default: true
 - `"PrivacyProtectTechContact"`: Whether you want to conceal contact information from WHOIS
   queries. If you specify true, WHOIS (\"who is\") queries return contact information either
-  for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
-  Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that
-  you entered for the technical contact.  You must specify the same privacy setting for the
-  administrative, registrant, and technical contacts.  Default: true
+  for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS
+  queries return the information that you entered for the technical contact.  You must
+  specify the same privacy setting for the administrative, billing, registrant, and technical
+  contacts.  Default: true
 """
-function register_domain(
+register_domain(
     AdminContact,
     DomainName,
     DurationInYears,
     RegistrantContact,
     TechContact;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = route_53_domains(
+    "RegisterDomain",
+    Dict{String,Any}(
+        "AdminContact" => AdminContact,
+        "DomainName" => DomainName,
+        "DurationInYears" => DurationInYears,
+        "RegistrantContact" => RegistrantContact,
+        "TechContact" => TechContact,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "RegisterDomain",
-        Dict{String,Any}(
-            "AdminContact" => AdminContact,
-            "DomainName" => DomainName,
-            "DurationInYears" => DurationInYears,
-            "RegistrantContact" => RegistrantContact,
-            "TechContact" => TechContact,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_domain(
     AdminContact,
     DomainName,
@@ -1009,16 +964,14 @@ information, for example, Domain Transfer from Aws Account 111122223333 has been
   account submitted a TransferDomainToAnotherAwsAccount request.
 
 """
-function reject_domain_transfer_from_another_aws_account(
+reject_domain_transfer_from_another_aws_account(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "RejectDomainTransferFromAnotherAwsAccount",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "RejectDomainTransferFromAnotherAwsAccount",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function reject_domain_transfer_from_another_aws_account(
     DomainName,
     params::AbstractDict{String};
@@ -1057,18 +1010,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   your domain, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53
   Developer Guide. Default: 1
 """
-function renew_domain(
+renew_domain(
     CurrentExpiryYear, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "RenewDomain",
+    Dict{String,Any}("CurrentExpiryYear" => CurrentExpiryYear, "DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "RenewDomain",
-        Dict{String,Any}(
-            "CurrentExpiryYear" => CurrentExpiryYear, "DomainName" => DomainName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function renew_domain(
     CurrentExpiryYear,
     DomainName,
@@ -1104,15 +1053,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainName"`: The name of the domain for which you want Route 53 to resend a
   confirmation email to the registrant contact.
 """
-function resend_contact_reachability_email(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route_53_domains(
+resend_contact_reachability_email(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "ResendContactReachabilityEmail";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function resend_contact_reachability_email(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1134,16 +1080,14 @@ end
 - `operation_id`:  Operation ID.
 
 """
-function resend_operation_authorization(
+resend_operation_authorization(
     OperationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "ResendOperationAuthorization",
+    Dict{String,Any}("OperationId" => OperationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "ResendOperationAuthorization",
-        Dict{String,Any}("OperationId" => OperationId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function resend_operation_authorization(
     OperationId,
     params::AbstractDict{String};
@@ -1170,16 +1114,13 @@ another registrar, you provide this value to the new registrar.
 - `domain_name`: The name of the domain that you want to get an authorization code for.
 
 """
-function retrieve_domain_auth_code(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route_53_domains(
+retrieve_domain_auth_code(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "RetrieveDomainAuthCode",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function retrieve_domain_auth_code(
     DomainName,
     params::AbstractDict{String};
@@ -1199,27 +1140,28 @@ end
     transfer_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact)
     transfer_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact, params::Dict{String,<:Any})
 
-Transfers a domain from another registrar to Amazon Route 53. When the transfer is
-complete, the domain is registered either with Amazon Registrar (for .com, .net, and .org
-domains) or with our registrar associate, Gandi (for all other TLDs). For more information
-about transferring domains, see the following topics:   For transfer requirements, a
-detailed procedure, and information about viewing the status of a domain that you're
-transferring to Route 53, see Transferring Registration for a Domain to Amazon Route 53 in
-the Amazon Route 53 Developer Guide.   For information about how to transfer a domain from
-one Amazon Web Services account to another, see TransferDomainToAnotherAwsAccount.    For
-information about how to transfer a domain to another domain registrar, see Transferring a
-Domain from Amazon Route 53 to Another Registrar in the Amazon Route 53 Developer Guide.
-If the registrar for your domain is also the DNS service provider for the domain, we highly
-recommend that you transfer your DNS service to Route 53 or to another DNS service provider
-before you transfer your registration. Some registrars provide free DNS service when you
-purchase a domain registration. When you transfer the registration, the previous registrar
-will not renew your domain registration and could end your DNS service at any time.  If the
-registrar for your domain is also the DNS service provider for the domain and you don't
-transfer DNS service to another provider, your website, email, and the web applications
-associated with the domain might become unavailable.  If the transfer is successful, this
-method returns an operation ID that you can use to track the progress and completion of the
-action. If the transfer doesn't complete successfully, the domain registrant will be
-notified by email.
+Transfers a domain from another registrar to Amazon Route 53.  For more information about
+transferring domains, see the following topics:   For transfer requirements, a detailed
+procedure, and information about viewing the status of a domain that you're transferring to
+Route 53, see Transferring Registration for a Domain to Amazon Route 53 in the Amazon Route
+53 Developer Guide.   For information about how to transfer a domain from one Amazon Web
+Services account to another, see TransferDomainToAnotherAwsAccount.    For information
+about how to transfer a domain to another domain registrar, see Transferring a Domain from
+Amazon Route 53 to Another Registrar in the Amazon Route 53 Developer Guide.    During the
+transfer of any country code top-level domains (ccTLDs) to Route 53, except for .cc and
+.tv, updates to the owner contact are ignored and the owner contact data from the registry
+is used. You can update the owner contact after the transfer is complete. For more
+information, see UpdateDomainContact.  If the registrar for your domain is also the DNS
+service provider for the domain, we highly recommend that you transfer your DNS service to
+Route 53 or to another DNS service provider before you transfer your registration. Some
+registrars provide free DNS service when you purchase a domain registration. When you
+transfer the registration, the previous registrar will not renew your domain registration
+and could end your DNS service at any time.  If the registrar for your domain is also the
+DNS service provider for the domain and you don't transfer DNS service to another provider,
+your website, email, and the web applications associated with the domain might become
+unavailable.  If the transfer is successful, this method returns an operation ID that you
+can use to track the progress and completion of the action. If the transfer doesn't
+complete successfully, the domain registrant will be notified by email.
 
 # Arguments
 - `admin_contact`: Provides detailed contact information.
@@ -1242,49 +1184,52 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registrar.
 - `"AutoRenew"`: Indicates whether the domain will be automatically renewed (true) or not
   (false). Auto renewal only takes effect after the account is charged. Default: true
+- `"BillingContact"`: Provides detailed contact information.
 - `"IdnLangCode"`: Reserved for future use.
 - `"Nameservers"`: Contains details for the host and glue IP addresses.
 - `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
-  either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
-  associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the admin contact.  You must specify the same privacy
-  setting for the administrative, registrant, and technical contacts.  Default: true
+  for the registrar, the phrase \"REDACTED FOR PRIVACY\", or \"On behalf of &lt;domain
+  name&gt; owner.\".  While some domains may allow different privacy settings per contact, we
+  recommend specifying the same privacy setting for all contacts.  Default: true
+- `"PrivacyProtectBillingContact"`:  Whether you want to conceal contact information from
+  WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify false,
+  WHOIS queries return the information that you entered for the billing contact.   You must
+  specify the same privacy setting for the administrative, billing, registrant, and technical
+  contacts.
 - `"PrivacyProtectRegistrantContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
-  either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
-  associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the registrant contact (domain owner).  You must specify
-  the same privacy setting for the administrative, registrant, and technical contacts.
-  Default: true
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify false,
+  WHOIS queries return the information that you entered for the registrant contact (domain
+  owner).  You must specify the same privacy setting for the administrative, billing,
+  registrant, and technical contacts.  Default: true
 - `"PrivacyProtectTechContact"`: Whether you want to conceal contact information from WHOIS
   queries. If you specify true, WHOIS (\"who is\") queries return contact information either
-  for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
-  Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that
-  you entered for the technical contact.  You must specify the same privacy setting for the
-  administrative, registrant, and technical contacts.  Default: true
+  for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS
+  queries return the information that you entered for the technical contact.  You must
+  specify the same privacy setting for the administrative, billing, registrant, and technical
+  contacts.  Default: true
 """
-function transfer_domain(
+transfer_domain(
     AdminContact,
     DomainName,
     DurationInYears,
     RegistrantContact,
     TechContact;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = route_53_domains(
+    "TransferDomain",
+    Dict{String,Any}(
+        "AdminContact" => AdminContact,
+        "DomainName" => DomainName,
+        "DurationInYears" => DurationInYears,
+        "RegistrantContact" => RegistrantContact,
+        "TechContact" => TechContact,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "TransferDomain",
-        Dict{String,Any}(
-            "AdminContact" => AdminContact,
-            "DomainName" => DomainName,
-            "DurationInYears" => DurationInYears,
-            "RegistrantContact" => RegistrantContact,
-            "TechContact" => TechContact,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function transfer_domain(
     AdminContact,
     DomainName,
@@ -1341,16 +1286,14 @@ information, for example, Domain Transfer from Aws Account 111122223333 has been
   Web Services account to another account.
 
 """
-function transfer_domain_to_another_aws_account(
+transfer_domain_to_another_aws_account(
     AccountId, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "TransferDomainToAnotherAwsAccount",
+    Dict{String,Any}("AccountId" => AccountId, "DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "TransferDomainToAnotherAwsAccount",
-        Dict{String,Any}("AccountId" => AccountId, "DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function transfer_domain_to_another_aws_account(
     AccountId,
     DomainName,
@@ -1387,20 +1330,19 @@ domain registrant will be notified by email.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AdminContact"`: Provides detailed contact information.
-- `"Consent"`:  Customer's consent for the owner change request.
+- `"BillingContact"`: Provides detailed contact information.
+- `"Consent"`:  Customer's consent for the owner change request. Required if the domain is
+  not free (consent price is more than 0.00).
 - `"RegistrantContact"`: Provides detailed contact information.
 - `"TechContact"`: Provides detailed contact information.
 """
-function update_domain_contact(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route_53_domains(
+update_domain_contact(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "UpdateDomainContact",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_domain_contact(
     DomainName,
     params::AbstractDict{String};
@@ -1421,11 +1363,11 @@ end
     update_domain_contact_privacy(domain_name, params::Dict{String,<:Any})
 
 This operation updates the specified domain contact's privacy setting. When privacy
-protection is enabled, contact information such as email address is replaced either with
-contact information for Amazon Registrar (for .com, .net, and .org domains) or with contact
-information for our registrar associate, Gandi.  You must specify the same privacy setting
-for the administrative, registrant, and technical contacts.  This operation affects only
-the contact information for the specified contact type (administrative, registrant, or
+protection is enabled, your contact information is replaced with contact information for
+the registrar or with the phrase \"REDACTED FOR PRIVACY\", or \"On behalf of &lt;domain
+name&gt; owner.\"  While some domains may allow different privacy settings per contact, we
+recommend specifying the same privacy setting for all contacts.  This operation affects
+only the contact information for the specified contact type (administrative, registrant, or
 technical). If the request succeeds, Amazon Route 53 returns an operation ID that you can
 use with GetOperationDetail to track the progress and completion of the action. If the
 request doesn't complete successfully, the domain registrant will be notified by email.  By
@@ -1444,33 +1386,34 @@ on our privacy practices, see https://aws.amazon.com/privacy/.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AdminPrivacy"`: Whether you want to conceal contact information from WHOIS queries. If
   you specify true, WHOIS (\"who is\") queries return contact information either for Amazon
-  Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all
-  other TLDs). If you specify false, WHOIS queries return the information that you entered
-  for the admin contact.  You must specify the same privacy setting for the administrative,
-  registrant, and technical contacts.
+  Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return
+  the information that you entered for the admin contact.  You must specify the same privacy
+  setting for the administrative, billing, registrant, and technical contacts.
+- `"BillingPrivacy"`:  Whether you want to conceal contact information from WHOIS queries.
+  If you specify true, WHOIS (\"who is\") queries return contact information either for
+  Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries
+  return the information that you entered for the billing contact.   You must specify the
+  same privacy setting for the administrative, billing, registrant, and technical contacts.
 - `"RegistrantPrivacy"`: Whether you want to conceal contact information from WHOIS
   queries. If you specify true, WHOIS (\"who is\") queries return contact information either
-  for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
-  Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that
-  you entered for the registrant contact (domain owner).  You must specify the same privacy
-  setting for the administrative, registrant, and technical contacts.
+  for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS
+  queries return the information that you entered for the registrant contact (domain owner).
+  You must specify the same privacy setting for the administrative, billing, registrant, and
+  technical contacts.
 - `"TechPrivacy"`: Whether you want to conceal contact information from WHOIS queries. If
   you specify true, WHOIS (\"who is\") queries return contact information either for Amazon
-  Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all
-  other TLDs). If you specify false, WHOIS queries return the information that you entered
-  for the technical contact.  You must specify the same privacy setting for the
-  administrative, registrant, and technical contacts.
+  Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return
+  the information that you entered for the technical contact.  You must specify the same
+  privacy setting for the administrative, billing, registrant, and technical contacts.
 """
-function update_domain_contact_privacy(
+update_domain_contact_privacy(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "UpdateDomainContactPrivacy",
+    Dict{String,Any}("DomainName" => DomainName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "UpdateDomainContactPrivacy",
-        Dict{String,Any}("DomainName" => DomainName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_domain_contact_privacy(
     DomainName,
     params::AbstractDict{String};
@@ -1505,16 +1448,14 @@ notified by email.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"FIAuthKey"`: The authorization key for .fi domains
 """
-function update_domain_nameservers(
+update_domain_nameservers(
     DomainName, Nameservers; aws_config::AbstractAWSConfig=global_aws_config()
+) = route_53_domains(
+    "UpdateDomainNameservers",
+    Dict{String,Any}("DomainName" => DomainName, "Nameservers" => Nameservers);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return route_53_domains(
-        "UpdateDomainNameservers",
-        Dict{String,Any}("DomainName" => DomainName, "Nameservers" => Nameservers);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_domain_nameservers(
     DomainName,
     Nameservers,
@@ -1551,16 +1492,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TagsToUpdate"`: A list of the tag keys and values that you want to add or update. If
   you specify a key that already exists, the corresponding value will be replaced.
 """
-function update_tags_for_domain(
-    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return route_53_domains(
+update_tags_for_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains(
         "UpdateTagsForDomain",
         Dict{String,Any}("DomainName" => DomainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_tags_for_domain(
     DomainName,
     params::AbstractDict{String};
@@ -1599,11 +1537,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   billing records. Specify the date and time in Unix time format and Coordinated Universal
   time (UTC).
 """
-function view_billing(; aws_config::AbstractAWSConfig=global_aws_config())
-    return route_53_domains(
-        "ViewBilling"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+view_billing(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    route_53_domains("ViewBilling"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function view_billing(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

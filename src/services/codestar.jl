@@ -25,18 +25,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"remoteAccessAllowed"`: Whether the team member is allowed to use an SSH public/private
   key pair to remotely access project resources, for example Amazon EC2 instances.
 """
-function associate_team_member(
+associate_team_member(
     projectId, projectRole, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = codestar(
+    "AssociateTeamMember",
+    Dict{String,Any}(
+        "projectId" => projectId, "projectRole" => projectRole, "userArn" => userArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codestar(
-        "AssociateTeamMember",
-        Dict{String,Any}(
-            "projectId" => projectId, "projectRole" => projectRole, "userArn" => userArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_team_member(
     projectId,
     projectRole,
@@ -86,14 +84,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. If this parameter is specified, the request must also include the sourceCode
   parameter.
 """
-function create_project(id, name; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "CreateProject",
-        Dict{String,Any}("id" => id, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_project(id, name; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "CreateProject",
+    Dict{String,Any}("id" => id, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_project(
     id,
     name,
@@ -132,20 +128,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   project owner allows the user remote access to project resources, this public key will be
   used along with the user's private key for SSH access.
 """
-function create_user_profile(
+create_user_profile(
     displayName, emailAddress, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = codestar(
+    "CreateUserProfile",
+    Dict{String,Any}(
+        "displayName" => displayName,
+        "emailAddress" => emailAddress,
+        "userArn" => userArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codestar(
-        "CreateUserProfile",
-        Dict{String,Any}(
-            "displayName" => displayName,
-            "emailAddress" => emailAddress,
-            "userArn" => userArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user_profile(
     displayName,
     emailAddress,
@@ -190,14 +184,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   delete all AWS resources for the project (except for any buckets in Amazon S3) as well as
   deleting the project itself. Recommended for most use cases.
 """
-function delete_project(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "DeleteProject",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "DeleteProject",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_project(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -221,14 +213,12 @@ of that user, for example the history of commits made by that user.
 - `user_arn`: The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
 
 """
-function delete_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "DeleteUserProfile",
-        Dict{String,Any}("userArn" => userArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "DeleteUserProfile",
+    Dict{String,Any}("userArn" => userArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_user_profile(
     userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -250,14 +240,12 @@ Describes a project and its resources.
 - `id`: The ID of the project.
 
 """
-function describe_project(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "DescribeProject",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "DescribeProject",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_project(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -279,14 +267,13 @@ Describes a user in AWS CodeStar and the user attributes across all projects.
 - `user_arn`: The Amazon Resource Name (ARN) of the user.
 
 """
-function describe_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
+describe_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codestar(
         "DescribeUserProfile",
         Dict{String,Any}("userArn" => userArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_user_profile(
     userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -314,16 +301,14 @@ from IAM.
   remove from the project.
 
 """
-function disassociate_team_member(
+disassociate_team_member(
     projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = codestar(
+    "DisassociateTeamMember",
+    Dict{String,Any}("projectId" => projectId, "userArn" => userArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codestar(
-        "DisassociateTeamMember",
-        Dict{String,Any}("projectId" => projectId, "userArn" => userArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_team_member(
     projectId,
     userArn,
@@ -357,9 +342,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The continuation token to be used to return the next set of results, if
   the results cannot be returned in one response.
 """
-function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codestar("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -384,14 +368,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The continuation token for the next set of results, if the results cannot
   be returned in one response.
 """
-function list_resources(projectId; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "ListResources",
-        Dict{String,Any}("projectId" => projectId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_resources(projectId; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "ListResources",
+    Dict{String,Any}("projectId" => projectId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_resources(
     projectId,
     params::AbstractDict{String};
@@ -421,14 +403,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Reserved for future use.
 - `"nextToken"`: Reserved for future use.
 """
-function list_tags_for_project(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "ListTagsForProject",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "ListTagsForProject",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_tags_for_project(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -455,14 +435,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The continuation token for the next set of results, if the results cannot
   be returned in one response.
 """
-function list_team_members(projectId; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "ListTeamMembers",
-        Dict{String,Any}("projectId" => projectId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_team_members(projectId; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "ListTeamMembers",
+    Dict{String,Any}("projectId" => projectId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_team_members(
     projectId,
     params::AbstractDict{String};
@@ -490,11 +468,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The continuation token for the next set of results, if the results cannot
   be returned in one response.
 """
-function list_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "ListUserProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codestar("ListUserProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_user_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -514,14 +489,12 @@ Adds tags to a project.
 - `tags`: The tags you want to add to the project.
 
 """
-function tag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "TagProject",
-        Dict{String,Any}("id" => id, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "TagProject",
+    Dict{String,Any}("id" => id, "tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_project(
     id,
     tags,
@@ -549,14 +522,12 @@ Removes tags from a project.
 - `tags`: The tags to remove from the project.
 
 """
-function untag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "UntagProject",
-        Dict{String,Any}("id" => id, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_project(id, tags; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "UntagProject",
+    Dict{String,Any}("id" => id, "tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function untag_project(
     id,
     tags,
@@ -587,14 +558,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: The description of the project, if any.
 - `"name"`: The name of the project you want to update.
 """
-function update_project(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "UpdateProject",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_project(id; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "UpdateProject",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_project(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -629,16 +598,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to True, the user must associate a public key with their profile before the user can access
   resources.
 """
-function update_team_member(
-    projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codestar(
+update_team_member(projectId, userArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codestar(
         "UpdateTeamMember",
         Dict{String,Any}("projectId" => projectId, "userArn" => userArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_team_member(
     projectId,
     userArn,
@@ -681,14 +647,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   project owner allows the user remote access to project resources, this public key will be
   used along with the user's private key for SSH access.
 """
-function update_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codestar(
-        "UpdateUserProfile",
-        Dict{String,Any}("userArn" => userArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_user_profile(userArn; aws_config::AbstractAWSConfig=global_aws_config()) = codestar(
+    "UpdateUserProfile",
+    Dict{String,Any}("userArn" => userArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_user_profile(
     userArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

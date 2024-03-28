@@ -18,14 +18,12 @@ Managing Lexicons.
   region.
 
 """
-function delete_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config())
-    return polly(
-        "DELETE",
-        "/v1/lexicons/$(LexiconName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config()) = polly(
+    "DELETE",
+    "/v1/lexicons/$(LexiconName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_lexicon(
     LexiconName,
     params::AbstractDict{String};
@@ -57,8 +55,8 @@ voices.  This operation requires permissions to perform the polly:DescribeVoices
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Engine"`: Specifies the engine (standard or neural) used by Amazon Polly when
-  processing input text for speech synthesis.
+- `"Engine"`: Specifies the engine (standard, neural or long-form) used by Amazon Polly
+  when processing input text for speech synthesis.
 - `"IncludeAdditionalLanguageCodes"`: Boolean value indicating whether to return any
   bilingual voices that use the specified language as an additional language. For instance,
   if you request all languages that use US English (es-US), and there is an Italian voice
@@ -70,11 +68,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque pagination token returned from the previous DescribeVoices
   operation. If present, this indicates where to continue the listing.
 """
-function describe_voices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return polly(
-        "GET", "/v1/voices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_voices(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    polly("GET", "/v1/voices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_voices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -94,14 +89,12 @@ Region. For more information, see Managing Lexicons.
 - `lexicon_name`: Name of the lexicon.
 
 """
-function get_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config())
-    return polly(
-        "GET",
-        "/v1/lexicons/$(LexiconName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config()) = polly(
+    "GET",
+    "/v1/lexicons/$(LexiconName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_lexicon(
     LexiconName,
     params::AbstractDict{String};
@@ -128,16 +121,13 @@ link to the S3 bucket containing the output of the task.
 - `task_id`: The Amazon Polly generated identifier for a speech synthesis task.
 
 """
-function get_speech_synthesis_task(
-    TaskId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return polly(
+get_speech_synthesis_task(TaskId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    polly(
         "GET",
         "/v1/synthesisTasks/$(TaskId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_speech_synthesis_task(
     TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -162,11 +152,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque pagination token returned from previous ListLexicons operation.
   If present, indicates where to continue the list of lexicons.
 """
-function list_lexicons(; aws_config::AbstractAWSConfig=global_aws_config())
-    return polly(
-        "GET", "/v1/lexicons"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_lexicons(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    polly("GET", "/v1/lexicons"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_lexicons(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -194,11 +181,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   speech synthesis tasks.
 - `"Status"`: Status of the speech synthesis tasks returned in a List operation
 """
-function list_speech_synthesis_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return polly(
-        "GET", "/v1/synthesisTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_speech_synthesis_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = polly(
+    "GET", "/v1/synthesisTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_speech_synthesis_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -227,17 +212,14 @@ available to the SynthesizeSpeech operation. For more information, see Managing 
   characters long.
 
 """
-function put_lexicon(
-    Content, LexiconName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return polly(
+put_lexicon(Content, LexiconName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    polly(
         "PUT",
         "/v1/lexicons/$(LexiconName)",
         Dict{String,Any}("Content" => Content);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_lexicon(
     Content,
     LexiconName,
@@ -276,9 +258,9 @@ synthesis task.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Engine"`: Specifies the engine (standard or neural) for Amazon Polly to use when
-  processing input text for speech synthesis. Using a voice that is not supported for the
-  engine selected will result in an error.
+- `"Engine"`: Specifies the engine (standard, neural or long-form) for Amazon Polly to use
+  when processing input text for speech synthesis. Using a voice that is not supported for
+  the engine selected will result in an error.
 - `"LanguageCode"`: Optional language code for the Speech Synthesis request. This is only
   necessary if using a bilingual voice, such as Aditi, which can be used for either Indian
   English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is
@@ -292,34 +274,33 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OutputS3KeyPrefix"`: The Amazon S3 key prefix for the output speech file.
 - `"SampleRate"`: The audio frequency specified in Hz. The valid values for mp3 and
   ogg_vorbis are \"8000\", \"16000\", \"22050\", and \"24000\". The default value for
-  standard voices is \"22050\". The default value for neural voices is \"24000\". Valid
-  values for pcm are \"8000\" and \"16000\" The default value is \"16000\".
+  standard voices is \"22050\". The default value for neural voices is \"24000\". The default
+  value for long-form voices is \"24000\". Valid values for pcm are \"8000\" and \"16000\"
+  The default value is \"16000\".
 - `"SnsTopicArn"`: ARN for the SNS topic optionally used for providing status notification
   for a speech synthesis task.
 - `"SpeechMarkTypes"`: The type of speech marks returned for the input text.
 - `"TextType"`: Specifies whether the input text is plain text or SSML. The default value
   is plain text.
 """
-function start_speech_synthesis_task(
+start_speech_synthesis_task(
     OutputFormat,
     OutputS3BucketName,
     Text,
     VoiceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = polly(
+    "POST",
+    "/v1/synthesisTasks",
+    Dict{String,Any}(
+        "OutputFormat" => OutputFormat,
+        "OutputS3BucketName" => OutputS3BucketName,
+        "Text" => Text,
+        "VoiceId" => VoiceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return polly(
-        "POST",
-        "/v1/synthesisTasks",
-        Dict{String,Any}(
-            "OutputFormat" => OutputFormat,
-            "OutputS3BucketName" => OutputS3BucketName,
-            "Text" => Text,
-            "VoiceId" => VoiceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_speech_synthesis_task(
     OutputFormat,
     OutputS3BucketName,
@@ -369,15 +350,17 @@ used. For more information, see How it Works.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Engine"`: Specifies the engine (standard or neural) for Amazon Polly to use when
-  processing input text for speech synthesis. For information on Amazon Polly voices and
-  which voices are available in standard-only, NTTS-only, and both standard and NTTS formats,
-  see Available Voices.  NTTS-only voices  When using NTTS-only voices such as Kevin (en-US),
-  this parameter is required and must be set to neural. If the engine is not specified, or is
-  set to standard, this will result in an error.  Type: String Valid Values: standard |
-  neural  Required: Yes  Standard voices  For standard voices, this is not required; the
-  engine parameter defaults to standard. If the engine is not specified, or is set to
-  standard and an NTTS-only voice is selected, this will result in an error.
+- `"Engine"`: Specifies the engine (standard, neural or long-form) for Amazon Polly to use
+  when processing input text for speech synthesis. For information on Amazon Polly voices and
+  which voices are available for each engine, see Available Voices.  NTTS-only voices  When
+  using NTTS-only voices such as Kevin (en-US), this parameter is required and must be set to
+  neural. If the engine is not specified, or is set to standard, this will result in an
+  error.   long-form-only voices  When using long-form-only voices such as Danielle (en-US),
+  this parameter is required and must be set to long-form. If the engine is not specified, or
+  is set to standard or neural, this will result in an error.  Type: String Valid Values:
+  standard | neural | long-form  Required: Yes  Standard voices  For standard voices, this is
+  not required; the engine parameter defaults to standard. If the engine is not specified, or
+  is set to standard and an NTTS-only voice is selected, this will result in an error.
 - `"LanguageCode"`: Optional language code for the Synthesize Speech request. This is only
   necessary if using a bilingual voice, such as Aditi, which can be used for either Indian
   English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is
@@ -390,25 +373,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   same as the language of the voice. For information about storing lexicons, see PutLexicon.
 - `"SampleRate"`: The audio frequency specified in Hz. The valid values for mp3 and
   ogg_vorbis are \"8000\", \"16000\", \"22050\", and \"24000\". The default value for
-  standard voices is \"22050\". The default value for neural voices is \"24000\". Valid
-  values for pcm are \"8000\" and \"16000\" The default value is \"16000\".
+  standard voices is \"22050\". The default value for neural voices is \"24000\". The default
+  value for long-form voices is \"24000\". Valid values for pcm are \"8000\" and \"16000\"
+  The default value is \"16000\".
 - `"SpeechMarkTypes"`: The type of speech marks returned for the input text.
 - `"TextType"`:  Specifies whether the input text is plain text or SSML. The default value
   is plain text. For more information, see Using SSML.
 """
-function synthesize_speech(
+synthesize_speech(
     OutputFormat, Text, VoiceId; aws_config::AbstractAWSConfig=global_aws_config()
+) = polly(
+    "POST",
+    "/v1/speech",
+    Dict{String,Any}("OutputFormat" => OutputFormat, "Text" => Text, "VoiceId" => VoiceId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return polly(
-        "POST",
-        "/v1/speech",
-        Dict{String,Any}(
-            "OutputFormat" => OutputFormat, "Text" => Text, "VoiceId" => VoiceId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function synthesize_speech(
     OutputFormat,
     Text,

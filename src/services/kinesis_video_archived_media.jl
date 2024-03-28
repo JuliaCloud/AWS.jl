@@ -26,7 +26,8 @@ the AAC format (AAC specification ISO/IEC 13818-7) or the MS Wave format.   You 
 the amount of outgoing data by monitoring the GetClip.OutgoingBytes Amazon CloudWatch
 metric. For information about using CloudWatch to monitor Kinesis Video Streams, see
 Monitoring Kinesis Video Streams. For pricing information, see Amazon Kinesis Video Streams
-Pricing and AWS Pricing. Charges for outgoing AWS data apply.
+Pricing and  Amazon Web Services Pricing. Charges for outgoing Amazon Web Services data
+apply.
 
 # Arguments
 - `clip_fragment_selector`: The time range of the requested clip and the source of the
@@ -39,15 +40,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to retrieve the media clip.  You must
   specify either the StreamName or the StreamARN.
 """
-function get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
+get_clip(ClipFragmentSelector; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_archived_media(
         "POST",
         "/getClip",
         Dict{String,Any}("ClipFragmentSelector" => ClipFragmentSelector);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_clip(
     ClipFragmentSelector,
     params::AbstractDict{String};
@@ -94,15 +94,15 @@ protocol. GetDASHStreamingSessionURL returns an authenticated URL (that includes
 encrypted session token) for the session's MPEG-DASH manifest (the root resource needed for
 streaming with MPEG-DASH).  Don't share or store this token where an unauthorized entity
 can access it. The token provides access to the content of the stream. Safeguard the token
-with the same measures that you use with your AWS credentials.  The media that is made
-available through the manifest consists only of the requested stream, time range, and
-format. No other media data (such as frames outside the requested window or alternate
-bitrates) is made available.   Provide the URL (containing the encrypted session token) for
-the MPEG-DASH manifest to a media player that supports the MPEG-DASH protocol. Kinesis
-Video Streams makes the initialization fragment and media fragments available through the
-manifest URL. The initialization fragment contains the codec private data for the stream,
-and other data needed to set up the video or audio decoder and renderer. The media
-fragments contain encoded video frames or encoded audio samples.   The media player
+with the same measures that you use with your Amazon Web Services credentials.  The media
+that is made available through the manifest consists only of the requested stream, time
+range, and format. No other media data (such as frames outside the requested window or
+alternate bitrates) is made available.   Provide the URL (containing the encrypted session
+token) for the MPEG-DASH manifest to a media player that supports the MPEG-DASH protocol.
+Kinesis Video Streams makes the initialization fragment and media fragments available
+through the manifest URL. The initialization fragment contains the codec private data for
+the stream, and other data needed to set up the video or audio decoder and renderer. The
+media fragments contain encoded video frames or encoded audio samples.   The media player
 receives the authenticated URL and requests stream metadata and media data normally. When
 the media player requests data, it calls the following actions:    GetDASHManifest:
 Retrieves an MPEG DASH manifest, which contains the metadata for the media that you want to
@@ -124,18 +124,19 @@ audio and video.  Data retrieved with this action is billable. See Pricing for d
 can monitor the amount of data that the media player consumes by monitoring the
 GetMP4MediaFragment.OutgoingBytes Amazon CloudWatch metric. For information about using
 CloudWatch to monitor Kinesis Video Streams, see Monitoring Kinesis Video Streams. For
-pricing information, see Amazon Kinesis Video Streams Pricing and AWS Pricing. Charges for
-both HLS sessions and outgoing AWS data apply. For more information about HLS, see HTTP
-Live Streaming on the Apple Developer site.  If an error is thrown after invoking a Kinesis
-Video Streams archived media API, in addition to the HTTP status code and the response
-body, it includes the following pieces of information:     x-amz-ErrorType HTTP header –
-contains a more specific error type in addition to what the HTTP status code provides.
-x-amz-RequestId HTTP header – if you want to report an issue to AWS, the support team can
-better diagnose the problem if given the Request Id.   Both the HTTP status code and the
-ErrorType header can be utilized to make programmatic decisions about whether errors are
-retry-able and under what conditions, as well as provide information on what actions the
-client programmer might need to take in order to successfully try again. For more
-information, see the Errors section at the bottom of this topic, as well as Common Errors.
+pricing information, see Amazon Kinesis Video Streams Pricing and Amazon Web Services
+Pricing. Charges for both HLS sessions and outgoing Amazon Web Services data apply. For
+more information about HLS, see HTTP Live Streaming on the Apple Developer site.  If an
+error is thrown after invoking a Kinesis Video Streams archived media API, in addition to
+the HTTP status code and the response body, it includes the following pieces of
+information:     x-amz-ErrorType HTTP header – contains a more specific error type in
+addition to what the HTTP status code provides.     x-amz-RequestId HTTP header – if you
+want to report an issue to Amazon Web Services the support team can better diagnose the
+problem if given the Request Id.   Both the HTTP status code and the ErrorType header can
+be utilized to make programmatic decisions about whether errors are retry-able and under
+what conditions, as well as provide information on what actions the client programmer might
+need to take in order to successfully try again. For more information, see the Errors
+section at the bottom of this topic, as well as Common Errors.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -214,14 +215,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to retrieve the MPEG-DASH manifest URL.
   You must specify either the StreamName or the StreamARN.
 """
-function get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
+get_dashstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_archived_media(
         "POST",
         "/getDASHStreamingSessionURL";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_dashstreaming_session_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -242,10 +242,11 @@ Retrieves an HTTP Live Streaming (HLS) URL for the stream. You can then open the
 browser or media player to view the stream contents. Both the StreamName and the StreamARN
 parameters are optional, but you must specify either the StreamName or the StreamARN when
 invoking this API operation. An Amazon Kinesis video stream has the following requirements
-for providing data through HLS:   The media must contain h.264 or h.265 encoded video and,
-optionally, AAC encoded audio. Specifically, the codec ID of track 1 should be
-V_MPEG/ISO/AVC (for h.264) or V_MPEG/ISO/HEVC (for h.265). Optionally, the codec ID of
-track 2 should be A_AAC.   Data retention must be greater than 0.   The video track of each
+for providing data through HLS:   For streaming video, the media must contain H.264 or
+H.265 encoded video and, optionally, AAC encoded audio. Specifically, the codec ID of track
+1 should be V_MPEG/ISO/AVC (for H.264) or V_MPEG/ISO/HEVC (for H.265). Optionally, the
+codec ID of track 2 should be A_AAC. For audio only streaming, the codec ID of track 1
+should be A_AAC.   Data retention must be greater than 0.   The video track of each
 fragment must contain codec private data in the Advanced Video Coding (AVC) for H.264
 format or HEVC for H.265 format (MPEG-4 specification ISO/IEC 14496-15). For information
 about adapting stream data to a given format, see NAL Adaptation Flags.   The audio track
@@ -262,63 +263,68 @@ returns an authenticated URL (that includes an encrypted session token) for the 
 HLS master playlist (the root resource needed for streaming with HLS).  Don't share or
 store this token where an unauthorized entity could access it. The token provides access to
 the content of the stream. Safeguard the token with the same measures that you would use
-with your AWS credentials.  The media that is made available through the playlist consists
-only of the requested stream, time range, and format. No other media data (such as frames
-outside the requested window or alternate bitrates) is made available.   Provide the URL
-(containing the encrypted session token) for the HLS master playlist to a media player that
-supports the HLS protocol. Kinesis Video Streams makes the HLS media playlist,
-initialization fragment, and media fragments available through the master playlist URL. The
-initialization fragment contains the codec private data for the stream, and other data
-needed to set up the video or audio decoder and renderer. The media fragments contain
-H.264-encoded video frames or AAC-encoded audio samples.   The media player receives the
-authenticated URL and requests stream metadata and media data normally. When the media
-player requests data, it calls the following actions:    GetHLSMasterPlaylist: Retrieves an
-HLS master playlist, which contains a URL for the GetHLSMediaPlaylist action for each
-track, and additional metadata for the media player, including estimated bitrate and
-resolution.    GetHLSMediaPlaylist: Retrieves an HLS media playlist, which contains a URL
-to access the MP4 initialization fragment with the GetMP4InitFragment action, and URLs to
-access the MP4 media fragments with the GetMP4MediaFragment actions. The HLS media playlist
-also contains metadata about the stream that the player needs to play it, such as whether
-the PlaybackMode is LIVE or ON_DEMAND. The HLS media playlist is typically static for
-sessions with a PlaybackType of ON_DEMAND. The HLS media playlist is continually updated
-with new fragments for sessions with a PlaybackType of LIVE. There is a distinct HLS media
-playlist for the video track and the audio track (if applicable) that contains MP4 media
-URLs for the specific track.     GetMP4InitFragment: Retrieves the MP4 initialization
-fragment. The media player typically loads the initialization fragment before loading any
-media fragments. This fragment contains the \"fytp\" and \"moov\" MP4 atoms, and the child
-atoms that are needed to initialize the media player decoder. The initialization fragment
-does not correspond to a fragment in a Kinesis video stream. It contains only the codec
-private data for the stream and respective track, which the media player needs to decode
-the media frames.    GetMP4MediaFragment: Retrieves MP4 media fragments. These fragments
-contain the \"moof\" and \"mdat\" MP4 atoms and their child atoms, containing the encoded
-fragment's media frames and their timestamps.   After the first media fragment is made
-available in a streaming session, any fragments that don't contain the same codec private
-data cause an error to be returned when those different media fragments are loaded.
-Therefore, the codec private data should not change between fragments in a session. This
-also means that the session fails if the fragments in a stream change from having only
-video to having both audio and video.  Data retrieved with this action is billable. See
-Pricing for details.    GetTSFragment: Retrieves MPEG TS fragments containing both
-initialization and media data for all tracks in the stream.  If the ContainerFormat is
-MPEG_TS, this API is used instead of GetMP4InitFragment and GetMP4MediaFragment to retrieve
-stream media.  Data retrieved with this action is billable. For more information, see
-Kinesis Video Streams pricing.     A streaming session URL must not be shared between
-players. The service might throttle a session if multiple media players are sharing it. For
-connection limits, see Kinesis Video Streams Limits. You can monitor the amount of data
-that the media player consumes by monitoring the GetMP4MediaFragment.OutgoingBytes Amazon
-CloudWatch metric. For information about using CloudWatch to monitor Kinesis Video Streams,
-see Monitoring Kinesis Video Streams. For pricing information, see Amazon Kinesis Video
-Streams Pricing and AWS Pricing. Charges for both HLS sessions and outgoing AWS data apply.
-For more information about HLS, see HTTP Live Streaming on the Apple Developer site.  If an
+with your Amazon Web Services credentials.  The media that is made available through the
+playlist consists only of the requested stream, time range, and format. No other media data
+(such as frames outside the requested window or alternate bitrates) is made available.
+Provide the URL (containing the encrypted session token) for the HLS master playlist to a
+media player that supports the HLS protocol. Kinesis Video Streams makes the HLS media
+playlist, initialization fragment, and media fragments available through the master
+playlist URL. The initialization fragment contains the codec private data for the stream,
+and other data needed to set up the video or audio decoder and renderer. The media
+fragments contain H.264-encoded video frames or AAC-encoded audio samples.   The media
+player receives the authenticated URL and requests stream metadata and media data normally.
+When the media player requests data, it calls the following actions:
+GetHLSMasterPlaylist: Retrieves an HLS master playlist, which contains a URL for the
+GetHLSMediaPlaylist action for each track, and additional metadata for the media player,
+including estimated bitrate and resolution.    GetHLSMediaPlaylist: Retrieves an HLS media
+playlist, which contains a URL to access the MP4 initialization fragment with the
+GetMP4InitFragment action, and URLs to access the MP4 media fragments with the
+GetMP4MediaFragment actions. The HLS media playlist also contains metadata about the stream
+that the player needs to play it, such as whether the PlaybackMode is LIVE or ON_DEMAND.
+The HLS media playlist is typically static for sessions with a PlaybackType of ON_DEMAND.
+The HLS media playlist is continually updated with new fragments for sessions with a
+PlaybackType of LIVE. There is a distinct HLS media playlist for the video track and the
+audio track (if applicable) that contains MP4 media URLs for the specific track.
+GetMP4InitFragment: Retrieves the MP4 initialization fragment. The media player typically
+loads the initialization fragment before loading any media fragments. This fragment
+contains the \"fytp\" and \"moov\" MP4 atoms, and the child atoms that are needed to
+initialize the media player decoder. The initialization fragment does not correspond to a
+fragment in a Kinesis video stream. It contains only the codec private data for the stream
+and respective track, which the media player needs to decode the media frames.
+GetMP4MediaFragment: Retrieves MP4 media fragments. These fragments contain the \"moof\"
+and \"mdat\" MP4 atoms and their child atoms, containing the encoded fragment's media
+frames and their timestamps.   For the HLS streaming session, in-track codec private data
+(CPD) changes are supported. After the first media fragment is made available in a
+streaming session, fragments can contain CPD changes for each track. Therefore, the
+fragments in a session can have a different resolution, bit rate, or other information in
+the CPD without interrupting playback. However, any change made in the track number or
+track codec format can return an error when those different media fragments are loaded. For
+example, streaming will fail if the fragments in the stream change from having only video
+to having both audio and video, or if an AAC audio track is changed to an ALAW audio track.
+For each streaming session, only 500 CPD changes are allowed.  Data retrieved with this
+action is billable. For information, see Pricing.    GetTSFragment: Retrieves MPEG TS
+fragments containing both initialization and media data for all tracks in the stream.  If
+the ContainerFormat is MPEG_TS, this API is used instead of GetMP4InitFragment and
+GetMP4MediaFragment to retrieve stream media.  Data retrieved with this action is billable.
+For more information, see Kinesis Video Streams pricing.     A streaming session URL must
+not be shared between players. The service might throttle a session if multiple media
+players are sharing it. For connection limits, see Kinesis Video Streams Limits. You can
+monitor the amount of data that the media player consumes by monitoring the
+GetMP4MediaFragment.OutgoingBytes Amazon CloudWatch metric. For information about using
+CloudWatch to monitor Kinesis Video Streams, see Monitoring Kinesis Video Streams. For
+pricing information, see Amazon Kinesis Video Streams Pricing and Amazon Web Services
+Pricing. Charges for both HLS sessions and outgoing Amazon Web Services data apply. For
+more information about HLS, see HTTP Live Streaming on the Apple Developer site.  If an
 error is thrown after invoking a Kinesis Video Streams archived media API, in addition to
 the HTTP status code and the response body, it includes the following pieces of
 information:     x-amz-ErrorType HTTP header – contains a more specific error type in
 addition to what the HTTP status code provides.     x-amz-RequestId HTTP header – if you
-want to report an issue to AWS, the support team can better diagnose the problem if given
-the Request Id.   Both the HTTP status code and the ErrorType header can be utilized to
-make programmatic decisions about whether errors are retry-able and under what conditions,
-as well as provide information on what actions the client programmer might need to take in
-order to successfully try again. For more information, see the Errors section at the bottom
-of this topic, as well as Common Errors.
+want to report an issue to Amazon Web Services, the support team can better diagnose the
+problem if given the Request Id.   Both the HTTP status code and the ErrorType header can
+be utilized to make programmatic decisions about whether errors are retry-able and under
+what conditions, as well as provide information on what actions the client programmer might
+need to take in order to successfully try again. For more information, see the Errors
+section at the bottom of this topic, as well as Common Errors.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -414,14 +420,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream for which to retrieve the HLS master playlist URL.
   You must specify either the StreamName or the StreamARN.
 """
-function get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
+get_hlsstreaming_session_url(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_archived_media(
         "POST",
         "/getHLSStreamingSessionURL";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_hlsstreaming_session_url(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -435,22 +440,19 @@ function get_hlsstreaming_session_url(
 end
 
 """
-    get_images(end_timestamp, format, image_selector_type, sampling_interval, start_timestamp)
-    get_images(end_timestamp, format, image_selector_type, sampling_interval, start_timestamp, params::Dict{String,<:Any})
+    get_images(end_timestamp, format, image_selector_type, start_timestamp)
+    get_images(end_timestamp, format, image_selector_type, start_timestamp, params::Dict{String,<:Any})
 
-Retrieves a list of Images corresponding to each timestamp for a given time range, sampling
+Retrieves a list of images corresponding to each timestamp for a given time range, sampling
 interval, and image format configuration.
 
 # Arguments
-- `end_timestamp`: The end timestamp for the range of images to be generated.
+- `end_timestamp`: The end timestamp for the range of images to be generated. If the time
+  range between StartTimestamp and EndTimestamp is more than 300 seconds above
+  StartTimestamp, you will receive an IllegalArgumentException.
 - `format`: The format that will be used to encode the image.
 - `image_selector_type`: The origin of the Server or Producer timestamps to use to generate
   the images.
-- `sampling_interval`: The time interval in milliseconds (ms) at which the images need to
-  be generated from the stream. The minimum value that can be provided is 3000 ms. If the
-  timestamp range is less than the sampling interval, the Image from the startTimestamp will
-  be returned if available.   The minimum value of 3000 ms is a soft limit. If needed, a
-  lower sampling frequency can be requested.
 - `start_timestamp`: The starting point from which the images should be generated. This
   StartTimestamp must be within an inclusive range of timestamps for an image to be returned.
 
@@ -469,9 +471,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is provided, its original aspect ratio will be used to calculate the WidthPixels
   ratio. If neither parameter is provided, the original image size will be returned.
 - `"MaxResults"`: The maximum number of images to be returned by the API.   The default
-  limit is 100 images per API response. The additional results will be paginated.
+  limit is 25 images per API response. Providing a MaxResults greater than this value will
+  result in a page size of 25. Any additional results will be paginated.
 - `"NextToken"`: A token that specifies where to start paginating the next set of Images.
   This is the GetImages:NextToken from a previously truncated response.
+- `"SamplingInterval"`: The time interval in milliseconds (ms) at which the images need to
+  be generated from the stream. The minimum value that can be provided is 200 ms (5 images
+  per second). If the timestamp range is less than the sampling interval, the image from the
+  startTimestamp will be returned if available.
 - `"StreamARN"`: The Amazon Resource Name (ARN) of the stream from which to retrieve the
   images. You must specify either the StreamName or the StreamARN.
 - `"StreamName"`: The name of the stream from which to retrieve the images. You must
@@ -483,33 +490,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be thrown. If neither parameter is provided, the original image size from the stream will
   be returned.
 """
-function get_images(
+get_images(
     EndTimestamp,
     Format,
     ImageSelectorType,
-    SamplingInterval,
     StartTimestamp;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_video_archived_media(
+    "POST",
+    "/getImages",
+    Dict{String,Any}(
+        "EndTimestamp" => EndTimestamp,
+        "Format" => Format,
+        "ImageSelectorType" => ImageSelectorType,
+        "StartTimestamp" => StartTimestamp,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_video_archived_media(
-        "POST",
-        "/getImages",
-        Dict{String,Any}(
-            "EndTimestamp" => EndTimestamp,
-            "Format" => Format,
-            "ImageSelectorType" => ImageSelectorType,
-            "SamplingInterval" => SamplingInterval,
-            "StartTimestamp" => StartTimestamp,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_images(
     EndTimestamp,
     Format,
     ImageSelectorType,
-    SamplingInterval,
     StartTimestamp,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -524,7 +526,6 @@ function get_images(
                     "EndTimestamp" => EndTimestamp,
                     "Format" => Format,
                     "ImageSelectorType" => ImageSelectorType,
-                    "SamplingInterval" => SamplingInterval,
                     "StartTimestamp" => StartTimestamp,
                 ),
                 params,
@@ -547,12 +548,12 @@ thrown after invoking a Kinesis Video Streams archived media API, in addition to
 status code and the response body, it includes the following pieces of information:
 x-amz-ErrorType HTTP header – contains a more specific error type in addition to what the
 HTTP status code provides.     x-amz-RequestId HTTP header – if you want to report an
-issue to AWS, the support team can better diagnose the problem if given the Request Id.
-Both the HTTP status code and the ErrorType header can be utilized to make programmatic
-decisions about whether errors are retry-able and under what conditions, as well as provide
-information on what actions the client programmer might need to take in order to
-successfully try again. For more information, see the Errors section at the bottom of this
-topic, as well as Common Errors.
+issue to Amazon Web Services, the support team can better diagnose the problem if given the
+Request Id.   Both the HTTP status code and the ErrorType header can be utilized to make
+programmatic decisions about whether errors are retry-able and under what conditions, as
+well as provide information on what actions the client programmer might need to take in
+order to successfully try again. For more information, see the Errors section at the bottom
+of this topic, as well as Common Errors.
 
 # Arguments
 - `fragments`: A list of the numbers of fragments for which to retrieve media. You retrieve
@@ -565,17 +566,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to retrieve fragment media. Specify
   either this parameter or the StreamARN parameter.
 """
-function get_media_for_fragment_list(
-    Fragments; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_video_archived_media(
+get_media_for_fragment_list(Fragments; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_archived_media(
         "POST",
         "/getMediaForFragmentList",
         Dict{String,Any}("Fragments" => Fragments);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_media_for_fragment_list(
     Fragments,
     params::AbstractDict{String};
@@ -606,17 +604,17 @@ parameter.    If an error is thrown after invoking a Kinesis Video Streams archi
 API, in addition to the HTTP status code and the response body, it includes the following
 pieces of information:     x-amz-ErrorType HTTP header – contains a more specific error
 type in addition to what the HTTP status code provides.     x-amz-RequestId HTTP header –
-if you want to report an issue to AWS, the support team can better diagnose the problem if
-given the Request Id.   Both the HTTP status code and the ErrorType header can be utilized
-to make programmatic decisions about whether errors are retry-able and under what
-conditions, as well as provide information on what actions the client programmer might need
-to take in order to successfully try again. For more information, see the Errors section at
-the bottom of this topic, as well as Common Errors.
+if you want to report an issue to Amazon Web Services, the support team can better diagnose
+the problem if given the Request Id.   Both the HTTP status code and the ErrorType header
+can be utilized to make programmatic decisions about whether errors are retry-able and
+under what conditions, as well as provide information on what actions the client programmer
+might need to take in order to successfully try again. For more information, see the Errors
+section at the bottom of this topic, as well as Common Errors.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"FragmentSelector"`: Describes the timestamp range and timestamp origin for the range of
-  fragments to return.
+  fragments to return.  This is only required when the NextToken isn't passed in the API.
 - `"MaxResults"`: The total number of fragments to return. If the total number of fragments
   available is more than the value specified in max-results, then a
   ListFragmentsOutputNextToken is provided in the output that you can use to resume
@@ -628,11 +626,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamName"`: The name of the stream from which to retrieve a fragment list. Specify
   either this parameter or the StreamARN parameter.
 """
-function list_fragments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_archived_media(
+list_fragments(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_archived_media(
         "POST", "/listFragments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_fragments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

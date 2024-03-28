@@ -23,16 +23,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SerialPort"`: The serial port of the EC2 instance. Currently only port 0 is supported.
   Default: 0
 """
-function send_serial_console_sshpublic_key(
+send_serial_console_sshpublic_key(
     InstanceId, SSHPublicKey; aws_config::AbstractAWSConfig=global_aws_config()
+) = ec2_instance_connect(
+    "SendSerialConsoleSSHPublicKey",
+    Dict{String,Any}("InstanceId" => InstanceId, "SSHPublicKey" => SSHPublicKey);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ec2_instance_connect(
-        "SendSerialConsoleSSHPublicKey",
-        Dict{String,Any}("InstanceId" => InstanceId, "SSHPublicKey" => SSHPublicKey);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_serial_console_sshpublic_key(
     InstanceId,
     SSHPublicKey,
@@ -74,23 +72,21 @@ EC2 Instance Connect in the Amazon EC2 User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AvailabilityZone"`: The Availability Zone in which the EC2 instance was launched.
 """
-function send_sshpublic_key(
+send_sshpublic_key(
     InstanceId,
     InstanceOSUser,
     SSHPublicKey;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = ec2_instance_connect(
+    "SendSSHPublicKey",
+    Dict{String,Any}(
+        "InstanceId" => InstanceId,
+        "InstanceOSUser" => InstanceOSUser,
+        "SSHPublicKey" => SSHPublicKey,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ec2_instance_connect(
-        "SendSSHPublicKey",
-        Dict{String,Any}(
-            "InstanceId" => InstanceId,
-            "InstanceOSUser" => InstanceOSUser,
-            "SSHPublicKey" => SSHPublicKey,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_sshpublic_key(
     InstanceId,
     InstanceOSUser,

@@ -15,16 +15,19 @@ Amazon Web Services Verified Access instance.  For Amazon CloudFront, don't use 
 Instead, use your CloudFront distribution configuration. To associate a web ACL, in the
 CloudFront call UpdateDistribution, set the web ACL ID to the Amazon Resource Name (ARN) of
 the web ACL. For information, see UpdateDistribution in the Amazon CloudFront Developer
-Guide.  When you make changes to web ACLs or web ACL components, like rules and rule
-groups, WAF propagates the changes everywhere that the web ACL and its components are
-stored and used. Your changes are applied within seconds, but there might be a brief period
-of inconsistency when the changes have arrived in some places and not in others. So, for
-example, if you change a rule action setting, the action might be the old action in one
-area and the new action in another area. Or if you add an IP address to an IP set used in a
-blocking rule, the new address might briefly be blocked in one area while still allowed in
-another. This temporary inconsistency can occur when you first associate a web ACL with an
-Amazon Web Services resource and when you change a web ACL that is already associated with
-a resource. Generally, any inconsistencies of this type last only a few seconds.
+Guide.   Required permissions for customer-managed IAM policies  This call requires
+permissions that are specific to the protected resource type. For details, see Permissions
+for AssociateWebACL in the WAF Developer Guide.   Temporary inconsistencies during updates
+When you create or change a web ACL or other WAF resources, the changes take a small amount
+of time to propagate to all areas where the resources are stored. The propagation time can
+be from a few seconds to a number of minutes.  The following are examples of the temporary
+inconsistencies that you might notice during change propagation:    After you create a web
+ACL, if you try to associate it with a resource, you might get an exception indicating that
+the web ACL is unavailable.    After you add a rule group to a web ACL, the new rule group
+rules might be in effect in one area where the web ACL is used and not in another.   After
+you change a rule action setting, you might see the old action in some places and the new
+action in others.    After you add an IP address to an IP set that is in use in a blocking
+rule, the new address might be blocked in one area while still allowed in another.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to associate with the web
@@ -42,16 +45,14 @@ a resource. Generally, any inconsistencies of this type last only a few seconds.
   with the resource.
 
 """
-function associate_web_acl(
+associate_web_acl(
     ResourceArn, WebACLArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "AssociateWebACL",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "WebACLArn" => WebACLArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "AssociateWebACL",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "WebACLArn" => WebACLArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_web_acl(
     ResourceArn,
     WebACLArn,
@@ -97,14 +98,12 @@ WAF Developer Guide.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "CheckCapacity",
-        Dict{String,Any}("Rules" => Rules, "Scope" => Scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "CheckCapacity",
+    Dict{String,Any}("Rules" => Rules, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function check_capacity(
     Rules,
     Scope,
@@ -142,19 +141,16 @@ you generate a key, you can copy it for use in your JavaScript integration.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 - `token_domains`: The client application domains that you want to use this API key for.
   Example JSON: \"TokenDomains\": [\"abc.com\", \"store.abc.com\"]  Public suffixes aren't
-  allowed. For example, you can't use usa.gov or co.uk as token domains.
+  allowed. For example, you can't use gov.au or co.uk as token domains.
 
 """
-function create_apikey(
-    Scope, TokenDomains; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+create_apikey(Scope, TokenDomains; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "CreateAPIKey",
         Dict{String,Any}("Scope" => Scope, "TokenDomains" => TokenDomains);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_apikey(
     Scope,
     TokenDomains,
@@ -186,15 +182,14 @@ lists those IP addresses.
 
 # Arguments
 - `addresses`: Contains an array of strings that specifies zero or more IP addresses or
-  blocks of IP addresses. All addresses must be specified using Classless Inter-Domain
-  Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example
-  address strings:    To configure WAF to allow, block, or count requests that originated
-  from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block,
-  or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify
-  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from
-  the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
-  1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count
-  requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+  blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses
+  must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all
+  IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    For requests that
+  originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   For requests that
+  originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For
+  requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111,
+  specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   For requests that originated from IP
+  addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
   1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
   1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see
   the Wikipedia entry Classless Inter-Domain Routing. Example JSON Addresses specifications:
@@ -218,25 +213,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the IP set that helps with identification.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
-function create_ipset(
+create_ipset(
     Addresses,
     IPAddressVersion,
     Name,
     Scope;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = wafv2(
+    "CreateIPSet",
+    Dict{String,Any}(
+        "Addresses" => Addresses,
+        "IPAddressVersion" => IPAddressVersion,
+        "Name" => Name,
+        "Scope" => Scope,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "CreateIPSet",
-        Dict{String,Any}(
-            "Addresses" => Addresses,
-            "IPAddressVersion" => IPAddressVersion,
-            "Name" => Name,
-            "Scope" => Scope,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_ipset(
     Addresses,
     IPAddressVersion,
@@ -287,20 +280,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the set that helps with identification.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
-function create_regex_pattern_set(
+create_regex_pattern_set(
     Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "CreateRegexPatternSet",
+    Dict{String,Any}(
+        "Name" => Name,
+        "RegularExpressionList" => RegularExpressionList,
+        "Scope" => Scope,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "CreateRegexPatternSet",
-        Dict{String,Any}(
-            "Name" => Name,
-            "RegularExpressionList" => RegularExpressionList,
-            "Scope" => Scope,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_regex_pattern_set(
     Name,
     RegularExpressionList,
@@ -369,30 +360,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on count and size for custom request and response settings, see WAF quotas in the WAF
   Developer Guide.
 - `"Description"`: A description of the rule group that helps with identification.
-- `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
-  block, or count. Each rule includes one top-level statement that WAF uses to identify
-  matching web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The Rule statements used to identify the web requests that you want to manage.
+  Each rule includes one top-level statement that WAF uses to identify matching web requests,
+  and parameters that govern how WAF handles them.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
-function create_rule_group(
+create_rule_group(
     Capacity,
     Name,
     Scope,
     VisibilityConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = wafv2(
+    "CreateRuleGroup",
+    Dict{String,Any}(
+        "Capacity" => Capacity,
+        "Name" => Name,
+        "Scope" => Scope,
+        "VisibilityConfig" => VisibilityConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "CreateRuleGroup",
-        Dict{String,Any}(
-            "Capacity" => Capacity,
-            "Name" => Name,
-            "Scope" => Scope,
-            "VisibilityConfig" => VisibilityConfig,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_rule_group(
     Capacity,
     Name,
@@ -425,14 +414,15 @@ end
     create_web_acl(default_action, name, scope, visibility_config, params::Dict{String,<:Any})
 
 Creates a WebACL per the specifications provided.  A web ACL defines a collection of rules
-to use to inspect and control web requests. Each rule has an action defined (allow, block,
-or count) for requests that match the statement of the rule. In the web ACL, you assign a
-default action to take (allow, block) for any request that does not match any of the rules.
-The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule
-group. You can associate a web ACL with one or more Amazon Web Services resources to
-protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST
-API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an
-App Runner service, or an Amazon Web Services Verified Access instance.
+to use to inspect and control web requests. Each rule has a statement that defines what to
+look for in web requests and an action that WAF applies to requests that match the
+statement. In the web ACL, you assign a default action to take (allow, block) for any
+request that does not match any of the rules. The rules in a web ACL can be a combination
+of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one
+or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront
+distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync
+GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+Verified Access instance.
 
 # Arguments
 - `default_action`: The action to perform if none of the Rules contained in the WebACL
@@ -453,10 +443,12 @@ App Runner service, or an Amazon Web Services Verified Access instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AssociationConfig"`: Specifies custom configurations for the associations between the
   web ACL and protected resources.  Use this to customize the maximum size of the request
-  body that your protected CloudFront distributions forward to WAF for inspection. The
-  default is 16 KB (16,384 kilobytes).   You are charged additional fees when your protected
-  resources forward body sizes that are larger than the default. For more information, see
-  WAF Pricing.
+  body that your protected resources forward to WAF for inspection. You can customize this
+  setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access
+  resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees
+  when your protected resources forward body sizes that are larger than the default. For more
+  information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is
+  fixed at 8 KB (8,192 bytes).
 - `"CaptchaConfig"`: Specifies how WAF should handle CAPTCHA evaluations for rules that
   don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its
   default settings for CaptchaConfig.
@@ -471,9 +463,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about the limits on count and size for custom request and response settings, see WAF quotas
   in the WAF Developer Guide.
 - `"Description"`: A description of the web ACL that helps with identification.
-- `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
-  block, or count. Each rule includes one top-level statement that WAF uses to identify
-  matching web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The Rule statements used to identify the web requests that you want to manage.
+  Each rule includes one top-level statement that WAF uses to identify matching web requests,
+  and parameters that govern how WAF handles them.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 - `"TokenDomains"`: Specifies the domains that WAF should accept in a web request token.
   This enables the use of tokens across multiple protected websites. When WAF provides a
@@ -482,27 +474,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain of the protected resource. With a token domain list, WAF accepts the resource's host
   domain plus all domains in the token domain list, including their prefixed subdomains.
   Example JSON: \"TokenDomains\": { \"mywebsite.com\", \"myotherwebsite.com\" }  Public
-  suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
+  suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
 """
-function create_web_acl(
+create_web_acl(
     DefaultAction,
     Name,
     Scope,
     VisibilityConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = wafv2(
+    "CreateWebACL",
+    Dict{String,Any}(
+        "DefaultAction" => DefaultAction,
+        "Name" => Name,
+        "Scope" => Scope,
+        "VisibilityConfig" => VisibilityConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "CreateWebACL",
-        Dict{String,Any}(
-            "DefaultAction" => DefaultAction,
-            "Name" => Name,
-            "Scope" => Scope,
-            "VisibilityConfig" => VisibilityConfig,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_web_acl(
     DefaultAction,
     Name,
@@ -531,6 +521,48 @@ function create_web_acl(
 end
 
 """
+    delete_apikey(apikey, scope)
+    delete_apikey(apikey, scope, params::Dict{String,<:Any})
+
+Deletes the specified API key.  After you delete a key, it can take up to 24 hours for WAF
+to disallow use of the key in all regions.
+
+# Arguments
+- `apikey`: The encrypted API key that you want to delete.
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
+  regional application. A regional application can be an Application Load Balancer (ALB), an
+  Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App
+  Runner service, or an Amazon Web Services Verified Access instance.  To work with
+  CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI -
+  Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT
+  --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
+
+"""
+delete_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "DeleteAPIKey",
+    Dict{String,Any}("APIKey" => APIKey, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_apikey(
+    APIKey,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wafv2(
+        "DeleteAPIKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("APIKey" => APIKey, "Scope" => Scope), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_firewall_manager_rule_groups(web_aclarn, web_acllock_token)
     delete_firewall_manager_rule_groups(web_aclarn, web_acllock_token, params::Dict{String,<:Any})
 
@@ -548,16 +580,14 @@ You can only use this if ManagedByFirewallManager is false in the specified WebA
   returned by that operation.
 
 """
-function delete_firewall_manager_rule_groups(
+delete_firewall_manager_rule_groups(
     WebACLArn, WebACLLockToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "DeleteFirewallManagerRuleGroups",
+    Dict{String,Any}("WebACLArn" => WebACLArn, "WebACLLockToken" => WebACLLockToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "DeleteFirewallManagerRuleGroups",
-        Dict{String,Any}("WebACLArn" => WebACLArn, "WebACLLockToken" => WebACLLockToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_firewall_manager_rule_groups(
     WebACLArn,
     WebACLLockToken,
@@ -607,18 +637,16 @@ Deletes the specified IPSet.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function delete_ipset(
+delete_ipset(
     Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "DeleteIPSet",
+    Dict{String,Any}(
+        "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "DeleteIPSet",
-        Dict{String,Any}(
-            "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_ipset(
     Id,
     LockToken,
@@ -654,16 +682,14 @@ Deletes the LoggingConfiguration from the specified web ACL.
   delete the LoggingConfiguration.
 
 """
-function delete_logging_configuration(
+delete_logging_configuration(
     ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "DeleteLoggingConfiguration",
+    Dict{String,Any}("ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "DeleteLoggingConfiguration",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_logging_configuration(
     ResourceArn,
     params::AbstractDict{String};
@@ -691,16 +717,13 @@ the rule group to perform this operation.
   delete the policy. You must be the owner of the rule group to perform this operation.
 
 """
-function delete_permission_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+delete_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "DeletePermissionPolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_permission_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -742,18 +765,16 @@ Deletes the specified RegexPatternSet.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function delete_regex_pattern_set(
+delete_regex_pattern_set(
     Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "DeleteRegexPatternSet",
+    Dict{String,Any}(
+        "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "DeleteRegexPatternSet",
-        Dict{String,Any}(
-            "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_regex_pattern_set(
     Id,
     LockToken,
@@ -805,18 +826,16 @@ Deletes the specified RuleGroup.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function delete_rule_group(
+delete_rule_group(
     Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "DeleteRuleGroup",
+    Dict{String,Any}(
+        "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "DeleteRuleGroup",
-        Dict{String,Any}(
-            "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_rule_group(
     Id,
     LockToken,
@@ -877,18 +896,16 @@ UpdateDistribution in the Amazon CloudFront API Reference.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function delete_web_acl(
+delete_web_acl(
     Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "DeleteWebACL",
+    Dict{String,Any}(
+        "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "DeleteWebACL",
-        Dict{String,Any}(
-            "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_web_acl(
     Id,
     LockToken,
@@ -930,16 +947,13 @@ Amazon Web Services Marketplace managed rule groups.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function describe_all_managed_products(
-    Scope; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+describe_all_managed_products(Scope; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "DescribeAllManagedProducts",
         Dict{String,Any}("Scope" => Scope);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_all_managed_products(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -969,16 +983,14 @@ Provides high-level information for the managed rule groups owned by a specific 
   rule group name, to identify a rule group.
 
 """
-function describe_managed_products_by_vendor(
+describe_managed_products_by_vendor(
     Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "DescribeManagedProductsByVendor",
+    Dict{String,Any}("Scope" => Scope, "VendorName" => VendorName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "DescribeManagedProductsByVendor",
-        Dict{String,Any}("Scope" => Scope, "VendorName" => VendorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_managed_products_by_vendor(
     Scope,
     VendorName,
@@ -1024,16 +1036,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionName"`: The version of the rule group. You can only use a version that is not
   scheduled for expiration. If you don't provide this, WAF uses the vendor's default version.
 """
-function describe_managed_rule_group(
+describe_managed_rule_group(
     Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "DescribeManagedRuleGroup",
+    Dict{String,Any}("Name" => Name, "Scope" => Scope, "VendorName" => VendorName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "DescribeManagedRuleGroup",
-        Dict{String,Any}("Name" => Name, "Scope" => Scope, "VendorName" => VendorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_managed_rule_group(
     Name,
     Scope,
@@ -1068,7 +1078,9 @@ GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon We
 Verified Access instance.  For Amazon CloudFront, don't use this call. Instead, use your
 CloudFront distribution configuration. To disassociate a web ACL, provide an empty web ACL
 ID in the CloudFront call UpdateDistribution. For information, see UpdateDistribution in
-the Amazon CloudFront API Reference.
+the Amazon CloudFront API Reference.   Required permissions for customer-managed IAM
+policies  This call requires permissions that are specific to the protected resource type.
+For details, see Permissions for DisassociateWebACL in the WAF Developer Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to disassociate from the
@@ -1085,16 +1097,13 @@ the Amazon CloudFront API Reference.
   arn:partition:ec2:region:account-id:verified-access-instance/instance-id
 
 """
-function disassociate_web_acl(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+disassociate_web_acl(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "DisassociateWebACL",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disassociate_web_acl(
     ResourceArn,
     params::AbstractDict{String};
@@ -1124,16 +1133,14 @@ For more information, see WAF client application integration in the WAF Develope
 - `release_version`: The release version. For the latest available version, specify LATEST.
 
 """
-function generate_mobile_sdk_release_url(
+generate_mobile_sdk_release_url(
     Platform, ReleaseVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "GenerateMobileSdkReleaseUrl",
+    Dict{String,Any}("Platform" => Platform, "ReleaseVersion" => ReleaseVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "GenerateMobileSdkReleaseUrl",
-        Dict{String,Any}("Platform" => Platform, "ReleaseVersion" => ReleaseVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function generate_mobile_sdk_release_url(
     Platform,
     ReleaseVersion,
@@ -1178,16 +1185,13 @@ Guide.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function get_decrypted_apikey(
-    APIKey, Scope; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+get_decrypted_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "GetDecryptedAPIKey",
         Dict{String,Any}("APIKey" => APIKey, "Scope" => Scope);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_decrypted_apikey(
     APIKey,
     Scope,
@@ -1226,14 +1230,12 @@ Retrieves the specified IPSet.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "GetIPSet",
-        Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "GetIPSet",
+    Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_ipset(
     Id,
     Name,
@@ -1266,16 +1268,13 @@ Returns the LoggingConfiguration for the specified web ACL.
   the LoggingConfiguration.
 
 """
-function get_logging_configuration(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+get_logging_configuration(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "GetLoggingConfiguration",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_logging_configuration(
     ResourceArn,
     params::AbstractDict{String};
@@ -1317,16 +1316,13 @@ UpdateManagedRuleSetVersionExpiryDate.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function get_managed_rule_set(
-    Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+get_managed_rule_set(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "GetManagedRuleSet",
         Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_managed_rule_set(
     Id,
     Name,
@@ -1363,16 +1359,14 @@ Developer Guide.
 - `release_version`: The release version. For the latest available version, specify LATEST.
 
 """
-function get_mobile_sdk_release(
+get_mobile_sdk_release(
     Platform, ReleaseVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "GetMobileSdkRelease",
+    Dict{String,Any}("Platform" => Platform, "ReleaseVersion" => ReleaseVersion);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "GetMobileSdkRelease",
-        Dict{String,Any}("Platform" => Platform, "ReleaseVersion" => ReleaseVersion);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_mobile_sdk_release(
     Platform,
     ReleaseVersion,
@@ -1407,16 +1401,13 @@ of the rule group to perform this operation.
   get the policy.
 
 """
-function get_permission_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+get_permission_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "GetPermissionPolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_permission_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -1471,21 +1462,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RuleGroupRuleName"`: The name of the rule group reference statement in your web ACL.
   This is required only when you have the rate-based rule nested inside a rule group.
 """
-function get_rate_based_statement_managed_keys(
+get_rate_based_statement_managed_keys(
     RuleName, Scope, WebACLId, WebACLName; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "GetRateBasedStatementManagedKeys",
+    Dict{String,Any}(
+        "RuleName" => RuleName,
+        "Scope" => Scope,
+        "WebACLId" => WebACLId,
+        "WebACLName" => WebACLName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "GetRateBasedStatementManagedKeys",
-        Dict{String,Any}(
-            "RuleName" => RuleName,
-            "Scope" => Scope,
-            "WebACLId" => WebACLId,
-            "WebACLName" => WebACLName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_rate_based_statement_managed_keys(
     RuleName,
     Scope,
@@ -1532,16 +1521,13 @@ Retrieves the specified RegexPatternSet.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function get_regex_pattern_set(
-    Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+get_regex_pattern_set(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "GetRegexPatternSet",
         Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_regex_pattern_set(
     Id,
     Name,
@@ -1584,9 +1570,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-function get_rule_group(; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2("GetRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_rule_group(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2("GetRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_rule_group(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1632,27 +1617,25 @@ the actual period during which WAF selected the requests in the sample.
   of requests.
 
 """
-function get_sampled_requests(
+get_sampled_requests(
     MaxItems,
     RuleMetricName,
     Scope,
     TimeWindow,
     WebAclArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = wafv2(
+    "GetSampledRequests",
+    Dict{String,Any}(
+        "MaxItems" => MaxItems,
+        "RuleMetricName" => RuleMetricName,
+        "Scope" => Scope,
+        "TimeWindow" => TimeWindow,
+        "WebAclArn" => WebAclArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "GetSampledRequests",
-        Dict{String,Any}(
-            "MaxItems" => MaxItems,
-            "RuleMetricName" => RuleMetricName,
-            "Scope" => Scope,
-            "TimeWindow" => TimeWindow,
-            "WebAclArn" => WebAclArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sampled_requests(
     MaxItems,
     RuleMetricName,
@@ -1702,14 +1685,12 @@ Retrieves the specified WebACL.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "GetWebACL",
-        Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "GetWebACL",
+    Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_web_acl(
     Id,
     Name,
@@ -1735,7 +1716,15 @@ end
     get_web_aclfor_resource(resource_arn)
     get_web_aclfor_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves the WebACL for the specified resource.
+Retrieves the WebACL for the specified resource.  This call uses GetWebACL, to verify that
+your account has permission to access the retrieved web ACL. If you get an error that
+indicates that your account isn't authorized to perform wafv2:GetWebACL on the resource,
+that error won't be included in your CloudTrail event history.  For Amazon CloudFront,
+don't use this call. Instead, call the CloudFront action GetDistributionConfig. For
+information, see GetDistributionConfig in the Amazon CloudFront API Reference.   Required
+permissions for customer-managed IAM policies  This call requires permissions that are
+specific to the protected resource type. For details, see Permissions for
+GetWebACLForResource in the WAF Developer Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose web ACL you want to
@@ -1752,16 +1741,13 @@ Retrieves the WebACL for the specified resource.
   arn:partition:ec2:region:account-id:verified-access-instance/instance-id
 
 """
-function get_web_aclfor_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+get_web_aclfor_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "GetWebACLForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_web_aclfor_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1806,14 +1792,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_apikeys(Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "ListAPIKeys",
-        Dict{String,Any}("Scope" => Scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_apikeys(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "ListAPIKeys",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_apikeys(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1854,16 +1838,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_available_managed_rule_group_versions(
+list_available_managed_rule_group_versions(
     Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "ListAvailableManagedRuleGroupVersions",
+    Dict{String,Any}("Name" => Name, "Scope" => Scope, "VendorName" => VendorName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "ListAvailableManagedRuleGroupVersions",
-        Dict{String,Any}("Name" => Name, "Scope" => Scope, "VendorName" => VendorName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_available_managed_rule_group_versions(
     Name,
     Scope,
@@ -1914,16 +1896,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_available_managed_rule_groups(
+list_available_managed_rule_groups(
     Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "ListAvailableManagedRuleGroups",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "ListAvailableManagedRuleGroups",
-        Dict{String,Any}("Scope" => Scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_available_managed_rule_groups(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1960,14 +1940,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_ipsets(Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "ListIPSets",
-        Dict{String,Any}("Scope" => Scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_ipsets(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "ListIPSets",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_ipsets(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2004,16 +1982,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_logging_configurations(
-    Scope; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+list_logging_configurations(Scope; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "ListLoggingConfigurations",
         Dict{String,Any}("Scope" => Scope);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_logging_configurations(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2055,14 +2030,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "ListManagedRuleSets",
-        Dict{String,Any}("Scope" => Scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "ListManagedRuleSets",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_managed_rule_sets(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2097,16 +2070,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_mobile_sdk_releases(
-    Platform; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+list_mobile_sdk_releases(Platform; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "ListMobileSdkReleases",
         Dict{String,Any}("Platform" => Platform);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_mobile_sdk_releases(
     Platform,
     params::AbstractDict{String};
@@ -2148,14 +2118,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "ListRegexPatternSets",
-        Dict{String,Any}("Scope" => Scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "ListRegexPatternSets",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_regex_pattern_sets(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2172,8 +2140,12 @@ end
     list_resources_for_web_acl(web_aclarn, params::Dict{String,<:Any})
 
 Retrieves an array of the Amazon Resource Names (ARNs) for the regional resources that are
-associated with the specified web ACL. If you want the list of Amazon CloudFront resources,
-use the CloudFront call ListDistributionsByWebACLId.
+associated with the specified web ACL.  For Amazon CloudFront, don't use this call.
+Instead, use the CloudFront call ListDistributionsByWebACLId. For information, see
+ListDistributionsByWebACLId in the Amazon CloudFront API Reference.   Required permissions
+for customer-managed IAM policies  This call requires permissions that are specific to the
+protected resource type. For details, see Permissions for ListResourcesForWebACL in the WAF
+Developer Guide.
 
 # Arguments
 - `web_aclarn`: The Amazon Resource Name (ARN) of the web ACL.
@@ -2186,16 +2158,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services Verified Access instance.   If you don't provide a resource type, the call uses
   the resource type APPLICATION_LOAD_BALANCER.   Default: APPLICATION_LOAD_BALANCER
 """
-function list_resources_for_web_acl(
-    WebACLArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+list_resources_for_web_acl(WebACLArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "ListResourcesForWebACL",
         Dict{String,Any}("WebACLArn" => WebACLArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_resources_for_web_acl(
     WebACLArn,
     params::AbstractDict{String};
@@ -2236,14 +2205,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_rule_groups(Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "ListRuleGroups",
-        Dict{String,Any}("Scope" => Scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_rule_groups(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "ListRuleGroups",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_rule_groups(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2280,16 +2247,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -2330,14 +2294,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_web_acls(Scope; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "ListWebACLs",
-        Dict{String,Any}("Scope" => Scope);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_web_acls(Scope; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "ListWebACLs",
+    Dict{String,Any}("Scope" => Scope);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_web_acls(
     Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2378,16 +2340,14 @@ information in the WAF Developer Guide.
 - `logging_configuration`:
 
 """
-function put_logging_configuration(
+put_logging_configuration(
     LoggingConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "PutLoggingConfiguration",
+    Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "PutLoggingConfiguration",
-        Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_logging_configuration(
     LoggingConfiguration,
     params::AbstractDict{String};
@@ -2454,18 +2414,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionsToPublish"`: The versions of the named managed rule group that you want to
   offer to your customers.
 """
-function put_managed_rule_set_versions(
+put_managed_rule_set_versions(
     Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "PutManagedRuleSetVersions",
+    Dict{String,Any}(
+        "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "PutManagedRuleSetVersions",
-        Dict{String,Any}(
-            "Id" => Id, "LockToken" => LockToken, "Name" => Name, "Scope" => Scope
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_managed_rule_set_versions(
     Id,
     LockToken,
@@ -2513,16 +2471,14 @@ owner of the rule group.
   attach the policy.
 
 """
-function put_permission_policy(
+put_permission_policy(
     Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "PutPermissionPolicy",
+    Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "PutPermissionPolicy",
-        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_permission_policy(
     Policy,
     ResourceArn,
@@ -2560,14 +2516,12 @@ through the WAF console.
 - `tags`: An array of key:value pairs to associate with the resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return wafv2(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = wafv2(
+    "TagResource",
+    Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2602,16 +2556,13 @@ add to each container. You can add up to 50 tags to each Amazon Web Services res
 - `tag_keys`: An array of keys identifying the tags to disassociate from the resource.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return wafv2(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    wafv2(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2639,29 +2590,29 @@ end
 Updates the specified IPSet.   This operation completely replaces the mutable
 specifications that you already have for the IP set with the ones that you provide to this
 call.  To modify an IP set, do the following:    Retrieve it by calling GetIPSet    Update
-its settings as needed   Provide the complete IP set specification to this call    When you
-make changes to web ACLs or web ACL components, like rules and rule groups, WAF propagates
-the changes everywhere that the web ACL and its components are stored and used. Your
-changes are applied within seconds, but there might be a brief period of inconsistency when
-the changes have arrived in some places and not in others. So, for example, if you change a
-rule action setting, the action might be the old action in one area and the new action in
-another area. Or if you add an IP address to an IP set used in a blocking rule, the new
-address might briefly be blocked in one area while still allowed in another. This temporary
-inconsistency can occur when you first associate a web ACL with an Amazon Web Services
-resource and when you change a web ACL that is already associated with a resource.
-Generally, any inconsistencies of this type last only a few seconds.
+its settings as needed   Provide the complete IP set specification to this call
+Temporary inconsistencies during updates  When you create or change a web ACL or other WAF
+resources, the changes take a small amount of time to propagate to all areas where the
+resources are stored. The propagation time can be from a few seconds to a number of
+minutes.  The following are examples of the temporary inconsistencies that you might notice
+during change propagation:    After you create a web ACL, if you try to associate it with a
+resource, you might get an exception indicating that the web ACL is unavailable.    After
+you add a rule group to a web ACL, the new rule group rules might be in effect in one area
+where the web ACL is used and not in another.   After you change a rule action setting, you
+might see the old action in some places and the new action in others.    After you add an
+IP address to an IP set that is in use in a blocking rule, the new address might be blocked
+in one area while still allowed in another.
 
 # Arguments
 - `addresses`: Contains an array of strings that specifies zero or more IP addresses or
-  blocks of IP addresses. All addresses must be specified using Classless Inter-Domain
-  Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example
-  address strings:    To configure WAF to allow, block, or count requests that originated
-  from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block,
-  or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify
-  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from
-  the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
-  1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count
-  requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+  blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses
+  must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all
+  IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    For requests that
+  originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   For requests that
+  originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For
+  requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111,
+  specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   For requests that originated from IP
+  addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
   1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
   1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see
   the Wikipedia entry Classless Inter-Domain Routing. Example JSON Addresses specifications:
@@ -2692,22 +2643,20 @@ Generally, any inconsistencies of this type last only a few seconds.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the IP set that helps with identification.
 """
-function update_ipset(
+update_ipset(
     Addresses, Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+) = wafv2(
+    "UpdateIPSet",
+    Dict{String,Any}(
+        "Addresses" => Addresses,
+        "Id" => Id,
+        "LockToken" => LockToken,
+        "Name" => Name,
+        "Scope" => Scope,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "UpdateIPSet",
-        Dict{String,Any}(
-            "Addresses" => Addresses,
-            "Id" => Id,
-            "LockToken" => LockToken,
-            "Name" => Name,
-            "Scope" => Scope,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_ipset(
     Addresses,
     Id,
@@ -2777,7 +2726,7 @@ PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
   the named managed rule group.
 
 """
-function update_managed_rule_set_version_expiry_date(
+update_managed_rule_set_version_expiry_date(
     ExpiryTimestamp,
     Id,
     LockToken,
@@ -2785,21 +2734,19 @@ function update_managed_rule_set_version_expiry_date(
     Scope,
     VersionToExpire;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = wafv2(
+    "UpdateManagedRuleSetVersionExpiryDate",
+    Dict{String,Any}(
+        "ExpiryTimestamp" => ExpiryTimestamp,
+        "Id" => Id,
+        "LockToken" => LockToken,
+        "Name" => Name,
+        "Scope" => Scope,
+        "VersionToExpire" => VersionToExpire,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "UpdateManagedRuleSetVersionExpiryDate",
-        Dict{String,Any}(
-            "ExpiryTimestamp" => ExpiryTimestamp,
-            "Id" => Id,
-            "LockToken" => LockToken,
-            "Name" => Name,
-            "Scope" => Scope,
-            "VersionToExpire" => VersionToExpire,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_managed_rule_set_version_expiry_date(
     ExpiryTimestamp,
     Id,
@@ -2839,17 +2786,17 @@ Updates the specified RegexPatternSet.  This operation completely replaces the m
 specifications that you already have for the regex pattern set with the ones that you
 provide to this call.  To modify a regex pattern set, do the following:    Retrieve it by
 calling GetRegexPatternSet    Update its settings as needed   Provide the complete regex
-pattern set specification to this call    When you make changes to web ACLs or web ACL
-components, like rules and rule groups, WAF propagates the changes everywhere that the web
-ACL and its components are stored and used. Your changes are applied within seconds, but
-there might be a brief period of inconsistency when the changes have arrived in some places
-and not in others. So, for example, if you change a rule action setting, the action might
-be the old action in one area and the new action in another area. Or if you add an IP
-address to an IP set used in a blocking rule, the new address might briefly be blocked in
-one area while still allowed in another. This temporary inconsistency can occur when you
-first associate a web ACL with an Amazon Web Services resource and when you change a web
-ACL that is already associated with a resource. Generally, any inconsistencies of this type
-last only a few seconds.
+pattern set specification to this call     Temporary inconsistencies during updates  When
+you create or change a web ACL or other WAF resources, the changes take a small amount of
+time to propagate to all areas where the resources are stored. The propagation time can be
+from a few seconds to a number of minutes.  The following are examples of the temporary
+inconsistencies that you might notice during change propagation:    After you create a web
+ACL, if you try to associate it with a resource, you might get an exception indicating that
+the web ACL is unavailable.    After you add a rule group to a web ACL, the new rule group
+rules might be in effect in one area where the web ACL is used and not in another.   After
+you change a rule action setting, you might see the old action in some places and the new
+action in others.    After you add an IP address to an IP set that is in use in a blocking
+rule, the new address might be blocked in one area while still allowed in another.
 
 # Arguments
 - `id`: A unique identifier for the set. This ID is returned in the responses to create and
@@ -2875,27 +2822,25 @@ last only a few seconds.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the set that helps with identification.
 """
-function update_regex_pattern_set(
+update_regex_pattern_set(
     Id,
     LockToken,
     Name,
     RegularExpressionList,
     Scope;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = wafv2(
+    "UpdateRegexPatternSet",
+    Dict{String,Any}(
+        "Id" => Id,
+        "LockToken" => LockToken,
+        "Name" => Name,
+        "RegularExpressionList" => RegularExpressionList,
+        "Scope" => Scope,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "UpdateRegexPatternSet",
-        Dict{String,Any}(
-            "Id" => Id,
-            "LockToken" => LockToken,
-            "Name" => Name,
-            "RegularExpressionList" => RegularExpressionList,
-            "Scope" => Scope,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_regex_pattern_set(
     Id,
     LockToken,
@@ -2933,20 +2878,21 @@ Updates the specified RuleGroup.  This operation completely replaces the mutable
 specifications that you already have for the rule group with the ones that you provide to
 this call.  To modify a rule group, do the following:    Retrieve it by calling
 GetRuleGroup    Update its settings as needed   Provide the complete rule group
-specification to this call    When you make changes to web ACLs or web ACL components, like
-rules and rule groups, WAF propagates the changes everywhere that the web ACL and its
-components are stored and used. Your changes are applied within seconds, but there might be
-a brief period of inconsistency when the changes have arrived in some places and not in
-others. So, for example, if you change a rule action setting, the action might be the old
-action in one area and the new action in another area. Or if you add an IP address to an IP
-set used in a blocking rule, the new address might briefly be blocked in one area while
-still allowed in another. This temporary inconsistency can occur when you first associate a
-web ACL with an Amazon Web Services resource and when you change a web ACL that is already
-associated with a resource. Generally, any inconsistencies of this type last only a few
-seconds.  A rule group defines a collection of rules to inspect and control web requests
-that you can use in a WebACL. When you create a rule group, you define an immutable
-capacity limit. If you update a rule group, you must stay within the capacity. This allows
-others to reuse the rule group with confidence in its capacity requirements.
+specification to this call     A rule group defines a collection of rules to inspect and
+control web requests that you can use in a WebACL. When you create a rule group, you define
+an immutable capacity limit. If you update a rule group, you must stay within the capacity.
+This allows others to reuse the rule group with confidence in its capacity requirements.
+Temporary inconsistencies during updates  When you create or change a web ACL or other WAF
+resources, the changes take a small amount of time to propagate to all areas where the
+resources are stored. The propagation time can be from a few seconds to a number of
+minutes.  The following are examples of the temporary inconsistencies that you might notice
+during change propagation:    After you create a web ACL, if you try to associate it with a
+resource, you might get an exception indicating that the web ACL is unavailable.    After
+you add a rule group to a web ACL, the new rule group rules might be in effect in one area
+where the web ACL is used and not in another.   After you change a rule action setting, you
+might see the old action in some places and the new action in others.    After you add an
+IP address to an IP set that is in use in a blocking rule, the new address might be blocked
+in one area while still allowed in another.
 
 # Arguments
 - `id`: A unique identifier for the rule group. This ID is returned in the responses to
@@ -2980,31 +2926,29 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on count and size for custom request and response settings, see WAF quotas in the WAF
   Developer Guide.
 - `"Description"`: A description of the rule group that helps with identification.
-- `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
-  block, or count. Each rule includes one top-level statement that WAF uses to identify
-  matching web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The Rule statements used to identify the web requests that you want to manage.
+  Each rule includes one top-level statement that WAF uses to identify matching web requests,
+  and parameters that govern how WAF handles them.
 """
-function update_rule_group(
+update_rule_group(
     Id,
     LockToken,
     Name,
     Scope,
     VisibilityConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = wafv2(
+    "UpdateRuleGroup",
+    Dict{String,Any}(
+        "Id" => Id,
+        "LockToken" => LockToken,
+        "Name" => Name,
+        "Scope" => Scope,
+        "VisibilityConfig" => VisibilityConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "UpdateRuleGroup",
-        Dict{String,Any}(
-            "Id" => Id,
-            "LockToken" => LockToken,
-            "Name" => Name,
-            "Scope" => Scope,
-            "VisibilityConfig" => VisibilityConfig,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_rule_group(
     Id,
     LockToken,
@@ -3043,25 +2987,26 @@ the resources that you have associated with the web ACL.   This operation comple
 replaces the mutable specifications that you already have for the web ACL with the ones
 that you provide to this call.  To modify a web ACL, do the following:    Retrieve it by
 calling GetWebACL    Update its settings as needed   Provide the complete web ACL
-specification to this call    When you make changes to web ACLs or web ACL components, like
-rules and rule groups, WAF propagates the changes everywhere that the web ACL and its
-components are stored and used. Your changes are applied within seconds, but there might be
-a brief period of inconsistency when the changes have arrived in some places and not in
-others. So, for example, if you change a rule action setting, the action might be the old
-action in one area and the new action in another area. Or if you add an IP address to an IP
-set used in a blocking rule, the new address might briefly be blocked in one area while
-still allowed in another. This temporary inconsistency can occur when you first associate a
-web ACL with an Amazon Web Services resource and when you change a web ACL that is already
-associated with a resource. Generally, any inconsistencies of this type last only a few
-seconds.  A web ACL defines a collection of rules to use to inspect and control web
-requests. Each rule has an action defined (allow, block, or count) for requests that match
-the statement of the rule. In the web ACL, you assign a default action to take (allow,
-block) for any request that does not match any of the rules. The rules in a web ACL can be
-a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web
-ACL with one or more Amazon Web Services resources to protect. The resources can be an
-Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load
-Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an
-Amazon Web Services Verified Access instance.
+specification to this call     A web ACL defines a collection of rules to use to inspect
+and control web requests. Each rule has a statement that defines what to look for in web
+requests and an action that WAF applies to requests that match the statement. In the web
+ACL, you assign a default action to take (allow, block) for any request that does not match
+any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup,
+and managed rule group. You can associate a web ACL with one or more Amazon Web Services
+resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API
+Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito
+user pool, an App Runner service, or an Amazon Web Services Verified Access instance.
+Temporary inconsistencies during updates  When you create or change a web ACL or other WAF
+resources, the changes take a small amount of time to propagate to all areas where the
+resources are stored. The propagation time can be from a few seconds to a number of
+minutes.  The following are examples of the temporary inconsistencies that you might notice
+during change propagation:    After you create a web ACL, if you try to associate it with a
+resource, you might get an exception indicating that the web ACL is unavailable.    After
+you add a rule group to a web ACL, the new rule group rules might be in effect in one area
+where the web ACL is used and not in another.   After you change a rule action setting, you
+might see the old action in some places and the new action in others.    After you add an
+IP address to an IP set that is in use in a blocking rule, the new address might be blocked
+in one area while still allowed in another.
 
 # Arguments
 - `default_action`: The action to perform if none of the Rules contained in the WebACL
@@ -3091,10 +3036,12 @@ Amazon Web Services Verified Access instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AssociationConfig"`: Specifies custom configurations for the associations between the
   web ACL and protected resources.  Use this to customize the maximum size of the request
-  body that your protected CloudFront distributions forward to WAF for inspection. The
-  default is 16 KB (16,384 kilobytes).   You are charged additional fees when your protected
-  resources forward body sizes that are larger than the default. For more information, see
-  WAF Pricing.
+  body that your protected resources forward to WAF for inspection. You can customize this
+  setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access
+  resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees
+  when your protected resources forward body sizes that are larger than the default. For more
+  information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is
+  fixed at 8 KB (8,192 bytes).
 - `"CaptchaConfig"`: Specifies how WAF should handle CAPTCHA evaluations for rules that
   don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its
   default settings for CaptchaConfig.
@@ -3109,9 +3056,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about the limits on count and size for custom request and response settings, see WAF quotas
   in the WAF Developer Guide.
 - `"Description"`: A description of the web ACL that helps with identification.
-- `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
-  block, or count. Each rule includes one top-level statement that WAF uses to identify
-  matching web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The Rule statements used to identify the web requests that you want to manage.
+  Each rule includes one top-level statement that WAF uses to identify matching web requests,
+  and parameters that govern how WAF handles them.
 - `"TokenDomains"`: Specifies the domains that WAF should accept in a web request token.
   This enables the use of tokens across multiple protected websites. When WAF provides a
   token, it uses the domain of the Amazon Web Services resource that the web ACL is
@@ -3119,9 +3066,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain of the protected resource. With a token domain list, WAF accepts the resource's host
   domain plus all domains in the token domain list, including their prefixed subdomains.
   Example JSON: \"TokenDomains\": { \"mywebsite.com\", \"myotherwebsite.com\" }  Public
-  suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
+  suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
 """
-function update_web_acl(
+update_web_acl(
     DefaultAction,
     Id,
     LockToken,
@@ -3129,21 +3076,19 @@ function update_web_acl(
     Scope,
     VisibilityConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = wafv2(
+    "UpdateWebACL",
+    Dict{String,Any}(
+        "DefaultAction" => DefaultAction,
+        "Id" => Id,
+        "LockToken" => LockToken,
+        "Name" => Name,
+        "Scope" => Scope,
+        "VisibilityConfig" => VisibilityConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return wafv2(
-        "UpdateWebACL",
-        Dict{String,Any}(
-            "DefaultAction" => DefaultAction,
-            "Id" => Id,
-            "LockToken" => LockToken,
-            "Name" => Name,
-            "Scope" => Scope,
-            "VisibilityConfig" => VisibilityConfig,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_web_acl(
     DefaultAction,
     Id,

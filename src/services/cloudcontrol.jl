@@ -17,16 +17,13 @@ resource operations requests with a status of PENDING or IN_PROGRESS can be canc
   operation request.
 
 """
-function cancel_resource_request(
-    RequestToken; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudcontrol(
+cancel_resource_request(RequestToken; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudcontrol(
         "CancelResourceRequest",
         Dict{String,Any}("RequestToken" => RequestToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_resource_request(
     RequestToken,
     params::AbstractDict{String};
@@ -54,18 +51,12 @@ using the RequestToken of the ProgressEvent type returned by CreateResource.
 # Arguments
 - `desired_state`: Structured data format representing the desired state of the resource,
   consisting of that resource's properties and their desired values.  Cloud Control API
-  currently supports JSON as a structured data format.   &lt;p&gt;Specify the desired state
-  as one of the following:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;A JSON blob&lt;/p&gt;
-  &lt;/li&gt; &lt;li&gt; &lt;p&gt;A local path containing the desired state in JSON data
-  format&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; &lt;p&gt;For more information, see &lt;a
-  href=&quot;https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations
-  -create.html#resource-operations-create-desiredstate&quot;&gt;Composing the desired state
-  of the resource&lt;/a&gt; in the &lt;i&gt;Amazon Web Services Cloud Control API User
-  Guide&lt;/i&gt;.&lt;/p&gt; &lt;p&gt;For more information about the properties of a specific
-  resource, refer to the related topic for the resource in the &lt;a
-  href=&quot;https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resou
-  rce-type-ref.html&quot;&gt;Resource and property types reference&lt;/a&gt; in the
-  &lt;i&gt;CloudFormation Users Guide&lt;/i&gt;.&lt;/p&gt;
+  currently supports JSON as a structured data format.  Specify the desired state as one of
+  the following:   A JSON blob   A local path containing the desired state in JSON data
+  format   For more information, see Composing the desired state of the resource in the
+  Amazon Web Services Cloud Control API User Guide. For more information about the properties
+  of a specific resource, refer to the related topic for the resource in the Resource and
+  property types reference in the CloudFormation Users Guide.
 - `type_name`: The name of the resource type.
 
 # Optional Parameters
@@ -89,10 +80,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-function create_resource(
-    DesiredState, TypeName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudcontrol(
+create_resource(DesiredState, TypeName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudcontrol(
         "CreateResource",
         Dict{String,Any}(
             "DesiredState" => DesiredState,
@@ -102,7 +91,6 @@ function create_resource(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_resource(
     DesiredState,
     TypeName,
@@ -168,10 +156,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-function delete_resource(
-    Identifier, TypeName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudcontrol(
+delete_resource(Identifier, TypeName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudcontrol(
         "DeleteResource",
         Dict{String,Any}(
             "Identifier" => Identifier,
@@ -181,7 +167,6 @@ function delete_resource(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_resource(
     Identifier,
     TypeName,
@@ -239,16 +224,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-function get_resource(
-    Identifier, TypeName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloudcontrol(
+get_resource(Identifier, TypeName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloudcontrol(
         "GetResource",
         Dict{String,Any}("Identifier" => Identifier, "TypeName" => TypeName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_resource(
     Identifier,
     TypeName,
@@ -283,16 +265,14 @@ Control API User Guide.
   operation request.
 
 """
-function get_resource_request_status(
+get_resource_request_status(
     RequestToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloudcontrol(
+    "GetResourceRequestStatus",
+    Dict{String,Any}("RequestToken" => RequestToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudcontrol(
-        "GetResourceRequestStatus",
-        Dict{String,Any}("RequestToken" => RequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_resource_request_status(
     RequestToken,
     params::AbstractDict{String};
@@ -329,11 +309,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is set to null.
 - `"ResourceRequestStatusFilter"`: The filter criteria to apply to the requests returned.
 """
-function list_resource_requests(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudcontrol(
-        "ListResourceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_resource_requests(; aws_config::AbstractAWSConfig=global_aws_config()) = cloudcontrol(
+    "ListResourceRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_resource_requests(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -377,14 +355,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-function list_resources(TypeName; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloudcontrol(
-        "ListResources",
-        Dict{String,Any}("TypeName" => TypeName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_resources(TypeName; aws_config::AbstractAWSConfig=global_aws_config()) = cloudcontrol(
+    "ListResources",
+    Dict{String,Any}("TypeName" => TypeName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_resources(
     TypeName,
     params::AbstractDict{String};
@@ -450,21 +426,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If you do not specify a resource version, CloudFormation uses the default
   version.
 """
-function update_resource(
+update_resource(
     Identifier, PatchDocument, TypeName; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloudcontrol(
+    "UpdateResource",
+    Dict{String,Any}(
+        "Identifier" => Identifier,
+        "PatchDocument" => PatchDocument,
+        "TypeName" => TypeName,
+        "ClientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudcontrol(
-        "UpdateResource",
-        Dict{String,Any}(
-            "Identifier" => Identifier,
-            "PatchDocument" => PatchDocument,
-            "TypeName" => TypeName,
-            "ClientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_resource(
     Identifier,
     PatchDocument,

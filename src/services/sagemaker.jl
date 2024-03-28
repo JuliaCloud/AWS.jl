@@ -29,16 +29,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Produced - The source generated the destination. For example, a training job produced a
   model artifact.
 """
-function add_association(
+add_association(
     DestinationArn, SourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "AddAssociation",
+    Dict{String,Any}("DestinationArn" => DestinationArn, "SourceArn" => SourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "AddAssociation",
-        Dict{String,Any}("DestinationArn" => DestinationArn, "SourceArn" => SourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_association(
     DestinationArn,
     SourceArn,
@@ -76,13 +74,13 @@ API, but not to training jobs that the hyperparameter tuning job launched before
 this API. To make sure that the tags associated with a hyperparameter tuning job are also
 added to all training jobs that the hyperparameter tuning job launches, add the tags when
 you first create the tuning job by specifying them in the Tags parameter of
-CreateHyperParameterTuningJob    Tags that you add to a SageMaker Studio Domain or User
-Profile by calling this API are also added to any Apps that the Domain or User Profile
-launches after you call this API, but not to Apps that the Domain or User Profile launched
-before you called this API. To make sure that the tags associated with a Domain or User
-Profile are also added to all Apps that the Domain or User Profile launches, add the tags
-when you first create the Domain or User Profile by specifying them in the Tags parameter
-of CreateDomain or CreateUserProfile.
+CreateHyperParameterTuningJob    Tags that you add to a SageMaker Domain or User Profile by
+calling this API are also added to any Apps that the Domain or User Profile launches after
+you call this API, but not to Apps that the Domain or User Profile launched before you
+called this API. To make sure that the tags associated with a Domain or User Profile are
+also added to all Apps that the Domain or User Profile launches, add the tags when you
+first create the Domain or User Profile by specifying them in the Tags parameter of
+CreateDomain or CreateUserProfile.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource that you want to tag.
@@ -91,14 +89,12 @@ of CreateDomain or CreateUserProfile.
   more information, see Tagging Amazon Web Services Resources.
 
 """
-function add_tags(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "AddTags",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+add_tags(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "AddTags",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function add_tags(
     ResourceArn,
     Tags,
@@ -132,18 +128,14 @@ DisassociateTrialComponent API.
 - `trial_name`: The name of the trial to associate with.
 
 """
-function associate_trial_component(
+associate_trial_component(
     TrialComponentName, TrialName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "AssociateTrialComponent",
+    Dict{String,Any}("TrialComponentName" => TrialComponentName, "TrialName" => TrialName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "AssociateTrialComponent",
-        Dict{String,Any}(
-            "TrialComponentName" => TrialComponentName, "TrialName" => TrialName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_trial_component(
     TrialComponentName,
     TrialName,
@@ -177,16 +169,14 @@ This action batch describes a list of versioned model packages
   groups.
 
 """
-function batch_describe_model_package(
+batch_describe_model_package(
     ModelPackageArnList; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "BatchDescribeModelPackage",
+    Dict{String,Any}("ModelPackageArnList" => ModelPackageArnList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "BatchDescribeModelPackage",
-        Dict{String,Any}("ModelPackageArnList" => ModelPackageArnList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_describe_model_package(
     ModelPackageArnList,
     params::AbstractDict{String};
@@ -229,18 +219,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: The status of the action.
 - `"Tags"`: A list of tags to apply to the action.
 """
-function create_action(
+create_action(
     ActionName, ActionType, Source; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateAction",
+    Dict{String,Any}(
+        "ActionName" => ActionName, "ActionType" => ActionType, "Source" => Source
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateAction",
-        Dict{String,Any}(
-            "ActionName" => ActionName, "ActionType" => ActionType, "Source" => Source
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_action(
     ActionName,
     ActionType,
@@ -301,19 +289,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that SageMaker runs to test the algorithm's training code and, optionally, one or more
   batch transform jobs that SageMaker runs to test the algorithm's inference code.
 """
-function create_algorithm(
+create_algorithm(
     AlgorithmName, TrainingSpecification; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateAlgorithm",
+    Dict{String,Any}(
+        "AlgorithmName" => AlgorithmName,
+        "TrainingSpecification" => TrainingSpecification,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateAlgorithm",
-        Dict{String,Any}(
-            "AlgorithmName" => AlgorithmName,
-            "TrainingSpecification" => TrainingSpecification,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_algorithm(
     AlgorithmName,
     TrainingSpecification,
@@ -342,8 +328,8 @@ end
     create_app(app_name, app_type, domain_id, params::Dict{String,<:Any})
 
 Creates a running app for the specified UserProfile. This operation is automatically
-invoked by Amazon SageMaker Studio upon access to the associated Domain, and when new
-kernel configurations are selected by the user. A user may have multiple Apps active
+invoked by Amazon SageMaker upon access to the associated Domain, and when new kernel
+configurations are selected by the user. A user may have multiple Apps active
 simultaneously.
 
 # Arguments
@@ -366,10 +352,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserProfileName"`: The user profile name. If this value is not set, then SpaceName must
   be set.
 """
-function create_app(
-    AppName, AppType, DomainId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+create_app(AppName, AppType, DomainId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "CreateApp",
         Dict{String,Any}(
             "AppName" => AppName, "AppType" => AppType, "DomainId" => DomainId
@@ -377,7 +361,6 @@ function create_app(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_app(
     AppName,
     AppType,
@@ -406,29 +389,30 @@ end
     create_app_image_config(app_image_config_name, params::Dict{String,<:Any})
 
 Creates a configuration for running a SageMaker image as a KernelGateway app. The
-configuration specifies the Amazon Elastic File System (EFS) storage volume on the image,
-and a list of the kernels in the image.
+configuration specifies the Amazon Elastic File System storage volume on the image, and a
+list of the kernels in the image.
 
 # Arguments
 - `app_image_config_name`: The name of the AppImageConfig. Must be unique to your account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"JupyterLabAppImageConfig"`: The JupyterLabAppImageConfig. You can only specify one
+  image kernel in the AppImageConfig API. This kernel is shown to users before the image
+  starts. After the image runs, all kernels are visible in JupyterLab.
 - `"KernelGatewayImageConfig"`: The KernelGatewayImageConfig. You can only specify one
   image kernel in the AppImageConfig API. This kernel will be shown to users before the image
   starts. Once the image runs, all kernels are visible in JupyterLab.
 - `"Tags"`: A list of tags to apply to the AppImageConfig.
 """
-function create_app_image_config(
+create_app_image_config(
     AppImageConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateAppImageConfig",
+    Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateAppImageConfig",
-        Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_app_image_config(
     AppImageConfigName,
     params::AbstractDict{String};
@@ -466,16 +450,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Properties"`: A list of properties to add to the artifact.
 - `"Tags"`: A list of tags to apply to the artifact.
 """
-function create_artifact(
-    ArtifactType, Source; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+create_artifact(ArtifactType, Source; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "CreateArtifact",
         Dict{String,Any}("ArtifactType" => ArtifactType, "Source" => Source);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_artifact(
     ArtifactType,
     Source,
@@ -500,9 +481,15 @@ end
     create_auto_mljob(auto_mljob_name, input_data_config, output_data_config, role_arn)
     create_auto_mljob(auto_mljob_name, input_data_config, output_data_config, role_arn, params::Dict{String,<:Any})
 
-Creates an Autopilot job. Find the best-performing model after you run an Autopilot job by
-calling DescribeAutoMLJob. For information about how to use Autopilot, see Automate Model
-Development with Amazon SageMaker Autopilot.
+Creates an Autopilot job also referred to as Autopilot experiment or AutoML job.  We
+recommend using the new versions CreateAutoMLJobV2 and DescribeAutoMLJobV2, which offer
+backward compatibility.  CreateAutoMLJobV2 can manage tabular problem types identical to
+those of its previous version CreateAutoMLJob, as well as time-series forecasting,
+non-tabular problem types such as image or text classification, and text generation (LLMs
+fine-tuning). Find guidelines about how to migrate a CreateAutoMLJob to CreateAutoMLJobV2
+in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.  You can find the best-performing model
+after you run an AutoML job by calling DescribeAutoMLJobV2 (recommended) or
+DescribeAutoMLJob.
 
 # Arguments
 - `auto_mljob_name`: Identifies an Autopilot job. The name must be unique to your account
@@ -519,40 +506,38 @@ Development with Amazon SageMaker Autopilot.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoMLJobConfig"`: A collection of settings used to configure an AutoML job.
-- `"AutoMLJobObjective"`: Defines the objective metric used to measure the predictive
-  quality of an AutoML job. You provide an AutoMLJobObjectiveMetricName and Autopilot infers
-  whether to minimize or maximize it. For CreateAutoMLJobV2, only Accuracy is supported.
+- `"AutoMLJobObjective"`: Specifies a metric to minimize or maximize as the objective of a
+  job. If not specified, the default objective metric depends on the problem type. See
+  AutoMLJobObjective for the default values.
 - `"GenerateCandidateDefinitionsOnly"`: Generates possible candidates without training the
   models. A candidate is a combination of data preprocessors, algorithms, and algorithm
   parameter settings.
 - `"ModelDeployConfig"`: Specifies how to generate the endpoint name for an automatic
   one-click Autopilot model deployment.
 - `"ProblemType"`: Defines the type of supervised learning problem available for the
-  candidates. For more information, see  Amazon SageMaker Autopilot problem types.
+  candidates. For more information, see  SageMaker Autopilot problem types.
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
   Services resources in different ways, for example, by purpose, owner, or environment. For
   more information, see Tagging Amazon Web ServicesResources. Tag keys must be unique per
   resource.
 """
-function create_auto_mljob(
+create_auto_mljob(
     AutoMLJobName,
     InputDataConfig,
     OutputDataConfig,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateAutoMLJob",
+    Dict{String,Any}(
+        "AutoMLJobName" => AutoMLJobName,
+        "InputDataConfig" => InputDataConfig,
+        "OutputDataConfig" => OutputDataConfig,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateAutoMLJob",
-        Dict{String,Any}(
-            "AutoMLJobName" => AutoMLJobName,
-            "InputDataConfig" => InputDataConfig,
-            "OutputDataConfig" => OutputDataConfig,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_auto_mljob(
     AutoMLJobName,
     InputDataConfig,
@@ -584,18 +569,25 @@ end
     create_auto_mljob_v2(auto_mljob_input_data_config, auto_mljob_name, auto_mlproblem_type_config, output_data_config, role_arn)
     create_auto_mljob_v2(auto_mljob_input_data_config, auto_mljob_name, auto_mlproblem_type_config, output_data_config, role_arn, params::Dict{String,<:Any})
 
-Creates an Amazon SageMaker AutoML job that uses non-tabular data such as images or text
-for Computer Vision or Natural Language Processing problems. Find the resulting model after
-you run an AutoML job V2 by calling DescribeAutoMLJobV2. To create an AutoMLJob using
-tabular data, see CreateAutoMLJob.  This API action is callable through SageMaker Canvas
-only. Calling it directly from the CLI or an SDK results in an error.
+Creates an Autopilot job also referred to as Autopilot experiment or AutoML job V2.
+CreateAutoMLJobV2 and DescribeAutoMLJobV2 are new versions of CreateAutoMLJob and
+DescribeAutoMLJob which offer backward compatibility.  CreateAutoMLJobV2 can manage tabular
+problem types identical to those of its previous version CreateAutoMLJob, as well as
+time-series forecasting, non-tabular problem types such as image or text classification,
+and text generation (LLMs fine-tuning). Find guidelines about how to migrate a
+CreateAutoMLJob to CreateAutoMLJobV2 in Migrate a CreateAutoMLJob to CreateAutoMLJobV2.
+For the list of available problem types supported by CreateAutoMLJobV2, see
+AutoMLProblemTypeConfig. You can find the best-performing model after you run an AutoML job
+V2 by calling DescribeAutoMLJobV2.
 
 # Arguments
 - `auto_mljob_input_data_config`: An array of channel objects describing the input data and
-  their location. Each channel is a named input source. Similar to InputDataConfig supported
-  by CreateAutoMLJob. The supported formats depend on the problem type:
-  ImageClassification: S3Prefix, ManifestFile, AugmentedManifestFile    TextClassification:
-  S3Prefix
+  their location. Each channel is a named input source. Similar to the InputDataConfig
+  attribute in the CreateAutoMLJob input parameters. The supported formats depend on the
+  problem type:   For tabular problem types: S3Prefix, ManifestFile.   For image
+  classification: S3Prefix, ManifestFile, AugmentedManifestFile.   For text classification:
+  S3Prefix.   For time-series forecasting: S3Prefix.   For text generation (LLMs
+  fine-tuning): S3Prefix.
 - `auto_mljob_name`: Identifies an Autopilot job. The name must be unique to your account
   and is case insensitive.
 - `auto_mlproblem_type_config`: Defines the configuration settings of one of the supported
@@ -607,13 +599,22 @@ only. Calling it directly from the CLI or an SDK results in an error.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoMLJobObjective"`: Specifies a metric to minimize or maximize as the objective of a
-  job. For CreateAutoMLJobV2, only Accuracy is supported.
+  job. If not specified, the default objective metric depends on the problem type. For the
+  list of default values per problem type, see AutoMLJobObjective.    For tabular problem
+  types: You must either provide both the AutoMLJobObjective and indicate the type of
+  supervised learning problem in AutoMLProblemTypeConfig (TabularJobConfig.ProblemType), or
+  none at all.   For text generation problem types (LLMs fine-tuning): Fine-tuning language
+  models in Autopilot does not require setting the AutoMLJobObjective field. Autopilot
+  fine-tunes LLMs without requiring multiple candidates to be trained and evaluated. Instead,
+  using your dataset, Autopilot directly fine-tunes your target model to enhance a default
+  objective metric, the cross-entropy loss. After fine-tuning a language model, you can
+  evaluate the quality of its generated text using different metrics. For a list of the
+  available metrics, see Metrics for fine-tuning LLMs in Autopilot.
 - `"DataSplitConfig"`: This structure specifies how to split the data into train and
-  validation datasets. If you are using the V1 API (for example CreateAutoMLJob) or the V2
-  API for Natural Language Processing problems (for example CreateAutoMLJobV2 with a
-  TextClassificationJobConfig problem type), the validation and training datasets must
-  contain the same headers. Also, for V1 API jobs, the validation dataset must be less than 2
-  GB in size.
+  validation datasets. The validation and training datasets must contain the same headers.
+  For jobs created by calling CreateAutoMLJob, the validation dataset must be less than 2 GB
+  in size.  This attribute must not be set for the time-series forecasting problem type, as
+  Autopilot automatically splits the input dataset into training and validation sets.
 - `"ModelDeployConfig"`: Specifies how to generate the endpoint name for an automatic
   one-click Autopilot model deployment.
 - `"SecurityConfig"`: The security configuration for traffic encryption or Amazon VPC
@@ -622,27 +623,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services resources in different ways, such as by purpose, owner, or environment. For more
   information, see Tagging Amazon Web ServicesResources. Tag keys must be unique per resource.
 """
-function create_auto_mljob_v2(
+create_auto_mljob_v2(
     AutoMLJobInputDataConfig,
     AutoMLJobName,
     AutoMLProblemTypeConfig,
     OutputDataConfig,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateAutoMLJobV2",
+    Dict{String,Any}(
+        "AutoMLJobInputDataConfig" => AutoMLJobInputDataConfig,
+        "AutoMLJobName" => AutoMLJobName,
+        "AutoMLProblemTypeConfig" => AutoMLProblemTypeConfig,
+        "OutputDataConfig" => OutputDataConfig,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateAutoMLJobV2",
-        Dict{String,Any}(
-            "AutoMLJobInputDataConfig" => AutoMLJobInputDataConfig,
-            "AutoMLJobName" => AutoMLJobName,
-            "AutoMLProblemTypeConfig" => AutoMLProblemTypeConfig,
-            "OutputDataConfig" => OutputDataConfig,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_auto_mljob_v2(
     AutoMLJobInputDataConfig,
     AutoMLJobName,
@@ -663,6 +662,57 @@ function create_auto_mljob_v2(
                     "AutoMLProblemTypeConfig" => AutoMLProblemTypeConfig,
                     "OutputDataConfig" => OutputDataConfig,
                     "RoleArn" => RoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_cluster(cluster_name, instance_groups)
+    create_cluster(cluster_name, instance_groups, params::Dict{String,<:Any})
+
+Creates a SageMaker HyperPod cluster. SageMaker HyperPod is a capability of SageMaker for
+creating and managing persistent clusters for developing large machine learning models,
+such as large language models (LLMs) and diffusion models. To learn more, see Amazon
+SageMaker HyperPod in the Amazon SageMaker Developer Guide.
+
+# Arguments
+- `cluster_name`: The name for the new SageMaker HyperPod cluster.
+- `instance_groups`: The instance groups to be created in the SageMaker HyperPod cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: Custom tags for managing the SageMaker HyperPod cluster as an Amazon Web
+  Services resource. You can add tags to your cluster in the same way you add them in other
+  Amazon Web Services services that support tagging. To learn more about tagging Amazon Web
+  Services resources in general, see Tagging Amazon Web Services Resources User Guide.
+- `"VpcConfig"`:
+"""
+create_cluster(
+    ClusterName, InstanceGroups; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateCluster",
+    Dict{String,Any}("ClusterName" => ClusterName, "InstanceGroups" => InstanceGroups);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_cluster(
+    ClusterName,
+    InstanceGroups,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "CreateCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterName" => ClusterName, "InstanceGroups" => InstanceGroups
                 ),
                 params,
             ),
@@ -695,18 +745,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services resources in different ways, for example, by purpose, owner, or environment. For
   more information, see Tagging Amazon Web Services Resources.
 """
-function create_code_repository(
+create_code_repository(
     CodeRepositoryName, GitConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateCodeRepository",
+    Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName, "GitConfig" => GitConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateCodeRepository",
-        Dict{String,Any}(
-            "CodeRepositoryName" => CodeRepositoryName, "GitConfig" => GitConfig
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_code_repository(
     CodeRepositoryName,
     GitConfig,
@@ -779,25 +825,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   job to connect to. Control access to your models by configuring the VPC. For more
   information, see Protect Compilation Jobs by Using an Amazon Virtual Private Cloud.
 """
-function create_compilation_job(
+create_compilation_job(
     CompilationJobName,
     OutputConfig,
     RoleArn,
     StoppingCondition;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateCompilationJob",
+    Dict{String,Any}(
+        "CompilationJobName" => CompilationJobName,
+        "OutputConfig" => OutputConfig,
+        "RoleArn" => RoleArn,
+        "StoppingCondition" => StoppingCondition,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateCompilationJob",
-        Dict{String,Any}(
-            "CompilationJobName" => CompilationJobName,
-            "OutputConfig" => OutputConfig,
-            "RoleArn" => RoleArn,
-            "StoppingCondition" => StoppingCondition,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_compilation_job(
     CompilationJobName,
     OutputConfig,
@@ -845,18 +889,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Properties"`: A list of properties to add to the context.
 - `"Tags"`: A list of tags to apply to the context.
 """
-function create_context(
+create_context(
     ContextName, ContextType, Source; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateContext",
+    Dict{String,Any}(
+        "ContextName" => ContextName, "ContextType" => ContextType, "Source" => Source
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateContext",
-        Dict{String,Any}(
-            "ContextName" => ContextName, "ContextType" => ContextType, "Source" => Source
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_context(
     ContextName,
     ContextType,
@@ -905,10 +947,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   monitoring job.
 - `"NetworkConfig"`: Specifies networking configuration for the monitoring job.
 - `"StoppingCondition"`:
-- `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
+- `"Tags"`: (Optional) An array of key-value pairs. For more information, see  Using Cost
   Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
-function create_data_quality_job_definition(
+create_data_quality_job_definition(
     DataQualityAppSpecification,
     DataQualityJobInput,
     DataQualityJobOutputConfig,
@@ -916,21 +958,19 @@ function create_data_quality_job_definition(
     JobResources,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateDataQualityJobDefinition",
+    Dict{String,Any}(
+        "DataQualityAppSpecification" => DataQualityAppSpecification,
+        "DataQualityJobInput" => DataQualityJobInput,
+        "DataQualityJobOutputConfig" => DataQualityJobOutputConfig,
+        "JobDefinitionName" => JobDefinitionName,
+        "JobResources" => JobResources,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateDataQualityJobDefinition",
-        Dict{String,Any}(
-            "DataQualityAppSpecification" => DataQualityAppSpecification,
-            "DataQualityJobInput" => DataQualityJobInput,
-            "DataQualityJobOutputConfig" => DataQualityJobOutputConfig,
-            "JobDefinitionName" => JobDefinitionName,
-            "JobResources" => JobResources,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_data_quality_job_definition(
     DataQualityAppSpecification,
     DataQualityJobInput,
@@ -983,18 +1023,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Internet of Things (IoT).
 - `"Tags"`: Creates tags for the specified fleet.
 """
-function create_device_fleet(
+create_device_fleet(
     DeviceFleetName, OutputConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateDeviceFleet",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "OutputConfig" => OutputConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateDeviceFleet",
-        Dict{String,Any}(
-            "DeviceFleetName" => DeviceFleetName, "OutputConfig" => OutputConfig
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_device_fleet(
     DeviceFleetName,
     OutputConfig,
@@ -1021,29 +1057,29 @@ end
     create_domain(auth_mode, default_user_settings, domain_name, subnet_ids, vpc_id)
     create_domain(auth_mode, default_user_settings, domain_name, subnet_ids, vpc_id, params::Dict{String,<:Any})
 
-Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon
-Elastic File System (EFS) volume, a list of authorized users, and a variety of security,
-application, policy, and Amazon Virtual Private Cloud (VPC) configurations. Users within a
-domain can share notebook files and other artifacts with each other.  EFS storage  When a
-domain is created, an EFS volume is created for use by all of the users within the domain.
-Each user receives a private home directory within the EFS volume for notebooks, Git
-repositories, and data files. SageMaker uses the Amazon Web Services Key Management Service
-(Amazon Web Services KMS) to encrypt the EFS volume attached to the domain with an Amazon
-Web Services managed key by default. For more control, you can specify a customer managed
-key. For more information, see Protect Data at Rest Using Encryption.  VPC configuration
-All SageMaker Studio traffic between the domain and the EFS volume is through the specified
-VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType
-parameter. AppNetworkAccessType corresponds to the network access type that you choose when
-you onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS
-traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This
-is the default value.    VpcOnly - All Studio traffic is through the specified VPC and
-subnets. Internet access is disabled by default. To allow internet access, you must specify
-a NAT gateway. When internet access is disabled, you won't be able to run a Studio notebook
-or to train or host models unless your VPC has an interface endpoint to the SageMaker API
-and runtime or a NAT gateway and your security groups allow outbound connections.    NFS
-traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in
-order to launch a SageMaker Studio app successfully.  For more information, see Connect
-SageMaker Studio Notebooks to Resources in a VPC.
+Creates a Domain. A domain consists of an associated Amazon Elastic File System volume, a
+list of authorized users, and a variety of security, application, policy, and Amazon
+Virtual Private Cloud (VPC) configurations. Users within a domain can share notebook files
+and other artifacts with each other.  EFS storage  When a domain is created, an EFS volume
+is created for use by all of the users within the domain. Each user receives a private home
+directory within the EFS volume for notebooks, Git repositories, and data files. SageMaker
+uses the Amazon Web Services Key Management Service (Amazon Web Services KMS) to encrypt
+the EFS volume attached to the domain with an Amazon Web Services managed key by default.
+For more control, you can specify a customer managed key. For more information, see Protect
+Data at Rest Using Encryption.  VPC configuration  All traffic between the domain and the
+Amazon EFS volume is through the specified VPC and subnets. For other traffic, you can
+specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network
+access type that you choose when you onboard to the domain. The following options are
+available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon
+SageMaker, which allows internet access. This is the default value.    VpcOnly - All
+traffic is through the specified VPC and subnets. Internet access is disabled by default.
+To allow internet access, you must specify a NAT gateway. When internet access is disabled,
+you won't be able to run a Amazon SageMaker Studio notebook or to train or host models
+unless your VPC has an interface endpoint to the SageMaker API and runtime or a NAT gateway
+and your security groups allow outbound connections.    NFS traffic over TCP on port 2049
+needs to be allowed in both inbound and outbound rules in order to launch a Amazon
+SageMaker Studio app successfully.  For more information, see Connect Amazon SageMaker
+Studio Notebooks to Resources in a VPC.
 
 # Arguments
 - `auth_mode`: The mode of authentication that members use to access the domain.
@@ -1052,16 +1088,16 @@ SageMaker Studio Notebooks to Resources in a VPC.
   aggregated when specified in both calls. For all other settings in UserSettings, the values
   specified in CreateUserProfile take precedence over those specified in CreateDomain.
 - `domain_name`: A name for the domain.
-- `subnet_ids`: The VPC subnets that Studio uses for communication.
-- `vpc_id`: The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for
+- `subnet_ids`: The VPC subnets that the domain uses for communication.
+- `vpc_id`: The ID of the Amazon Virtual Private Cloud (VPC) that the domain uses for
   communication.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AppNetworkAccessType"`: Specifies the VPC used for non-EFS traffic. The default value
   is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by
-  Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is
-  through the specified VPC and subnets
+  Amazon SageMaker, which allows direct internet access    VpcOnly - All traffic is through
+  the specified VPC and subnets
 - `"AppSecurityGroupManagement"`: The entity that creates and manages the required security
   groups for inter-app communication in VPCOnly mode. Required when
   CreateDomain.AppNetworkAccessType is VPCOnly and
@@ -1070,34 +1106,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultSpaceSettings"`: The default settings used to create a space.
 - `"DomainSettings"`: A collection of Domain settings.
 - `"HomeEfsFileSystemKmsKeyId"`: Use KmsKeyId.
-- `"KmsKeyId"`: SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached
-  to the domain with an Amazon Web Services managed key by default. For more control, specify
-  a customer managed key.
+- `"KmsKeyId"`: SageMaker uses Amazon Web Services KMS to encrypt EFS and EBS volumes
+  attached to the domain with an Amazon Web Services managed key by default. For more
+  control, specify a customer managed key.
 - `"Tags"`: Tags to associated with the Domain. Each tag consists of a key and an optional
   value. Tag keys must be unique per resource. Tags are searchable using the Search API. Tags
   that you specify for the Domain are also added to all Apps that the Domain launches.
 """
-function create_domain(
+create_domain(
     AuthMode,
     DefaultUserSettings,
     DomainName,
     SubnetIds,
     VpcId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateDomain",
+    Dict{String,Any}(
+        "AuthMode" => AuthMode,
+        "DefaultUserSettings" => DefaultUserSettings,
+        "DomainName" => DomainName,
+        "SubnetIds" => SubnetIds,
+        "VpcId" => VpcId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateDomain",
-        Dict{String,Any}(
-            "AuthMode" => AuthMode,
-            "DefaultUserSettings" => DefaultUserSettings,
-            "DomainName" => DomainName,
-            "SubnetIds" => SubnetIds,
-            "VpcId" => VpcId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_domain(
     AuthMode,
     DefaultUserSettings,
@@ -1145,23 +1179,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to 10 per deployment.
 - `"Tags"`: List of tags with which to tag the edge deployment plan.
 """
-function create_edge_deployment_plan(
+create_edge_deployment_plan(
     DeviceFleetName,
     EdgeDeploymentPlanName,
     ModelConfigs;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateEdgeDeploymentPlan",
+    Dict{String,Any}(
+        "DeviceFleetName" => DeviceFleetName,
+        "EdgeDeploymentPlanName" => EdgeDeploymentPlanName,
+        "ModelConfigs" => ModelConfigs,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateEdgeDeploymentPlan",
-        Dict{String,Any}(
-            "DeviceFleetName" => DeviceFleetName,
-            "EdgeDeploymentPlanName" => EdgeDeploymentPlanName,
-            "ModelConfigs" => ModelConfigs,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_edge_deployment_plan(
     DeviceFleetName,
     EdgeDeploymentPlanName,
@@ -1198,18 +1230,16 @@ Creates a new stage in an existing edge deployment plan.
 - `stages`: List of stages to be added to the edge deployment plan.
 
 """
-function create_edge_deployment_stage(
+create_edge_deployment_stage(
     EdgeDeploymentPlanName, Stages; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateEdgeDeploymentStage",
+    Dict{String,Any}(
+        "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "Stages" => Stages
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateEdgeDeploymentStage",
-        Dict{String,Any}(
-            "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "Stages" => Stages
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_edge_deployment_stage(
     EdgeDeploymentPlanName,
     Stages,
@@ -1257,7 +1287,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the edge packaging job runs on.
 - `"Tags"`: Creates tags for the packaging job.
 """
-function create_edge_packaging_job(
+create_edge_packaging_job(
     CompilationJobName,
     EdgePackagingJobName,
     ModelName,
@@ -1265,21 +1295,19 @@ function create_edge_packaging_job(
     OutputConfig,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateEdgePackagingJob",
+    Dict{String,Any}(
+        "CompilationJobName" => CompilationJobName,
+        "EdgePackagingJobName" => EdgePackagingJobName,
+        "ModelName" => ModelName,
+        "ModelVersion" => ModelVersion,
+        "OutputConfig" => OutputConfig,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateEdgePackagingJob",
-        Dict{String,Any}(
-            "CompilationJobName" => CompilationJobName,
-            "EdgePackagingJobName" => EdgePackagingJobName,
-            "ModelName" => ModelName,
-            "ModelVersion" => ModelVersion,
-            "OutputConfig" => OutputConfig,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_edge_packaging_job(
     CompilationJobName,
     EdgePackagingJobName,
@@ -1318,40 +1346,38 @@ end
 Creates an endpoint using the endpoint configuration specified in the request. SageMaker
 uses the endpoint to provision resources and deploy models. You create the endpoint
 configuration with the CreateEndpointConfig API.   Use this API to deploy models using
-SageMaker hosting services.  For an example that calls this method when deploying a model
-to SageMaker hosting services, see the Create Endpoint example notebook.    You must not
-delete an EndpointConfig that is in use by an endpoint that is live or while the
-UpdateEndpoint or CreateEndpoint operations are being performed on the endpoint. To update
-an endpoint, you must create a new EndpointConfig.  The endpoint name must be unique within
-an Amazon Web Services Region in your Amazon Web Services account.  When it receives the
-request, SageMaker creates the endpoint, launches the resources (ML compute instances), and
-deploys the model(s) on them.   When you call CreateEndpoint, a load call is made to
-DynamoDB to verify that your endpoint configuration exists. When you read data from a
-DynamoDB table supporting  Eventually Consistent Reads , the response might not reflect the
-results of a recently completed write operation. The response might include some stale
-data. If the dependent entities are not yet in DynamoDB, this causes a validation error. If
-you repeat your read request after a short time, the response should return the latest
-data. So retry logic is recommended to handle these possible issues. We also recommend that
-customers call DescribeEndpointConfig before calling CreateEndpoint to minimize the
-potential impact of a DynamoDB eventually consistent read.  When SageMaker receives the
-request, it sets the endpoint status to Creating. After it creates the endpoint, it sets
-the status to InService. SageMaker can then process incoming requests for inferences. To
-check the status of an endpoint, use the DescribeEndpoint API. If any of the models hosted
-at this endpoint get model data from an Amazon S3 location, SageMaker uses Amazon Web
-Services Security Token Service to download model artifacts from the S3 path you provided.
-Amazon Web Services STS is activated in your Amazon Web Services account by default. If you
-previously deactivated Amazon Web Services STS for a region, you need to reactivate Amazon
-Web Services STS for that region. For more information, see Activating and Deactivating
-Amazon Web Services STS in an Amazon Web Services Region in the Amazon Web Services
-Identity and Access Management User Guide.   To add the IAM role policies for using this
-API operation, go to the IAM console, and choose Roles in the left navigation pane. Search
-the IAM role that you want to grant access to use the CreateEndpoint and
-CreateEndpointConfig API operations, add the following policies to the role.    Option 1:
-For a full SageMaker access, search and attach the AmazonSageMakerFullAccess policy.
-Option 2: For granting a limited access to an IAM role, paste the following Action elements
-manually into the JSON file of the IAM role:   \"Action\": [\"sagemaker:CreateEndpoint\",
-\"sagemaker:CreateEndpointConfig\"]   \"Resource\": [
-\"arn:aws:sagemaker:region:account-id:endpoint/endpointName\"
+SageMaker hosting services.    You must not delete an EndpointConfig that is in use by an
+endpoint that is live or while the UpdateEndpoint or CreateEndpoint operations are being
+performed on the endpoint. To update an endpoint, you must create a new EndpointConfig.
+The endpoint name must be unique within an Amazon Web Services Region in your Amazon Web
+Services account.  When it receives the request, SageMaker creates the endpoint, launches
+the resources (ML compute instances), and deploys the model(s) on them.   When you call
+CreateEndpoint, a load call is made to DynamoDB to verify that your endpoint configuration
+exists. When you read data from a DynamoDB table supporting  Eventually Consistent Reads ,
+the response might not reflect the results of a recently completed write operation. The
+response might include some stale data. If the dependent entities are not yet in DynamoDB,
+this causes a validation error. If you repeat your read request after a short time, the
+response should return the latest data. So retry logic is recommended to handle these
+possible issues. We also recommend that customers call DescribeEndpointConfig before
+calling CreateEndpoint to minimize the potential impact of a DynamoDB eventually consistent
+read.  When SageMaker receives the request, it sets the endpoint status to Creating. After
+it creates the endpoint, it sets the status to InService. SageMaker can then process
+incoming requests for inferences. To check the status of an endpoint, use the
+DescribeEndpoint API. If any of the models hosted at this endpoint get model data from an
+Amazon S3 location, SageMaker uses Amazon Web Services Security Token Service to download
+model artifacts from the S3 path you provided. Amazon Web Services STS is activated in your
+Amazon Web Services account by default. If you previously deactivated Amazon Web Services
+STS for a region, you need to reactivate Amazon Web Services STS for that region. For more
+information, see Activating and Deactivating Amazon Web Services STS in an Amazon Web
+Services Region in the Amazon Web Services Identity and Access Management User Guide.   To
+add the IAM role policies for using this API operation, go to the IAM console, and choose
+Roles in the left navigation pane. Search the IAM role that you want to grant access to use
+the CreateEndpoint and CreateEndpointConfig API operations, add the following policies to
+the role.    Option 1: For a full SageMaker access, search and attach the
+AmazonSageMakerFullAccess policy.   Option 2: For granting a limited access to an IAM role,
+paste the following Action elements manually into the JSON file of the IAM role:
+\"Action\": [\"sagemaker:CreateEndpoint\", \"sagemaker:CreateEndpointConfig\"]
+\"Resource\": [   \"arn:aws:sagemaker:region:account-id:endpoint/endpointName\"
 \"arn:aws:sagemaker:region:account-id:endpoint-config/endpointConfigName\"   ]  For more
 information, see SageMaker API Permissions: Actions, Permissions, and Resources Reference.
 
@@ -1370,18 +1396,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services resources in different ways, for example, by purpose, owner, or environment. For
   more information, see Tagging Amazon Web Services Resources.
 """
-function create_endpoint(
+create_endpoint(
     EndpointConfigName, EndpointName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateEndpoint",
+    Dict{String,Any}(
+        "EndpointConfigName" => EndpointConfigName, "EndpointName" => EndpointName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateEndpoint",
-        Dict{String,Any}(
-            "EndpointConfigName" => EndpointConfigName, "EndpointName" => EndpointName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_endpoint(
     EndpointConfigName,
     EndpointName,
@@ -1442,6 +1466,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   asynchronous inference. This is a required field in order for your Endpoint to be invoked
   using InvokeEndpointAsync.
 - `"DataCaptureConfig"`:
+- `"EnableNetworkIsolation"`: Sets whether all model containers deployed to the endpoint
+  are isolated. If they are, no inbound or outbound network calls can be made to or from the
+  model containers.
+- `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of an IAM role that Amazon SageMaker
+  can assume to perform actions on your behalf. For more information, see SageMaker Roles.
+  To be able to pass this role to Amazon SageMaker, the caller of this action must have the
+  iam:PassRole permission.
 - `"ExplainerConfig"`: A member of CreateEndpointConfig that enables explainers.
 - `"KmsKeyId"`: The Amazon Resource Name (ARN) of a Amazon Web Services Key Management
   Service key that SageMaker uses to encrypt data on the storage volume attached to the ML
@@ -1468,22 +1499,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
   Services resources in different ways, for example, by purpose, owner, or environment. For
   more information, see Tagging Amazon Web Services Resources.
+- `"VpcConfig"`:
 """
-function create_endpoint_config(
+create_endpoint_config(
     EndpointConfigName,
     ProductionVariants;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateEndpointConfig",
+    Dict{String,Any}(
+        "EndpointConfigName" => EndpointConfigName,
+        "ProductionVariants" => ProductionVariants,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateEndpointConfig",
-        Dict{String,Any}(
-            "EndpointConfigName" => EndpointConfigName,
-            "ProductionVariants" => ProductionVariants,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_endpoint_config(
     EndpointConfigName,
     ProductionVariants,
@@ -1540,16 +1570,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to associate with the experiment. You can use Search API to
   search on the tags.
 """
-function create_experiment(
-    ExperimentName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+create_experiment(ExperimentName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "CreateExperiment",
         Dict{String,Any}("ExperimentName" => ExperimentName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_experiment(
     ExperimentName,
     params::AbstractDict{String};
@@ -1574,8 +1601,10 @@ FeatureStore to describe a Record.  The FeatureGroup defines the schema and feat
 contained in the FeatureGroup. A FeatureGroup definition is composed of a list of Features,
 a RecordIdentifierFeatureName, an EventTimeFeatureName and configurations for its
 OnlineStore and OfflineStore. Check Amazon Web Services service quotas to see the
-FeatureGroups quota for your Amazon Web Services account.  You must include at least one of
-OnlineStoreConfig and OfflineStoreConfig to create a FeatureGroup.
+FeatureGroups quota for your Amazon Web Services account. Note that it can take
+approximately 10-15 minutes to provision an OnlineStore FeatureGroup with the InMemory
+StorageType.  You must include at least one of OnlineStoreConfig and OfflineStoreConfig to
+create a FeatureGroup.
 
 # Arguments
 - `event_time_feature_name`: The name of the feature that stores the EventTime of a Record
@@ -1593,8 +1622,8 @@ OnlineStoreConfig and OfflineStoreConfig to create a FeatureGroup.
   up to 2,500 FeatureDefinitions per FeatureGroup.
 - `feature_group_name`: The name of the FeatureGroup. The name must be unique within an
   Amazon Web Services Region in an Amazon Web Services account. The name:   Must start and
-  end with an alphanumeric character.   Can only contain alphanumeric character and hyphens.
-  Spaces are not allowed.
+  end with an alphanumeric character.   Can only include alphanumeric characters,
+  underscores, and hyphens. Spaces are not allowed.
 - `record_identifier_feature_name`: The name of the Feature whose value uniquely identifies
   a Record defined in the FeatureStore. Only the latest record per identifier value will be
   stored in the OnlineStore. RecordIdentifierFeatureName must be one of feature definitions'
@@ -1620,26 +1649,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM execution role used to persist
   data into the OfflineStore if an OfflineStoreConfig is provided.
 - `"Tags"`: Tags used to identify Features in each FeatureGroup.
+- `"ThroughputConfig"`:
 """
-function create_feature_group(
+create_feature_group(
     EventTimeFeatureName,
     FeatureDefinitions,
     FeatureGroupName,
     RecordIdentifierFeatureName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateFeatureGroup",
+    Dict{String,Any}(
+        "EventTimeFeatureName" => EventTimeFeatureName,
+        "FeatureDefinitions" => FeatureDefinitions,
+        "FeatureGroupName" => FeatureGroupName,
+        "RecordIdentifierFeatureName" => RecordIdentifierFeatureName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateFeatureGroup",
-        Dict{String,Any}(
-            "EventTimeFeatureName" => EventTimeFeatureName,
-            "FeatureDefinitions" => FeatureDefinitions,
-            "FeatureGroupName" => FeatureGroupName,
-            "RecordIdentifierFeatureName" => RecordIdentifierFeatureName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_feature_group(
     EventTimeFeatureName,
     FeatureDefinitions,
@@ -1668,15 +1696,13 @@ function create_feature_group(
 end
 
 """
-    create_flow_definition(flow_definition_name, human_loop_config, output_config, role_arn)
-    create_flow_definition(flow_definition_name, human_loop_config, output_config, role_arn, params::Dict{String,<:Any})
+    create_flow_definition(flow_definition_name, output_config, role_arn)
+    create_flow_definition(flow_definition_name, output_config, role_arn, params::Dict{String,<:Any})
 
 Creates a flow definition.
 
 # Arguments
 - `flow_definition_name`: The name of your flow definition.
-- `human_loop_config`: An object containing information about the tasks the human reviewers
-  will perform.
 - `output_config`: An object containing information about where the human review results
   will be uploaded.
 - `role_arn`: The Amazon Resource Name (ARN) of the role needed to call other services on
@@ -1687,34 +1713,31 @@ Creates a flow definition.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HumanLoopActivationConfig"`: An object containing information about the events that
   trigger a human workflow.
+- `"HumanLoopConfig"`: An object containing information about the tasks the human reviewers
+  will perform.
 - `"HumanLoopRequestSource"`: Container for configuring the source of human task requests.
   Use to specify if Amazon Rekognition or Amazon Textract is used as an integration source.
 - `"Tags"`: An array of key-value pairs that contain metadata to help you categorize and
   organize a flow definition. Each tag consists of a key and a value, both of which you
   define.
 """
-function create_flow_definition(
+create_flow_definition(
     FlowDefinitionName,
-    HumanLoopConfig,
     OutputConfig,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateFlowDefinition",
+    Dict{String,Any}(
+        "FlowDefinitionName" => FlowDefinitionName,
+        "OutputConfig" => OutputConfig,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateFlowDefinition",
-        Dict{String,Any}(
-            "FlowDefinitionName" => FlowDefinitionName,
-            "HumanLoopConfig" => HumanLoopConfig,
-            "OutputConfig" => OutputConfig,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_flow_definition(
     FlowDefinitionName,
-    HumanLoopConfig,
     OutputConfig,
     RoleArn,
     params::AbstractDict{String};
@@ -1727,7 +1750,6 @@ function create_flow_definition(
                 _merge,
                 Dict{String,Any}(
                     "FlowDefinitionName" => FlowDefinitionName,
-                    "HumanLoopConfig" => HumanLoopConfig,
                     "OutputConfig" => OutputConfig,
                     "RoleArn" => RoleArn,
                 ),
@@ -1756,16 +1778,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3StorageConfig"`: The Amazon S3 storage configuration for the hub.
 - `"Tags"`: Any tags to associate with the hub.
 """
-function create_hub(
-    HubDescription, HubName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+create_hub(HubDescription, HubName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "CreateHub",
         Dict{String,Any}("HubDescription" => HubDescription, "HubName" => HubName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_hub(
     HubDescription,
     HubName,
@@ -1804,16 +1823,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize a human review workflow user interface. Each tag consists of a key and a value,
   both of which you define.
 """
-function create_human_task_ui(
+create_human_task_ui(
     HumanTaskUiName, UiTemplate; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateHumanTaskUi",
+    Dict{String,Any}("HumanTaskUiName" => HumanTaskUiName, "UiTemplate" => UiTemplate);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateHumanTaskUi",
-        Dict{String,Any}("HumanTaskUiName" => HumanTaskUiName, "UiTemplate" => UiTemplate);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_human_task_ui(
     HumanTaskUiName,
     UiTemplate,
@@ -1898,21 +1915,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hyperparameter tuning jobs and the new hyperparameter tuning jobs count against the limit
   of training jobs for the tuning job.
 """
-function create_hyper_parameter_tuning_job(
+create_hyper_parameter_tuning_job(
     HyperParameterTuningJobConfig,
     HyperParameterTuningJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateHyperParameterTuningJob",
+    Dict{String,Any}(
+        "HyperParameterTuningJobConfig" => HyperParameterTuningJobConfig,
+        "HyperParameterTuningJobName" => HyperParameterTuningJobName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateHyperParameterTuningJob",
-        Dict{String,Any}(
-            "HyperParameterTuningJobConfig" => HyperParameterTuningJobConfig,
-            "HyperParameterTuningJobName" => HyperParameterTuningJobName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_hyper_parameter_tuning_job(
     HyperParameterTuningJobConfig,
     HyperParameterTuningJobName,
@@ -1941,8 +1956,8 @@ end
     create_image(image_name, role_arn, params::Dict{String,<:Any})
 
 Creates a custom SageMaker image. A SageMaker image is a set of image versions. Each image
-version represents a container image stored in Amazon Elastic Container Registry (ECR). For
-more information, see Bring your own SageMaker image.
+version represents a container image stored in Amazon ECR. For more information, see Bring
+your own SageMaker image.
 
 # Arguments
 - `image_name`: The name of the image. Must be unique to your account.
@@ -1955,14 +1970,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The display name of the image. If not provided, ImageName is displayed.
 - `"Tags"`: A list of tags to apply to the image.
 """
-function create_image(ImageName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+create_image(ImageName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "CreateImage",
         Dict{String,Any}("ImageName" => ImageName, "RoleArn" => RoleArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_image(
     ImageName,
     RoleArn,
@@ -1988,13 +2002,12 @@ end
     create_image_version(base_image, client_token, image_name, params::Dict{String,<:Any})
 
 Creates a version of the SageMaker image specified by ImageName. The version represents the
-Amazon Elastic Container Registry (ECR) container image specified by BaseImage.
+Amazon ECR container image specified by BaseImage.
 
 # Arguments
 - `base_image`: The registry path of the container image to use as the starting point for
-  this version. The path is an Amazon Elastic Container Registry (ECR) URI in the following
-  format:  &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or
-  [@digest]&gt;
+  this version. The path is an Amazon ECR URI in the following format:
+  &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt;
 - `client_token`: A unique ID. If not specified, the Amazon Web Services CLI and Amazon Web
   Services SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
 - `image_name`: The ImageName of the Image to create a version of.
@@ -2019,18 +2032,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   after three months.    ARCHIVED: The image version is archived. Archived image versions are
   not searchable and are no longer actively supported.
 """
-function create_image_version(
+create_image_version(
     BaseImage, ClientToken, ImageName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateImageVersion",
+    Dict{String,Any}(
+        "BaseImage" => BaseImage, "ClientToken" => ClientToken, "ImageName" => ImageName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateImageVersion",
-        Dict{String,Any}(
-            "BaseImage" => BaseImage, "ClientToken" => ClientToken, "ImageName" => ImageName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_image_version(
     BaseImage,
     ClientToken,
@@ -2047,6 +2058,82 @@ function create_image_version(
                     "BaseImage" => BaseImage,
                     "ClientToken" => ClientToken,
                     "ImageName" => ImageName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_inference_component(endpoint_name, inference_component_name, runtime_config, specification, variant_name)
+    create_inference_component(endpoint_name, inference_component_name, runtime_config, specification, variant_name, params::Dict{String,<:Any})
+
+Creates an inference component, which is a SageMaker hosting object that you can use to
+deploy a model to an endpoint. In the inference component settings, you specify the model,
+the endpoint, and how the model utilizes the resources that the endpoint hosts. You can
+optimize resource utilization by tailoring how the required CPU cores, accelerators, and
+memory are allocated. You can deploy multiple inference components to an endpoint, where
+each inference component contains one model and the resource utilization needs for that
+individual model. After you deploy an inference component, you can directly invoke the
+associated model when you use the InvokeEndpoint API action.
+
+# Arguments
+- `endpoint_name`: The name of an existing endpoint where you host the inference component.
+- `inference_component_name`: A unique name to assign to the inference component.
+- `runtime_config`: Runtime settings for a model that is deployed with an inference
+  component.
+- `specification`: Details about the resources to deploy with this inference component,
+  including the model, container, and compute resources.
+- `variant_name`: The name of an existing production variant where you host the inference
+  component.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: A list of key-value pairs associated with the model. For more information, see
+  Tagging Amazon Web Services resources in the Amazon Web Services General Reference.
+"""
+create_inference_component(
+    EndpointName,
+    InferenceComponentName,
+    RuntimeConfig,
+    Specification,
+    VariantName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateInferenceComponent",
+    Dict{String,Any}(
+        "EndpointName" => EndpointName,
+        "InferenceComponentName" => InferenceComponentName,
+        "RuntimeConfig" => RuntimeConfig,
+        "Specification" => Specification,
+        "VariantName" => VariantName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_inference_component(
+    EndpointName,
+    InferenceComponentName,
+    RuntimeConfig,
+    Specification,
+    VariantName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "CreateInferenceComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndpointName" => EndpointName,
+                    "InferenceComponentName" => InferenceComponentName,
+                    "RuntimeConfig" => RuntimeConfig,
+                    "Specification" => Specification,
+                    "VariantName" => VariantName,
                 ),
                 params,
             ),
@@ -2117,7 +2204,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services resources in different ways, for example, by purpose, owner, or environment. For
   more information, see Tagging your Amazon Web Services Resources.
 """
-function create_inference_experiment(
+create_inference_experiment(
     EndpointName,
     ModelVariants,
     Name,
@@ -2125,21 +2212,19 @@ function create_inference_experiment(
     ShadowModeConfig,
     Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateInferenceExperiment",
+    Dict{String,Any}(
+        "EndpointName" => EndpointName,
+        "ModelVariants" => ModelVariants,
+        "Name" => Name,
+        "RoleArn" => RoleArn,
+        "ShadowModeConfig" => ShadowModeConfig,
+        "Type" => Type,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateInferenceExperiment",
-        Dict{String,Any}(
-            "EndpointName" => EndpointName,
-            "ModelVariants" => ModelVariants,
-            "Name" => Name,
-            "RoleArn" => RoleArn,
-            "ShadowModeConfig" => ShadowModeConfig,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_inference_experiment(
     EndpointName,
     ModelVariants,
@@ -2204,25 +2289,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   define. For more information, see Tagging Amazon Web Services Resources in the Amazon Web
   Services General Reference.
 """
-function create_inference_recommendations_job(
+create_inference_recommendations_job(
     InputConfig,
     JobName,
     JobType,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateInferenceRecommendationsJob",
+    Dict{String,Any}(
+        "InputConfig" => InputConfig,
+        "JobName" => JobName,
+        "JobType" => JobType,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateInferenceRecommendationsJob",
-        Dict{String,Any}(
-            "InputConfig" => InputConfig,
-            "JobName" => JobName,
-            "JobType" => JobType,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_inference_recommendations_job(
     InputConfig,
     JobName,
@@ -2356,7 +2439,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of key/value pairs. For more information, see Using Cost Allocation
   Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
-function create_labeling_job(
+create_labeling_job(
     HumanTaskConfig,
     InputConfig,
     LabelAttributeName,
@@ -2364,21 +2447,19 @@ function create_labeling_job(
     OutputConfig,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateLabelingJob",
+    Dict{String,Any}(
+        "HumanTaskConfig" => HumanTaskConfig,
+        "InputConfig" => InputConfig,
+        "LabelAttributeName" => LabelAttributeName,
+        "LabelingJobName" => LabelingJobName,
+        "OutputConfig" => OutputConfig,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateLabelingJob",
-        Dict{String,Any}(
-            "HumanTaskConfig" => HumanTaskConfig,
-            "InputConfig" => InputConfig,
-            "LabelAttributeName" => LabelAttributeName,
-            "LabelingJobName" => LabelingJobName,
-            "OutputConfig" => OutputConfig,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_labeling_job(
     HumanTaskConfig,
     InputConfig,
@@ -2411,8 +2492,8 @@ function create_labeling_job(
 end
 
 """
-    create_model(execution_role_arn, model_name)
-    create_model(execution_role_arn, model_name, params::Dict{String,<:Any})
+    create_model(model_name)
+    create_model(model_name, params::Dict{String,<:Any})
 
 Creates a model in SageMaker. In the request, you name the model and describe a primary
 container. For the primary container, you specify the Docker image that contains inference
@@ -2421,23 +2502,16 @@ uses when you deploy the model for predictions. Use this API to create a model i
 to use SageMaker hosting services or run a batch transform job. To host your model, you
 create an endpoint configuration with the CreateEndpointConfig API, and then create an
 endpoint with the CreateEndpoint API. SageMaker then deploys all of the containers that you
-defined for the model in the hosting environment.  For an example that calls this method
-when deploying a model to SageMaker hosting services, see Create a Model (Amazon Web
-Services SDK for Python (Boto 3)).  To run a batch transform using your model, you start a
-job with the CreateTransformJob API. SageMaker uses your model and your dataset to get
-inferences which are then saved to a specified S3 location. In the request, you also
-provide an IAM role that SageMaker can assume to access model artifacts and docker image
-for deployment on ML compute hosting instances or for batch transform jobs. In addition,
-you also use the IAM role to manage permissions the inference code needs. For example, if
-the inference code access any other Amazon Web Services resources, you grant necessary
-permissions via this role.
+defined for the model in the hosting environment.  To run a batch transform using your
+model, you start a job with the CreateTransformJob API. SageMaker uses your model and your
+dataset to get inferences which are then saved to a specified S3 location. In the request,
+you also provide an IAM role that SageMaker can assume to access model artifacts and docker
+image for deployment on ML compute hosting instances or for batch transform jobs. In
+addition, you also use the IAM role to manage permissions the inference code needs. For
+example, if the inference code access any other Amazon Web Services resources, you grant
+necessary permissions via this role.
 
 # Arguments
-- `execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role that SageMaker can
-  assume to access model artifacts and docker image for deployment on ML compute instances or
-  for batch transform jobs. Deploying on ML compute instances is part of model hosting. For
-  more information, see SageMaker Roles.   To be able to pass this role to SageMaker, the
-  caller of this API must have the iam:PassRole permission.
 - `model_name`: The name of the new model.
 
 # Optional Parameters
@@ -2445,6 +2519,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Containers"`: Specifies the containers in the inference pipeline.
 - `"EnableNetworkIsolation"`: Isolates the model container. No inbound or outbound network
   calls can be made to or from the model container.
+- `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the IAM role that SageMaker can
+  assume to access model artifacts and docker image for deployment on ML compute instances or
+  for batch transform jobs. Deploying on ML compute instances is part of model hosting. For
+  more information, see SageMaker Roles.   To be able to pass this role to SageMaker, the
+  caller of this API must have the iam:PassRole permission.
 - `"InferenceExecutionConfig"`: Specifies details of how containers in a multi-container
   endpoint are called.
 - `"PrimaryContainer"`: The location of the primary docker image containing inference code,
@@ -2459,18 +2538,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Protect Endpoints by Using an Amazon Virtual Private Cloud and Protect Data in Batch
   Transform Jobs by Using an Amazon Virtual Private Cloud.
 """
-function create_model(
-    ExecutionRoleArn, ModelName; aws_config::AbstractAWSConfig=global_aws_config()
+create_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "CreateModel",
+    Dict{String,Any}("ModelName" => ModelName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateModel",
-        Dict{String,Any}("ExecutionRoleArn" => ExecutionRoleArn, "ModelName" => ModelName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_model(
-    ExecutionRoleArn,
     ModelName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -2478,13 +2552,7 @@ function create_model(
     return sagemaker(
         "CreateModel",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ExecutionRoleArn" => ExecutionRoleArn, "ModelName" => ModelName
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2513,10 +2581,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ModelBiasBaselineConfig"`: The baseline configuration for a model bias job.
 - `"NetworkConfig"`: Networking options for a model bias job.
 - `"StoppingCondition"`:
-- `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
+- `"Tags"`: (Optional) An array of key-value pairs. For more information, see  Using Cost
   Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
-function create_model_bias_job_definition(
+create_model_bias_job_definition(
     JobDefinitionName,
     JobResources,
     ModelBiasAppSpecification,
@@ -2524,21 +2592,19 @@ function create_model_bias_job_definition(
     ModelBiasJobOutputConfig,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateModelBiasJobDefinition",
+    Dict{String,Any}(
+        "JobDefinitionName" => JobDefinitionName,
+        "JobResources" => JobResources,
+        "ModelBiasAppSpecification" => ModelBiasAppSpecification,
+        "ModelBiasJobInput" => ModelBiasJobInput,
+        "ModelBiasJobOutputConfig" => ModelBiasJobOutputConfig,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateModelBiasJobDefinition",
-        Dict{String,Any}(
-            "JobDefinitionName" => JobDefinitionName,
-            "JobResources" => JobResources,
-            "ModelBiasAppSpecification" => ModelBiasAppSpecification,
-            "ModelBiasJobInput" => ModelBiasJobInput,
-            "ModelBiasJobOutputConfig" => ModelBiasJobOutputConfig,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_model_bias_job_definition(
     JobDefinitionName,
     JobResources,
@@ -2593,23 +2659,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   re-encrypt model card content for regulated workloads with highly sensitive data.
 - `"Tags"`: Key-value pairs used to manage metadata for model cards.
 """
-function create_model_card(
+create_model_card(
     Content,
     ModelCardName,
     ModelCardStatus;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateModelCard",
+    Dict{String,Any}(
+        "Content" => Content,
+        "ModelCardName" => ModelCardName,
+        "ModelCardStatus" => ModelCardStatus,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateModelCard",
-        Dict{String,Any}(
-            "Content" => Content,
-            "ModelCardName" => ModelCardName,
-            "ModelCardStatus" => ModelCardStatus,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_model_card(
     Content,
     ModelCardName,
@@ -2643,7 +2707,7 @@ Creates an Amazon SageMaker Model Card export job.
 
 # Arguments
 - `model_card_export_job_name`: The name of the model card export job.
-- `model_card_name`: The name of the model card to export.
+- `model_card_name`: The name or Amazon Resource Name (ARN) of the model card to export.
 - `output_config`: The model card output configuration that specifies the Amazon S3 path
   for exporting.
 
@@ -2652,23 +2716,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ModelCardVersion"`: The version of the model card to export. If a version is not
   provided, then the latest version of the model card is exported.
 """
-function create_model_card_export_job(
+create_model_card_export_job(
     ModelCardExportJobName,
     ModelCardName,
     OutputConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateModelCardExportJob",
+    Dict{String,Any}(
+        "ModelCardExportJobName" => ModelCardExportJobName,
+        "ModelCardName" => ModelCardName,
+        "OutputConfig" => OutputConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateModelCardExportJob",
-        Dict{String,Any}(
-            "ModelCardExportJobName" => ModelCardExportJobName,
-            "ModelCardName" => ModelCardName,
-            "OutputConfig" => OutputConfig,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_model_card_export_job(
     ModelCardExportJobName,
     ModelCardName,
@@ -2717,10 +2779,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   explainability job.
 - `"NetworkConfig"`: Networking options for a model explainability job.
 - `"StoppingCondition"`:
-- `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
+- `"Tags"`: (Optional) An array of key-value pairs. For more information, see  Using Cost
   Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
-function create_model_explainability_job_definition(
+create_model_explainability_job_definition(
     JobDefinitionName,
     JobResources,
     ModelExplainabilityAppSpecification,
@@ -2728,21 +2790,19 @@ function create_model_explainability_job_definition(
     ModelExplainabilityJobOutputConfig,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateModelExplainabilityJobDefinition",
+    Dict{String,Any}(
+        "JobDefinitionName" => JobDefinitionName,
+        "JobResources" => JobResources,
+        "ModelExplainabilityAppSpecification" => ModelExplainabilityAppSpecification,
+        "ModelExplainabilityJobInput" => ModelExplainabilityJobInput,
+        "ModelExplainabilityJobOutputConfig" => ModelExplainabilityJobOutputConfig,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateModelExplainabilityJobDefinition",
-        Dict{String,Any}(
-            "JobDefinitionName" => JobDefinitionName,
-            "JobResources" => JobResources,
-            "ModelExplainabilityAppSpecification" => ModelExplainabilityAppSpecification,
-            "ModelExplainabilityJobInput" => ModelExplainabilityJobInput,
-            "ModelExplainabilityJobOutputConfig" => ModelExplainabilityJobOutputConfig,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_model_explainability_job_definition(
     JobDefinitionName,
     JobResources,
@@ -2809,11 +2869,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   model monitor is set using the model package. For more information, see the topic on Drift
   Detection against Previous Baselines in SageMaker Pipelines in the Amazon SageMaker
   Developer Guide.
-- `"InferenceSpecification"`: Specifies details about inference jobs that can be run with
-  models based on this model package, including the following:   The Amazon ECR paths of
-  containers that contain the inference code and model artifacts.   The instance types that
-  the model package supports for transform jobs and real-time endpoints used for inference.
-  The input and output content formats that the model package supports for inference.
+- `"InferenceSpecification"`: Specifies details about inference jobs that you can run with
+  models based on this model package, including the following information:   The Amazon ECR
+  paths of containers that contain the inference code and model artifacts.   The instance
+  types that the model package supports for transform jobs and real-time endpoints used for
+  inference.   The input and output content formats that the model package supports for
+  inference.
 - `"MetadataProperties"`:
 - `"ModelApprovalStatus"`: Whether the model is approved for deployment. This parameter is
   optional for versioned models, and does not apply to unversioned models. For versioned
@@ -2830,10 +2891,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   payload is stored. This path must point to a single gzip compressed tar archive (.tar.gz
   suffix). This archive can hold multiple files that are all equally used in the load test.
   Each file in the archive must satisfy the size constraints of the InvokeEndpoint call.
+- `"SkipModelValidation"`: Indicates if you want to skip model validation.
 - `"SourceAlgorithmSpecification"`: Details about the algorithm that was used to create the
   model package.
+- `"SourceUri"`: The URI of the source for the model package. If you want to clone a model
+  package, set it to the model package Amazon Resource Name (ARN). If you want to register a
+  model, set it to the model ARN.
 - `"Tags"`: A list of key value pairs associated with the model. For more information, see
   Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
+  If you supply ModelPackageGroupName, your model package belongs to the model group you
+  specify and uses the tags associated with the model group. In this case, you cannot supply
+  a tag argument.
 - `"Task"`: The machine learning task your model package accomplishes. Common machine
   learning tasks include object detection and image classification. The following tasks are
   supported by Inference Recommender: \"IMAGE_CLASSIFICATION\" | \"OBJECT_DETECTION\" |
@@ -2842,14 +2910,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ValidationSpecification"`: Specifies configurations for one or more transform jobs that
   SageMaker runs to test the model package.
 """
-function create_model_package(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "CreateModelPackage",
-        Dict{String,Any}("ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_model_package(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "CreateModelPackage",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_model_package(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2879,16 +2945,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Tagging Amazon Web Services resources in the Amazon Web Services General
   Reference Guide.
 """
-function create_model_package_group(
+create_model_package_group(
     ModelPackageGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateModelPackageGroup",
+    Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateModelPackageGroup",
-        Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_model_package_group(
     ModelPackageGroupName,
     params::AbstractDict{String};
@@ -2931,10 +2995,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   monitoring job.
 - `"NetworkConfig"`: Specifies the network configuration for the monitoring job.
 - `"StoppingCondition"`:
-- `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
+- `"Tags"`: (Optional) An array of key-value pairs. For more information, see  Using Cost
   Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
-function create_model_quality_job_definition(
+create_model_quality_job_definition(
     JobDefinitionName,
     JobResources,
     ModelQualityAppSpecification,
@@ -2942,21 +3006,19 @@ function create_model_quality_job_definition(
     ModelQualityJobOutputConfig,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateModelQualityJobDefinition",
+    Dict{String,Any}(
+        "JobDefinitionName" => JobDefinitionName,
+        "JobResources" => JobResources,
+        "ModelQualityAppSpecification" => ModelQualityAppSpecification,
+        "ModelQualityJobInput" => ModelQualityJobInput,
+        "ModelQualityJobOutputConfig" => ModelQualityJobOutputConfig,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateModelQualityJobDefinition",
-        Dict{String,Any}(
-            "JobDefinitionName" => JobDefinitionName,
-            "JobResources" => JobResources,
-            "ModelQualityAppSpecification" => ModelQualityAppSpecification,
-            "ModelQualityJobInput" => ModelQualityJobInput,
-            "ModelQualityJobOutputConfig" => ModelQualityJobOutputConfig,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_model_quality_job_definition(
     JobDefinitionName,
     JobResources,
@@ -3006,21 +3068,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
   Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
-function create_monitoring_schedule(
+create_monitoring_schedule(
     MonitoringScheduleConfig,
     MonitoringScheduleName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateMonitoringSchedule",
+    Dict{String,Any}(
+        "MonitoringScheduleConfig" => MonitoringScheduleConfig,
+        "MonitoringScheduleName" => MonitoringScheduleName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateMonitoringSchedule",
-        Dict{String,Any}(
-            "MonitoringScheduleConfig" => MonitoringScheduleConfig,
-            "MonitoringScheduleName" => MonitoringScheduleName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_monitoring_schedule(
     MonitoringScheduleConfig,
     MonitoringScheduleName,
@@ -3129,23 +3189,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VolumeSizeInGB"`: The size, in GB, of the ML storage volume to attach to the notebook
   instance. The default value is 5 GB.
 """
-function create_notebook_instance(
+create_notebook_instance(
     InstanceType,
     NotebookInstanceName,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateNotebookInstance",
+    Dict{String,Any}(
+        "InstanceType" => InstanceType,
+        "NotebookInstanceName" => NotebookInstanceName,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateNotebookInstance",
-        Dict{String,Any}(
-            "InstanceType" => InstanceType,
-            "NotebookInstanceName" => NotebookInstanceName,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_notebook_instance(
     InstanceType,
     NotebookInstanceName,
@@ -3179,7 +3237,7 @@ Creates a lifecycle configuration that you can associate with a notebook instanc
 lifecycle configuration is a collection of shell scripts that run when you create or start
 a notebook instance. Each lifecycle configuration script has a limit of 16384 characters.
 The value of the PATH environment variable that is available to both scripts is
-/sbin:bin:/usr/sbin:/usr/bin. View CloudWatch Logs for notebook instance lifecycle
+/sbin:bin:/usr/sbin:/usr/bin. View Amazon CloudWatch Logs for notebook instance lifecycle
 configurations in log group /aws/sagemaker/NotebookInstances in log stream
 [notebook-instance-name]/[LifecycleConfigHook]. Lifecycle configuration scripts cannot run
 for longer than 5 minutes. If a script runs for longer than 5 minutes, it fails and the
@@ -3196,18 +3254,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OnStart"`: A shell script that runs every time you start a notebook instance, including
   when you create the notebook instance. The shell script must be a base64-encoded string.
 """
-function create_notebook_instance_lifecycle_config(
+create_notebook_instance_lifecycle_config(
     NotebookInstanceLifecycleConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateNotebookInstanceLifecycleConfig",
+    Dict{String,Any}(
+        "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateNotebookInstanceLifecycleConfig",
-        Dict{String,Any}(
-            "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_notebook_instance_lifecycle_config(
     NotebookInstanceLifecycleConfigName,
     params::AbstractDict{String};
@@ -3254,23 +3310,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PipelineDisplayName"`: The display name of the pipeline.
 - `"Tags"`: A list of tags to apply to the created pipeline.
 """
-function create_pipeline(
+create_pipeline(
     ClientRequestToken,
     PipelineName,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreatePipeline",
+    Dict{String,Any}(
+        "ClientRequestToken" => ClientRequestToken,
+        "PipelineName" => PipelineName,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreatePipeline",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "PipelineName" => PipelineName,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_pipeline(
     ClientRequestToken,
     PipelineName,
@@ -3301,19 +3355,18 @@ end
     create_presigned_domain_url(domain_id, user_profile_name, params::Dict{String,<:Any})
 
 Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the
-user will be automatically signed in to Amazon SageMaker Studio, and granted access to all
-of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume.
-This operation can only be called when the authentication mode equals IAM.  The IAM role or
-user passed to this API defines the permissions to access the app. Once the presigned URL
-is created, no additional permission is required to access this URL. IAM authorization
-policies for this API are also enforced for every HTTP request and WebSocket frame that
-attempts to connect to the app. You can restrict access to this API and to the URL that it
-returns to a list of IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify.
-For more information, see Connect to SageMaker Studio Through an Interface VPC Endpoint .
-The URL that you get from a call to CreatePresignedDomainUrl has a default timeout of 5
-minutes. You can configure this value using ExpiresInSeconds. If you try to use the URL
-after the timeout limit expires, you are directed to the Amazon Web Services console
-sign-in page.
+user will be automatically signed in to the domain, and granted access to all of the Apps
+and files associated with the Domain's Amazon Elastic File System volume. This operation
+can only be called when the authentication mode equals IAM.  The IAM role or user passed to
+this API defines the permissions to access the app. Once the presigned URL is created, no
+additional permission is required to access this URL. IAM authorization policies for this
+API are also enforced for every HTTP request and WebSocket frame that attempts to connect
+to the app. You can restrict access to this API and to the URL that it returns to a list of
+IP addresses, Amazon VPCs or Amazon VPC Endpoints that you specify. For more information,
+see Connect to Amazon SageMaker Studio Through an Interface VPC Endpoint .  The URL that
+you get from a call to CreatePresignedDomainUrl has a default timeout of 5 minutes. You can
+configure this value using ExpiresInSeconds. If you try to use the URL after the timeout
+limit expires, you are directed to the Amazon Web Services console sign-in page.
 
 # Arguments
 - `domain_id`: The domain ID.
@@ -3323,20 +3376,29 @@ sign-in page.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ExpiresInSeconds"`: The number of seconds until the pre-signed URL expires. This value
   defaults to 300.
+- `"LandingUri"`: The landing page that the user is directed to when accessing the
+  presigned URL. Using this value, users can access Studio or Studio Classic, even if it is
+  not the default experience for the domain. The supported values are:
+  studio::relative/path: Directs users to the relative path in Studio.
+  app:JupyterServer:relative/path: Directs users to the relative path in the Studio Classic
+  application.    app:JupyterLab:relative/path: Directs users to the relative path in the
+  JupyterLab application.    app:RStudioServerPro:relative/path: Directs users to the
+  relative path in the RStudio application.    app:CodeEditor:relative/path: Directs users to
+  the relative path in the Code Editor, based on Code-OSS, Visual Studio Code - Open Source
+  application.    app:Canvas:relative/path: Directs users to the relative path in the Canvas
+  application.
 - `"SessionExpirationDurationInSeconds"`: The session expiration duration in seconds. This
   value defaults to 43200.
 - `"SpaceName"`: The name of the space.
 """
-function create_presigned_domain_url(
+create_presigned_domain_url(
     DomainId, UserProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreatePresignedDomainUrl",
+    Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreatePresignedDomainUrl",
-        Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_presigned_domain_url(
     DomainId,
     UserProfileName,
@@ -3387,16 +3449,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SessionExpirationDurationInSeconds"`: The duration of the session, in seconds. The
   default is 12 hours.
 """
-function create_presigned_notebook_instance_url(
+create_presigned_notebook_instance_url(
     NotebookInstanceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreatePresignedNotebookInstanceUrl",
+    Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreatePresignedNotebookInstanceUrl",
-        Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_presigned_notebook_instance_url(
     NotebookInstanceName,
     params::AbstractDict{String};
@@ -3448,25 +3508,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
   Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
-function create_processing_job(
+create_processing_job(
     AppSpecification,
     ProcessingJobName,
     ProcessingResources,
     RoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateProcessingJob",
+    Dict{String,Any}(
+        "AppSpecification" => AppSpecification,
+        "ProcessingJobName" => ProcessingJobName,
+        "ProcessingResources" => ProcessingResources,
+        "RoleArn" => RoleArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateProcessingJob",
-        Dict{String,Any}(
-            "AppSpecification" => AppSpecification,
-            "ProcessingJobName" => ProcessingJobName,
-            "ProcessingResources" => ProcessingResources,
-            "RoleArn" => RoleArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_processing_job(
     AppSpecification,
     ProcessingJobName,
@@ -3515,21 +3573,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services resource costs. For more information, see Tagging Amazon Web Services
   resources in the Amazon Web Services General Reference Guide.
 """
-function create_project(
+create_project(
     ProjectName,
     ServiceCatalogProvisioningDetails;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateProject",
+    Dict{String,Any}(
+        "ProjectName" => ProjectName,
+        "ServiceCatalogProvisioningDetails" => ServiceCatalogProvisioningDetails,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateProject",
-        Dict{String,Any}(
-            "ProjectName" => ProjectName,
-            "ServiceCatalogProvisioningDetails" => ServiceCatalogProvisioningDetails,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_project(
     ProjectName,
     ServiceCatalogProvisioningDetails,
@@ -3558,28 +3614,28 @@ end
     create_space(domain_id, space_name)
     create_space(domain_id, space_name, params::Dict{String,<:Any})
 
-Creates a space used for real time collaboration in a Domain.
+Creates a space used for real time collaboration in a domain.
 
 # Arguments
-- `domain_id`: The ID of the associated Domain.
+- `domain_id`: The ID of the associated domain.
 - `space_name`: The name of the space.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"OwnershipSettings"`: A collection of ownership settings.
+- `"SpaceDisplayName"`: The name of the space that appears in the SageMaker Studio UI.
 - `"SpaceSettings"`: A collection of space settings.
+- `"SpaceSharingSettings"`: A collection of space sharing settings.
 - `"Tags"`: Tags to associated with the space. Each tag consists of a key and an optional
   value. Tag keys must be unique for each resource. Tags are searchable using the Search API.
 """
-function create_space(
-    DomainId, SpaceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+create_space(DomainId, SpaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "CreateSpace",
         Dict{String,Any}("DomainId" => DomainId, "SpaceName" => SpaceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_space(
     DomainId,
     SpaceName,
@@ -3604,14 +3660,15 @@ end
     create_studio_lifecycle_config(studio_lifecycle_config_app_type, studio_lifecycle_config_content, studio_lifecycle_config_name)
     create_studio_lifecycle_config(studio_lifecycle_config_app_type, studio_lifecycle_config_content, studio_lifecycle_config_name, params::Dict{String,<:Any})
 
-Creates a new Studio Lifecycle Configuration.
+Creates a new Amazon SageMaker Studio Lifecycle Configuration.
 
 # Arguments
 - `studio_lifecycle_config_app_type`: The App type that the Lifecycle Configuration is
   attached to.
-- `studio_lifecycle_config_content`: The content of your Studio Lifecycle Configuration
-  script. This content must be base64 encoded.
-- `studio_lifecycle_config_name`: The name of the Studio Lifecycle Configuration to create.
+- `studio_lifecycle_config_content`: The content of your Amazon SageMaker Studio Lifecycle
+  Configuration script. This content must be base64 encoded.
+- `studio_lifecycle_config_name`: The name of the Amazon SageMaker Studio Lifecycle
+  Configuration to create.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3619,23 +3676,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   key and an optional value. Tag keys must be unique per resource. Tags are searchable using
   the Search API.
 """
-function create_studio_lifecycle_config(
+create_studio_lifecycle_config(
     StudioLifecycleConfigAppType,
     StudioLifecycleConfigContent,
     StudioLifecycleConfigName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateStudioLifecycleConfig",
+    Dict{String,Any}(
+        "StudioLifecycleConfigAppType" => StudioLifecycleConfigAppType,
+        "StudioLifecycleConfigContent" => StudioLifecycleConfigContent,
+        "StudioLifecycleConfigName" => StudioLifecycleConfigName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateStudioLifecycleConfig",
-        Dict{String,Any}(
-            "StudioLifecycleConfigAppType" => StudioLifecycleConfigAppType,
-            "StudioLifecycleConfigContent" => StudioLifecycleConfigContent,
-            "StudioLifecycleConfigName" => StudioLifecycleConfigName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_studio_lifecycle_config(
     StudioLifecycleConfigAppType,
     StudioLifecycleConfigContent,
@@ -3758,6 +3813,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   include any security-sensitive information including account access IDs, secrets or tokens
   in any hyperparameter field. If the use of security-sensitive credentials are detected,
   SageMaker will reject your training job request and return an exception error.
+- `"InfraCheckConfig"`: Contains information about the infrastructure health check
+  configuration for the training job.
 - `"InputDataConfig"`: An array of Channel objects. Each channel is a named input source.
   InputDataConfig describes the input data and its location.  Algorithms can accept input
   data from one or more channels. For example, an algorithm might have two channels of input
@@ -3772,6 +3829,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfilerConfig"`:
 - `"ProfilerRuleConfigurations"`: Configuration information for Amazon SageMaker Debugger
   rules for profiling system and framework metrics.
+- `"RemoteDebugConfig"`: Configuration for remote debugging. To learn more about the remote
+  debugging functionality of SageMaker, see Access a training container through Amazon Web
+  Services Systems Manager (SSM) for remote debugging.
 - `"RetryStrategy"`: The number of times to retry the job when the job fails due to an
   InternalServerError.
 - `"Tags"`: An array of key-value pairs. You can use tags to categorize your Amazon Web
@@ -3782,7 +3842,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to connect to. Control access to and from your training container by configuring the VPC.
   For more information, see Protect Training Jobs by Using an Amazon Virtual Private Cloud.
 """
-function create_training_job(
+create_training_job(
     AlgorithmSpecification,
     OutputDataConfig,
     ResourceConfig,
@@ -3790,21 +3850,19 @@ function create_training_job(
     StoppingCondition,
     TrainingJobName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateTrainingJob",
+    Dict{String,Any}(
+        "AlgorithmSpecification" => AlgorithmSpecification,
+        "OutputDataConfig" => OutputDataConfig,
+        "ResourceConfig" => ResourceConfig,
+        "RoleArn" => RoleArn,
+        "StoppingCondition" => StoppingCondition,
+        "TrainingJobName" => TrainingJobName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateTrainingJob",
-        Dict{String,Any}(
-            "AlgorithmSpecification" => AlgorithmSpecification,
-            "OutputDataConfig" => OutputDataConfig,
-            "ResourceConfig" => ResourceConfig,
-            "RoleArn" => RoleArn,
-            "StoppingCondition" => StoppingCondition,
-            "TrainingJobName" => TrainingJobName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_training_job(
     AlgorithmSpecification,
     OutputDataConfig,
@@ -3907,27 +3965,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: (Optional) An array of key-value pairs. For more information, see Using Cost
   Allocation Tags in the Amazon Web Services Billing and Cost Management User Guide.
 """
-function create_transform_job(
+create_transform_job(
     ModelName,
     TransformInput,
     TransformJobName,
     TransformOutput,
     TransformResources;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateTransformJob",
+    Dict{String,Any}(
+        "ModelName" => ModelName,
+        "TransformInput" => TransformInput,
+        "TransformJobName" => TransformJobName,
+        "TransformOutput" => TransformOutput,
+        "TransformResources" => TransformResources,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateTransformJob",
-        Dict{String,Any}(
-            "ModelName" => ModelName,
-            "TransformInput" => TransformInput,
-            "TransformJobName" => TransformJobName,
-            "TransformOutput" => TransformOutput,
-            "TransformResources" => TransformResources,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_transform_job(
     ModelName,
     TransformInput,
@@ -3983,16 +4039,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to associate with the trial. You can use Search API to search on
   the tags.
 """
-function create_trial(
-    ExperimentName, TrialName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+create_trial(ExperimentName, TrialName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "CreateTrial",
         Dict{String,Any}("ExperimentName" => ExperimentName, "TrialName" => TrialName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_trial(
     ExperimentName,
     TrialName,
@@ -4048,16 +4101,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to associate with the component. You can use Search API to
   search on the tags.
 """
-function create_trial_component(
+create_trial_component(
     TrialComponentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateTrialComponent",
+    Dict{String,Any}("TrialComponentName" => TrialComponentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateTrialComponent",
-        Dict{String,Any}("TrialComponentName" => TrialComponentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_trial_component(
     TrialComponentName,
     params::AbstractDict{String};
@@ -4081,11 +4132,11 @@ end
 
 Creates a user profile. A user profile represents a single user within a domain, and is the
 main way to reference a \"person\" for the purposes of sharing, reporting, and other
-user-oriented features. This entity is created when a user onboards to Amazon SageMaker
-Studio. If an administrator invites a person by email or imports them from IAM Identity
-Center, a user profile is automatically created. A user profile is the primary holder of
-settings for an individual user and has a reference to the user's private Amazon Elastic
-File System (EFS) home directory.
+user-oriented features. This entity is created when a user onboards to a domain. If an
+administrator invites a person by email or imports them from IAM Identity Center, a user
+profile is automatically created. A user profile is the primary holder of settings for an
+individual user and has a reference to the user's private Amazon Elastic File System home
+directory.
 
 # Arguments
 - `domain_id`: The ID of the associated Domain.
@@ -4106,16 +4157,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   User Profile launches.
 - `"UserSettings"`: A collection of settings.
 """
-function create_user_profile(
+create_user_profile(
     DomainId, UserProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "CreateUserProfile",
+    Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateUserProfile",
-        Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user_profile(
     DomainId,
     UserProfileName,
@@ -4170,14 +4219,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   organize our workforce. Each tag consists of a key and a value, both of which you define.
 - `"WorkforceVpcConfig"`: Use this parameter to configure a workforce using VPC.
 """
-function create_workforce(WorkforceName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+create_workforce(WorkforceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "CreateWorkforce",
         Dict{String,Any}("WorkforceName" => WorkforceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_workforce(
     WorkforceName,
     params::AbstractDict{String};
@@ -4226,23 +4274,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cost Allocation Tags in the  Amazon Web Services Billing and Cost Management User Guide.
 - `"WorkforceName"`: The name of the workforce.
 """
-function create_workteam(
+create_workteam(
     Description,
     MemberDefinitions,
     WorkteamName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "CreateWorkteam",
+    Dict{String,Any}(
+        "Description" => Description,
+        "MemberDefinitions" => MemberDefinitions,
+        "WorkteamName" => WorkteamName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "CreateWorkteam",
-        Dict{String,Any}(
-            "Description" => Description,
-            "MemberDefinitions" => MemberDefinitions,
-            "WorkteamName" => WorkteamName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_workteam(
     Description,
     MemberDefinitions,
@@ -4278,14 +4324,12 @@ Deletes an action.
 - `action_name`: The name of the action to delete.
 
 """
-function delete_action(ActionName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DeleteAction",
-        Dict{String,Any}("ActionName" => ActionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_action(ActionName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DeleteAction",
+    Dict{String,Any}("ActionName" => ActionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_action(
     ActionName,
     params::AbstractDict{String};
@@ -4311,14 +4355,13 @@ Removes the specified algorithm from your account.
 - `algorithm_name`: The name of the algorithm to delete.
 
 """
-function delete_algorithm(AlgorithmName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+delete_algorithm(AlgorithmName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteAlgorithm",
         Dict{String,Any}("AlgorithmName" => AlgorithmName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_algorithm(
     AlgorithmName,
     params::AbstractDict{String};
@@ -4352,10 +4395,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserProfileName"`: The user profile name. If this value is not set, then SpaceName must
   be set.
 """
-function delete_app(
-    AppName, AppType, DomainId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+delete_app(AppName, AppType, DomainId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteApp",
         Dict{String,Any}(
             "AppName" => AppName, "AppType" => AppType, "DomainId" => DomainId
@@ -4363,7 +4404,6 @@ function delete_app(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_app(
     AppName,
     AppType,
@@ -4397,16 +4437,14 @@ Deletes an AppImageConfig.
 - `app_image_config_name`: The name of the AppImageConfig to delete.
 
 """
-function delete_app_image_config(
+delete_app_image_config(
     AppImageConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteAppImageConfig",
+    Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteAppImageConfig",
-        Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_app_image_config(
     AppImageConfigName,
     params::AbstractDict{String};
@@ -4435,11 +4473,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ArtifactArn"`: The Amazon Resource Name (ARN) of the artifact to delete.
 - `"Source"`: The URI of the source.
 """
-function delete_artifact(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DeleteArtifact"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_artifact(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("DeleteArtifact"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function delete_artifact(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4459,16 +4494,14 @@ Deletes an association.
 - `source_arn`: The ARN of the source.
 
 """
-function delete_association(
+delete_association(
     DestinationArn, SourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteAssociation",
+    Dict{String,Any}("DestinationArn" => DestinationArn, "SourceArn" => SourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteAssociation",
-        Dict{String,Any}("DestinationArn" => DestinationArn, "SourceArn" => SourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_association(
     DestinationArn,
     SourceArn,
@@ -4492,6 +4525,38 @@ function delete_association(
 end
 
 """
+    delete_cluster(cluster_name)
+    delete_cluster(cluster_name, params::Dict{String,<:Any})
+
+Delete a SageMaker HyperPod cluster.
+
+# Arguments
+- `cluster_name`: The string name or the Amazon Resource Name (ARN) of the SageMaker
+  HyperPod cluster to delete.
+
+"""
+delete_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DeleteCluster",
+    Dict{String,Any}("ClusterName" => ClusterName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_cluster(
+    ClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DeleteCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_code_repository(code_repository_name)
     delete_code_repository(code_repository_name, params::Dict{String,<:Any})
 
@@ -4501,16 +4566,14 @@ Deletes the specified Git repository from your account.
 - `code_repository_name`: The name of the Git repository to delete.
 
 """
-function delete_code_repository(
+delete_code_repository(
     CodeRepositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteCodeRepository",
+    Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteCodeRepository",
-        Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_code_repository(
     CodeRepositoryName,
     params::AbstractDict{String};
@@ -4529,6 +4592,46 @@ function delete_code_repository(
 end
 
 """
+    delete_compilation_job(compilation_job_name)
+    delete_compilation_job(compilation_job_name, params::Dict{String,<:Any})
+
+Deletes the specified compilation job. This action deletes only the compilation job
+resource in Amazon SageMaker. It doesn't delete other resources that are related to that
+job, such as the model artifacts that the job creates, the compilation logs in CloudWatch,
+the compiled model, or the IAM role. You can delete a compilation job only if its current
+status is COMPLETED, FAILED, or STOPPED. If the job status is STARTING or INPROGRESS, stop
+the job, and then delete it after its status becomes STOPPED.
+
+# Arguments
+- `compilation_job_name`: The name of the compilation job to delete.
+
+"""
+delete_compilation_job(
+    CompilationJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteCompilationJob",
+    Dict{String,Any}("CompilationJobName" => CompilationJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_compilation_job(
+    CompilationJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DeleteCompilationJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("CompilationJobName" => CompilationJobName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_context(context_name)
     delete_context(context_name, params::Dict{String,<:Any})
 
@@ -4538,14 +4641,12 @@ Deletes an context.
 - `context_name`: The name of the context to delete.
 
 """
-function delete_context(ContextName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DeleteContext",
-        Dict{String,Any}("ContextName" => ContextName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_context(ContextName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DeleteContext",
+    Dict{String,Any}("ContextName" => ContextName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_context(
     ContextName,
     params::AbstractDict{String};
@@ -4571,16 +4672,14 @@ Deletes a data quality monitoring job definition.
 - `job_definition_name`: The name of the data quality monitoring job definition to delete.
 
 """
-function delete_data_quality_job_definition(
+delete_data_quality_job_definition(
     JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteDataQualityJobDefinition",
+    Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteDataQualityJobDefinition",
-        Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_data_quality_job_definition(
     JobDefinitionName,
     params::AbstractDict{String};
@@ -4608,16 +4707,13 @@ Deletes a fleet.
 - `device_fleet_name`: The name of the fleet to delete.
 
 """
-function delete_device_fleet(
-    DeviceFleetName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+delete_device_fleet(DeviceFleetName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteDeviceFleet",
         Dict{String,Any}("DeviceFleetName" => DeviceFleetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_device_fleet(
     DeviceFleetName,
     params::AbstractDict{String};
@@ -4653,14 +4749,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources will be retained after the Domain is deleted. By default, all resources are
   retained (not automatically deleted).
 """
-function delete_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DeleteDomain",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DeleteDomain",
+    Dict{String,Any}("DomainId" => DomainId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_domain(
     DomainId,
     params::AbstractDict{String};
@@ -4687,16 +4781,14 @@ there are no stages in the plan.
 - `edge_deployment_plan_name`: The name of the edge deployment plan to delete.
 
 """
-function delete_edge_deployment_plan(
+delete_edge_deployment_plan(
     EdgeDeploymentPlanName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteEdgeDeploymentPlan",
+    Dict{String,Any}("EdgeDeploymentPlanName" => EdgeDeploymentPlanName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteEdgeDeploymentPlan",
-        Dict{String,Any}("EdgeDeploymentPlanName" => EdgeDeploymentPlanName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_edge_deployment_plan(
     EdgeDeploymentPlanName,
     params::AbstractDict{String};
@@ -4728,18 +4820,16 @@ Delete a stage in an edge deployment plan if (and only if) the stage is inactive
 - `stage_name`: The name of the stage.
 
 """
-function delete_edge_deployment_stage(
+delete_edge_deployment_stage(
     EdgeDeploymentPlanName, StageName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteEdgeDeploymentStage",
+    Dict{String,Any}(
+        "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteEdgeDeploymentStage",
-        Dict{String,Any}(
-            "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_edge_deployment_stage(
     EdgeDeploymentPlanName,
     StageName,
@@ -4779,14 +4869,13 @@ deleting your endpoint. Do not delete or revoke the permissions for your  Execut
 - `endpoint_name`: The name of the endpoint that you want to delete.
 
 """
-function delete_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+delete_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteEndpoint",
         Dict{String,Any}("EndpointName" => EndpointName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_endpoint(
     EndpointName,
     params::AbstractDict{String};
@@ -4818,16 +4907,14 @@ order to stop incurring charges.
 - `endpoint_config_name`: The name of the endpoint configuration that you want to delete.
 
 """
-function delete_endpoint_config(
+delete_endpoint_config(
     EndpointConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteEndpointConfig",
+    Dict{String,Any}("EndpointConfigName" => EndpointConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteEndpointConfig",
-        Dict{String,Any}("EndpointConfigName" => EndpointConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_endpoint_config(
     EndpointConfigName,
     params::AbstractDict{String};
@@ -4856,16 +4943,13 @@ first. Use the ListTrials API to get a list of the trials associated with the ex
 - `experiment_name`: The name of the experiment to delete.
 
 """
-function delete_experiment(
-    ExperimentName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+delete_experiment(ExperimentName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteExperiment",
         Dict{String,Any}("ExperimentName" => ExperimentName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_experiment(
     ExperimentName,
     params::AbstractDict{String};
@@ -4889,23 +4973,21 @@ Delete the FeatureGroup and any data that was written to the OnlineStore of the
 FeatureGroup. Data cannot be accessed from the OnlineStore immediately after
 DeleteFeatureGroup is called.  Data written into the OfflineStore will not be deleted. The
 Amazon Web Services Glue database and tables that are automatically created for your
-OfflineStore are not deleted.
+OfflineStore are not deleted.  Note that it can take approximately 10-15 minutes to delete
+an OnlineStore FeatureGroup with the InMemory StorageType.
 
 # Arguments
 - `feature_group_name`: The name of the FeatureGroup you want to delete. The name must be
   unique within an Amazon Web Services Region in an Amazon Web Services account.
 
 """
-function delete_feature_group(
-    FeatureGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+delete_feature_group(FeatureGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteFeatureGroup",
         Dict{String,Any}("FeatureGroupName" => FeatureGroupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_feature_group(
     FeatureGroupName,
     params::AbstractDict{String};
@@ -4933,16 +5015,14 @@ Deletes the specified flow definition.
 - `flow_definition_name`: The name of the flow definition you are deleting.
 
 """
-function delete_flow_definition(
+delete_flow_definition(
     FlowDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteFlowDefinition",
+    Dict{String,Any}("FlowDefinitionName" => FlowDefinitionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteFlowDefinition",
-        Dict{String,Any}("FlowDefinitionName" => FlowDefinitionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_flow_definition(
     FlowDefinitionName,
     params::AbstractDict{String};
@@ -4970,14 +5050,12 @@ Delete a hub.  Hub APIs are only callable through SageMaker Studio.
 - `hub_name`: The name of the hub to delete.
 
 """
-function delete_hub(HubName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DeleteHub",
-        Dict{String,Any}("HubName" => HubName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_hub(HubName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DeleteHub",
+    Dict{String,Any}("HubName" => HubName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_hub(
     HubName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5002,25 +5080,23 @@ Delete the contents of a hub.  Hub APIs are only callable through SageMaker Stud
 - `hub_name`: The name of the hub that you want to delete content in.
 
 """
-function delete_hub_content(
+delete_hub_content(
     HubContentName,
     HubContentType,
     HubContentVersion,
     HubName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "DeleteHubContent",
+    Dict{String,Any}(
+        "HubContentName" => HubContentName,
+        "HubContentType" => HubContentType,
+        "HubContentVersion" => HubContentVersion,
+        "HubName" => HubName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteHubContent",
-        Dict{String,Any}(
-            "HubContentName" => HubContentName,
-            "HubContentType" => HubContentType,
-            "HubContentVersion" => HubContentVersion,
-            "HubName" => HubName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_hub_content(
     HubContentName,
     HubContentType,
@@ -5062,16 +5138,13 @@ call ListHumanTaskUis.
   want to delete.
 
 """
-function delete_human_task_ui(
-    HumanTaskUiName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+delete_human_task_ui(HumanTaskUiName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteHumanTaskUi",
         Dict{String,Any}("HumanTaskUiName" => HumanTaskUiName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_human_task_ui(
     HumanTaskUiName,
     params::AbstractDict{String};
@@ -5090,6 +5163,49 @@ function delete_human_task_ui(
 end
 
 """
+    delete_hyper_parameter_tuning_job(hyper_parameter_tuning_job_name)
+    delete_hyper_parameter_tuning_job(hyper_parameter_tuning_job_name, params::Dict{String,<:Any})
+
+Deletes a hyperparameter tuning job. The DeleteHyperParameterTuningJob API deletes only the
+tuning job entry that was created in SageMaker when you called the
+CreateHyperParameterTuningJob API. It does not delete training jobs, artifacts, or the IAM
+role that you specified when creating the model.
+
+# Arguments
+- `hyper_parameter_tuning_job_name`: The name of the hyperparameter tuning job that you
+  want to delete.
+
+"""
+delete_hyper_parameter_tuning_job(
+    HyperParameterTuningJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteHyperParameterTuningJob",
+    Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_hyper_parameter_tuning_job(
+    HyperParameterTuningJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DeleteHyperParameterTuningJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "HyperParameterTuningJobName" => HyperParameterTuningJobName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_image(image_name)
     delete_image(image_name, params::Dict{String,<:Any})
 
@@ -5100,14 +5216,12 @@ deleted.
 - `image_name`: The name of the image to delete.
 
 """
-function delete_image(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DeleteImage",
-        Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_image(ImageName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DeleteImage",
+    Dict{String,Any}("ImageName" => ImageName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_image(
     ImageName,
     params::AbstractDict{String};
@@ -5138,14 +5252,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Alias"`: The alias of the image to delete.
 - `"Version"`: The version to delete.
 """
-function delete_image_version(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+delete_image_version(ImageName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteImageVersion",
         Dict{String,Any}("ImageName" => ImageName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_image_version(
     ImageName,
     params::AbstractDict{String};
@@ -5155,6 +5268,43 @@ function delete_image_version(
         "DeleteImageVersion",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_inference_component(inference_component_name)
+    delete_inference_component(inference_component_name, params::Dict{String,<:Any})
+
+Deletes an inference component.
+
+# Arguments
+- `inference_component_name`: The name of the inference component to delete.
+
+"""
+delete_inference_component(
+    InferenceComponentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteInferenceComponent",
+    Dict{String,Any}("InferenceComponentName" => InferenceComponentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_inference_component(
+    InferenceComponentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DeleteInferenceComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceComponentName" => InferenceComponentName),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -5172,16 +5322,13 @@ or any underlying resources. This operation only deletes the metadata of your ex
 - `name`: The name of the inference experiment you want to delete.
 
 """
-function delete_inference_experiment(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+delete_inference_experiment(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteInferenceExperiment",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_inference_experiment(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5205,14 +5352,12 @@ inference code, or the IAM role that you specified when creating the model.
 - `model_name`: The name of the model to delete.
 
 """
-function delete_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DeleteModel",
-        Dict{String,Any}("ModelName" => ModelName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DeleteModel",
+    Dict{String,Any}("ModelName" => ModelName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_model(
     ModelName,
     params::AbstractDict{String};
@@ -5238,16 +5383,14 @@ Deletes an Amazon SageMaker model bias job definition.
 - `job_definition_name`: The name of the model bias job definition to delete.
 
 """
-function delete_model_bias_job_definition(
+delete_model_bias_job_definition(
     JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteModelBiasJobDefinition",
+    Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteModelBiasJobDefinition",
-        Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_model_bias_job_definition(
     JobDefinitionName,
     params::AbstractDict{String};
@@ -5275,14 +5418,13 @@ Deletes an Amazon SageMaker Model Card.
 - `model_card_name`: The name of the model card to delete.
 
 """
-function delete_model_card(ModelCardName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+delete_model_card(ModelCardName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteModelCard",
         Dict{String,Any}("ModelCardName" => ModelCardName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_model_card(
     ModelCardName,
     params::AbstractDict{String};
@@ -5308,16 +5450,14 @@ Deletes an Amazon SageMaker model explainability job definition.
 - `job_definition_name`: The name of the model explainability job definition to delete.
 
 """
-function delete_model_explainability_job_definition(
+delete_model_explainability_job_definition(
     JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteModelExplainabilityJobDefinition",
+    Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteModelExplainabilityJobDefinition",
-        Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_model_explainability_job_definition(
     JobDefinitionName,
     params::AbstractDict{String};
@@ -5349,16 +5489,13 @@ Web Services Marketplace to create models in SageMaker.
   are a-z, A-Z, 0-9, and - (hyphen).
 
 """
-function delete_model_package(
-    ModelPackageName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+delete_model_package(ModelPackageName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteModelPackage",
         Dict{String,Any}("ModelPackageName" => ModelPackageName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_model_package(
     ModelPackageName,
     params::AbstractDict{String};
@@ -5386,16 +5523,14 @@ Deletes the specified model group.
 - `model_package_group_name`: The name of the model group to delete.
 
 """
-function delete_model_package_group(
+delete_model_package_group(
     ModelPackageGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteModelPackageGroup",
+    Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteModelPackageGroup",
-        Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_model_package_group(
     ModelPackageGroupName,
     params::AbstractDict{String};
@@ -5425,16 +5560,14 @@ Deletes a model group resource policy.
 - `model_package_group_name`: The name of the model group for which to delete the policy.
 
 """
-function delete_model_package_group_policy(
+delete_model_package_group_policy(
     ModelPackageGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteModelPackageGroupPolicy",
+    Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteModelPackageGroupPolicy",
-        Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_model_package_group_policy(
     ModelPackageGroupName,
     params::AbstractDict{String};
@@ -5464,16 +5597,14 @@ Deletes the secified model quality monitoring job definition.
 - `job_definition_name`: The name of the model quality monitoring job definition to delete.
 
 """
-function delete_model_quality_job_definition(
+delete_model_quality_job_definition(
     JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteModelQualityJobDefinition",
+    Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteModelQualityJobDefinition",
-        Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_model_quality_job_definition(
     JobDefinitionName,
     params::AbstractDict{String};
@@ -5502,16 +5633,14 @@ does not delete the job execution history of the monitoring schedule.
 - `monitoring_schedule_name`: The name of the monitoring schedule to delete.
 
 """
-function delete_monitoring_schedule(
+delete_monitoring_schedule(
     MonitoringScheduleName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteMonitoringSchedule",
+    Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteMonitoringSchedule",
-        Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_monitoring_schedule(
     MonitoringScheduleName,
     params::AbstractDict{String};
@@ -5544,16 +5673,14 @@ and the network interface associated with the notebook instance.
 - `notebook_instance_name`: The name of the SageMaker notebook instance to delete.
 
 """
-function delete_notebook_instance(
+delete_notebook_instance(
     NotebookInstanceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteNotebookInstance",
+    Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteNotebookInstance",
-        Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_notebook_instance(
     NotebookInstanceName,
     params::AbstractDict{String};
@@ -5584,18 +5711,16 @@ Deletes a notebook instance lifecycle configuration.
   delete.
 
 """
-function delete_notebook_instance_lifecycle_config(
+delete_notebook_instance_lifecycle_config(
     NotebookInstanceLifecycleConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteNotebookInstanceLifecycleConfig",
+    Dict{String,Any}(
+        "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteNotebookInstanceLifecycleConfig",
-        Dict{String,Any}(
-            "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_notebook_instance_lifecycle_config(
     NotebookInstanceLifecycleConfigName,
     params::AbstractDict{String};
@@ -5632,18 +5757,16 @@ When you delete a pipeline, all instances of the pipeline are deleted.
 - `pipeline_name`: The name of the pipeline to delete.
 
 """
-function delete_pipeline(
+delete_pipeline(
     ClientRequestToken, PipelineName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeletePipeline",
+    Dict{String,Any}(
+        "ClientRequestToken" => ClientRequestToken, "PipelineName" => PipelineName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeletePipeline",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken, "PipelineName" => PipelineName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_pipeline(
     ClientRequestToken,
     PipelineName,
@@ -5677,14 +5800,12 @@ Delete the specified project.
 - `project_name`: The name of the project to delete.
 
 """
-function delete_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DeleteProject",
-        Dict{String,Any}("ProjectName" => ProjectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DeleteProject",
+    Dict{String,Any}("ProjectName" => ProjectName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_project(
     ProjectName,
     params::AbstractDict{String};
@@ -5707,20 +5828,17 @@ end
 Used to delete a space.
 
 # Arguments
-- `domain_id`: The ID of the associated Domain.
+- `domain_id`: The ID of the associated domain.
 - `space_name`: The name of the space.
 
 """
-function delete_space(
-    DomainId, SpaceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+delete_space(DomainId, SpaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteSpace",
         Dict{String,Any}("DomainId" => DomainId, "SpaceName" => SpaceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_space(
     DomainId,
     SpaceName,
@@ -5745,24 +5863,24 @@ end
     delete_studio_lifecycle_config(studio_lifecycle_config_name)
     delete_studio_lifecycle_config(studio_lifecycle_config_name, params::Dict{String,<:Any})
 
-Deletes the Studio Lifecycle Configuration. In order to delete the Lifecycle Configuration,
-there must be no running apps using the Lifecycle Configuration. You must also remove the
-Lifecycle Configuration from UserSettings in all Domains and UserProfiles.
+Deletes the Amazon SageMaker Studio Lifecycle Configuration. In order to delete the
+Lifecycle Configuration, there must be no running apps using the Lifecycle Configuration.
+You must also remove the Lifecycle Configuration from UserSettings in all Domains and
+UserProfiles.
 
 # Arguments
-- `studio_lifecycle_config_name`: The name of the Studio Lifecycle Configuration to delete.
+- `studio_lifecycle_config_name`: The name of the Amazon SageMaker Studio Lifecycle
+  Configuration to delete.
 
 """
-function delete_studio_lifecycle_config(
+delete_studio_lifecycle_config(
     StudioLifecycleConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteStudioLifecycleConfig",
+    Dict{String,Any}("StudioLifecycleConfigName" => StudioLifecycleConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteStudioLifecycleConfig",
-        Dict{String,Any}("StudioLifecycleConfigName" => StudioLifecycleConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_studio_lifecycle_config(
     StudioLifecycleConfigName,
     params::AbstractDict{String};
@@ -5789,9 +5907,9 @@ end
 Deletes the specified tags from an SageMaker resource. To list a resource's tags, use the
 ListTags API.   When you call this API to delete tags from a hyperparameter tuning job, the
 deleted tags are not removed from training jobs that the hyperparameter tuning job launched
-before you called this API.   When you call this API to delete tags from a SageMaker Studio
-Domain or User Profile, the deleted tags are not removed from Apps that the SageMaker
-Studio Domain or User Profile launched before you called this API.
+before you called this API.   When you call this API to delete tags from a SageMaker Domain
+or User Profile, the deleted tags are not removed from Apps that the SageMaker Domain or
+User Profile launched before you called this API.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose tags you want to
@@ -5799,16 +5917,13 @@ Studio Domain or User Profile launched before you called this API.
 - `tag_keys`: An array or one or more tag keys to delete.
 
 """
-function delete_tags(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+delete_tags(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteTags",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_tags(
     ResourceArn,
     TagKeys,
@@ -5840,14 +5955,12 @@ first. Use the DescribeTrialComponent API to get the list of trial components.
 - `trial_name`: The name of the trial to delete.
 
 """
-function delete_trial(TrialName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DeleteTrial",
-        Dict{String,Any}("TrialName" => TrialName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_trial(TrialName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DeleteTrial",
+    Dict{String,Any}("TrialName" => TrialName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_trial(
     TrialName,
     params::AbstractDict{String};
@@ -5875,16 +5988,14 @@ trial, call the DisassociateTrialComponent API.
 - `trial_component_name`: The name of the component to delete.
 
 """
-function delete_trial_component(
+delete_trial_component(
     TrialComponentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteTrialComponent",
+    Dict{String,Any}("TrialComponentName" => TrialComponentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteTrialComponent",
-        Dict{String,Any}("TrialComponentName" => TrialComponentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_trial_component(
     TrialComponentName,
     params::AbstractDict{String};
@@ -5914,16 +6025,14 @@ volume, including data, notebooks, and other artifacts.
 - `user_profile_name`: The user profile name.
 
 """
-function delete_user_profile(
+delete_user_profile(
     DomainId, UserProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeleteUserProfile",
+    Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeleteUserProfile",
-        Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user_profile(
     DomainId,
     UserProfileName,
@@ -5961,14 +6070,13 @@ workforce that contains one or more work teams, you will recieve a ResourceInUse
 - `workforce_name`: The name of the workforce.
 
 """
-function delete_workforce(WorkforceName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+delete_workforce(WorkforceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteWorkforce",
         Dict{String,Any}("WorkforceName" => WorkforceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_workforce(
     WorkforceName,
     params::AbstractDict{String};
@@ -5994,14 +6102,13 @@ Deletes an existing work team. This operation can't be undone.
 - `workteam_name`: The name of the work team to delete.
 
 """
-function delete_workteam(WorkteamName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+delete_workteam(WorkteamName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DeleteWorkteam",
         Dict{String,Any}("WorkteamName" => WorkteamName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_workteam(
     WorkteamName,
     params::AbstractDict{String};
@@ -6029,18 +6136,14 @@ re-register the devices.
 - `device_names`: The unique IDs of the devices.
 
 """
-function deregister_devices(
+deregister_devices(
     DeviceFleetName, DeviceNames; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DeregisterDevices",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceNames" => DeviceNames);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DeregisterDevices",
-        Dict{String,Any}(
-            "DeviceFleetName" => DeviceFleetName, "DeviceNames" => DeviceNames
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_devices(
     DeviceFleetName,
     DeviceNames,
@@ -6073,14 +6176,12 @@ Describes an action.
 - `action_name`: The name of the action to describe.
 
 """
-function describe_action(ActionName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DescribeAction",
-        Dict{String,Any}("ActionName" => ActionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_action(ActionName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DescribeAction",
+    Dict{String,Any}("ActionName" => ActionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_action(
     ActionName,
     params::AbstractDict{String};
@@ -6106,16 +6207,13 @@ Returns a description of the specified algorithm that is in your account.
 - `algorithm_name`: The name of the algorithm to describe.
 
 """
-function describe_algorithm(
-    AlgorithmName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_algorithm(AlgorithmName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeAlgorithm",
         Dict{String,Any}("AlgorithmName" => AlgorithmName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_algorithm(
     AlgorithmName,
     params::AbstractDict{String};
@@ -6148,18 +6246,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserProfileName"`: The user profile name. If this value is not set, then SpaceName must
   be set.
 """
-function describe_app(
+describe_app(
     AppName, AppType, DomainId; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeApp",
+    Dict{String,Any}("AppName" => AppName, "AppType" => AppType, "DomainId" => DomainId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeApp",
-        Dict{String,Any}(
-            "AppName" => AppName, "AppType" => AppType, "DomainId" => DomainId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_app(
     AppName,
     AppType,
@@ -6193,16 +6287,14 @@ Describes an AppImageConfig.
 - `app_image_config_name`: The name of the AppImageConfig to describe.
 
 """
-function describe_app_image_config(
+describe_app_image_config(
     AppImageConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeAppImageConfig",
+    Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeAppImageConfig",
-        Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_app_image_config(
     AppImageConfigName,
     params::AbstractDict{String};
@@ -6230,14 +6322,13 @@ Describes an artifact.
 - `artifact_arn`: The Amazon Resource Name (ARN) of the artifact to describe.
 
 """
-function describe_artifact(ArtifactArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+describe_artifact(ArtifactArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeArtifact",
         Dict{String,Any}("ArtifactArn" => ArtifactArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_artifact(
     ArtifactArn,
     params::AbstractDict{String};
@@ -6257,22 +6348,20 @@ end
     describe_auto_mljob(auto_mljob_name)
     describe_auto_mljob(auto_mljob_name, params::Dict{String,<:Any})
 
-Returns information about an Amazon SageMaker AutoML job.
+Returns information about an AutoML job created by calling CreateAutoMLJob.  AutoML jobs
+created by calling CreateAutoMLJobV2 cannot be described by DescribeAutoMLJob.
 
 # Arguments
 - `auto_mljob_name`: Requests information about an AutoML job using its unique name.
 
 """
-function describe_auto_mljob(
-    AutoMLJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_auto_mljob(AutoMLJobName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeAutoMLJob",
         Dict{String,Any}("AutoMLJobName" => AutoMLJobName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_auto_mljob(
     AutoMLJobName,
     params::AbstractDict{String};
@@ -6292,24 +6381,20 @@ end
     describe_auto_mljob_v2(auto_mljob_name)
     describe_auto_mljob_v2(auto_mljob_name, params::Dict{String,<:Any})
 
-Returns information about an Amazon SageMaker AutoML V2 job.  This API action is callable
-through SageMaker Canvas only. Calling it directly from the CLI or an SDK results in an
-error.
+Returns information about an AutoML job created by calling CreateAutoMLJobV2 or
+CreateAutoMLJob.
 
 # Arguments
-- `auto_mljob_name`: Requests information about an AutoML V2 job using its unique name.
+- `auto_mljob_name`: Requests information about an AutoML job V2 using its unique name.
 
 """
-function describe_auto_mljob_v2(
-    AutoMLJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_auto_mljob_v2(AutoMLJobName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeAutoMLJobV2",
         Dict{String,Any}("AutoMLJobName" => AutoMLJobName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_auto_mljob_v2(
     AutoMLJobName,
     params::AbstractDict{String};
@@ -6326,6 +6411,80 @@ function describe_auto_mljob_v2(
 end
 
 """
+    describe_cluster(cluster_name)
+    describe_cluster(cluster_name, params::Dict{String,<:Any})
+
+Retrieves information of a SageMaker HyperPod cluster.
+
+# Arguments
+- `cluster_name`: The string name or the Amazon Resource Name (ARN) of the SageMaker
+  HyperPod cluster.
+
+"""
+describe_cluster(ClusterName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
+        "DescribeCluster",
+        Dict{String,Any}("ClusterName" => ClusterName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_cluster(
+    ClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DescribeCluster",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_cluster_node(cluster_name, node_id)
+    describe_cluster_node(cluster_name, node_id, params::Dict{String,<:Any})
+
+Retrieves information of an instance (also called a node interchangeably) of a SageMaker
+HyperPod cluster.
+
+# Arguments
+- `cluster_name`: The string name or the Amazon Resource Name (ARN) of the SageMaker
+  HyperPod cluster in which the instance is.
+- `node_id`: The ID of the instance.
+
+"""
+describe_cluster_node(
+    ClusterName, NodeId; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeClusterNode",
+    Dict{String,Any}("ClusterName" => ClusterName, "NodeId" => NodeId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_cluster_node(
+    ClusterName,
+    NodeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DescribeClusterNode",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ClusterName" => ClusterName, "NodeId" => NodeId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_code_repository(code_repository_name)
     describe_code_repository(code_repository_name, params::Dict{String,<:Any})
 
@@ -6335,16 +6494,14 @@ Gets details about the specified Git repository.
 - `code_repository_name`: The name of the Git repository to describe.
 
 """
-function describe_code_repository(
+describe_code_repository(
     CodeRepositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeCodeRepository",
+    Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeCodeRepository",
-        Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_code_repository(
     CodeRepositoryName,
     params::AbstractDict{String};
@@ -6375,16 +6532,14 @@ ListCompilationJobs.
   about.
 
 """
-function describe_compilation_job(
+describe_compilation_job(
     CompilationJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeCompilationJob",
+    Dict{String,Any}("CompilationJobName" => CompilationJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeCompilationJob",
-        Dict{String,Any}("CompilationJobName" => CompilationJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_compilation_job(
     CompilationJobName,
     params::AbstractDict{String};
@@ -6412,14 +6567,13 @@ Describes a context.
 - `context_name`: The name of the context to describe.
 
 """
-function describe_context(ContextName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+describe_context(ContextName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeContext",
         Dict{String,Any}("ContextName" => ContextName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_context(
     ContextName,
     params::AbstractDict{String};
@@ -6445,16 +6599,14 @@ Gets the details of a data quality monitoring job definition.
 - `job_definition_name`: The name of the data quality monitoring job definition to describe.
 
 """
-function describe_data_quality_job_definition(
+describe_data_quality_job_definition(
     JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeDataQualityJobDefinition",
+    Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeDataQualityJobDefinition",
-        Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_data_quality_job_definition(
     JobDefinitionName,
     params::AbstractDict{String};
@@ -6486,16 +6638,14 @@ Describes the device.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: Next token of device description.
 """
-function describe_device(
+describe_device(
     DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeDevice",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeDevice",
-        Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "DeviceName" => DeviceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_device(
     DeviceFleetName,
     DeviceName,
@@ -6528,16 +6678,13 @@ A description of the fleet the device belongs to.
 - `device_fleet_name`: The name of the fleet.
 
 """
-function describe_device_fleet(
-    DeviceFleetName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_device_fleet(DeviceFleetName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeDeviceFleet",
         Dict{String,Any}("DeviceFleetName" => DeviceFleetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_device_fleet(
     DeviceFleetName,
     params::AbstractDict{String};
@@ -6565,14 +6712,12 @@ The description of the domain.
 - `domain_id`: The domain ID.
 
 """
-function describe_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DescribeDomain",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DescribeDomain",
+    Dict{String,Any}("DomainId" => DomainId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_domain(
     DomainId,
     params::AbstractDict{String};
@@ -6603,16 +6748,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the edge deployment plan has enough stages to require tokening, then
   this is the response from the last list of stages returned.
 """
-function describe_edge_deployment_plan(
+describe_edge_deployment_plan(
     EdgeDeploymentPlanName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeEdgeDeploymentPlan",
+    Dict{String,Any}("EdgeDeploymentPlanName" => EdgeDeploymentPlanName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeEdgeDeploymentPlan",
-        Dict{String,Any}("EdgeDeploymentPlanName" => EdgeDeploymentPlanName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_edge_deployment_plan(
     EdgeDeploymentPlanName,
     params::AbstractDict{String};
@@ -6642,16 +6785,14 @@ A description of edge packaging jobs.
 - `edge_packaging_job_name`: The name of the edge packaging job.
 
 """
-function describe_edge_packaging_job(
+describe_edge_packaging_job(
     EdgePackagingJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeEdgePackagingJob",
+    Dict{String,Any}("EdgePackagingJobName" => EdgePackagingJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeEdgePackagingJob",
-        Dict{String,Any}("EdgePackagingJobName" => EdgePackagingJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_edge_packaging_job(
     EdgePackagingJobName,
     params::AbstractDict{String};
@@ -6681,14 +6822,13 @@ Returns the description of an endpoint.
 - `endpoint_name`: The name of the endpoint.
 
 """
-function describe_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+describe_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeEndpoint",
         Dict{String,Any}("EndpointName" => EndpointName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_endpoint(
     EndpointName,
     params::AbstractDict{String};
@@ -6715,16 +6855,14 @@ API.
 - `endpoint_config_name`: The name of the endpoint configuration.
 
 """
-function describe_endpoint_config(
+describe_endpoint_config(
     EndpointConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeEndpointConfig",
+    Dict{String,Any}("EndpointConfigName" => EndpointConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeEndpointConfig",
-        Dict{String,Any}("EndpointConfigName" => EndpointConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_endpoint_config(
     EndpointConfigName,
     params::AbstractDict{String};
@@ -6752,16 +6890,13 @@ Provides a list of an experiment's properties.
 - `experiment_name`: The name of the experiment to describe.
 
 """
-function describe_experiment(
-    ExperimentName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_experiment(ExperimentName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeExperiment",
         Dict{String,Any}("ExperimentName" => ExperimentName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_experiment(
     ExperimentName,
     params::AbstractDict{String};
@@ -6785,23 +6920,22 @@ Use this operation to describe a FeatureGroup. The response includes information
 creation time, FeatureGroup name, the unique identifier for each FeatureGroup, and more.
 
 # Arguments
-- `feature_group_name`: The name of the FeatureGroup you want described.
+- `feature_group_name`: The name or Amazon Resource Name (ARN) of the FeatureGroup you want
+  described.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: A token to resume pagination of the list of Features (FeatureDefinitions).
   2,500 Features are returned by default.
 """
-function describe_feature_group(
+describe_feature_group(
     FeatureGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeFeatureGroup",
+    Dict{String,Any}("FeatureGroupName" => FeatureGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeFeatureGroup",
-        Dict{String,Any}("FeatureGroupName" => FeatureGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_feature_group(
     FeatureGroupName,
     params::AbstractDict{String};
@@ -6826,22 +6960,19 @@ end
 Shows the metadata for a feature within a feature group.
 
 # Arguments
-- `feature_group_name`: The name of the feature group containing the feature.
+- `feature_group_name`: The name or Amazon Resource Name (ARN) of the feature group
+  containing the feature.
 - `feature_name`: The name of the feature.
 
 """
-function describe_feature_metadata(
+describe_feature_metadata(
     FeatureGroupName, FeatureName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeFeatureMetadata",
+    Dict{String,Any}("FeatureGroupName" => FeatureGroupName, "FeatureName" => FeatureName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeFeatureMetadata",
-        Dict{String,Any}(
-            "FeatureGroupName" => FeatureGroupName, "FeatureName" => FeatureName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_feature_metadata(
     FeatureGroupName,
     FeatureName,
@@ -6874,16 +7005,14 @@ Returns information about the specified flow definition.
 - `flow_definition_name`: The name of the flow definition.
 
 """
-function describe_flow_definition(
+describe_flow_definition(
     FlowDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeFlowDefinition",
+    Dict{String,Any}("FlowDefinitionName" => FlowDefinitionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeFlowDefinition",
-        Dict{String,Any}("FlowDefinitionName" => FlowDefinitionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_flow_definition(
     FlowDefinitionName,
     params::AbstractDict{String};
@@ -6911,14 +7040,12 @@ Describe a hub.  Hub APIs are only callable through SageMaker Studio.
 - `hub_name`: The name of the hub to describe.
 
 """
-function describe_hub(HubName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DescribeHub",
-        Dict{String,Any}("HubName" => HubName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_hub(HubName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DescribeHub",
+    Dict{String,Any}("HubName" => HubName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_hub(
     HubName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6945,23 +7072,21 @@ Describe the content of a hub.  Hub APIs are only callable through SageMaker Stu
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HubContentVersion"`: The version of the content to describe.
 """
-function describe_hub_content(
+describe_hub_content(
     HubContentName,
     HubContentType,
     HubName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "DescribeHubContent",
+    Dict{String,Any}(
+        "HubContentName" => HubContentName,
+        "HubContentType" => HubContentType,
+        "HubName" => HubName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeHubContent",
-        Dict{String,Any}(
-            "HubContentName" => HubContentName,
-            "HubContentType" => HubContentType,
-            "HubName" => HubName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_hub_content(
     HubContentName,
     HubContentType,
@@ -6998,16 +7123,13 @@ Returns information about the requested human task user interface (worker task t
   you want information about.
 
 """
-function describe_human_task_ui(
-    HumanTaskUiName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_human_task_ui(HumanTaskUiName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeHumanTaskUi",
         Dict{String,Any}("HumanTaskUiName" => HumanTaskUiName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_human_task_ui(
     HumanTaskUiName,
     params::AbstractDict{String};
@@ -7037,16 +7159,14 @@ job and more.
 - `hyper_parameter_tuning_job_name`: The name of the tuning job.
 
 """
-function describe_hyper_parameter_tuning_job(
+describe_hyper_parameter_tuning_job(
     HyperParameterTuningJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeHyperParameterTuningJob",
+    Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeHyperParameterTuningJob",
-        Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_hyper_parameter_tuning_job(
     HyperParameterTuningJobName,
     params::AbstractDict{String};
@@ -7078,14 +7198,12 @@ Describes a SageMaker image.
 - `image_name`: The name of the image to describe.
 
 """
-function describe_image(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DescribeImage",
-        Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_image(ImageName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DescribeImage",
+    Dict{String,Any}("ImageName" => ImageName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_image(
     ImageName,
     params::AbstractDict{String};
@@ -7115,16 +7233,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Alias"`: The alias of the image version.
 - `"Version"`: The version of the image. If not specified, the latest version is described.
 """
-function describe_image_version(
-    ImageName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_image_version(ImageName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeImageVersion",
         Dict{String,Any}("ImageName" => ImageName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_image_version(
     ImageName,
     params::AbstractDict{String};
@@ -7141,6 +7256,43 @@ function describe_image_version(
 end
 
 """
+    describe_inference_component(inference_component_name)
+    describe_inference_component(inference_component_name, params::Dict{String,<:Any})
+
+Returns information about an inference component.
+
+# Arguments
+- `inference_component_name`: The name of the inference component.
+
+"""
+describe_inference_component(
+    InferenceComponentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeInferenceComponent",
+    Dict{String,Any}("InferenceComponentName" => InferenceComponentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_inference_component(
+    InferenceComponentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DescribeInferenceComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceComponentName" => InferenceComponentName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_inference_experiment(name)
     describe_inference_experiment(name, params::Dict{String,<:Any})
 
@@ -7150,16 +7302,13 @@ Returns details about an inference experiment.
 - `name`: The name of the inference experiment to describe.
 
 """
-function describe_inference_experiment(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_inference_experiment(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeInferenceExperiment",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_inference_experiment(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7183,16 +7332,14 @@ returned.
   Region in the Amazon Web Services account.
 
 """
-function describe_inference_recommendations_job(
+describe_inference_recommendations_job(
     JobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeInferenceRecommendationsJob",
+    Dict{String,Any}("JobName" => JobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeInferenceRecommendationsJob",
-        Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_inference_recommendations_job(
     JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7214,16 +7361,13 @@ Gets information about a labeling job.
 - `labeling_job_name`: The name of the labeling job to return information for.
 
 """
-function describe_labeling_job(
-    LabelingJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_labeling_job(LabelingJobName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeLabelingJob",
         Dict{String,Any}("LabelingJobName" => LabelingJobName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_labeling_job(
     LabelingJobName,
     params::AbstractDict{String};
@@ -7252,16 +7396,14 @@ Cross-Account Lineage Tracking  in the Amazon SageMaker Developer Guide.
 - `lineage_group_name`: The name of the lineage group.
 
 """
-function describe_lineage_group(
+describe_lineage_group(
     LineageGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeLineageGroup",
+    Dict{String,Any}("LineageGroupName" => LineageGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeLineageGroup",
-        Dict{String,Any}("LineageGroupName" => LineageGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_lineage_group(
     LineageGroupName,
     params::AbstractDict{String};
@@ -7289,14 +7431,12 @@ Describes a model that you created using the CreateModel API.
 - `model_name`: The name of the model.
 
 """
-function describe_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DescribeModel",
-        Dict{String,Any}("ModelName" => ModelName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DescribeModel",
+    Dict{String,Any}("ModelName" => ModelName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_model(
     ModelName,
     params::AbstractDict{String};
@@ -7323,16 +7463,14 @@ Returns a description of a model bias job definition.
   within an Amazon Web Services Region in the Amazon Web Services account.
 
 """
-function describe_model_bias_job_definition(
+describe_model_bias_job_definition(
     JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeModelBiasJobDefinition",
+    Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeModelBiasJobDefinition",
-        Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_model_bias_job_definition(
     JobDefinitionName,
     params::AbstractDict{String};
@@ -7358,23 +7496,20 @@ Describes the content, creation time, and security configuration of an Amazon Sa
 Model Card.
 
 # Arguments
-- `model_card_name`: The name of the model card to describe.
+- `model_card_name`: The name or Amazon Resource Name (ARN) of the model card to describe.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ModelCardVersion"`: The version of the model card to describe. If a version is not
   provided, then the latest version of the model card is described.
 """
-function describe_model_card(
-    ModelCardName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_model_card(ModelCardName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeModelCard",
         Dict{String,Any}("ModelCardName" => ModelCardName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_model_card(
     ModelCardName,
     params::AbstractDict{String};
@@ -7401,16 +7536,14 @@ Describes an Amazon SageMaker Model Card export job.
   to describe.
 
 """
-function describe_model_card_export_job(
+describe_model_card_export_job(
     ModelCardExportJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeModelCardExportJob",
+    Dict{String,Any}("ModelCardExportJobArn" => ModelCardExportJobArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeModelCardExportJob",
-        Dict{String,Any}("ModelCardExportJobArn" => ModelCardExportJobArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_model_card_export_job(
     ModelCardExportJobArn,
     params::AbstractDict{String};
@@ -7441,16 +7574,14 @@ Returns a description of a model explainability job definition.
   be unique within an Amazon Web Services Region in the Amazon Web Services account.
 
 """
-function describe_model_explainability_job_definition(
+describe_model_explainability_job_definition(
     JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeModelExplainabilityJobDefinition",
+    Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeModelExplainabilityJobDefinition",
-        Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_model_explainability_job_definition(
     JobDefinitionName,
     params::AbstractDict{String};
@@ -7482,16 +7613,14 @@ buyers can subscribe to model packages listed on Amazon Web Services Marketplace
   are a-z, A-Z, 0-9, and - (hyphen).
 
 """
-function describe_model_package(
+describe_model_package(
     ModelPackageName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeModelPackage",
+    Dict{String,Any}("ModelPackageName" => ModelPackageName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeModelPackage",
-        Dict{String,Any}("ModelPackageName" => ModelPackageName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_model_package(
     ModelPackageName,
     params::AbstractDict{String};
@@ -7516,19 +7645,17 @@ end
 Gets a description for the specified model group.
 
 # Arguments
-- `model_package_group_name`: The name of gthe model group to describe.
+- `model_package_group_name`: The name of the model group to describe.
 
 """
-function describe_model_package_group(
+describe_model_package_group(
     ModelPackageGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeModelPackageGroup",
+    Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeModelPackageGroup",
-        Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_model_package_group(
     ModelPackageGroupName,
     params::AbstractDict{String};
@@ -7559,16 +7686,14 @@ Returns a description of a model quality job definition.
   an Amazon Web Services Region in the Amazon Web Services account.
 
 """
-function describe_model_quality_job_definition(
+describe_model_quality_job_definition(
     JobDefinitionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeModelQualityJobDefinition",
+    Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeModelQualityJobDefinition",
-        Dict{String,Any}("JobDefinitionName" => JobDefinitionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_model_quality_job_definition(
     JobDefinitionName,
     params::AbstractDict{String};
@@ -7596,16 +7721,14 @@ Describes the schedule for a monitoring job.
 - `monitoring_schedule_name`: Name of a previously created monitoring schedule.
 
 """
-function describe_monitoring_schedule(
+describe_monitoring_schedule(
     MonitoringScheduleName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeMonitoringSchedule",
+    Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeMonitoringSchedule",
-        Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_monitoring_schedule(
     MonitoringScheduleName,
     params::AbstractDict{String};
@@ -7636,16 +7759,14 @@ Returns information about a notebook instance.
   about.
 
 """
-function describe_notebook_instance(
+describe_notebook_instance(
     NotebookInstanceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeNotebookInstance",
+    Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeNotebookInstance",
-        Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_notebook_instance(
     NotebookInstanceName,
     params::AbstractDict{String};
@@ -7678,18 +7799,16 @@ Instance.
   describe.
 
 """
-function describe_notebook_instance_lifecycle_config(
+describe_notebook_instance_lifecycle_config(
     NotebookInstanceLifecycleConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeNotebookInstanceLifecycleConfig",
+    Dict{String,Any}(
+        "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeNotebookInstanceLifecycleConfig",
-        Dict{String,Any}(
-            "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_notebook_instance_lifecycle_config(
     NotebookInstanceLifecycleConfigName,
     params::AbstractDict{String};
@@ -7722,14 +7841,13 @@ Describes the details of a pipeline.
 - `pipeline_name`: The name or Amazon Resource Name (ARN) of the pipeline to describe.
 
 """
-function describe_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+describe_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribePipeline",
         Dict{String,Any}("PipelineName" => PipelineName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -7755,16 +7873,14 @@ Describes the details of an execution's pipeline definition.
 - `pipeline_execution_arn`: The Amazon Resource Name (ARN) of the pipeline execution.
 
 """
-function describe_pipeline_definition_for_execution(
+describe_pipeline_definition_for_execution(
     PipelineExecutionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribePipelineDefinitionForExecution",
+    Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribePipelineDefinitionForExecution",
-        Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_pipeline_definition_for_execution(
     PipelineExecutionArn,
     params::AbstractDict{String};
@@ -7794,16 +7910,14 @@ Describes the details of a pipeline execution.
 - `pipeline_execution_arn`: The Amazon Resource Name (ARN) of the pipeline execution.
 
 """
-function describe_pipeline_execution(
+describe_pipeline_execution(
     PipelineExecutionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribePipelineExecution",
+    Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribePipelineExecution",
-        Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_pipeline_execution(
     PipelineExecutionArn,
     params::AbstractDict{String};
@@ -7834,16 +7948,14 @@ Returns a description of a processing job.
   Amazon Web Services Region in the Amazon Web Services account.
 
 """
-function describe_processing_job(
+describe_processing_job(
     ProcessingJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeProcessingJob",
+    Dict{String,Any}("ProcessingJobName" => ProcessingJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeProcessingJob",
-        Dict{String,Any}("ProcessingJobName" => ProcessingJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_processing_job(
     ProcessingJobName,
     params::AbstractDict{String};
@@ -7871,14 +7983,13 @@ Describes the details of a project.
 - `project_name`: The name of the project to describe.
 
 """
-function describe_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+describe_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeProject",
         Dict{String,Any}("ProjectName" => ProjectName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_project(
     ProjectName,
     params::AbstractDict{String};
@@ -7901,20 +8012,17 @@ end
 Describes the space.
 
 # Arguments
-- `domain_id`: The ID of the associated Domain.
+- `domain_id`: The ID of the associated domain.
 - `space_name`: The name of the space.
 
 """
-function describe_space(
-    DomainId, SpaceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_space(DomainId, SpaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeSpace",
         Dict{String,Any}("DomainId" => DomainId, "SpaceName" => SpaceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_space(
     DomainId,
     SpaceName,
@@ -7939,23 +8047,21 @@ end
     describe_studio_lifecycle_config(studio_lifecycle_config_name)
     describe_studio_lifecycle_config(studio_lifecycle_config_name, params::Dict{String,<:Any})
 
-Describes the Studio Lifecycle Configuration.
+Describes the Amazon SageMaker Studio Lifecycle Configuration.
 
 # Arguments
-- `studio_lifecycle_config_name`: The name of the Studio Lifecycle Configuration to
-  describe.
+- `studio_lifecycle_config_name`: The name of the Amazon SageMaker Studio Lifecycle
+  Configuration to describe.
 
 """
-function describe_studio_lifecycle_config(
+describe_studio_lifecycle_config(
     StudioLifecycleConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeStudioLifecycleConfig",
+    Dict{String,Any}("StudioLifecycleConfigName" => StudioLifecycleConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeStudioLifecycleConfig",
-        Dict{String,Any}("StudioLifecycleConfigName" => StudioLifecycleConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_studio_lifecycle_config(
     StudioLifecycleConfigName,
     params::AbstractDict{String};
@@ -7986,16 +8092,14 @@ subscription with a vendor in the Amazon Web Services Marketplace.
 - `workteam_arn`: The Amazon Resource Name (ARN) of the subscribed work team to describe.
 
 """
-function describe_subscribed_workteam(
+describe_subscribed_workteam(
     WorkteamArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeSubscribedWorkteam",
+    Dict{String,Any}("WorkteamArn" => WorkteamArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeSubscribedWorkteam",
-        Dict{String,Any}("WorkteamArn" => WorkteamArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_subscribed_workteam(
     WorkteamArn,
     params::AbstractDict{String};
@@ -8025,16 +8129,13 @@ response.
 - `training_job_name`: The name of the training job.
 
 """
-function describe_training_job(
-    TrainingJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_training_job(TrainingJobName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeTrainingJob",
         Dict{String,Any}("TrainingJobName" => TrainingJobName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_training_job(
     TrainingJobName,
     params::AbstractDict{String};
@@ -8062,16 +8163,14 @@ Returns information about a transform job.
 - `transform_job_name`: The name of the transform job that you want to view details of.
 
 """
-function describe_transform_job(
+describe_transform_job(
     TransformJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeTransformJob",
+    Dict{String,Any}("TransformJobName" => TransformJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeTransformJob",
-        Dict{String,Any}("TransformJobName" => TransformJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_transform_job(
     TransformJobName,
     params::AbstractDict{String};
@@ -8099,14 +8198,12 @@ Provides a list of a trial's properties.
 - `trial_name`: The name of the trial to describe.
 
 """
-function describe_trial(TrialName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "DescribeTrial",
-        Dict{String,Any}("TrialName" => TrialName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_trial(TrialName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "DescribeTrial",
+    Dict{String,Any}("TrialName" => TrialName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_trial(
     TrialName,
     params::AbstractDict{String};
@@ -8132,16 +8229,14 @@ Provides a list of a trials component's properties.
 - `trial_component_name`: The name of the trial component to describe.
 
 """
-function describe_trial_component(
+describe_trial_component(
     TrialComponentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeTrialComponent",
+    Dict{String,Any}("TrialComponentName" => TrialComponentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeTrialComponent",
-        Dict{String,Any}("TrialComponentName" => TrialComponentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_trial_component(
     TrialComponentName,
     params::AbstractDict{String};
@@ -8170,16 +8265,14 @@ Describes a user profile. For more information, see CreateUserProfile.
 - `user_profile_name`: The user profile name. This value is not case sensitive.
 
 """
-function describe_user_profile(
+describe_user_profile(
     DomainId, UserProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DescribeUserProfile",
+    Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DescribeUserProfile",
-        Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_user_profile(
     DomainId,
     UserProfileName,
@@ -8217,16 +8310,13 @@ workforces.
   modified.
 
 """
-function describe_workforce(
-    WorkforceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+describe_workforce(WorkforceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeWorkforce",
         Dict{String,Any}("WorkforceName" => WorkforceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_workforce(
     WorkforceName,
     params::AbstractDict{String};
@@ -8254,14 +8344,13 @@ Name (ARN).
 - `workteam_name`: The name of the work team to return a description of.
 
 """
-function describe_workteam(WorkteamName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+describe_workteam(WorkteamName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "DescribeWorkteam",
         Dict{String,Any}("WorkteamName" => WorkteamName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_workteam(
     WorkteamName,
     params::AbstractDict{String};
@@ -8285,15 +8374,13 @@ Disables using Service Catalog in SageMaker. Service Catalog is used to create S
 projects.
 
 """
-function disable_sagemaker_servicecatalog_portfolio(;
+disable_sagemaker_servicecatalog_portfolio(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DisableSagemakerServicecatalogPortfolio";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DisableSagemakerServicecatalogPortfolio";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_sagemaker_servicecatalog_portfolio(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8321,18 +8408,14 @@ parameter. The list appears in the response under Results.TrialComponent.Parents
 - `trial_name`: The name of the trial to disassociate from.
 
 """
-function disassociate_trial_component(
+disassociate_trial_component(
     TrialComponentName, TrialName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "DisassociateTrialComponent",
+    Dict{String,Any}("TrialComponentName" => TrialComponentName, "TrialName" => TrialName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "DisassociateTrialComponent",
-        Dict{String,Any}(
-            "TrialComponentName" => TrialComponentName, "TrialName" => TrialName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_trial_component(
     TrialComponentName,
     TrialName,
@@ -8363,15 +8446,13 @@ Enables using Service Catalog in SageMaker. Service Catalog is used to create Sa
 projects.
 
 """
-function enable_sagemaker_servicecatalog_portfolio(;
+enable_sagemaker_servicecatalog_portfolio(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "EnableSagemakerServicecatalogPortfolio";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "EnableSagemakerServicecatalogPortfolio";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function enable_sagemaker_servicecatalog_portfolio(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8393,16 +8474,14 @@ Describes a fleet.
 - `device_fleet_name`: The name of the fleet.
 
 """
-function get_device_fleet_report(
+get_device_fleet_report(
     DeviceFleetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "GetDeviceFleetReport",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "GetDeviceFleetReport",
-        Dict{String,Any}("DeviceFleetName" => DeviceFleetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_device_fleet_report(
     DeviceFleetName,
     params::AbstractDict{String};
@@ -8430,16 +8509,14 @@ The resource policy for the lineage group.
 - `lineage_group_name`: The name or Amazon Resource Name (ARN) of the lineage group.
 
 """
-function get_lineage_group_policy(
+get_lineage_group_policy(
     LineageGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "GetLineageGroupPolicy",
+    Dict{String,Any}("LineageGroupName" => LineageGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "GetLineageGroupPolicy",
-        Dict{String,Any}("LineageGroupName" => LineageGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_lineage_group_policy(
     LineageGroupName,
     params::AbstractDict{String};
@@ -8470,16 +8547,14 @@ Web Services Identity and Access Management User Guide..
   policy.
 
 """
-function get_model_package_group_policy(
+get_model_package_group_policy(
     ModelPackageGroupName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "GetModelPackageGroupPolicy",
+    Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "GetModelPackageGroupPolicy",
-        Dict{String,Any}("ModelPackageGroupName" => ModelPackageGroupName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_model_package_group_policy(
     ModelPackageGroupName,
     params::AbstractDict{String};
@@ -8507,21 +8582,74 @@ Gets the status of Service Catalog in SageMaker. Service Catalog is used to crea
 SageMaker projects.
 
 """
-function get_sagemaker_servicecatalog_portfolio_status(;
+get_sagemaker_servicecatalog_portfolio_status(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "GetSagemakerServicecatalogPortfolioStatus";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "GetSagemakerServicecatalogPortfolioStatus";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sagemaker_servicecatalog_portfolio_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sagemaker(
         "GetSagemakerServicecatalogPortfolioStatus",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_scaling_configuration_recommendation(inference_recommendations_job_name)
+    get_scaling_configuration_recommendation(inference_recommendations_job_name, params::Dict{String,<:Any})
+
+Starts an Amazon SageMaker Inference Recommender autoscaling recommendation job. Returns
+recommendations for autoscaling policies that you can apply to your SageMaker endpoint.
+
+# Arguments
+- `inference_recommendations_job_name`: The name of a previously completed Inference
+  Recommender job.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EndpointName"`: The name of an endpoint benchmarked during a previously completed
+  inference recommendation job. This name should come from one of the recommendations
+  returned by the job specified in the InferenceRecommendationsJobName field. Specify either
+  this field or the RecommendationId field.
+- `"RecommendationId"`: The recommendation ID of a previously completed inference
+  recommendation. This ID should come from one of the recommendations returned by the job
+  specified in the InferenceRecommendationsJobName field. Specify either this field or the
+  EndpointName field.
+- `"ScalingPolicyObjective"`: An object where you specify the anticipated traffic pattern
+  for an endpoint.
+- `"TargetCpuUtilizationPerCore"`: The percentage of how much utilization you want an
+  instance to use before autoscaling. The default value is 50%.
+"""
+get_scaling_configuration_recommendation(
+    InferenceRecommendationsJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "GetScalingConfigurationRecommendation",
+    Dict{String,Any}("InferenceRecommendationsJobName" => InferenceRecommendationsJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_scaling_configuration_recommendation(
+    InferenceRecommendationsJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "GetScalingConfigurationRecommendation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InferenceRecommendationsJobName" => InferenceRecommendationsJobName
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -8542,14 +8670,13 @@ suggestions for HyperParameters, Tags, and Metrics.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SuggestionQuery"`: Limits the property names that are included in the response.
 """
-function get_search_suggestions(Resource; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+get_search_suggestions(Resource; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "GetSearchSuggestions",
         Dict{String,Any}("Resource" => Resource);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_search_suggestions(
     Resource,
     params::AbstractDict{String};
@@ -8589,27 +8716,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HubContentVersion"`: The version of the hub content to import.
 - `"Tags"`: Any tags associated with the hub content.
 """
-function import_hub_content(
+import_hub_content(
     DocumentSchemaVersion,
     HubContentDocument,
     HubContentName,
     HubContentType,
     HubName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "ImportHubContent",
+    Dict{String,Any}(
+        "DocumentSchemaVersion" => DocumentSchemaVersion,
+        "HubContentDocument" => HubContentDocument,
+        "HubContentName" => HubContentName,
+        "HubContentType" => HubContentType,
+        "HubName" => HubName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ImportHubContent",
-        Dict{String,Any}(
-            "DocumentSchemaVersion" => DocumentSchemaVersion,
-            "HubContentDocument" => HubContentDocument,
-            "HubContentName" => HubContentName,
-            "HubContentType" => HubContentType,
-            "HubName" => HubName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function import_hub_content(
     DocumentSchemaVersion,
     HubContentDocument,
@@ -8660,9 +8785,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order. The default value is Descending.
 - `"SourceUri"`: A filter that returns only actions with the specified source URI.
 """
-function list_actions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_actions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8692,11 +8816,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The parameter by which to sort the results. The default is CreationTime.
 - `"SortOrder"`: The sort order for the results. The default is Ascending.
 """
-function list_algorithms(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListAlgorithms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_algorithms(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListAlgorithms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_algorithms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8723,14 +8844,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Version"`: The version of the image. If image version is not specified, the aliases of
   all versions of the image are listed.
 """
-function list_aliases(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListAliases",
-        Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_aliases(ImageName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListAliases",
+    Dict{String,Any}("ImageName" => ImageName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_aliases(
     ImageName,
     params::AbstractDict{String};
@@ -8775,11 +8894,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The property used to sort results. The default value is CreationTime.
 - `"SortOrder"`: The sort order. The default value is Descending.
 """
-function list_app_image_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListAppImageConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_app_image_configs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListAppImageConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_app_image_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8813,9 +8929,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserProfileNameEquals"`: A parameter to search by user profile name. If SpaceNameEquals
   is set, then this value cannot be set.
 """
-function list_apps(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListApps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_apps(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListApps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8845,11 +8960,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order. The default value is Descending.
 - `"SourceUri"`: A filter that returns only artifacts with the specified source URI.
 """
-function list_artifacts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListArtifacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_artifacts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListArtifacts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_artifacts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8884,11 +8996,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceArn"`: A filter that returns only associations with the specified source ARN.
 - `"SourceType"`: A filter that returns only associations with the specified source type.
 """
-function list_associations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_associations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListAssociations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8917,11 +9026,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for the results. The default is Descending.
 - `"StatusEquals"`: Request a list of jobs, using a filter for status.
 """
-function list_auto_mljobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListAutoMLJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_auto_mljobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListAutoMLJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_auto_mljobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8949,16 +9055,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for the results. The default is Ascending.
 - `"StatusEquals"`: List the candidates for the job and filter by status.
 """
-function list_candidates_for_auto_mljob(
+list_candidates_for_auto_mljob(
     AutoMLJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListCandidatesForAutoMLJob",
+    Dict{String,Any}("AutoMLJobName" => AutoMLJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListCandidatesForAutoMLJob",
-        Dict{String,Any}("AutoMLJobName" => AutoMLJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_candidates_for_auto_mljob(
     AutoMLJobName,
     params::AbstractDict{String};
@@ -8971,6 +9075,101 @@ function list_candidates_for_auto_mljob(
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cluster_nodes(cluster_name)
+    list_cluster_nodes(cluster_name, params::Dict{String,<:Any})
+
+Retrieves the list of instances (also called nodes interchangeably) in a SageMaker HyperPod
+cluster.
+
+# Arguments
+- `cluster_name`: The string name or the Amazon Resource Name (ARN) of the SageMaker
+  HyperPod cluster in which you want to retrieve the list of nodes.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreationTimeAfter"`: A filter that returns nodes in a SageMaker HyperPod cluster
+  created after the specified time. Timestamps are formatted according to the ISO 8601
+  standard.  Acceptable formats include:    YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example,
+  2014-10-01T20:30:00.000Z     YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example,
+  2014-10-01T12:30:00.000-08:00     YYYY-MM-DD, for example, 2014-10-01    Unix time in
+  seconds, for example, 1412195400. This is also referred to as Unix Epoch time and
+  represents the number of seconds since midnight, January 1, 1970 UTC.   For more
+  information about the timestamp format, see Timestamp in the Amazon Web Services Command
+  Line Interface User Guide.
+- `"CreationTimeBefore"`: A filter that returns nodes in a SageMaker HyperPod cluster
+  created before the specified time. The acceptable formats are the same as the timestamp
+  formats for CreationTimeAfter. For more information about the timestamp format, see
+  Timestamp in the Amazon Web Services Command Line Interface User Guide.
+- `"InstanceGroupNameContains"`: A filter that returns the instance groups whose name
+  contain a specified string.
+- `"MaxResults"`: The maximum number of nodes to return in the response.
+- `"NextToken"`: If the result of the previous ListClusterNodes request was truncated, the
+  response includes a NextToken. To retrieve the next set of cluster nodes, use the token in
+  the next request.
+- `"SortBy"`: The field by which to sort results. The default value is CREATION_TIME.
+- `"SortOrder"`: The sort order for results. The default value is Ascending.
+"""
+list_cluster_nodes(ClusterName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
+        "ListClusterNodes",
+        Dict{String,Any}("ClusterName" => ClusterName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_cluster_nodes(
+    ClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "ListClusterNodes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_clusters()
+    list_clusters(params::Dict{String,<:Any})
+
+Retrieves the list of SageMaker HyperPod clusters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreationTimeAfter"`: Set a start time for the time range during which you want to list
+  SageMaker HyperPod clusters. Timestamps are formatted according to the ISO 8601 standard.
+  Acceptable formats include:    YYYY-MM-DDThh:mm:ss.sssTZD (UTC), for example,
+  2014-10-01T20:30:00.000Z     YYYY-MM-DDThh:mm:ss.sssTZD (with offset), for example,
+  2014-10-01T12:30:00.000-08:00     YYYY-MM-DD, for example, 2014-10-01    Unix time in
+  seconds, for example, 1412195400. This is also referred to as Unix Epoch time and
+  represents the number of seconds since midnight, January 1, 1970 UTC.   For more
+  information about the timestamp format, see Timestamp in the Amazon Web Services Command
+  Line Interface User Guide.
+- `"CreationTimeBefore"`: Set an end time for the time range during which you want to list
+  SageMaker HyperPod clusters. A filter that returns nodes in a SageMaker HyperPod cluster
+  created before the specified time. The acceptable formats are the same as the timestamp
+  formats for CreationTimeAfter. For more information about the timestamp format, see
+  Timestamp in the Amazon Web Services Command Line Interface User Guide.
+- `"MaxResults"`: Set the maximum number of SageMaker HyperPod clusters to list.
+- `"NameContains"`: Set the maximum number of instances to print in the list.
+- `"NextToken"`: Set the next token to retrieve the list of SageMaker HyperPod clusters.
+- `"SortBy"`: The field by which to sort results. The default value is CREATION_TIME.
+- `"SortOrder"`: The sort order for results. The default value is Ascending.
+"""
+list_clusters(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListClusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+function list_clusters(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "ListClusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -8999,11 +9198,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field to sort results by. The default is Name.
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 """
-function list_code_repositories(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListCodeRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_code_repositories(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListCodeRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_code_repositories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9044,11 +9241,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatusEquals"`: A filter that retrieves model compilation jobs with a specific
   CompilationJobStatus status.
 """
-function list_compilation_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListCompilationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_compilation_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListCompilationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_compilation_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9081,9 +9275,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order. The default value is Descending.
 - `"SourceUri"`: A filter that returns only contexts with the specified source URI.
 """
-function list_contexts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListContexts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_contexts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListContexts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_contexts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9115,17 +9308,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   truncated, the response includes a NextToken. To retrieve the next set of transform jobs,
   use the token in the next request.&gt;
 - `"SortBy"`: The field to sort results by. The default is CreationTime.
-- `"SortOrder"`: The sort order for results. The default is Descending.
+- `"SortOrder"`: Whether to sort the results in Ascending or Descending order. The default
+  is Descending.
 """
-function list_data_quality_job_definitions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+list_data_quality_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListDataQualityJobDefinitions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_data_quality_job_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9157,11 +9348,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The column to sort by.
 - `"SortOrder"`: What direction to sort in.
 """
-function list_device_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListDeviceFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_device_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListDeviceFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_device_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9186,9 +9374,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The response from the last list when returning a list large enough to need
   tokening.
 """
-function list_devices(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_devices(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListDevices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_devices(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9212,9 +9399,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: If the previous response was truncated, you will receive this token. Use
   it in your next request to receive the next set of results.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_domains(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListDomains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_domains(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9247,11 +9433,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DEVICEFLEETNAME, CREATIONTIME, LASTMODIFIEDTIME.
 - `"SortOrder"`: The direction of the sorting (ascending or descending).
 """
-function list_edge_deployment_plans(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListEdgeDeploymentPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_edge_deployment_plans(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListEdgeDeploymentPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_edge_deployment_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9284,11 +9468,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: What direction to sort by.
 - `"StatusEquals"`: The job status to filter for.
 """
-function list_edge_packaging_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListEdgePackagingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_edge_packaging_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListEdgePackagingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_edge_packaging_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9321,11 +9503,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field to sort results by. The default is CreationTime.
 - `"SortOrder"`: The sort order for results. The default is Descending.
 """
-function list_endpoint_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListEndpointConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_endpoint_configs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListEndpointConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_endpoint_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9364,11 +9543,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for results. The default is Descending.
 - `"StatusEquals"`:  A filter that returns only endpoints with the specified status.
 """
-function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9397,11 +9573,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The property used to sort results. The default value is CreationTime.
 - `"SortOrder"`: The sort order. The default value is Descending.
 """
-function list_experiments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListExperiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_experiments(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListExperiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_experiments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9431,11 +9604,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The value on which the feature group list is sorted.
 - `"SortOrder"`: The order in which feature groups are listed.
 """
-function list_feature_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListFeatureGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_feature_groups(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListFeatureGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_feature_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9463,11 +9633,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: An optional value that specifies whether you want the results sorted in
   Ascending or Descending order.
 """
-function list_flow_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListFlowDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_flow_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListFlowDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_flow_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9505,23 +9672,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: Sort hub content versions by either name or creation time.
 - `"SortOrder"`: Sort hub content versions by ascending or descending order.
 """
-function list_hub_content_versions(
+list_hub_content_versions(
     HubContentName,
     HubContentType,
     HubName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "ListHubContentVersions",
+    Dict{String,Any}(
+        "HubContentName" => HubContentName,
+        "HubContentType" => HubContentType,
+        "HubName" => HubName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListHubContentVersions",
-        Dict{String,Any}(
-            "HubContentName" => HubContentName,
-            "HubContentType" => HubContentType,
-            "HubName" => HubName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_hub_content_versions(
     HubContentName,
     HubContentType,
@@ -9570,16 +9735,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: Sort hub content versions by either name or creation time.
 - `"SortOrder"`: Sort hubs by ascending or descending order.
 """
-function list_hub_contents(
+list_hub_contents(
     HubContentType, HubName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListHubContents",
+    Dict{String,Any}("HubContentType" => HubContentType, "HubName" => HubName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListHubContents",
-        Dict{String,Any}("HubContentType" => HubContentType, "HubName" => HubName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_hub_contents(
     HubContentType,
     HubName,
@@ -9621,9 +9784,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: Sort hubs by either name or creation time.
 - `"SortOrder"`: Sort hubs by ascending or descending order.
 """
-function list_hubs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListHubs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_hubs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListHubs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_hubs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9651,11 +9813,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: An optional value that specifies whether you want the results sorted in
   Ascending or Descending order.
 """
-function list_human_task_uis(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListHumanTaskUis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_human_task_uis(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListHumanTaskUis"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_human_task_uis(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9691,15 +9850,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 - `"StatusEquals"`: A filter that returns only tuning jobs with the specified status.
 """
-function list_hyper_parameter_tuning_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+list_hyper_parameter_tuning_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListHyperParameterTuningJobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_hyper_parameter_tuning_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9738,14 +9894,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The property used to sort results. The default value is CREATION_TIME.
 - `"SortOrder"`: The sort order. The default value is DESCENDING.
 """
-function list_image_versions(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+list_image_versions(ImageName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListImageVersions",
         Dict{String,Any}("ImageName" => ImageName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_image_versions(
     ImageName,
     params::AbstractDict{String};
@@ -9787,14 +9942,61 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The property used to sort results. The default value is CREATION_TIME.
 - `"SortOrder"`: The sort order. The default value is DESCENDING.
 """
-function list_images(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_images(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sagemaker(
         "ListImages", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_inference_components()
+    list_inference_components(params::Dict{String,<:Any})
+
+Lists the inference components in your account and their properties.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreationTimeAfter"`: Filters the results to only those inference components that were
+  created after the specified time.
+- `"CreationTimeBefore"`: Filters the results to only those inference components that were
+  created before the specified time.
+- `"EndpointNameEquals"`: An endpoint name to filter the listed inference components. The
+  response includes only those inference components that are hosted at the specified endpoint.
+- `"LastModifiedTimeAfter"`: Filters the results to only those inference components that
+  were updated after the specified time.
+- `"LastModifiedTimeBefore"`: Filters the results to only those inference components that
+  were updated before the specified time.
+- `"MaxResults"`: The maximum number of inference components to return in the response.
+  This value defaults to 10.
+- `"NameContains"`: Filters the results to only those inference components with a name that
+  contains the specified string.
+- `"NextToken"`: A token that you use to get the next set of results following a truncated
+  response. If the response to the previous request was truncated, that response provides the
+  value for this token.
+- `"SortBy"`: The field by which to sort the inference components in the response. The
+  default is CreationTime.
+- `"SortOrder"`: The sort order for results. The default is Descending.
+- `"StatusEquals"`: Filters the results to only those inference components with the
+  specified status.
+- `"VariantNameEquals"`: A production variant name to filter the listed inference
+  components. The response includes only those inference components that are hosted at the
+  specified variant.
+"""
+list_inference_components(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListInferenceComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_inference_components(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "ListInferenceComponents",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -9825,11 +10027,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`:  Selects inference experiments of this type. For the possible types of
   inference experiments, see CreateInferenceExperiment.
 """
-function list_inference_experiments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListInferenceExperiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_inference_experiments(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListInferenceExperiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_inference_experiments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9861,16 +10061,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StepType"`: A filter to return details about the specified type of subtask.  BENCHMARK:
   Evaluate the performance of your model on different instance types.
 """
-function list_inference_recommendations_job_steps(
+list_inference_recommendations_job_steps(
     JobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListInferenceRecommendationsJobSteps",
+    Dict{String,Any}("JobName" => JobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListInferenceRecommendationsJobSteps",
-        Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_inference_recommendations_job_steps(
     JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9912,15 +10110,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatusEquals"`: A filter that retrieves only inference recommendations jobs with a
   specific status.
 """
-function list_inference_recommendations_jobs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+list_inference_recommendations_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListInferenceRecommendationsJobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_inference_recommendations_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9959,11 +10154,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 - `"StatusEquals"`: A filter that retrieves only labeling jobs with a specific status.
 """
-function list_labeling_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListLabelingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_labeling_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListLabelingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_labeling_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9998,16 +10190,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field to sort results by. The default is CreationTime.
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 """
-function list_labeling_jobs_for_workteam(
+list_labeling_jobs_for_workteam(
     WorkteamArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListLabelingJobsForWorkteam",
+    Dict{String,Any}("WorkteamArn" => WorkteamArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListLabelingJobsForWorkteam",
-        Dict{String,Any}("WorkteamArn" => WorkteamArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_labeling_jobs_for_workteam(
     WorkteamArn,
     params::AbstractDict{String};
@@ -10043,11 +10233,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The parameter by which to sort the results. The default is CreationTime.
 - `"SortOrder"`: The sort order for the results. The default is Ascending.
 """
-function list_lineage_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListLineageGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_lineage_groups(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListLineageGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_lineage_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10079,15 +10266,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: Whether to sort the results in Ascending or Descending order. The default
   is Descending.
 """
-function list_model_bias_job_definitions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+list_model_bias_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListModelBiasJobDefinitions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_model_bias_job_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10126,16 +10310,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: Sort model card export jobs by ascending or descending order.
 - `"StatusEquals"`: Only list model card export jobs with the specified status.
 """
-function list_model_card_export_jobs(
+list_model_card_export_jobs(
     ModelCardName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListModelCardExportJobs",
+    Dict{String,Any}("ModelCardName" => ModelCardName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListModelCardExportJobs",
-        Dict{String,Any}("ModelCardName" => ModelCardName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_model_card_export_jobs(
     ModelCardName,
     params::AbstractDict{String};
@@ -10158,7 +10340,8 @@ end
 List existing versions of an Amazon SageMaker Model Card.
 
 # Arguments
-- `model_card_name`: List model card versions for the model card with the specified name.
+- `model_card_name`: List model card versions for the model card with the specified name or
+  Amazon Resource Name (ARN).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -10174,16 +10357,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: Sort listed model card versions by version. Sorts by version by default.
 - `"SortOrder"`: Sort model card versions by ascending or descending order.
 """
-function list_model_card_versions(
-    ModelCardName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+list_model_card_versions(ModelCardName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListModelCardVersions",
         Dict{String,Any}("ModelCardName" => ModelCardName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_model_card_versions(
     ModelCardName,
     params::AbstractDict{String};
@@ -10219,11 +10399,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default.
 - `"SortOrder"`: Sort model cards by ascending or descending order.
 """
-function list_model_cards(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListModelCards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_model_cards(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListModelCards"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_model_cards(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10256,15 +10433,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: Whether to sort the results in Ascending or Descending order. The default
   is Descending.
 """
-function list_model_explainability_job_definitions(;
+list_model_explainability_job_definitions(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListModelExplainabilityJobDefinitions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListModelExplainabilityJobDefinitions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_model_explainability_job_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10294,11 +10469,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   included in the search results. Specify the Framework, FrameworkVersion, Domain or Task to
   filter supported. Filter names and values are case-sensitive.
 """
-function list_model_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListModelMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_model_metadata(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListModelMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_model_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10328,11 +10500,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field to sort results by. The default is CreationTime.
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 """
-function list_model_package_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListModelPackageGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_model_package_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListModelPackageGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_model_package_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10373,11 +10543,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The parameter by which to sort the results. The default is CreationTime.
 - `"SortOrder"`: The sort order for the results. The default is Ascending.
 """
-function list_model_packages(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListModelPackages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_model_packages(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListModelPackages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_model_packages(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10408,17 +10575,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   truncated, the response includes a NextToken. To retrieve the next set of model quality
   monitoring job definitions, use the token in the next request.
 - `"SortBy"`: The field to sort results by. The default is CreationTime.
-- `"SortOrder"`: The sort order for results. The default is Descending.
+- `"SortOrder"`: Whether to sort the results in Ascending or Descending order. The default
+  is Descending.
 """
-function list_model_quality_job_definitions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+list_model_quality_job_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListModelQualityJobDefinitions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_model_quality_job_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10451,9 +10616,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: Sorts the list of results. The default is CreationTime.
 - `"SortOrder"`: The sort order for results. The default is Descending.
 """
-function list_models(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_models(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListModels"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_models(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10485,11 +10649,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is Descending.
 - `"StatusEquals"`: A filter that retrieves only alerts with a specific status.
 """
-function list_monitoring_alert_history(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+list_monitoring_alert_history(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListMonitoringAlertHistory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_monitoring_alert_history(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10517,16 +10680,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the response includes a NextToken. To retrieve the next set of alerts in the history, use
   the token in the next request.
 """
-function list_monitoring_alerts(
+list_monitoring_alerts(
     MonitoringScheduleName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListMonitoringAlerts",
+    Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListMonitoringAlerts",
-        Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_monitoring_alerts(
     MonitoringScheduleName,
     params::AbstractDict{String};
@@ -10572,17 +10733,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of job executions, use it in the next request.
 - `"ScheduledTimeAfter"`: Filter for jobs scheduled after a specified time.
 - `"ScheduledTimeBefore"`: Filter for jobs scheduled before a specified time.
-- `"SortBy"`: Whether to sort results by Status, CreationTime, ScheduledTime field. The
-  default is CreationTime.
+- `"SortBy"`: Whether to sort the results by the Status, CreationTime, or ScheduledTime
+  field. The default is CreationTime.
 - `"SortOrder"`: Whether to sort the results in Ascending or Descending order. The default
   is Descending.
 - `"StatusEquals"`: A filter that retrieves only jobs with a specific status.
 """
-function list_monitoring_executions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListMonitoringExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_monitoring_executions(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListMonitoringExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_monitoring_executions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10620,18 +10779,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NameContains"`: Filter for monitoring schedules whose name contains a specified string.
 - `"NextToken"`: The token returned if the response is truncated. To retrieve the next set
   of job executions, use it in the next request.
-- `"SortBy"`: Whether to sort results by Status, CreationTime, ScheduledTime field. The
-  default is CreationTime.
+- `"SortBy"`: Whether to sort the results by the Status, CreationTime, or ScheduledTime
+  field. The default is CreationTime.
 - `"SortOrder"`: Whether to sort the results in Ascending or Descending order. The default
   is Descending.
 - `"StatusEquals"`: A filter that returns only monitoring schedules modified before a
   specified time.
 """
-function list_monitoring_schedules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListMonitoringSchedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_monitoring_schedules(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListMonitoringSchedules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_monitoring_schedules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10669,15 +10826,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: Sorts the list of results. The default is CreationTime.
 - `"SortOrder"`: The sort order for results.
 """
-function list_notebook_instance_lifecycle_configs(;
+list_notebook_instance_lifecycle_configs(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListNotebookInstanceLifecycleConfigs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListNotebookInstanceLifecycleConfigs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_notebook_instance_lifecycle_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10727,11 +10882,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for results.
 - `"StatusEquals"`: A filter that returns only notebook instances with the specified status.
 """
-function list_notebook_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListNotebookInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_notebook_instances(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListNotebookInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_notebook_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10758,11 +10911,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PipelineExecutionArn"`: The Amazon Resource Name (ARN) of the pipeline execution.
 - `"SortOrder"`: The field by which to sort results. The default is CreatedTime.
 """
-function list_pipeline_execution_steps(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+list_pipeline_execution_steps(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListPipelineExecutionSteps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_pipeline_execution_steps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10796,16 +10948,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field by which to sort results. The default is CreatedTime.
 - `"SortOrder"`: The sort order for results.
 """
-function list_pipeline_executions(
-    PipelineName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+list_pipeline_executions(PipelineName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListPipelineExecutions",
         Dict{String,Any}("PipelineName" => PipelineName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_pipeline_executions(
     PipelineName,
     params::AbstractDict{String};
@@ -10837,16 +10986,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   was truncated, the response includes a NextToken. To retrieve the next set of parameters,
   use the token in the next request.
 """
-function list_pipeline_parameters_for_execution(
+list_pipeline_parameters_for_execution(
     PipelineExecutionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListPipelineParametersForExecution",
+    Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListPipelineParametersForExecution",
-        Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_pipeline_parameters_for_execution(
     PipelineExecutionArn,
     params::AbstractDict{String};
@@ -10886,11 +11033,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field by which to sort results. The default is CreatedTime.
 - `"SortOrder"`: The sort order for results.
 """
-function list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_pipelines(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListPipelines"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10925,11 +11069,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 - `"StatusEquals"`: A filter that retrieves only processing jobs with a specific status.
 """
-function list_processing_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListProcessingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_processing_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListProcessingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_processing_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -10959,14 +11100,47 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field by which to sort results. The default is CreationTime.
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 """
-function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sagemaker(
         "ListProjects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_resource_catalogs()
+    list_resource_catalogs(params::Dict{String,<:Any})
+
+ Lists Amazon SageMaker Catalogs based on given filters and orders. The maximum number of
+ResourceCatalogs viewable is 1000.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreationTimeAfter"`:  Use this parameter to search for ResourceCatalogs created after a
+  specific date and time.
+- `"CreationTimeBefore"`:  Use this parameter to search for ResourceCatalogs created before
+  a specific date and time.
+- `"MaxResults"`:  The maximum number of results returned by ListResourceCatalogs.
+- `"NameContains"`:  A string that partially matches one or more ResourceCatalogs names.
+  Filters ResourceCatalog by name.
+- `"NextToken"`:  A token to resume pagination of ListResourceCatalogs results.
+- `"SortBy"`:  The value on which the resource catalog list is sorted.
+- `"SortOrder"`:  The order in which the resource catalogs are listed.
+"""
+list_resource_catalogs(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListResourceCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_resource_catalogs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "ListResourceCatalogs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -10978,7 +11152,7 @@ Lists spaces.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DomainIdEquals"`: A parameter to search for the Domain ID.
+- `"DomainIdEquals"`: A parameter to search for the domain ID.
 - `"MaxResults"`: The total number of items to return in the response. If the total number
   of items available is more than the value specified, a NextToken is provided in the
   response. To resume pagination, provide the NextToken value in the as part of a subsequent
@@ -10989,9 +11163,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for the results. The default is Ascending.
 - `"SpaceNameContains"`: A parameter by which to filter the results.
 """
-function list_spaces(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListSpaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_spaces(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListSpaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_spaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11019,18 +11192,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The response from the last list when returning a list large enough to
   neeed tokening.
 """
-function list_stage_devices(
+list_stage_devices(
     EdgeDeploymentPlanName, StageName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListStageDevices",
+    Dict{String,Any}(
+        "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListStageDevices",
-        Dict{String,Any}(
-            "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_stage_devices(
     EdgeDeploymentPlanName,
     StageName,
@@ -11058,7 +11229,8 @@ end
     list_studio_lifecycle_configs()
     list_studio_lifecycle_configs(params::Dict{String,<:Any})
 
-Lists the Studio Lifecycle Configurations in your Amazon Web Services Account.
+Lists the Amazon SageMaker Studio Lifecycle Configurations in your Amazon Web Services
+Account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -11084,11 +11256,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The property used to sort results. The default value is CreationTime.
 - `"SortOrder"`: The sort order. The default value is Descending.
 """
-function list_studio_lifecycle_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+list_studio_lifecycle_configs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "ListStudioLifecycleConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_studio_lifecycle_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11117,11 +11288,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   truncated, the response includes a NextToken. To retrieve the next set of labeling jobs,
   use the token in the next request.
 """
-function list_subscribed_workteams(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListSubscribedWorkteams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_subscribed_workteams(; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListSubscribedWorkteams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_subscribed_workteams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11149,14 +11318,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  If the response to the previous ListTags request is truncated, SageMaker
   returns this token. To retrieve the next set of tags, use it in the subsequent request.
 """
-function list_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListTags",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "ListTags",
+    Dict{String,Any}("ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_tags(
     ResourceArn,
     params::AbstractDict{String};
@@ -11208,11 +11375,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WarmPoolStatusEquals"`: A filter that retrieves only training jobs with a specific warm
   pool status.
 """
-function list_training_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListTrainingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_training_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListTrainingJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_training_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11244,16 +11408,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 - `"StatusEquals"`: A filter that returns only training jobs with the specified status.
 """
-function list_training_jobs_for_hyper_parameter_tuning_job(
+list_training_jobs_for_hyper_parameter_tuning_job(
     HyperParameterTuningJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "ListTrainingJobsForHyperParameterTuningJob",
+    Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "ListTrainingJobsForHyperParameterTuningJob",
-        Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_training_jobs_for_hyper_parameter_tuning_job(
     HyperParameterTuningJobName,
     params::AbstractDict{String};
@@ -11302,11 +11464,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for results. The default is Descending.
 - `"StatusEquals"`: A filter that retrieves only transform jobs with a specific status.
 """
-function list_transform_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListTransformJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_transform_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListTransformJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_transform_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11343,11 +11502,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrialName"`: A filter that returns only components that are part of the specified
   trial. If you specify TrialName, you can't filter by ExperimentName or SourceArn.
 """
-function list_trial_components(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListTrialComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_trial_components(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListTrialComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_trial_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11384,9 +11540,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TrialComponentName"`: A filter that returns only trials that are associated with the
   specified trial component.
 """
-function list_trials(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("ListTrials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_trials(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListTrials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_trials(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11414,11 +11569,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortOrder"`: The sort order for the results. The default is Ascending.
 - `"UserProfileNameContains"`: A parameter by which to filter the results.
 """
-function list_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListUserProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_user_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListUserProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_user_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11443,11 +11595,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: Sort workforces using the workforce name or creation date.
 - `"SortOrder"`: Sort workforces in ascending or descending order.
 """
-function list_workforces(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListWorkforces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_workforces(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListWorkforces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_workforces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11474,11 +11623,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortBy"`: The field to sort results by. The default is CreationTime.
 - `"SortOrder"`: The sort order for results. The default is Ascending.
 """
-function list_workteams(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "ListWorkteams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_workteams(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("ListWorkteams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_workteams(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11500,19 +11646,17 @@ Services Identity and Access Management User Guide..
 - `resource_policy`: The resource policy for the model group.
 
 """
-function put_model_package_group_policy(
+put_model_package_group_policy(
     ModelPackageGroupName, ResourcePolicy; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "PutModelPackageGroupPolicy",
+    Dict{String,Any}(
+        "ModelPackageGroupName" => ModelPackageGroupName,
+        "ResourcePolicy" => ResourcePolicy,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "PutModelPackageGroupPolicy",
-        Dict{String,Any}(
-            "ModelPackageGroupName" => ModelPackageGroupName,
-            "ResourcePolicy" => ResourcePolicy,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_model_package_group_policy(
     ModelPackageGroupName,
     ResourcePolicy,
@@ -11566,9 +11710,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartArns"`: A list of resource Amazon Resource Name (ARN) that represent the starting
   point for your lineage query.
 """
-function query_lineage(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker("QueryLineage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+query_lineage(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker("QueryLineage"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function query_lineage(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11591,16 +11734,14 @@ Register devices.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The tags associated with devices.
 """
-function register_devices(
+register_devices(
     DeviceFleetName, Devices; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "RegisterDevices",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "Devices" => Devices);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "RegisterDevices",
-        Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "Devices" => Devices);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_devices(
     DeviceFleetName,
     Devices,
@@ -11641,16 +11782,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Ui Amazon Resource Names (ARNs) in UiConfig.
 - `"UiTemplate"`: A Template object containing the worker UI template to render.
 """
-function render_ui_template(
-    RoleArn, Task; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+render_ui_template(RoleArn, Task; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "RenderUiTemplate",
         Dict{String,Any}("RoleArn" => RoleArn, "Task" => Task);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function render_ui_template(
     RoleArn,
     Task,
@@ -11685,21 +11823,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParallelismConfiguration"`: This configuration, if specified, overrides the parallelism
   configuration of the parent pipeline.
 """
-function retry_pipeline_execution(
+retry_pipeline_execution(
     ClientRequestToken,
     PipelineExecutionArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "RetryPipelineExecution",
+    Dict{String,Any}(
+        "ClientRequestToken" => ClientRequestToken,
+        "PipelineExecutionArn" => PipelineExecutionArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "RetryPipelineExecution",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "PipelineExecutionArn" => PipelineExecutionArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function retry_pipeline_execution(
     ClientRequestToken,
     PipelineExecutionArn,
@@ -11739,6 +11875,12 @@ Resources Reference for more information.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CrossAccountFilterOption"`:  A cross account filter option. When the value is
+  \"CrossAccount\" the search results will only include resources made discoverable to you
+  from other accounts. When the value is \"SameAccount\" or null the search results will only
+  include resources from your account. Default is null. For more information on searching for
+  resources made discoverable to your account, see  Search discoverable resources in the
+  SageMaker Developer Guide. The maximum number of ResourceCatalogs viewable is 1000.
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: If more than MaxResults resources match the specified SearchExpression,
   the response includes a NextToken. The NextToken can be passed to the next SearchRequest to
@@ -11751,15 +11893,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is LastModifiedTime.
 - `"SortOrder"`: How SearchResults are ordered. Valid values are Ascending or Descending.
   The default is Descending.
+- `"VisibilityConditions"`:  Limits the results of your search request to the resources
+  that you can access.
 """
-function search(Resource; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "Search",
-        Dict{String,Any}("Resource" => Resource);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search(Resource; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "Search",
+    Dict{String,Any}("Resource" => Resource);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function search(
     Resource,
     params::AbstractDict{String};
@@ -11792,18 +11934,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the idempotency of the operation. An idempotent operation completes no more than one time.
 - `"FailureReason"`: A message describing why the step failed.
 """
-function send_pipeline_execution_step_failure(
+send_pipeline_execution_step_failure(
     CallbackToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "SendPipelineExecutionStepFailure",
+    Dict{String,Any}(
+        "CallbackToken" => CallbackToken, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "SendPipelineExecutionStepFailure",
-        Dict{String,Any}(
-            "CallbackToken" => CallbackToken, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_pipeline_execution_step_failure(
     CallbackToken,
     params::AbstractDict{String};
@@ -11844,18 +11984,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the idempotency of the operation. An idempotent operation completes no more than one time.
 - `"OutputParameters"`: A list of the output parameters of the callback step.
 """
-function send_pipeline_execution_step_success(
+send_pipeline_execution_step_success(
     CallbackToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "SendPipelineExecutionStepSuccess",
+    Dict{String,Any}(
+        "CallbackToken" => CallbackToken, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "SendPipelineExecutionStepSuccess",
-        Dict{String,Any}(
-            "CallbackToken" => CallbackToken, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_pipeline_execution_step_success(
     CallbackToken,
     params::AbstractDict{String};
@@ -11889,18 +12027,16 @@ Starts a stage in an edge deployment plan.
 - `stage_name`: The name of the stage to start.
 
 """
-function start_edge_deployment_stage(
+start_edge_deployment_stage(
     EdgeDeploymentPlanName, StageName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StartEdgeDeploymentStage",
+    Dict{String,Any}(
+        "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StartEdgeDeploymentStage",
-        Dict{String,Any}(
-            "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_edge_deployment_stage(
     EdgeDeploymentPlanName,
     StageName,
@@ -11934,14 +12070,13 @@ Starts an inference experiment.
 - `name`: The name of the inference experiment to start.
 
 """
-function start_inference_experiment(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+start_inference_experiment(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "StartInferenceExperiment",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_inference_experiment(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -11964,16 +12099,14 @@ a new schedule, the status of a monitoring schedule is scheduled.
 - `monitoring_schedule_name`: The name of the schedule to start.
 
 """
-function start_monitoring_schedule(
+start_monitoring_schedule(
     MonitoringScheduleName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StartMonitoringSchedule",
+    Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StartMonitoringSchedule",
-        Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_monitoring_schedule(
     MonitoringScheduleName,
     params::AbstractDict{String};
@@ -12006,16 +12139,14 @@ connect to your Jupyter notebook.
 - `notebook_instance_name`: The name of the notebook instance to start.
 
 """
-function start_notebook_instance(
+start_notebook_instance(
     NotebookInstanceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StartNotebookInstance",
+    Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StartNotebookInstance",
-        Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_notebook_instance(
     NotebookInstanceName,
     params::AbstractDict{String};
@@ -12056,18 +12187,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SelectiveExecutionConfig"`: The selective execution configuration applied to the
   pipeline run.
 """
-function start_pipeline_execution(
+start_pipeline_execution(
     ClientRequestToken, PipelineName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StartPipelineExecution",
+    Dict{String,Any}(
+        "ClientRequestToken" => ClientRequestToken, "PipelineName" => PipelineName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StartPipelineExecution",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken, "PipelineName" => PipelineName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_pipeline_execution(
     ClientRequestToken,
     PipelineName,
@@ -12101,14 +12230,13 @@ A method for forcing a running job to shut down.
 - `auto_mljob_name`: The name of the object you are requesting.
 
 """
-function stop_auto_mljob(AutoMLJobName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+stop_auto_mljob(AutoMLJobName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "StopAutoMLJob",
         Dict{String,Any}("AutoMLJobName" => AutoMLJobName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_auto_mljob(
     AutoMLJobName,
     params::AbstractDict{String};
@@ -12138,16 +12266,14 @@ the CompilationJobStatus to Stopped.
 - `compilation_job_name`: The name of the model compilation job to stop.
 
 """
-function stop_compilation_job(
+stop_compilation_job(
     CompilationJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StopCompilationJob",
+    Dict{String,Any}("CompilationJobName" => CompilationJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StopCompilationJob",
-        Dict{String,Any}("CompilationJobName" => CompilationJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_compilation_job(
     CompilationJobName,
     params::AbstractDict{String};
@@ -12176,18 +12302,16 @@ Stops a stage in an edge deployment plan.
 - `stage_name`: The name of the stage to stop.
 
 """
-function stop_edge_deployment_stage(
+stop_edge_deployment_stage(
     EdgeDeploymentPlanName, StageName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StopEdgeDeploymentStage",
+    Dict{String,Any}(
+        "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StopEdgeDeploymentStage",
-        Dict{String,Any}(
-            "EdgeDeploymentPlanName" => EdgeDeploymentPlanName, "StageName" => StageName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_edge_deployment_stage(
     EdgeDeploymentPlanName,
     StageName,
@@ -12221,16 +12345,14 @@ Request to stop an edge packaging job.
 - `edge_packaging_job_name`: The name of the edge packaging job.
 
 """
-function stop_edge_packaging_job(
+stop_edge_packaging_job(
     EdgePackagingJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StopEdgePackagingJob",
+    Dict{String,Any}("EdgePackagingJobName" => EdgePackagingJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StopEdgePackagingJob",
-        Dict{String,Any}("EdgePackagingJobName" => EdgePackagingJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_edge_packaging_job(
     EdgePackagingJobName,
     params::AbstractDict{String};
@@ -12264,16 +12386,14 @@ releases all reserved resources for the tuning job.
 - `hyper_parameter_tuning_job_name`: The name of the tuning job to stop.
 
 """
-function stop_hyper_parameter_tuning_job(
+stop_hyper_parameter_tuning_job(
     HyperParameterTuningJobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StopHyperParameterTuningJob",
+    Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StopHyperParameterTuningJob",
-        Dict{String,Any}("HyperParameterTuningJobName" => HyperParameterTuningJobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_hyper_parameter_tuning_job(
     HyperParameterTuningJobName,
     params::AbstractDict{String};
@@ -12319,16 +12439,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cancelled: The experiment was canceled
 - `"Reason"`: The reason for stopping the experiment.
 """
-function stop_inference_experiment(
+stop_inference_experiment(
     ModelVariantActions, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StopInferenceExperiment",
+    Dict{String,Any}("ModelVariantActions" => ModelVariantActions, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StopInferenceExperiment",
-        Dict{String,Any}("ModelVariantActions" => ModelVariantActions, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_inference_experiment(
     ModelVariantActions,
     Name,
@@ -12361,16 +12479,14 @@ Stops an Inference Recommender job.
 - `job_name`: The name of the job you want to stop.
 
 """
-function stop_inference_recommendations_job(
+stop_inference_recommendations_job(
     JobName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StopInferenceRecommendationsJob",
+    Dict{String,Any}("JobName" => JobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StopInferenceRecommendationsJob",
-        Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_inference_recommendations_job(
     JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -12393,16 +12509,13 @@ obtained before the job is stopped are placed in the Amazon S3 output bucket.
 - `labeling_job_name`: The name of the labeling job to stop.
 
 """
-function stop_labeling_job(
-    LabelingJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+stop_labeling_job(LabelingJobName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "StopLabelingJob",
         Dict{String,Any}("LabelingJobName" => LabelingJobName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_labeling_job(
     LabelingJobName,
     params::AbstractDict{String};
@@ -12430,16 +12543,14 @@ Stops a previously started monitoring schedule.
 - `monitoring_schedule_name`: The name of the schedule to stop.
 
 """
-function stop_monitoring_schedule(
+stop_monitoring_schedule(
     MonitoringScheduleName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StopMonitoringSchedule",
+    Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StopMonitoringSchedule",
-        Dict{String,Any}("MonitoringScheduleName" => MonitoringScheduleName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_monitoring_schedule(
     MonitoringScheduleName,
     params::AbstractDict{String};
@@ -12474,16 +12585,14 @@ configures it, and attaches the preserved ML storage volume so you can continue 
 - `notebook_instance_name`: The name of the notebook instance to terminate.
 
 """
-function stop_notebook_instance(
+stop_notebook_instance(
     NotebookInstanceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "StopNotebookInstance",
+    Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StopNotebookInstance",
-        Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_notebook_instance(
     NotebookInstanceName,
     params::AbstractDict{String};
@@ -12528,21 +12637,19 @@ the pipeline execution status is Failed.
 - `pipeline_execution_arn`: The Amazon Resource Name (ARN) of the pipeline execution.
 
 """
-function stop_pipeline_execution(
+stop_pipeline_execution(
     ClientRequestToken,
     PipelineExecutionArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "StopPipelineExecution",
+    Dict{String,Any}(
+        "ClientRequestToken" => ClientRequestToken,
+        "PipelineExecutionArn" => PipelineExecutionArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "StopPipelineExecution",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "PipelineExecutionArn" => PipelineExecutionArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_pipeline_execution(
     ClientRequestToken,
     PipelineExecutionArn,
@@ -12576,16 +12683,13 @@ Stops a processing job.
 - `processing_job_name`: The name of the processing job to stop.
 
 """
-function stop_processing_job(
-    ProcessingJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+stop_processing_job(ProcessingJobName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "StopProcessingJob",
         Dict{String,Any}("ProcessingJobName" => ProcessingJobName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_processing_job(
     ProcessingJobName,
     params::AbstractDict{String};
@@ -12617,16 +12721,13 @@ SageMaker stops the job, it sets the status to Stopped.
 - `training_job_name`: The name of the training job to stop.
 
 """
-function stop_training_job(
-    TrainingJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+stop_training_job(TrainingJobName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "StopTrainingJob",
         Dict{String,Any}("TrainingJobName" => TrainingJobName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_training_job(
     TrainingJobName,
     params::AbstractDict{String};
@@ -12657,16 +12758,13 @@ SageMaker doesn't store the job's output in Amazon S3.
 - `transform_job_name`: The name of the batch transform job to stop.
 
 """
-function stop_transform_job(
-    TransformJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+stop_transform_job(TransformJobName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "StopTransformJob",
         Dict{String,Any}("TransformJobName" => TransformJobName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_transform_job(
     TransformJobName,
     params::AbstractDict{String};
@@ -12700,14 +12798,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PropertiesToRemove"`: A list of properties to remove.
 - `"Status"`: The new status for the action.
 """
-function update_action(ActionName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "UpdateAction",
-        Dict{String,Any}("ActionName" => ActionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_action(ActionName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "UpdateAction",
+    Dict{String,Any}("ActionName" => ActionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_action(
     ActionName,
     params::AbstractDict{String};
@@ -12734,18 +12830,17 @@ Updates the properties of an AppImageConfig.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"JupyterLabAppImageConfig"`: The JupyterLab app running on the image.
 - `"KernelGatewayImageConfig"`: The new KernelGateway app to run on the image.
 """
-function update_app_image_config(
+update_app_image_config(
     AppImageConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateAppImageConfig",
+    Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateAppImageConfig",
-        Dict{String,Any}("AppImageConfigName" => AppImageConfigName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_app_image_config(
     AppImageConfigName,
     params::AbstractDict{String};
@@ -12778,14 +12873,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Properties"`: The new list of properties. Overwrites the current property list.
 - `"PropertiesToRemove"`: A list of properties to remove.
 """
-function update_artifact(ArtifactArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "UpdateArtifact",
-        Dict{String,Any}("ArtifactArn" => ArtifactArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_artifact(ArtifactArn; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "UpdateArtifact",
+    Dict{String,Any}("ArtifactArn" => ArtifactArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_artifact(
     ArtifactArn,
     params::AbstractDict{String};
@@ -12795,6 +12888,81 @@ function update_artifact(
         "UpdateArtifact",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ArtifactArn" => ArtifactArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_cluster(cluster_name, instance_groups)
+    update_cluster(cluster_name, instance_groups, params::Dict{String,<:Any})
+
+Updates a SageMaker HyperPod cluster.
+
+# Arguments
+- `cluster_name`: Specify the name of the SageMaker HyperPod cluster you want to update.
+- `instance_groups`: Specify the instance groups to update.
+
+"""
+update_cluster(
+    ClusterName, InstanceGroups; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateCluster",
+    Dict{String,Any}("ClusterName" => ClusterName, "InstanceGroups" => InstanceGroups);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_cluster(
+    ClusterName,
+    InstanceGroups,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "UpdateCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterName" => ClusterName, "InstanceGroups" => InstanceGroups
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_cluster_software(cluster_name)
+    update_cluster_software(cluster_name, params::Dict{String,<:Any})
+
+Updates the platform software of a SageMaker HyperPod cluster for security patching. To
+learn how to use this API, see Update the SageMaker HyperPod platform software of a cluster.
+
+# Arguments
+- `cluster_name`: Specify the name or the Amazon Resource Name (ARN) of the SageMaker
+  HyperPod cluster you want to update for security patching.
+
+"""
+update_cluster_software(ClusterName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
+        "UpdateClusterSoftware",
+        Dict{String,Any}("ClusterName" => ClusterName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_cluster_software(
+    ClusterName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "UpdateClusterSoftware",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ClusterName" => ClusterName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -12818,16 +12986,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AWSCURRENT and must be in the following format:  {\"username\": UserName, \"password\":
   Password}
 """
-function update_code_repository(
+update_code_repository(
     CodeRepositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateCodeRepository",
+    Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateCodeRepository",
-        Dict{String,Any}("CodeRepositoryName" => CodeRepositoryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_code_repository(
     CodeRepositoryName,
     params::AbstractDict{String};
@@ -12860,14 +13026,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Properties"`: The new list of properties. Overwrites the current property list.
 - `"PropertiesToRemove"`: A list of properties to remove.
 """
-function update_context(ContextName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "UpdateContext",
-        Dict{String,Any}("ContextName" => ContextName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_context(ContextName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "UpdateContext",
+    Dict{String,Any}("ContextName" => ContextName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_context(
     ContextName,
     params::AbstractDict{String};
@@ -12902,18 +13066,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"demo-fleet\", the name of the role alias will be \"SageMakerEdge-demo-fleet\".
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the device.
 """
-function update_device_fleet(
+update_device_fleet(
     DeviceFleetName, OutputConfig; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateDeviceFleet",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "OutputConfig" => OutputConfig);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateDeviceFleet",
-        Dict{String,Any}(
-            "DeviceFleetName" => DeviceFleetName, "OutputConfig" => OutputConfig
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_device_fleet(
     DeviceFleetName,
     OutputConfig,
@@ -12947,16 +13107,14 @@ Updates one or more devices in a fleet.
 - `devices`: List of devices to register with Edge Manager agent.
 
 """
-function update_devices(
+update_devices(
     DeviceFleetName, Devices; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateDevices",
+    Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "Devices" => Devices);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateDevices",
-        Dict{String,Any}("DeviceFleetName" => DeviceFleetName, "Devices" => Devices);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_devices(
     DeviceFleetName,
     Devices,
@@ -12990,24 +13148,32 @@ Updates the default settings for new user profiles in the domain.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppNetworkAccessType"`: Specifies the VPC used for non-EFS traffic.
+  PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which
+  allows direct internet access.    VpcOnly - All Studio traffic is through the specified VPC
+  and subnets.   This configuration can only be modified if there are no apps in the
+  InService, Pending, or Deleting state. The configuration cannot be updated if
+  DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is already set or
+  DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided as part of
+  the same request.
 - `"AppSecurityGroupManagement"`: The entity that creates and manages the required security
   groups for inter-app communication in VPCOnly mode. Required when
   CreateDomain.AppNetworkAccessType is VPCOnly and
   DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided. If
   setting up the domain for use with RStudio, this value must be set to Service.
-- `"DefaultSpaceSettings"`: The default settings used to create a space within the Domain.
+- `"DefaultSpaceSettings"`: The default settings used to create a space within the domain.
 - `"DefaultUserSettings"`: A collection of settings.
 - `"DomainSettingsForUpdate"`: A collection of DomainSettings configuration values to
   update.
+- `"SubnetIds"`: The VPC subnets that Studio uses for communication. If removing subnets,
+  ensure there are no apps in the InService, Pending, or Deleting state.
 """
-function update_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "UpdateDomain",
-        Dict{String,Any}("DomainId" => DomainId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_domain(DomainId; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "UpdateDomain",
+    Dict{String,Any}("DomainId" => DomainId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_domain(
     DomainId,
     params::AbstractDict{String};
@@ -13027,12 +13193,14 @@ end
     update_endpoint(endpoint_config_name, endpoint_name)
     update_endpoint(endpoint_config_name, endpoint_name, params::Dict{String,<:Any})
 
-Deploys the new EndpointConfig specified in the request, switches to using newly created
-endpoint, and then deletes resources provisioned for the endpoint using the previous
-EndpointConfig (there is no availability loss).  When SageMaker receives the request, it
-sets the endpoint status to Updating. After updating the endpoint, it sets the status to
-InService. To check the status of an endpoint, use the DescribeEndpoint API.   You must not
-delete an EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or
+Deploys the EndpointConfig specified in the request to a new fleet of instances. SageMaker
+shifts endpoint traffic to the new instances with the updated endpoint configuration and
+then deletes the old instances using the previous EndpointConfig (there is no availability
+loss). For more information about how to control the update and traffic shifting process,
+see  Update models in production. When SageMaker receives the request, it sets the endpoint
+status to Updating. After updating the endpoint, it sets the status to InService. To check
+the status of an endpoint, use the DescribeEndpoint API.   You must not delete an
+EndpointConfig in use by an endpoint that is live or while the UpdateEndpoint or
 CreateEndpoint operations are being performed on the endpoint. To update an endpoint, you
 must create a new EndpointConfig. If you delete the EndpointConfig of an endpoint that is
 active or being created or updated you may lose visibility into the instance type the
@@ -13060,18 +13228,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RetainDeploymentConfig"`: Specifies whether to reuse the last deployment configuration.
   The default value is false (the configuration is not reused).
 """
-function update_endpoint(
+update_endpoint(
     EndpointConfigName, EndpointName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateEndpoint",
+    Dict{String,Any}(
+        "EndpointConfigName" => EndpointConfigName, "EndpointName" => EndpointName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateEndpoint",
-        Dict{String,Any}(
-            "EndpointConfigName" => EndpointConfigName, "EndpointName" => EndpointName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_endpoint(
     EndpointConfigName,
     EndpointName,
@@ -13110,21 +13276,19 @@ status to InService. To check the status of an endpoint, use the DescribeEndpoin
 - `endpoint_name`: The name of an existing SageMaker endpoint.
 
 """
-function update_endpoint_weights_and_capacities(
+update_endpoint_weights_and_capacities(
     DesiredWeightsAndCapacities,
     EndpointName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "UpdateEndpointWeightsAndCapacities",
+    Dict{String,Any}(
+        "DesiredWeightsAndCapacities" => DesiredWeightsAndCapacities,
+        "EndpointName" => EndpointName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateEndpointWeightsAndCapacities",
-        Dict{String,Any}(
-            "DesiredWeightsAndCapacities" => DesiredWeightsAndCapacities,
-            "EndpointName" => EndpointName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_endpoint_weights_and_capacities(
     DesiredWeightsAndCapacities,
     EndpointName,
@@ -13164,16 +13328,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The name of the experiment as displayed. The name doesn't need to be
   unique. If DisplayName isn't specified, ExperimentName is displayed.
 """
-function update_experiment(
-    ExperimentName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+update_experiment(ExperimentName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdateExperiment",
         Dict{String,Any}("ExperimentName" => ExperimentName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_experiment(
     ExperimentName,
     params::AbstractDict{String};
@@ -13193,10 +13354,20 @@ end
     update_feature_group(feature_group_name)
     update_feature_group(feature_group_name, params::Dict{String,<:Any})
 
-Updates the feature group.
+Updates the feature group by either adding features or updating the online store
+configuration. Use one of the following request parameters at a time while using the
+UpdateFeatureGroup API. You can add features for your feature group using the
+FeatureAdditions request parameter. Features cannot be removed from a feature group. You
+can update the online store configuration by using the OnlineStoreConfig request parameter.
+If a TtlDuration is specified, the default TtlDuration applies for all records added to the
+feature group after the feature group is updated. If a record level TtlDuration exists from
+using the PutRecord API, the record level TtlDuration applies to that record instead of the
+default TtlDuration. To remove the default TtlDuration from an existing feature group, use
+the UpdateFeatureGroup API and set the TtlDuration Unit and Value to null.
 
 # Arguments
-- `feature_group_name`: The name of the feature group that you're updating.
+- `feature_group_name`: The name or Amazon Resource Name (ARN) of the feature group that
+  you're updating.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -13204,17 +13375,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   asynchronous operation. When you get an HTTP 200 response, you've made a valid request. It
   takes some time after you've made a valid request for Feature Store to update the feature
   group.
+- `"OnlineStoreConfig"`: Updates the feature group online store configuration.
+- `"ThroughputConfig"`:
 """
-function update_feature_group(
-    FeatureGroupName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+update_feature_group(FeatureGroupName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdateFeatureGroup",
         Dict{String,Any}("FeatureGroupName" => FeatureGroupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_feature_group(
     FeatureGroupName,
     params::AbstractDict{String};
@@ -13239,8 +13409,8 @@ end
 Updates the description and parameters of the feature group.
 
 # Arguments
-- `feature_group_name`: The name of the feature group containing the feature that you're
-  updating.
+- `feature_group_name`: The name or Amazon Resource Name (ARN) of the feature group
+  containing the feature that you're updating.
 - `feature_name`: The name of the feature that you're updating.
 
 # Optional Parameters
@@ -13251,18 +13421,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ParameterRemovals"`: A list of parameter keys that you can specify to remove parameters
   that describe your feature.
 """
-function update_feature_metadata(
+update_feature_metadata(
     FeatureGroupName, FeatureName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateFeatureMetadata",
+    Dict{String,Any}("FeatureGroupName" => FeatureGroupName, "FeatureName" => FeatureName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateFeatureMetadata",
-        Dict{String,Any}(
-            "FeatureGroupName" => FeatureGroupName, "FeatureName" => FeatureName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_feature_metadata(
     FeatureGroupName,
     FeatureName,
@@ -13300,14 +13466,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HubDisplayName"`: The display name of the hub.
 - `"HubSearchKeywords"`: The searchable keywords for the hub.
 """
-function update_hub(HubName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "UpdateHub",
-        Dict{String,Any}("HubName" => HubName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_hub(HubName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "UpdateHub",
+    Dict{String,Any}("HubName" => HubName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_hub(
     HubName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -13338,14 +13502,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The new ARN for the IAM role that enables Amazon SageMaker to perform tasks
   on your behalf.
 """
-function update_image(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "UpdateImage",
-        Dict{String,Any}("ImageName" => ImageName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_image(ImageName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "UpdateImage",
+    Dict{String,Any}("ImageName" => ImageName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_image(
     ImageName,
     params::AbstractDict{String};
@@ -13393,14 +13555,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not searchable and are no longer actively supported.
 - `"Version"`: The version of the image.
 """
-function update_image_version(ImageName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+update_image_version(ImageName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdateImageVersion",
         Dict{String,Any}("ImageName" => ImageName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_image_version(
     ImageName,
     params::AbstractDict{String};
@@ -13410,6 +13571,97 @@ function update_image_version(
         "UpdateImageVersion",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ImageName" => ImageName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_inference_component(inference_component_name)
+    update_inference_component(inference_component_name, params::Dict{String,<:Any})
+
+Updates an inference component.
+
+# Arguments
+- `inference_component_name`: The name of the inference component.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"RuntimeConfig"`: Runtime settings for a model that is deployed with an inference
+  component.
+- `"Specification"`: Details about the resources to deploy with this inference component,
+  including the model, container, and compute resources.
+"""
+update_inference_component(
+    InferenceComponentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateInferenceComponent",
+    Dict{String,Any}("InferenceComponentName" => InferenceComponentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_inference_component(
+    InferenceComponentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "UpdateInferenceComponent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InferenceComponentName" => InferenceComponentName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_inference_component_runtime_config(desired_runtime_config, inference_component_name)
+    update_inference_component_runtime_config(desired_runtime_config, inference_component_name, params::Dict{String,<:Any})
+
+Runtime settings for a model that is deployed with an inference component.
+
+# Arguments
+- `desired_runtime_config`: Runtime settings for a model that is deployed with an inference
+  component.
+- `inference_component_name`: The name of the inference component to update.
+
+"""
+update_inference_component_runtime_config(
+    DesiredRuntimeConfig,
+    InferenceComponentName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "UpdateInferenceComponentRuntimeConfig",
+    Dict{String,Any}(
+        "DesiredRuntimeConfig" => DesiredRuntimeConfig,
+        "InferenceComponentName" => InferenceComponentName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_inference_component_runtime_config(
+    DesiredRuntimeConfig,
+    InferenceComponentName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "UpdateInferenceComponentRuntimeConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DesiredRuntimeConfig" => DesiredRuntimeConfig,
+                    "InferenceComponentName" => InferenceComponentName,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -13443,16 +13695,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For the shadow variant also specify the percentage of requests that Amazon SageMaker
   replicates.
 """
-function update_inference_experiment(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+update_inference_experiment(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdateInferenceExperiment",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_inference_experiment(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -13472,7 +13721,7 @@ Update an Amazon SageMaker Model Card.  You cannot update both model card conten
 card status in a single call.
 
 # Arguments
-- `model_card_name`: The name of the model card to update.
+- `model_card_name`: The name or Amazon Resource Name (ARN) of the model card to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -13485,14 +13734,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   review.    Approved: The model card is approved.    Archived: The model card is archived.
   No more updates should be made to the model card, but it can still be exported.
 """
-function update_model_card(ModelCardName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+update_model_card(ModelCardName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdateModelCard",
         Dict{String,Any}("ModelCardName" => ModelCardName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_model_card(
     ModelCardName,
     params::AbstractDict{String};
@@ -13529,18 +13777,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   versions.
 - `"CustomerMetadataPropertiesToRemove"`: The metadata properties associated with the model
   package versions to remove.
+- `"InferenceSpecification"`: Specifies details about inference jobs that you can run with
+  models based on this model package, including the following information:   The Amazon ECR
+  paths of containers that contain the inference code and model artifacts.   The instance
+  types that the model package supports for transform jobs and real-time endpoints used for
+  inference.   The input and output content formats that the model package supports for
+  inference.
 - `"ModelApprovalStatus"`: The approval status of the model.
+- `"SourceUri"`: The URI of the source for the model package.
 """
-function update_model_package(
-    ModelPackageArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+update_model_package(ModelPackageArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdateModelPackage",
         Dict{String,Any}("ModelPackageArn" => ModelPackageArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_model_package(
     ModelPackageArn,
     params::AbstractDict{String};
@@ -13573,25 +13825,23 @@ Update the parameters of a model monitor alert.
 - `monitoring_schedule_name`: The name of a monitoring schedule.
 
 """
-function update_monitoring_alert(
+update_monitoring_alert(
     DatapointsToAlert,
     EvaluationPeriod,
     MonitoringAlertName,
     MonitoringScheduleName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "UpdateMonitoringAlert",
+    Dict{String,Any}(
+        "DatapointsToAlert" => DatapointsToAlert,
+        "EvaluationPeriod" => EvaluationPeriod,
+        "MonitoringAlertName" => MonitoringAlertName,
+        "MonitoringScheduleName" => MonitoringScheduleName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateMonitoringAlert",
-        Dict{String,Any}(
-            "DatapointsToAlert" => DatapointsToAlert,
-            "EvaluationPeriod" => EvaluationPeriod,
-            "MonitoringAlertName" => MonitoringAlertName,
-            "MonitoringScheduleName" => MonitoringScheduleName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_monitoring_alert(
     DatapointsToAlert,
     EvaluationPeriod,
@@ -13632,21 +13882,19 @@ Updates a previously created schedule.
   within an Amazon Web Services Region within an Amazon Web Services account.
 
 """
-function update_monitoring_schedule(
+update_monitoring_schedule(
     MonitoringScheduleConfig,
     MonitoringScheduleName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sagemaker(
+    "UpdateMonitoringSchedule",
+    Dict{String,Any}(
+        "MonitoringScheduleConfig" => MonitoringScheduleConfig,
+        "MonitoringScheduleName" => MonitoringScheduleName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateMonitoringSchedule",
-        Dict{String,Any}(
-            "MonitoringScheduleConfig" => MonitoringScheduleConfig,
-            "MonitoringScheduleName" => MonitoringScheduleName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_monitoring_schedule(
     MonitoringScheduleConfig,
     MonitoringScheduleName,
@@ -13734,16 +13982,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   volume size. If you want to decrease the size of the ML storage volume in use, create a new
   notebook instance with the desired size.
 """
-function update_notebook_instance(
+update_notebook_instance(
     NotebookInstanceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateNotebookInstance",
+    Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateNotebookInstance",
-        Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_notebook_instance(
     NotebookInstanceName,
     params::AbstractDict{String};
@@ -13781,18 +14027,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   including when you create the notebook instance. The shell script must be a base64-encoded
   string.
 """
-function update_notebook_instance_lifecycle_config(
+update_notebook_instance_lifecycle_config(
     NotebookInstanceLifecycleConfigName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateNotebookInstanceLifecycleConfig",
+    Dict{String,Any}(
+        "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateNotebookInstanceLifecycleConfig",
-        Dict{String,Any}(
-            "NotebookInstanceLifecycleConfigName" => NotebookInstanceLifecycleConfigName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_notebook_instance_lifecycle_config(
     NotebookInstanceLifecycleConfigName,
     params::AbstractDict{String};
@@ -13835,14 +14079,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PipelineDisplayName"`: The display name of the pipeline.
 - `"RoleArn"`: The Amazon Resource Name (ARN) that the pipeline uses to execute.
 """
-function update_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+update_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdatePipeline",
         Dict{String,Any}("PipelineName" => PipelineName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_pipeline(
     PipelineName,
     params::AbstractDict{String};
@@ -13874,16 +14117,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PipelineExecutionDescription"`: The description of the pipeline execution.
 - `"PipelineExecutionDisplayName"`: The display name of the pipeline execution.
 """
-function update_pipeline_execution(
+update_pipeline_execution(
     PipelineExecutionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdatePipelineExecution",
+    Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdatePipelineExecution",
-        Dict{String,Any}("PipelineExecutionArn" => PipelineExecutionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_pipeline_execution(
     PipelineExecutionArn,
     params::AbstractDict{String};
@@ -13928,14 +14169,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   have tag update constraints set in order to include this parameter in the request. For more
   information, see Amazon Web Services Service Catalog Tag Update Constraints.
 """
-function update_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "UpdateProject",
-        Dict{String,Any}("ProjectName" => ProjectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "UpdateProject",
+    Dict{String,Any}("ProjectName" => ProjectName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_project(
     ProjectName,
     params::AbstractDict{String};
@@ -13958,23 +14197,22 @@ end
 Updates the settings of a space.
 
 # Arguments
-- `domain_id`: The ID of the associated Domain.
+- `domain_id`: The ID of the associated domain.
 - `space_name`: The name of the space.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SpaceDisplayName"`: The name of the space that appears in the Amazon SageMaker Studio
+  UI.
 - `"SpaceSettings"`: A collection of space settings.
 """
-function update_space(
-    DomainId, SpaceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+update_space(DomainId, SpaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdateSpace",
         Dict{String,Any}("DomainId" => DomainId, "SpaceName" => SpaceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_space(
     DomainId,
     SpaceName,
@@ -14012,18 +14250,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   monitoring, framework profiling, and storage paths.
 - `"ProfilerRuleConfigurations"`: Configuration information for Amazon SageMaker Debugger
   rules for profiling system and framework metrics.
+- `"RemoteDebugConfig"`: Configuration for remote debugging while the training job is
+  running. You can update the remote debugging configuration when the SecondaryStatus of the
+  job is Downloading or Training.To learn more about the remote debugging functionality of
+  SageMaker, see Access a training container through Amazon Web Services Systems Manager
+  (SSM) for remote debugging.
 - `"ResourceConfig"`: The training job ResourceConfig to update warm pool retention length.
 """
-function update_training_job(
-    TrainingJobName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sagemaker(
+update_training_job(TrainingJobName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdateTrainingJob",
         Dict{String,Any}("TrainingJobName" => TrainingJobName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_training_job(
     TrainingJobName,
     params::AbstractDict{String};
@@ -14055,14 +14295,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisplayName"`: The name of the trial as displayed. The name doesn't need to be unique.
   If DisplayName isn't specified, TrialName is displayed.
 """
-function update_trial(TrialName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
-        "UpdateTrial",
-        Dict{String,Any}("TrialName" => TrialName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_trial(TrialName; aws_config::AbstractAWSConfig=global_aws_config()) = sagemaker(
+    "UpdateTrial",
+    Dict{String,Any}("TrialName" => TrialName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_trial(
     TrialName,
     params::AbstractDict{String};
@@ -14107,16 +14345,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: When the component started.
 - `"Status"`: The new status of the component.
 """
-function update_trial_component(
+update_trial_component(
     TrialComponentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateTrialComponent",
+    Dict{String,Any}("TrialComponentName" => TrialComponentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateTrialComponent",
-        Dict{String,Any}("TrialComponentName" => TrialComponentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_trial_component(
     TrialComponentName,
     params::AbstractDict{String};
@@ -14148,16 +14384,14 @@ Updates a user profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"UserSettings"`: A collection of settings.
 """
-function update_user_profile(
+update_user_profile(
     DomainId, UserProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+) = sagemaker(
+    "UpdateUserProfile",
+    Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sagemaker(
-        "UpdateUserProfile",
-        Dict{String,Any}("DomainId" => DomainId, "UserProfileName" => UserProfileName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_profile(
     DomainId,
     UserProfileName,
@@ -14214,14 +14448,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkforceVpcConfig"`: Use this parameter to update your VPC configuration for a
   workforce.
 """
-function update_workforce(WorkforceName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+update_workforce(WorkforceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdateWorkforce",
         Dict{String,Any}("WorkforceName" => WorkforceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_workforce(
     WorkforceName,
     params::AbstractDict{String};
@@ -14268,14 +14501,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NotificationConfiguration"`: Configures SNS topic notifications for available or
   expiring work items
 """
-function update_workteam(WorkteamName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sagemaker(
+update_workteam(WorkteamName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sagemaker(
         "UpdateWorkteam",
         Dict{String,Any}("WorkteamName" => WorkteamName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_workteam(
     WorkteamName,
     params::AbstractDict{String};

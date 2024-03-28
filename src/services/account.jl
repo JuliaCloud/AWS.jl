@@ -33,17 +33,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, then don't specify this parameter, and call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function delete_alternate_contact(
+delete_alternate_contact(
     AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config()
+) = account(
+    "POST",
+    "/deleteAlternateContact",
+    Dict{String,Any}("AlternateContactType" => AlternateContactType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return account(
-        "POST",
-        "/deleteAlternateContact",
-        Dict{String,Any}("AlternateContactType" => AlternateContactType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_alternate_contact(
     AlternateContactType,
     params::AbstractDict{String};
@@ -92,15 +90,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, don't specify this parameter. Instead, call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function disable_region(RegionName; aws_config::AbstractAWSConfig=global_aws_config())
-    return account(
-        "POST",
-        "/disableRegion",
-        Dict{String,Any}("RegionName" => RegionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+disable_region(RegionName; aws_config::AbstractAWSConfig=global_aws_config()) = account(
+    "POST",
+    "/disableRegion",
+    Dict{String,Any}("RegionName" => RegionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function disable_region(
     RegionName,
     params::AbstractDict{String};
@@ -146,15 +142,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, don't specify this parameter. Instead, call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function enable_region(RegionName; aws_config::AbstractAWSConfig=global_aws_config())
-    return account(
-        "POST",
-        "/enableRegion",
-        Dict{String,Any}("RegionName" => RegionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+enable_region(RegionName; aws_config::AbstractAWSConfig=global_aws_config()) = account(
+    "POST",
+    "/enableRegion",
+    Dict{String,Any}("RegionName" => RegionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function enable_region(
     RegionName,
     params::AbstractDict{String};
@@ -200,17 +194,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, then don't specify this parameter, and call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function get_alternate_contact(
+get_alternate_contact(
     AlternateContactType; aws_config::AbstractAWSConfig=global_aws_config()
+) = account(
+    "POST",
+    "/getAlternateContact",
+    Dict{String,Any}("AlternateContactType" => AlternateContactType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return account(
-        "POST",
-        "/getAlternateContact",
-        Dict{String,Any}("AlternateContactType" => AlternateContactType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_alternate_contact(
     AlternateContactType,
     params::AbstractDict{String};
@@ -254,14 +246,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, don't specify this parameter. Instead, call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function get_contact_information(; aws_config::AbstractAWSConfig=global_aws_config())
-    return account(
-        "POST",
-        "/getContactInformation";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_contact_information(; aws_config::AbstractAWSConfig=global_aws_config()) = account(
+    "POST",
+    "/getContactInformation";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_contact_information(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -300,17 +290,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, don't specify this parameter. Instead, call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function get_region_opt_status(
-    RegionName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return account(
+get_region_opt_status(RegionName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    account(
         "POST",
         "/getRegionOptStatus",
         Dict{String,Any}("RegionName" => RegionName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_region_opt_status(
     RegionName,
     params::AbstractDict{String};
@@ -362,11 +349,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, passing in a value of ENABLING will only return a list of Regions with a Region
   status of ENABLING.
 """
-function list_regions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return account(
-        "POST", "/listRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_regions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    account("POST", "/listRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_regions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -412,28 +396,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, then don't specify this parameter, and call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function put_alternate_contact(
+put_alternate_contact(
     AlternateContactType,
     EmailAddress,
     Name,
     PhoneNumber,
     Title;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = account(
+    "POST",
+    "/putAlternateContact",
+    Dict{String,Any}(
+        "AlternateContactType" => AlternateContactType,
+        "EmailAddress" => EmailAddress,
+        "Name" => Name,
+        "PhoneNumber" => PhoneNumber,
+        "Title" => Title,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return account(
-        "POST",
-        "/putAlternateContact",
-        Dict{String,Any}(
-            "AlternateContactType" => AlternateContactType,
-            "EmailAddress" => EmailAddress,
-            "Name" => Name,
-            "PhoneNumber" => PhoneNumber,
-            "Title" => Title,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_alternate_contact(
     AlternateContactType,
     EmailAddress,
@@ -491,17 +473,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   member of an organization, don't specify this parameter. Instead, call the operation using
   an identity belonging to the account whose contacts you wish to retrieve or modify.
 """
-function put_contact_information(
+put_contact_information(
     ContactInformation; aws_config::AbstractAWSConfig=global_aws_config()
+) = account(
+    "POST",
+    "/putContactInformation",
+    Dict{String,Any}("ContactInformation" => ContactInformation);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return account(
-        "POST",
-        "/putContactInformation",
-        Dict{String,Any}("ContactInformation" => ContactInformation);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_contact_information(
     ContactInformation,
     params::AbstractDict{String};

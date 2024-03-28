@@ -26,14 +26,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: For paginated calls to GetEntitlements, pass the NextToken from the
   previous GetEntitlementsResult.
 """
-function get_entitlements(ProductCode; aws_config::AbstractAWSConfig=global_aws_config())
-    return marketplace_entitlement_service(
+get_entitlements(ProductCode; aws_config::AbstractAWSConfig=global_aws_config()) =
+    marketplace_entitlement_service(
         "GetEntitlements",
         Dict{String,Any}("ProductCode" => ProductCode);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_entitlements(
     ProductCode,
     params::AbstractDict{String};

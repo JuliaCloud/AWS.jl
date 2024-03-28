@@ -23,25 +23,23 @@ SetTopicAttributes actions in your IAM policy.
 - `topic_arn`: The ARN of the topic whose access control policy you wish to modify.
 
 """
-function add_permission(
+add_permission(
     AWSAccountId,
     ActionName,
     Label,
     TopicArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sns(
+    "AddPermission",
+    Dict{String,Any}(
+        "AWSAccountId" => AWSAccountId,
+        "ActionName" => ActionName,
+        "Label" => Label,
+        "TopicArn" => TopicArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "AddPermission",
-        Dict{String,Any}(
-            "AWSAccountId" => AWSAccountId,
-            "ActionName" => ActionName,
-            "Label" => Label,
-            "TopicArn" => TopicArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_permission(
     AWSAccountId,
     ActionName,
@@ -82,16 +80,14 @@ the OptInPhoneNumber action.
 - `phone_number`: The phone number for which you want to check the opt out status.
 
 """
-function check_if_phone_number_is_opted_out(
+check_if_phone_number_is_opted_out(
     phoneNumber; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "CheckIfPhoneNumberIsOptedOut",
+    Dict{String,Any}("phoneNumber" => phoneNumber);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "CheckIfPhoneNumberIsOptedOut",
-        Dict{String,Any}("phoneNumber" => phoneNumber);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function check_if_phone_number_is_opted_out(
     phoneNumber,
     params::AbstractDict{String};
@@ -127,16 +123,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services signature, then only the topic owner and the subscription owner can unsubscribe
   the endpoint. The unsubscribe action requires Amazon Web Services authentication.
 """
-function confirm_subscription(
-    Token, TopicArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sns(
+confirm_subscription(Token, TopicArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns(
         "ConfirmSubscription",
         Dict{String,Any}("Token" => Token, "TopicArn" => TopicArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function confirm_subscription(
     Token,
     TopicArn,
@@ -168,32 +161,33 @@ PlatformCredential is client secret.   For Baidu, PlatformPrincipal is API key a
 PlatformCredential is secret key.   For APNS and APNS_SANDBOX using certificate
 credentials, PlatformPrincipal is SSL certificate and PlatformCredential is private key.
 For APNS and APNS_SANDBOX using token credentials, PlatformPrincipal is signing key ID and
-PlatformCredential is signing key.   For GCM (Firebase Cloud Messaging), there is no
-PlatformPrincipal and the PlatformCredential is API key.   For MPNS, PlatformPrincipal is
-TLS certificate and PlatformCredential is private key.   For WNS, PlatformPrincipal is
-Package Security Identifier and PlatformCredential is secret key.   You can use the
-returned PlatformApplicationArn as an attribute for the CreatePlatformEndpoint action.
+PlatformCredential is signing key.   For GCM (Firebase Cloud Messaging) using key
+credentials, there is no PlatformPrincipal. The PlatformCredential is API key.   For GCM
+(Firebase Cloud Messaging) using token credentials, there is no PlatformPrincipal. The
+PlatformCredential is a JSON formatted private key file. When using the Amazon Web Services
+CLI, the file must be in string format and special characters must be ignored. To format
+the file correctly, Amazon SNS recommends using the following command: SERVICE_JSON=`jq
+@json &lt;&lt;&lt; cat service.json`.   For MPNS, PlatformPrincipal is TLS certificate and
+PlatformCredential is private key.   For WNS, PlatformPrincipal is Package Security
+Identifier and PlatformCredential is secret key.   You can use the returned
+PlatformApplicationArn as an attribute for the CreatePlatformEndpoint action.
 
 # Arguments
-- `attributes`: For a list of attributes, see SetPlatformApplicationAttributes.
+- `attributes`: For a list of attributes, see  SetPlatformApplicationAttributes .
 - `name`: Application names must be made up of only uppercase and lowercase ASCII letters,
   numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
 - `platform`: The following platforms are supported: ADM (Amazon Device Messaging), APNS
   (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud Messaging).
 
 """
-function create_platform_application(
+create_platform_application(
     Attributes, Name, Platform; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "CreatePlatformApplication",
+    Dict{String,Any}("Attributes" => Attributes, "Name" => Name, "Platform" => Platform);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "CreatePlatformApplication",
-        Dict{String,Any}(
-            "Attributes" => Attributes, "Name" => Name, "Platform" => Platform
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_platform_application(
     Attributes,
     Name,
@@ -233,7 +227,7 @@ attributes must be provided: ChannelId and UserId. The token field must also con
 ChannelId. For more information, see Creating an Amazon SNS Endpoint for Baidu.
 
 # Arguments
-- `platform_application_arn`: PlatformApplicationArn returned from
+- `platform_application_arn`:  PlatformApplicationArn returned from
   CreatePlatformApplication is used to create a an endpoint.
 - `token`: Unique identifier created by the notification service for an app on a device.
   The specific name for Token will vary, depending on which notification service is being
@@ -243,22 +237,18 @@ ChannelId. For more information, see Creating an Amazon SNS Endpoint for Baidu.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attributes"`: For a list of attributes, see SetEndpointAttributes.
+- `"Attributes"`: For a list of attributes, see  SetEndpointAttributes .
 - `"CustomUserData"`: Arbitrary user data to associate with the endpoint. Amazon SNS does
   not use this data. The data must be in UTF-8 format and less than 2KB.
 """
-function create_platform_endpoint(
+create_platform_endpoint(
     PlatformApplicationArn, Token; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "CreatePlatformEndpoint",
+    Dict{String,Any}("PlatformApplicationArn" => PlatformApplicationArn, "Token" => Token);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "CreatePlatformEndpoint",
-        Dict{String,Any}(
-            "PlatformApplicationArn" => PlatformApplicationArn, "Token" => Token
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_platform_endpoint(
     PlatformApplicationArn,
     Token,
@@ -303,16 +293,14 @@ Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"LanguageCode"`: The language to use for sending the OTP. The default value is en-US.
 """
-function create_smssandbox_phone_number(
+create_smssandbox_phone_number(
     PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "CreateSMSSandboxPhoneNumber",
+    Dict{String,Any}("PhoneNumber" => PhoneNumber);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "CreateSMSSandboxPhoneNumber",
-        Dict{String,Any}("PhoneNumber" => PhoneNumber);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_smssandbox_phone_number(
     PhoneNumber,
     params::AbstractDict{String};
@@ -363,29 +351,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute applies only to server-side encryption:    KmsMasterKeyId – The ID of an Amazon
   Web Services managed customer master key (CMK) for Amazon SNS or a custom CMK. For more
   information, see Key Terms. For more examples, see KeyId in the Key Management Service API
-  Reference.    The following attributes apply only to FIFO topics:    FifoTopic – When
-  this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables
-  content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set
-  to false. If you create a FIFO topic and this attribute is false, you must specify a value
-  for the MessageDeduplicationId parameter for the Publish action.    When you set
-  ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the
-  MessageDeduplicationId using the body of the message (but not the attributes of the
-  message). (Optional) To override the generated value, you can specify a value for the
-  MessageDeduplicationId parameter for the Publish action.
+  Reference.    The following attributes apply only to FIFO topics:    ArchivePolicy – Adds
+  or updates an inline policy document to archive messages stored in the specified Amazon SNS
+  topic.    BeginningArchiveTime – The earliest starting point at which a message in the
+  topic’s archive can be replayed from. This point in time is based on the configured
+  message retention period set by the topic’s message archiving policy.
+  ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By
+  default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this
+  attribute is false, you must specify a value for the MessageDeduplicationId parameter for
+  the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a
+  SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not
+  the attributes of the message). (Optional) To override the generated value, you can specify
+  a value for the MessageDeduplicationId parameter for the Publish action.
 - `"DataProtectionPolicy"`: The body of the policy document you want to use for this topic.
   You can only add one policy per topic. The policy must be in JSON string format. Length
   Constraints: Maximum length of 30,720.
 - `"Tags"`: The list of tags to add to a new topic.  To be able to tag a topic on creation,
   you must have the sns:CreateTopic and sns:TagResource permissions.
 """
-function create_topic(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "CreateTopic",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_topic(Name; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "CreateTopic",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_topic(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -407,17 +396,15 @@ delete an endpoint that is also subscribed to a topic, then you must also unsubs
 endpoint from the topic.
 
 # Arguments
-- `endpoint_arn`: EndpointArn of endpoint to delete.
+- `endpoint_arn`:  EndpointArn of endpoint to delete.
 
 """
-function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "DeleteEndpoint",
-        Dict{String,Any}("EndpointArn" => EndpointArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "DeleteEndpoint",
+    Dict{String,Any}("EndpointArn" => EndpointArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_endpoint(
     EndpointArn,
     params::AbstractDict{String};
@@ -442,20 +429,18 @@ such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using
 Mobile Push Notifications.
 
 # Arguments
-- `platform_application_arn`: PlatformApplicationArn of platform application object to
+- `platform_application_arn`:  PlatformApplicationArn of platform application object to
   delete.
 
 """
-function delete_platform_application(
+delete_platform_application(
     PlatformApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "DeletePlatformApplication",
+    Dict{String,Any}("PlatformApplicationArn" => PlatformApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "DeletePlatformApplication",
-        Dict{String,Any}("PlatformApplicationArn" => PlatformApplicationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_platform_application(
     PlatformApplicationArn,
     params::AbstractDict{String};
@@ -492,16 +477,14 @@ restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 - `phone_number`: The destination phone number to delete.
 
 """
-function delete_smssandbox_phone_number(
+delete_smssandbox_phone_number(
     PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "DeleteSMSSandboxPhoneNumber",
+    Dict{String,Any}("PhoneNumber" => PhoneNumber);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "DeleteSMSSandboxPhoneNumber",
-        Dict{String,Any}("PhoneNumber" => PhoneNumber);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_smssandbox_phone_number(
     PhoneNumber,
     params::AbstractDict{String};
@@ -529,14 +512,12 @@ idempotent, so deleting a topic that does not exist does not result in an error.
 - `topic_arn`: The ARN of the topic you want to delete.
 
 """
-function delete_topic(TopicArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "DeleteTopic",
-        Dict{String,Any}("TopicArn" => TopicArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_topic(TopicArn; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "DeleteTopic",
+    Dict{String,Any}("TopicArn" => TopicArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_topic(
     TopicArn,
     params::AbstractDict{String};
@@ -565,16 +546,13 @@ specified Amazon SNS topic.
   Reference.
 
 """
-function get_data_protection_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sns(
+get_data_protection_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns(
         "GetDataProtectionPolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_data_protection_policy(
     ResourceArn,
     params::AbstractDict{String};
@@ -599,19 +577,16 @@ services, such as GCM (Firebase Cloud Messaging) and APNS. For more information,
 Amazon SNS Mobile Push Notifications.
 
 # Arguments
-- `endpoint_arn`: EndpointArn for GetEndpointAttributes input.
+- `endpoint_arn`:  EndpointArn for GetEndpointAttributes input.
 
 """
-function get_endpoint_attributes(
-    EndpointArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sns(
+get_endpoint_attributes(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns(
         "GetEndpointAttributes",
         Dict{String,Any}("EndpointArn" => EndpointArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_endpoint_attributes(
     EndpointArn,
     params::AbstractDict{String};
@@ -636,20 +611,18 @@ notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
 information, see Using Amazon SNS Mobile Push Notifications.
 
 # Arguments
-- `platform_application_arn`: PlatformApplicationArn for
+- `platform_application_arn`:  PlatformApplicationArn for
   GetPlatformApplicationAttributesInput.
 
 """
-function get_platform_application_attributes(
+get_platform_application_attributes(
     PlatformApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "GetPlatformApplicationAttributes",
+    Dict{String,Any}("PlatformApplicationArn" => PlatformApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "GetPlatformApplicationAttributes",
-        Dict{String,Any}("PlatformApplicationArn" => PlatformApplicationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_platform_application_attributes(
     PlatformApplicationArn,
     params::AbstractDict{String};
@@ -682,9 +655,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   which you want values. For all attribute names, see SetSMSAttributes. If you don't use this
   parameter, Amazon SNS returns all SMS attributes.
 """
-function get_smsattributes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("GetSMSAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_smsattributes(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns("GetSMSAttributes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_smsattributes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -707,11 +679,9 @@ phone numbers. For more information, including how to move out of the sandbox to
 messages without restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 
 """
-function get_smssandbox_account_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "GetSMSSandboxAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_smssandbox_account_status(; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "GetSMSSandboxAccountStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_smssandbox_account_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -733,16 +703,14 @@ Returns all of the properties of a subscription.
 - `subscription_arn`: The ARN of the subscription whose properties you want to get.
 
 """
-function get_subscription_attributes(
+get_subscription_attributes(
     SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "GetSubscriptionAttributes",
+    Dict{String,Any}("SubscriptionArn" => SubscriptionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "GetSubscriptionAttributes",
-        Dict{String,Any}("SubscriptionArn" => SubscriptionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_subscription_attributes(
     SubscriptionArn,
     params::AbstractDict{String};
@@ -771,14 +739,12 @@ the authorization of the user.
 - `topic_arn`: The ARN of the topic whose properties you want to get.
 
 """
-function get_topic_attributes(TopicArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "GetTopicAttributes",
-        Dict{String,Any}("TopicArn" => TopicArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_topic_attributes(TopicArn; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "GetTopicAttributes",
+    Dict{String,Any}("TopicArn" => TopicArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_topic_attributes(
     TopicArn,
     params::AbstractDict{String};
@@ -809,24 +775,22 @@ information, see Using Amazon SNS Mobile Push Notifications.  This action is thr
 30 transactions per second (TPS).
 
 # Arguments
-- `platform_application_arn`: PlatformApplicationArn for
+- `platform_application_arn`:  PlatformApplicationArn for
   ListEndpointsByPlatformApplicationInput action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: NextToken string is used when calling ListEndpointsByPlatformApplication
+- `"NextToken"`:  NextToken string is used when calling ListEndpointsByPlatformApplication
   action to retrieve additional records that are available after the first page results.
 """
-function list_endpoints_by_platform_application(
+list_endpoints_by_platform_application(
     PlatformApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "ListEndpointsByPlatformApplication",
+    Dict{String,Any}("PlatformApplicationArn" => PlatformApplicationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "ListEndpointsByPlatformApplication",
-        Dict{String,Any}("PlatformApplicationArn" => PlatformApplicationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_endpoints_by_platform_application(
     PlatformApplicationArn,
     params::AbstractDict{String};
@@ -859,11 +823,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of origination numbers to return.
 - `"NextToken"`: Token that the previous ListOriginationNumbers request returns.
 """
-function list_origination_numbers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "ListOriginationNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_origination_numbers(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns("ListOriginationNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_origination_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -891,11 +852,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A NextToken string is used when you call the ListPhoneNumbersOptedOut
   action to retrieve additional records that are available after the first page of results.
 """
-function list_phone_numbers_opted_out(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "ListPhoneNumbersOptedOut"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_phone_numbers_opted_out(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns("ListPhoneNumbersOptedOut"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_phone_numbers_opted_out(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -922,14 +880,11 @@ is throttled at 15 transactions per second (TPS).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: NextToken string is used when calling ListPlatformApplications action to
+- `"NextToken"`:  NextToken string is used when calling ListPlatformApplications action to
   retrieve additional records that are available after the first page results.
 """
-function list_platform_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "ListPlatformApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_platform_applications(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns("ListPlatformApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_platform_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -959,11 +914,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of phone numbers to return.
 - `"NextToken"`: Token that the previous ListSMSSandboxPhoneNumbersInput request returns.
 """
-function list_smssandbox_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "ListSMSSandboxPhoneNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_smssandbox_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "ListSMSSandboxPhoneNumbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_smssandbox_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -988,9 +941,8 @@ action is throttled at 30 transactions per second (TPS).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: Token returned by the previous ListSubscriptions request.
 """
-function list_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("ListSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns("ListSubscriptions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1015,16 +967,13 @@ This action is throttled at 30 transactions per second (TPS).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: Token returned by the previous ListSubscriptionsByTopic request.
 """
-function list_subscriptions_by_topic(
-    TopicArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sns(
+list_subscriptions_by_topic(TopicArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns(
         "ListSubscriptionsByTopic",
         Dict{String,Any}("TopicArn" => TopicArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_subscriptions_by_topic(
     TopicArn,
     params::AbstractDict{String};
@@ -1051,16 +1000,13 @@ in the Amazon Simple Notification Service Developer Guide.
 - `resource_arn`: The ARN of the topic for which to list tags.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sns(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1089,9 +1035,8 @@ per second (TPS).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: Token returned by the previous ListTopics request.
 """
-function list_topics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns("ListTopics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_topics(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns("ListTopics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_topics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1109,14 +1054,12 @@ sending SMS messages to the number. You can opt in a phone number only once ever
 - `phone_number`: The phone number to opt in. Use E.164 format.
 
 """
-function opt_in_phone_number(phoneNumber; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "OptInPhoneNumber",
-        Dict{String,Any}("phoneNumber" => phoneNumber);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+opt_in_phone_number(phoneNumber; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "OptInPhoneNumber",
+    Dict{String,Any}("phoneNumber" => phoneNumber);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function opt_in_phone_number(
     phoneNumber,
     params::AbstractDict{String};
@@ -1209,14 +1152,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TopicArn"`: The topic you want to publish to. If you don't specify a value for the
   TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
 """
-function publish(Message; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "Publish",
-        Dict{String,Any}("Message" => Message);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+publish(Message; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "Publish",
+    Dict{String,Any}("Message" => Message);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function publish(
     Message, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1254,19 +1195,17 @@ saved and Amazon SNS immediately delivers the message to subscribers.
 - `topic_arn`: The Amazon resource name (ARN) of the topic you want to batch publish to.
 
 """
-function publish_batch(
+publish_batch(
     PublishBatchRequestEntries, TopicArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "PublishBatch",
+    Dict{String,Any}(
+        "PublishBatchRequestEntries" => PublishBatchRequestEntries,
+        "TopicArn" => TopicArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "PublishBatch",
-        Dict{String,Any}(
-            "PublishBatchRequestEntries" => PublishBatchRequestEntries,
-            "TopicArn" => TopicArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function publish_batch(
     PublishBatchRequestEntries,
     TopicArn,
@@ -1305,18 +1244,16 @@ Adds or updates an inline policy document that is stored in the specified Amazon
   Services General Reference.
 
 """
-function put_data_protection_policy(
+put_data_protection_policy(
     DataProtectionPolicy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "PutDataProtectionPolicy",
+    Dict{String,Any}(
+        "DataProtectionPolicy" => DataProtectionPolicy, "ResourceArn" => ResourceArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "PutDataProtectionPolicy",
-        Dict{String,Any}(
-            "DataProtectionPolicy" => DataProtectionPolicy, "ResourceArn" => ResourceArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_data_protection_policy(
     DataProtectionPolicy,
     ResourceArn,
@@ -1353,16 +1290,12 @@ SetTopicAttributes actions in your IAM policy.
 - `topic_arn`: The ARN of the topic whose access control policy you wish to modify.
 
 """
-function remove_permission(
-    Label, TopicArn; aws_config::AbstractAWSConfig=global_aws_config()
+remove_permission(Label, TopicArn; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "RemovePermission",
+    Dict{String,Any}("Label" => Label, "TopicArn" => TopicArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "RemovePermission",
-        Dict{String,Any}("Label" => Label, "TopicArn" => TopicArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_permission(
     Label,
     TopicArn,
@@ -1402,16 +1335,14 @@ Amazon SNS Mobile Push Notifications.
 - `endpoint_arn`: EndpointArn used for SetEndpointAttributes action.
 
 """
-function set_endpoint_attributes(
+set_endpoint_attributes(
     Attributes, EndpointArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "SetEndpointAttributes",
+    Dict{String,Any}("Attributes" => Attributes, "EndpointArn" => EndpointArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "SetEndpointAttributes",
-        Dict{String,Any}("Attributes" => Attributes, "EndpointArn" => EndpointArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function set_endpoint_attributes(
     Attributes,
     EndpointArn,
@@ -1447,15 +1378,20 @@ delivery status, see Using Amazon SNS Application Attributes for Message Deliver
   notification service.   For ADM, PlatformCredentialis client secret.   For Apple Services
   using certificate credentials, PlatformCredential is private key.   For Apple Services
   using token credentials, PlatformCredential is signing key.   For GCM (Firebase Cloud
-  Messaging), PlatformCredential is API key.         PlatformPrincipal – The principal
-  received from the notification service.   For ADM, PlatformPrincipalis client id.   For
-  Apple Services using certificate credentials, PlatformPrincipal is SSL certificate.   For
-  Apple Services using token credentials, PlatformPrincipal is signing key ID.   For GCM
-  (Firebase Cloud Messaging), there is no PlatformPrincipal.         EventEndpointCreated –
-  Topic ARN to which EndpointCreated event notifications are sent.    EventEndpointDeleted
-  – Topic ARN to which EndpointDeleted event notifications are sent.
-  EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications are sent.
-  EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications are sent
+  Messaging) using key credentials, there is no PlatformPrincipal. The PlatformCredential is
+  API key.   For GCM (Firebase Cloud Messaging) using token credentials, there is no
+  PlatformPrincipal. The PlatformCredential is a JSON formatted private key file. When using
+  the Amazon Web Services CLI, the file must be in string format and special characters must
+  be ignored. To format the file correctly, Amazon SNS recommends using the following
+  command: SERVICE_JSON=`jq @json &lt;&lt;&lt; cat service.json`.        PlatformPrincipal
+  – The principal received from the notification service.   For ADM, PlatformPrincipalis
+  client id.   For Apple Services using certificate credentials, PlatformPrincipal is SSL
+  certificate.   For Apple Services using token credentials, PlatformPrincipal is signing key
+  ID.   For GCM (Firebase Cloud Messaging), there is no PlatformPrincipal.
+  EventEndpointCreated – Topic ARN to which EndpointCreated event notifications are sent.
+   EventEndpointDeleted – Topic ARN to which EndpointDeleted event notifications are sent.
+    EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications are sent.
+    EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications are sent
   upon Direct Publish delivery failure (permanent) to one of the application's endpoints.
   SuccessFeedbackRoleArn – IAM role ARN used to give Amazon SNS write access to use
   CloudWatch Logs on your behalf.    FailureFeedbackRoleArn – IAM role ARN used to give
@@ -1464,22 +1400,20 @@ delivery status, see Using Amazon SNS Application Attributes for Message Deliver
   attributes only apply to APNs token-based authentication:    ApplePlatformTeamID – The
   identifier that's assigned to your Apple developer account team.    ApplePlatformBundleID
   – The bundle identifier that's assigned to your iOS app.
-- `platform_application_arn`: PlatformApplicationArn for SetPlatformApplicationAttributes
+- `platform_application_arn`:  PlatformApplicationArn for SetPlatformApplicationAttributes
   action.
 
 """
-function set_platform_application_attributes(
+set_platform_application_attributes(
     Attributes, PlatformApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "SetPlatformApplicationAttributes",
+    Dict{String,Any}(
+        "Attributes" => Attributes, "PlatformApplicationArn" => PlatformApplicationArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "SetPlatformApplicationAttributes",
-        Dict{String,Any}(
-            "Attributes" => Attributes, "PlatformApplicationArn" => PlatformApplicationArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function set_platform_application_attributes(
     Attributes,
     PlatformApplicationArn,
@@ -1553,14 +1487,12 @@ the s3:ListBucket action.
   Amazon SNS Developer Guide.
 
 """
-function set_smsattributes(attributes; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "SetSMSAttributes",
-        Dict{String,Any}("attributes" => attributes);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+set_smsattributes(attributes; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "SetSMSAttributes",
+    Dict{String,Any}("attributes" => attributes);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function set_smsattributes(
     attributes,
     params::AbstractDict{String};
@@ -1611,18 +1543,16 @@ Allows a subscription owner to set an attribute of the subscription to a new val
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AttributeValue"`: The new value for the attribute in JSON format.
 """
-function set_subscription_attributes(
+set_subscription_attributes(
     AttributeName, SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "SetSubscriptionAttributes",
+    Dict{String,Any}(
+        "AttributeName" => AttributeName, "SubscriptionArn" => SubscriptionArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "SetSubscriptionAttributes",
-        Dict{String,Any}(
-            "AttributeName" => AttributeName, "SubscriptionArn" => SubscriptionArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function set_subscription_attributes(
     AttributeName,
     SubscriptionArn,
@@ -1725,16 +1655,14 @@ RemovePermission, and SetTopicAttributes actions in your IAM policy.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AttributeValue"`: The new value for the attribute.
 """
-function set_topic_attributes(
+set_topic_attributes(
     AttributeName, TopicArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "SetTopicAttributes",
+    Dict{String,Any}("AttributeName" => AttributeName, "TopicArn" => TopicArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "SetTopicAttributes",
-        Dict{String,Any}("AttributeName" => AttributeName, "TopicArn" => TopicArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function set_topic_attributes(
     AttributeName,
     TopicArn,
@@ -1763,7 +1691,7 @@ Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or
 if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint
 owner must run the ConfirmSubscription action to confirm the subscription. You call the
 ConfirmSubscription action with the token from the subscription response. Confirmation
-tokens are valid for three days. This action is throttled at 100 transactions per second
+tokens are valid for two days. This action is throttled at 100 transactions per second
 (TPS).
 
 # Arguments
@@ -1800,7 +1728,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   delivery stream   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this
   attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more
   information, see Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS
-  Developer Guide.
+  Developer Guide.   The following attributes apply only to FIFO topics:    ReplayPolicy –
+  Adds or updates an inline policy document for a subscription to replay messages stored in
+  the specified Amazon SNS topic.    ReplayStatus – Retrieves the status of the
+  subscription message replay, which can be one of the following:    Completed – The replay
+  has successfully redelivered all messages, and is now delivering newly published messages.
+  If an ending point was specified in the ReplayPolicy then the subscription will no longer
+  receive newly published messages.    In progress – The replay is currently replaying the
+  selected messages.    Failed – The replay was unable to complete.    Pending – The
+  default state while the replay initiates.
 - `"Endpoint"`: The endpoint that you want to receive notifications. Endpoints vary by
   protocol:   For the http protocol, the (public) endpoint is a URL beginning with http://.
   For the https protocol, the (public) endpoint is a URL beginning with https://.   For the
@@ -1819,14 +1755,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscription becomes confirmed when the subscriber calls the ConfirmSubscription action
   with a confirmation token.  The default value is false.
 """
-function subscribe(Protocol, TopicArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "Subscribe",
-        Dict{String,Any}("Protocol" => Protocol, "TopicArn" => TopicArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+subscribe(Protocol, TopicArn; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "Subscribe",
+    Dict{String,Any}("Protocol" => Protocol, "TopicArn" => TopicArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function subscribe(
     Protocol,
     TopicArn,
@@ -1866,14 +1800,12 @@ request.
   an optional value.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "TagResource",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     ResourceArn,
     Tags,
@@ -1912,14 +1844,12 @@ transactions per second (TPS).
 - `subscription_arn`: The ARN of the subscription to be deleted.
 
 """
-function unsubscribe(SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return sns(
-        "Unsubscribe",
-        Dict{String,Any}("SubscriptionArn" => SubscriptionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+unsubscribe(SubscriptionArn; aws_config::AbstractAWSConfig=global_aws_config()) = sns(
+    "Unsubscribe",
+    Dict{String,Any}("SubscriptionArn" => SubscriptionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function unsubscribe(
     SubscriptionArn,
     params::AbstractDict{String};
@@ -1949,16 +1879,13 @@ the Amazon SNS Developer Guide.
 - `tag_keys`: The list of tag keys to remove from the specified topic.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sns(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sns(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1998,18 +1925,14 @@ restrictions, see SMS sandbox in the Amazon SNS Developer Guide.
 - `phone_number`: The destination phone number to verify.
 
 """
-function verify_smssandbox_phone_number(
+verify_smssandbox_phone_number(
     OneTimePassword, PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config()
+) = sns(
+    "VerifySMSSandboxPhoneNumber",
+    Dict{String,Any}("OneTimePassword" => OneTimePassword, "PhoneNumber" => PhoneNumber);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sns(
-        "VerifySMSSandboxPhoneNumber",
-        Dict{String,Any}(
-            "OneTimePassword" => OneTimePassword, "PhoneNumber" => PhoneNumber
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function verify_smssandbox_phone_number(
     OneTimePassword,
     PhoneNumber,
