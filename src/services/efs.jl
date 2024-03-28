@@ -16,10 +16,14 @@ exposed as the access point's root directory. Applications using the access poin
 access data in the application's own directory and any subdirectories. To learn more, see
 Mounting a file system using EFS access points.  If multiple requests to create access
 points on the same file system are sent in quick succession, and the file system is near
-the limit of 1000 access points, you may experience a throttling response for these
+the limit of 1,000 access points, you may experience a throttling response for these
 requests. This is to ensure that the file system does not exceed the stated access point
 limit.  This operation requires permissions for the elasticfilesystem:CreateAccessPoint
-action.
+action. Access points can be tagged on creation. If tags are specified in the creation
+action, IAM performs additional authorization on the elasticfilesystem:TagResource action
+to verify if users have permissions to create tags. Therefore, you must grant explicit
+permissions to use the elasticfilesystem:TagResource action. For more information, see
+Granting permissions to tag resources during creation.
 
 # Arguments
 - `client_token`: A string of up to 64 ASCII characters that Amazon EFS uses to ensure
@@ -30,10 +34,10 @@ action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PosixUser"`: The operating system user and group applied to all file system requests
   made using the access point.
-- `"RootDirectory"`: Specifies the directory on the Amazon EFS file system that the access
-  point exposes as the root directory of your file system to NFS clients using the access
-  point. The clients using the access point can only access the root directory and below. If
-  the RootDirectory &gt; Path specified does not exist, EFS creates it and applies the
+- `"RootDirectory"`: Specifies the directory on the EFS file system that the access point
+  exposes as the root directory of your file system to NFS clients using the access point.
+  The clients using the access point can only access the root directory and below. If the
+  RootDirectory &gt; Path specified does not exist, Amazon EFS creates it and applies the
   CreationInfo settings when a client connects to an access point. When specifying a
   RootDirectory, you must provide the Path, and the CreationInfo. Amazon EFS creates a root
   directory only if you have provided the CreationInfo: OwnUid, OwnGID, and permissions for
@@ -44,17 +48,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each key must be unique. For more information, see Tagging Amazon Web Services resources in
   the Amazon Web Services General Reference Guide.
 """
-function create_access_point(
+create_access_point(
     ClientToken, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "POST",
+    "/2015-02-01/access-points",
+    Dict{String,Any}("ClientToken" => ClientToken, "FileSystemId" => FileSystemId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "POST",
-        "/2015-02-01/access-points",
-        Dict{String,Any}("ClientToken" => ClientToken, "FileSystemId" => FileSystemId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_access_point(
     ClientToken,
     FileSystemId,
@@ -90,7 +92,7 @@ does the following:   Creates a new, empty file system. The file system will hav
 EFS assigned ID, and an initial lifecycle state creating.   Returns with the description of
 the created file system.   Otherwise, this operation returns a FileSystemAlreadyExists
 error with the ID of the existing file system.  For basic use cases, you can use a randomly
-generated UUID for the creation token.   The idempotent operation allows you to retry a
+generated UUID for the creation token.  The idempotent operation allows you to retry a
 CreateFileSystem call without risk of creating an extra file system. This can happen when
 an initial call fails in a way that leaves it uncertain whether or not a file system was
 actually created. An example might be that a transport level timeout occurred or your
@@ -101,17 +103,24 @@ Amazon EFS User Guide.  The CreateFileSystem call returns while the file system'
 state is still creating. You can check the file system creation status by calling the
 DescribeFileSystems operation, which among other things returns the file system state.
 This operation accepts an optional PerformanceMode parameter that you choose for your file
-system. We recommend generalPurpose performance mode for most file systems. File systems
-using the maxIO performance mode can scale to higher levels of aggregate throughput and
-operations per second with a tradeoff of slightly higher latencies for most file
-operations. The performance mode can't be changed after the file system has been created.
-For more information, see Amazon EFS performance modes. You can set the throughput mode for
-the file system using the ThroughputMode parameter. After the file system is fully created,
-Amazon EFS sets its lifecycle state to available, at which point you can create one or more
-mount targets for the file system in your VPC. For more information, see CreateMountTarget.
-You mount your Amazon EFS file system on an EC2 instances in your VPC by using the mount
-target. For more information, see Amazon EFS: How it Works.   This operation requires
-permissions for the elasticfilesystem:CreateFileSystem action.
+system. We recommend generalPurpose performance mode for all file systems. File systems
+using the maxIO mode is a previous generation performance type that is designed for highly
+parallelized workloads that can tolerate higher latencies than the General Purpose mode.
+Max I/O mode is not supported for One Zone file systems or file systems that use Elastic
+throughput.  Due to the higher per-operation latencies with Max I/O, we recommend using
+General Purpose performance mode for all file systems.  The performance mode can't be
+changed after the file system has been created. For more information, see Amazon EFS
+performance modes. You can set the throughput mode for the file system using the
+ThroughputMode parameter. After the file system is fully created, Amazon EFS sets its
+lifecycle state to available, at which point you can create one or more mount targets for
+the file system in your VPC. For more information, see CreateMountTarget. You mount your
+Amazon EFS file system on an EC2 instances in your VPC by using the mount target. For more
+information, see Amazon EFS: How it Works.  This operation requires permissions for the
+elasticfilesystem:CreateFileSystem action.  File systems can be tagged on creation. If tags
+are specified in the creation action, IAM performs additional authorization on the
+elasticfilesystem:TagResource action to verify if users have permissions to create tags.
+Therefore, you must grant explicit permissions to use the elasticfilesystem:TagResource
+action. For more information, see Granting permissions to tag resources during creation.
 
 # Arguments
 - `creation_token`: A string of up to 64 ASCII characters. Amazon EFS uses this to ensure
@@ -119,18 +128,18 @@ permissions for the elasticfilesystem:CreateFileSystem action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AvailabilityZoneName"`: Used to create a file system that uses One Zone storage
-  classes. It specifies the Amazon Web Services Availability Zone in which to create the file
-  system. Use the format us-east-1a to specify the Availability Zone. For more information
-  about One Zone storage classes, see Using EFS storage classes in the Amazon EFS User Guide.
-   One Zone storage classes are not available in all Availability Zones in Amazon Web
-  Services Regions where Amazon EFS is available.
+- `"AvailabilityZoneName"`: Used to create a One Zone file system. It specifies the Amazon
+  Web Services Availability Zone in which to create the file system. Use the format
+  us-east-1a to specify the Availability Zone. For more information about One Zone file
+  systems, see Using EFS storage classes in the Amazon EFS User Guide.  One Zone file systems
+  are not available in all Availability Zones in Amazon Web Services Regions where Amazon EFS
+  is available.
 - `"Backup"`: Specifies whether automatic backups are enabled on the file system that you
-  are creating. Set the value to true to enable automatic backups. If you are creating a file
-  system that uses One Zone storage classes, automatic backups are enabled by default. For
-  more information, see Automatic backups in the Amazon EFS User Guide. Default is false.
-  However, if you specify an AvailabilityZoneName, the default is true.  Backup is not
-  available in all Amazon Web Services Regions where Amazon EFS is available.
+  are creating. Set the value to true to enable automatic backups. If you are creating a One
+  Zone file system, automatic backups are enabled by default. For more information, see
+  Automatic backups in the Amazon EFS User Guide. Default is false. However, if you specify
+  an AvailabilityZoneName, the default is true.  Backup is not available in all Amazon Web
+  Services Regions where Amazon EFS is available.
 - `"Encrypted"`: A Boolean value that, if true, creates an encrypted file system. When
   creating an encrypted file system, you have the option of specifying an existing Key
   Management Service key (KMS key). If you don't specify a KMS key, then the default KMS key
@@ -147,17 +156,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
     If you use KmsKeyId, you must set the CreateFileSystemRequestEncrypted parameter to true.
    EFS accepts only symmetric KMS keys. You cannot use asymmetric KMS keys with Amazon EFS
   file systems.
-- `"PerformanceMode"`: The performance mode of the file system. We recommend generalPurpose
-  performance mode for most file systems. File systems using the maxIO performance mode can
+- `"PerformanceMode"`: The Performance mode of the file system. We recommend generalPurpose
+  performance mode for all file systems. File systems using the maxIO performance mode can
   scale to higher levels of aggregate throughput and operations per second with a tradeoff of
   slightly higher latencies for most file operations. The performance mode can't be changed
-  after the file system has been created.  The maxIO mode is not supported on file systems
-  using One Zone storage classes.
-- `"ProvisionedThroughputInMibps"`: The throughput, measured in MiB/s, that you want to
-  provision for a file system that you're creating. Valid values are 1-1024. Required if
-  ThroughputMode is set to provisioned. The upper limit for throughput is 1024 MiB/s. To
-  increase this limit, contact Amazon Web Services Support. For more information, see Amazon
-  EFS quotas that you can increase in the Amazon EFS User Guide.
+  after the file system has been created. The maxIO mode is not supported on One Zone file
+  systems.  Due to the higher per-operation latencies with Max I/O, we recommend using
+  General Purpose performance mode for all file systems.  Default is generalPurpose.
+- `"ProvisionedThroughputInMibps"`: The throughput, measured in mebibytes per second
+  (MiBps), that you want to provision for a file system that you're creating. Required if
+  ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper limit
+  depending on Region. To increase this limit, contact Amazon Web Services Support. For more
+  information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
 - `"Tags"`: Use to create one or more tags associated with the file system. Each tag is a
   user-defined key-value pair. Name your file system on creation by including a
   \"Key\":\"Name\",\"Value\":\"{value}\" key-value pair. Each key must be unique. For more
@@ -166,21 +176,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ThroughputMode"`: Specifies the throughput mode for the file system. The mode can be
   bursting, provisioned, or elastic. If you set ThroughputMode to provisioned, you must also
   set a value for ProvisionedThroughputInMibps. After you create the file system, you can
-  decrease your file system's throughput in Provisioned Throughput mode or change between the
-  throughput modes, with certain time restrictions. For more information, see Specifying
-  throughput with provisioned mode in the Amazon EFS User Guide.  Default is bursting.
+  decrease your file system's Provisioned throughput or change between the throughput modes,
+  with certain time restrictions. For more information, see Specifying throughput with
+  provisioned mode in the Amazon EFS User Guide.  Default is bursting.
 """
-function create_file_system(
-    CreationToken; aws_config::AbstractAWSConfig=global_aws_config()
+create_file_system(CreationToken; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "POST",
+    "/2015-02-01/file-systems",
+    Dict{String,Any}("CreationToken" => CreationToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "POST",
-        "/2015-02-01/file-systems",
-        Dict{String,Any}("CreationToken" => CreationToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_file_system(
     CreationToken,
     params::AbstractDict{String};
@@ -207,62 +213,61 @@ Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone sh
 single mount target for a given file system. If you have multiple subnets in an
 Availability Zone, you create a mount target in one of the subnets. EC2 instances do not
 need to be in the same subnet as the mount target in order to access their file system. You
-can create only one mount target for an EFS file system using One Zone storage classes. You
-must create that mount target in the same Availability Zone in which the file system is
-located. Use the AvailabilityZoneName and AvailabiltyZoneId properties in the
-DescribeFileSystems response object to get this information. Use the subnetId associated
-with the file system's Availability Zone when creating the mount target. For more
-information, see Amazon EFS: How it Works.  To create a mount target for a file system, the
-file system's lifecycle state must be available. For more information, see
-DescribeFileSystems. In the request, provide the following:   The file system ID for which
-you are creating the mount target.   A subnet ID, which determines the following:   The VPC
-in which Amazon EFS creates the mount target   The Availability Zone in which Amazon EFS
-creates the mount target   The IP address range from which Amazon EFS selects the IP
-address of the mount target (if you don't specify an IP address in the request)     After
-creating the mount target, Amazon EFS returns a response that includes, a MountTargetId and
-an IpAddress. You use this IP address when mounting the file system in an EC2 instance. You
-can also use the mount target's DNS name when mounting the file system. The EC2 instance on
-which you mount the file system by using the mount target can resolve the mount target's
-DNS name to its IP address. For more information, see How it Works: Implementation
-Overview.  Note that you can create mount targets for a file system in only one VPC, and
-there can be only one mount target per Availability Zone. That is, if the file system
-already has one or more mount targets created for it, the subnet specified in the request
-to add another mount target must meet the following requirements:   Must belong to the same
-VPC as the subnets of the existing mount targets   Must not be in the same Availability
-Zone as any of the subnets of the existing mount targets   If the request satisfies the
-requirements, Amazon EFS does the following:   Creates a new mount target in the specified
-subnet.   Also creates a new network interface in the subnet as follows:   If the request
-provides an IpAddress, Amazon EFS assigns that IP address to the network interface.
-Otherwise, Amazon EFS assigns a free address in the subnet (in the same way that the Amazon
-EC2 CreateNetworkInterface call does when a request does not specify a primary private IP
-address).   If the request provides SecurityGroups, this network interface is associated
-with those security groups. Otherwise, it belongs to the default security group for the
-subnet's VPC.   Assigns the description Mount target fsmt-id for file system fs-id  where
-fsmt-id  is the mount target ID, and  fs-id  is the FileSystemId.   Sets the
-requesterManaged property of the network interface to true, and the requesterId value to
-EFS.   Each Amazon EFS mount target has one corresponding requester-managed EC2 network
-interface. After the network interface is created, Amazon EFS sets the NetworkInterfaceId
-field in the mount target's description to the network interface ID, and the IpAddress
-field to its address. If network interface creation fails, the entire CreateMountTarget
-operation fails.    The CreateMountTarget call returns only after creating the network
-interface, but while the mount target state is still creating, you can check the mount
-target creation status by calling the DescribeMountTargets operation, which among other
-things returns the mount target state.  We recommend that you create a mount target in each
-of the Availability Zones. There are cost considerations for using a file system in an
-Availability Zone through a mount target created in another Availability Zone. For more
-information, see Amazon EFS. In addition, by always using a mount target local to the
-instance's Availability Zone, you eliminate a partial failure scenario. If the Availability
-Zone in which your mount target is created goes down, then you can't access your file
-system through that mount target.  This operation requires permissions for the following
-action on the file system:    elasticfilesystem:CreateMountTarget    This operation also
-requires permissions for the following Amazon EC2 actions:    ec2:DescribeSubnets
-ec2:DescribeNetworkInterfaces     ec2:CreateNetworkInterface
+can create only one mount target for a One Zone file system. You must create that mount
+target in the same Availability Zone in which the file system is located. Use the
+AvailabilityZoneName and AvailabiltyZoneId properties in the DescribeFileSystems response
+object to get this information. Use the subnetId associated with the file system's
+Availability Zone when creating the mount target. For more information, see Amazon EFS: How
+it Works.  To create a mount target for a file system, the file system's lifecycle state
+must be available. For more information, see DescribeFileSystems. In the request, provide
+the following:   The file system ID for which you are creating the mount target.   A subnet
+ID, which determines the following:   The VPC in which Amazon EFS creates the mount target
+ The Availability Zone in which Amazon EFS creates the mount target   The IP address range
+from which Amazon EFS selects the IP address of the mount target (if you don't specify an
+IP address in the request)     After creating the mount target, Amazon EFS returns a
+response that includes, a MountTargetId and an IpAddress. You use this IP address when
+mounting the file system in an EC2 instance. You can also use the mount target's DNS name
+when mounting the file system. The EC2 instance on which you mount the file system by using
+the mount target can resolve the mount target's DNS name to its IP address. For more
+information, see How it Works: Implementation Overview.  Note that you can create mount
+targets for a file system in only one VPC, and there can be only one mount target per
+Availability Zone. That is, if the file system already has one or more mount targets
+created for it, the subnet specified in the request to add another mount target must meet
+the following requirements:   Must belong to the same VPC as the subnets of the existing
+mount targets   Must not be in the same Availability Zone as any of the subnets of the
+existing mount targets   If the request satisfies the requirements, Amazon EFS does the
+following:   Creates a new mount target in the specified subnet.   Also creates a new
+network interface in the subnet as follows:   If the request provides an IpAddress, Amazon
+EFS assigns that IP address to the network interface. Otherwise, Amazon EFS assigns a free
+address in the subnet (in the same way that the Amazon EC2 CreateNetworkInterface call does
+when a request does not specify a primary private IP address).   If the request provides
+SecurityGroups, this network interface is associated with those security groups. Otherwise,
+it belongs to the default security group for the subnet's VPC.   Assigns the description
+Mount target fsmt-id for file system fs-id  where  fsmt-id  is the mount target ID, and
+fs-id  is the FileSystemId.   Sets the requesterManaged property of the network interface
+to true, and the requesterId value to EFS.   Each Amazon EFS mount target has one
+corresponding requester-managed EC2 network interface. After the network interface is
+created, Amazon EFS sets the NetworkInterfaceId field in the mount target's description to
+the network interface ID, and the IpAddress field to its address. If network interface
+creation fails, the entire CreateMountTarget operation fails.    The CreateMountTarget call
+returns only after creating the network interface, but while the mount target state is
+still creating, you can check the mount target creation status by calling the
+DescribeMountTargets operation, which among other things returns the mount target state.
+We recommend that you create a mount target in each of the Availability Zones. There are
+cost considerations for using a file system in an Availability Zone through a mount target
+created in another Availability Zone. For more information, see Amazon EFS. In addition, by
+always using a mount target local to the instance's Availability Zone, you eliminate a
+partial failure scenario. If the Availability Zone in which your mount target is created
+goes down, then you can't access your file system through that mount target.  This
+operation requires permissions for the following action on the file system:
+elasticfilesystem:CreateMountTarget    This operation also requires permissions for the
+following Amazon EC2 actions:    ec2:DescribeSubnets     ec2:DescribeNetworkInterfaces
+ec2:CreateNetworkInterface
 
 # Arguments
 - `file_system_id`: The ID of the file system for which to create the mount target.
-- `subnet_id`: The ID of the subnet to add the mount target in. For file systems that use
-  One Zone storage classes, use the subnet that is associated with the file system's
-  Availability Zone.
+- `subnet_id`: The ID of the subnet to add the mount target in. For One Zone file systems,
+  use the subnet that is associated with the file system's Availability Zone.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -270,17 +275,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityGroups"`: Up to five VPC security group IDs, of the form sg-xxxxxxxx. These
   must be for the same VPC as subnet specified.
 """
-function create_mount_target(
+create_mount_target(
     FileSystemId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "POST",
+    "/2015-02-01/mount-targets",
+    Dict{String,Any}("FileSystemId" => FileSystemId, "SubnetId" => SubnetId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "POST",
-        "/2015-02-01/mount-targets",
-        Dict{String,Any}("FileSystemId" => FileSystemId, "SubnetId" => SubnetId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_mount_target(
     FileSystemId,
     SubnetId,
@@ -308,35 +311,38 @@ end
 
 Creates a replication configuration that replicates an existing EFS file system to a new,
 read-only file system. For more information, see Amazon EFS replication in the Amazon EFS
-User Guide. The replication configuration specifies the following:    Source file system -
-An existing EFS file system that you want replicated. The source file system cannot be a
-destination file system in an existing replication configuration.    Destination file
-system configuration - The configuration of the destination file system to which the source
-file system will be replicated. There can only be one destination file system in a
-replication configuration. The destination file system configuration consists of the
-following properties:    Amazon Web Services Region - The Amazon Web Services Region in
-which the destination file system is created. Amazon EFS replication is available in all
-Amazon Web Services Regions that Amazon EFS is available in, except Africa (Cape Town),
-Asia Pacific (Hong Kong), Asia Pacific (Jakarta), Europe (Milan), and Middle East
-(Bahrain).    Availability Zone - If you want the destination file system to use EFS One
-Zone availability and durability, you must specify the Availability Zone to create the file
-system in. For more information about EFS storage classes, see  Amazon EFS storage classes
-in the Amazon EFS User Guide.    Encryption - All destination file systems are created with
-encryption at rest enabled. You can specify the Key Management Service (KMS) key that is
-used to encrypt the destination file system. If you don't specify a KMS key, your
-service-managed KMS key for Amazon EFS is used.   After the file system is created, you
-cannot change the KMS key.      The following properties are set by default:    Performance
-mode - The destination file system's performance mode matches that of the source file
-system, unless the destination file system uses EFS One Zone storage. In that case, the
-General Purpose performance mode is used. The performance mode cannot be changed.
-Throughput mode - The destination file system's throughput mode matches that of the source
-file system. After the file system is created, you can modify the throughput mode.   The
-following properties are turned off by default:    Lifecycle management - EFS lifecycle
-management and EFS Intelligent-Tiering are not enabled on the destination file system.
-After the destination file system is created, you can enable EFS lifecycle management and
-EFS Intelligent-Tiering.    Automatic backups - Automatic daily backups not enabled on the
-destination file system. After the file system is created, you can change this setting.
-For more information, see Amazon EFS replication in the Amazon EFS User Guide.
+User Guide. The replication configuration specifies the following:    Source file system
+– The EFS file system that you want replicated. The source file system cannot be a
+destination file system in an existing replication configuration.    Amazon Web Services
+Region – The Amazon Web Services Region in which the destination file system is created.
+Amazon EFS replication is available in all Amazon Web Services Regions in which EFS is
+available. The Region must be enabled. For more information, see Managing Amazon Web
+Services Regions in the Amazon Web Services General Reference Reference Guide.
+Destination file system configuration – The configuration of the destination file system
+to which the source file system will be replicated. There can only be one destination file
+system in a replication configuration.  Parameters for the replication configuration
+include:    File system ID – The ID of the destination file system for the replication.
+If no ID is provided, then EFS creates a new file system with the default settings. For
+existing file systems, the file system's replication overwrite protection must be disabled.
+For more information, see  Replicating to an existing file system.    Availability Zone –
+If you want the destination file system to use One Zone storage, you must specify the
+Availability Zone to create the file system in. For more information, see  EFS file system
+types in the Amazon EFS User Guide.    Encryption – All destination file systems are
+created with encryption at rest enabled. You can specify the Key Management Service (KMS)
+key that is used to encrypt the destination file system. If you don't specify a KMS key,
+your service-managed KMS key for Amazon EFS is used.   After the file system is created,
+you cannot change the KMS key.       After the file system is created, you cannot change
+the KMS key.  For new destination file systems, the following properties are set by
+default:    Performance mode - The destination file system's performance mode matches that
+of the source file system, unless the destination file system uses EFS One Zone storage. In
+that case, the General Purpose performance mode is used. The performance mode cannot be
+changed.    Throughput mode - The destination file system's throughput mode matches that of
+the source file system. After the file system is created, you can modify the throughput
+mode.      Lifecycle management – Lifecycle management is not enabled on the destination
+file system. After the destination file system is created, you can enable lifecycle
+management.    Automatic backups – Automatic daily backups are enabled on the destination
+file system. After the file system is created, you can change this setting.   For more
+information, see Amazon EFS replication in the Amazon EFS User Guide.
 
 # Arguments
 - `destinations`: An array of destination configuration objects. Only one destination
@@ -346,17 +352,15 @@ For more information, see Amazon EFS replication in the Amazon EFS User Guide.
   replication configuration.
 
 """
-function create_replication_configuration(
+create_replication_configuration(
     Destinations, SourceFileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "POST",
+    "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration",
+    Dict{String,Any}("Destinations" => Destinations);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "POST",
-        "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration",
-        Dict{String,Any}("Destinations" => Destinations);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_replication_configuration(
     Destinations,
     SourceFileSystemId,
@@ -392,15 +396,13 @@ elasticfilesystem:CreateTags action.
 - `tags`: An array of Tag objects to add. Each Tag object is a key-value pair.
 
 """
-function create_tags(FileSystemId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "POST",
-        "/2015-02-01/create-tags/$(FileSystemId)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_tags(FileSystemId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "POST",
+    "/2015-02-01/create-tags/$(FileSystemId)",
+    Dict{String,Any}("Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_tags(
     FileSystemId,
     Tags,
@@ -429,16 +431,12 @@ permissions for the elasticfilesystem:DeleteAccessPoint action.
 - `access_point_id`: The ID of the access point that you want to delete.
 
 """
-function delete_access_point(
-    AccessPointId; aws_config::AbstractAWSConfig=global_aws_config()
+delete_access_point(AccessPointId; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "DELETE",
+    "/2015-02-01/access-points/$(AccessPointId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "DELETE",
-        "/2015-02-01/access-points/$(AccessPointId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_access_point(
     AccessPointId,
     params::AbstractDict{String};
@@ -476,14 +474,12 @@ elasticfilesystem:DeleteFileSystem action.
 - `file_system_id`: The ID of the file system you want to delete.
 
 """
-function delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "DELETE",
-        "/2015-02-01/file-systems/$(FileSystemId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "DELETE",
+    "/2015-02-01/file-systems/$(FileSystemId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_file_system(
     FileSystemId,
     params::AbstractDict{String};
@@ -511,16 +507,13 @@ requires permissions for the elasticfilesystem:DeleteFileSystemPolicy action.
 - `file_system_id`: Specifies the EFS file system for which to delete the FileSystemPolicy.
 
 """
-function delete_file_system_policy(
-    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return efs(
+delete_file_system_policy(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    efs(
         "DELETE",
         "/2015-02-01/file-systems/$(FileSystemId)/policy";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_file_system_policy(
     FileSystemId,
     params::AbstractDict{String};
@@ -557,16 +550,12 @@ action on the mount target's network interface:    ec2:DeleteNetworkInterface
 - `mount_target_id`: The ID of the mount target to delete (String).
 
 """
-function delete_mount_target(
-    MountTargetId; aws_config::AbstractAWSConfig=global_aws_config()
+delete_mount_target(MountTargetId; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "DELETE",
+    "/2015-02-01/mount-targets/$(MountTargetId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "DELETE",
-        "/2015-02-01/mount-targets/$(MountTargetId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_mount_target(
     MountTargetId,
     params::AbstractDict{String};
@@ -585,27 +574,25 @@ end
     delete_replication_configuration(source_file_system_id)
     delete_replication_configuration(source_file_system_id, params::Dict{String,<:Any})
 
-Deletes an existing replication configuration. To delete a replication configuration, you
-must make the request from the Amazon Web Services Region in which the destination file
-system is located. Deleting a replication configuration ends the replication process. After
-a replication configuration is deleted, the destination file system is no longer read-only.
-You can write to the destination file system after its status becomes Writeable.
+Deletes a replication configuration. Deleting a replication configuration ends the
+replication process. After a replication configuration is deleted, the destination file
+system becomes Writeable and its replication overwrite protection is re-enabled. For more
+information, see Delete a replication configuration. This operation requires permissions
+for the elasticfilesystem:DeleteReplicationConfiguration action.
 
 # Arguments
 - `source_file_system_id`: The ID of the source file system in the replication
   configuration.
 
 """
-function delete_replication_configuration(
+delete_replication_configuration(
     SourceFileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "DELETE",
+    "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "DELETE",
-        "/2015-02-01/file-systems/$(SourceFileSystemId)/replication-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_replication_configuration(
     SourceFileSystemId,
     params::AbstractDict{String};
@@ -636,17 +623,13 @@ permissions for the elasticfilesystem:DeleteTags action.
 - `tag_keys`: A list of tag keys to delete.
 
 """
-function delete_tags(
-    FileSystemId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+delete_tags(FileSystemId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "POST",
+    "/2015-02-01/delete-tags/$(FileSystemId)",
+    Dict{String,Any}("TagKeys" => TagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "POST",
-        "/2015-02-01/delete-tags/$(FileSystemId)",
-        Dict{String,Any}("TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_tags(
     FileSystemId,
     TagKeys,
@@ -684,14 +667,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  NextToken is present if the response is paginated. You can use NextMarker
   in the subsequent request to fetch the next page of access point descriptions.
 """
-function describe_access_points(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "GET",
-        "/2015-02-01/access-points";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_access_points(; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "GET",
+    "/2015-02-01/access-points";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_access_points(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -709,8 +690,7 @@ end
     describe_account_preferences(params::Dict{String,<:Any})
 
 Returns the account preferences settings for the Amazon Web Services account associated
-with the user making the request, in the current Amazon Web Services Region. For more
-information, see Managing Amazon EFS resource IDs.
+with the user making the request, in the current Amazon Web Services Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -720,14 +700,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: (Optional) You can use NextToken in a subsequent request to fetch the next
   page of Amazon Web Services account preferences if the response payload was paginated.
 """
-function describe_account_preferences(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "GET",
-        "/2015-02-01/account-preferences";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_account_preferences(; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "GET",
+    "/2015-02-01/account-preferences";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_account_preferences(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -747,19 +725,16 @@ end
 Returns the backup policy for the specified EFS file system.
 
 # Arguments
-- `file_system_id`: Specifies which EFS file system to retrieve the BackupPolicy for.
+- `file_system_id`: Specifies which EFS file system for which to retrieve the BackupPolicy.
 
 """
-function describe_backup_policy(
-    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return efs(
+describe_backup_policy(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    efs(
         "GET",
         "/2015-02-01/file-systems/$(FileSystemId)/backup-policy";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_backup_policy(
     FileSystemId,
     params::AbstractDict{String};
@@ -785,16 +760,14 @@ permissions for the elasticfilesystem:DescribeFileSystemPolicy action.
 - `file_system_id`: Specifies which EFS file system to retrieve the FileSystemPolicy for.
 
 """
-function describe_file_system_policy(
+describe_file_system_policy(
     FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "GET",
+    "/2015-02-01/file-systems/$(FileSystemId)/policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "GET",
-        "/2015-02-01/file-systems/$(FileSystemId)/policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_file_system_policy(
     FileSystemId,
     params::AbstractDict{String};
@@ -842,14 +815,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response (integer). This number is automatically set to 100. The response is paginated at
   100 per page if you have more than 100 file systems.
 """
-function describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "GET",
-        "/2015-02-01/file-systems";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "GET",
+    "/2015-02-01/file-systems";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_file_systems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -867,11 +838,9 @@ end
     describe_lifecycle_configuration(file_system_id, params::Dict{String,<:Any})
 
 Returns the current LifecycleConfiguration object for the specified Amazon EFS file system.
-EFS lifecycle management uses the LifecycleConfiguration object to identify which files to
-move to the EFS Infrequent Access (IA) storage class. For a file system without a
-LifecycleConfiguration object, the call returns an empty array in the response. When EFS
-Intelligent-Tiering is enabled, TransitionToPrimaryStorageClass has a value of
-AFTER_1_ACCESS. This operation requires permissions for the
+Lifecycle management uses the LifecycleConfiguration object to identify when to move files
+between storage classes. For a file system without a LifecycleConfiguration object, the
+call returns an empty array in the response. This operation requires permissions for the
 elasticfilesystem:DescribeLifecycleConfiguration operation.
 
 # Arguments
@@ -879,16 +848,14 @@ elasticfilesystem:DescribeLifecycleConfiguration operation.
   to retrieve (String).
 
 """
-function describe_lifecycle_configuration(
+describe_lifecycle_configuration(
     FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "GET",
+    "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "GET",
-        "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_lifecycle_configuration(
     FileSystemId,
     params::AbstractDict{String};
@@ -918,16 +885,14 @@ target's network interface.
 - `mount_target_id`: The ID of the mount target whose security groups you want to retrieve.
 
 """
-function describe_mount_target_security_groups(
+describe_mount_target_security_groups(
     MountTargetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "GET",
+    "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "GET",
-        "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_mount_target_security_groups(
     MountTargetId,
     params::AbstractDict{String};
@@ -971,14 +936,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (String). It must be included in your request if FileSystemId is not included. Accepts
   either a mount target ID or ARN as input.
 """
-function describe_mount_targets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "GET",
-        "/2015-02-01/mount-targets";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_mount_targets(; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "GET",
+    "/2015-02-01/mount-targets";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_mount_targets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1008,16 +971,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:  NextToken is present if the response is paginated. You can use NextToken
   in a subsequent request to fetch the next page of output.
 """
-function describe_replication_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return efs(
+describe_replication_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    efs(
         "GET",
         "/2015-02-01/file-systems/replication-configurations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_replication_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1053,14 +1013,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. Currently, this number is automatically set to 100, and other values are ignored.
   The response is paginated at 100 per page if you have more than 100 tags.
 """
-function describe_tags(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "GET",
-        "/2015-02-01/tags/$(FileSystemId)/";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_tags(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "GET",
+    "/2015-02-01/tags/$(FileSystemId)/";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_tags(
     FileSystemId,
     params::AbstractDict{String};
@@ -1094,16 +1052,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: (Optional) You can use NextToken in a subsequent request to fetch the next
   page of access point descriptions if the response payload was paginated.
 """
-function list_tags_for_resource(
-    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+list_tags_for_resource(ResourceId; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "GET",
+    "/2015-02-01/resource-tags/$(ResourceId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "GET",
-        "/2015-02-01/resource-tags/$(ResourceId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_tags_for_resource(
     ResourceId,
     params::AbstractDict{String};
@@ -1139,16 +1093,14 @@ target's network interface.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SecurityGroups"`: An array of up to five VPC security group IDs.
 """
-function modify_mount_target_security_groups(
+modify_mount_target_security_groups(
     MountTargetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "PUT",
+    "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "PUT",
-        "/2015-02-01/mount-targets/$(MountTargetId)/security-groups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function modify_mount_target_security_groups(
     MountTargetId,
     params::AbstractDict{String};
@@ -1184,17 +1136,14 @@ receive an error and must use short IDs for file system and mount target resourc
   if you receive an error and must use short IDs for file system and mount target resources.
 
 """
-function put_account_preferences(
-    ResourceIdType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return efs(
+put_account_preferences(ResourceIdType; aws_config::AbstractAWSConfig=global_aws_config()) =
+    efs(
         "PUT",
         "/2015-02-01/account-preferences",
         Dict{String,Any}("ResourceIdType" => ResourceIdType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_account_preferences(
     ResourceIdType,
     params::AbstractDict{String};
@@ -1223,17 +1172,15 @@ of the file system.
 - `file_system_id`: Specifies which EFS file system to update the backup policy for.
 
 """
-function put_backup_policy(
+put_backup_policy(
     BackupPolicy, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "PUT",
+    "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
+    Dict{String,Any}("BackupPolicy" => BackupPolicy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "PUT",
-        "/2015-02-01/file-systems/$(FileSystemId)/backup-policy",
-        Dict{String,Any}("BackupPolicy" => BackupPolicy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_backup_policy(
     BackupPolicy,
     FileSystemId,
@@ -1281,17 +1228,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that is making the request from making subsequent PutFileSystemPolicy requests on this file
   system. The default value is False.
 """
-function put_file_system_policy(
+put_file_system_policy(
     FileSystemId, Policy; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "PUT",
+    "/2015-02-01/file-systems/$(FileSystemId)/policy",
+    Dict{String,Any}("Policy" => Policy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "PUT",
-        "/2015-02-01/file-systems/$(FileSystemId)/policy",
-        Dict{String,Any}("Policy" => Policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_file_system_policy(
     FileSystemId,
     Policy,
@@ -1311,58 +1256,64 @@ end
     put_lifecycle_configuration(file_system_id, lifecycle_policies)
     put_lifecycle_configuration(file_system_id, lifecycle_policies, params::Dict{String,<:Any})
 
-Use this action to manage EFS lifecycle management and EFS Intelligent-Tiering. A
-LifecycleConfiguration consists of one or more LifecyclePolicy objects that define the
-following:    EFS Lifecycle management - When Amazon EFS automatically transitions files in
-a file system into the lower-cost EFS Infrequent Access (IA) storage class. To enable EFS
-Lifecycle management, set the value of TransitionToIA to one of the available options.
-EFS Intelligent-Tiering - When Amazon EFS automatically transitions files from IA back into
-the file system's primary storage class (EFS Standard or EFS One Zone Standard). To enable
-EFS Intelligent-Tiering, set the value of TransitionToPrimaryStorageClass to
-AFTER_1_ACCESS.   For more information, see EFS Lifecycle Management. Each Amazon EFS file
-system supports one lifecycle configuration, which applies to all files in the file system.
-If a LifecycleConfiguration object already exists for the specified file system, a
+Use this action to manage storage for your file system. A LifecycleConfiguration consists
+of one or more LifecyclePolicy objects that define the following:     TransitionToIA  –
+When to move files in the file system from primary storage (Standard storage class) into
+the Infrequent Access (IA) storage.     TransitionToArchive  – When to move files in the
+file system from their current storage class (either IA or Standard storage) into the
+Archive storage. File systems cannot transition into Archive storage before transitioning
+into IA storage. Therefore, TransitionToArchive must either not be set or must be later
+than TransitionToIA.   The Archive storage class is available only for file systems that
+use the Elastic Throughput mode and the General Purpose Performance mode.
+TransitionToPrimaryStorageClass  – Whether to move files in the file system back to
+primary storage (Standard storage class) after they are accessed in IA or Archive storage.
+ For more information, see  Managing file system storage. Each Amazon EFS file system
+supports one lifecycle configuration, which applies to all files in the file system. If a
+LifecycleConfiguration object already exists for the specified file system, a
 PutLifecycleConfiguration call modifies the existing configuration. A
 PutLifecycleConfiguration call with an empty LifecyclePolicies array in the request body
-deletes any existing LifecycleConfiguration and turns off lifecycle management and EFS
-Intelligent-Tiering for the file system. In the request, specify the following:    The ID
-for the file system for which you are enabling, disabling, or modifying lifecycle
-management and EFS Intelligent-Tiering.   A LifecyclePolicies array of LifecyclePolicy
-objects that define when files are moved into IA storage, and when they are moved back to
-Standard storage.  Amazon EFS requires that each LifecyclePolicy object have only have a
-single transition, so the LifecyclePolicies array needs to be structured with separate
-LifecyclePolicy objects. See the example requests in the following section for more
-information.    This operation requires permissions for the
-elasticfilesystem:PutLifecycleConfiguration operation. To apply a LifecycleConfiguration
-object to an encrypted file system, you need the same Key Management Service permissions as
-when you created the encrypted file system.
+deletes any existing LifecycleConfiguration. In the request, specify the following:    The
+ID for the file system for which you are enabling, disabling, or modifying Lifecycle
+management.   A LifecyclePolicies array of LifecyclePolicy objects that define when to move
+files to IA storage, to Archive storage, and back to primary storage.  Amazon EFS requires
+that each LifecyclePolicy object have only have a single transition, so the
+LifecyclePolicies array needs to be structured with separate LifecyclePolicy objects. See
+the example requests in the following section for more information.    This operation
+requires permissions for the elasticfilesystem:PutLifecycleConfiguration operation. To
+apply a LifecycleConfiguration object to an encrypted file system, you need the same Key
+Management Service permissions as when you created the encrypted file system.
 
 # Arguments
 - `file_system_id`: The ID of the file system for which you are creating the
   LifecycleConfiguration object (String).
 - `lifecycle_policies`: An array of LifecyclePolicy objects that define the file system's
-  LifecycleConfiguration object. A LifecycleConfiguration object informs EFS lifecycle
-  management and EFS Intelligent-Tiering of the following:   When to move files in the file
-  system from primary storage to the IA storage class.   When to move files that are in IA
-  storage to primary storage.    When using the put-lifecycle-configuration CLI command or
-  the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy
-  object have only a single transition. This means that in a request body, LifecyclePolicies
-  must be structured as an array of LifecyclePolicy objects, one object for each transition,
-  TransitionToIA, TransitionToPrimaryStorageClass. See the example requests in the following
+  LifecycleConfiguration object. A LifecycleConfiguration object informs EFS Lifecycle
+  management of the following:     TransitionToIA  – When to move files in the file system
+  from primary storage (Standard storage class) into the Infrequent Access (IA) storage.
+  TransitionToArchive  – When to move files in the file system from their current storage
+  class (either IA or Standard storage) into the Archive storage. File systems cannot
+  transition into Archive storage before transitioning into IA storage. Therefore,
+  TransitionToArchive must either not be set or must be later than TransitionToIA.   The
+  Archive storage class is available only for file systems that use the Elastic Throughput
+  mode and the General Purpose Performance mode.       TransitionToPrimaryStorageClass  –
+  Whether to move files in the file system back to primary storage (Standard storage class)
+  after they are accessed in IA or Archive storage.    When using the
+  put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon
+  EFS requires that each LifecyclePolicy object have only a single transition. This means
+  that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy
+  objects, one object for each storage transition. See the example requests in the following
   section for more information.
 
 """
-function put_lifecycle_configuration(
+put_lifecycle_configuration(
     FileSystemId, LifecyclePolicies; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "PUT",
+    "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
+    Dict{String,Any}("LifecyclePolicies" => LifecyclePolicies);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return efs(
-        "PUT",
-        "/2015-02-01/file-systems/$(FileSystemId)/lifecycle-configuration",
-        Dict{String,Any}("LifecyclePolicies" => LifecyclePolicies);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_lifecycle_configuration(
     FileSystemId,
     LifecyclePolicies,
@@ -1395,15 +1346,13 @@ elasticfilesystem:TagResource action.
 - `tags`: An array of Tag objects to add. Each Tag object is a key-value pair.
 
 """
-function tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "POST",
-        "/2015-02-01/resource-tags/$(ResourceId)",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(ResourceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "POST",
+    "/2015-02-01/resource-tags/$(ResourceId)",
+    Dict{String,Any}("Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     ResourceId,
     Tags,
@@ -1433,17 +1382,14 @@ elasticfilesystem:UntagResource action.
   specified EFS resource.
 
 """
-function untag_resource(
-    ResourceId, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return efs(
+untag_resource(ResourceId, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    efs(
         "DELETE",
         "/2015-02-01/resource-tags/$(ResourceId)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceId,
     tagKeys,
@@ -1471,23 +1417,22 @@ system.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ProvisionedThroughputInMibps"`: (Optional) Sets the amount of provisioned throughput,
-  in MiB/s, for the file system. Valid values are 1-1024. If you are changing the throughput
-  mode to provisioned, you must also provide the amount of provisioned throughput. Required
-  if ThroughputMode is changed to provisioned on update.
+- `"ProvisionedThroughputInMibps"`: (Optional) The throughput, measured in mebibytes per
+  second (MiBps), that you want to provision for a file system that you're creating. Required
+  if ThroughputMode is set to provisioned. Valid values are 1-3414 MiBps, with the upper
+  limit depending on Region. To increase this limit, contact Amazon Web Services Support. For
+  more information, see Amazon EFS quotas that you can increase in the Amazon EFS User Guide.
 - `"ThroughputMode"`: (Optional) Updates the file system's throughput mode. If you're not
   updating your throughput mode, you don't need to provide this value in your request. If you
   are changing the ThroughputMode to provisioned, you must also set a value for
   ProvisionedThroughputInMibps.
 """
-function update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return efs(
-        "PUT",
-        "/2015-02-01/file-systems/$(FileSystemId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = efs(
+    "PUT",
+    "/2015-02-01/file-systems/$(FileSystemId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_file_system(
     FileSystemId,
     params::AbstractDict{String};
@@ -1496,6 +1441,51 @@ function update_file_system(
     return efs(
         "PUT",
         "/2015-02-01/file-systems/$(FileSystemId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_file_system_protection(file_system_id)
+    update_file_system_protection(file_system_id, params::Dict{String,<:Any})
+
+Updates protection on the file system. This operation requires permissions for the
+elasticfilesystem:UpdateFileSystemProtection action.
+
+# Arguments
+- `file_system_id`: The ID of the file system to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ReplicationOverwriteProtection"`: The status of the file system's replication overwrite
+  protection.    ENABLED – The file system cannot be used as the destination file system in
+  a replication configuration. The file system is writeable. Replication overwrite protection
+  is ENABLED by default.     DISABLED – The file system can be used as the destination file
+  system in a replication configuration. The file system is read-only and can only be
+  modified by EFS replication.    REPLICATING – The file system is being used as the
+  destination file system in a replication configuration. The file system is read-only and is
+  only modified only by EFS replication.   If the replication configuration is deleted, the
+  file system's replication overwrite protection is re-enabled, the file system becomes
+  writeable.
+"""
+update_file_system_protection(
+    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = efs(
+    "PUT",
+    "/2015-02-01/file-systems/$(FileSystemId)/protection";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_file_system_protection(
+    FileSystemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return efs(
+        "PUT",
+        "/2015-02-01/file-systems/$(FileSystemId)/protection",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

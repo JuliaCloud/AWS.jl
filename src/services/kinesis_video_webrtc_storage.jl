@@ -26,15 +26,14 @@ producing device, the most recent client request takes precedence.
 - `channel_arn`:  The Amazon Resource Name (ARN) of the signaling channel.
 
 """
-function join_storage_session(channelArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_video_webrtc_storage(
+join_storage_session(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_video_webrtc_storage(
         "POST",
         "/joinStorageSession",
         Dict{String,Any}("channelArn" => channelArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function join_storage_session(
     channelArn,
     params::AbstractDict{String};

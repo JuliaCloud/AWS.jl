@@ -15,8 +15,8 @@ have specific tags.    Actions: The actions to carry out on the target. You can 
 multiple actions, the duration of each action, and when to start each action during an
 experiment.    Stop conditions: If a stop condition is triggered while an experiment is
 running, the experiment is automatically stopped. You can define a stop condition as a
-CloudWatch alarm.   For more information, see Experiment templates in the Fault Injection
-Simulator User Guide.
+CloudWatch alarm.   For more information, see experiment templates in the Fault Injection
+Service User Guide.
 
 # Arguments
 - `actions`: The actions for the experiment.
@@ -29,32 +29,31 @@ Simulator User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"experimentOptions"`: The experiment options for the experiment template.
 - `"logConfiguration"`: The configuration for experiment logging.
 - `"tags"`: The tags to apply to the experiment template.
 - `"targets"`: The targets for the experiment.
 """
-function create_experiment_template(
+create_experiment_template(
     actions,
     clientToken,
     description,
     roleArn,
     stopConditions;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = fis(
+    "POST",
+    "/experimentTemplates",
+    Dict{String,Any}(
+        "actions" => actions,
+        "clientToken" => clientToken,
+        "description" => description,
+        "roleArn" => roleArn,
+        "stopConditions" => stopConditions,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fis(
-        "POST",
-        "/experimentTemplates",
-        Dict{String,Any}(
-            "actions" => actions,
-            "clientToken" => clientToken,
-            "description" => description,
-            "roleArn" => roleArn,
-            "stopConditions" => stopConditions,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_experiment_template(
     actions,
     clientToken,
@@ -86,6 +85,57 @@ function create_experiment_template(
 end
 
 """
+    create_target_account_configuration(account_id, id, role_arn)
+    create_target_account_configuration(account_id, id, role_arn, params::Dict{String,<:Any})
+
+Creates a target account configuration for the experiment template. A target account
+configuration is required when accountTargeting of experimentOptions is set to
+multi-account. For more information, see experiment options in the Fault Injection Service
+User Guide.
+
+# Arguments
+- `account_id`: The Amazon Web Services account ID of the target account.
+- `id`: The experiment template ID.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role for the target account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `"description"`: The description of the target account.
+"""
+create_target_account_configuration(
+    accountId, id, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = fis(
+    "POST",
+    "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
+    Dict{String,Any}("roleArn" => roleArn, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_target_account_configuration(
+    accountId,
+    id,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fis(
+        "POST",
+        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("roleArn" => roleArn, "clientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_experiment_template(id)
     delete_experiment_template(id, params::Dict{String,<:Any})
 
@@ -95,20 +145,52 @@ Deletes the specified experiment template.
 - `id`: The ID of the experiment template.
 
 """
-function delete_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "DELETE",
-        "/experimentTemplates/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config()) = fis(
+    "DELETE",
+    "/experimentTemplates/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_experiment_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fis(
         "DELETE",
         "/experimentTemplates/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_target_account_configuration(account_id, id)
+    delete_target_account_configuration(account_id, id, params::Dict{String,<:Any})
+
+Deletes the specified target account configuration of the experiment template.
+
+# Arguments
+- `account_id`: The Amazon Web Services account ID of the target account.
+- `id`: The ID of the experiment template.
+
+"""
+delete_target_account_configuration(
+    accountId, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = fis(
+    "DELETE",
+    "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_target_account_configuration(
+    accountId,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fis(
+        "DELETE",
+        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -125,11 +207,8 @@ Gets information about the specified FIS action.
 - `id`: The ID of the action.
 
 """
-function get_action(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "GET", "/actions/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_action(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fis("GET", "/actions/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_action(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -152,17 +231,48 @@ Gets information about the specified experiment.
 - `id`: The ID of the experiment.
 
 """
-function get_experiment(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "GET", "/experiments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_experiment(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fis("GET", "/experiments/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_experiment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fis(
         "GET",
         "/experiments/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_experiment_target_account_configuration(account_id, id)
+    get_experiment_target_account_configuration(account_id, id, params::Dict{String,<:Any})
+
+Gets information about the specified target account configuration of the experiment.
+
+# Arguments
+- `account_id`: The Amazon Web Services account ID of the target account.
+- `id`: The ID of the experiment.
+
+"""
+get_experiment_target_account_configuration(
+    accountId, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = fis(
+    "GET",
+    "/experiments/$(id)/targetAccountConfigurations/$(accountId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_experiment_target_account_configuration(
+    accountId,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fis(
+        "GET",
+        "/experiments/$(id)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -179,20 +289,53 @@ Gets information about the specified experiment template.
 - `id`: The ID of the experiment template.
 
 """
-function get_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "GET",
-        "/experimentTemplates/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config()) = fis(
+    "GET",
+    "/experimentTemplates/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_experiment_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fis(
         "GET",
         "/experimentTemplates/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_target_account_configuration(account_id, id)
+    get_target_account_configuration(account_id, id, params::Dict{String,<:Any})
+
+Gets information about the specified target account configuration of the experiment
+template.
+
+# Arguments
+- `account_id`: The Amazon Web Services account ID of the target account.
+- `id`: The ID of the experiment template.
+
+"""
+get_target_account_configuration(
+    accountId, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = fis(
+    "GET",
+    "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_target_account_configuration(
+    accountId,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fis(
+        "GET",
+        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -209,16 +352,13 @@ Gets information about the specified resource type.
 - `resource_type`: The resource type.
 
 """
-function get_target_resource_type(
-    resourceType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fis(
+get_target_resource_type(resourceType; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fis(
         "GET",
         "/targetResourceTypes/$(resourceType)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_target_resource_type(
     resourceType,
     params::AbstractDict{String};
@@ -245,14 +385,81 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
 """
-function list_actions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis("GET", "/actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_actions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fis("GET", "/actions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_actions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fis(
         "GET", "/actions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_experiment_resolved_targets(id)
+    list_experiment_resolved_targets(id, params::Dict{String,<:Any})
+
+Lists the resolved targets information of the specified experiment.
+
+# Arguments
+- `id`: The ID of the experiment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"nextToken"`: The token for the next page of results.
+- `"targetName"`: The name of the target.
+"""
+list_experiment_resolved_targets(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fis(
+        "GET",
+        "/experiments/$(id)/resolvedTargets";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_experiment_resolved_targets(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fis(
+        "GET",
+        "/experiments/$(id)/resolvedTargets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_experiment_target_account_configurations(id)
+    list_experiment_target_account_configurations(id, params::Dict{String,<:Any})
+
+Lists the target account configurations of the specified experiment.
+
+# Arguments
+- `id`: The ID of the experiment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: The token for the next page of results.
+"""
+list_experiment_target_account_configurations(
+    id; aws_config::AbstractAWSConfig=global_aws_config()
+) = fis(
+    "GET",
+    "/experiments/$(id)/targetAccountConfigurations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_experiment_target_account_configurations(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fis(
+        "GET",
+        "/experiments/$(id)/targetAccountConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -268,14 +475,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
 """
-function list_experiment_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "GET",
-        "/experimentTemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_experiment_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = fis(
+    "GET",
+    "/experimentTemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_experiment_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -296,15 +501,13 @@ Lists your experiments.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"experimentTemplateId"`: The ID of the experiment template.
 - `"maxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
 """
-function list_experiments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "GET", "/experiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_experiments(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fis("GET", "/experiments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_experiments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -327,16 +530,13 @@ Lists the tags for the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fis(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fis(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -345,6 +545,40 @@ function list_tags_for_resource(
     return fis(
         "GET",
         "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_target_account_configurations(id)
+    list_target_account_configurations(id, params::Dict{String,<:Any})
+
+Lists the target account configurations of the specified experiment template.
+
+# Arguments
+- `id`: The ID of the experiment template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value.
+- `"nextToken"`: The token for the next page of results.
+"""
+list_target_account_configurations(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fis(
+        "GET",
+        "/experimentTemplates/$(id)/targetAccountConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_target_account_configurations(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fis(
+        "GET",
+        "/experimentTemplates/$(id)/targetAccountConfigurations",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -363,14 +597,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the remaining results, make another call with the returned nextToken value.
 - `"nextToken"`: The token for the next page of results.
 """
-function list_target_resource_types(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "GET",
-        "/targetResourceTypes";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_target_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) = fis(
+    "GET",
+    "/targetResourceTypes";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_target_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -396,21 +628,20 @@ Starts running an experiment from the specified experiment template.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"experimentOptions"`: The experiment options for running the experiment.
 - `"tags"`: The tags to apply to the experiment.
 """
-function start_experiment(
+start_experiment(
     clientToken, experimentTemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fis(
+    "POST",
+    "/experiments",
+    Dict{String,Any}(
+        "clientToken" => clientToken, "experimentTemplateId" => experimentTemplateId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fis(
-        "POST",
-        "/experiments",
-        Dict{String,Any}(
-            "clientToken" => clientToken, "experimentTemplateId" => experimentTemplateId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_experiment(
     clientToken,
     experimentTemplateId,
@@ -445,14 +676,12 @@ Stops the specified experiment.
 - `id`: The ID of the experiment.
 
 """
-function stop_experiment(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "DELETE",
-        "/experiments/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_experiment(id; aws_config::AbstractAWSConfig=global_aws_config()) = fis(
+    "DELETE",
+    "/experiments/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_experiment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -476,15 +705,13 @@ Applies the specified tags to the specified resource.
 - `tags`: The tags for the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = fis(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     resourceArn,
     tags,
@@ -513,14 +740,12 @@ Removes the specified tags from the specified resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tagKeys"`: The tag keys to remove.
 """
-function untag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "DELETE",
-        "/tags/$(resourceArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = fis(
+    "DELETE",
+    "/tags/$(resourceArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function untag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -548,26 +773,63 @@ Updates the specified experiment template.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"actions"`: The actions for the experiment.
 - `"description"`: A description for the template.
+- `"experimentOptions"`: The experiment options for the experiment template.
 - `"logConfiguration"`: The configuration for experiment logging.
 - `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role that grants the FIS service
   permission to perform service actions on your behalf.
 - `"stopConditions"`: The stop conditions for the experiment.
 - `"targets"`: The targets for the experiment.
 """
-function update_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return fis(
-        "PATCH",
-        "/experimentTemplates/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_experiment_template(id; aws_config::AbstractAWSConfig=global_aws_config()) = fis(
+    "PATCH",
+    "/experimentTemplates/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_experiment_template(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fis(
         "PATCH",
         "/experimentTemplates/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_target_account_configuration(account_id, id)
+    update_target_account_configuration(account_id, id, params::Dict{String,<:Any})
+
+Updates the target account configuration for the specified experiment template.
+
+# Arguments
+- `account_id`: The Amazon Web Services account ID of the target account.
+- `id`: The ID of the experiment template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The description of the target account.
+- `"roleArn"`: The Amazon Resource Name (ARN) of an IAM role for the target account.
+"""
+update_target_account_configuration(
+    accountId, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = fis(
+    "PATCH",
+    "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_target_account_configuration(
+    accountId,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fis(
+        "PATCH",
+        "/experimentTemplates/$(id)/targetAccountConfigurations/$(accountId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

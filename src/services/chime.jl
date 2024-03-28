@@ -16,17 +16,15 @@ Associates a phone number with the specified Amazon Chime user.
 - `user_id`: The user ID.
 
 """
-function associate_phone_number_with_user(
+associate_phone_number_with_user(
     E164PhoneNumber, accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number",
+    Dict{String,Any}("E164PhoneNumber" => E164PhoneNumber);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=associate-phone-number",
-        Dict{String,Any}("E164PhoneNumber" => E164PhoneNumber);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_phone_number_with_user(
     E164PhoneNumber,
     accountId,
@@ -51,7 +49,11 @@ end
     associate_phone_numbers_with_voice_connector(e164_phone_numbers, voice_connector_id)
     associate_phone_numbers_with_voice_connector(e164_phone_numbers, voice_connector_id, params::Dict{String,<:Any})
 
-Associates phone numbers with the specified Amazon Chime Voice Connector.
+Associates phone numbers with the specified Amazon Chime Voice Connector.   This API is is
+no longer supported and will not be updated. We recommend using the latest version,
+AssociatePhoneNumbersWithVoiceConnector, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `e164_phone_numbers`: List of phone numbers, in E.164 format.
@@ -63,17 +65,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Chime Voice Connector and removes any previously existing associations. If false,
   does not associate any phone numbers that have previously existing associations.
 """
-function associate_phone_numbers_with_voice_connector(
+associate_phone_numbers_with_voice_connector(
     E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers",
+    Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=associate-phone-numbers",
-        Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_phone_numbers_with_voice_connector(
     E164PhoneNumbers,
     voiceConnectorId,
@@ -97,7 +97,11 @@ end
     associate_phone_numbers_with_voice_connector_group(e164_phone_numbers, voice_connector_group_id)
     associate_phone_numbers_with_voice_connector_group(e164_phone_numbers, voice_connector_group_id, params::Dict{String,<:Any})
 
-Associates phone numbers with the specified Amazon Chime Voice Connector group.
+Associates phone numbers with the specified Amazon Chime Voice Connector group.   This API
+is is no longer supported and will not be updated. We recommend using the latest version,
+AssociatePhoneNumbersWithVoiceConnectorGroup, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `e164_phone_numbers`: List of phone numbers, in E.164 format.
@@ -109,19 +113,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Chime Voice Connector Group and removes any previously existing associations. If
   false, does not associate any phone numbers that have previously existing associations.
 """
-function associate_phone_numbers_with_voice_connector_group(
+associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers",
+    Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=associate-phone-numbers",
-        Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_phone_numbers_with_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId,
@@ -152,17 +154,15 @@ Associates the specified sign-in delegate groups with the specified Amazon Chime
 - `account_id`: The Amazon Chime account ID.
 
 """
-function associate_signin_delegate_groups_with_account(
+associate_signin_delegate_groups_with_account(
     SigninDelegateGroups, accountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)?operation=associate-signin-delegate-groups",
+    Dict{String,Any}("SigninDelegateGroups" => SigninDelegateGroups);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)?operation=associate-signin-delegate-groups",
-        Dict{String,Any}("SigninDelegateGroups" => SigninDelegateGroups);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_signin_delegate_groups_with_account(
     SigninDelegateGroups,
     accountId,
@@ -188,26 +188,27 @@ end
     batch_create_attendee(attendees, meeting_id)
     batch_create_attendee(attendees, meeting_id, params::Dict{String,<:Any})
 
- Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more
-information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime
-SDK Developer Guide.
+Creates up to 100 new attendees for an active Amazon Chime SDK meeting.   This API is is no
+longer supported and will not be updated. We recommend using the latest version,
+BatchCreateAttendee, in the Amazon Chime SDK. Using the latest version requires migrating
+to a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.  For more information about the Amazon
+Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `attendees`: The request containing the attendees to create.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function batch_create_attendee(
+batch_create_attendee(
     Attendees, meetingId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/meetings/$(meetingId)/attendees?operation=batch-create",
+    Dict{String,Any}("Attendees" => Attendees);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/attendees?operation=batch-create",
-        Dict{String,Any}("Attendees" => Attendees);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_create_attendee(
     Attendees,
     meetingId,
@@ -229,7 +230,11 @@ end
     batch_create_channel_membership(member_arns, channel_arn)
     batch_create_channel_membership(member_arns, channel_arn, params::Dict{String,<:Any})
 
-Adds a specified number of users to a channel.
+Adds a specified number of users to a channel.   This API is is no longer supported and
+will not be updated. We recommend using the latest version, BatchCreateChannelMembership,
+in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated
+namespace. For more information, refer to Migrating from the Amazon Chime namespace in the
+Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `member_arns`: The ARNs of the members you want to add to the channel.
@@ -243,17 +248,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This is only supported by moderators.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function batch_create_channel_membership(
+batch_create_channel_membership(
     MemberArns, channelArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/channels/$(channelArn)/memberships?operation=batch-create",
+    Dict{String,Any}("MemberArns" => MemberArns);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/memberships?operation=batch-create",
-        Dict{String,Any}("MemberArns" => MemberArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_create_channel_membership(
     MemberArns,
     channelArn,
@@ -285,17 +288,15 @@ or a general chat room member.
 - `room_id`: The room ID.
 
 """
-function batch_create_room_membership(
+batch_create_room_membership(
     MembershipItemList, accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create",
+    Dict{String,Any}("MembershipItemList" => MembershipItemList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships?operation=batch-create",
-        Dict{String,Any}("MembershipItemList" => MembershipItemList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_create_room_membership(
     MembershipItemList,
     accountId,
@@ -328,17 +329,15 @@ in the Deletion queue for 7 days before they are deleted permanently.
 - `phone_number_ids`: List of phone number IDs.
 
 """
-function batch_delete_phone_number(
+batch_delete_phone_number(
     PhoneNumberIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/phone-numbers?operation=batch-delete",
+    Dict{String,Any}("PhoneNumberIds" => PhoneNumberIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/phone-numbers?operation=batch-delete",
-        Dict{String,Any}("PhoneNumberIds" => PhoneNumberIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_delete_phone_number(
     PhoneNumberIds,
     params::AbstractDict{String};
@@ -374,17 +373,15 @@ users without suspending them, use the LogoutUser action.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function batch_suspend_user(
+batch_suspend_user(
     UserIdList, accountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/users?operation=suspend",
+    Dict{String,Any}("UserIdList" => UserIdList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users?operation=suspend",
-        Dict{String,Any}("UserIdList" => UserIdList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_suspend_user(
     UserIdList,
     accountId,
@@ -409,26 +406,24 @@ end
 Removes the suspension from up to 50 previously suspended users for the specified Amazon
 Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using
 this action. For more information about different account types, see  Managing Your Amazon
-Chime Accounts  in the account types, in the Amazon Chime Administration Guide.
-Previously suspended users who are unsuspended using this action are returned to Registered
-status. Users who are not previously suspended are ignored.
+Chime Accounts  in the account types, in the Amazon Chime Administration Guide.  Previously
+suspended users who are unsuspended using this action are returned to Registered status.
+Users who are not previously suspended are ignored.
 
 # Arguments
 - `user_id_list`: The request containing the user IDs to unsuspend.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function batch_unsuspend_user(
+batch_unsuspend_user(
     UserIdList, accountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/users?operation=unsuspend",
+    Dict{String,Any}("UserIdList" => UserIdList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users?operation=unsuspend",
-        Dict{String,Any}("UserIdList" => UserIdList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_unsuspend_user(
     UserIdList,
     accountId,
@@ -463,17 +458,15 @@ request another update.
   product types or calling names to update.
 
 """
-function batch_update_phone_number(
+batch_update_phone_number(
     UpdatePhoneNumberRequestItems; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/phone-numbers?operation=batch-update",
+    Dict{String,Any}("UpdatePhoneNumberRequestItems" => UpdatePhoneNumberRequestItems);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/phone-numbers?operation=batch-update",
-        Dict{String,Any}("UpdatePhoneNumberRequestItems" => UpdatePhoneNumberRequestItems);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_update_phone_number(
     UpdatePhoneNumberRequestItems,
     params::AbstractDict{String};
@@ -509,17 +502,15 @@ action.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function batch_update_user(
+batch_update_user(
     UpdateUserRequestItems, accountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/users",
+    Dict{String,Any}("UpdateUserRequestItems" => UpdateUserRequestItems);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users",
-        Dict{String,Any}("UpdateUserRequestItems" => UpdateUserRequestItems);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_update_user(
     UpdateUserRequestItems,
     accountId,
@@ -553,15 +544,13 @@ types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administratio
 - `name`: The name of the Amazon Chime account.
 
 """
-function create_account(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "POST",
-        "/accounts",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_account(Name; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "POST",
+    "/accounts",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_account(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -580,7 +569,10 @@ end
 
 Creates an Amazon Chime SDK messaging AppInstance under an AWS account. Only SDK messaging
 customers use this API. CreateAppInstance supports idempotency behavior as described in the
-AWS API Standard.
+AWS API Standard.   This API is is no longer supported and will not be updated. We
+recommend using the latest version, CreateAppInstance, in the Amazon Chime SDK. Using the
+latest version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `client_request_token`: The ClientRequestToken of the AppInstance.
@@ -591,17 +583,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The metadata of the AppInstance. Limited to a 1KB string in UTF-8.
 - `"Tags"`: Tags assigned to the AppInstance.
 """
-function create_app_instance(
+create_app_instance(
     ClientRequestToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/app-instances",
+    Dict{String,Any}("ClientRequestToken" => ClientRequestToken, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/app-instances",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_app_instance(
     ClientRequestToken,
     Name,
@@ -630,26 +620,27 @@ end
     create_app_instance_admin(app_instance_admin_arn, app_instance_arn, params::Dict{String,<:Any})
 
 Promotes an AppInstanceUser to an AppInstanceAdmin. The promoted user can perform the
-following actions.     ChannelModerator actions across all channels in the AppInstance.
-DeleteChannelMessage actions.   Only an AppInstanceUser can be promoted to an
-AppInstanceAdmin role.
+following actions.    This API is is no longer supported and will not be updated. We
+recommend using the latest version, CreateAppInstanceAdmin, in the Amazon Chime SDK. Using
+the latest version requires migrating to a dedicated namespace. For more information, refer
+to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
+ChannelModerator actions across all channels in the AppInstance.    DeleteChannelMessage
+actions.   Only an AppInstanceUser can be promoted to an AppInstanceAdmin role.
 
 # Arguments
 - `app_instance_admin_arn`: The ARN of the administrator of the current AppInstance.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function create_app_instance_admin(
+create_app_instance_admin(
     AppInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/app-instances/$(appInstanceArn)/admins",
+    Dict{String,Any}("AppInstanceAdminArn" => AppInstanceAdminArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/app-instances/$(appInstanceArn)/admins",
-        Dict{String,Any}("AppInstanceAdminArn" => AppInstanceAdminArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_app_instance_admin(
     AppInstanceAdminArn,
     appInstanceArn,
@@ -676,7 +667,11 @@ end
     create_app_instance_user(app_instance_arn, app_instance_user_id, client_request_token, name, params::Dict{String,<:Any})
 
 Creates a user under an Amazon Chime AppInstance. The request consists of a unique
-appInstanceUserId and Name for that user.
+appInstanceUserId and Name for that user.   This API is is no longer supported and will not
+be updated. We recommend using the latest version, CreateAppInstanceUser, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `app_instance_arn`: The ARN of the AppInstance request.
@@ -689,26 +684,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The request's metadata. Limited to a 1KB string in UTF-8.
 - `"Tags"`: Tags assigned to the AppInstanceUser.
 """
-function create_app_instance_user(
+create_app_instance_user(
     AppInstanceArn,
     AppInstanceUserId,
     ClientRequestToken,
     Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/app-instance-users",
+    Dict{String,Any}(
+        "AppInstanceArn" => AppInstanceArn,
+        "AppInstanceUserId" => AppInstanceUserId,
+        "ClientRequestToken" => ClientRequestToken,
+        "Name" => Name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/app-instance-users",
-        Dict{String,Any}(
-            "AppInstanceArn" => AppInstanceArn,
-            "AppInstanceUserId" => AppInstanceUserId,
-            "ClientRequestToken" => ClientRequestToken,
-            "Name" => Name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_app_instance_user(
     AppInstanceArn,
     AppInstanceUserId,
@@ -743,7 +736,10 @@ end
 
  Creates a new attendee for an active Amazon Chime SDK meeting. For more information about
 the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer
-Guide.
+Guide.    This API is is no longer supported and will not be updated. We recommend using
+the latest version, CreateAttendee, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `external_user_id`: The Amazon Chime SDK external user ID. An idempotency token. Links
@@ -754,17 +750,15 @@ Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Tags"`: The tag key-value pairs.
 """
-function create_attendee(
+create_attendee(
     ExternalUserId, meetingId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/meetings/$(meetingId)/attendees",
+    Dict{String,Any}("ExternalUserId" => ExternalUserId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/attendees",
-        Dict{String,Any}("ExternalUserId" => ExternalUserId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_attendee(
     ExternalUserId,
     meetingId,
@@ -796,17 +790,14 @@ Creates a bot for an Amazon Chime Enterprise account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Domain"`: The domain of the Amazon Chime Enterprise account.
 """
-function create_bot(
-    DisplayName, accountId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+create_bot(DisplayName, accountId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "POST",
         "/accounts/$(accountId)/bots",
         Dict{String,Any}("DisplayName" => DisplayName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_bot(
     DisplayName,
     accountId,
@@ -830,7 +821,11 @@ end
 
 Creates a channel to which you can add users and send messages.  Restriction: You can't
 change a channel's privacy.  The x-amz-chime-bearer request header is mandatory. Use the
-AppInstanceUserArn of the user that makes the API call as the value in the header.
+AppInstanceUserArn of the user that makes the API call as the value in the header.    This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, CreateChannel, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_arn`: The ARN of the channel request.
@@ -849,24 +844,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags for the creation request.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function create_channel(
+create_channel(
     AppInstanceArn,
     ClientRequestToken,
     Name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/channels",
+    Dict{String,Any}(
+        "AppInstanceArn" => AppInstanceArn,
+        "ClientRequestToken" => ClientRequestToken,
+        "Name" => Name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/channels",
-        Dict{String,Any}(
-            "AppInstanceArn" => AppInstanceArn,
-            "ClientRequestToken" => ClientRequestToken,
-            "Name" => Name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_channel(
     AppInstanceArn,
     ClientRequestToken,
@@ -902,7 +895,10 @@ To undo a ban, you first have to DeleteChannelBan, and then CreateChannelMembers
 are cleaned up when you delete users or channels. If you ban a user who is already part of
 a channel, that user is automatically kicked from the channel.  The x-amz-chime-bearer
 request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call
-as the value in the header.
+as the value in the header.    This API is is no longer supported and will not be updated.
+We recommend using the latest version, CreateChannelBan, in the Amazon Chime SDK. Using the
+latest version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `member_arn`: The ARN of the member being banned.
@@ -912,17 +908,15 @@ as the value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function create_channel_ban(
+create_channel_ban(
     MemberArn, channelArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/channels/$(channelArn)/bans",
+    Dict{String,Any}("MemberArn" => MemberArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/bans",
-        Dict{String,Any}("MemberArn" => MemberArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_channel_ban(
     MemberArn,
     channelArn,
@@ -950,7 +944,11 @@ messages   Leave the channel   Privacy settings impact this action as follows:  
 Channels: You do not need to be a member to list messages, but you must be a member to send
 messages.   Private Channels: You must be a member to list or send messages.    The
 x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+makes the API call as the value in the header.    This API is is no longer supported and
+will not be updated. We recommend using the latest version, CreateChannelMembership, in the
+Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For
+more information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime
+SDK Developer Guide.
 
 # Arguments
 - `member_arn`: The ARN of the member you want to add to the channel.
@@ -964,17 +962,15 @@ makes the API call as the value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function create_channel_membership(
+create_channel_membership(
     MemberArn, Type, channelArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/channels/$(channelArn)/memberships",
+    Dict{String,Any}("MemberArn" => MemberArn, "Type" => Type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/memberships",
-        Dict{String,Any}("MemberArn" => MemberArn, "Type" => Type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_channel_membership(
     MemberArn,
     Type,
@@ -1003,7 +999,11 @@ Creates a new ChannelModerator. A channel moderator can:   Add and remove other 
 the channel.   Add and remove other moderators of the channel.   Add and remove user bans
 for the channel.   Redact messages in the channel.   List messages in the channel.    The
 x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+makes the API call as the value in the header.    This API is is no longer supported and
+will not be updated. We recommend using the latest version, CreateChannelModerator, in the
+Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For
+more information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime
+SDK Developer Guide.
 
 # Arguments
 - `channel_moderator_arn`: The ARN of the moderator.
@@ -1013,17 +1013,15 @@ makes the API call as the value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function create_channel_moderator(
+create_channel_moderator(
     ChannelModeratorArn, channelArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/channels/$(channelArn)/moderators",
+    Dict{String,Any}("ChannelModeratorArn" => ChannelModeratorArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/moderators",
-        Dict{String,Any}("ChannelModeratorArn" => ChannelModeratorArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_channel_moderator(
     ChannelModeratorArn,
     channelArn,
@@ -1049,7 +1047,11 @@ end
     create_media_capture_pipeline(sink_arn, sink_type, source_arn, source_type)
     create_media_capture_pipeline(sink_arn, sink_type, source_arn, source_type, params::Dict{String,<:Any})
 
-Creates a media capture pipeline.
+Creates a media capture pipeline.   This API is is no longer supported and will not be
+updated. We recommend using the latest version, CreateMediaCapturePipeline, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `sink_arn`: The ARN of the sink type.
@@ -1066,27 +1068,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: The unique identifier for the client request. The token makes the
   API request idempotent. Use a different token for different media pipeline requests.
 """
-function create_media_capture_pipeline(
+create_media_capture_pipeline(
     SinkArn,
     SinkType,
     SourceArn,
     SourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/media-capture-pipelines",
+    Dict{String,Any}(
+        "SinkArn" => SinkArn,
+        "SinkType" => SinkType,
+        "SourceArn" => SourceArn,
+        "SourceType" => SourceType,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/media-capture-pipelines",
-        Dict{String,Any}(
-            "SinkArn" => SinkArn,
-            "SinkType" => SinkType,
-            "SourceArn" => SourceArn,
-            "SourceType" => SourceType,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_media_capture_pipeline(
     SinkArn,
     SinkType,
@@ -1120,10 +1120,14 @@ end
     create_meeting(client_request_token)
     create_meeting(client_request_token, params::Dict{String,<:Any})
 
- Creates a new Amazon Chime SDK meeting in the specified media Region with no initial
+Creates a new Amazon Chime SDK meeting in the specified media Region with no initial
 attendees. For more information about specifying media Regions, see Amazon Chime SDK Media
 Regions in the Amazon Chime SDK Developer Guide . For more information about the Amazon
-Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide .
+Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide.   This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, CreateMeeting, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `client_request_token`: The unique identifier for the client request. Use a different
@@ -1142,17 +1146,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   notifications when meeting and attendee events occur.
 - `"Tags"`: The tag key-value pairs.
 """
-function create_meeting(
-    ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+create_meeting(ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "POST",
         "/meetings",
         Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_meeting(
     ClientRequestToken,
     params::AbstractDict{String};
@@ -1180,6 +1181,7 @@ forth) to initiate an outbound call to a public switched telephone network (PSTN
 them into a Chime meeting. Also ensures that the From number belongs to the customer. To
 play welcome audio or implement an interactive voice response (IVR), use the
 CreateSipMediaApplicationCall action with the corresponding SIP media application ID.
+This API is is not available in a dedicated namespace.
 
 # Arguments
 - `from_phone_number`: Phone number used as the caller ID when the remote party receives a
@@ -1190,25 +1192,23 @@ CreateSipMediaApplicationCall action with the corresponding SIP media applicatio
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function create_meeting_dial_out(
+create_meeting_dial_out(
     FromPhoneNumber,
     JoinToken,
     ToPhoneNumber,
     meetingId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/meetings/$(meetingId)/dial-outs",
+    Dict{String,Any}(
+        "FromPhoneNumber" => FromPhoneNumber,
+        "JoinToken" => JoinToken,
+        "ToPhoneNumber" => ToPhoneNumber,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/dial-outs",
-        Dict{String,Any}(
-            "FromPhoneNumber" => FromPhoneNumber,
-            "JoinToken" => JoinToken,
-            "ToPhoneNumber" => ToPhoneNumber,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_meeting_dial_out(
     FromPhoneNumber,
     JoinToken,
@@ -1243,7 +1243,11 @@ end
  Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For
 more information about specifying media Regions, see Amazon Chime SDK Media Regions in the
 Amazon Chime SDK Developer Guide . For more information about the Amazon Chime SDK, see
-Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide .
+Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide .    This API is is no
+longer supported and will not be updated. We recommend using the latest version,
+CreateMeetingWithAttendees, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `client_request_token`: The unique identifier for the client request. Use a different
@@ -1264,17 +1268,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   targets located in the US East (N. Virginia) AWS Region (us-east-1).
 - `"Tags"`: The tag key-value pairs.
 """
-function create_meeting_with_attendees(
+create_meeting_with_attendees(
     ClientRequestToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/meetings?operation=create-attendees",
+    Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/meetings?operation=create-attendees",
-        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_meeting_with_attendees(
     ClientRequestToken,
     params::AbstractDict{String};
@@ -1306,19 +1308,15 @@ the Amazon Chime SIP Media Application Dial-In product type.
 - `product_type`: The phone number product type.
 
 """
-function create_phone_number_order(
+create_phone_number_order(
     E164PhoneNumbers, ProductType; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/phone-number-orders",
+    Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers, "ProductType" => ProductType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/phone-number-orders",
-        Dict{String,Any}(
-            "E164PhoneNumbers" => E164PhoneNumbers, "ProductType" => ProductType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_phone_number_order(
     E164PhoneNumbers,
     ProductType,
@@ -1347,7 +1345,10 @@ end
     create_proxy_session(capabilities, participant_phone_numbers, voice_connector_id, params::Dict{String,<:Any})
 
 Creates a proxy session on the specified Amazon Chime Voice Connector for the specified
-participant phone numbers.
+participant phone numbers.   This API is is no longer supported and will not be updated. We
+recommend using the latest version, CreateProxySession, in the Amazon Chime SDK. Using the
+latest version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `capabilities`: The proxy session capabilities.
@@ -1364,23 +1365,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NumberSelectionBehavior"`: The preference for proxy phone number reuse, or stickiness,
   between the same participants across sessions.
 """
-function create_proxy_session(
+create_proxy_session(
     Capabilities,
     ParticipantPhoneNumbers,
     voiceConnectorId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
+    Dict{String,Any}(
+        "Capabilities" => Capabilities,
+        "ParticipantPhoneNumbers" => ParticipantPhoneNumbers,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions",
-        Dict{String,Any}(
-            "Capabilities" => Capabilities,
-            "ParticipantPhoneNumbers" => ParticipantPhoneNumbers,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_proxy_session(
     Capabilities,
     ParticipantPhoneNumbers,
@@ -1420,15 +1419,13 @@ Creates a chat room for the specified Amazon Chime Enterprise account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: The idempotency token for the request.
 """
-function create_room(Name, accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms",
-        Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_room(Name, accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "POST",
+    "/accounts/$(accountId)/rooms",
+    Dict{String,Any}("Name" => Name, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_room(
     Name,
     accountId,
@@ -1467,17 +1464,15 @@ or a general chat room member.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Role"`: The role of the member.
 """
-function create_room_membership(
+create_room_membership(
     MemberId, accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/rooms/$(roomId)/memberships",
+    Dict{String,Any}("MemberId" => MemberId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships",
-        Dict{String,Any}("MemberId" => MemberId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_room_membership(
     MemberId,
     accountId,
@@ -1500,7 +1495,11 @@ end
     create_sip_media_application(aws_region, endpoints, name)
     create_sip_media_application(aws_region, endpoints, name, params::Dict{String,<:Any})
 
-Creates a SIP media application.
+Creates a SIP media application.   This API is is no longer supported and will not be
+updated. We recommend using the latest version, CreateSipMediaApplication, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `aws_region`: The AWS Region assigned to the SIP media application.
@@ -1509,19 +1508,15 @@ Creates a SIP media application.
 - `name`: The SIP media application name.
 
 """
-function create_sip_media_application(
+create_sip_media_application(
     AwsRegion, Endpoints, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/sip-media-applications",
+    Dict{String,Any}("AwsRegion" => AwsRegion, "Endpoints" => Endpoints, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/sip-media-applications",
-        Dict{String,Any}(
-            "AwsRegion" => AwsRegion, "Endpoints" => Endpoints, "Name" => Name
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_sip_media_application(
     AwsRegion,
     Endpoints,
@@ -1551,7 +1546,11 @@ end
     create_sip_media_application_call(from_phone_number, to_phone_number, sip_media_application_id, params::Dict{String,<:Any})
 
 Creates an outbound call to a phone number from the phone number specified in the request,
-and it invokes the endpoint of the specified sipMediaApplicationId.
+and it invokes the endpoint of the specified sipMediaApplicationId.   This API is is no
+longer supported and will not be updated. We recommend using the latest version,
+CreateSipMediaApplicationCall, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `from_phone_number`: The phone number that a user calls from. This is a phone number in
@@ -1563,22 +1562,20 @@ and it invokes the endpoint of the specified sipMediaApplicationId.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SipHeaders"`: The SIP headers added to an outbound call leg.
 """
-function create_sip_media_application_call(
+create_sip_media_application_call(
     FromPhoneNumber,
     ToPhoneNumber,
     sipMediaApplicationId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/sip-media-applications/$(sipMediaApplicationId)/calls",
+    Dict{String,Any}(
+        "FromPhoneNumber" => FromPhoneNumber, "ToPhoneNumber" => ToPhoneNumber
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls",
-        Dict{String,Any}(
-            "FromPhoneNumber" => FromPhoneNumber, "ToPhoneNumber" => ToPhoneNumber
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_sip_media_application_call(
     FromPhoneNumber,
     ToPhoneNumber,
@@ -1608,7 +1605,10 @@ end
     create_sip_rule(name, target_applications, trigger_type, trigger_value, params::Dict{String,<:Any})
 
 Creates a SIP rule which can be used to run a SIP media application as a target for a
-specific trigger type.
+specific trigger type.   This API is is no longer supported and will not be updated. We
+recommend using the latest version, CreateSipRule, in the Amazon Chime SDK. Using the
+latest version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `name`: The name of the SIP rule.
@@ -1628,26 +1628,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Disabled"`: Enables or disables a rule. You must disable rules before you can delete
   them.
 """
-function create_sip_rule(
+create_sip_rule(
     Name,
     TargetApplications,
     TriggerType,
     TriggerValue;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/sip-rules",
+    Dict{String,Any}(
+        "Name" => Name,
+        "TargetApplications" => TargetApplications,
+        "TriggerType" => TriggerType,
+        "TriggerValue" => TriggerValue,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/sip-rules",
-        Dict{String,Any}(
-            "Name" => Name,
-            "TargetApplications" => TargetApplications,
-            "TriggerType" => TriggerType,
-            "TriggerValue" => TriggerValue,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_sip_rule(
     Name,
     TargetApplications,
@@ -1691,14 +1689,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserType"`: The user type.
 - `"Username"`: The user name.
 """
-function create_user(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users?operation=create";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_user(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "POST",
+    "/accounts/$(accountId)/users?operation=create";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_user(
     accountId,
     params::AbstractDict{String};
@@ -1718,10 +1714,14 @@ end
     create_voice_connector(name, require_encryption, params::Dict{String,<:Any})
 
 Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can
-choose to create an Amazon Chime Voice Connector in a specific AWS Region.  Enabling
+choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling
 CreateVoiceConnectorRequestRequireEncryption configures your Amazon Chime Voice Connector
 to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use
-TLS transport, and unencrypted outbound calls are blocked.
+TLS transport, and unencrypted outbound calls are blocked.    This API is is no longer
+supported and will not be updated. We recommend using the latest version,
+CreateVoiceConnector, in the Amazon Chime SDK. Using the latest version requires migrating
+to a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `name`: The name of the Amazon Chime Voice Connector.
@@ -1733,17 +1733,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AwsRegion"`:  The AWS Region in which the Amazon Chime Voice Connector is created.
   Default value: us-east-1 .
 """
-function create_voice_connector(
+create_voice_connector(
     Name, RequireEncryption; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/voice-connectors",
+    Dict{String,Any}("Name" => Name, "RequireEncryption" => RequireEncryption);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/voice-connectors",
-        Dict{String,Any}("Name" => Name, "RequireEncryption" => RequireEncryption);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_voice_connector(
     Name,
     RequireEncryption,
@@ -1773,7 +1771,11 @@ Creates an Amazon Chime Voice Connector group under the administrator's AWS acco
 can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by
 including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors
 from different AWS Regions in your group. This creates a fault tolerant mechanism for
-fallback in case of availability events.
+fallback in case of availability events.   This API is is no longer supported and will not
+be updated. We recommend using the latest version, CreateVoiceConnectorGroup, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `name`: The name of the Amazon Chime Voice Connector group.
@@ -1782,17 +1784,14 @@ fallback in case of availability events.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"VoiceConnectorItems"`: The Amazon Chime Voice Connectors to route inbound calls to.
 """
-function create_voice_connector_group(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+create_voice_connector_group(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "POST",
         "/voice-connector-groups",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_voice_connector_group(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1821,14 +1820,12 @@ days, deleted accounts are permanently removed from your Disabled accounts list.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function delete_account(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "DELETE",
-        "/accounts/$(accountId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_account(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "DELETE",
+    "/accounts/$(accountId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_account(
     accountId,
     params::AbstractDict{String};
@@ -1847,22 +1844,23 @@ end
     delete_app_instance(app_instance_arn)
     delete_app_instance(app_instance_arn, params::Dict{String,<:Any})
 
-Deletes an AppInstance and all associated data asynchronously.
+Deletes an AppInstance and all associated data asynchronously.   This API is is no longer
+supported and will not be updated. We recommend using the latest version,
+DeleteAppInstance, in the Amazon Chime SDK. Using the latest version requires migrating to
+a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function delete_app_instance(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+delete_app_instance(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "DELETE",
         "/app-instances/$(appInstanceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_app_instance(
     appInstanceArn,
     params::AbstractDict{String};
@@ -1882,22 +1880,24 @@ end
     delete_app_instance_admin(app_instance_admin_arn, app_instance_arn, params::Dict{String,<:Any})
 
 Demotes an AppInstanceAdmin to an AppInstanceUser. This action does not delete the user.
+This API is is no longer supported and will not be updated. We recommend using the latest
+version, DeleteAppInstanceAdmin, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_admin_arn`: The ARN of the AppInstance's administrator.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function delete_app_instance_admin(
+delete_app_instance_admin(
     appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_app_instance_admin(
     appInstanceAdminArn,
     appInstanceArn,
@@ -1917,22 +1917,24 @@ end
     delete_app_instance_streaming_configurations(app_instance_arn)
     delete_app_instance_streaming_configurations(app_instance_arn, params::Dict{String,<:Any})
 
-Deletes the streaming configurations of an AppInstance.
+Deletes the streaming configurations of an AppInstance.   This API is is no longer
+supported and will not be updated. We recommend using the latest version,
+DeleteAppInstanceStreamingConfigurations, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_arn`: The ARN of the streaming configurations being deleted.
 
 """
-function delete_app_instance_streaming_configurations(
+delete_app_instance_streaming_configurations(
     appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/app-instances/$(appInstanceArn)/streaming-configurations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/app-instances/$(appInstanceArn)/streaming-configurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_app_instance_streaming_configurations(
     appInstanceArn,
     params::AbstractDict{String};
@@ -1951,22 +1953,23 @@ end
     delete_app_instance_user(app_instance_user_arn)
     delete_app_instance_user(app_instance_user_arn, params::Dict{String,<:Any})
 
-Deletes an AppInstanceUser.
+Deletes an AppInstanceUser.   This API is is no longer supported and will not be updated.
+We recommend using the latest version, DeleteAppInstanceUser, in the Amazon Chime SDK.
+Using the latest version requires migrating to a dedicated namespace. For more information,
+refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_user_arn`: The ARN of the user request being deleted.
 
 """
-function delete_app_instance_user(
+delete_app_instance_user(
     appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/app-instance-users/$(appInstanceUserArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/app-instance-users/$(appInstanceUserArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_app_instance_user(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -1988,23 +1991,23 @@ end
 Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their
 JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted.
 For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the
-Amazon Chime SDK Developer Guide.
+Amazon Chime SDK Developer Guide.   This API is is no longer supported and will not be
+updated. We recommend using the latest version, DeleteAttendee, in the Amazon Chime SDK.
+Using the latest version requires migrating to a dedicated namespace. For more information,
+refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `attendee_id`: The Amazon Chime SDK attendee ID.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function delete_attendee(
-    attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+delete_attendee(attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "DELETE",
         "/meetings/$(meetingId)/attendees/$(attendeeId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_attendee(
     attendeeId,
     meetingId,
@@ -2027,6 +2030,10 @@ end
 Immediately makes a channel and its memberships inaccessible and marks them for deletion.
 This is an irreversible process.  The x-amz-chime-bearer request header is mandatory. Use
 the AppInstanceUserArn of the user that makes the API call as the value in the header.
+This API is is no longer supported and will not be updated. We recommend using the latest
+version, DeleteChannel, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel being deleted.
@@ -2035,14 +2042,12 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function delete_channel(channelArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "DELETE",
-        "/channels/$(channelArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_channel(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "DELETE",
+    "/channels/$(channelArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_channel(
     channelArn,
     params::AbstractDict{String};
@@ -2063,7 +2068,10 @@ end
 
 Removes a user from a channel's ban list.  The x-amz-chime-bearer request header is
 mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+the header.    This API is is no longer supported and will not be updated. We recommend
+using the latest version, DeleteChannelBan, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel from which the AppInstanceUser was banned.
@@ -2073,16 +2081,14 @@ the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function delete_channel_ban(
+delete_channel_ban(
     channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/channels/$(channelArn)/bans/$(memberArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/channels/$(channelArn)/bans/$(memberArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_channel_ban(
     channelArn,
     memberArn,
@@ -2104,6 +2110,10 @@ end
 
 Removes a member from a channel.  The x-amz-chime-bearer request header is mandatory. Use
 the AppInstanceUserArn of the user that makes the API call as the value in the header.
+This API is is no longer supported and will not be updated. We recommend using the latest
+version, DeleteChannelMembership, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel from which you want to remove the user.
@@ -2113,16 +2123,14 @@ the AppInstanceUserArn of the user that makes the API call as the value in the h
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function delete_channel_membership(
+delete_channel_membership(
     channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/channels/$(channelArn)/memberships/$(memberArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/channels/$(channelArn)/memberships/$(memberArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_channel_membership(
     channelArn,
     memberArn,
@@ -2145,7 +2153,11 @@ end
 Deletes a channel message. Only admins can perform this action. Deletion makes messages
 inaccessible immediately. A background process deletes any revisions created by
 UpdateChannelMessage.  The x-amz-chime-bearer request header is mandatory. Use the
-AppInstanceUserArn of the user that makes the API call as the value in the header.
+AppInstanceUserArn of the user that makes the API call as the value in the header.    This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, DeleteChannelMessage, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -2155,16 +2167,14 @@ AppInstanceUserArn of the user that makes the API call as the value in the heade
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function delete_channel_message(
+delete_channel_message(
     channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/channels/$(channelArn)/messages/$(messageId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/channels/$(channelArn)/messages/$(messageId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_channel_message(
     channelArn,
     messageId,
@@ -2185,7 +2195,11 @@ end
     delete_channel_moderator(channel_arn, channel_moderator_arn, params::Dict{String,<:Any})
 
 Deletes a channel moderator.  The x-amz-chime-bearer request header is mandatory. Use the
-AppInstanceUserArn of the user that makes the API call as the value in the header.
+AppInstanceUserArn of the user that makes the API call as the value in the header.    This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, DeleteChannelModerator, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -2195,16 +2209,14 @@ AppInstanceUserArn of the user that makes the API call as the value in the heade
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function delete_channel_moderator(
+delete_channel_moderator(
     channelArn, channelModeratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/channels/$(channelArn)/moderators/$(channelModeratorArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/channels/$(channelArn)/moderators/$(channelModeratorArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_channel_moderator(
     channelArn,
     channelModeratorArn,
@@ -2231,16 +2243,14 @@ Deletes the events configuration that allows a bot to receive outgoing events.
 - `bot_id`: The bot ID.
 
 """
-function delete_events_configuration(
+delete_events_configuration(
     accountId, botId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/accounts/$(accountId)/bots/$(botId)/events-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_events_configuration(
     accountId,
     botId,
@@ -2260,22 +2270,24 @@ end
     delete_media_capture_pipeline(media_pipeline_id)
     delete_media_capture_pipeline(media_pipeline_id, params::Dict{String,<:Any})
 
-Deletes the media capture pipeline.
+Deletes the media capture pipeline.   This API is is no longer supported and will not be
+updated. We recommend using the latest version, DeleteMediaCapturePipeline, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `media_pipeline_id`: The ID of the media capture pipeline being deleted.
 
 """
-function delete_media_capture_pipeline(
+delete_media_capture_pipeline(
     mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/media-capture-pipelines/$(mediaPipelineId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/media-capture-pipelines/$(mediaPipelineId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_media_capture_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -2297,20 +2309,21 @@ end
 Deletes the specified Amazon Chime SDK meeting. The operation deletes all attendees,
 disconnects all clients, and prevents new clients from joining the meeting. For more
 information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime
-SDK Developer Guide.
+SDK Developer Guide.   This API is is no longer supported and will not be updated. We
+recommend using the latest version, DeleteMeeting, in the Amazon Chime SDK. Using the
+latest version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function delete_meeting(meetingId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "DELETE",
-        "/meetings/$(meetingId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_meeting(meetingId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "DELETE",
+    "/meetings/$(meetingId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_meeting(
     meetingId,
     params::AbstractDict{String};
@@ -2338,16 +2351,13 @@ permanently.
 - `phone_number_id`: The phone number ID.
 
 """
-function delete_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+delete_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "DELETE",
         "/phone-numbers/$(phoneNumberId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -2366,23 +2376,25 @@ end
     delete_proxy_session(proxy_session_id, voice_connector_id)
     delete_proxy_session(proxy_session_id, voice_connector_id, params::Dict{String,<:Any})
 
-Deletes the specified proxy session from the specified Amazon Chime Voice Connector.
+Deletes the specified proxy session from the specified Amazon Chime Voice Connector.   This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, DeleteProxySession, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `proxy_session_id`: The proxy session ID.
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
 """
-function delete_proxy_session(
+delete_proxy_session(
     proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_proxy_session(
     proxySessionId,
     voiceConnectorId,
@@ -2409,14 +2421,12 @@ Deletes a chat room in an Amazon Chime Enterprise account.
 - `room_id`: The chat room ID.
 
 """
-function delete_room(accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "DELETE",
-        "/accounts/$(accountId)/rooms/$(roomId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_room(accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "DELETE",
+    "/accounts/$(accountId)/rooms/$(roomId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_room(
     accountId,
     roomId,
@@ -2444,16 +2454,14 @@ Removes a member from a chat room in an Amazon Chime Enterprise account.
 - `room_id`: The room ID.
 
 """
-function delete_room_membership(
+delete_room_membership(
     accountId, memberId, roomId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_room_membership(
     accountId,
     memberId,
@@ -2474,22 +2482,24 @@ end
     delete_sip_media_application(sip_media_application_id)
     delete_sip_media_application(sip_media_application_id, params::Dict{String,<:Any})
 
-Deletes a SIP media application.
+Deletes a SIP media application.   This API is is no longer supported and will not be
+updated. We recommend using the latest version, DeleteSipMediaApplication, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `sip_media_application_id`: The SIP media application ID.
 
 """
-function delete_sip_media_application(
+delete_sip_media_application(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/sip-media-applications/$(sipMediaApplicationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/sip-media-applications/$(sipMediaApplicationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_sip_media_application(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -2508,20 +2518,22 @@ end
     delete_sip_rule(sip_rule_id)
     delete_sip_rule(sip_rule_id, params::Dict{String,<:Any})
 
-Deletes a SIP rule. You must disable a SIP rule before you can delete it.
+Deletes a SIP rule. You must disable a SIP rule before you can delete it.   This API is is
+no longer supported and will not be updated. We recommend using the latest version,
+DeleteSipRule, in the Amazon Chime SDK. Using the latest version requires migrating to a
+dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `sip_rule_id`: The SIP rule ID.
 
 """
-function delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "DELETE",
-        "/sip-rules/$(sipRuleId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "DELETE",
+    "/sip-rules/$(sipRuleId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_sip_rule(
     sipRuleId,
     params::AbstractDict{String};
@@ -2541,22 +2553,24 @@ end
     delete_voice_connector(voice_connector_id, params::Dict{String,<:Any})
 
 Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the
-Amazon Chime Voice Connector must be disassociated from it before it can be deleted.
+Amazon Chime Voice Connector must be disassociated from it before it can be deleted.   This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, DeleteVoiceConnector, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector(
+delete_voice_connector(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/voice-connectors/$(voiceConnectorId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_voice_connector(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2576,22 +2590,24 @@ end
     delete_voice_connector_emergency_calling_configuration(voice_connector_id, params::Dict{String,<:Any})
 
 Deletes the emergency calling configuration details from the specified Amazon Chime Voice
-Connector.
+Connector.   This API is is no longer supported and will not be updated. We recommend using
+the latest version, DeleteVoiceConnectorEmergencyCallingConfiguration, in the Amazon Chime
+SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_emergency_calling_configuration(
+delete_voice_connector_emergency_calling_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_voice_connector_emergency_calling_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2611,22 +2627,24 @@ end
     delete_voice_connector_group(voice_connector_group_id, params::Dict{String,<:Any})
 
 Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone
-numbers associated with the group must be removed before it can be deleted.
+numbers associated with the group must be removed before it can be deleted.   This API is
+is no longer supported and will not be updated. We recommend using the latest version,
+DeleteVoiceConnectorGroup, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
-function delete_voice_connector_group(
+delete_voice_connector_group(
     voiceConnectorGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/voice-connector-groups/$(voiceConnectorGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/voice-connector-groups/$(voiceConnectorGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_voice_connector_group(
     voiceConnectorGroupId,
     params::AbstractDict{String};
@@ -2647,22 +2665,24 @@ end
 
 Deletes the origination settings for the specified Amazon Chime Voice Connector.  If
 emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted
-prior to deleting the origination settings.
+prior to deleting the origination settings.    This API is is no longer supported and will
+not be updated. We recommend using the latest version, DeleteVoiceConnectorOrigination, in
+the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace.
+For more information, refer to Migrating from the Amazon Chime namespace in the Amazon
+Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_origination(
+delete_voice_connector_origination(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/voice-connectors/$(voiceConnectorId)/origination";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/origination";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_voice_connector_origination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2681,22 +2701,24 @@ end
     delete_voice_connector_proxy(voice_connector_id)
     delete_voice_connector_proxy(voice_connector_id, params::Dict{String,<:Any})
 
-Deletes the proxy configuration from the specified Amazon Chime Voice Connector.
+Deletes the proxy configuration from the specified Amazon Chime Voice Connector.   This API
+is is no longer supported and will not be updated. We recommend using the latest version,
+DeleteVoiceProxy, in the Amazon Chime SDK. Using the latest version requires migrating to a
+dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_proxy(
+delete_voice_connector_proxy(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_voice_connector_proxy(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2715,22 +2737,24 @@ end
     delete_voice_connector_streaming_configuration(voice_connector_id)
     delete_voice_connector_streaming_configuration(voice_connector_id, params::Dict{String,<:Any})
 
-Deletes the streaming configuration for the specified Amazon Chime Voice Connector.
+Deletes the streaming configuration for the specified Amazon Chime Voice Connector.   This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, DeleteVoiceConnectorStreamingConfiguration, in the Amazon Chime SDK. Using the
+latest version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_streaming_configuration(
+delete_voice_connector_streaming_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/voice-connectors/$(voiceConnectorId)/streaming-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_voice_connector_streaming_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2751,22 +2775,24 @@ end
 
 Deletes the termination settings for the specified Amazon Chime Voice Connector.  If
 emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted
-prior to deleting the termination settings.
+prior to deleting the termination settings.    This API is is no longer supported and will
+not be updated. We recommend using the latest version, DeleteVoiceConnectorTermination, in
+the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace.
+For more information, refer to Migrating from the Amazon Chime namespace in the Amazon
+Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_termination(
+delete_voice_connector_termination(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "DELETE",
+    "/voice-connectors/$(voiceConnectorId)/termination";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "DELETE",
-        "/voice-connectors/$(voiceConnectorId)/termination";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_voice_connector_termination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -2786,7 +2812,11 @@ end
     delete_voice_connector_termination_credentials(usernames, voice_connector_id, params::Dict{String,<:Any})
 
 Deletes the specified SIP credentials used by your equipment to authenticate during call
-termination.
+termination.   This API is is no longer supported and will not be updated. We recommend
+using the latest version, DeleteVoiceConnectorTerminationCredentials, in the Amazon Chime
+SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `usernames`: The RFC2617 compliant username associated with the SIP credentials, in
@@ -2794,17 +2824,15 @@ termination.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function delete_voice_connector_termination_credentials(
+delete_voice_connector_termination_credentials(
     Usernames, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete",
+    Dict{String,Any}("Usernames" => Usernames);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=delete",
-        Dict{String,Any}("Usernames" => Usernames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_voice_connector_termination_credentials(
     Usernames,
     voiceConnectorId,
@@ -2826,22 +2854,23 @@ end
     describe_app_instance(app_instance_arn)
     describe_app_instance(app_instance_arn, params::Dict{String,<:Any})
 
-Returns the full details of an AppInstance.
+Returns the full details of an AppInstance.   This API is is no longer supported and will
+not be updated. We recommend using the latest version, DescribeAppInstance, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function describe_app_instance(
-    appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+describe_app_instance(appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "GET",
         "/app-instances/$(appInstanceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_app_instance(
     appInstanceArn,
     params::AbstractDict{String};
@@ -2860,23 +2889,25 @@ end
     describe_app_instance_admin(app_instance_admin_arn, app_instance_arn)
     describe_app_instance_admin(app_instance_admin_arn, app_instance_arn, params::Dict{String,<:Any})
 
-Returns the full details of an AppInstanceAdmin.
+Returns the full details of an AppInstanceAdmin.   This API is is no longer supported and
+will not be updated. We recommend using the latest version, DescribeAppInstanceAdmin, in
+the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace.
+For more information, refer to Migrating from the Amazon Chime namespace in the Amazon
+Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_admin_arn`: The ARN of the AppInstanceAdmin.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function describe_app_instance_admin(
+describe_app_instance_admin(
     appInstanceAdminArn, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/app-instances/$(appInstanceArn)/admins/$(appInstanceAdminArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_app_instance_admin(
     appInstanceAdminArn,
     appInstanceArn,
@@ -2896,22 +2927,24 @@ end
     describe_app_instance_user(app_instance_user_arn)
     describe_app_instance_user(app_instance_user_arn, params::Dict{String,<:Any})
 
-Returns the full details of an AppInstanceUser.
+Returns the full details of an AppInstanceUser.   This API is is no longer supported and
+will not be updated. We recommend using the latest version, DescribeAppInstanceUser, in the
+Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For
+more information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime
+SDK Developer Guide.
 
 # Arguments
 - `app_instance_user_arn`: The ARN of the AppInstanceUser.
 
 """
-function describe_app_instance_user(
+describe_app_instance_user(
     appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/app-instance-users/$(appInstanceUserArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/app-instance-users/$(appInstanceUserArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_app_instance_user(
     appInstanceUserArn,
     params::AbstractDict{String};
@@ -2932,7 +2965,11 @@ end
 
 Returns the full details of a channel in an Amazon Chime AppInstance.  The
 x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+makes the API call as the value in the header.    This API is is no longer supported and
+will not be updated. We recommend using the latest version, DescribeChannel, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -2941,14 +2978,12 @@ makes the API call as the value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel(channelArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/channels/$(channelArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_channel(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/channels/$(channelArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_channel(
     channelArn,
     params::AbstractDict{String};
@@ -2969,7 +3004,10 @@ end
 
 Returns the full details of a channel ban.  The x-amz-chime-bearer request header is
 mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+the header.    This API is is no longer supported and will not be updated. We recommend
+using the latest version, DescribeChannelBan, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel from which the user is banned.
@@ -2979,16 +3017,14 @@ the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel_ban(
+describe_channel_ban(
     channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/channels/$(channelArn)/bans/$(memberArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/bans/$(memberArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_channel_ban(
     channelArn,
     memberArn,
@@ -3010,7 +3046,10 @@ end
 
 Returns the full details of a user's channel membership.  The x-amz-chime-bearer request
 header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
-value in the header.
+value in the header.    This API is is no longer supported and will not be updated. We
+recommend using the latest version, DescribeChannelMembership, in the Amazon Chime SDK.
+Using the latest version requires migrating to a dedicated namespace. For more information,
+refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -3020,16 +3059,14 @@ value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel_membership(
+describe_channel_membership(
     channelArn, memberArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/channels/$(channelArn)/memberships/$(memberArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/memberships/$(memberArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_channel_membership(
     channelArn,
     memberArn,
@@ -3051,7 +3088,11 @@ end
 
  Returns the details of a channel based on the membership of the specified AppInstanceUser.
  The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user
-that makes the API call as the value in the header.
+that makes the API call as the value in the header.    This API is is no longer supported
+and will not be updated. We recommend using the latest version,
+DescribeChannelMembershipForAppInstanceUser, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app-instance-user-arn`: The ARN of the user in a channel.
@@ -3061,17 +3102,15 @@ that makes the API call as the value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel_membership_for_app_instance_user(
+describe_channel_membership_for_app_instance_user(
     app_instance_user_arn, channelArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/channels/$(channelArn)?scope=app-instance-user-membership",
+    Dict{String,Any}("app-instance-user-arn" => app_instance_user_arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/channels/$(channelArn)?scope=app-instance-user-membership",
-        Dict{String,Any}("app-instance-user-arn" => app_instance_user_arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_channel_membership_for_app_instance_user(
     app_instance_user_arn,
     channelArn,
@@ -3099,7 +3138,11 @@ end
 
 Returns the full details of a channel moderated by the specified AppInstanceUser.  The
 x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+makes the API call as the value in the header.    This API is is no longer supported and
+will not be updated. We recommend using the latest version,
+DescribeChannelModeratedByAppInstanceUser, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app-instance-user-arn`: The ARN of the AppInstanceUser in the moderated channel.
@@ -3109,17 +3152,15 @@ makes the API call as the value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel_moderated_by_app_instance_user(
+describe_channel_moderated_by_app_instance_user(
     app_instance_user_arn, channelArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/channels/$(channelArn)?scope=app-instance-user-moderated-channel",
+    Dict{String,Any}("app-instance-user-arn" => app_instance_user_arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/channels/$(channelArn)?scope=app-instance-user-moderated-channel",
-        Dict{String,Any}("app-instance-user-arn" => app_instance_user_arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_channel_moderated_by_app_instance_user(
     app_instance_user_arn,
     channelArn,
@@ -3147,7 +3188,10 @@ end
 
 Returns the full details of a single ChannelModerator.  The x-amz-chime-bearer request
 header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
-value in the header.
+value in the header.    This API is is no longer supported and will not be updated. We
+recommend using the latest version, DescribeChannelModerator, in the Amazon Chime SDK.
+Using the latest version requires migrating to a dedicated namespace. For more information,
+refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -3157,16 +3201,14 @@ value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function describe_channel_moderator(
+describe_channel_moderator(
     channelArn, channelModeratorArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/channels/$(channelArn)/moderators/$(channelModeratorArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/moderators/$(channelModeratorArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_channel_moderator(
     channelArn,
     channelModeratorArn,
@@ -3193,16 +3235,14 @@ Disassociates the primary provisioned phone number from the specified Amazon Chi
 - `user_id`: The user ID.
 
 """
-function disassociate_phone_number_from_user(
+disassociate_phone_number_from_user(
     accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=disassociate-phone-number";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_phone_number_from_user(
     accountId,
     userId,
@@ -3223,23 +3263,25 @@ end
     disassociate_phone_numbers_from_voice_connector(e164_phone_numbers, voice_connector_id, params::Dict{String,<:Any})
 
 Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector.
+ This API is is no longer supported and will not be updated. We recommend using the latest
+version, DisassociatePhoneNumbersFromVoiceConnector, in the Amazon Chime SDK. Using the
+latest version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `e164_phone_numbers`: List of phone numbers, in E.164 format.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function disassociate_phone_numbers_from_voice_connector(
+disassociate_phone_numbers_from_voice_connector(
     E164PhoneNumbers, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers",
+    Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)?operation=disassociate-phone-numbers",
-        Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_phone_numbers_from_voice_connector(
     E164PhoneNumbers,
     voiceConnectorId,
@@ -3264,26 +3306,27 @@ end
     disassociate_phone_numbers_from_voice_connector_group(e164_phone_numbers, voice_connector_group_id, params::Dict{String,<:Any})
 
 Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector
-group.
+group.   This API is is no longer supported and will not be updated. We recommend using the
+latest version, DisassociatePhoneNumbersFromVoiceConnectorGroup, in the Amazon Chime SDK.
+Using the latest version requires migrating to a dedicated namespace. For more information,
+refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `e164_phone_numbers`: List of phone numbers, in E.164 format.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
-function disassociate_phone_numbers_from_voice_connector_group(
+disassociate_phone_numbers_from_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers",
+    Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/voice-connector-groups/$(voiceConnectorGroupId)?operation=disassociate-phone-numbers",
-        Dict{String,Any}("E164PhoneNumbers" => E164PhoneNumbers);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_phone_numbers_from_voice_connector_group(
     E164PhoneNumbers,
     voiceConnectorGroupId,
@@ -3314,17 +3357,15 @@ Disassociates the specified sign-in delegate groups from the specified Amazon Ch
 - `account_id`: The Amazon Chime account ID.
 
 """
-function disassociate_signin_delegate_groups_from_account(
+disassociate_signin_delegate_groups_from_account(
     GroupNames, accountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups",
+    Dict{String,Any}("GroupNames" => GroupNames);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)?operation=disassociate-signin-delegate-groups",
-        Dict{String,Any}("GroupNames" => GroupNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_signin_delegate_groups_from_account(
     GroupNames,
     accountId,
@@ -3353,14 +3394,12 @@ supported licenses.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function get_account(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/accounts/$(accountId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_account(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/accounts/$(accountId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_account(
     accountId,
     params::AbstractDict{String};
@@ -3387,14 +3426,12 @@ Policies Page in the Amazon Chime Administration Guide.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function get_account_settings(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/settings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_account_settings(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/accounts/$(accountId)/settings";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_account_settings(
     accountId,
     params::AbstractDict{String};
@@ -3413,22 +3450,24 @@ end
     get_app_instance_retention_settings(app_instance_arn)
     get_app_instance_retention_settings(app_instance_arn, params::Dict{String,<:Any})
 
-Gets the retention settings for an AppInstance.
+Gets the retention settings for an AppInstance.   This API is is no longer supported and
+will not be updated. We recommend using the latest version, GetMessagingRetentionSettings,
+in the Amazon Chime SDK. Using the latest version requires migrating to a dedicated
+namespace. For more information, refer to Migrating from the Amazon Chime namespace in the
+Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function get_app_instance_retention_settings(
+get_app_instance_retention_settings(
     appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/app-instances/$(appInstanceArn)/retention-settings";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/app-instances/$(appInstanceArn)/retention-settings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_app_instance_retention_settings(
     appInstanceArn,
     params::AbstractDict{String};
@@ -3447,22 +3486,24 @@ end
     get_app_instance_streaming_configurations(app_instance_arn)
     get_app_instance_streaming_configurations(app_instance_arn, params::Dict{String,<:Any})
 
-Gets the streaming settings for an AppInstance.
+Gets the streaming settings for an AppInstance.   This API is is no longer supported and
+will not be updated. We recommend using the latest version,
+GetMessagingStreamingConfigurations, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function get_app_instance_streaming_configurations(
+get_app_instance_streaming_configurations(
     appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/app-instances/$(appInstanceArn)/streaming-configurations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/app-instances/$(appInstanceArn)/streaming-configurations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_app_instance_streaming_configurations(
     appInstanceArn,
     params::AbstractDict{String};
@@ -3483,23 +3524,23 @@ end
 
  Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For
 more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon
-Chime SDK Developer Guide .
+Chime SDK Developer Guide.    This API is is no longer supported and will not be updated.
+We recommend using the latest version, GetAttendee, in the Amazon Chime SDK. Using the
+latest version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `attendee_id`: The Amazon Chime SDK attendee ID.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function get_attendee(
-    attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+get_attendee(attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "GET",
         "/meetings/$(meetingId)/attendees/$(attendeeId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_attendee(
     attendeeId,
     meetingId,
@@ -3527,14 +3568,12 @@ display name.
 - `bot_id`: The bot ID.
 
 """
-function get_bot(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/bots/$(botId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_bot(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/accounts/$(accountId)/bots/$(botId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_bot(
     accountId,
     botId,
@@ -3556,7 +3595,10 @@ end
 
 Gets the full details of a channel message.  The x-amz-chime-bearer request header is
 mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+the header.    This API is is no longer supported and will not be updated. We recommend
+using the latest version, GetChannelMessage, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -3566,16 +3608,14 @@ the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function get_channel_message(
+get_channel_message(
     channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/channels/$(channelArn)/messages/$(messageId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/messages/$(messageId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_channel_message(
     channelArn,
     messageId,
@@ -3603,16 +3643,14 @@ as an HTTPS endpoint or Lambda function ARN.
 - `bot_id`: The bot ID.
 
 """
-function get_events_configuration(
+get_events_configuration(
     accountId, botId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/accounts/$(accountId)/bots/$(botId)/events-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_events_configuration(
     accountId,
     botId,
@@ -3636,9 +3674,8 @@ Retrieves global settings for the administrator's AWS account, such as Amazon Ch
 Business Calling and Amazon Chime Voice Connector settings.
 
 """
-function get_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime("GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime("GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3651,22 +3688,24 @@ end
     get_media_capture_pipeline(media_pipeline_id)
     get_media_capture_pipeline(media_pipeline_id, params::Dict{String,<:Any})
 
-Gets an existing media capture pipeline.
+Gets an existing media capture pipeline.   This API is is no longer supported and will not
+be updated. We recommend using the latest version, GetMediaCapturePipeline, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `media_pipeline_id`: The ID of the pipeline that you want to get.
 
 """
-function get_media_capture_pipeline(
+get_media_capture_pipeline(
     mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/media-capture-pipelines/$(mediaPipelineId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/media-capture-pipelines/$(mediaPipelineId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_media_capture_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
@@ -3685,22 +3724,23 @@ end
     get_meeting(meeting_id)
     get_meeting(meeting_id, params::Dict{String,<:Any})
 
- Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more
-information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime
-SDK Developer Guide .
+  This API is is no longer supported and will not be updated. We recommend using the latest
+version, GetMeeting, in the Amazon Chime SDK. Using the latest version requires migrating
+to a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.   Gets the Amazon Chime SDK meeting
+details for the specified meeting ID. For more information about the Amazon Chime SDK, see
+Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide .
 
 # Arguments
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function get_meeting(meetingId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/meetings/$(meetingId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_meeting(meetingId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/meetings/$(meetingId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_meeting(
     meetingId,
     params::AbstractDict{String};
@@ -3719,17 +3759,19 @@ end
     get_messaging_session_endpoint()
     get_messaging_session_endpoint(params::Dict{String,<:Any})
 
-The details of the endpoint for the messaging session.
+The details of the endpoint for the messaging session.   This API is is no longer supported
+and will not be updated. We recommend using the latest version,
+GetMessagingSessionEndpoint, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 """
-function get_messaging_session_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/endpoints/messaging-session";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_messaging_session_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/endpoints/messaging-session";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_messaging_session_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3753,14 +3795,12 @@ and product type.
 - `phone_number_id`: The phone number ID.
 
 """
-function get_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/phone-numbers/$(phoneNumberId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/phone-numbers/$(phoneNumberId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -3786,16 +3826,14 @@ timestamp, phone numbers in E.164 format, product type, and order status.
 - `phone_number_order_id`: The ID for the phone number order.
 
 """
-function get_phone_number_order(
+get_phone_number_order(
     phoneNumberOrderId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/phone-number-orders/$(phoneNumberOrderId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/phone-number-orders/$(phoneNumberOrderId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_phone_number_order(
     phoneNumberOrderId,
     params::AbstractDict{String};
@@ -3818,14 +3856,12 @@ Retrieves the phone number settings for the administrator's AWS account, such as
 default outbound calling name.
 
 """
-function get_phone_number_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/settings/phone-number";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_phone_number_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/settings/phone-number";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_phone_number_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3843,22 +3879,24 @@ end
     get_proxy_session(proxy_session_id, voice_connector_id, params::Dict{String,<:Any})
 
 Gets the specified proxy session details for the specified Amazon Chime Voice Connector.
+This API is is no longer supported and will not be updated. We recommend using the latest
+version, GetProxySession, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `proxy_session_id`: The proxy session ID.
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
 """
-function get_proxy_session(
+get_proxy_session(
     proxySessionId, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_proxy_session(
     proxySessionId,
     voiceConnectorId,
@@ -3886,16 +3924,13 @@ Chime Administration Guide.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function get_retention_settings(
-    accountId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+get_retention_settings(accountId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "GET",
         "/accounts/$(accountId)/retention-settings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_retention_settings(
     accountId,
     params::AbstractDict{String};
@@ -3922,14 +3957,12 @@ account.
 - `room_id`: The room ID.
 
 """
-function get_room(accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/rooms/$(roomId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_room(accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/accounts/$(accountId)/rooms/$(roomId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_room(
     accountId,
     roomId,
@@ -3950,22 +3983,23 @@ end
     get_sip_media_application(sip_media_application_id, params::Dict{String,<:Any})
 
 Retrieves the information for a SIP media application, including name, AWS Region, and
-endpoints.
+endpoints.   This API is is no longer supported and will not be updated. We recommend using
+the latest version, GetSipMediaApplication, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `sip_media_application_id`: The SIP media application ID.
 
 """
-function get_sip_media_application(
+get_sip_media_application(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/sip-media-applications/$(sipMediaApplicationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sip_media_application(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -3984,22 +4018,24 @@ end
     get_sip_media_application_logging_configuration(sip_media_application_id)
     get_sip_media_application_logging_configuration(sip_media_application_id, params::Dict{String,<:Any})
 
-Returns the logging configuration for the specified SIP media application.
+Returns the logging configuration for the specified SIP media application.   This API is is
+no longer supported and will not be updated. We recommend using the latest version,
+GetSipMediaApplicationLoggingConfiguration, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `sip_media_application_id`: The SIP media application ID.
 
 """
-function get_sip_media_application_logging_configuration(
+get_sip_media_application_logging_configuration(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_sip_media_application_logging_configuration(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -4019,20 +4055,21 @@ end
     get_sip_rule(sip_rule_id, params::Dict{String,<:Any})
 
 Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and target
-endpoints.
+endpoints.   This API is is no longer supported and will not be updated. We recommend using
+the latest version, GetSipRule, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `sip_rule_id`: The SIP rule ID.
 
 """
-function get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/sip-rules/$(sipRuleId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_sip_rule(sipRuleId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/sip-rules/$(sipRuleId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_sip_rule(
     sipRuleId,
     params::AbstractDict{String};
@@ -4060,14 +4097,12 @@ user ID, use the ListUsers action, and then filter by email address.
 - `user_id`: The user ID.
 
 """
-function get_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/users/$(userId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/accounts/$(accountId)/users/$(userId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_user(
     accountId,
     userId,
@@ -4094,16 +4129,13 @@ Retrieves settings for the specified user ID, such as any associated phone numbe
 - `user_id`: The user ID.
 
 """
-function get_user_settings(
-    accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+get_user_settings(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "GET",
         "/accounts/$(accountId)/users/$(userId)/settings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_user_settings(
     accountId,
     userId,
@@ -4124,22 +4156,23 @@ end
     get_voice_connector(voice_connector_id, params::Dict{String,<:Any})
 
 Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps,name,
-outbound host, and encryption requirements.
+outbound host, and encryption requirements.   This API is is no longer supported and will
+not be updated. We recommend using the latest version, GetVoiceConnector, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+get_voice_connector(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "GET",
         "/voice-connectors/$(voiceConnectorId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_voice_connector(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4159,22 +4192,24 @@ end
     get_voice_connector_emergency_calling_configuration(voice_connector_id, params::Dict{String,<:Any})
 
 Gets the emergency calling configuration details for the specified Amazon Chime Voice
-Connector.
+Connector.   This API is is no longer supported and will not be updated. We recommend using
+the latest version, GetVoiceConnectorEmergencyCallingConfiguration, in the Amazon Chime
+SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_emergency_calling_configuration(
+get_voice_connector_emergency_calling_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_voice_connector_emergency_calling_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4194,22 +4229,24 @@ end
     get_voice_connector_group(voice_connector_group_id, params::Dict{String,<:Any})
 
  Retrieves details for the specified Amazon Chime Voice Connector group, such as
-timestamps,name, and associated VoiceConnectorItems.
+timestamps,name, and associated VoiceConnectorItems.   This API is is no longer supported
+and will not be updated. We recommend using the latest version, GetVoiceConnectorGroup, in
+the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace.
+For more information, refer to Migrating from the Amazon Chime namespace in the Amazon
+Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
-function get_voice_connector_group(
+get_voice_connector_group(
     voiceConnectorGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/voice-connector-groups/$(voiceConnectorGroupId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/voice-connector-groups/$(voiceConnectorGroupId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_voice_connector_group(
     voiceConnectorGroupId,
     params::AbstractDict{String};
@@ -4229,22 +4266,24 @@ end
     get_voice_connector_logging_configuration(voice_connector_id, params::Dict{String,<:Any})
 
 Retrieves the logging configuration details for the specified Amazon Chime Voice Connector.
-Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
+Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.   This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, GetVoiceConnectorLoggingConfiguration, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_logging_configuration(
+get_voice_connector_logging_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/voice-connectors/$(voiceConnectorId)/logging-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_voice_connector_logging_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4264,21 +4303,23 @@ end
     get_voice_connector_origination(voice_connector_id, params::Dict{String,<:Any})
 
 Retrieves origination setting details for the specified Amazon Chime Voice Connector.
+This API is is no longer supported and will not be updated. We recommend using the latest
+version, GetVoiceConnectorOrigination, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_origination(
+get_voice_connector_origination(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/voice-connectors/$(voiceConnectorId)/origination";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/origination";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_voice_connector_origination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4297,22 +4338,24 @@ end
     get_voice_connector_proxy(voice_connector_id)
     get_voice_connector_proxy(voice_connector_id, params::Dict{String,<:Any})
 
-Gets the proxy configuration details for the specified Amazon Chime Voice Connector.
+Gets the proxy configuration details for the specified Amazon Chime Voice Connector.   This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, GetVoiceConnectorProxy, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime voice connector ID.
 
 """
-function get_voice_connector_proxy(
+get_voice_connector_proxy(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_voice_connector_proxy(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4333,22 +4376,24 @@ end
 
 Retrieves the streaming configuration details for the specified Amazon Chime Voice
 Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also
-shows the retention period, in hours, for the Amazon Kinesis data.
+shows the retention period, in hours, for the Amazon Kinesis data.   This API is is no
+longer supported and will not be updated. We recommend using the latest version,
+GetVoiceConnectorStreamingConfiguration, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_streaming_configuration(
+get_voice_connector_streaming_configuration(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/voice-connectors/$(voiceConnectorId)/streaming-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_voice_connector_streaming_configuration(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4368,21 +4413,23 @@ end
     get_voice_connector_termination(voice_connector_id, params::Dict{String,<:Any})
 
 Retrieves termination setting details for the specified Amazon Chime Voice Connector.
+This API is is no longer supported and will not be updated. We recommend using the latest
+version, GetVoiceConnectorTermination, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_termination(
+get_voice_connector_termination(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/voice-connectors/$(voiceConnectorId)/termination";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_voice_connector_termination(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4401,6 +4448,10 @@ end
     get_voice_connector_termination_health(voice_connector_id)
     get_voice_connector_termination_health(voice_connector_id, params::Dict{String,<:Any})
 
+  This API is is no longer supported and will not be updated. We recommend using the latest
+version, GetVoiceConnectorTerminationHealth, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 Retrieves information about the last time a SIP OPTIONS ping was received from your SIP
 infrastructure for the specified Amazon Chime Voice Connector.
 
@@ -4408,16 +4459,14 @@ infrastructure for the specified Amazon Chime Voice Connector.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function get_voice_connector_termination_health(
+get_voice_connector_termination_health(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/voice-connectors/$(voiceConnectorId)/termination/health";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/health";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_voice_connector_termination_health(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -4447,17 +4496,14 @@ account. Only Team account types are currently supported for this action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"UserType"`: The user type.
 """
-function invite_users(
-    UserEmailList, accountId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+invite_users(UserEmailList, accountId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "POST",
         "/accounts/$(accountId)/users?operation=add",
         Dict{String,Any}("UserEmailList" => UserEmailList);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function invite_users(
     UserEmailList,
     accountId,
@@ -4491,9 +4537,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 - `"user-email"`: User email address with which to filter results.
 """
-function list_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime("GET", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime("GET", "/accounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4506,7 +4551,11 @@ end
     list_app_instance_admins(app_instance_arn)
     list_app_instance_admins(app_instance_arn, params::Dict{String,<:Any})
 
-Returns a list of the administrators in the AppInstance.
+Returns a list of the administrators in the AppInstance.   This API is is no longer
+supported and will not be updated. We recommend using the latest version,
+ListAppInstanceAdmins, in the Amazon Chime SDK. Using the latest version requires migrating
+to a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_arn`: The ARN of the AppInstance.
@@ -4517,16 +4566,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token returned from previous API requests until the number of
   administrators is reached.
 """
-function list_app_instance_admins(
+list_app_instance_admins(
     appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/app-instances/$(appInstanceArn)/admins";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/app-instances/$(appInstanceArn)/admins";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_app_instance_admins(
     appInstanceArn,
     params::AbstractDict{String};
@@ -4545,7 +4592,11 @@ end
     list_app_instance_users(app-instance-arn)
     list_app_instance_users(app-instance-arn, params::Dict{String,<:Any})
 
-List all AppInstanceUsers created under a single AppInstance.
+List all AppInstanceUsers created under a single AppInstance.    This API is is no longer
+supported and will not be updated. We recommend using the latest version,
+ListAppInstanceUsers, in the Amazon Chime SDK. Using the latest version requires migrating
+to a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app-instance-arn`: The ARN of the AppInstance.
@@ -4556,17 +4607,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API calls until all requested users are
   returned.
 """
-function list_app_instance_users(
+list_app_instance_users(
     app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/app-instance-users",
+    Dict{String,Any}("app-instance-arn" => app_instance_arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/app-instance-users",
-        Dict{String,Any}("app-instance-arn" => app_instance_arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_app_instance_users(
     app_instance_arn,
     params::AbstractDict{String};
@@ -4589,7 +4638,11 @@ end
     list_app_instances()
     list_app_instances(params::Dict{String,<:Any})
 
-Lists all Amazon Chime AppInstances created under a single AWS account.
+Lists all Amazon Chime AppInstances created under a single AWS account.   This API is is no
+longer supported and will not be updated. We recommend using the latest version,
+ListAppInstances, in the Amazon Chime SDK. Using the latest version requires migrating to a
+dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4597,11 +4650,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token passed by previous API requests until you reach the maximum
   number of AppInstances.
 """
-function list_app_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET", "/app-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_app_instances(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime("GET", "/app-instances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_app_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4618,23 +4668,23 @@ end
     list_attendee_tags(attendee_id, meeting_id)
     list_attendee_tags(attendee_id, meeting_id, params::Dict{String,<:Any})
 
-Lists the tags applied to an Amazon Chime SDK attendee resource.
+Lists the tags applied to an Amazon Chime SDK attendee resource.  ListAttendeeTags is not
+supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove
+calls to this API.
 
 # Arguments
 - `attendee_id`: The Amazon Chime SDK attendee ID.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function list_attendee_tags(
+list_attendee_tags(
     attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/meetings/$(meetingId)/attendees/$(attendeeId)/tags";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_attendee_tags(
     attendeeId,
     meetingId,
@@ -4656,7 +4706,10 @@ end
 
  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about
 the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer
-Guide.
+Guide.    This API is is no longer supported and will not be updated. We recommend using
+the latest version, ListAttendees, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `meeting_id`: The Amazon Chime SDK meeting ID.
@@ -4666,14 +4719,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-function list_attendees(meetingId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/meetings/$(meetingId)/attendees";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_attendees(meetingId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/meetings/$(meetingId)/attendees";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_attendees(
     meetingId,
     params::AbstractDict{String};
@@ -4703,14 +4754,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   10.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-function list_bots(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/bots";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_bots(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/accounts/$(accountId)/bots";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_bots(
     accountId,
     params::AbstractDict{String};
@@ -4731,7 +4780,10 @@ end
 
 Lists all the users banned from a particular channel.  The x-amz-chime-bearer request
 header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
-value in the header.
+value in the header.    This API is is no longer supported and will not be updated. We
+recommend using the latest version, ListChannelBans, in the Amazon Chime SDK. Using the
+latest version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -4743,14 +4795,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function list_channel_bans(channelArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/channels/$(channelArn)/bans";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_channel_bans(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/channels/$(channelArn)/bans";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_channel_bans(
     channelArn,
     params::AbstractDict{String};
@@ -4771,7 +4821,10 @@ end
 
 Lists all channel memberships in a channel.  The x-amz-chime-bearer request header is
 mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+the header.    This API is is no longer supported and will not be updated. We recommend
+using the latest version, ListChannelMemberships, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The maximum number of channel memberships that you want returned.
@@ -4786,16 +4839,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function list_channel_memberships(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+list_channel_memberships(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "GET",
         "/channels/$(channelArn)/memberships";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_channel_memberships(
     channelArn,
     params::AbstractDict{String};
@@ -4817,7 +4867,11 @@ end
  Lists all channels that a particular AppInstanceUser is a part of. Only an
 AppInstanceAdmin can call the API with a user ARN that is not their own.   The
 x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+makes the API call as the value in the header.    This API is is no longer supported and
+will not be updated. We recommend using the latest version,
+ListChannelMembershipsForAppInstanceUser, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4827,16 +4881,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   memberships is reached.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function list_channel_memberships_for_app_instance_user(;
+list_channel_memberships_for_app_instance_user(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/channels?scope=app-instance-user-memberships";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/channels?scope=app-instance-user-memberships";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_channel_memberships_for_app_instance_user(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4858,7 +4910,11 @@ default, sorted by creation timestamp in descending order.  Redacted messages ap
 results as empty, since they are only redacted, not deleted. Deleted messages do not appear
 in the results. This action always returns the latest version of an edited message. Also,
 the x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user
-that makes the API call as the value in the header.
+that makes the API call as the value in the header.    This API is is no longer supported
+and will not be updated. We recommend using the latest version, ListChannelMessages, in the
+Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For
+more information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime
+SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -4874,16 +4930,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on time created.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function list_channel_messages(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+list_channel_messages(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "GET",
         "/channels/$(channelArn)/messages";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_channel_messages(
     channelArn,
     params::AbstractDict{String};
@@ -4904,7 +4957,10 @@ end
 
 Lists all the moderators for a channel.  The x-amz-chime-bearer request header is
 mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in
-the header.
+the header.    This API is is no longer supported and will not be updated. We recommend
+using the latest version, ListChannelModerators, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -4916,16 +4972,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function list_channel_moderators(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+list_channel_moderators(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "GET",
         "/channels/$(channelArn)/moderators";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_channel_moderators(
     channelArn,
     params::AbstractDict{String};
@@ -4949,7 +5002,10 @@ filters to narrow results.  Functionality &amp; restrictions    Use privacy = PU
 retrieve all public channels in the account.   Only an AppInstanceAdmin can set privacy =
 PRIVATE to list the private channels in an account.    The x-amz-chime-bearer request
 header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
-value in the header.
+value in the header.    This API is is no longer supported and will not be updated. We
+recommend using the latest version, ListChannels, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app-instance-arn`: The ARN of the AppInstance.
@@ -4963,15 +5019,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieves private channels. Only an AppInstanceAdmin can retrieve private channels.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function list_channels(app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/channels",
-        Dict{String,Any}("app-instance-arn" => app_instance_arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_channels(app_instance_arn; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/channels",
+    Dict{String,Any}("app-instance-arn" => app_instance_arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_channels(
     app_instance_arn,
     params::AbstractDict{String};
@@ -4996,7 +5050,11 @@ end
 
 A list of the channels moderated by an AppInstanceUser.  The x-amz-chime-bearer request
 header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the
-value in the header.
+value in the header.    This API is is no longer supported and will not be updated. We
+recommend using the latest version, ListChannelsModeratedByAppInstanceUser, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5006,16 +5064,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   channels moderated by the user is reached.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function list_channels_moderated_by_app_instance_user(;
+list_channels_moderated_by_app_instance_user(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/channels?scope=app-instance-user-moderated-channels";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/channels?scope=app-instance-user-moderated-channels";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_channels_moderated_by_app_instance_user(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5032,7 +5088,11 @@ end
     list_media_capture_pipelines()
     list_media_capture_pipelines(params::Dict{String,<:Any})
 
-Returns a list of media capture pipelines.
+Returns a list of media capture pipelines.   This API is is no longer supported and will
+not be updated. We recommend using the latest version, ListMediaCapturePipelines, in the
+Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For
+more information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime
+SDK Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5040,14 +5100,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - 99.
 - `"next-token"`: The token used to retrieve the next page of results.
 """
-function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/media-capture-pipelines";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_media_capture_pipelines(; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/media-capture-pipelines";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_media_capture_pipelines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5064,20 +5122,22 @@ end
     list_meeting_tags(meeting_id)
     list_meeting_tags(meeting_id, params::Dict{String,<:Any})
 
-Lists the tags applied to an Amazon Chime SDK meeting resource.
+Lists the tags applied to an Amazon Chime SDK meeting resource.   This API is is no longer
+supported and will not be updated. We recommend using the latest version,
+ListTagsForResource, in the Amazon Chime SDK. Using the latest version requires migrating
+to a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function list_meeting_tags(meetingId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/meetings/$(meetingId)/tags";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_meeting_tags(meetingId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/meetings/$(meetingId)/tags";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_meeting_tags(
     meetingId,
     params::AbstractDict{String};
@@ -5096,17 +5156,18 @@ end
     list_meetings()
     list_meetings(params::Dict{String,<:Any})
 
- Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon
-Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime SDK Developer Guide.
+Lists up to 100 active Amazon Chime SDK meetings.  ListMeetings is not supported in the
+Amazon Chime SDK Meetings Namespace. Update your application to remove calls to this API.
+For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the
+Amazon Chime SDK Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-function list_meetings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime("GET", "/meetings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_meetings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime("GET", "/meetings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_meetings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5126,14 +5187,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-function list_phone_number_orders(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/phone-number-orders";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_phone_number_orders(; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/phone-number-orders";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_phone_number_orders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5162,11 +5221,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"product-type"`: The phone number product type.
 - `"status"`: The phone number status.
 """
-function list_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET", "/phone-numbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime("GET", "/phone-numbers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5183,7 +5239,11 @@ end
     list_proxy_sessions(voice_connector_id)
     list_proxy_sessions(voice_connector_id, params::Dict{String,<:Any})
 
-Lists the proxy sessions for the specified Amazon Chime Voice Connector.
+Lists the proxy sessions for the specified Amazon Chime Voice Connector.   This API is is
+no longer supported and will not be updated. We recommend using the latest version,
+ListProxySessions, in the Amazon Chime SDK. Using the latest version requires migrating to
+a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime voice connector ID.
@@ -5194,16 +5254,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 - `"status"`: The proxy session status.
 """
-function list_proxy_sessions(
-    voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+list_proxy_sessions(voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "GET",
         "/voice-connectors/$(voiceConnectorId)/proxy-sessions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_proxy_sessions(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -5234,16 +5291,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-function list_room_memberships(
+list_room_memberships(
     accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/accounts/$(accountId)/rooms/$(roomId)/memberships";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_room_memberships(
     accountId,
     roomId,
@@ -5276,14 +5331,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"member-id"`: The member ID (user ID or bot ID).
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-function list_rooms(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/rooms";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_rooms(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/accounts/$(accountId)/rooms";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_rooms(
     accountId,
     params::AbstractDict{String};
@@ -5302,7 +5355,11 @@ end
     list_sip_media_applications()
     list_sip_media_applications(params::Dict{String,<:Any})
 
-Lists the SIP media applications under the administrator's AWS account.
+Lists the SIP media applications under the administrator's AWS account.   This API is is no
+longer supported and will not be updated. We recommend using the latest version,
+ListSipMediaApplications, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5310,14 +5367,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   100.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-function list_sip_media_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/sip-media-applications";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_sip_media_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/sip-media-applications";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_sip_media_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5334,7 +5389,11 @@ end
     list_sip_rules()
     list_sip_rules(params::Dict{String,<:Any})
 
-Lists the SIP rules under the administrator's AWS account.
+Lists the SIP rules under the administrator's AWS account.   This API is is no longer
+supported and will not be updated. We recommend using the latest version, ListSipRules, in
+the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace.
+For more information, refer to Migrating from the Amazon Chime namespace in the Amazon
+Chime SDK Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5343,11 +5402,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token to use to retrieve the next page of results.
 - `"sip-media-application"`: The SIP media application ID.
 """
-function list_sip_rules(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET", "/sip-rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_sip_rules(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime("GET", "/sip-rules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_sip_rules(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5366,17 +5422,15 @@ Lists supported phone number countries.
 - `product-type`: The phone number product type.
 
 """
-function list_supported_phone_number_countries(
+list_supported_phone_number_countries(
     product_type; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/phone-number-countries",
+    Dict{String,Any}("product-type" => product_type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/phone-number-countries",
-        Dict{String,Any}("product-type" => product_type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_supported_phone_number_countries(
     product_type,
     params::AbstractDict{String};
@@ -5397,21 +5451,24 @@ end
     list_tags_for_resource(arn)
     list_tags_for_resource(arn, params::Dict{String,<:Any})
 
-Lists the tags applied to an Amazon Chime SDK meeting resource.
+Lists the tags applied to an Amazon Chime SDK meeting and messaging resources.   This API
+is is no longer supported and will not be updated. We recommend using the applicable latest
+version in the Amazon Chime SDK.   For meetings: ListTagsForResource.   For messaging:
+ListTagsForResource.   Using the latest version requires migrating to a dedicated
+namespace. For more information, refer to Migrating from the Amazon Chime namespace in the
+Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `arn`: The resource ARN.
 
 """
-function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/tags",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/tags",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_tags_for_resource(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5442,14 +5499,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"user-email"`: Optional. The user email address used to filter results. Maximum 1.
 - `"user-type"`: The user type.
 """
-function list_users(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/accounts/$(accountId)/users";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_users(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/accounts/$(accountId)/users";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_users(
     accountId,
     params::AbstractDict{String};
@@ -5468,21 +5523,23 @@ end
     list_voice_connector_groups()
     list_voice_connector_groups(params::Dict{String,<:Any})
 
-Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
+Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.   This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, ListVoiceConnectorGroups, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-function list_voice_connector_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/voice-connector-groups";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_voice_connector_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/voice-connector-groups";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_voice_connector_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5499,22 +5556,24 @@ end
     list_voice_connector_termination_credentials(voice_connector_id)
     list_voice_connector_termination_credentials(voice_connector_id, params::Dict{String,<:Any})
 
-Lists the SIP credentials for the specified Amazon Chime Voice Connector.
+Lists the SIP credentials for the specified Amazon Chime Voice Connector.   This API is is
+no longer supported and will not be updated. We recommend using the latest version,
+ListVoiceConnectorTerminationCredentials, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function list_voice_connector_termination_credentials(
+list_voice_connector_termination_credentials(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "GET",
+    "/voice-connectors/$(voiceConnectorId)/termination/credentials";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "GET",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_voice_connector_termination_credentials(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -5533,18 +5592,20 @@ end
     list_voice_connectors()
     list_voice_connectors(params::Dict{String,<:Any})
 
-Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
+Lists the Amazon Chime Voice Connectors for the administrator's AWS account.   This API is
+is no longer supported and will not be updated. We recommend using the latest version,
+ListVoiceConnectors, in the Amazon Chime SDK. Using the latest version requires migrating
+to a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"max-results"`: The maximum number of results to return in a single call.
 - `"next-token"`: The token to use to retrieve the next page of results.
 """
-function list_voice_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET", "/voice-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_voice_connectors(; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET", "/voice-connectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_voice_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5568,14 +5629,12 @@ Logs out the specified user from all of the devices they are currently logged in
 - `user_id`: The user ID.
 
 """
-function logout_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users/$(userId)?operation=logout";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+logout_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "POST",
+    "/accounts/$(accountId)/users/$(userId)?operation=logout";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function logout_user(
     accountId,
     userId,
@@ -5595,26 +5654,28 @@ end
     put_app_instance_retention_settings(app_instance_retention_settings, app_instance_arn)
     put_app_instance_retention_settings(app_instance_retention_settings, app_instance_arn, params::Dict{String,<:Any})
 
-Sets the amount of time in days that a given AppInstance retains data.
+Sets the amount of time in days that a given AppInstance retains data.   This API is is no
+longer supported and will not be updated. We recommend using the latest version,
+PutAppInstanceRetentionSettings, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_retention_settings`: The time in days to retain data. Data type: number.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function put_app_instance_retention_settings(
+put_app_instance_retention_settings(
     AppInstanceRetentionSettings,
     appInstanceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "PUT",
+    "/app-instances/$(appInstanceArn)/retention-settings",
+    Dict{String,Any}("AppInstanceRetentionSettings" => AppInstanceRetentionSettings);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/app-instances/$(appInstanceArn)/retention-settings",
-        Dict{String,Any}("AppInstanceRetentionSettings" => AppInstanceRetentionSettings);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_app_instance_retention_settings(
     AppInstanceRetentionSettings,
     appInstanceArn,
@@ -5642,7 +5703,11 @@ end
     put_app_instance_streaming_configurations(app_instance_streaming_configurations, app_instance_arn)
     put_app_instance_streaming_configurations(app_instance_streaming_configurations, app_instance_arn, params::Dict{String,<:Any})
 
-The data streaming configurations of an AppInstance.
+The data streaming configurations of an AppInstance.   This API is is no longer supported
+and will not be updated. We recommend using the latest version,
+PutMessagingStreamingConfigurations, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `app_instance_streaming_configurations`: The streaming configurations set for an
@@ -5650,21 +5715,19 @@ The data streaming configurations of an AppInstance.
 - `app_instance_arn`: The ARN of the AppInstance.
 
 """
-function put_app_instance_streaming_configurations(
+put_app_instance_streaming_configurations(
     AppInstanceStreamingConfigurations,
     appInstanceArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "PUT",
+    "/app-instances/$(appInstanceArn)/streaming-configurations",
+    Dict{String,Any}(
+        "AppInstanceStreamingConfigurations" => AppInstanceStreamingConfigurations
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/app-instances/$(appInstanceArn)/streaming-configurations",
-        Dict{String,Any}(
-            "AppInstanceStreamingConfigurations" => AppInstanceStreamingConfigurations
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_app_instance_streaming_configurations(
     AppInstanceStreamingConfigurations,
     appInstanceArn,
@@ -5707,16 +5770,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OutboundEventsHTTPSEndpoint"`: HTTPS endpoint that allows the bot to receive outgoing
   events.
 """
-function put_events_configuration(
+put_events_configuration(
     accountId, botId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/accounts/$(accountId)/bots/$(botId)/events-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/accounts/$(accountId)/bots/$(botId)/events-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_events_configuration(
     accountId,
     botId,
@@ -5749,17 +5810,15 @@ Administration Guide.
 - `account_id`: The Amazon Chime account ID.
 
 """
-function put_retention_settings(
+put_retention_settings(
     RetentionSettings, accountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/accounts/$(accountId)/retention-settings",
+    Dict{String,Any}("RetentionSettings" => RetentionSettings);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/accounts/$(accountId)/retention-settings",
-        Dict{String,Any}("RetentionSettings" => RetentionSettings);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_retention_settings(
     RetentionSettings,
     accountId,
@@ -5783,7 +5842,11 @@ end
     put_sip_media_application_logging_configuration(sip_media_application_id)
     put_sip_media_application_logging_configuration(sip_media_application_id, params::Dict{String,<:Any})
 
-Updates the logging configuration for the specified SIP media application.
+Updates the logging configuration for the specified SIP media application.   This API is is
+no longer supported and will not be updated. We recommend using the latest version,
+PutSipMediaApplicationLoggingConfiguration, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `sip_media_application_id`: The SIP media application ID.
@@ -5792,16 +5855,14 @@ Updates the logging configuration for the specified SIP media application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SipMediaApplicationLoggingConfiguration"`: The actual logging configuration.
 """
-function put_sip_media_application_logging_configuration(
+put_sip_media_application_logging_configuration(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)/logging-configuration";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_sip_media_application_logging_configuration(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -5823,26 +5884,28 @@ end
 Puts emergency calling configuration details to the specified Amazon Chime Voice Connector,
 such as emergency phone numbers and calling countries. Origination and termination settings
 must be enabled for the Amazon Chime Voice Connector before emergency calling can be
-configured.
+configured.   This API is is no longer supported and will not be updated. We recommend
+using the latest version, PutVoiceConnectorEmergencyCallingConfiguration, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `emergency_calling_configuration`: The emergency calling configuration details.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function put_voice_connector_emergency_calling_configuration(
+put_voice_connector_emergency_calling_configuration(
     EmergencyCallingConfiguration,
     voiceConnectorId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "PUT",
+    "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
+    Dict{String,Any}("EmergencyCallingConfiguration" => EmergencyCallingConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/emergency-calling-configuration",
-        Dict{String,Any}("EmergencyCallingConfiguration" => EmergencyCallingConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_voice_connector_emergency_calling_configuration(
     EmergencyCallingConfiguration,
     voiceConnectorId,
@@ -5872,26 +5935,27 @@ end
 
 Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging
 configuration specifies whether SIP message logs are enabled for sending to Amazon
-CloudWatch Logs.
+CloudWatch Logs.   This API is is no longer supported and will not be updated. We recommend
+using the latest version, PutVoiceConnectorLoggingConfiguration, in the Amazon Chime SDK.
+Using the latest version requires migrating to a dedicated namespace. For more information,
+refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `logging_configuration`: The logging configuration details to add.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function put_voice_connector_logging_configuration(
+put_voice_connector_logging_configuration(
     LoggingConfiguration,
     voiceConnectorId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "PUT",
+    "/voice-connectors/$(voiceConnectorId)/logging-configuration",
+    Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/logging-configuration",
-        Dict{String,Any}("LoggingConfiguration" => LoggingConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_voice_connector_logging_configuration(
     LoggingConfiguration,
     voiceConnectorId,
@@ -5919,24 +5983,26 @@ end
 
 Adds origination settings for the specified Amazon Chime Voice Connector.  If emergency
 calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to
-turning off origination settings.
+turning off origination settings.    This API is is no longer supported and will not be
+updated. We recommend using the latest version, PutVoiceConnectorOrigination, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `origination`: The origination setting details to add.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function put_voice_connector_origination(
+put_voice_connector_origination(
     Origination, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/voice-connectors/$(voiceConnectorId)/origination",
+    Dict{String,Any}("Origination" => Origination);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/origination",
-        Dict{String,Any}("Origination" => Origination);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_voice_connector_origination(
     Origination,
     voiceConnectorId,
@@ -5959,6 +6025,10 @@ end
     put_voice_connector_proxy(default_session_expiry_minutes, phone_number_pool_countries, voice_connector_id, params::Dict{String,<:Any})
 
 Puts the specified proxy configuration to the specified Amazon Chime Voice Connector.
+This API is is no longer supported and will not be updated. We recommend using the latest
+version, PutVoiceConnectorProxy, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `default_session_expiry_minutes`: The default number of minutes allowed for proxy
@@ -5972,23 +6042,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Chime Voice Connector.
 - `"FallBackPhoneNumber"`: The phone number to route calls to after a proxy session expires.
 """
-function put_voice_connector_proxy(
+put_voice_connector_proxy(
     DefaultSessionExpiryMinutes,
     PhoneNumberPoolCountries,
     voiceConnectorId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "PUT",
+    "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
+    Dict{String,Any}(
+        "DefaultSessionExpiryMinutes" => DefaultSessionExpiryMinutes,
+        "PhoneNumberPoolCountries" => PhoneNumberPoolCountries,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/programmable-numbers/proxy",
-        Dict{String,Any}(
-            "DefaultSessionExpiryMinutes" => DefaultSessionExpiryMinutes,
-            "PhoneNumberPoolCountries" => PhoneNumberPoolCountries,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_voice_connector_proxy(
     DefaultSessionExpiryMinutes,
     PhoneNumberPoolCountries,
@@ -6020,26 +6088,28 @@ end
 
 Adds a streaming configuration for the specified Amazon Chime Voice Connector. The
 streaming configuration specifies whether media streaming is enabled for sending to
-Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.
+Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.   This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, PutVoiceConnectorStreamingConfiguration, in the Amazon Chime SDK. Using the latest
+version requires migrating to a dedicated namespace. For more information, refer to
+Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `streaming_configuration`: The streaming configuration details to add.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function put_voice_connector_streaming_configuration(
+put_voice_connector_streaming_configuration(
     StreamingConfiguration,
     voiceConnectorId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "PUT",
+    "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
+    Dict{String,Any}("StreamingConfiguration" => StreamingConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/streaming-configuration",
-        Dict{String,Any}("StreamingConfiguration" => StreamingConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_voice_connector_streaming_configuration(
     StreamingConfiguration,
     voiceConnectorId,
@@ -6067,24 +6137,26 @@ end
 
 Adds termination settings for the specified Amazon Chime Voice Connector.  If emergency
 calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to
-turning off termination settings.
+turning off termination settings.    This API is is no longer supported and will not be
+updated. We recommend using the latest version, PutVoiceConnectorTermination, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `termination`: The termination setting details to add.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function put_voice_connector_termination(
+put_voice_connector_termination(
     Termination, voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/voice-connectors/$(voiceConnectorId)/termination",
+    Dict{String,Any}("Termination" => Termination);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)/termination",
-        Dict{String,Any}("Termination" => Termination);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_voice_connector_termination(
     Termination,
     voiceConnectorId,
@@ -6106,7 +6178,11 @@ end
     put_voice_connector_termination_credentials(voice_connector_id)
     put_voice_connector_termination_credentials(voice_connector_id, params::Dict{String,<:Any})
 
-Adds termination SIP credentials for the specified Amazon Chime Voice Connector.
+Adds termination SIP credentials for the specified Amazon Chime Voice Connector.   This API
+is is no longer supported and will not be updated. We recommend using the latest version,
+PutVoiceConnectorTerminationCredentials, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
@@ -6115,16 +6191,14 @@ Adds termination SIP credentials for the specified Amazon Chime Voice Connector.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Credentials"`: The termination SIP credentials.
 """
-function put_voice_connector_termination_credentials(
+put_voice_connector_termination_credentials(
     voiceConnectorId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)/termination/credentials?operation=put";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_voice_connector_termination_credentials(
     voiceConnectorId,
     params::AbstractDict{String};
@@ -6146,7 +6220,10 @@ end
 Redacts message content, but not metadata. The message exists in the back end, but the
 action returns null content, and the state shows as redacted.  The x-amz-chime-bearer
 request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call
-as the value in the header.
+as the value in the header.    This API is is no longer supported and will not be updated.
+We recommend using the latest version, RedactChannelMessage, in the Amazon Chime SDK. Using
+the latest version requires migrating to a dedicated namespace. For more information, refer
+to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel containing the messages that you want to redact.
@@ -6156,16 +6233,14 @@ as the value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function redact_channel_message(
+redact_channel_message(
     channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/channels/$(channelArn)/messages/$(messageId)?operation=redact";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/messages/$(messageId)?operation=redact";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function redact_channel_message(
     channelArn,
     messageId,
@@ -6193,16 +6268,14 @@ Redacts the specified message from the specified Amazon Chime conversation.
 - `message_id`: The message ID.
 
 """
-function redact_conversation_message(
+redact_conversation_message(
     accountId, conversationId, messageId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/conversations/$(conversationId)/messages/$(messageId)?operation=redact";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function redact_conversation_message(
     accountId,
     conversationId,
@@ -6231,16 +6304,14 @@ Redacts the specified message from the specified Amazon Chime channel.
 - `room_id`: The room ID.
 
 """
-function redact_room_message(
+redact_room_message(
     accountId, messageId, roomId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/messages/$(messageId)?operation=redact";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function redact_room_message(
     accountId,
     messageId,
@@ -6268,16 +6339,14 @@ Regenerates the security token for a bot.
 - `bot_id`: The bot ID.
 
 """
-function regenerate_security_token(
+regenerate_security_token(
     accountId, botId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/bots/$(botId)?operation=regenerate-security-token";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function regenerate_security_token(
     accountId,
     botId,
@@ -6305,16 +6374,13 @@ the User object with the updated personal meeting PIN.
 - `user_id`: The user ID.
 
 """
-function reset_personal_pin(
-    accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+reset_personal_pin(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "POST",
         "/accounts/$(accountId)/users/$(userId)?operation=reset-personal-pin";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function reset_personal_pin(
     accountId,
     userId,
@@ -6340,16 +6406,13 @@ Moves a phone number from the Deletion queue back into the phone number Inventor
 - `phone_number_id`: The phone number.
 
 """
-function restore_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+restore_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "POST",
         "/phone-numbers/$(phoneNumberId)?operation=restore";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function restore_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -6388,14 +6451,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toll-free-prefix"`: The toll-free prefix that you use to filter results. Only applies
   to the US.
 """
-function search_available_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "GET",
-        "/search?type=phone-numbers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+search_available_phone_numbers(; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "GET",
+    "/search?type=phone-numbers";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function search_available_phone_numbers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6416,7 +6477,10 @@ Sends a message to a particular channel that the member is a part of.  The
 x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
 makes the API call as the value in the header. Also, STANDARD messages can contain 4KB of
 data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no
-metadata.
+metadata.    This API is is no longer supported and will not be updated. We recommend using
+the latest version, SendChannelMessage, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `client_request_token`: The Idempotency token for each client request.
@@ -6431,27 +6495,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The optional metadata for each message.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function send_channel_message(
+send_channel_message(
     ClientRequestToken,
     Content,
     Persistence,
     Type,
     channelArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/channels/$(channelArn)/messages",
+    Dict{String,Any}(
+        "ClientRequestToken" => ClientRequestToken,
+        "Content" => Content,
+        "Persistence" => Persistence,
+        "Type" => Type,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/channels/$(channelArn)/messages",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "Content" => Content,
-            "Persistence" => Persistence,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_channel_message(
     ClientRequestToken,
     Content,
@@ -6493,6 +6555,10 @@ parameter and which combinations are valid, refer to the StartStreamTranscriptio
 the Amazon Transcribe Developer Guide.  Amazon Chime SDK live transcription is powered by
 Amazon Transcribe. Use of Amazon Transcribe is subject to the AWS Service Terms, including
 the terms specific to the AWS Machine Learning and Artificial Intelligence Services.
+This API is is no longer supported and will not be updated. We recommend using the latest
+version, StartMeetingTranscription, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `transcription_configuration`: The configuration for the current transcription operation.
@@ -6500,17 +6566,15 @@ the terms specific to the AWS Machine Learning and Artificial Intelligence Servi
 - `meeting_id`: The unique ID of the meeting being transcribed.
 
 """
-function start_meeting_transcription(
+start_meeting_transcription(
     TranscriptionConfiguration, meetingId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/meetings/$(meetingId)/transcription?operation=start",
+    Dict{String,Any}("TranscriptionConfiguration" => TranscriptionConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/transcription?operation=start",
-        Dict{String,Any}("TranscriptionConfiguration" => TranscriptionConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_meeting_transcription(
     TranscriptionConfiguration,
     meetingId,
@@ -6538,22 +6602,23 @@ end
     stop_meeting_transcription(meeting_id)
     stop_meeting_transcription(meeting_id, params::Dict{String,<:Any})
 
-Stops transcription for the specified meetingId.
+Stops transcription for the specified meetingId.   This API is is no longer supported and
+will not be updated. We recommend using the latest version, StopMeetingTranscription, in
+the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace.
+For more information, refer to Migrating from the Amazon Chime namespace in the Amazon
+Chime SDK Developer Guide.
 
 # Arguments
 - `meeting_id`: The unique ID of the meeting for which you stop transcription.
 
 """
-function stop_meeting_transcription(
-    meetingId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+stop_meeting_transcription(meetingId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "POST",
         "/meetings/$(meetingId)/transcription?operation=stop";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_meeting_transcription(
     meetingId,
     params::AbstractDict{String};
@@ -6572,7 +6637,9 @@ end
     tag_attendee(tags, attendee_id, meeting_id)
     tag_attendee(tags, attendee_id, meeting_id, params::Dict{String,<:Any})
 
-Applies the specified tags to the specified Amazon Chime SDK attendee.
+Applies the specified tags to the specified Amazon Chime attendee.  TagAttendee is not
+supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove
+calls to this API.
 
 # Arguments
 - `tags`: The tag key-value pairs.
@@ -6580,17 +6647,15 @@ Applies the specified tags to the specified Amazon Chime SDK attendee.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function tag_attendee(
+tag_attendee(
     Tags, attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add",
+    Dict{String,Any}("Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=add",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_attendee(
     Tags,
     attendeeId,
@@ -6611,22 +6676,24 @@ end
     tag_meeting(tags, meeting_id)
     tag_meeting(tags, meeting_id, params::Dict{String,<:Any})
 
-Applies the specified tags to the specified Amazon Chime SDK meeting.
+Applies the specified tags to the specified Amazon Chime SDK meeting.   This API is is no
+longer supported and will not be updated. We recommend using the latest version,
+TagResource, in the Amazon Chime SDK. Using the latest version requires migrating to a
+dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `tags`: The tag key-value pairs.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function tag_meeting(Tags, meetingId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/tags?operation=add",
-        Dict{String,Any}("Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_meeting(Tags, meetingId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "POST",
+    "/meetings/$(meetingId)/tags?operation=add",
+    Dict{String,Any}("Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_meeting(
     Tags,
     meetingId,
@@ -6646,22 +6713,24 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Applies the specified tags to the specified Amazon Chime SDK meeting resource.
+Applies the specified tags to the specified Amazon Chime SDK meeting resource.   This API
+is is no longer supported and will not be updated. We recommend using the latest version,
+TagResource, in the Amazon Chime SDK. Using the latest version requires migrating to a
+dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `resource_arn`: The resource ARN.
 - `tags`: The tag key-value pairs.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "POST",
-        "/tags?operation=tag-resource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "POST",
+    "/tags?operation=tag-resource",
+    Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     ResourceARN,
     Tags,
@@ -6687,7 +6756,9 @@ end
     untag_attendee(tag_keys, attendee_id, meeting_id)
     untag_attendee(tag_keys, attendee_id, meeting_id, params::Dict{String,<:Any})
 
-Untags the specified tags from the specified Amazon Chime SDK attendee.
+Untags the specified tags from the specified Amazon Chime SDK attendee.  UntagAttendee is
+not supported in the Amazon Chime SDK Meetings Namespace. Update your application to remove
+calls to this API.
 
 # Arguments
 - `tag_keys`: The tag keys.
@@ -6695,17 +6766,15 @@ Untags the specified tags from the specified Amazon Chime SDK attendee.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function untag_attendee(
+untag_attendee(
     TagKeys, attendeeId, meetingId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete",
+    Dict{String,Any}("TagKeys" => TagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/meetings/$(meetingId)/attendees/$(attendeeId)/tags?operation=delete",
-        Dict{String,Any}("TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function untag_attendee(
     TagKeys,
     attendeeId,
@@ -6726,24 +6795,25 @@ end
     untag_meeting(tag_keys, meeting_id)
     untag_meeting(tag_keys, meeting_id, params::Dict{String,<:Any})
 
-Untags the specified tags from the specified Amazon Chime SDK meeting.
+Untags the specified tags from the specified Amazon Chime SDK meeting.   This API is is no
+longer supported and will not be updated. We recommend using the latest version,
+UntagResource, in the Amazon Chime SDK. Using the latest version requires migrating to a
+dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `tag_keys`: The tag keys.
 - `meeting_id`: The Amazon Chime SDK meeting ID.
 
 """
-function untag_meeting(
-    TagKeys, meetingId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+untag_meeting(TagKeys, meetingId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "POST",
         "/meetings/$(meetingId)/tags?operation=delete",
         Dict{String,Any}("TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_meeting(
     TagKeys,
     meetingId,
@@ -6763,24 +6833,26 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Untags the specified tags from the specified Amazon Chime SDK meeting resource.
+Untags the specified tags from the specified Amazon Chime SDK meeting resource. Applies the
+specified tags to the specified Amazon Chime SDK meeting resource.   This API is is no
+longer supported and will not be updated. We recommend using the latest version,
+UntagResource, in the Amazon Chime SDK. Using the latest version requires migrating to a
+dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `resource_arn`: The resource ARN.
 - `tag_keys`: The tag keys.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "POST",
         "/tags?operation=untag-resource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -6818,14 +6890,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account.
 - `"Name"`: The new name for the specified Amazon Chime account.
 """
-function update_account(accountId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "POST",
-        "/accounts/$(accountId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_account(accountId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "POST",
+    "/accounts/$(accountId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_account(
     accountId,
     params::AbstractDict{String};
@@ -6853,17 +6923,15 @@ these settings, see Use the Policies Page in the Amazon Chime Administration Gui
 - `account_id`: The Amazon Chime account ID.
 
 """
-function update_account_settings(
+update_account_settings(
     AccountSettings, accountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/accounts/$(accountId)/settings",
+    Dict{String,Any}("AccountSettings" => AccountSettings);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/accounts/$(accountId)/settings",
-        Dict{String,Any}("AccountSettings" => AccountSettings);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_account_settings(
     AccountSettings,
     accountId,
@@ -6887,7 +6955,10 @@ end
     update_app_instance(name, app_instance_arn)
     update_app_instance(name, app_instance_arn, params::Dict{String,<:Any})
 
-Updates AppInstance metadata.
+Updates AppInstance metadata.   This API is is no longer supported and will not be updated.
+We recommend using the latest version, UpdateAppInstance, in the Amazon Chime SDK. Using
+the latest version requires migrating to a dedicated namespace. For more information, refer
+to Migrating from the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `name`: The name that you want to change.
@@ -6897,17 +6968,15 @@ Updates AppInstance metadata.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Metadata"`: The metadata that you want to change.
 """
-function update_app_instance(
+update_app_instance(
     Name, appInstanceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/app-instances/$(appInstanceArn)",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/app-instances/$(appInstanceArn)",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_app_instance(
     Name,
     appInstanceArn,
@@ -6927,7 +6996,11 @@ end
     update_app_instance_user(name, app_instance_user_arn)
     update_app_instance_user(name, app_instance_user_arn, params::Dict{String,<:Any})
 
-Updates the details of an AppInstanceUser. You can update names and metadata.
+Updates the details of an AppInstanceUser. You can update names and metadata.   This API is
+is no longer supported and will not be updated. We recommend using the latest version,
+UpdateAppInstanceUser, in the Amazon Chime SDK. Using the latest version requires migrating
+to a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `name`: The name of the AppInstanceUser.
@@ -6937,17 +7010,15 @@ Updates the details of an AppInstanceUser. You can update names and metadata.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Metadata"`: The metadata of the AppInstanceUser.
 """
-function update_app_instance_user(
+update_app_instance_user(
     Name, appInstanceUserArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/app-instance-users/$(appInstanceUserArn)",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/app-instance-users/$(appInstanceUserArn)",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_app_instance_user(
     Name,
     appInstanceUserArn,
@@ -6978,14 +7049,12 @@ in your Amazon Chime Enterprise account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Disabled"`: When true, stops the specified bot from running in your account.
 """
-function update_bot(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/bots/$(botId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_bot(accountId, botId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "POST",
+    "/accounts/$(accountId)/bots/$(botId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_bot(
     accountId,
     botId,
@@ -7007,7 +7076,11 @@ end
 
 Update a channel's attributes.  Restriction: You can't change a channel's privacy.   The
 x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+makes the API call as the value in the header.    This API is is no longer supported and
+will not be updated. We recommend using the latest version, UpdateChannel, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `mode`: The mode of the update request.
@@ -7019,17 +7092,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The metadata for the update request.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function update_channel(
-    Mode, Name, channelArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+update_channel(Mode, Name, channelArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "PUT",
         "/channels/$(channelArn)",
         Dict{String,Any}("Mode" => Mode, "Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_channel(
     Mode,
     Name,
@@ -7054,6 +7124,10 @@ end
 
 Updates the content of a message.  The x-amz-chime-bearer request header is mandatory. Use
 the AppInstanceUserArn of the user that makes the API call as the value in the header.
+This API is is no longer supported and will not be updated. We recommend using the latest
+version, UpdateChannelMessage, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -7065,16 +7139,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The metadata of the message being updated.
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function update_channel_message(
+update_channel_message(
     channelArn, messageId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/channels/$(channelArn)/messages/$(messageId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/channels/$(channelArn)/messages/$(messageId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_channel_message(
     channelArn,
     messageId,
@@ -7096,7 +7168,11 @@ end
 
 The details of the time when a user last read messages in a channel.  The
 x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that
-makes the API call as the value in the header.
+makes the API call as the value in the header.    This API is is no longer supported and
+will not be updated. We recommend using the latest version, UpdateChannelReadMarker, in the
+Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace. For
+more information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime
+SDK Developer Guide.
 
 # Arguments
 - `channel_arn`: The ARN of the channel.
@@ -7105,16 +7181,13 @@ makes the API call as the value in the header.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-chime-bearer"`: The AppInstanceUserArn of the user that makes the API call.
 """
-function update_channel_read_marker(
-    channelArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+update_channel_read_marker(channelArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "PUT",
         "/channels/$(channelArn)/readMarker";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_channel_read_marker(
     channelArn,
     params::AbstractDict{String};
@@ -7141,9 +7214,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"BusinessCalling"`: The Amazon Chime Business Calling settings.
 - `"VoiceConnector"`: The Amazon Chime Voice Connector settings.
 """
-function update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime("PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime("PUT", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function update_global_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7172,16 +7244,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CallingName"`: The outbound calling name associated with the phone number.
 - `"ProductType"`: The product type.
 """
-function update_phone_number(
-    phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return chime(
+update_phone_number(phoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    chime(
         "POST",
         "/phone-numbers/$(phoneNumberId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_phone_number(
     phoneNumberId,
     params::AbstractDict{String};
@@ -7208,17 +7277,15 @@ days. Outbound calling names can take up to 72 hours to update.
 - `calling_name`: The default outbound calling name for the account.
 
 """
-function update_phone_number_settings(
+update_phone_number_settings(
     CallingName; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/settings/phone-number",
+    Dict{String,Any}("CallingName" => CallingName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/settings/phone-number",
-        Dict{String,Any}("CallingName" => CallingName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_phone_number_settings(
     CallingName,
     params::AbstractDict{String};
@@ -7239,7 +7306,11 @@ end
     update_proxy_session(capabilities, proxy_session_id, voice_connector_id)
     update_proxy_session(capabilities, proxy_session_id, voice_connector_id, params::Dict{String,<:Any})
 
-Updates the specified proxy session details, such as voice or SMS capabilities.
+Updates the specified proxy session details, such as voice or SMS capabilities.   This API
+is is no longer supported and will not be updated. We recommend using the latest version,
+UpdateProxySession, in the Amazon Chime SDK. Using the latest version requires migrating to
+a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `capabilities`: The proxy session capabilities.
@@ -7250,20 +7321,18 @@ Updates the specified proxy session details, such as voice or SMS capabilities.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ExpiryMinutes"`: The number of minutes allowed for the proxy session.
 """
-function update_proxy_session(
+update_proxy_session(
     Capabilities,
     proxySessionId,
     voiceConnectorId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
+    Dict{String,Any}("Capabilities" => Capabilities);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/voice-connectors/$(voiceConnectorId)/proxy-sessions/$(proxySessionId)",
-        Dict{String,Any}("Capabilities" => Capabilities);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_proxy_session(
     Capabilities,
     proxySessionId,
@@ -7297,14 +7366,12 @@ account.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The room name.
 """
-function update_room(accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_room(accountId, roomId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "POST",
+    "/accounts/$(accountId)/rooms/$(roomId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_room(
     accountId,
     roomId,
@@ -7338,16 +7405,14 @@ IDs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Role"`: The role of the member.
 """
-function update_room_membership(
+update_room_membership(
     accountId, memberId, roomId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "POST",
+    "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/rooms/$(roomId)/memberships/$(memberId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_room_membership(
     accountId,
     memberId,
@@ -7368,7 +7433,11 @@ end
     update_sip_media_application(sip_media_application_id)
     update_sip_media_application(sip_media_application_id, params::Dict{String,<:Any})
 
-Updates the details of the specified SIP media application.
+Updates the details of the specified SIP media application.   This API is is no longer
+supported and will not be updated. We recommend using the latest version,
+UpdateSipMediaApplication, in the Amazon Chime SDK. Using the latest version requires
+migrating to a dedicated namespace. For more information, refer to Migrating from the
+Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `sip_media_application_id`: The SIP media application ID.
@@ -7378,16 +7447,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Endpoints"`: The new set of endpoints for the specified SIP media application.
 - `"Name"`: The new name for the specified SIP media application.
 """
-function update_sip_media_application(
+update_sip_media_application(
     sipMediaApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/sip-media-applications/$(sipMediaApplicationId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/sip-media-applications/$(sipMediaApplicationId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_sip_media_application(
     sipMediaApplicationId,
     params::AbstractDict{String};
@@ -7407,7 +7474,11 @@ end
     update_sip_media_application_call(arguments, sip_media_application_id, transaction_id, params::Dict{String,<:Any})
 
 Invokes the AWS Lambda function associated with the SIP media application and transaction
-ID in an update request. The Lambda function can then return a new set of actions.
+ID in an update request. The Lambda function can then return a new set of actions.   This
+API is is no longer supported and will not be updated. We recommend using the latest
+version, UpdateSipMediaApplicationCall, in the Amazon Chime SDK. Using the latest version
+requires migrating to a dedicated namespace. For more information, refer to Migrating from
+the Amazon Chime namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `arguments`: Arguments made available to the Lambda function as part of the
@@ -7416,20 +7487,18 @@ ID in an update request. The Lambda function can then return a new set of action
 - `transaction_id`: The ID of the call transaction.
 
 """
-function update_sip_media_application_call(
+update_sip_media_application_call(
     Arguments,
     sipMediaApplicationId,
     transactionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)",
+    Dict{String,Any}("Arguments" => Arguments);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/sip-media-applications/$(sipMediaApplicationId)/calls/$(transactionId)",
-        Dict{String,Any}("Arguments" => Arguments);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_sip_media_application_call(
     Arguments,
     sipMediaApplicationId,
@@ -7452,7 +7521,11 @@ end
     update_sip_rule(name, sip_rule_id)
     update_sip_rule(name, sip_rule_id, params::Dict{String,<:Any})
 
-Updates the details of the specified SIP rule.
+Updates the details of the specified SIP rule.   This API is is no longer supported and
+will not be updated. We recommend using the latest version, UpdateSipRule, in the Amazon
+Chime SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `name`: The new name for the specified SIP rule.
@@ -7463,15 +7536,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Disabled"`: The new value specified to indicate whether the rule is disabled.
 - `"TargetApplications"`: The new value of the list of target applications.
 """
-function update_sip_rule(Name, sipRuleId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "PUT",
-        "/sip-rules/$(sipRuleId)",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_sip_rule(Name, sipRuleId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "PUT",
+    "/sip-rules/$(sipRuleId)",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_sip_rule(
     Name,
     sipRuleId,
@@ -7505,14 +7576,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the Amazon Chime account that the user belongs to.
 - `"UserType"`: The user type.
 """
-function update_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config())
-    return chime(
-        "POST",
-        "/accounts/$(accountId)/users/$(userId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_user(accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()) = chime(
+    "POST",
+    "/accounts/$(accountId)/users/$(userId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_user(
     accountId,
     userId,
@@ -7540,17 +7609,15 @@ Updates the settings for the specified user, such as phone number settings.
 - `user_id`: The user ID.
 
 """
-function update_user_settings(
+update_user_settings(
     UserSettings, accountId, userId; aws_config::AbstractAWSConfig=global_aws_config()
+) = chime(
+    "PUT",
+    "/accounts/$(accountId)/users/$(userId)/settings",
+    Dict{String,Any}("UserSettings" => UserSettings);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/accounts/$(accountId)/users/$(userId)/settings",
-        Dict{String,Any}("UserSettings" => UserSettings);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_settings(
     UserSettings,
     accountId,
@@ -7573,7 +7640,11 @@ end
     update_voice_connector(name, require_encryption, voice_connector_id)
     update_voice_connector(name, require_encryption, voice_connector_id, params::Dict{String,<:Any})
 
-Updates details for the specified Amazon Chime Voice Connector.
+Updates details for the specified Amazon Chime Voice Connector.   This API is is no longer
+supported and will not be updated. We recommend using the latest version,
+UpdateVoiceConnector, in the Amazon Chime SDK. Using the latest version requires migrating
+to a dedicated namespace. For more information, refer to Migrating from the Amazon Chime
+namespace in the Amazon Chime SDK Developer Guide.
 
 # Arguments
 - `name`: The name of the Amazon Chime Voice Connector.
@@ -7582,20 +7653,18 @@ Updates details for the specified Amazon Chime Voice Connector.
 - `voice_connector_id`: The Amazon Chime Voice Connector ID.
 
 """
-function update_voice_connector(
+update_voice_connector(
     Name,
     RequireEncryption,
     voiceConnectorId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "PUT",
+    "/voice-connectors/$(voiceConnectorId)",
+    Dict{String,Any}("Name" => Name, "RequireEncryption" => RequireEncryption);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/voice-connectors/$(voiceConnectorId)",
-        Dict{String,Any}("Name" => Name, "RequireEncryption" => RequireEncryption);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_voice_connector(
     Name,
     RequireEncryption,
@@ -7623,7 +7692,11 @@ end
     update_voice_connector_group(name, voice_connector_items, voice_connector_group_id, params::Dict{String,<:Any})
 
 Updates details of the specified Amazon Chime Voice Connector group, such as the name and
-Amazon Chime Voice Connector priority ranking.
+Amazon Chime Voice Connector priority ranking.   This API is is no longer supported and
+will not be updated. We recommend using the latest version, UpdateVoiceConnectorGroup, in
+the Amazon Chime SDK. Using the latest version requires migrating to a dedicated namespace.
+For more information, refer to Migrating from the Amazon Chime namespace in the Amazon
+Chime SDK Developer Guide.
 
 # Arguments
 - `name`: The name of the Amazon Chime Voice Connector group.
@@ -7631,20 +7704,18 @@ Amazon Chime Voice Connector priority ranking.
 - `voice_connector_group_id`: The Amazon Chime Voice Connector group ID.
 
 """
-function update_voice_connector_group(
+update_voice_connector_group(
     Name,
     VoiceConnectorItems,
     voiceConnectorGroupId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "PUT",
+    "/voice-connector-groups/$(voiceConnectorGroupId)",
+    Dict{String,Any}("Name" => Name, "VoiceConnectorItems" => VoiceConnectorItems);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "PUT",
-        "/voice-connector-groups/$(voiceConnectorGroupId)",
-        Dict{String,Any}("Name" => Name, "VoiceConnectorItems" => VoiceConnectorItems);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_voice_connector_group(
     Name,
     VoiceConnectorItems,
@@ -7676,7 +7747,11 @@ end
 Validates an address to be used for 911 calls made with Amazon Chime Voice Connectors. You
 can use validated addresses in a Presence Information Data Format Location Object file that
 you include in SIP requests. That helps ensure that addresses are routed to the appropriate
-Public Safety Answering Point.
+Public Safety Answering Point.   This API is is no longer supported and will not be
+updated. We recommend using the latest version, ValidateE911Address, in the Amazon Chime
+SDK. Using the latest version requires migrating to a dedicated namespace. For more
+information, refer to Migrating from the Amazon Chime namespace in the Amazon Chime SDK
+Developer Guide.
 
 # Arguments
 - `aws_account_id`: The AWS account ID.
@@ -7688,7 +7763,7 @@ Public Safety Answering Point.
 - `street_number`: The address street number, such as 200 or 2121.
 
 """
-function validate_e911_address(
+validate_e911_address(
     AwsAccountId,
     City,
     Country,
@@ -7697,23 +7772,21 @@ function validate_e911_address(
     StreetInfo,
     StreetNumber;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = chime(
+    "POST",
+    "/emergency-calling/address",
+    Dict{String,Any}(
+        "AwsAccountId" => AwsAccountId,
+        "City" => City,
+        "Country" => Country,
+        "PostalCode" => PostalCode,
+        "State" => State,
+        "StreetInfo" => StreetInfo,
+        "StreetNumber" => StreetNumber,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return chime(
-        "POST",
-        "/emergency-calling/address",
-        Dict{String,Any}(
-            "AwsAccountId" => AwsAccountId,
-            "City" => City,
-            "Country" => Country,
-            "PostalCode" => PostalCode,
-            "State" => State,
-            "StreetInfo" => StreetInfo,
-            "StreetNumber" => StreetNumber,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function validate_e911_address(
     AwsAccountId,
     City,

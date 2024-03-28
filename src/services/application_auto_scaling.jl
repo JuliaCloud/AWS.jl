@@ -53,7 +53,9 @@ scaling policy in the Application Auto Scaling User Guide.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
   variant and the unique identifier is the resource ID. Example:
-  endpoint/my-end-point/variant/KMeansClustering.
+  endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The
+  resource type is inference-component and the unique identifier is the resource ID. Example:
+  inference-component/my-inference-component.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -83,31 +85,30 @@ scaling policy in the Application Auto Scaling User Guide.
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
   sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
-  SageMaker Serverless endpoint.
+  SageMaker Serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The
+  number of copies across an endpoint for a SageMaker inference component.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
 
 """
-function delete_scaling_policy(
+delete_scaling_policy(
     PolicyName,
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_auto_scaling(
+    "DeleteScalingPolicy",
+    Dict{String,Any}(
+        "PolicyName" => PolicyName,
+        "ResourceId" => ResourceId,
+        "ScalableDimension" => ScalableDimension,
+        "ServiceNamespace" => ServiceNamespace,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_auto_scaling(
-        "DeleteScalingPolicy",
-        Dict{String,Any}(
-            "PolicyName" => PolicyName,
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_scaling_policy(
     PolicyName,
     ResourceId,
@@ -180,7 +181,9 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
   variant and the unique identifier is the resource ID. Example:
-  endpoint/my-end-point/variant/KMeansClustering.
+  endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The
+  resource type is inference-component and the unique identifier is the resource ID. Example:
+  inference-component/my-inference-component.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -210,32 +213,31 @@ more information, see Delete a scheduled action in the Application Auto Scaling 
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
   sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
-  SageMaker Serverless endpoint.
+  SageMaker Serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The
+  number of copies across an endpoint for a SageMaker inference component.
 - `scheduled_action_name`: The name of the scheduled action.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
 
 """
-function delete_scheduled_action(
+delete_scheduled_action(
     ResourceId,
     ScalableDimension,
     ScheduledActionName,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_auto_scaling(
+    "DeleteScheduledAction",
+    Dict{String,Any}(
+        "ResourceId" => ResourceId,
+        "ScalableDimension" => ScalableDimension,
+        "ScheduledActionName" => ScheduledActionName,
+        "ServiceNamespace" => ServiceNamespace,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_auto_scaling(
-        "DeleteScheduledAction",
-        Dict{String,Any}(
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ScheduledActionName" => ScheduledActionName,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -310,7 +312,9 @@ with it.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
   variant and the unique identifier is the resource ID. Example:
-  endpoint/my-end-point/variant/KMeansClustering.
+  endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The
+  resource type is inference-component and the unique identifier is the resource ID. Example:
+  inference-component/my-inference-component.
 - `scalable_dimension`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property.
   ecs:service:DesiredCount - The desired task count of an ECS service.
@@ -341,29 +345,28 @@ with it.
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
   sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
-  SageMaker Serverless endpoint.
+  SageMaker Serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The
+  number of copies across an endpoint for a SageMaker inference component.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
 
 """
-function deregister_scalable_target(
+deregister_scalable_target(
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_auto_scaling(
+    "DeregisterScalableTarget",
+    Dict{String,Any}(
+        "ResourceId" => ResourceId,
+        "ScalableDimension" => ScalableDimension,
+        "ServiceNamespace" => ServiceNamespace,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_auto_scaling(
-        "DeregisterScalableTarget",
-        Dict{String,Any}(
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -446,7 +449,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
   variant and the unique identifier is the resource ID. Example:
-  endpoint/my-end-point/variant/KMeansClustering.
+  endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The
+  resource type is inference-component and the unique identifier is the resource ID. Example:
+  inference-component/my-inference-component.
 - `"ScalableDimension"`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property. If you
   specify a scalable dimension, you must also specify a resource ID.
@@ -478,18 +483,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
   sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
-  SageMaker Serverless endpoint.
+  SageMaker Serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The
+  number of copies across an endpoint for a SageMaker inference component.
 """
-function describe_scalable_targets(
+describe_scalable_targets(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_auto_scaling(
+    "DescribeScalableTargets",
+    Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_auto_scaling(
-        "DescribeScalableTargets",
-        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_scalable_targets(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -571,7 +575,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
   variant and the unique identifier is the resource ID. Example:
-  endpoint/my-end-point/variant/KMeansClustering.
+  endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The
+  resource type is inference-component and the unique identifier is the resource ID. Example:
+  inference-component/my-inference-component.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
@@ -602,18 +608,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
   sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
-  SageMaker Serverless endpoint.
+  SageMaker Serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The
+  number of copies across an endpoint for a SageMaker inference component.
 """
-function describe_scaling_activities(
+describe_scaling_activities(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_auto_scaling(
+    "DescribeScalingActivities",
+    Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_auto_scaling(
-        "DescribeScalingActivities",
-        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_scaling_activities(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -691,7 +696,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
   variant and the unique identifier is the resource ID. Example:
-  endpoint/my-end-point/variant/KMeansClustering.
+  endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The
+  resource type is inference-component and the unique identifier is the resource ID. Example:
+  inference-component/my-inference-component.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
@@ -722,18 +729,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
   sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
-  SageMaker Serverless endpoint.
+  SageMaker Serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The
+  number of copies across an endpoint for a SageMaker inference component.
 """
-function describe_scaling_policies(
+describe_scaling_policies(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_auto_scaling(
+    "DescribeScalingPolicies",
+    Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_auto_scaling(
-        "DescribeScalingPolicies",
-        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_scaling_policies(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -810,7 +816,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
   variant and the unique identifier is the resource ID. Example:
-  endpoint/my-end-point/variant/KMeansClustering.
+  endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The
+  resource type is inference-component and the unique identifier is the resource ID. Example:
+  inference-component/my-inference-component.
 - `"ScalableDimension"`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property. If you specify a scalable dimension, you
   must also specify a resource ID.    ecs:service:DesiredCount - The desired task count of an
@@ -841,19 +849,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
   sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
-  SageMaker Serverless endpoint.
+  SageMaker Serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The
+  number of copies across an endpoint for a SageMaker inference component.
 - `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
-function describe_scheduled_actions(
+describe_scheduled_actions(
     ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+) = application_auto_scaling(
+    "DescribeScheduledActions",
+    Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_auto_scaling(
-        "DescribeScheduledActions",
-        Dict{String,Any}("ServiceNamespace" => ServiceNamespace);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_scheduled_actions(
     ServiceNamespace,
     params::AbstractDict{String};
@@ -885,16 +892,13 @@ resources in the Amazon Web Services General Reference.
   1234567890ab123  To get the ARN for a scalable target, use DescribeScalableTargets.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_auto_scaling(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_auto_scaling(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -977,7 +981,9 @@ scaling policies that were specified for the scalable target are deleted.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
   variant and the unique identifier is the resource ID. Example:
-  endpoint/my-end-point/variant/KMeansClustering.
+  endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The
+  resource type is inference-component and the unique identifier is the resource ID. Example:
+  inference-component/my-inference-component.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -1007,7 +1013,8 @@ scaling policies that were specified for the scalable target are deleted.
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
   sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
-  SageMaker Serverless endpoint.
+  SageMaker Serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The
+  number of copies across an endpoint for a SageMaker inference component.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
@@ -1016,7 +1023,7 @@ scaling policies that were specified for the scalable target are deleted.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PolicyType"`: The scaling policy type. This parameter is required if you are creating a
   scaling policy. The following policy types are supported:   TargetTrackingScaling—Not
-  supported for Amazon EMR  StepScaling—Not supported for DynamoDB, Amazon Comprehend,
+  supported for Amazon EMR.  StepScaling—Not supported for DynamoDB, Amazon Comprehend,
   Lambda, Amazon Keyspaces, Amazon MSK, Amazon ElastiCache, or Neptune. For more information,
   see Target tracking scaling policies and Step scaling policies in the Application Auto
   Scaling User Guide.
@@ -1026,25 +1033,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   support for predefined or customized metrics. This parameter is required if you are
   creating a policy and the policy type is TargetTrackingScaling.
 """
-function put_scaling_policy(
+put_scaling_policy(
     PolicyName,
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_auto_scaling(
+    "PutScalingPolicy",
+    Dict{String,Any}(
+        "PolicyName" => PolicyName,
+        "ResourceId" => ResourceId,
+        "ScalableDimension" => ScalableDimension,
+        "ServiceNamespace" => ServiceNamespace,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_auto_scaling(
-        "PutScalingPolicy",
-        Dict{String,Any}(
-            "PolicyName" => PolicyName,
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_scaling_policy(
     PolicyName,
     ResourceId,
@@ -1126,7 +1131,9 @@ scheduled actions that were specified for the scalable target are deleted.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
   variant and the unique identifier is the resource ID. Example:
-  endpoint/my-end-point/variant/KMeansClustering.
+  endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The
+  resource type is inference-component and the unique identifier is the resource ID. Example:
+  inference-component/my-inference-component.
 - `scalable_dimension`: The scalable dimension. This string consists of the service
   namespace, resource type, and scaling property.    ecs:service:DesiredCount - The desired
   task count of an ECS service.    elasticmapreduce:instancegroup:InstanceCount - The
@@ -1156,7 +1163,8 @@ scheduled actions that were specified for the scalable target are deleted.
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
   sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
-  SageMaker Serverless endpoint.
+  SageMaker Serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The
+  number of copies across an endpoint for a SageMaker inference component.
 - `scheduled_action_name`: The name of the scheduled action. This name must be unique among
   all other scheduled actions on the specified scalable target.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
@@ -1186,25 +1194,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are the canonical names of the IANA time zones supported by Joda-Time (such as Etc/GMT+9 or
   Pacific/Tahiti). For more information, see https://www.joda.org/joda-time/timezones.html.
 """
-function put_scheduled_action(
+put_scheduled_action(
     ResourceId,
     ScalableDimension,
     ScheduledActionName,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_auto_scaling(
+    "PutScheduledAction",
+    Dict{String,Any}(
+        "ResourceId" => ResourceId,
+        "ScalableDimension" => ScalableDimension,
+        "ScheduledActionName" => ScheduledActionName,
+        "ServiceNamespace" => ServiceNamespace,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_auto_scaling(
-        "PutScheduledAction",
-        Dict{String,Any}(
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ScheduledActionName" => ScheduledActionName,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_scheduled_action(
     ResourceId,
     ScalableDimension,
@@ -1301,7 +1307,9 @@ even if you don't include the MinCapacity or MaxCapacity request parameters.
    Neptune cluster - The resource type is cluster and the unique identifier is the cluster
   name. Example: cluster:mycluster.   SageMaker Serverless endpoint - The resource type is
   variant and the unique identifier is the resource ID. Example:
-  endpoint/my-end-point/variant/KMeansClustering.
+  endpoint/my-end-point/variant/KMeansClustering.   SageMaker inference component - The
+  resource type is inference-component and the unique identifier is the resource ID. Example:
+  inference-component/my-inference-component.
 - `scalable_dimension`: The scalable dimension associated with the scalable target. This
   string consists of the service namespace, resource type, and scaling property.
   ecs:service:DesiredCount - The desired task count of an ECS service.
@@ -1332,7 +1340,8 @@ even if you don't include the MinCapacity or MaxCapacity request parameters.
   Amazon ElastiCache replication group.    neptune:cluster:ReadReplicaCount - The count of
   read replicas in an Amazon Neptune DB cluster.
   sagemaker:variant:DesiredProvisionedConcurrency - The provisioned concurrency for a
-  SageMaker Serverless endpoint.
+  SageMaker Serverless endpoint.    sagemaker:inference-component:DesiredCopyCount - The
+  number of copies across an endpoint for a SageMaker inference component.
 - `service_namespace`: The namespace of the Amazon Web Services service that provides the
   resource. For a resource provided by your own application or service, use custom-resource
   instead.
@@ -1384,23 +1393,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tag key. Use tags to control access to a scalable target. For more information, see Tagging
   support for Application Auto Scaling in the Application Auto Scaling User Guide.
 """
-function register_scalable_target(
+register_scalable_target(
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = application_auto_scaling(
+    "RegisterScalableTarget",
+    Dict{String,Any}(
+        "ResourceId" => ResourceId,
+        "ScalableDimension" => ScalableDimension,
+        "ServiceNamespace" => ServiceNamespace,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return application_auto_scaling(
-        "RegisterScalableTarget",
-        Dict{String,Any}(
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ServiceNamespace" => ServiceNamespace,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_scalable_target(
     ResourceId,
     ScalableDimension,
@@ -1455,14 +1462,13 @@ the Application Auto Scaling User Guide.
   Billing and Cost Management User Guide.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return application_auto_scaling(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_auto_scaling(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1498,16 +1504,13 @@ tag key and the Application Auto Scaling scalable target.
 - `tag_keys`: One or more tag keys. Specify only the tag keys, not the tag values.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return application_auto_scaling(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    application_auto_scaling(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,

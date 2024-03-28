@@ -24,16 +24,13 @@ Manager Developer Guide.
   Organization.
 
 """
-function associate_admin_account(
-    AdminAccount; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fms(
+associate_admin_account(AdminAccount; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms(
         "AssociateAdminAccount",
         Dict{String,Any}("AdminAccount" => AdminAccount);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function associate_admin_account(
     AdminAccount,
     params::AbstractDict{String};
@@ -61,16 +58,14 @@ associated with your Amazon Web Services customer account.
 - `third_party_firewall`: The name of the third-party firewall vendor.
 
 """
-function associate_third_party_firewall(
+associate_third_party_firewall(
     ThirdPartyFirewall; aws_config::AbstractAWSConfig=global_aws_config()
+) = fms(
+    "AssociateThirdPartyFirewall",
+    Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "AssociateThirdPartyFirewall",
-        Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_third_party_firewall(
     ThirdPartyFirewall,
     params::AbstractDict{String};
@@ -101,18 +96,14 @@ Associate resources to a Firewall Manager resource set.
   refer to the resource set.
 
 """
-function batch_associate_resource(
+batch_associate_resource(
     Items, ResourceSetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = fms(
+    "BatchAssociateResource",
+    Dict{String,Any}("Items" => Items, "ResourceSetIdentifier" => ResourceSetIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "BatchAssociateResource",
-        Dict{String,Any}(
-            "Items" => Items, "ResourceSetIdentifier" => ResourceSetIdentifier
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_associate_resource(
     Items,
     ResourceSetIdentifier,
@@ -148,18 +139,14 @@ Disassociates resources from a Firewall Manager resource set.
   refer to the resource set.
 
 """
-function batch_disassociate_resource(
+batch_disassociate_resource(
     Items, ResourceSetIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = fms(
+    "BatchDisassociateResource",
+    Dict{String,Any}("Items" => Items, "ResourceSetIdentifier" => ResourceSetIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "BatchDisassociateResource",
-        Dict{String,Any}(
-            "Items" => Items, "ResourceSetIdentifier" => ResourceSetIdentifier
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_disassociate_resource(
     Items,
     ResourceSetIdentifier,
@@ -193,14 +180,12 @@ Permanently deletes an Firewall Manager applications list.
   ID from PutAppsList, ListAppsLists, and GetAppsList.
 
 """
-function delete_apps_list(ListId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "DeleteAppsList",
-        Dict{String,Any}("ListId" => ListId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_apps_list(ListId; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "DeleteAppsList",
+    Dict{String,Any}("ListId" => ListId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_apps_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -220,11 +205,8 @@ Deletes an Firewall Manager association with the IAM role and the Amazon Simple
 Notification Service (SNS) topic that is used to record Firewall Manager SNS logs.
 
 """
-function delete_notification_channel(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "DeleteNotificationChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_notification_channel(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms("DeleteNotificationChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function delete_notification_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -255,21 +237,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cleanup does the following for each security group in the policy:   Disassociates the
   security group from in-scope resources    Deletes the security group if it was created
   through Firewall Manager and if it's no longer associated with any resources through
-  another policy   After the cleanup, in-scope resources are no longer protected by web ACLs
-  in this policy. Protection of out-of-scope resources remains unchanged. Scope is determined
-  by tags that you create and accounts that you associate with the policy. When creating the
-  policy, if you specify that only resources in specific accounts or with specific tags are
-  in scope of the policy, those accounts and resources are handled by the policy. All others
-  are out of scope. If you don't specify tags or accounts, all resources are in scope.
+  another policy    For security group common policies, even if set to False, Firewall
+  Manager deletes all security groups created by Firewall Manager that aren't associated with
+  any other resources through another policy.  After the cleanup, in-scope resources are no
+  longer protected by web ACLs in this policy. Protection of out-of-scope resources remains
+  unchanged. Scope is determined by tags that you create and accounts that you associate with
+  the policy. When creating the policy, if you specify that only resources in specific
+  accounts or with specific tags are in scope of the policy, those accounts and resources are
+  handled by the policy. All others are out of scope. If you don't specify tags or accounts,
+  all resources are in scope.
 """
-function delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "DeletePolicy",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "DeletePolicy",
+    Dict{String,Any}("PolicyId" => PolicyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -296,14 +279,12 @@ Permanently deletes an Firewall Manager protocols list.
   from PutProtocolsList, ListProtocolsLists, and GetProtocolsLost.
 
 """
-function delete_protocols_list(ListId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "DeleteProtocolsList",
-        Dict{String,Any}("ListId" => ListId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_protocols_list(ListId; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "DeleteProtocolsList",
+    Dict{String,Any}("ListId" => ListId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_protocols_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -326,14 +307,12 @@ Deletes the specified ResourceSet.
   resource set.
 
 """
-function delete_resource_set(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "DeleteResourceSet",
-        Dict{String,Any}("Identifier" => Identifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_resource_set(Identifier; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "DeleteResourceSet",
+    Dict{String,Any}("Identifier" => Identifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_resource_set(
     Identifier,
     params::AbstractDict{String};
@@ -362,11 +341,8 @@ the organization must first disassociate their accounts before you can disassoci
 account.
 
 """
-function disassociate_admin_account(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "DisassociateAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+disassociate_admin_account(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms("DisassociateAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function disassociate_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -390,16 +366,14 @@ of the firewalls that are associated with the account.
 - `third_party_firewall`: The name of the third-party firewall vendor.
 
 """
-function disassociate_third_party_firewall(
+disassociate_third_party_firewall(
     ThirdPartyFirewall; aws_config::AbstractAWSConfig=global_aws_config()
+) = fms(
+    "DisassociateThirdPartyFirewall",
+    Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "DisassociateThirdPartyFirewall",
-        Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_third_party_firewall(
     ThirdPartyFirewall,
     params::AbstractDict{String};
@@ -425,9 +399,8 @@ Returns the Organizations account that is associated with Firewall Manager as th
 Manager default administrator.
 
 """
-function get_admin_account(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms("GetAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_admin_account(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms("GetAdminAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -447,14 +420,12 @@ scope defines the resources that an Firewall Manager administrator can manage.
 - `admin_account`: The administator account that you want to get the details for.
 
 """
-function get_admin_scope(AdminAccount; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "GetAdminScope",
-        Dict{String,Any}("AdminAccount" => AdminAccount);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_admin_scope(AdminAccount; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "GetAdminScope",
+    Dict{String,Any}("AdminAccount" => AdminAccount);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_admin_scope(
     AdminAccount,
     params::AbstractDict{String};
@@ -484,14 +455,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultList"`: Specifies whether the list to retrieve is a default list owned by
   Firewall Manager.
 """
-function get_apps_list(ListId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "GetAppsList",
-        Dict{String,Any}("ListId" => ListId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_apps_list(ListId; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "GetAppsList",
+    Dict{String,Any}("ListId" => ListId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_apps_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -527,16 +496,14 @@ rule group associations for the VPC.
   returned by PutPolicy and by ListPolicies.
 
 """
-function get_compliance_detail(
+get_compliance_detail(
     MemberAccount, PolicyId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fms(
+    "GetComplianceDetail",
+    Dict{String,Any}("MemberAccount" => MemberAccount, "PolicyId" => PolicyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "GetComplianceDetail",
-        Dict{String,Any}("MemberAccount" => MemberAccount, "PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_compliance_detail(
     MemberAccount,
     PolicyId,
@@ -565,11 +532,8 @@ Information about the Amazon Simple Notification Service (SNS) topic that is use
 Firewall Manager SNS logs.
 
 """
-function get_notification_channel(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "GetNotificationChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_notification_channel(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms("GetNotificationChannel"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_notification_channel(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -591,14 +555,12 @@ Returns information about the specified Firewall Manager policy.
 - `policy_id`: The ID of the Firewall Manager policy that you want the details for.
 
 """
-function get_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "GetPolicy",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "GetPolicy",
+    Dict{String,Any}("PolicyId" => PolicyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_policy(
     PolicyId,
     params::AbstractDict{String};
@@ -643,14 +605,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   type. The request syntax listing indicates a number type because the default used by
   Firewall Manager is Unix time in seconds. However, any valid timestamp format is allowed.
 """
-function get_protection_status(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "GetProtectionStatus",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_protection_status(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "GetProtectionStatus",
+    Dict{String,Any}("PolicyId" => PolicyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_protection_status(
     PolicyId,
     params::AbstractDict{String};
@@ -680,14 +640,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultList"`: Specifies whether the list to retrieve is a default list owned by
   Firewall Manager.
 """
-function get_protocols_list(ListId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "GetProtocolsList",
-        Dict{String,Any}("ListId" => ListId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_protocols_list(ListId; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "GetProtocolsList",
+    Dict{String,Any}("ListId" => ListId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_protocols_list(
     ListId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -710,14 +668,12 @@ Gets information about a specific resource set.
   resource set.
 
 """
-function get_resource_set(Identifier; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "GetResourceSet",
-        Dict{String,Any}("Identifier" => Identifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_resource_set(Identifier; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "GetResourceSet",
+    Dict{String,Any}("Identifier" => Identifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_resource_set(
     Identifier,
     params::AbstractDict{String};
@@ -744,16 +700,14 @@ tenant.
 - `third_party_firewall`: The name of the third-party firewall vendor.
 
 """
-function get_third_party_firewall_association_status(
+get_third_party_firewall_association_status(
     ThirdPartyFirewall; aws_config::AbstractAWSConfig=global_aws_config()
+) = fms(
+    "GetThirdPartyFirewallAssociationStatus",
+    Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "GetThirdPartyFirewallAssociationStatus",
-        Dict{String,Any}("ThirdPartyFirewall" => ThirdPartyFirewall);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_third_party_firewall_association_status(
     ThirdPartyFirewall,
     params::AbstractDict{String};
@@ -780,8 +734,9 @@ Amazon Web Services account.
 
 # Arguments
 - `member_account`: The Amazon Web Services account ID that you want the details for.
-- `policy_id`: The ID of the Firewall Manager policy that you want the details for. This
-  currently only supports security group content audit policies.
+- `policy_id`: The ID of the Firewall Manager policy that you want the details for. You can
+  get violation details for the following policy types:   DNS Firewall   Imported Network
+  Firewall   Network Firewall   Security group content audit   Third-party firewall
 - `resource_id`: The ID of the resource that has violations.
 - `resource_type`: The resource type. This is in the format shown in the Amazon Web
   Services Resource Types Reference. Supported resource types are: AWS::EC2::Instance,
@@ -789,25 +744,23 @@ Amazon Web Services account.
   and AWS::EC2::Subnet.
 
 """
-function get_violation_details(
+get_violation_details(
     MemberAccount,
     PolicyId,
     ResourceId,
     ResourceType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = fms(
+    "GetViolationDetails",
+    Dict{String,Any}(
+        "MemberAccount" => MemberAccount,
+        "PolicyId" => PolicyId,
+        "ResourceId" => ResourceId,
+        "ResourceType" => ResourceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "GetViolationDetails",
-        Dict{String,Any}(
-            "MemberAccount" => MemberAccount,
-            "PolicyId" => PolicyId,
-            "ResourceId" => ResourceId,
-            "ResourceType" => ResourceType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_violation_details(
     MemberAccount,
     PolicyId,
@@ -853,15 +806,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-function list_admin_accounts_for_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fms(
+list_admin_accounts_for_organization(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms(
         "ListAdminAccountsForOrganization";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_admin_accounts_for_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -892,11 +842,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-function list_admins_managing_account(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "ListAdminsManagingAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_admins_managing_account(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms("ListAdminsManagingAccount"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_admins_managing_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -929,14 +876,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   but the first request, you provide the token returned by the prior request in the request
   parameters, to retrieve the next batch of objects.
 """
-function list_apps_lists(MaxResults; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "ListAppsLists",
-        Dict{String,Any}("MaxResults" => MaxResults);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_apps_lists(MaxResults; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "ListAppsLists",
+    Dict{String,Any}("MaxResults" => MaxResults);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_apps_lists(
     MaxResults,
     params::AbstractDict{String};
@@ -975,14 +920,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests, specify the value of NextToken from the previous response to get information
   about another batch of PolicyComplianceStatus objects.
 """
-function list_compliance_status(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "ListComplianceStatus",
-        Dict{String,Any}("PolicyId" => PolicyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_compliance_status(PolicyId; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "ListComplianceStatus",
+    Dict{String,Any}("PolicyId" => PolicyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_compliance_status(
     PolicyId,
     params::AbstractDict{String};
@@ -1020,18 +963,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-function list_discovered_resources(
+list_discovered_resources(
     MemberAccountIds, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+) = fms(
+    "ListDiscoveredResources",
+    Dict{String,Any}(
+        "MemberAccountIds" => MemberAccountIds, "ResourceType" => ResourceType
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "ListDiscoveredResources",
-        Dict{String,Any}(
-            "MemberAccountIds" => MemberAccountIds, "ResourceType" => ResourceType
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_discovered_resources(
     MemberAccountIds,
     ResourceType,
@@ -1074,9 +1015,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListMemberAccountsRequest requests, specify the value of NextToken from the previous
   response to get information about another batch of member account IDs.
 """
-function list_member_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms("ListMemberAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_member_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms("ListMemberAccounts"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_member_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1104,9 +1044,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken from the previous response to get information about another batch of
   PolicySummary objects.
 """
-function list_policies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms("ListPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_policies(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms("ListPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1136,14 +1075,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   but the first request, you provide the token returned by the prior request in the request
   parameters, to retrieve the next batch of objects.
 """
-function list_protocols_lists(MaxResults; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "ListProtocolsLists",
-        Dict{String,Any}("MaxResults" => MaxResults);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_protocols_lists(MaxResults; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "ListProtocolsLists",
+    Dict{String,Any}("MaxResults" => MaxResults);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_protocols_lists(
     MaxResults,
     params::AbstractDict{String};
@@ -1179,16 +1116,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-function list_resource_set_resources(
-    Identifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fms(
+list_resource_set_resources(Identifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms(
         "ListResourceSetResources",
         Dict{String,Any}("Identifier" => Identifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_resource_set_resources(
     Identifier,
     params::AbstractDict{String};
@@ -1220,9 +1154,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Firewall Manager returns a NextToken value in the response. To retrieve the next batch of
   objects, use the token returned from the prior request in your next request.
 """
-function list_resource_sets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms("ListResourceSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_resource_sets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms("ListResourceSets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_resource_sets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1243,16 +1176,13 @@ Retrieves the list of tags for the specified Amazon Web Services resource.
   protocols lists.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fms(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -1292,18 +1222,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value of NextToken from the previous response. If the previous response didn't include
   a NextToken element, there are no more third-party firewall policies to get.
 """
-function list_third_party_firewall_firewall_policies(
+list_third_party_firewall_firewall_policies(
     MaxResults, ThirdPartyFirewall; aws_config::AbstractAWSConfig=global_aws_config()
+) = fms(
+    "ListThirdPartyFirewallFirewallPolicies",
+    Dict{String,Any}(
+        "MaxResults" => MaxResults, "ThirdPartyFirewall" => ThirdPartyFirewall
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "ListThirdPartyFirewallFirewallPolicies",
-        Dict{String,Any}(
-            "MaxResults" => MaxResults, "ThirdPartyFirewall" => ThirdPartyFirewall
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_third_party_firewall_firewall_policies(
     MaxResults,
     ThirdPartyFirewall,
@@ -1352,14 +1280,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   principles of least privilege. Only grant the administrator the specific resources or
   permissions that they need to perform the duties of their role.
 """
-function put_admin_account(AdminAccount; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "PutAdminAccount",
-        Dict{String,Any}("AdminAccount" => AdminAccount);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_admin_account(AdminAccount; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "PutAdminAccount",
+    Dict{String,Any}("AdminAccount" => AdminAccount);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function put_admin_account(
     AdminAccount,
     params::AbstractDict{String};
@@ -1388,14 +1314,12 @@ Creates an Firewall Manager applications list.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TagList"`: The tags associated with the resource.
 """
-function put_apps_list(AppsList; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "PutAppsList",
-        Dict{String,Any}("AppsList" => AppsList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_apps_list(AppsList; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "PutAppsList",
+    Dict{String,Any}("AppsList" => AppsList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function put_apps_list(
     AppsList,
     params::AbstractDict{String};
@@ -1431,16 +1355,14 @@ Developer Guide.
   notifications from Firewall Manager.
 
 """
-function put_notification_channel(
+put_notification_channel(
     SnsRoleName, SnsTopicArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = fms(
+    "PutNotificationChannel",
+    Dict{String,Any}("SnsRoleName" => SnsRoleName, "SnsTopicArn" => SnsTopicArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "PutNotificationChannel",
-        Dict{String,Any}("SnsRoleName" => SnsRoleName, "SnsTopicArn" => SnsTopicArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_notification_channel(
     SnsRoleName,
     SnsTopicArn,
@@ -1467,19 +1389,27 @@ end
     put_policy(policy)
     put_policy(policy, params::Dict{String,<:Any})
 
-Creates an Firewall Manager policy. Firewall Manager provides the following types of
-policies:    An WAF policy (type WAFV2), which defines rule groups to run first in the
-corresponding WAF web ACL and rule groups to run last in the web ACL.   An WAF Classic
-policy (type WAF), which defines a rule group.    A Shield Advanced policy, which applies
-Shield Advanced protection to specified accounts and resources.   A security group policy,
-which manages VPC security groups across your Amazon Web Services organization.    An
-Network Firewall policy, which provides firewall rules to filter network traffic in
-specified Amazon VPCs.   A DNS Firewall policy, which provides Route 53 Resolver DNS
-Firewall rules to filter DNS queries for specified VPCs.   Each policy is specific to one
-of the types. If you want to enforce more than one policy type across accounts, create
-multiple policies. You can create multiple policies for each type. You must be subscribed
-to Shield Advanced to create a Shield Advanced policy. For more information about
-subscribing to Shield Advanced, see CreateSubscription.
+Creates an Firewall Manager policy. A Firewall Manager policy is specific to the individual
+policy type. If you want to enforce multiple policy types across accounts, you can create
+multiple policies. You can create more than one policy for each type.  If you add a new
+account to an organization that you created with Organizations, Firewall Manager
+automatically applies the policy to the resources in that account that are within scope of
+the policy.  Firewall Manager provides the following types of policies:     Shield Advanced
+policy - This policy applies Shield Advanced protection to specified accounts and
+resources.     Security Groups policy - This type of policy gives you control over security
+groups that are in use throughout your organization in Organizations and lets you enforce a
+baseline set of rules across your organization.     Network Firewall policy - This policy
+applies Network Firewall protection to your organization's VPCs.     DNS Firewall policy -
+This policy applies Amazon Route 53 Resolver DNS Firewall protections to your
+organization's VPCs.     Third-party firewall policy - This policy applies third-party
+firewall protections. Third-party firewalls are available by subscription through the
+Amazon Web Services Marketplace console at Amazon Web Services Marketplace.    Palo Alto
+Networks Cloud NGFW policy - This policy applies Palo Alto Networks Cloud Next Generation
+Firewall (NGFW) protections and Palo Alto Networks Cloud NGFW rulestacks to your
+organization's VPCs.    Fortigate CNF policy - This policy applies Fortigate Cloud Native
+Firewall (CNF) protections. Fortigate CNF is a cloud-centered solution that blocks Zero-Day
+threats and secures cloud infrastructures with industry-leading advanced threat prevention,
+smart web application firewalls (WAF), and API protection.
 
 # Arguments
 - `policy`: The details of the Firewall Manager policy to be created.
@@ -1488,14 +1418,12 @@ subscribing to Shield Advanced, see CreateSubscription.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TagList"`: The tags to add to the Amazon Web Services resource.
 """
-function put_policy(Policy; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "PutPolicy",
-        Dict{String,Any}("Policy" => Policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_policy(Policy; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "PutPolicy",
+    Dict{String,Any}("Policy" => Policy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function put_policy(
     Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1520,16 +1448,12 @@ Creates an Firewall Manager protocols list.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TagList"`: The tags associated with the resource.
 """
-function put_protocols_list(
-    ProtocolsList; aws_config::AbstractAWSConfig=global_aws_config()
+put_protocols_list(ProtocolsList; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "PutProtocolsList",
+    Dict{String,Any}("ProtocolsList" => ProtocolsList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "PutProtocolsList",
-        Dict{String,Any}("ProtocolsList" => ProtocolsList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_protocols_list(
     ProtocolsList,
     params::AbstractDict{String};
@@ -1563,14 +1487,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   customer name or ID. You can specify one or more tags to add to each Amazon Web Services
   resource, up to 50 tags for a resource.
 """
-function put_resource_set(ResourceSet; aws_config::AbstractAWSConfig=global_aws_config())
-    return fms(
-        "PutResourceSet",
-        Dict{String,Any}("ResourceSet" => ResourceSet);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_resource_set(ResourceSet; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "PutResourceSet",
+    Dict{String,Any}("ResourceSet" => ResourceSet);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function put_resource_set(
     ResourceSet,
     params::AbstractDict{String};
@@ -1599,16 +1521,12 @@ Adds one or more tags to an Amazon Web Services resource.
 - `tag_list`: The tags to add to the resource.
 
 """
-function tag_resource(
-    ResourceArn, TagList; aws_config::AbstractAWSConfig=global_aws_config()
+tag_resource(ResourceArn, TagList; aws_config::AbstractAWSConfig=global_aws_config()) = fms(
+    "TagResource",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "TagList" => TagList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fms(
-        "TagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagList" => TagList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function tag_resource(
     ResourceArn,
     TagList,
@@ -1642,16 +1560,13 @@ Removes one or more tags from an Amazon Web Services resource.
 - `tag_keys`: The keys of the tags to remove from the resource.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fms(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fms(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,

@@ -34,20 +34,18 @@ of the aliases Amazon FSx is associating with the file system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
-function associate_file_system_aliases(
+associate_file_system_aliases(
     Aliases, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "AssociateFileSystemAliases",
+    Dict{String,Any}(
+        "Aliases" => Aliases,
+        "FileSystemId" => FileSystemId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "AssociateFileSystemAliases",
-        Dict{String,Any}(
-            "Aliases" => Aliases,
-            "FileSystemId" => FileSystemId,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_file_system_aliases(
     Aliases,
     FileSystemId,
@@ -77,25 +75,24 @@ end
     cancel_data_repository_task(task_id, params::Dict{String,<:Any})
 
 Cancels an existing Amazon FSx for Lustre data repository task if that task is in either
-the PENDING or EXECUTING state. When you cancel a task, Amazon FSx does the following.
-Any files that FSx has already exported are not reverted.   FSx continues to export any
-files that are \"in-flight\" when the cancel operation is received.   FSx does not export
-any files that have not yet been exported.
+the PENDING or EXECUTING state. When you cancel am export task, Amazon FSx does the
+following.   Any files that FSx has already exported are not reverted.   FSx continues to
+export any files that are in-flight when the cancel operation is received.   FSx does not
+export any files that have not yet been exported.   For a release task, Amazon FSx will
+stop releasing files upon cancellation. Any files that have already been released will
+remain in the released state.
 
 # Arguments
 - `task_id`: Specifies the data repository task to cancel.
 
 """
-function cancel_data_repository_task(
-    TaskId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fsx(
+cancel_data_repository_task(TaskId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx(
         "CancelDataRepositoryTask",
         Dict{String,Any}("TaskId" => TaskId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_data_repository_task(
     TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -152,16 +149,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   copy).
 - `"Tags"`:
 """
-function copy_backup(SourceBackupId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "CopyBackup",
-        Dict{String,Any}(
-            "SourceBackupId" => SourceBackupId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+copy_backup(SourceBackupId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "CopyBackup",
+    Dict{String,Any}(
+        "SourceBackupId" => SourceBackupId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function copy_backup(
     SourceBackupId,
     params::AbstractDict{String};
@@ -174,6 +169,72 @@ function copy_backup(
                 _merge,
                 Dict{String,Any}(
                     "SourceBackupId" => SourceBackupId,
+                    "ClientRequestToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    copy_snapshot_and_update_volume(source_snapshot_arn, volume_id)
+    copy_snapshot_and_update_volume(source_snapshot_arn, volume_id, params::Dict{String,<:Any})
+
+Updates an existing volume by using a snapshot from another Amazon FSx for OpenZFS file
+system. For more information, see on-demand data replication in the Amazon FSx for OpenZFS
+User Guide.
+
+# Arguments
+- `source_snapshot_arn`:
+- `volume_id`: Specifies the ID of the volume that you are copying the snapshot to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"CopyStrategy"`: Specifies the strategy to use when copying data from a snapshot to the
+  volume.     FULL_COPY - Copies all data from the snapshot to the volume.
+  INCREMENTAL_COPY - Copies only the snapshot data that's changed since the previous
+  replication.     CLONE isn't a valid copy strategy option for the
+  CopySnapshotAndUpdateVolume operation.
+- `"Options"`: Confirms that you want to delete data on the destination volume that
+  wasn’t there during the previous snapshot replication. Your replication will fail if you
+  don’t include an option for a specific type of data and that data is on your destination.
+  For example, if you don’t include DELETE_INTERMEDIATE_SNAPSHOTS and there are
+  intermediate snapshots on the destination, you can’t copy the snapshot.
+  DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots on the destination volume that aren’t
+  on the source volume.    DELETE_CLONED_VOLUMES - Deletes snapshot clones on the destination
+  volume that aren't on the source volume.    DELETE_INTERMEDIATE_DATA - Overwrites snapshots
+  on the destination volume that don’t match the source snapshot that you’re copying.
+"""
+copy_snapshot_and_update_volume(
+    SourceSnapshotARN, VolumeId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "CopySnapshotAndUpdateVolume",
+    Dict{String,Any}(
+        "SourceSnapshotARN" => SourceSnapshotARN,
+        "VolumeId" => VolumeId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function copy_snapshot_and_update_volume(
+    SourceSnapshotARN,
+    VolumeId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fsx(
+        "CopySnapshotAndUpdateVolume",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "SourceSnapshotARN" => SourceSnapshotARN,
+                    "VolumeId" => VolumeId,
                     "ClientRequestToken" => string(uuid4()),
                 ),
                 params,
@@ -225,14 +286,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file system tags are copied from the file system to the backup.
 - `"VolumeId"`: (Optional) The ID of the FSx for ONTAP volume to back up.
 """
-function create_backup(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "CreateBackup",
-        Dict{String,Any}("ClientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_backup(; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "CreateBackup",
+    Dict{String,Any}("ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_backup(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -255,7 +314,7 @@ end
 Creates an Amazon FSx for Lustre data repository association (DRA). A data repository
 association is a link between a directory on the file system and an Amazon S3 bucket or
 prefix. You can have a maximum of 8 data repository associations on a file system. Data
-repository associations are supported on all FSx for Lustre 2.12 and newer file systems,
+repository associations are supported on all FSx for Lustre 2.12 and 2.15 file systems,
 excluding scratch_1 deployment type. Each data repository association must have a unique
 Amazon FSx file system directory and a unique S3 bucket or prefix associated with it. You
 can configure a data repository association for automatic import only, for automatic export
@@ -301,20 +360,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data repository.
 - `"Tags"`:
 """
-function create_data_repository_association(
+create_data_repository_association(
     DataRepositoryPath, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "CreateDataRepositoryAssociation",
+    Dict{String,Any}(
+        "DataRepositoryPath" => DataRepositoryPath,
+        "FileSystemId" => FileSystemId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "CreateDataRepositoryAssociation",
-        Dict{String,Any}(
-            "DataRepositoryPath" => DataRepositoryPath,
-            "FileSystemId" => FileSystemId,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_data_repository_association(
     DataRepositoryPath,
     FileSystemId,
@@ -343,14 +400,18 @@ end
     create_data_repository_task(file_system_id, report, type)
     create_data_repository_task(file_system_id, report, type, params::Dict{String,<:Any})
 
-Creates an Amazon FSx for Lustre data repository task. You use data repository tasks to
-perform bulk operations between your Amazon FSx file system and its linked data
-repositories. An example of a data repository task is exporting any data and metadata
-changes, including POSIX metadata, to files, directories, and symbolic links (symlinks)
-from your FSx file system to a linked data repository. A CreateDataRepositoryTask operation
-will fail if a data repository is not linked to the FSx file system. To learn more about
-data repository tasks, see Data Repository Tasks. To learn more about linking a data
-repository to your file system, see Linking your file system to an S3 bucket.
+Creates an Amazon FSx for Lustre data repository task. A CreateDataRepositoryTask operation
+will fail if a data repository is not linked to the FSx file system. You use import and
+export data repository tasks to perform bulk operations between your FSx for Lustre file
+system and its linked data repositories. An example of a data repository task is exporting
+any data and metadata changes, including POSIX metadata, to files, directories, and
+symbolic links (symlinks) from your FSx file system to a linked data repository. You use
+release data repository tasks to release data from your file system for files that are
+exported to S3. The metadata of released files remains on the file system so users or
+applications can still access released files by reading the files again, which will restore
+data from Amazon S3 to the FSx for Lustre file system. To learn more about data repository
+tasks, see Data Repository Tasks. To learn more about linking a data repository to your
+file system, see Linking your file system to an S3 bucket.
 
 # Arguments
 - `file_system_id`:
@@ -358,7 +419,13 @@ repository to your file system, see Linking your file system to an S3 bucket.
   completed. A CompletionReport provides a detailed report on the files that Amazon FSx
   processed that meet the criteria specified by the Scope parameter. For more information,
   see Working with Task Completion Reports.
-- `type`: Specifies the type of data repository task to create.
+- `type`: Specifies the type of data repository task to create.    EXPORT_TO_REPOSITORY
+  tasks export from your Amazon FSx for Lustre file system to a linked data repository.
+  IMPORT_METADATA_FROM_REPOSITORY tasks import metadata changes from a linked S3 bucket to
+  your Amazon FSx for Lustre file system.    RELEASE_DATA_FROM_FILESYSTEM tasks release files
+  in your Amazon FSx for Lustre file system that have been exported to a linked S3 bucket and
+  that meet your specified release criteria.    AUTO_RELEASE_DATA tasks automatically release
+  files from an Amazon File Cache resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -366,32 +433,39 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Cache AUTO_RELEASE_DATA task that automatically releases files from the cache.
 - `"ClientRequestToken"`:
 - `"Paths"`: A list of paths for the data repository task to use when the task is
-  processed. If a path that you provide isn't valid, the task fails.   For export tasks, the
-  list contains paths on the Amazon FSx file system from which the files are exported to the
-  Amazon S3 bucket. The default path is the file system root directory. The paths you provide
-  need to be relative to the mount point of the file system. If the mount point is /mnt/fsx
-  and /mnt/fsx/path1 is a directory or file on the file system you want to export, then the
-  path to provide is path1.   For import tasks, the list contains paths in the Amazon S3
-  bucket from which POSIX metadata changes are imported to the Amazon FSx file system. The
-  path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix (where myPrefix is
-  optional).
+  processed. If a path that you provide isn't valid, the task fails. If you don't provide
+  paths, the default behavior is to export all files to S3 (for export tasks), import all
+  files from S3 (for import tasks), or release all exported files that meet the last accessed
+  time criteria (for release tasks).   For export tasks, the list contains paths on the FSx
+  for Lustre file system from which the files are exported to the Amazon S3 bucket. The
+  default path is the file system root directory. The paths you provide need to be relative
+  to the mount point of the file system. If the mount point is /mnt/fsx and /mnt/fsx/path1 is
+  a directory or file on the file system you want to export, then the path to provide is
+  path1.   For import tasks, the list contains paths in the Amazon S3 bucket from which POSIX
+  metadata changes are imported to the FSx for Lustre file system. The path can be an S3
+  bucket or prefix in the format s3://myBucket/myPrefix (where myPrefix is optional).    For
+  release tasks, the list contains directory or file paths on the FSx for Lustre file system
+  from which to release exported files. If a directory is specified, files within the
+  directory are released. If a file path is specified, only that file is released. To release
+  all exported files in the file system, specify a forward slash (/) as the path.  A file
+  must also meet the last accessed time criteria specified in for the file to be released.
+- `"ReleaseConfiguration"`: The configuration that specifies the last accessed time
+  criteria for files that will be released from an Amazon FSx for Lustre file system.
 - `"Tags"`:
 """
-function create_data_repository_task(
+create_data_repository_task(
     FileSystemId, Report, Type; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "CreateDataRepositoryTask",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId,
+        "Report" => Report,
+        "Type" => Type,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "CreateDataRepositoryTask",
-        Dict{String,Any}(
-            "FileSystemId" => FileSystemId,
-            "Report" => Report,
-            "Type" => Type,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_data_repository_task(
     FileSystemId,
     Report,
@@ -473,26 +547,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   requests to describe the cache.
 - `"Tags"`:
 """
-function create_file_cache(
+create_file_cache(
     FileCacheType,
     FileCacheTypeVersion,
     StorageCapacity,
     SubnetIds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = fsx(
+    "CreateFileCache",
+    Dict{String,Any}(
+        "FileCacheType" => FileCacheType,
+        "FileCacheTypeVersion" => FileCacheTypeVersion,
+        "StorageCapacity" => StorageCapacity,
+        "SubnetIds" => SubnetIds,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "CreateFileCache",
-        Dict{String,Any}(
-            "FileCacheType" => FileCacheType,
-            "FileCacheTypeVersion" => FileCacheTypeVersion,
-            "StorageCapacity" => StorageCapacity,
-            "SubnetIds" => SubnetIds,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_file_cache(
     FileCacheType,
     FileCacheTypeVersion,
@@ -558,12 +630,14 @@ along with other information.
   PERSISTENT_1 HDD file systems, valid values are increments of 6000 GiB for 12 MB/s/TiB file
   systems and increments of 1800 GiB for 40 MB/s/TiB file systems.   For SCRATCH_1 deployment
   type, valid values are 1200 GiB, 2400 GiB, and increments of 3600 GiB.    FSx for ONTAP
-  file systems - The amount of storage capacity that you can configure is from 1024 GiB up to
-  196,608 GiB (192 TiB).  FSx for OpenZFS file systems - The amount of storage capacity that
-  you can configure is from 64 GiB up to 524,288 GiB (512 TiB).  FSx for Windows File Server
   file systems - The amount of storage capacity that you can configure depends on the value
-  that you set for StorageType as follows:   For SSD storage, valid values are 32 GiB-65,536
-  GiB (64 TiB).   For HDD storage, valid values are 2000 GiB-65,536 GiB (64 TiB).
+  of the HAPairs property. The minimum value is calculated as 1,024 * HAPairs and the maximum
+  is calculated as 524,288 * HAPairs.   FSx for OpenZFS file systems - The amount of storage
+  capacity that you can configure is from 64 GiB up to 524,288 GiB (512 TiB).  FSx for
+  Windows File Server file systems - The amount of storage capacity that you can configure
+  depends on the value that you set for StorageType as follows:   For SSD storage, valid
+  values are 32 GiB-65,536 GiB (64 TiB).   For HDD storage, valid values are 2000 GiB-65,536
+  GiB (64 TiB).
 - `subnet_ids`: Specifies the IDs of the subnets that the file system will be accessible
   from. For Windows and ONTAP MULTI_AZ_1 deployment types,provide exactly two subnet IDs, one
   for the preferred file server and one for the standby file server. You specify one of these
@@ -581,12 +655,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `"FileSystemTypeVersion"`: (Optional) For FSx for Lustre file systems, sets the Lustre
-  version for the file system that you're creating. Valid values are 2.10 and 2.12:   2.10 is
-  supported by the Scratch and Persistent_1 Lustre deployment types.   2.12 is supported by
-  all Lustre deployment types. 2.12 is required when setting FSx for Lustre DeploymentType to
-  PERSISTENT_2.   Default value = 2.10, except when DeploymentType is set to PERSISTENT_2,
-  then the default is 2.12.  If you set FileSystemTypeVersion to 2.10 for a PERSISTENT_2
-  Lustre deployment type, the CreateFileSystem operation fails.
+  version for the file system that you're creating. Valid values are 2.10, 2.12, and 2.15:
+  2.10 is supported by the Scratch and Persistent_1 Lustre deployment types.   2.12 and 2.15
+  are supported by all Lustre deployment types. 2.12 or 2.15 is required when setting FSx for
+  Lustre DeploymentType to PERSISTENT_2.   Default value = 2.10, except when DeploymentType
+  is set to PERSISTENT_2, then the default is 2.12.  If you set FileSystemTypeVersion to 2.10
+  for a PERSISTENT_2 Lustre deployment type, the CreateFileSystem operation fails.
 - `"KmsKeyId"`:
 - `"LustreConfiguration"`:
 - `"OntapConfiguration"`:
@@ -594,7 +668,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   created.
 - `"SecurityGroupIds"`: A list of IDs specifying the security groups to apply to all
   network interfaces created for file system access. This list isn't returned in later
-  requests to describe the file system.
+  requests to describe the file system.  You must specify a security group if you are
+  creating a Multi-AZ FSx for ONTAP file system in a VPC subnet that has been shared with
+  you.
 - `"StorageType"`: Sets the storage type for the file system that you're creating. Valid
   values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on
   all Windows, Lustre, ONTAP, and OpenZFS deployment types.   Set to HDD to use hard disk
@@ -607,24 +683,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WindowsConfiguration"`: The Microsoft Windows configuration for the file system that's
   being created.
 """
-function create_file_system(
+create_file_system(
     FileSystemType,
     StorageCapacity,
     SubnetIds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = fsx(
+    "CreateFileSystem",
+    Dict{String,Any}(
+        "FileSystemType" => FileSystemType,
+        "StorageCapacity" => StorageCapacity,
+        "SubnetIds" => SubnetIds,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "CreateFileSystem",
-        Dict{String,Any}(
-            "FileSystemType" => FileSystemType,
-            "StorageCapacity" => StorageCapacity,
-            "SubnetIds" => SubnetIds,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_file_system(
     FileSystemType,
     StorageCapacity,
@@ -692,8 +766,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ensure idempotent creation. This string is automatically filled on your behalf when you use
   the Command Line Interface (CLI) or an Amazon Web Services SDK.
 - `"FileSystemTypeVersion"`: Sets the version for the Amazon FSx for Lustre file system
-  that you're creating from a backup. Valid values are 2.10 and 2.12. You don't need to
-  specify FileSystemTypeVersion because it will be applied using the backup's
+  that you're creating from a backup. Valid values are 2.10, 2.12, and 2.15. You don't need
+  to specify FileSystemTypeVersion because it will be applied using the backup's
   FileSystemTypeVersion setting. If you choose to specify FileSystemTypeVersion when creating
   from backup, the value must match the backup's FileSystemTypeVersion setting.
 - `"KmsKeyId"`:
@@ -709,7 +783,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   backup's storage capacity value. If you don't use the StorageCapacity parameter, the
   default is the backup's StorageCapacity value. If used to create a file system other than
   OpenZFS, you must provide a value that matches the backup's StorageCapacity value. If you
-  provide any other value, Amazon FSx responds with a 400 Bad Request.
+  provide any other value, Amazon FSx responds with with an HTTP status code 400 Bad Request.
 - `"StorageType"`: Sets the storage type for the Windows or OpenZFS file system that you're
   creating from a backup. Valid values are SSD and HDD.   Set to SSD to use solid state drive
   storage. SSD is supported on all Windows and OpenZFS deployment types.   Set to HDD to use
@@ -723,20 +797,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of the Name tag appears in the console as the file system name.
 - `"WindowsConfiguration"`: The configuration for this Microsoft Windows file system.
 """
-function create_file_system_from_backup(
+create_file_system_from_backup(
     BackupId, SubnetIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "CreateFileSystemFromBackup",
+    Dict{String,Any}(
+        "BackupId" => BackupId,
+        "SubnetIds" => SubnetIds,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "CreateFileSystemFromBackup",
-        Dict{String,Any}(
-            "BackupId" => BackupId,
-            "SubnetIds" => SubnetIds,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_file_system_from_backup(
     BackupId,
     SubnetIds,
@@ -791,16 +863,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 - `"Tags"`:
 """
-function create_snapshot(Name, VolumeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "CreateSnapshot",
-        Dict{String,Any}(
-            "Name" => Name, "VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_snapshot(Name, VolumeId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "CreateSnapshot",
+    Dict{String,Any}(
+        "Name" => Name, "VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_snapshot(
     Name,
     VolumeId,
@@ -839,35 +909,34 @@ Creates a storage virtual machine (SVM) for an Amazon FSx for ONTAP file system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ActiveDirectoryConfiguration"`: Describes the self-managed Microsoft Active Directory
   to which you want to join the SVM. Joining an Active Directory provides user authentication
-  and access control for SMB clients, including Microsoft Windows and macOS client accessing
+  and access control for SMB clients, including Microsoft Windows and macOS clients accessing
   the file system.
 - `"ClientRequestToken"`:
 - `"RootVolumeSecurityStyle"`: The security style of the root volume of the SVM. Specify
   one of the following values:    UNIX if the file system is managed by a UNIX administrator,
   the majority of users are NFS clients, and an application accessing the data uses a UNIX
-  user as the service account.    NTFS if the file system is managed by a Windows
+  user as the service account.    NTFS if the file system is managed by a Microsoft Windows
   administrator, the majority of users are SMB clients, and an application accessing the data
-  uses a Windows user as the service account.    MIXED if the file system is managed by both
-  UNIX and Windows administrators and users consist of both NFS and SMB clients.
+  uses a Microsoft Windows user as the service account.    MIXED This is an advanced setting.
+  For more information, see Volume security style in the Amazon FSx for NetApp ONTAP User
+  Guide.
 - `"SvmAdminPassword"`: The password to use when managing the SVM using the NetApp ONTAP
   CLI or REST API. If you do not specify a password, you can still use the file system's
   fsxadmin user to manage the SVM.
 - `"Tags"`:
 """
-function create_storage_virtual_machine(
+create_storage_virtual_machine(
     FileSystemId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "CreateStorageVirtualMachine",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId,
+        "Name" => Name,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "CreateStorageVirtualMachine",
-        Dict{String,Any}(
-            "FileSystemId" => FileSystemId,
-            "Name" => Name,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_storage_virtual_machine(
     FileSystemId,
     Name,
@@ -911,18 +980,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   volume.
 - `"Tags"`:
 """
-function create_volume(Name, VolumeType; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "CreateVolume",
-        Dict{String,Any}(
-            "Name" => Name,
-            "VolumeType" => VolumeType,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_volume(Name, VolumeType; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "CreateVolume",
+    Dict{String,Any}(
+        "Name" => Name,
+        "VolumeType" => VolumeType,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_volume(
     Name,
     VolumeType,
@@ -964,18 +1031,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   creating.
 - `"Tags"`:
 """
-function create_volume_from_backup(
+create_volume_from_backup(
     BackupId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "CreateVolumeFromBackup",
+    Dict{String,Any}(
+        "BackupId" => BackupId, "Name" => Name, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "CreateVolumeFromBackup",
-        Dict{String,Any}(
-            "BackupId" => BackupId, "Name" => Name, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_volume_from_backup(
     BackupId,
     Name,
@@ -1018,14 +1083,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ensure idempotent deletion. This parameter is automatically filled on your behalf when
   using the CLI or SDK.
 """
-function delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "DeleteBackup",
-        Dict{String,Any}("BackupId" => BackupId, "ClientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_backup(BackupId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "DeleteBackup",
+    Dict{String,Any}("BackupId" => BackupId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_backup(
     BackupId,
     params::AbstractDict{String};
@@ -1055,7 +1118,7 @@ Deletes a data repository association on an Amazon FSx for Lustre file system. D
 data repository association unlinks the file system from the Amazon S3 bucket. When
 deleting a data repository association, you have the option of deleting the data in the
 file system that corresponds to the data repository association. Data repository
-associations are supported on all FSx for Lustre 2.12 and newer file systems, excluding
+associations are supported on all FSx for Lustre 2.12 and 2.15 file systems, excluding
 scratch_1 deployment type.
 
 # Arguments
@@ -1067,18 +1130,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeleteDataInFileSystem"`: Set to true to delete the data in the file system that
   corresponds to the data repository association.
 """
-function delete_data_repository_association(
+delete_data_repository_association(
     AssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "DeleteDataRepositoryAssociation",
+    Dict{String,Any}(
+        "AssociationId" => AssociationId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "DeleteDataRepositoryAssociation",
-        Dict{String,Any}(
-            "AssociationId" => AssociationId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_data_repository_association(
     AssociationId,
     params::AbstractDict{String};
@@ -1119,16 +1180,12 @@ data in a deleted cache is also deleted and can't be recovered by any means.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
-function delete_file_cache(FileCacheId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "DeleteFileCache",
-        Dict{String,Any}(
-            "FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_file_cache(FileCacheId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "DeleteFileCache",
+    Dict{String,Any}("FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_file_cache(
     FileCacheId,
     params::AbstractDict{String};
@@ -1160,14 +1217,24 @@ FSx for NetApp ONTAP file system, first delete all the volumes and storage virtu
 (SVMs) on the file system. Then provide a FileSystemId value to the DeleFileSystem
 operation. By default, when you delete an Amazon FSx for Windows File Server file system, a
 final backup is created upon deletion. This final backup isn't subject to the file system's
-retention policy, and must be manually deleted. The DeleteFileSystem operation returns
-while the file system has the DELETING status. You can check the file system deletion
-status by calling the DescribeFileSystems operation, which returns a list of file systems
-in your account. If you pass the file system ID for a deleted file system, the
-DescribeFileSystems operation returns a FileSystemNotFound error.  If a data repository
-task is in a PENDING or EXECUTING state, deleting an Amazon FSx for Lustre file system will
-fail with an HTTP status code 400 (Bad Request).   The data in a deleted file system is
-also deleted and can't be recovered by any means.
+retention policy, and must be manually deleted. To delete an Amazon FSx for Lustre file
+system, first unmount it from every connected Amazon EC2 instance, then provide a
+FileSystemId value to the DeleFileSystem operation. By default, Amazon FSx will not take a
+final backup when the DeleteFileSystem operation is invoked. On file systems not linked to
+an Amazon S3 bucket, set SkipFinalBackup to false to take a final backup of the file system
+you are deleting. Backups cannot be enabled on S3-linked file systems. To ensure all of
+your data is written back to S3 before deleting your file system, you can either monitor
+for the AgeOfOldestQueuedMessage metric to be zero (if using automatic export) or you can
+run an export data repository task. If you have automatic export enabled and want to use an
+export data repository task, you have to disable automatic export before executing the
+export data repository task. The DeleteFileSystem operation returns while the file system
+has the DELETING status. You can check the file system deletion status by calling the
+DescribeFileSystems operation, which returns a list of file systems in your account. If you
+pass the file system ID for a deleted file system, the DescribeFileSystems operation
+returns a FileSystemNotFound error.  If a data repository task is in a PENDING or EXECUTING
+state, deleting an Amazon FSx for Lustre file system will fail with an HTTP status code 400
+(Bad Request).   The data in a deleted file system is also deleted and can't be recovered
+by any means.
 
 # Arguments
 - `file_system_id`: The ID of the file system that you want to delete.
@@ -1182,16 +1249,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the DeleteFileSystem operation.
 - `"WindowsConfiguration"`:
 """
-function delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "DeleteFileSystem",
-        Dict{String,Any}(
-            "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "DeleteFileSystem",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_file_system(
     FileSystemId,
     params::AbstractDict{String};
@@ -1229,16 +1294,12 @@ lifecycle status of DELETING until the deletion is complete.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
-function delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "DeleteSnapshot",
-        Dict{String,Any}(
-            "SnapshotId" => SnapshotId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_snapshot(SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "DeleteSnapshot",
+    Dict{String,Any}("SnapshotId" => SnapshotId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_snapshot(
     SnapshotId,
     params::AbstractDict{String};
@@ -1274,19 +1335,17 @@ an SVM, you must delete all non-root volumes in the SVM, otherwise the operation
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
-function delete_storage_virtual_machine(
+delete_storage_virtual_machine(
     StorageVirtualMachineId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "DeleteStorageVirtualMachine",
+    Dict{String,Any}(
+        "StorageVirtualMachineId" => StorageVirtualMachineId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "DeleteStorageVirtualMachine",
-        Dict{String,Any}(
-            "StorageVirtualMachineId" => StorageVirtualMachineId,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_storage_virtual_machine(
     StorageVirtualMachineId,
     params::AbstractDict{String};
@@ -1327,14 +1386,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OpenZFSConfiguration"`: For Amazon FSx for OpenZFS volumes, specify whether to delete
   all child volumes and snapshots.
 """
-function delete_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "DeleteVolume",
-        Dict{String,Any}("VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "DeleteVolume",
+    Dict{String,Any}("VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_volume(
     VolumeId,
     params::AbstractDict{String};
@@ -1390,9 +1447,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If a token is present, the operation continues the list from where the returning
   call left off.
 """
-function describe_backups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx("DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+describe_backups(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx("DescribeBackups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_backups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1408,19 +1464,19 @@ end
 Returns the description of specific Amazon FSx for Lustre or Amazon File Cache data
 repository associations, if one or more AssociationIds values are provided in the request,
 or if filters are used in the request. Data repository associations are supported on Amazon
-File Cache resources and all FSx for Lustre 2.12 and newer file systems, excluding
-scratch_1 deployment type. You can use filters to narrow the response to include just data
-repository associations for specific file systems (use the file-system-id filter with the
-ID of the file system) or caches (use the file-cache-id filter with the ID of the cache),
-or data repository associations for a specific repository type (use the
-data-repository-type filter with a value of S3 or NFS). If you don't use filters, the
-response returns all data repository associations owned by your Amazon Web Services account
-in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all
-data repository associations, you can paginate the response by using the optional
-MaxResults parameter to limit the number of data repository associations returned in a
-response. If more data repository associations remain, a NextToken value is returned in the
-response. In this case, send a later request with the NextToken request parameter set to
-the value of NextToken from the last response.
+File Cache resources and all FSx for Lustre 2.12 and 2,15 file systems, excluding scratch_1
+deployment type. You can use filters to narrow the response to include just data repository
+associations for specific file systems (use the file-system-id filter with the ID of the
+file system) or caches (use the file-cache-id filter with the ID of the cache), or data
+repository associations for a specific repository type (use the data-repository-type filter
+with a value of S3 or NFS). If you don't use filters, the response returns all data
+repository associations owned by your Amazon Web Services account in the Amazon Web
+Services Region of the endpoint that you're calling. When retrieving all data repository
+associations, you can paginate the response by using the optional MaxResults parameter to
+limit the number of data repository associations returned in a response. If more data
+repository associations remain, a NextToken value is returned in the response. In this
+case, send a later request with the NextToken request parameter set to the value of
+NextToken from the last response.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1431,15 +1487,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must be an integer greater than zero.
 - `"NextToken"`:
 """
-function describe_data_repository_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fsx(
+describe_data_repository_associations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx(
         "DescribeDataRepositoryAssociations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_data_repository_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1475,13 +1528,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"TaskIds"`: (Optional) IDs of the tasks whose descriptions you want to retrieve (String).
 """
-function describe_data_repository_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "DescribeDataRepositoryTasks";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_data_repository_tasks(; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "DescribeDataRepositoryTasks";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_data_repository_tasks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1519,9 +1570,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-function describe_file_caches(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx("DescribeFileCaches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+describe_file_caches(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx("DescribeFileCaches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_file_caches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1554,18 +1604,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation (String). If a token is included in the request, the action continues the list
   from where the previous returning call left off.
 """
-function describe_file_system_aliases(
+describe_file_system_aliases(
     FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "DescribeFileSystemAliases",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "DescribeFileSystemAliases",
-        Dict{String,Any}(
-            "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_file_system_aliases(
     FileSystemId,
     params::AbstractDict{String};
@@ -1620,16 +1668,40 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation (String). If a token present, the operation continues the list from where the
   returning call left off.
 """
-function describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "DescribeFileSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_file_systems(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx("DescribeFileSystems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_file_systems(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return fsx(
         "DescribeFileSystems",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_shared_vpc_configuration()
+    describe_shared_vpc_configuration(params::Dict{String,<:Any})
+
+Indicates whether participant accounts in your organization can create Amazon FSx for
+NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud
+(VPC) owner. For more information, see Creating FSx for ONTAP file systems in shared
+subnets.
+
+"""
+describe_shared_vpc_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx(
+        "DescribeSharedVpcConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_shared_vpc_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fsx(
+        "DescribeSharedVpcConfiguration",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1659,14 +1731,16 @@ multi-call iteration is unspecified.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: The filters structure. The supported names are file-system-id or volume-id.
+- `"IncludeShared"`: Set to false (default) if you want to only see the snapshots owned by
+  your Amazon Web Services account. Set to true if you want to see the snapshots in your
+  account and the ones shared with you from another account.
 - `"MaxResults"`:
 - `"NextToken"`:
 - `"SnapshotIds"`: The IDs of the snapshots that you want to retrieve. This parameter value
   overrides any filters. If any IDs aren't found, a SnapshotNotFound error occurs.
 """
-function describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+describe_snapshots(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx("DescribeSnapshots"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_snapshots(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1688,15 +1762,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"StorageVirtualMachineIds"`: Enter the ID of one or more SVMs that you want to view.
 """
-function describe_storage_virtual_machines(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fsx(
+describe_storage_virtual_machines(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx(
         "DescribeStorageVirtualMachines";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_storage_virtual_machines(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1721,9 +1792,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"VolumeIds"`: The IDs of the volumes whose descriptions you want to retrieve.
 """
-function describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+describe_volumes(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx("DescribeVolumes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_volumes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1738,11 +1808,11 @@ end
 
 Use this action to disassociate, or remove, one or more Domain Name Service (DNS) aliases
 from an Amazon FSx for Windows File Server file system. If you attempt to disassociate a
-DNS alias that is not associated with the file system, Amazon FSx responds with a 400 Bad
-Request. For more information, see Working with DNS Aliases. The system generated response
-showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system.
-Use the API operation to monitor the status of the aliases Amazon FSx is disassociating
-with the file system.
+DNS alias that is not associated with the file system, Amazon FSx responds with an HTTP
+status code 400 (Bad Request). For more information, see Working with DNS Aliases. The
+system generated response showing the DNS aliases that Amazon FSx is attempting to
+disassociate from the file system. Use the API operation to monitor the status of the
+aliases Amazon FSx is disassociating with the file system.
 
 # Arguments
 - `aliases`: An array of one or more DNS alias names to disassociate, or remove, from the
@@ -1753,20 +1823,18 @@ with the file system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
-function disassociate_file_system_aliases(
+disassociate_file_system_aliases(
     Aliases, FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "DisassociateFileSystemAliases",
+    Dict{String,Any}(
+        "Aliases" => Aliases,
+        "FileSystemId" => FileSystemId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "DisassociateFileSystemAliases",
-        Dict{String,Any}(
-            "Aliases" => Aliases,
-            "FileSystemId" => FileSystemId,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_file_system_aliases(
     Aliases,
     FileSystemId,
@@ -1821,16 +1889,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation (String). If a token present, the action continues the list from where the
   returning call left off.
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fsx(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1859,18 +1924,16 @@ Releases the file system lock from an Amazon FSx for OpenZFS file system.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
-function release_file_system_nfs_v3_locks(
+release_file_system_nfs_v3_locks(
     FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "ReleaseFileSystemNfsV3Locks",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "ReleaseFileSystemNfsV3Locks",
-        Dict{String,Any}(
-            "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function release_file_system_nfs_v3_locks(
     FileSystemId,
     params::AbstractDict{String};
@@ -1913,20 +1976,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   volumes created from intermediate snapshots. If there are any dependent clone volumes and
   this option isn't used, RestoreVolumeFromSnapshot fails.
 """
-function restore_volume_from_snapshot(
+restore_volume_from_snapshot(
     SnapshotId, VolumeId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "RestoreVolumeFromSnapshot",
+    Dict{String,Any}(
+        "SnapshotId" => SnapshotId,
+        "VolumeId" => VolumeId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "RestoreVolumeFromSnapshot",
-        Dict{String,Any}(
-            "SnapshotId" => SnapshotId,
-            "VolumeId" => VolumeId,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function restore_volume_from_snapshot(
     SnapshotId,
     VolumeId,
@@ -1952,6 +2013,52 @@ function restore_volume_from_snapshot(
 end
 
 """
+    start_misconfigured_state_recovery(file_system_id)
+    start_misconfigured_state_recovery(file_system_id, params::Dict{String,<:Any})
+
+After performing steps to repair the Active Directory configuration of an FSx for Windows
+File Server file system, use this action to initiate the process of Amazon FSx attempting
+to reconnect to the file system.
+
+# Arguments
+- `file_system_id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+"""
+start_misconfigured_state_recovery(
+    FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "StartMisconfiguredStateRecovery",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_misconfigured_state_recovery(
+    FileSystemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fsx(
+        "StartMisconfiguredStateRecovery",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
@@ -1964,14 +2071,12 @@ Tags an Amazon FSx resource.
   value is replaced by the one specified in this parameter.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "TagResource",
+    Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     ResourceARN,
     Tags,
@@ -2004,16 +2109,13 @@ This action removes a tag from an Amazon FSx resource.
   exist, the call will still succeed to be idempotent.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return fsx(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    fsx(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -2040,7 +2142,7 @@ end
 
 Updates the configuration of an existing data repository association on an Amazon FSx for
 Lustre file system. Data repository associations are supported on all FSx for Lustre 2.12
-and newer file systems, excluding scratch_1 deployment type.
+and 2.15 file systems, excluding scratch_1 deployment type.
 
 # Arguments
 - `association_id`: The ID of the data repository association that you are updating.
@@ -2060,18 +2162,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data repository to the file system or automatically exported from the file system to the
   data repository.
 """
-function update_data_repository_association(
+update_data_repository_association(
     AssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "UpdateDataRepositoryAssociation",
+    Dict{String,Any}(
+        "AssociationId" => AssociationId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "UpdateDataRepositoryAssociation",
-        Dict{String,Any}(
-            "AssociationId" => AssociationId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_data_repository_association(
     AssociationId,
     params::AbstractDict{String};
@@ -2109,16 +2209,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 - `"LustreConfiguration"`: The configuration updates for an Amazon File Cache resource.
 """
-function update_file_cache(FileCacheId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "UpdateFileCache",
-        Dict{String,Any}(
-            "FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_file_cache(FileCacheId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "UpdateFileCache",
+    Dict{String,Any}("FileCacheId" => FileCacheId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_file_cache(
     FileCacheId,
     params::AbstractDict{String};
@@ -2148,17 +2244,19 @@ Use this operation to update the configuration of an existing Amazon FSx file sy
 can update multiple properties in a single request. For FSx for Windows File Server file
 systems, you can update the following properties:    AuditLogConfiguration
 AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime
-SelfManagedActiveDirectoryConfiguration     StorageCapacity     ThroughputCapacity
-WeeklyMaintenanceStartTime    For FSx for Lustre file systems, you can update the following
-properties:    AutoImportPolicy     AutomaticBackupRetentionDays
-DailyAutomaticBackupStartTime     DataCompressionType     LustreRootSquashConfiguration
+SelfManagedActiveDirectoryConfiguration     StorageCapacity     StorageType
+ThroughputCapacity     DiskIopsConfiguration     WeeklyMaintenanceStartTime    For FSx for
+Lustre file systems, you can update the following properties:    AutoImportPolicy
+AutomaticBackupRetentionDays     DailyAutomaticBackupStartTime     DataCompressionType
+LogConfiguration     LustreRootSquashConfiguration     PerUnitStorageThroughput
 StorageCapacity     WeeklyMaintenanceStartTime    For FSx for ONTAP file systems, you can
 update the following properties:    AddRouteTableIds     AutomaticBackupRetentionDays
-DailyAutomaticBackupStartTime     DiskIopsConfiguration     FsxAdminPassword
-RemoveRouteTableIds     StorageCapacity     ThroughputCapacity
-WeeklyMaintenanceStartTime    For FSx for OpenZFS file systems, you can update the
-following properties:    AutomaticBackupRetentionDays     CopyTagsToBackups
-CopyTagsToVolumes     DailyAutomaticBackupStartTime     DiskIopsConfiguration
+DailyAutomaticBackupStartTime     DiskIopsConfiguration     FsxAdminPassword     HAPairs
+ RemoveRouteTableIds     StorageCapacity     ThroughputCapacity
+ThroughputCapacityPerHAPair     WeeklyMaintenanceStartTime    For FSx for OpenZFS file
+systems, you can update the following properties:    AddRouteTableIds
+AutomaticBackupRetentionDays     CopyTagsToBackups     CopyTagsToVolumes
+DailyAutomaticBackupStartTime     DiskIopsConfiguration     RemoveRouteTableIds
 StorageCapacity     ThroughputCapacity     WeeklyMaintenanceStartTime
 
 # Arguments
@@ -2194,19 +2292,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   storage capacity target value must be at least 10 percent greater than the current storage
   capacity value. For more information, see Managing storage capacity and provisioned IOPS in
   the Amazon FSx for NetApp ONTAP User Guide.
+- `"StorageType"`:
 - `"WindowsConfiguration"`: The configuration updates for an Amazon FSx for Windows File
   Server file system.
 """
-function update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "UpdateFileSystem",
-        Dict{String,Any}(
-            "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_file_system(FileSystemId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "UpdateFileSystem",
+    Dict{String,Any}(
+        "FileSystemId" => FileSystemId, "ClientRequestToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_file_system(
     FileSystemId,
     params::AbstractDict{String};
@@ -2229,6 +2326,47 @@ function update_file_system(
 end
 
 """
+    update_shared_vpc_configuration()
+    update_shared_vpc_configuration(params::Dict{String,<:Any})
+
+Configures whether participant accounts in your organization can create Amazon FSx for
+NetApp ONTAP Multi-AZ file systems in subnets that are shared by a virtual private cloud
+(VPC) owner. For more information, see the Amazon FSx for NetApp ONTAP User Guide.  We
+strongly recommend that participant-created Multi-AZ file systems in the shared VPC are
+deleted before you disable this feature. Once the feature is disabled, these file systems
+will enter a MISCONFIGURED state and behave like Single-AZ file systems. For more
+information, see Important considerations before disabling shared VPC support for Multi-AZ
+file systems.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+- `"EnableFsxRouteTableUpdatesFromParticipantAccounts"`: Specifies whether participant
+  accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets. Set to true to
+  enable or false to disable.
+"""
+update_shared_vpc_configuration(; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "UpdateSharedVpcConfiguration",
+    Dict{String,Any}("ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_shared_vpc_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fsx(
+        "UpdateSharedVpcConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_snapshot(name, snapshot_id)
     update_snapshot(name, snapshot_id, params::Dict{String,<:Any})
 
@@ -2243,20 +2381,16 @@ Updates the name of an Amazon FSx for OpenZFS snapshot.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`:
 """
-function update_snapshot(
-    Name, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()
+update_snapshot(Name, SnapshotId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "UpdateSnapshot",
+    Dict{String,Any}(
+        "Name" => Name,
+        "SnapshotId" => SnapshotId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "UpdateSnapshot",
-        Dict{String,Any}(
-            "Name" => Name,
-            "SnapshotId" => SnapshotId,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_snapshot(
     Name,
     SnapshotId,
@@ -2298,19 +2432,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`:
 - `"SvmAdminPassword"`: Specifies a new SvmAdminPassword.
 """
-function update_storage_virtual_machine(
+update_storage_virtual_machine(
     StorageVirtualMachineId; aws_config::AbstractAWSConfig=global_aws_config()
+) = fsx(
+    "UpdateStorageVirtualMachine",
+    Dict{String,Any}(
+        "StorageVirtualMachineId" => StorageVirtualMachineId,
+        "ClientRequestToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return fsx(
-        "UpdateStorageVirtualMachine",
-        Dict{String,Any}(
-            "StorageVirtualMachineId" => StorageVirtualMachineId,
-            "ClientRequestToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_storage_virtual_machine(
     StorageVirtualMachineId,
     params::AbstractDict{String};
@@ -2353,14 +2485,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OntapConfiguration"`: The configuration of the ONTAP volume that you are updating.
 - `"OpenZFSConfiguration"`: The configuration of the OpenZFS volume that you are updating.
 """
-function update_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config())
-    return fsx(
-        "UpdateVolume",
-        Dict{String,Any}("VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_volume(VolumeId; aws_config::AbstractAWSConfig=global_aws_config()) = fsx(
+    "UpdateVolume",
+    Dict{String,Any}("VolumeId" => VolumeId, "ClientRequestToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_volume(
     VolumeId,
     params::AbstractDict{String};

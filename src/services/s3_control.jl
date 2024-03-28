@@ -5,20 +5,306 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_access_grants_identity_center(identity_center_arn, x-amz-account-id)
+    associate_access_grants_identity_center(identity_center_arn, x-amz-account-id, params::Dict{String,<:Any})
+
+Associate your S3 Access Grants instance with an Amazon Web Services IAM Identity Center
+instance. Use this action if you want to create access grants for users or groups from your
+corporate identity directory. First, you must add your corporate identity directory to
+Amazon Web Services IAM Identity Center. Then, you can associate this IAM Identity Center
+instance with your S3 Access Grants instance.  Permissions  You must have the
+s3:AssociateAccessGrantsIdentityCenter permission to use this operation.   Additional
+Permissions  You must also have the following permissions: sso:CreateApplication,
+sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.
+
+# Arguments
+- `identity_center_arn`: The Amazon Resource Name (ARN) of the Amazon Web Services IAM
+  Identity Center instance that you are associating with your S3 Access Grants instance. An
+  IAM Identity Center instance is your corporate identity directory that you added to the IAM
+  Identity Center. You can use the ListInstances API operation to retrieve a list of your
+  Identity Center instances and their ARNs.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+associate_access_grants_identity_center(
+    IdentityCenterArn, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "POST",
+    "/v20180820/accessgrantsinstance/identitycenter",
+    Dict{String,Any}(
+        "IdentityCenterArn" => IdentityCenterArn,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function associate_access_grants_identity_center(
+    IdentityCenterArn,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/accessgrantsinstance/identitycenter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IdentityCenterArn" => IdentityCenterArn,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_access_grant(access_grants_location_id, grantee, permission, x-amz-account-id)
+    create_access_grant(access_grants_location_id, grantee, permission, x-amz-account-id, params::Dict{String,<:Any})
+
+Creates an access grant that gives a grantee access to your S3 data. The grantee can be an
+IAM user or role or a directory user, or group. Before you can create a grant, you must
+have an S3 Access Grants instance in the same Region as the S3 data. You can create an S3
+Access Grants instance using the CreateAccessGrantsInstance. You must also have registered
+at least one S3 data location in your S3 Access Grants instance using
+CreateAccessGrantsLocation.   Permissions  You must have the s3:CreateAccessGrant
+permission to use this operation.   Additional Permissions  For any directory identity -
+sso:DescribeInstance and sso:DescribeApplication  For directory users -
+identitystore:DescribeUser  For directory groups - identitystore:DescribeGroup
+
+# Arguments
+- `access_grants_location_id`: The ID of the registered location to which you are granting
+  access. S3 Access Grants assigns this ID when you register the location. S3 Access Grants
+  assigns the ID default to the default location s3:// and assigns an auto-generated ID to
+  other locations that you register.  If you are passing the default location, you cannot
+  create an access grant for the entire default location. You must also specify a bucket or a
+  bucket and prefix in the Subprefix field.
+- `grantee`: The user, group, or role to which you are granting access. You can grant
+  access to an IAM user or role. If you have added your corporate directory to Amazon Web
+  Services IAM Identity Center and associated your Identity Center instance with your S3
+  Access Grants instance, the grantee can also be a corporate directory user or group.
+- `permission`: The type of access that you are granting to your S3 data, which can be set
+  to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE
+  – Grant write-only access to the S3 data.    READWRITE – Grant both read and write
+  access to the S3 data.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessGrantsLocationConfiguration"`: The configuration options of the grant location.
+  The grant location is the S3 path to the data to which you are granting access. It contains
+  the S3SubPrefix field. The grant scope is the result of appending the subprefix to the
+  location scope of the registered location.
+- `"ApplicationArn"`: The Amazon Resource Name (ARN) of an Amazon Web Services IAM Identity
+  Center application associated with your Identity Center instance. If an application ARN is
+  included in the request to create an access grant, the grantee can only access the S3 data
+  through this application.
+- `"S3PrefixType"`: The type of S3SubPrefix. The only possible value is Object. Pass this
+  value if the access grant scope is an object. Do not pass this value if the access grant
+  scope is a bucket or a bucket and a prefix.
+- `"Tags"`: The Amazon Web Services resource tags that you are adding to the access grant.
+  Each tag is a label consisting of a user-defined key and value. Tags can help you manage,
+  identify, organize, search for, and filter resources.
+"""
+create_access_grant(
+    AccessGrantsLocationId,
+    Grantee,
+    Permission,
+    x_amz_account_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "POST",
+    "/v20180820/accessgrantsinstance/grant",
+    Dict{String,Any}(
+        "AccessGrantsLocationId" => AccessGrantsLocationId,
+        "Grantee" => Grantee,
+        "Permission" => Permission,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_access_grant(
+    AccessGrantsLocationId,
+    Grantee,
+    Permission,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/accessgrantsinstance/grant",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccessGrantsLocationId" => AccessGrantsLocationId,
+                    "Grantee" => Grantee,
+                    "Permission" => Permission,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_access_grants_instance(x-amz-account-id)
+    create_access_grants_instance(x-amz-account-id, params::Dict{String,<:Any})
+
+Creates an S3 Access Grants instance, which serves as a logical grouping for access grants.
+You can create one S3 Access Grants instance per Region per account.   Permissions  You
+must have the s3:CreateAccessGrantsInstance permission to use this operation.   Additional
+Permissions  To associate an IAM Identity Center instance with your S3 Access Grants
+instance, you must also have the sso:DescribeInstance, sso:CreateApplication,
+sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions.
+
+# Arguments
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IdentityCenterArn"`: If you would like to associate your S3 Access Grants instance with
+  an Amazon Web Services IAM Identity Center instance, use this field to pass the Amazon
+  Resource Name (ARN) of the Amazon Web Services IAM Identity Center instance that you are
+  associating with your S3 Access Grants instance. An IAM Identity Center instance is your
+  corporate identity directory that you added to the IAM Identity Center. You can use the
+  ListInstances API operation to retrieve a list of your Identity Center instances and their
+  ARNs.
+- `"Tags"`: The Amazon Web Services resource tags that you are adding to the S3 Access
+  Grants instance. Each tag is a label consisting of a user-defined key and value. Tags can
+  help you manage, identify, organize, search for, and filter resources.
+"""
+create_access_grants_instance(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "POST",
+    "/v20180820/accessgrantsinstance",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_access_grants_instance(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/accessgrantsinstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_access_grants_location(iamrole_arn, location_scope, x-amz-account-id)
+    create_access_grants_location(iamrole_arn, location_scope, x-amz-account-id, params::Dict{String,<:Any})
+
+The S3 data location that you would like to register in your S3 Access Grants instance.
+Your S3 data must be in the same Region as your S3 Access Grants instance. The location can
+be one of the following:    The default S3 location s3://    A bucket -
+S3://&lt;bucket-name&gt;    A bucket and prefix - S3://&lt;bucket-name&gt;/&lt;prefix&gt;
+ When you register a location, you must include the IAM role that has permission to manage
+the S3 location that you are registering. Give S3 Access Grants permission to assume this
+role using a policy. S3 Access Grants assumes this role to manage access to the location
+and to vend temporary credentials to grantees or client applications.   Permissions  You
+must have the s3:CreateAccessGrantsLocation permission to use this operation.   Additional
+Permissions  You must also have the following permission for the specified IAM role:
+iam:PassRole
+
+# Arguments
+- `iamrole_arn`: The Amazon Resource Name (ARN) of the IAM role for the registered
+  location. S3 Access Grants assumes this role to manage access to the registered location.
+- `location_scope`: The S3 path to the location that you are registering. The location
+  scope can be the default S3 location s3://, the S3 path to a bucket s3://&lt;bucket&gt;, or
+  the S3 path to a bucket and prefix s3://&lt;bucket&gt;/&lt;prefix&gt;. A prefix in S3 is a
+  string of characters at the beginning of an object key name used to organize the objects
+  that you store in your S3 buckets. For example, object key names that start with the
+  engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The Amazon Web Services resource tags that you are adding to the S3 Access
+  Grants location. Each tag is a label consisting of a user-defined key and value. Tags can
+  help you manage, identify, organize, search for, and filter resources.
+"""
+create_access_grants_location(
+    IAMRoleArn,
+    LocationScope,
+    x_amz_account_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "POST",
+    "/v20180820/accessgrantsinstance/location",
+    Dict{String,Any}(
+        "IAMRoleArn" => IAMRoleArn,
+        "LocationScope" => LocationScope,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_access_grants_location(
+    IAMRoleArn,
+    LocationScope,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/accessgrantsinstance/location",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IAMRoleArn" => IAMRoleArn,
+                    "LocationScope" => LocationScope,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_access_point(bucket, name, x-amz-account-id)
     create_access_point(bucket, name, x-amz-account-id, params::Dict{String,<:Any})
 
-Creates an access point and associates it with the specified bucket. For more information,
-see Managing Data Access with Amazon S3 Access Points in the Amazon S3 User Guide.   S3 on
-Outposts only supports VPC-style access points.  For more information, see  Accessing
-Amazon S3 on Outposts using virtual private cloud (VPC) only access points in the Amazon S3
-User Guide.  All Amazon S3 on Outposts REST API requests for this action require an
-additional parameter of x-amz-outpost-id to be passed with the request. In addition, you
-must use an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example
-of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint
-hostname prefix and the x-amz-outpost-id derived by using the access point ARN, see the
-Examples section.  The following actions are related to CreateAccessPoint:
-GetAccessPoint     DeleteAccessPoint     ListAccessPoints
+ This operation is not supported by directory buckets.  Creates an access point and
+associates it with the specified bucket. For more information, see Managing Data Access
+with Amazon S3 Access Points in the Amazon S3 User Guide.   S3 on Outposts only supports
+VPC-style access points.  For more information, see  Accessing Amazon S3 on Outposts using
+virtual private cloud (VPC) only access points in the Amazon S3 User Guide.  All Amazon S3
+on Outposts REST API requests for this action require an additional parameter of
+x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
+endpoint hostname prefix instead of s3-control. For an example of the request syntax for
+Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
+x-amz-outpost-id derived by using the access point ARN, see the Examples section.  The
+following actions are related to CreateAccessPoint:    GetAccessPoint     DeleteAccessPoint
+    ListAccessPoints
 
 # Arguments
 - `bucket`: The name of the bucket that you want to associate this access point with. For
@@ -45,20 +331,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access point to requests from the specified virtual private cloud (VPC).  This is required
   for creating an access point for Amazon S3 on Outposts buckets.
 """
-function create_access_point(
+create_access_point(
     Bucket, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/accesspoint/$(name)",
+    Dict{String,Any}(
+        "Bucket" => Bucket,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/accesspoint/$(name)",
-        Dict{String,Any}(
-            "Bucket" => Bucket,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_access_point(
     Bucket,
     name,
@@ -88,9 +372,10 @@ end
     create_access_point_for_object_lambda(configuration, name, x-amz-account-id)
     create_access_point_for_object_lambda(configuration, name, x-amz-account-id, params::Dict{String,<:Any})
 
-Creates an Object Lambda Access Point. For more information, see Transforming objects with
-Object Lambda Access Points in the Amazon S3 User Guide. The following actions are related
-to CreateAccessPointForObjectLambda:    DeleteAccessPointForObjectLambda
+ This operation is not supported by directory buckets.  Creates an Object Lambda Access
+Point. For more information, see Transforming objects with Object Lambda Access Points in
+the Amazon S3 User Guide. The following actions are related to
+CreateAccessPointForObjectLambda:    DeleteAccessPointForObjectLambda
 GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
 
 # Arguments
@@ -100,20 +385,18 @@ GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
   Lambda Access Point.
 
 """
-function create_access_point_for_object_lambda(
+create_access_point_for_object_lambda(
     Configuration, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/accesspointforobjectlambda/$(name)",
+    Dict{String,Any}(
+        "Configuration" => Configuration,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/accesspointforobjectlambda/$(name)",
-        Dict{String,Any}(
-            "Configuration" => Configuration,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_access_point_for_object_lambda(
     Configuration,
     name,
@@ -181,14 +464,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-outpost-id"`: The ID of the Outposts where the bucket is being created.  This ID
   is required by Amazon S3 on Outposts buckets.
 """
-function create_bucket(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3_control(
-        "PUT",
-        "/v20180820/bucket/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_bucket(name; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control(
+    "PUT",
+    "/v20180820/bucket/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_bucket(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -205,11 +486,13 @@ end
     create_job(client_request_token, operation, priority, report, role_arn, x-amz-account-id)
     create_job(client_request_token, operation, priority, report, role_arn, x-amz-account-id, params::Dict{String,<:Any})
 
-You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects.
-Batch Operations can run a single action on lists of Amazon S3 objects that you specify.
-For more information, see S3 Batch Operations in the Amazon S3 User Guide. This action
-creates a S3 Batch Operations job.  Related actions include:    DescribeJob     ListJobs
- UpdateJobPriority     UpdateJobStatus     JobOperation
+This operation creates an S3 Batch Operations job. You can use S3 Batch Operations to
+perform large-scale batch actions on Amazon S3 objects. Batch Operations can run a single
+action on lists of Amazon S3 objects that you specify. For more information, see S3 Batch
+Operations in the Amazon S3 User Guide.  Permissions  For information about permissions
+required to use the Batch Operations, see Granting permissions for S3 Batch Operations in
+the Amazon S3 User Guide.    Related actions include:    DescribeJob     ListJobs
+UpdateJobPriority     UpdateJobStatus     JobOperation
 
 # Arguments
 - `client_request_token`: An idempotency token to ensure that you don't accidentally submit
@@ -236,7 +519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A set of tags to associate with the S3 Batch Operations job. This is an
   optional parameter.
 """
-function create_job(
+create_job(
     ClientRequestToken,
     Operation,
     Priority,
@@ -244,22 +527,20 @@ function create_job(
     RoleArn,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "POST",
+    "/v20180820/jobs",
+    Dict{String,Any}(
+        "ClientRequestToken" => ClientRequestToken,
+        "Operation" => Operation,
+        "Priority" => Priority,
+        "Report" => Report,
+        "RoleArn" => RoleArn,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/jobs",
-        Dict{String,Any}(
-            "ClientRequestToken" => ClientRequestToken,
-            "Operation" => Operation,
-            "Priority" => Priority,
-            "Report" => Report,
-            "RoleArn" => RoleArn,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_job(
     ClientRequestToken,
     Operation,
@@ -296,17 +577,18 @@ end
     create_multi_region_access_point(client_token, details, x-amz-account-id)
     create_multi_region_access_point(client_token, details, x-amz-account-id, params::Dict{String,<:Any})
 
-Creates a Multi-Region Access Point and associates it with the specified buckets. For more
-information about creating Multi-Region Access Points, see Creating Multi-Region Access
-Points in the Amazon S3 User Guide. This action will always be routed to the US West
-(Oregon) Region. For more information about the restrictions around managing Multi-Region
-Access Points, see Managing Multi-Region Access Points in the Amazon S3 User Guide. This
-request is asynchronous, meaning that you might receive a response before the command has
-completed. When this request provides a response, it provides a token that you can use to
-monitor the status of the request with DescribeMultiRegionAccessPointOperation. The
-following actions are related to CreateMultiRegionAccessPoint:
-DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation
-GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
+ This operation is not supported by directory buckets.  Creates a Multi-Region Access Point
+and associates it with the specified buckets. For more information about creating
+Multi-Region Access Points, see Creating Multi-Region Access Points in the Amazon S3 User
+Guide. This action will always be routed to the US West (Oregon) Region. For more
+information about the restrictions around managing Multi-Region Access Points, see Managing
+Multi-Region Access Points in the Amazon S3 User Guide. This request is asynchronous,
+meaning that you might receive a response before the command has completed. When this
+request provides a response, it provides a token that you can use to monitor the status of
+the request with DescribeMultiRegionAccessPointOperation. The following actions are related
+to CreateMultiRegionAccessPoint:    DeleteMultiRegionAccessPoint
+DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint
+ListMultiRegionAccessPoints
 
 # Arguments
 - `client_token`: An idempotency token used to identify the request and guarantee that
@@ -317,24 +599,22 @@ GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
   buckets.
 
 """
-function create_multi_region_access_point(
+create_multi_region_access_point(
     ClientToken,
     Details,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "POST",
+    "/v20180820/async-requests/mrap/create",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "Details" => Details,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/async-requests/mrap/create",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "Details" => Details,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_multi_region_access_point(
     ClientToken,
     Details,
@@ -362,16 +642,268 @@ function create_multi_region_access_point(
 end
 
 """
+    create_storage_lens_group(storage_lens_group, x-amz-account-id)
+    create_storage_lens_group(storage_lens_group, x-amz-account-id, params::Dict{String,<:Any})
+
+ Creates a new S3 Storage Lens group and associates it with the specified Amazon Web
+Services account ID. An S3 Storage Lens group is a custom grouping of objects based on
+prefix, suffix, object tags, object size, object age, or a combination of these filters.
+For each Storage Lens group that you’ve created, you can also optionally add Amazon Web
+Services resource tags. For more information about S3 Storage Lens groups, see Working with
+S3 Storage Lens groups. To use this operation, you must have the permission to perform the
+s3:CreateStorageLensGroup action. If you’re trying to create a Storage Lens group with
+Amazon Web Services resource tags, you must also have permission to perform the
+s3:TagResource action. For more information about the required Storage Lens Groups
+permissions, see Setting account permissions to use S3 Storage Lens groups. For information
+about Storage Lens groups errors, see List of Amazon S3 Storage Lens error codes.
+
+# Arguments
+- `storage_lens_group`:  The Storage Lens group configuration.
+- `x-amz-account-id`:  The Amazon Web Services account ID that the Storage Lens group is
+  created from and associated with.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:  The Amazon Web Services resource tags that you're adding to your Storage Lens
+  group. This parameter is optional.
+"""
+create_storage_lens_group(
+    StorageLensGroup, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "POST",
+    "/v20180820/storagelensgroup",
+    Dict{String,Any}(
+        "StorageLensGroup" => StorageLensGroup,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_storage_lens_group(
+    StorageLensGroup,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/storagelensgroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StorageLensGroup" => StorageLensGroup,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_access_grant(id, x-amz-account-id)
+    delete_access_grant(id, x-amz-account-id, params::Dict{String,<:Any})
+
+Deletes the access grant from the S3 Access Grants instance. You cannot undo an access
+grant deletion and the grantee will no longer have access to the S3 data.  Permissions  You
+must have the s3:DeleteAccessGrant permission to use this operation.
+
+# Arguments
+- `id`: The ID of the access grant. S3 Access Grants auto-generates this ID when you create
+  the access grant.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+delete_access_grant(
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/accessgrantsinstance/grant/$(id)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_access_grant(
+    id,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "DELETE",
+        "/v20180820/accessgrantsinstance/grant/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_access_grants_instance(x-amz-account-id)
+    delete_access_grants_instance(x-amz-account-id, params::Dict{String,<:Any})
+
+Deletes your S3 Access Grants instance. You must first delete the access grants and
+locations before S3 Access Grants can delete the instance. See DeleteAccessGrant and
+DeleteAccessGrantsLocation. If you have associated an IAM Identity Center instance with
+your S3 Access Grants instance, you must first dissassociate the Identity Center instance
+from the S3 Access Grants instance before you can delete the S3 Access Grants instance. See
+AssociateAccessGrantsIdentityCenter and DissociateAccessGrantsIdentityCenter.  Permissions
+You must have the s3:DeleteAccessGrantsInstance permission to use this operation.
+
+# Arguments
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+delete_access_grants_instance(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/accessgrantsinstance",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_access_grants_instance(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "DELETE",
+        "/v20180820/accessgrantsinstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_access_grants_instance_resource_policy(x-amz-account-id)
+    delete_access_grants_instance_resource_policy(x-amz-account-id, params::Dict{String,<:Any})
+
+Deletes the resource policy of the S3 Access Grants instance. The resource policy is used
+to manage cross-account access to your S3 Access Grants instance. By deleting the resource
+policy, you delete any cross-account permissions to your S3 Access Grants instance.
+Permissions  You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permission to
+use this operation.
+
+# Arguments
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+delete_access_grants_instance_resource_policy(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/accessgrantsinstance/resourcepolicy",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_access_grants_instance_resource_policy(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "DELETE",
+        "/v20180820/accessgrantsinstance/resourcepolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_access_grants_location(id, x-amz-account-id)
+    delete_access_grants_location(id, x-amz-account-id, params::Dict{String,<:Any})
+
+Deregisters a location from your S3 Access Grants instance. You can only delete a location
+registration from an S3 Access Grants instance if there are no grants associated with this
+location. See Delete a grant for information on how to delete grants. You need to have at
+least one registered location in your S3 Access Grants instance in order to create access
+grants.   Permissions  You must have the s3:DeleteAccessGrantsLocation permission to use
+this operation.
+
+# Arguments
+- `id`: The ID of the registered location that you are deregistering from your S3 Access
+  Grants instance. S3 Access Grants assigned this ID when you registered the location. S3
+  Access Grants assigns the ID default to the default location s3:// and assigns an
+  auto-generated ID to other locations that you register.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+delete_access_grants_location(
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/accessgrantsinstance/location/$(id)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_access_grants_location(
+    id,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "DELETE",
+        "/v20180820/accessgrantsinstance/location/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_access_point(name, x-amz-account-id)
     delete_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Deletes the specified access point. All Amazon S3 on Outposts REST API requests for this
-action require an additional parameter of x-amz-outpost-id to be passed with the request.
-In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control.
-For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
-endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN,
-see the Examples section. The following actions are related to DeleteAccessPoint:
-CreateAccessPoint     GetAccessPoint     ListAccessPoints
+ This operation is not supported by directory buckets.  Deletes the specified access point.
+All Amazon S3 on Outposts REST API requests for this action require an additional parameter
+of x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on
+Outposts endpoint hostname prefix instead of s3-control. For an example of the request
+syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and
+the x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
+following actions are related to DeleteAccessPoint:    CreateAccessPoint     GetAccessPoint
+    ListAccessPoints
 
 # Arguments
 - `name`: The name of the access point you want to delete. For using this parameter with
@@ -387,19 +919,15 @@ CreateAccessPoint     GetAccessPoint     ListAccessPoints
   specified access point.
 
 """
-function delete_access_point(
+delete_access_point(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/accesspoint/$(name)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/accesspoint/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_access_point(
     name,
     x_amz_account_id,
@@ -427,9 +955,10 @@ end
     delete_access_point_for_object_lambda(name, x-amz-account-id)
     delete_access_point_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Deletes the specified Object Lambda Access Point. The following actions are related to
-DeleteAccessPointForObjectLambda:    CreateAccessPointForObjectLambda
-GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
+ This operation is not supported by directory buckets.  Deletes the specified Object Lambda
+Access Point. The following actions are related to DeleteAccessPointForObjectLambda:
+CreateAccessPointForObjectLambda     GetAccessPointForObjectLambda
+ListAccessPointsForObjectLambda
 
 # Arguments
 - `name`: The name of the access point you want to delete.
@@ -437,19 +966,15 @@ GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
   Access Point.
 
 """
-function delete_access_point_for_object_lambda(
+delete_access_point_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/accesspointforobjectlambda/$(name)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/accesspointforobjectlambda/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_access_point_for_object_lambda(
     name,
     x_amz_account_id,
@@ -477,13 +1002,14 @@ end
     delete_access_point_policy(name, x-amz-account-id)
     delete_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Deletes the access point policy for the specified access point.  All Amazon S3 on Outposts
-REST API requests for this action require an additional parameter of x-amz-outpost-id to be
-passed with the request. In addition, you must use an S3 on Outposts endpoint hostname
-prefix instead of s3-control. For an example of the request syntax for Amazon S3 on
-Outposts that uses the S3 on Outposts endpoint hostname prefix and the x-amz-outpost-id
-derived by using the access point ARN, see the Examples section. The following actions are
-related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPolicy
+ This operation is not supported by directory buckets.  Deletes the access point policy for
+the specified access point.  All Amazon S3 on Outposts REST API requests for this action
+require an additional parameter of x-amz-outpost-id to be passed with the request. In
+addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control.
+For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
+endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN,
+see the Examples section. The following actions are related to DeleteAccessPointPolicy:
+PutAccessPointPolicy     GetAccessPointPolicy
 
 # Arguments
 - `name`: The name of the access point whose policy you want to delete. For using this
@@ -498,19 +1024,15 @@ related to DeleteAccessPointPolicy:    PutAccessPointPolicy     GetAccessPointPo
 - `x-amz-account-id`: The account ID for the account that owns the specified access point.
 
 """
-function delete_access_point_policy(
+delete_access_point_policy(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/accesspoint/$(name)/policy",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/accesspoint/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_access_point_policy(
     name,
     x_amz_account_id,
@@ -538,9 +1060,10 @@ end
     delete_access_point_policy_for_object_lambda(name, x-amz-account-id)
     delete_access_point_policy_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Removes the resource policy for an Object Lambda Access Point. The following actions are
-related to DeleteAccessPointPolicyForObjectLambda:    GetAccessPointPolicyForObjectLambda
-  PutAccessPointPolicyForObjectLambda
+ This operation is not supported by directory buckets.  Removes the resource policy for an
+Object Lambda Access Point. The following actions are related to
+DeleteAccessPointPolicyForObjectLambda:    GetAccessPointPolicyForObjectLambda
+PutAccessPointPolicyForObjectLambda
 
 # Arguments
 - `name`: The name of the Object Lambda Access Point you want to delete the policy for.
@@ -548,19 +1071,15 @@ related to DeleteAccessPointPolicyForObjectLambda:    GetAccessPointPolicyForObj
   Access Point.
 
 """
-function delete_access_point_policy_for_object_lambda(
+delete_access_point_policy_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/accesspointforobjectlambda/$(name)/policy",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/accesspointforobjectlambda/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_access_point_policy_for_object_lambda(
     name,
     x_amz_account_id,
@@ -613,10 +1132,8 @@ DeleteObject
 - `x-amz-account-id`: The account ID that owns the Outposts bucket.
 
 """
-function delete_bucket(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
+delete_bucket(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3_control(
         "DELETE",
         "/v20180820/bucket/$(name)",
         Dict{String,Any}(
@@ -625,7 +1142,6 @@ function delete_bucket(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_bucket(
     name,
     x_amz_account_id,
@@ -660,8 +1176,8 @@ S3 on Outposts removes all the lifecycle configuration rules in the lifecycle su
 associated with the bucket. Your objects never expire, and Amazon S3 on Outposts no longer
 automatically deletes any objects on the basis of rules contained in the deleted lifecycle
 configuration. For more information, see Using Amazon S3 on Outposts in Amazon S3 User
-Guide. To use this action, you must have permission to perform the
-s3-outposts:DeleteLifecycleConfiguration action. By default, the bucket owner has this
+Guide. To use this operation, you must have permission to perform the
+s3-outposts:PutLifecycleConfiguration action. By default, the bucket owner has this
 permission and the Outposts bucket owner can grant this permission to others. All Amazon S3
 on Outposts REST API requests for this action require an additional parameter of
 x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
@@ -684,19 +1200,15 @@ actions include:    PutBucketLifecycleConfiguration     GetBucketLifecycleConfig
 - `x-amz-account-id`: The account ID of the lifecycle configuration to delete.
 
 """
-function delete_bucket_lifecycle_configuration(
+delete_bucket_lifecycle_configuration(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/bucket/$(name)/lifecycleconfiguration",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/bucket/$(name)/lifecycleconfiguration",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_bucket_lifecycle_configuration(
     name,
     x_amz_account_id,
@@ -759,19 +1271,15 @@ following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutB
 - `x-amz-account-id`: The account ID of the Outposts bucket.
 
 """
-function delete_bucket_policy(
+delete_bucket_policy(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/bucket/$(name)/policy",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/bucket/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_bucket_policy(
     name,
     x_amz_account_id,
@@ -835,19 +1343,15 @@ DeleteBucketReplication:    PutBucketReplication     GetBucketReplication
   the replication configuration for.
 
 """
-function delete_bucket_replication(
+delete_bucket_replication(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/bucket/$(name)/replication",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/bucket/$(name)/replication",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_bucket_replication(
     name,
     x_amz_account_id,
@@ -902,19 +1406,15 @@ PutBucketTagging
   be removed.
 
 """
-function delete_bucket_tagging(
+delete_bucket_tagging(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/bucket/$(name)/tagging",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/bucket/$(name)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_bucket_tagging(
     name,
     x_amz_account_id,
@@ -942,10 +1442,10 @@ end
     delete_job_tagging(id, x-amz-account-id)
     delete_job_tagging(id, x-amz-account-id, params::Dict{String,<:Any})
 
-Removes the entire tag set from the specified S3 Batch Operations job. To use the
-DeleteJobTagging operation, you must have permission to perform the s3:DeleteJobTagging
+Removes the entire tag set from the specified S3 Batch Operations job.  Permissions  To use
+the DeleteJobTagging operation, you must have permission to perform the s3:DeleteJobTagging
 action. For more information, see Controlling access and labeling jobs using tags in the
-Amazon S3 User Guide.  Related actions include:    CreateJob     GetJobTagging
+Amazon S3 User Guide.   Related actions include:    CreateJob     GetJobTagging
 PutJobTagging
 
 # Arguments
@@ -954,19 +1454,15 @@ PutJobTagging
   Operations job.
 
 """
-function delete_job_tagging(
+delete_job_tagging(
     id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/jobs/$(id)/tagging",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/jobs/$(id)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_job_tagging(
     id,
     x_amz_account_id,
@@ -994,17 +1490,17 @@ end
     delete_multi_region_access_point(client_token, details, x-amz-account-id)
     delete_multi_region_access_point(client_token, details, x-amz-account-id, params::Dict{String,<:Any})
 
-Deletes a Multi-Region Access Point. This action does not delete the buckets associated
-with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action
-will always be routed to the US West (Oregon) Region. For more information about the
-restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access
-Points in the Amazon S3 User Guide. This request is asynchronous, meaning that you might
-receive a response before the command has completed. When this request provides a response,
-it provides a token that you can use to monitor the status of the request with
-DescribeMultiRegionAccessPointOperation. The following actions are related to
-DeleteMultiRegionAccessPoint:    CreateMultiRegionAccessPoint
-DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint
-ListMultiRegionAccessPoints
+ This operation is not supported by directory buckets.  Deletes a Multi-Region Access
+Point. This action does not delete the buckets associated with the Multi-Region Access
+Point, only the Multi-Region Access Point itself. This action will always be routed to the
+US West (Oregon) Region. For more information about the restrictions around managing
+Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User
+Guide. This request is asynchronous, meaning that you might receive a response before the
+command has completed. When this request provides a response, it provides a token that you
+can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation.
+The following actions are related to DeleteMultiRegionAccessPoint:
+CreateMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation
+GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
 
 # Arguments
 - `client_token`: An idempotency token used to identify the request and guarantee that
@@ -1014,24 +1510,22 @@ ListMultiRegionAccessPoints
   Access Point.
 
 """
-function delete_multi_region_access_point(
+delete_multi_region_access_point(
     ClientToken,
     Details,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "POST",
+    "/v20180820/async-requests/mrap/delete",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "Details" => Details,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/async-requests/mrap/delete",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "Details" => Details,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_multi_region_access_point(
     ClientToken,
     Details,
@@ -1062,28 +1556,25 @@ end
     delete_public_access_block(x-amz-account-id)
     delete_public_access_block(x-amz-account-id, params::Dict{String,<:Any})
 
-Removes the PublicAccessBlock configuration for an Amazon Web Services account. For more
-information, see  Using Amazon S3 block public access. Related actions include:
-GetPublicAccessBlock     PutPublicAccessBlock
+ This operation is not supported by directory buckets.  Removes the PublicAccessBlock
+configuration for an Amazon Web Services account. For more information, see  Using Amazon
+S3 block public access. Related actions include:    GetPublicAccessBlock
+PutPublicAccessBlock
 
 # Arguments
 - `x-amz-account-id`: The account ID for the Amazon Web Services account whose
   PublicAccessBlock configuration you want to remove.
 
 """
-function delete_public_access_block(
+delete_public_access_block(
     x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/configuration/publicAccessBlock",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/configuration/publicAccessBlock",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_public_access_block(
     x_amz_account_id,
     params::AbstractDict{String};
@@ -1110,30 +1601,27 @@ end
     delete_storage_lens_configuration(storagelensid, x-amz-account-id)
     delete_storage_lens_configuration(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
-Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage
-Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the
-Amazon S3 User Guide.  To use this action, you must have permission to perform the
-s3:DeleteStorageLensConfiguration action. For more information, see Setting permissions to
-use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+ This operation is not supported by directory buckets.  Deletes the Amazon S3 Storage Lens
+configuration. For more information about S3 Storage Lens, see Assessing your storage
+activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this
+action, you must have permission to perform the s3:DeleteStorageLensConfiguration action.
+For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon
+S3 User Guide.
 
 # Arguments
 - `storagelensid`: The ID of the S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
-function delete_storage_lens_configuration(
+delete_storage_lens_configuration(
     storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/storagelens/$(storagelensid)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/storagelens/$(storagelensid)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_storage_lens_configuration(
     storagelensid,
     x_amz_account_id,
@@ -1161,30 +1649,27 @@ end
     delete_storage_lens_configuration_tagging(storagelensid, x-amz-account-id)
     delete_storage_lens_configuration_tagging(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
-Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3
-Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in
-the Amazon S3 User Guide.  To use this action, you must have permission to perform the
-s3:DeleteStorageLensConfigurationTagging action. For more information, see Setting
-permissions to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+ This operation is not supported by directory buckets.  Deletes the Amazon S3 Storage Lens
+configuration tags. For more information about S3 Storage Lens, see Assessing your storage
+activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this
+action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging
+action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
+Amazon S3 User Guide.
 
 # Arguments
 - `storagelensid`: The ID of the S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
-function delete_storage_lens_configuration_tagging(
+delete_storage_lens_configuration_tagging(
     storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/storagelens/$(storagelensid)/tagging",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "DELETE",
-        "/v20180820/storagelens/$(storagelensid)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_storage_lens_configuration_tagging(
     storagelensid,
     x_amz_account_id,
@@ -1209,12 +1694,62 @@ function delete_storage_lens_configuration_tagging(
 end
 
 """
+    delete_storage_lens_group(name, x-amz-account-id)
+    delete_storage_lens_group(name, x-amz-account-id, params::Dict{String,<:Any})
+
+ Deletes an existing S3 Storage Lens group. To use this operation, you must have the
+permission to perform the s3:DeleteStorageLensGroup action. For more information about the
+required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage
+Lens groups. For information about Storage Lens groups errors, see List of Amazon S3
+Storage Lens error codes.
+
+# Arguments
+- `name`:  The name of the Storage Lens group that you're trying to delete.
+- `x-amz-account-id`:  The Amazon Web Services account ID used to create the Storage Lens
+  group that you're trying to delete.
+
+"""
+delete_storage_lens_group(
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/storagelensgroup/$(name)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_storage_lens_group(
+    name,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "DELETE",
+        "/v20180820/storagelensgroup/$(name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_job(id, x-amz-account-id)
     describe_job(id, x-amz-account-id, params::Dict{String,<:Any})
 
 Retrieves the configuration parameters and status for a Batch Operations job. For more
-information, see S3 Batch Operations in the Amazon S3 User Guide.  Related actions include:
-   CreateJob     ListJobs     UpdateJobPriority     UpdateJobStatus
+information, see S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the
+DescribeJob operation, you must have permission to perform the s3:DescribeJob action.
+Related actions include:    CreateJob     ListJobs     UpdateJobPriority
+UpdateJobStatus
 
 # Arguments
 - `id`: The ID for the job whose information you want to retrieve.
@@ -1222,10 +1757,8 @@ information, see S3 Batch Operations in the Amazon S3 User Guide.  Related actio
   Operations job.
 
 """
-function describe_job(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
+describe_job(id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3_control(
         "GET",
         "/v20180820/jobs/$(id)",
         Dict{String,Any}(
@@ -1234,7 +1767,6 @@ function describe_job(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_job(
     id,
     x_amz_account_id,
@@ -1262,10 +1794,11 @@ end
     describe_multi_region_access_point_operation(request_token, x-amz-account-id)
     describe_multi_region_access_point_operation(request_token, x-amz-account-id, params::Dict{String,<:Any})
 
-Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For
-more information about managing Multi-Region Access Points and how asynchronous requests
-work, see Managing Multi-Region Access Points in the Amazon S3 User Guide. The following
-actions are related to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint
+ This operation is not supported by directory buckets.  Retrieves the status of an
+asynchronous request to manage a Multi-Region Access Point. For more information about
+managing Multi-Region Access Points and how asynchronous requests work, see Managing
+Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related
+to GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint
 DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAccessPoints
 
 
@@ -1277,19 +1810,15 @@ DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAc
   Access Point.
 
 """
-function describe_multi_region_access_point_operation(
+describe_multi_region_access_point_operation(
     request_token, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/async-requests/mrap/$(request_token)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/async-requests/mrap/$(request_token)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_multi_region_access_point_operation(
     request_token,
     x_amz_account_id,
@@ -1314,17 +1843,290 @@ function describe_multi_region_access_point_operation(
 end
 
 """
+    dissociate_access_grants_identity_center(x-amz-account-id)
+    dissociate_access_grants_identity_center(x-amz-account-id, params::Dict{String,<:Any})
+
+Dissociates the Amazon Web Services IAM Identity Center instance from the S3 Access Grants
+instance.   Permissions  You must have the s3:DissociateAccessGrantsIdentityCenter
+permission to use this operation.   Additional Permissions  You must have the
+sso:DeleteApplication permission to use this operation.
+
+# Arguments
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+dissociate_access_grants_identity_center(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "DELETE",
+    "/v20180820/accessgrantsinstance/identitycenter",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function dissociate_access_grants_identity_center(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "DELETE",
+        "/v20180820/accessgrantsinstance/identitycenter",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_access_grant(id, x-amz-account-id)
+    get_access_grant(id, x-amz-account-id, params::Dict{String,<:Any})
+
+Get the details of an access grant from your S3 Access Grants instance.  Permissions  You
+must have the s3:GetAccessGrant permission to use this operation.
+
+# Arguments
+- `id`: The ID of the access grant. S3 Access Grants auto-generates this ID when you create
+  the access grant.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+get_access_grant(id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/grant/$(id)",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function get_access_grant(
+    id,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/grant/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_access_grants_instance(x-amz-account-id)
+    get_access_grants_instance(x-amz-account-id, params::Dict{String,<:Any})
+
+Retrieves the S3 Access Grants instance for a Region in your account.   Permissions  You
+must have the s3:GetAccessGrantsInstance permission to use this operation.
+
+# Arguments
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+get_access_grants_instance(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accessgrantsinstance",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_access_grants_instance(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_access_grants_instance_for_prefix(s3prefix, x-amz-account-id)
+    get_access_grants_instance_for_prefix(s3prefix, x-amz-account-id, params::Dict{String,<:Any})
+
+Retrieve the S3 Access Grants instance that contains a particular prefix.   Permissions
+You must have the s3:GetAccessGrantsInstanceForPrefix permission for the caller account to
+use this operation.   Additional Permissions  The prefix owner account must grant you the
+following permissions to their S3 Access Grants instance:
+s3:GetAccessGrantsInstanceForPrefix.
+
+# Arguments
+- `s3prefix`: The S3 prefix of the access grants that you would like to retrieve.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+get_access_grants_instance_for_prefix(
+    s3prefix, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accessgrantsinstance/prefix",
+    Dict{String,Any}(
+        "s3prefix" => s3prefix,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_access_grants_instance_for_prefix(
+    s3prefix,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/prefix",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "s3prefix" => s3prefix,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_access_grants_instance_resource_policy(x-amz-account-id)
+    get_access_grants_instance_resource_policy(x-amz-account-id, params::Dict{String,<:Any})
+
+Returns the resource policy of the S3 Access Grants instance.   Permissions  You must have
+the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.
+
+# Arguments
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+get_access_grants_instance_resource_policy(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accessgrantsinstance/resourcepolicy",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_access_grants_instance_resource_policy(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/resourcepolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_access_grants_location(id, x-amz-account-id)
+    get_access_grants_location(id, x-amz-account-id, params::Dict{String,<:Any})
+
+Retrieves the details of a particular location registered in your S3 Access Grants
+instance.   Permissions  You must have the s3:GetAccessGrantsLocation permission to use
+this operation.
+
+# Arguments
+- `id`: The ID of the registered location that you are retrieving. S3 Access Grants assigns
+  this ID when you register the location. S3 Access Grants assigns the ID default to the
+  default location s3:// and assigns an auto-generated ID to other locations that you
+  register.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+get_access_grants_location(
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accessgrantsinstance/location/$(id)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_access_grants_location(
+    id,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/location/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_access_point(name, x-amz-account-id)
     get_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Returns configuration information about the specified access point.  All Amazon S3 on
-Outposts REST API requests for this action require an additional parameter of
-x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
-endpoint hostname prefix instead of s3-control. For an example of the request syntax for
-Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
-x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
-following actions are related to GetAccessPoint:    CreateAccessPoint     DeleteAccessPoint
-    ListAccessPoints
+ This operation is not supported by directory buckets.  Returns configuration information
+about the specified access point.  All Amazon S3 on Outposts REST API requests for this
+action require an additional parameter of x-amz-outpost-id to be passed with the request.
+In addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control.
+For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
+endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN,
+see the Examples section. The following actions are related to GetAccessPoint:
+CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
 
 # Arguments
 - `name`: The name of the access point whose configuration information you want to
@@ -1341,19 +2143,15 @@ following actions are related to GetAccessPoint:    CreateAccessPoint     Delete
   specified access point.
 
 """
-function get_access_point(
+get_access_point(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accesspoint/$(name)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspoint/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_access_point(
     name,
     x_amz_account_id,
@@ -1381,9 +2179,9 @@ end
     get_access_point_configuration_for_object_lambda(name, x-amz-account-id)
     get_access_point_configuration_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Returns configuration for an Object Lambda Access Point. The following actions are related
-to GetAccessPointConfigurationForObjectLambda:
-PutAccessPointConfigurationForObjectLambda
+ This operation is not supported by directory buckets.  Returns configuration for an Object
+Lambda Access Point. The following actions are related to
+GetAccessPointConfigurationForObjectLambda:    PutAccessPointConfigurationForObjectLambda
 
 # Arguments
 - `name`: The name of the Object Lambda Access Point you want to return the configuration
@@ -1392,19 +2190,15 @@ PutAccessPointConfigurationForObjectLambda
   Access Point.
 
 """
-function get_access_point_configuration_for_object_lambda(
+get_access_point_configuration_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accesspointforobjectlambda/$(name)/configuration",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspointforobjectlambda/$(name)/configuration",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_access_point_configuration_for_object_lambda(
     name,
     x_amz_account_id,
@@ -1432,10 +2226,10 @@ end
     get_access_point_for_object_lambda(name, x-amz-account-id)
     get_access_point_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Returns configuration information about the specified Object Lambda Access Point The
-following actions are related to GetAccessPointForObjectLambda:
-CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda
-ListAccessPointsForObjectLambda
+ This operation is not supported by directory buckets.  Returns configuration information
+about the specified Object Lambda Access Point The following actions are related to
+GetAccessPointForObjectLambda:    CreateAccessPointForObjectLambda
+DeleteAccessPointForObjectLambda     ListAccessPointsForObjectLambda
 
 # Arguments
 - `name`: The name of the Object Lambda Access Point.
@@ -1443,19 +2237,15 @@ ListAccessPointsForObjectLambda
   Access Point.
 
 """
-function get_access_point_for_object_lambda(
+get_access_point_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accesspointforobjectlambda/$(name)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspointforobjectlambda/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_access_point_for_object_lambda(
     name,
     x_amz_account_id,
@@ -1483,9 +2273,9 @@ end
     get_access_point_policy(name, x-amz-account-id)
     get_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Returns the access point policy associated with the specified access point. The following
-actions are related to GetAccessPointPolicy:    PutAccessPointPolicy
-DeleteAccessPointPolicy
+ This operation is not supported by directory buckets.  Returns the access point policy
+associated with the specified access point. The following actions are related to
+GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy
 
 # Arguments
 - `name`: The name of the access point whose policy you want to retrieve. For using this
@@ -1500,19 +2290,15 @@ DeleteAccessPointPolicy
 - `x-amz-account-id`: The account ID for the account that owns the specified access point.
 
 """
-function get_access_point_policy(
+get_access_point_policy(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accesspoint/$(name)/policy",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspoint/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_access_point_policy(
     name,
     x_amz_account_id,
@@ -1540,9 +2326,10 @@ end
     get_access_point_policy_for_object_lambda(name, x-amz-account-id)
     get_access_point_policy_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Returns the resource policy for an Object Lambda Access Point. The following actions are
-related to GetAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda
-  PutAccessPointPolicyForObjectLambda
+ This operation is not supported by directory buckets.  Returns the resource policy for an
+Object Lambda Access Point. The following actions are related to
+GetAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda
+PutAccessPointPolicyForObjectLambda
 
 # Arguments
 - `name`: The name of the Object Lambda Access Point.
@@ -1550,19 +2337,15 @@ related to GetAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObj
   Access Point.
 
 """
-function get_access_point_policy_for_object_lambda(
+get_access_point_policy_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accesspointforobjectlambda/$(name)/policy",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspointforobjectlambda/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_access_point_policy_for_object_lambda(
     name,
     x_amz_account_id,
@@ -1590,28 +2373,25 @@ end
     get_access_point_policy_status(name, x-amz-account-id)
     get_access_point_policy_status(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Indicates whether the specified access point currently has a policy that allows public
-access. For more information about public access through access points, see Managing Data
-Access with Amazon S3 access points in the Amazon S3 User Guide.
+ This operation is not supported by directory buckets.  Indicates whether the specified
+access point currently has a policy that allows public access. For more information about
+public access through access points, see Managing Data Access with Amazon S3 access points
+in the Amazon S3 User Guide.
 
 # Arguments
 - `name`: The name of the access point whose policy status you want to retrieve.
 - `x-amz-account-id`: The account ID for the account that owns the specified access point.
 
 """
-function get_access_point_policy_status(
+get_access_point_policy_status(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accesspoint/$(name)/policyStatus",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspoint/$(name)/policyStatus",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_access_point_policy_status(
     name,
     x_amz_account_id,
@@ -1639,7 +2419,8 @@ end
     get_access_point_policy_status_for_object_lambda(name, x-amz-account-id)
     get_access_point_policy_status_for_object_lambda(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Returns the status of the resource policy associated with an Object Lambda Access Point.
+ This operation is not supported by directory buckets.  Returns the status of the resource
+policy associated with an Object Lambda Access Point.
 
 # Arguments
 - `name`: The name of the Object Lambda Access Point.
@@ -1647,19 +2428,15 @@ Returns the status of the resource policy associated with an Object Lambda Acces
   Access Point.
 
 """
-function get_access_point_policy_status_for_object_lambda(
+get_access_point_policy_status_for_object_lambda(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accesspointforobjectlambda/$(name)/policyStatus",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspointforobjectlambda/$(name)/policyStatus",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_access_point_policy_status_for_object_lambda(
     name,
     x_amz_account_id,
@@ -1687,16 +2464,16 @@ end
     get_bucket(name, x-amz-account-id)
     get_bucket(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on
-Outposts in the Amazon S3 User Guide. If you are using an identity other than the root user
-of the Amazon Web Services account that owns the Outposts bucket, the calling identity must
-have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong to
-the Outposts bucket owner's account in order to use this action. Only users from Outposts
-bucket owner account with the right permissions can perform actions on an Outposts bucket.
- If you don't have s3-outposts:GetBucket permissions or you're not using an identity that
-belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied error. The
-following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon S3 on
-Outposts REST API requests for this action require an additional parameter of
+ Gets an Amazon S3 on Outposts bucket. For more information, see  Using Amazon S3 on
+Outposts in the Amazon S3 User Guide.  If you are using an identity other than the root
+user of the Amazon Web Services account that owns the Outposts bucket, the calling identity
+must have the s3-outposts:GetBucket permissions on the specified Outposts bucket and belong
+to the Outposts bucket owner's account in order to use this action. Only users from
+Outposts bucket owner account with the right permissions can perform actions on an Outposts
+bucket.   If you don't have s3-outposts:GetBucket permissions or you're not using an
+identity that belongs to the bucket owner's account, Amazon S3 returns a 403 Access Denied
+error. The following actions are related to GetBucket for Amazon S3 on Outposts: All Amazon
+S3 on Outposts REST API requests for this action require an additional parameter of
 x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
 endpoint hostname prefix instead of s3-control. For an example of the request syntax for
 Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
@@ -1716,10 +2493,8 @@ PutObject     CreateBucket     DeleteBucket
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
-function get_bucket(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
+get_bucket(name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3_control(
         "GET",
         "/v20180820/bucket/$(name)",
         Dict{String,Any}(
@@ -1728,7 +2503,6 @@ function get_bucket(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_bucket(
     name,
     x_amz_account_id,
@@ -1789,19 +2563,15 @@ actions are related to GetBucketLifecycleConfiguration:    PutBucketLifecycleCon
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
-function get_bucket_lifecycle_configuration(
+get_bucket_lifecycle_configuration(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/bucket/$(name)/lifecycleconfiguration",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/bucket/$(name)/lifecycleconfiguration",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_lifecycle_configuration(
     name,
     x_amz_account_id,
@@ -1863,19 +2633,15 @@ PutBucketPolicy     DeleteBucketPolicy
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
-function get_bucket_policy(
+get_bucket_policy(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/bucket/$(name)/policy",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/bucket/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_policy(
     name,
     x_amz_account_id,
@@ -1942,19 +2708,15 @@ DeleteBucketReplication
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
-function get_bucket_replication(
+get_bucket_replication(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/bucket/$(name)/replication",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/bucket/$(name)/replication",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_replication(
     name,
     x_amz_account_id,
@@ -2010,19 +2772,15 @@ DeleteBucketTagging
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
-function get_bucket_tagging(
+get_bucket_tagging(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/bucket/$(name)/tagging",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/bucket/$(name)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_tagging(
     name,
     x_amz_account_id,
@@ -2071,19 +2829,15 @@ PutBucketVersioning     PutBucketLifecycleConfiguration     GetBucketLifecycleCo
 - `x-amz-account-id`: The Amazon Web Services account ID of the S3 on Outposts bucket.
 
 """
-function get_bucket_versioning(
+get_bucket_versioning(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/bucket/$(name)/versioning",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/bucket/$(name)/versioning",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_versioning(
     name,
     x_amz_account_id,
@@ -2108,13 +2862,89 @@ function get_bucket_versioning(
 end
 
 """
+    get_data_access(permission, target, x-amz-account-id)
+    get_data_access(permission, target, x-amz-account-id, params::Dict{String,<:Any})
+
+Returns a temporary access credential from S3 Access Grants to the grantee or client
+application. The temporary credential is an Amazon Web Services STS token that grants them
+access to the S3 data.   Permissions  You must have the s3:GetDataAccess permission to use
+this operation.   Additional Permissions  The IAM role that S3 Access Grants assumes must
+have the following permissions specified in the trust policy when registering the location:
+sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles
+sts:SourceIdentity.
+
+# Arguments
+- `permission`: The type of permission granted to your S3 data, which can be set to one of
+  the following values:    READ – Grant read-only access to the S3 data.    WRITE – Grant
+  write-only access to the S3 data.    READWRITE – Grant both read and write access to the
+  S3 data.
+- `target`: The S3 URI path of the data to which you are requesting temporary access
+  credentials. If the requesting account has an access grant for this data, S3 Access Grants
+  vends temporary access credentials in the response.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"durationSeconds"`: The session duration, in seconds, of the temporary access credential
+  that S3 Access Grants vends to the grantee or client application. The default value is 1
+  hour, but the grantee can specify a range from 900 seconds (15 minutes) up to 43200 seconds
+  (12 hours). If the grantee requests a value higher than this maximum, the operation fails.
+- `"privilege"`: The scope of the temporary access credential that S3 Access Grants vends
+  to the grantee or client application.     Default – The scope of the returned temporary
+  access token is the scope of the grant that is closest to the target scope.    Minimal –
+  The scope of the returned temporary access token is the same as the requested target scope
+  as long as the requested scope is the same as or a subset of the grant scope.
+- `"targetType"`: The type of Target. The only possible value is Object. Pass this value if
+  the target data that you would like to access is a path to an object. Do not pass this
+  value if the target data is a bucket or a bucket and a prefix.
+"""
+get_data_access(
+    permission, target, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accessgrantsinstance/dataaccess",
+    Dict{String,Any}(
+        "permission" => permission,
+        "target" => target,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_access(
+    permission,
+    target,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/dataaccess",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "permission" => permission,
+                    "target" => target,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_job_tagging(id, x-amz-account-id)
     get_job_tagging(id, x-amz-account-id, params::Dict{String,<:Any})
 
-Returns the tags on an S3 Batch Operations job. To use the GetJobTagging operation, you
-must have permission to perform the s3:GetJobTagging action. For more information, see
-Controlling access and labeling jobs using tags in the Amazon S3 User Guide.  Related
-actions include:    CreateJob     PutJobTagging     DeleteJobTagging
+Returns the tags on an S3 Batch Operations job.   Permissions  To use the GetJobTagging
+operation, you must have permission to perform the s3:GetJobTagging action. For more
+information, see Controlling access and labeling jobs using tags in the Amazon S3 User
+Guide.   Related actions include:    CreateJob     PutJobTagging     DeleteJobTagging
 
 # Arguments
 - `id`: The ID for the S3 Batch Operations job whose tags you want to retrieve.
@@ -2122,10 +2952,8 @@ actions include:    CreateJob     PutJobTagging     DeleteJobTagging
   Operations job.
 
 """
-function get_job_tagging(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
+get_job_tagging(id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3_control(
         "GET",
         "/v20180820/jobs/$(id)/tagging",
         Dict{String,Any}(
@@ -2134,7 +2962,6 @@ function get_job_tagging(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_job_tagging(
     id,
     x_amz_account_id,
@@ -2162,12 +2989,13 @@ end
     get_multi_region_access_point(name, x-amz-account-id)
     get_multi_region_access_point(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Returns configuration information about the specified Multi-Region Access Point. This
-action will always be routed to the US West (Oregon) Region. For more information about the
-restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access
-Points in the Amazon S3 User Guide. The following actions are related to
-GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint
-    DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints
+ This operation is not supported by directory buckets.  Returns configuration information
+about the specified Multi-Region Access Point. This action will always be routed to the US
+West (Oregon) Region. For more information about the restrictions around managing
+Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User
+Guide. The following actions are related to GetMultiRegionAccessPoint:
+CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint
+DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints
 
 # Arguments
 - `name`: The name of the Multi-Region Access Point whose configuration information you
@@ -2178,19 +3006,15 @@ GetMultiRegionAccessPoint:    CreateMultiRegionAccessPoint     DeleteMultiRegion
   Access Point.
 
 """
-function get_multi_region_access_point(
+get_multi_region_access_point(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/mrap/instances/$(name)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/mrap/instances/$(name)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_multi_region_access_point(
     name,
     x_amz_account_id,
@@ -2218,12 +3042,12 @@ end
     get_multi_region_access_point_policy(name, x-amz-account-id)
     get_multi_region_access_point_policy(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Returns the access control policy of the specified Multi-Region Access Point. This action
-will always be routed to the US West (Oregon) Region. For more information about the
-restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access
-Points in the Amazon S3 User Guide. The following actions are related to
-GetMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicyStatus
-PutMultiRegionAccessPointPolicy
+ This operation is not supported by directory buckets.  Returns the access control policy
+of the specified Multi-Region Access Point. This action will always be routed to the US
+West (Oregon) Region. For more information about the restrictions around managing
+Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User
+Guide. The following actions are related to GetMultiRegionAccessPointPolicy:
+GetMultiRegionAccessPointPolicyStatus     PutMultiRegionAccessPointPolicy
 
 # Arguments
 - `name`: Specifies the Multi-Region Access Point. The name of the Multi-Region Access
@@ -2234,19 +3058,15 @@ PutMultiRegionAccessPointPolicy
   Access Point.
 
 """
-function get_multi_region_access_point_policy(
+get_multi_region_access_point_policy(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/mrap/instances/$(name)/policy",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/mrap/instances/$(name)/policy",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_multi_region_access_point_policy(
     name,
     x_amz_account_id,
@@ -2274,11 +3094,12 @@ end
     get_multi_region_access_point_policy_status(name, x-amz-account-id)
     get_multi_region_access_point_policy_status(name, x-amz-account-id, params::Dict{String,<:Any})
 
-Indicates whether the specified Multi-Region Access Point has an access control policy that
-allows public access. This action will always be routed to the US West (Oregon) Region. For
-more information about the restrictions around managing Multi-Region Access Points, see
-Managing Multi-Region Access Points in the Amazon S3 User Guide. The following actions are
-related to GetMultiRegionAccessPointPolicyStatus:    GetMultiRegionAccessPointPolicy
+ This operation is not supported by directory buckets.  Indicates whether the specified
+Multi-Region Access Point has an access control policy that allows public access. This
+action will always be routed to the US West (Oregon) Region. For more information about the
+restrictions around managing Multi-Region Access Points, see Managing Multi-Region Access
+Points in the Amazon S3 User Guide. The following actions are related to
+GetMultiRegionAccessPointPolicyStatus:    GetMultiRegionAccessPointPolicy
 PutMultiRegionAccessPointPolicy
 
 # Arguments
@@ -2290,19 +3111,15 @@ PutMultiRegionAccessPointPolicy
   Access Point.
 
 """
-function get_multi_region_access_point_policy_status(
+get_multi_region_access_point_policy_status(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/mrap/instances/$(name)/policystatus",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/mrap/instances/$(name)/policystatus",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_multi_region_access_point_policy_status(
     name,
     x_amz_account_id,
@@ -2330,11 +3147,12 @@ end
     get_multi_region_access_point_routes(mrap, x-amz-account-id)
     get_multi_region_access_point_routes(mrap, x-amz-account-id, params::Dict{String,<:Any})
 
-Returns the routing configuration for a Multi-Region Access Point, indicating which Regions
-are active or passive. To obtain routing control changes and failover requests, use the
-Amazon S3 failover control infrastructure endpoints in these five Amazon Web Services
-Regions:    us-east-1     us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1
-Your Amazon S3 bucket does not need to be in these five Regions.
+ This operation is not supported by directory buckets.  Returns the routing configuration
+for a Multi-Region Access Point, indicating which Regions are active or passive. To obtain
+routing control changes and failover requests, use the Amazon S3 failover control
+infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1
+us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1     Your Amazon S3 bucket
+does not need to be in these five Regions.
 
 # Arguments
 - `mrap`: The Multi-Region Access Point ARN.
@@ -2342,19 +3160,15 @@ Your Amazon S3 bucket does not need to be in these five Regions.
   Access Point.
 
 """
-function get_multi_region_access_point_routes(
+get_multi_region_access_point_routes(
     mrap, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/mrap/instances/$(mrap)/routes",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/mrap/instances/$(mrap)/routes",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_multi_region_access_point_routes(
     mrap,
     x_amz_account_id,
@@ -2382,28 +3196,25 @@ end
     get_public_access_block(x-amz-account-id)
     get_public_access_block(x-amz-account-id, params::Dict{String,<:Any})
 
-Retrieves the PublicAccessBlock configuration for an Amazon Web Services account. For more
-information, see  Using Amazon S3 block public access. Related actions include:
-DeletePublicAccessBlock     PutPublicAccessBlock
+ This operation is not supported by directory buckets.  Retrieves the PublicAccessBlock
+configuration for an Amazon Web Services account. For more information, see  Using Amazon
+S3 block public access. Related actions include:    DeletePublicAccessBlock
+PutPublicAccessBlock
 
 # Arguments
 - `x-amz-account-id`: The account ID for the Amazon Web Services account whose
   PublicAccessBlock configuration you want to retrieve.
 
 """
-function get_public_access_block(
+get_public_access_block(
     x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/configuration/publicAccessBlock",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/configuration/publicAccessBlock",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_public_access_block(
     x_amz_account_id,
     params::AbstractDict{String};
@@ -2430,31 +3241,28 @@ end
     get_storage_lens_configuration(storagelensid, x-amz-account-id)
     get_storage_lens_configuration(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
-Gets the Amazon S3 Storage Lens configuration. For more information, see Assessing your
-storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide. For a
-complete list of S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the
-Amazon S3 User Guide.  To use this action, you must have permission to perform the
-s3:GetStorageLensConfiguration action. For more information, see Setting permissions to use
-Amazon S3 Storage Lens in the Amazon S3 User Guide.
+ This operation is not supported by directory buckets.  Gets the Amazon S3 Storage Lens
+configuration. For more information, see Assessing your storage activity and usage with
+Amazon S3 Storage Lens  in the Amazon S3 User Guide. For a complete list of S3 Storage Lens
+metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this
+action, you must have permission to perform the s3:GetStorageLensConfiguration action. For
+more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3
+User Guide.
 
 # Arguments
 - `storagelensid`: The ID of the Amazon S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
-function get_storage_lens_configuration(
+get_storage_lens_configuration(
     storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/storagelens/$(storagelensid)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/storagelens/$(storagelensid)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_storage_lens_configuration(
     storagelensid,
     x_amz_account_id,
@@ -2482,30 +3290,27 @@ end
     get_storage_lens_configuration_tagging(storagelensid, x-amz-account-id)
     get_storage_lens_configuration_tagging(storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
-Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3
-Storage Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in
-the Amazon S3 User Guide.  To use this action, you must have permission to perform the
-s3:GetStorageLensConfigurationTagging action. For more information, see Setting permissions
-to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+ This operation is not supported by directory buckets.  Gets the tags of Amazon S3 Storage
+Lens configuration. For more information about S3 Storage Lens, see Assessing your storage
+activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this
+action, you must have permission to perform the s3:GetStorageLensConfigurationTagging
+action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
+Amazon S3 User Guide.
 
 # Arguments
 - `storagelensid`: The ID of the Amazon S3 Storage Lens configuration.
 - `x-amz-account-id`: The account ID of the requester.
 
 """
-function get_storage_lens_configuration_tagging(
+get_storage_lens_configuration_tagging(
     storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/storagelens/$(storagelensid)/tagging",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/storagelens/$(storagelensid)/tagging",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_storage_lens_configuration_tagging(
     storagelensid,
     x_amz_account_id,
@@ -2530,20 +3335,250 @@ function get_storage_lens_configuration_tagging(
 end
 
 """
+    get_storage_lens_group(name, x-amz-account-id)
+    get_storage_lens_group(name, x-amz-account-id, params::Dict{String,<:Any})
+
+ Retrieves the Storage Lens group configuration details. To use this operation, you must
+have the permission to perform the s3:GetStorageLensGroup action. For more information
+about the required Storage Lens Groups permissions, see Setting account permissions to use
+S3 Storage Lens groups. For information about Storage Lens groups errors, see List of
+Amazon S3 Storage Lens error codes.
+
+# Arguments
+- `name`:  The name of the Storage Lens group that you're trying to retrieve the
+  configuration details for.
+- `x-amz-account-id`:  The Amazon Web Services account ID associated with the Storage Lens
+  group that you're trying to retrieve the details for.
+
+"""
+get_storage_lens_group(
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/storagelensgroup/$(name)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_storage_lens_group(
+    name,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/storagelensgroup/$(name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_access_grants(x-amz-account-id)
+    list_access_grants(x-amz-account-id, params::Dict{String,<:Any})
+
+Returns the list of access grants in your S3 Access Grants instance.  Permissions  You must
+have the s3:ListAccessGrants permission to use this operation.
+
+# Arguments
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"application_arn"`: The Amazon Resource Name (ARN) of an Amazon Web Services IAM
+  Identity Center application associated with your Identity Center instance. If the grant
+  includes an application ARN, the grantee can only access the S3 data through this
+  application.
+- `"granteeidentifier"`: The unique identifer of the Grantee. If the grantee type is IAM,
+  the identifier is the IAM Amazon Resource Name (ARN) of the user or role. If the grantee
+  type is a directory user or group, the identifier is 128-bit universally unique identifier
+  (UUID) in the format a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. You can obtain this UUID from
+  your Amazon Web Services IAM Identity Center instance.
+- `"granteetype"`: The type of the grantee to which access has been granted. It can be one
+  of the following values:    IAM - An IAM user or role.    DIRECTORY_USER - Your corporate
+  directory user. You can use this option if you have added your corporate identity directory
+  to IAM Identity Center and associated the IAM Identity Center instance with your S3 Access
+  Grants instance.    DIRECTORY_GROUP - Your corporate directory group. You can use this
+  option if you have added your corporate identity directory to IAM Identity Center and
+  associated the IAM Identity Center instance with your S3 Access Grants instance.
+- `"grantscope"`: The S3 path of the data to which you are granting access. It is the
+  result of appending the Subprefix to the location scope.
+- `"maxResults"`: The maximum number of access grants that you would like returned in the
+  List Access Grants response. If the results include the pagination token NextToken, make
+  another call using the NextToken to determine if there are more results.
+- `"nextToken"`: A pagination token to request the next page of results. Pass this value
+  into a subsequent List Access Grants request in order to retrieve the next page of results.
+- `"permission"`: The type of permission granted to your S3 data, which can be set to one
+  of the following values:    READ – Grant read-only access to the S3 data.    WRITE –
+  Grant write-only access to the S3 data.    READWRITE – Grant both read and write access
+  to the S3 data.
+"""
+list_access_grants(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/grants",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_access_grants(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/grants",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_access_grants_instances(x-amz-account-id)
+    list_access_grants_instances(x-amz-account-id, params::Dict{String,<:Any})
+
+Returns a list of S3 Access Grants instances. An S3 Access Grants instance serves as a
+logical grouping for your individual access grants. You can only have one S3 Access Grants
+instance per Region per account.  Permissions  You must have the
+s3:ListAccessGrantsInstances permission to use this operation.
+
+# Arguments
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of access grants that you would like returned in the
+  List Access Grants response. If the results include the pagination token NextToken, make
+  another call using the NextToken to determine if there are more results.
+- `"nextToken"`: A pagination token to request the next page of results. Pass this value
+  into a subsequent List Access Grants Instances request in order to retrieve the next page
+  of results.
+"""
+list_access_grants_instances(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accessgrantsinstances",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_access_grants_instances(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_access_grants_locations(x-amz-account-id)
+    list_access_grants_locations(x-amz-account-id, params::Dict{String,<:Any})
+
+Returns a list of the locations registered in your S3 Access Grants instance.  Permissions
+You must have the s3:ListAccessGrantsLocations permission to use this operation.
+
+# Arguments
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"locationscope"`: The S3 path to the location that you are registering. The location
+  scope can be the default S3 location s3://, the S3 path to a bucket s3://&lt;bucket&gt;, or
+  the S3 path to a bucket and prefix s3://&lt;bucket&gt;/&lt;prefix&gt;. A prefix in S3 is a
+  string of characters at the beginning of an object key name used to organize the objects
+  that you store in your S3 buckets. For example, object key names that start with the
+  engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
+- `"maxResults"`: The maximum number of access grants that you would like returned in the
+  List Access Grants response. If the results include the pagination token NextToken, make
+  another call using the NextToken to determine if there are more results.
+- `"nextToken"`: A pagination token to request the next page of results. Pass this value
+  into a subsequent List Access Grants Locations request in order to retrieve the next page
+  of results.
+"""
+list_access_grants_locations(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accessgrantsinstance/locations",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_access_grants_locations(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/locations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_access_points(x-amz-account-id)
     list_access_points(x-amz-account-id, params::Dict{String,<:Any})
 
-Returns a list of the access points that are owned by the current account that's associated
-with the specified bucket. You can retrieve up to 1000 access points per call. If the
-specified bucket has more than 1,000 access points (or the number specified in maxResults,
-whichever is less), the response will include a continuation token that you can use to list
-the additional access points.  All Amazon S3 on Outposts REST API requests for this action
-require an additional parameter of x-amz-outpost-id to be passed with the request. In
-addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control.
-For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
-endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN,
-see the Examples section. The following actions are related to ListAccessPoints:
-CreateAccessPoint     DeleteAccessPoint     GetAccessPoint
+ This operation is not supported by directory buckets.  Returns a list of the access points
+that are owned by the current account that's associated with the specified bucket. You can
+retrieve up to 1000 access points per call. If the specified bucket has more than 1,000
+access points (or the number specified in maxResults, whichever is less), the response will
+include a continuation token that you can use to list the additional access points.  All
+Amazon S3 on Outposts REST API requests for this action require an additional parameter of
+x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
+endpoint hostname prefix instead of s3-control. For an example of the request syntax for
+Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
+x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
+following actions are related to ListAccessPoints:    CreateAccessPoint
+DeleteAccessPoint     GetAccessPoint
 
 # Arguments
 - `x-amz-account-id`: The Amazon Web Services account ID for the account that owns the
@@ -2569,10 +3604,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   continuation token in the NextToken field, then providing that value here causes Amazon S3
   to retrieve the next page of results.
 """
-function list_access_points(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
+list_access_points(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3_control(
         "GET",
         "/v20180820/accesspoint",
         Dict{String,Any}(
@@ -2581,7 +3614,6 @@ function list_access_points(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_access_points(
     x_amz_account_id,
     params::AbstractDict{String};
@@ -2608,12 +3640,12 @@ end
     list_access_points_for_object_lambda(x-amz-account-id)
     list_access_points_for_object_lambda(x-amz-account-id, params::Dict{String,<:Any})
 
-Returns some or all (up to 1,000) access points associated with the Object Lambda Access
-Point per call. If there are more access points than what can be returned in one call, the
-response will include a continuation token that you can use to list the additional access
-points. The following actions are related to ListAccessPointsForObjectLambda:
-CreateAccessPointForObjectLambda     DeleteAccessPointForObjectLambda
-GetAccessPointForObjectLambda
+ This operation is not supported by directory buckets.  Returns some or all (up to 1,000)
+access points associated with the Object Lambda Access Point per call. If there are more
+access points than what can be returned in one call, the response will include a
+continuation token that you can use to list the additional access points. The following
+actions are related to ListAccessPointsForObjectLambda:    CreateAccessPointForObjectLambda
+    DeleteAccessPointForObjectLambda     GetAccessPointForObjectLambda
 
 # Arguments
 - `x-amz-account-id`: The account ID for the account that owns the specified Object Lambda
@@ -2629,19 +3661,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this API, this field contains a continuation token that you can provide in subsequent calls
   to this API to retrieve additional access points.
 """
-function list_access_points_for_object_lambda(
+list_access_points_for_object_lambda(
     x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/accesspointforobjectlambda",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/accesspointforobjectlambda",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_access_points_for_object_lambda(
     x_amz_account_id,
     params::AbstractDict{String};
@@ -2668,10 +3696,11 @@ end
     list_jobs(x-amz-account-id)
     list_jobs(x-amz-account-id, params::Dict{String,<:Any})
 
-Lists current S3 Batch Operations jobs and jobs that have ended within the last 30 days for
-the Amazon Web Services account making the request. For more information, see S3 Batch
-Operations in the Amazon S3 User Guide. Related actions include:     CreateJob
-DescribeJob     UpdateJobPriority     UpdateJobStatus
+Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last
+30 days for the Amazon Web Services account making the request. For more information, see
+S3 Batch Operations in the Amazon S3 User Guide.  Permissions  To use the ListJobs
+operation, you must have permission to perform the s3:ListJobs action.   Related actions
+include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus
 
 # Arguments
 - `x-amz-account-id`: The Amazon Web Services account ID associated with the S3 Batch
@@ -2688,17 +3717,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List
   Jobs request.
 """
-function list_jobs(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3_control(
-        "GET",
-        "/v20180820/jobs",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_jobs(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) = s3_control(
+    "GET",
+    "/v20180820/jobs",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_jobs(
     x_amz_account_id,
     params::AbstractDict{String};
@@ -2725,15 +3750,15 @@ end
     list_multi_region_access_points(x-amz-account-id)
     list_multi_region_access_points(x-amz-account-id, params::Dict{String,<:Any})
 
-Returns a list of the Multi-Region Access Points currently associated with the specified
-Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the
-maximum number of Multi-Region Access Points that can be associated with a single account.
-This action will always be routed to the US West (Oregon) Region. For more information
-about the restrictions around managing Multi-Region Access Points, see Managing
-Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related
-to ListMultiRegionAccessPoint:    CreateMultiRegionAccessPoint
-DeleteMultiRegionAccessPoint     DescribeMultiRegionAccessPointOperation
-GetMultiRegionAccessPoint
+ This operation is not supported by directory buckets.  Returns a list of the Multi-Region
+Access Points currently associated with the specified Amazon Web Services account. Each
+call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region
+Access Points that can be associated with a single account. This action will always be
+routed to the US West (Oregon) Region. For more information about the restrictions around
+managing Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon
+S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:
+CreateMultiRegionAccessPoint     DeleteMultiRegionAccessPoint
+DescribeMultiRegionAccessPointOperation     GetMultiRegionAccessPoint
 
 # Arguments
 - `x-amz-account-id`: The Amazon Web Services account ID for the owner of the Multi-Region
@@ -2744,19 +3769,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Not currently used. Do not use this parameter.
 - `"nextToken"`: Not currently used. Do not use this parameter.
 """
-function list_multi_region_access_points(
+list_multi_region_access_points(
     x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/mrap/instances",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/mrap/instances",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_multi_region_access_points(
     x_amz_account_id,
     params::AbstractDict{String};
@@ -2783,11 +3804,11 @@ end
     list_regional_buckets(x-amz-account-id)
     list_regional_buckets(x-amz-account-id, params::Dict{String,<:Any})
 
-Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated
-sender of the request. For more information, see Using Amazon S3 on Outposts in the Amazon
-S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the
-S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the
-Examples section.
+ This operation is not supported by directory buckets.  Returns a list of all Outposts
+buckets in an Outpost that are owned by the authenticated sender of the request. For more
+information, see Using Amazon S3 on Outposts in the Amazon S3 User Guide. For an example of
+the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname
+prefix and x-amz-outpost-id in your request, see the Examples section.
 
 # Arguments
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
@@ -2799,10 +3820,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-outpost-id"`: The ID of the Outposts resource.  This ID is required by Amazon S3
   on Outposts buckets.
 """
-function list_regional_buckets(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3_control(
+list_regional_buckets(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3_control(
         "GET",
         "/v20180820/bucket",
         Dict{String,Any}(
@@ -2811,7 +3830,6 @@ function list_regional_buckets(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_regional_buckets(
     x_amz_account_id,
     params::AbstractDict{String};
@@ -2838,11 +3856,12 @@ end
     list_storage_lens_configurations(x-amz-account-id)
     list_storage_lens_configurations(x-amz-account-id, params::Dict{String,<:Any})
 
-Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage
-Lens, see Assessing your storage activity and usage with Amazon S3 Storage Lens  in the
-Amazon S3 User Guide.  To use this action, you must have permission to perform the
-s3:ListStorageLensConfigurations action. For more information, see Setting permissions to
-use Amazon S3 Storage Lens in the Amazon S3 User Guide.
+ This operation is not supported by directory buckets.  Gets a list of Amazon S3 Storage
+Lens configurations. For more information about S3 Storage Lens, see Assessing your storage
+activity and usage with Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this
+action, you must have permission to perform the s3:ListStorageLensConfigurations action.
+For more information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon
+S3 User Guide.
 
 # Arguments
 - `x-amz-account-id`: The account ID of the requester.
@@ -2851,19 +3870,15 @@ use Amazon S3 Storage Lens in the Amazon S3 User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: A pagination token to request the next page of results.
 """
-function list_storage_lens_configurations(
+list_storage_lens_configurations(
     x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/storagelens",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "GET",
-        "/v20180820/storagelens",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_storage_lens_configurations(
     x_amz_account_id,
     params::AbstractDict{String};
@@ -2887,12 +3902,167 @@ function list_storage_lens_configurations(
 end
 
 """
+    list_storage_lens_groups(x-amz-account-id)
+    list_storage_lens_groups(x-amz-account-id, params::Dict{String,<:Any})
+
+ Lists all the Storage Lens groups in the specified home Region.  To use this operation,
+you must have the permission to perform the s3:ListStorageLensGroups action. For more
+information about the required Storage Lens Groups permissions, see Setting account
+permissions to use S3 Storage Lens groups. For information about Storage Lens groups
+errors, see List of Amazon S3 Storage Lens error codes.
+
+# Arguments
+- `x-amz-account-id`:  The Amazon Web Services account ID that owns the Storage Lens
+  groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"nextToken"`: The token for the next set of results, or null if there are no more
+  results.
+"""
+list_storage_lens_groups(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/storagelensgroup",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_storage_lens_groups(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/storagelensgroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tags_for_resource(resource_arn, x-amz-account-id)
+    list_tags_for_resource(resource_arn, x-amz-account-id, params::Dict{String,<:Any})
+
+This operation allows you to list all the Amazon Web Services resource tags for a specified
+resource. Each tag is a label consisting of a user-defined key and value. Tags can help you
+manage, identify, organize, search for, and filter resources.   Permissions  You must have
+the s3:ListTagsForResource permission to use this operation.     This operation is only
+supported for S3 Storage Lens groups and for S3 Access Grants. The tagged resource can be
+an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.   For
+more information about the required Storage Lens Groups permissions, see Setting account
+permissions to use S3 Storage Lens groups. For information about S3 Tagging errors, see
+List of Amazon S3 Tagging error codes.
+
+# Arguments
+- `resource_arn`:  The Amazon Resource Name (ARN) of the S3 resource that you want to list
+  the tags for. The tagged resource can be an S3 Storage Lens group or S3 Access Grants
+  instance, registered location, or grant.
+- `x-amz-account-id`:  The Amazon Web Services account ID of the resource owner.
+
+"""
+list_tags_for_resource(
+    resourceArn, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "GET",
+    "/v20180820/tags/$(resourceArn)",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_tags_for_resource(
+    resourceArn,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/tags/$(resourceArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_access_grants_instance_resource_policy(policy, x-amz-account-id)
+    put_access_grants_instance_resource_policy(policy, x-amz-account-id, params::Dict{String,<:Any})
+
+Updates the resource policy of the S3 Access Grants instance.   Permissions  You must have
+the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation.
+
+# Arguments
+- `policy`: The resource policy of the S3 Access Grants instance that you are updating.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Organization"`: The Organization of the resource policy of the S3 Access Grants
+  instance.
+"""
+put_access_grants_instance_resource_policy(
+    Policy, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/accessgrantsinstance/resourcepolicy",
+    Dict{String,Any}(
+        "Policy" => Policy,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_access_grants_instance_resource_policy(
+    Policy,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "PUT",
+        "/v20180820/accessgrantsinstance/resourcepolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Policy" => Policy,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_access_point_configuration_for_object_lambda(configuration, name, x-amz-account-id)
     put_access_point_configuration_for_object_lambda(configuration, name, x-amz-account-id, params::Dict{String,<:Any})
 
-Replaces configuration for an Object Lambda Access Point. The following actions are related
-to PutAccessPointConfigurationForObjectLambda:
-GetAccessPointConfigurationForObjectLambda
+ This operation is not supported by directory buckets.  Replaces configuration for an
+Object Lambda Access Point. The following actions are related to
+PutAccessPointConfigurationForObjectLambda:    GetAccessPointConfigurationForObjectLambda
 
 # Arguments
 - `configuration`: Object Lambda Access Point configuration document.
@@ -2901,20 +4071,18 @@ GetAccessPointConfigurationForObjectLambda
   Access Point.
 
 """
-function put_access_point_configuration_for_object_lambda(
+put_access_point_configuration_for_object_lambda(
     Configuration, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/accesspointforobjectlambda/$(name)/configuration",
+    Dict{String,Any}(
+        "Configuration" => Configuration,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/accesspointforobjectlambda/$(name)/configuration",
-        Dict{String,Any}(
-            "Configuration" => Configuration,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_access_point_configuration_for_object_lambda(
     Configuration,
     name,
@@ -2944,15 +4112,16 @@ end
     put_access_point_policy(policy, name, x-amz-account-id)
     put_access_point_policy(policy, name, x-amz-account-id, params::Dict{String,<:Any})
 
-Associates an access policy with the specified access point. Each access point can have
-only one policy, so a request made to this API replaces any existing policy associated with
-the specified access point.  All Amazon S3 on Outposts REST API requests for this action
-require an additional parameter of x-amz-outpost-id to be passed with the request. In
-addition, you must use an S3 on Outposts endpoint hostname prefix instead of s3-control.
-For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts
-endpoint hostname prefix and the x-amz-outpost-id derived by using the access point ARN,
-see the Examples section. The following actions are related to PutAccessPointPolicy:
-GetAccessPointPolicy     DeleteAccessPointPolicy
+ This operation is not supported by directory buckets.  Associates an access policy with
+the specified access point. Each access point can have only one policy, so a request made
+to this API replaces any existing policy associated with the specified access point.  All
+Amazon S3 on Outposts REST API requests for this action require an additional parameter of
+x-amz-outpost-id to be passed with the request. In addition, you must use an S3 on Outposts
+endpoint hostname prefix instead of s3-control. For an example of the request syntax for
+Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the
+x-amz-outpost-id derived by using the access point ARN, see the Examples section. The
+following actions are related to PutAccessPointPolicy:    GetAccessPointPolicy
+DeleteAccessPointPolicy
 
 # Arguments
 - `policy`: The policy that you want to apply to the specified access point. For more
@@ -2972,20 +4141,18 @@ GetAccessPointPolicy     DeleteAccessPointPolicy
   with the specified access point.
 
 """
-function put_access_point_policy(
+put_access_point_policy(
     Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/accesspoint/$(name)/policy",
+    Dict{String,Any}(
+        "Policy" => Policy,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/accesspoint/$(name)/policy",
-        Dict{String,Any}(
-            "Policy" => Policy,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_access_point_policy(
     Policy,
     name,
@@ -3015,10 +4182,11 @@ end
     put_access_point_policy_for_object_lambda(policy, name, x-amz-account-id)
     put_access_point_policy_for_object_lambda(policy, name, x-amz-account-id, params::Dict{String,<:Any})
 
-Creates or replaces resource policy for an Object Lambda Access Point. For an example
-policy, see Creating Object Lambda Access Points in the Amazon S3 User Guide. The following
-actions are related to PutAccessPointPolicyForObjectLambda:
-DeleteAccessPointPolicyForObjectLambda     GetAccessPointPolicyForObjectLambda
+ This operation is not supported by directory buckets.  Creates or replaces resource policy
+for an Object Lambda Access Point. For an example policy, see Creating Object Lambda Access
+Points in the Amazon S3 User Guide. The following actions are related to
+PutAccessPointPolicyForObjectLambda:    DeleteAccessPointPolicyForObjectLambda
+GetAccessPointPolicyForObjectLambda
 
 # Arguments
 - `policy`: Object Lambda Access Point resource policy document.
@@ -3027,20 +4195,18 @@ DeleteAccessPointPolicyForObjectLambda     GetAccessPointPolicyForObjectLambda
   Access Point.
 
 """
-function put_access_point_policy_for_object_lambda(
+put_access_point_policy_for_object_lambda(
     Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/accesspointforobjectlambda/$(name)/policy",
+    Dict{String,Any}(
+        "Policy" => Policy,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/accesspointforobjectlambda/$(name)/policy",
-        Dict{String,Any}(
-            "Policy" => Policy,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_access_point_policy_for_object_lambda(
     Policy,
     name,
@@ -3093,19 +4259,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LifecycleConfiguration"`: Container for lifecycle rules. You can add as many as 1,000
   rules.
 """
-function put_bucket_lifecycle_configuration(
+put_bucket_lifecycle_configuration(
     name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/bucket/$(name)/lifecycleconfiguration",
+    Dict{String,Any}("headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/bucket/$(name)/lifecycleconfiguration",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_lifecycle_configuration(
     name,
     x_amz_account_id,
@@ -3173,20 +4335,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you want to remove your permissions to change this bucket policy in the future.  This is
   not supported by Amazon S3 on Outposts buckets.
 """
-function put_bucket_policy(
+put_bucket_policy(
     Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/bucket/$(name)/policy",
+    Dict{String,Any}(
+        "Policy" => Policy,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/bucket/$(name)/policy",
-        Dict{String,Any}(
-            "Policy" => Policy,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_policy(
     Policy,
     name,
@@ -3273,23 +4433,21 @@ PutBucketReplication:    GetBucketReplication     DeleteBucketReplication
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
-function put_bucket_replication(
+put_bucket_replication(
     ReplicationConfiguration,
     name,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "PUT",
+    "/v20180820/bucket/$(name)/replication",
+    Dict{String,Any}(
+        "ReplicationConfiguration" => ReplicationConfiguration,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/bucket/$(name)/replication",
-        Dict{String,Any}(
-            "ReplicationConfiguration" => ReplicationConfiguration,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_replication(
     ReplicationConfiguration,
     name,
@@ -3364,20 +4522,18 @@ GetBucketTagging     DeleteBucketTagging
 - `x-amz-account-id`: The Amazon Web Services account ID of the Outposts bucket.
 
 """
-function put_bucket_tagging(
+put_bucket_tagging(
     Tagging, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/bucket/$(name)/tagging",
+    Dict{String,Any}(
+        "Tagging" => Tagging,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/bucket/$(name)/tagging",
-        Dict{String,Any}(
-            "Tagging" => Tagging,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_tagging(
     Tagging,
     name,
@@ -3444,23 +4600,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
   and the value that is displayed on your authentication device.
 """
-function put_bucket_versioning(
+put_bucket_versioning(
     VersioningConfiguration,
     name,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "PUT",
+    "/v20180820/bucket/$(name)/versioning",
+    Dict{String,Any}(
+        "VersioningConfiguration" => VersioningConfiguration,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/bucket/$(name)/versioning",
-        Dict{String,Any}(
-            "VersioningConfiguration" => VersioningConfiguration,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_versioning(
     VersioningConfiguration,
     name,
@@ -3495,8 +4649,8 @@ associate S3 Batch Operations tags with any job by sending a PUT request against
 tagging subresource that is associated with the job. To modify the existing tag set, you
 can either replace the existing tag set entirely, or make changes within the existing tag
 set by retrieving the existing tag set using GetJobTagging, modify that tag set, and use
-this action to replace the tag set with the one you modified. For more information, see
-Controlling access and labeling jobs using tags in the Amazon S3 User Guide.      If you
+this operation to replace the tag set with the one you modified. For more information, see
+Controlling access and labeling jobs using tags in the Amazon S3 User Guide.     If you
 send this request with an empty tag set, Amazon S3 deletes the existing tag set on the
 Batch Operations job. If you use this method, you are charged for a Tier 1 Request (PUT).
 For more information, see Amazon S3 pricing.   For deleting existing tags for your Batch
@@ -3506,9 +4660,10 @@ the maximum number of tags to 50 tags per job.   You can associate up to 50 tags
 as long as they have unique tag keys.   A tag key can be up to 128 Unicode characters in
 length, and tag values can be up to 256 Unicode characters in length.   The key and values
 are case sensitive.   For tagging-related restrictions related to characters and encodings,
-see User-Defined Tag Restrictions in the Billing and Cost Management User Guide.       To
-use the PutJobTagging operation, you must have permission to perform the s3:PutJobTagging
-action. Related actions include:    CreateJob     GetJobTagging     DeleteJobTagging
+see User-Defined Tag Restrictions in the Billing and Cost Management User Guide.
+Permissions  To use the PutJobTagging operation, you must have permission to perform the
+s3:PutJobTagging action.   Related actions include:    CreateJob     GetJobTagging
+DeleteJobTagging
 
 # Arguments
 - `tags`: The set of tags to associate with the S3 Batch Operations job.
@@ -3517,20 +4672,18 @@ action. Related actions include:    CreateJob     GetJobTagging     DeleteJobTag
   Operations job.
 
 """
-function put_job_tagging(
+put_job_tagging(
     Tags, id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/jobs/$(id)/tagging",
+    Dict{String,Any}(
+        "Tags" => Tags,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/jobs/$(id)/tagging",
-        Dict{String,Any}(
-            "Tags" => Tags,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_job_tagging(
     Tags,
     id,
@@ -3560,14 +4713,14 @@ end
     put_multi_region_access_point_policy(client_token, details, x-amz-account-id)
     put_multi_region_access_point_policy(client_token, details, x-amz-account-id, params::Dict{String,<:Any})
 
-Associates an access control policy with the specified Multi-Region Access Point. Each
-Multi-Region Access Point can have only one policy, so a request made to this action
-replaces any existing policy that is associated with the specified Multi-Region Access
-Point. This action will always be routed to the US West (Oregon) Region. For more
-information about the restrictions around managing Multi-Region Access Points, see Managing
-Multi-Region Access Points in the Amazon S3 User Guide. The following actions are related
-to PutMultiRegionAccessPointPolicy:    GetMultiRegionAccessPointPolicy
-GetMultiRegionAccessPointPolicyStatus
+ This operation is not supported by directory buckets.  Associates an access control policy
+with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only
+one policy, so a request made to this action replaces any existing policy that is
+associated with the specified Multi-Region Access Point. This action will always be routed
+to the US West (Oregon) Region. For more information about the restrictions around managing
+Multi-Region Access Points, see Managing Multi-Region Access Points in the Amazon S3 User
+Guide. The following actions are related to PutMultiRegionAccessPointPolicy:
+GetMultiRegionAccessPointPolicy     GetMultiRegionAccessPointPolicyStatus
 
 # Arguments
 - `client_token`: An idempotency token used to identify the request and guarantee that
@@ -3578,24 +4731,22 @@ GetMultiRegionAccessPointPolicyStatus
   Access Point.
 
 """
-function put_multi_region_access_point_policy(
+put_multi_region_access_point_policy(
     ClientToken,
     Details,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "POST",
+    "/v20180820/async-requests/mrap/put-policy",
+    Dict{String,Any}(
+        "ClientToken" => ClientToken,
+        "Details" => Details,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/async-requests/mrap/put-policy",
-        Dict{String,Any}(
-            "ClientToken" => ClientToken,
-            "Details" => Details,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_multi_region_access_point_policy(
     ClientToken,
     Details,
@@ -3626,10 +4777,11 @@ end
     put_public_access_block(public_access_block_configuration, x-amz-account-id)
     put_public_access_block(public_access_block_configuration, x-amz-account-id, params::Dict{String,<:Any})
 
-Creates or modifies the PublicAccessBlock configuration for an Amazon Web Services account.
-For this operation, users must have the s3:PutAccountPublicAccessBlock permission. For more
-information, see  Using Amazon S3 block public access. Related actions include:
-GetPublicAccessBlock     DeletePublicAccessBlock
+ This operation is not supported by directory buckets.  Creates or modifies the
+PublicAccessBlock configuration for an Amazon Web Services account. For this operation,
+users must have the s3:PutAccountPublicAccessBlock permission. For more information, see
+Using Amazon S3 block public access. Related actions include:    GetPublicAccessBlock
+DeletePublicAccessBlock
 
 # Arguments
 - `public_access_block_configuration`: The PublicAccessBlock configuration that you want to
@@ -3638,22 +4790,20 @@ GetPublicAccessBlock     DeletePublicAccessBlock
   PublicAccessBlock configuration you want to set.
 
 """
-function put_public_access_block(
+put_public_access_block(
     PublicAccessBlockConfiguration,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "PUT",
+    "/v20180820/configuration/publicAccessBlock",
+    Dict{String,Any}(
+        "PublicAccessBlockConfiguration" => PublicAccessBlockConfiguration,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/configuration/publicAccessBlock",
-        Dict{String,Any}(
-            "PublicAccessBlockConfiguration" => PublicAccessBlockConfiguration,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_public_access_block(
     PublicAccessBlockConfiguration,
     x_amz_account_id,
@@ -3682,12 +4832,13 @@ end
     put_storage_lens_configuration(storage_lens_configuration, storagelensid, x-amz-account-id)
     put_storage_lens_configuration(storage_lens_configuration, storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
-Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens,
-see Working with Amazon S3 Storage Lens in the Amazon S3 User Guide. For a complete list of
-S3 Storage Lens metrics, see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.
-To use this action, you must have permission to perform the s3:PutStorageLensConfiguration
-action. For more information, see Setting permissions to use Amazon S3 Storage Lens in the
-Amazon S3 User Guide.
+ This operation is not supported by directory buckets.  Puts an Amazon S3 Storage Lens
+configuration. For more information about S3 Storage Lens, see Working with Amazon S3
+Storage Lens in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics,
+see S3 Storage Lens metrics glossary in the Amazon S3 User Guide.  To use this action, you
+must have permission to perform the s3:PutStorageLensConfiguration action. For more
+information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User
+Guide.
 
 # Arguments
 - `storage_lens_configuration`: The S3 Storage Lens configuration.
@@ -3699,23 +4850,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum
   of 50 tags.
 """
-function put_storage_lens_configuration(
+put_storage_lens_configuration(
     StorageLensConfiguration,
     storagelensid,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "PUT",
+    "/v20180820/storagelens/$(storagelensid)",
+    Dict{String,Any}(
+        "StorageLensConfiguration" => StorageLensConfiguration,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/storagelens/$(storagelensid)",
-        Dict{String,Any}(
-            "StorageLensConfiguration" => StorageLensConfiguration,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_storage_lens_configuration(
     StorageLensConfiguration,
     storagelensid,
@@ -3745,12 +4894,12 @@ end
     put_storage_lens_configuration_tagging(tag, storagelensid, x-amz-account-id)
     put_storage_lens_configuration_tagging(tag, storagelensid, x-amz-account-id, params::Dict{String,<:Any})
 
-Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more
-information about S3 Storage Lens, see Assessing your storage activity and usage with
-Amazon S3 Storage Lens  in the Amazon S3 User Guide.  To use this action, you must have
-permission to perform the s3:PutStorageLensConfigurationTagging action. For more
-information, see Setting permissions to use Amazon S3 Storage Lens in the Amazon S3 User
-Guide.
+ This operation is not supported by directory buckets.  Put or replace tags on an existing
+Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see
+Assessing your storage activity and usage with Amazon S3 Storage Lens  in the Amazon S3
+User Guide.  To use this action, you must have permission to perform the
+s3:PutStorageLensConfigurationTagging action. For more information, see Setting permissions
+to use Amazon S3 Storage Lens in the Amazon S3 User Guide.
 
 # Arguments
 - `tag`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum of
@@ -3763,20 +4912,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tag set of the S3 Storage Lens configuration.  You can set up to a maximum
   of 50 tags.
 """
-function put_storage_lens_configuration_tagging(
+put_storage_lens_configuration_tagging(
     Tag, storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/storagelens/$(storagelensid)/tagging",
+    Dict{String,Any}(
+        "Tag" => Tag,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PUT",
-        "/v20180820/storagelens/$(storagelensid)/tagging",
-        Dict{String,Any}(
-            "Tag" => Tag,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_storage_lens_configuration_tagging(
     Tag,
     storagelensid,
@@ -3806,20 +4953,21 @@ end
     submit_multi_region_access_point_routes(route, mrap, x-amz-account-id)
     submit_multi_region_access_point_routes(route, mrap, x-amz-account-id, params::Dict{String,<:Any})
 
-Submits an updated route configuration for a Multi-Region Access Point. This API operation
-updates the routing status for the specified Regions from active to passive, or from
-passive to active. A value of 0 indicates a passive status, which means that traffic won't
-be routed to the specified Region. A value of 100 indicates an active status, which means
-that traffic will be routed to the specified Region. At least one Region must be active at
-all times. When the routing configuration is changed, any in-progress operations (uploads,
-copies, deletes, and so on) to formerly active Regions will continue to run to their final
-completion state (success or failure). The routing configurations of any Regions that
-aren’t specified remain unchanged.  Updated routing configurations might not be
-immediately applied. It can take up to 2 minutes for your changes to take effect.  To
-submit routing control changes and failover requests, use the Amazon S3 failover control
-infrastructure endpoints in these five Amazon Web Services Regions:    us-east-1
-us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1     Your Amazon S3 bucket
-does not need to be in these five Regions.
+ This operation is not supported by directory buckets.  Submits an updated route
+configuration for a Multi-Region Access Point. This API operation updates the routing
+status for the specified Regions from active to passive, or from passive to active. A value
+of 0 indicates a passive status, which means that traffic won't be routed to the specified
+Region. A value of 100 indicates an active status, which means that traffic will be routed
+to the specified Region. At least one Region must be active at all times. When the routing
+configuration is changed, any in-progress operations (uploads, copies, deletes, and so on)
+to formerly active Regions will continue to run to their final completion state (success or
+failure). The routing configurations of any Regions that aren’t specified remain
+unchanged.  Updated routing configurations might not be immediately applied. It can take up
+to 2 minutes for your changes to take effect.  To submit routing control changes and
+failover requests, use the Amazon S3 failover control infrastructure endpoints in these
+five Amazon Web Services Regions:    us-east-1     us-west-2     ap-southeast-2
+ap-northeast-1     eu-west-1     Your Amazon S3 bucket does not need to be in these five
+Regions.
 
 # Arguments
 - `route`: The different routes that make up the new route configuration. Active routes
@@ -3833,20 +4981,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RouteUpdates"`: The different routes that make up the new route configuration. Active
   routes return a value of 100, and passive routes return a value of 0.
 """
-function submit_multi_region_access_point_routes(
+submit_multi_region_access_point_routes(
     Route, mrap, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PATCH",
+    "/v20180820/mrap/instances/$(mrap)/routes",
+    Dict{String,Any}(
+        "Route" => Route,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "PATCH",
-        "/v20180820/mrap/instances/$(mrap)/routes",
-        Dict{String,Any}(
-            "Route" => Route,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function submit_multi_region_access_point_routes(
     Route,
     mrap,
@@ -3873,12 +5019,203 @@ function submit_multi_region_access_point_routes(
 end
 
 """
+    tag_resource(tag, resource_arn, x-amz-account-id)
+    tag_resource(tag, resource_arn, x-amz-account-id, params::Dict{String,<:Any})
+
+ Creates a new Amazon Web Services resource tag or updates an existing resource tag. Each
+tag is a label consisting of a user-defined key and value. Tags can help you manage,
+identify, organize, search for, and filter resources. You can add up to 50 Amazon Web
+Services resource tags for each S3 resource.   This operation is only supported for S3
+Storage Lens groups and for S3 Access Grants. The tagged resource can be an S3 Storage Lens
+group or S3 Access Grants instance, registered location, or grant.    Permissions  You must
+have the s3:TagResource permission to use this operation.    For more information about the
+required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage
+Lens groups. For information about S3 Tagging errors, see List of Amazon S3 Tagging error
+codes.
+
+# Arguments
+- `tag`:  The Amazon Web Services resource tags that you want to add to the specified S3
+  resource.
+- `resource_arn`: The Amazon Resource Name (ARN) of the S3 resource that you're trying to
+  add tags to. The tagged resource can be an S3 Storage Lens group or S3 Access Grants
+  instance, registered location, or grant.
+- `x-amz-account-id`:  The Amazon Web Services account ID that created the S3 resource that
+  you're trying to add tags to or the requester's account ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`:  The Amazon Web Services resource tags that you want to add to the specified S3
+  resource.
+"""
+tag_resource(
+    Tag, resourceArn, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "POST",
+    "/v20180820/tags/$(resourceArn)",
+    Dict{String,Any}(
+        "Tag" => Tag,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function tag_resource(
+    Tag,
+    resourceArn,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "POST",
+        "/v20180820/tags/$(resourceArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Tag" => Tag,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys, x-amz-account-id)
+    untag_resource(resource_arn, tag_keys, x-amz-account-id, params::Dict{String,<:Any})
+
+ This operation removes the specified Amazon Web Services resource tags from an S3
+resource. Each tag is a label consisting of a user-defined key and value. Tags can help you
+manage, identify, organize, search for, and filter resources.   This operation is only
+supported for S3 Storage Lens groups and for S3 Access Grants. The tagged resource can be
+an S3 Storage Lens group or S3 Access Grants instance, registered location, or grant.
+Permissions  You must have the s3:UntagResource permission to use this operation.    For
+more information about the required Storage Lens Groups permissions, see Setting account
+permissions to use S3 Storage Lens groups. For information about S3 Tagging errors, see
+List of Amazon S3 Tagging error codes.
+
+# Arguments
+- `resource_arn`:  The Amazon Resource Name (ARN) of the S3 resource that you're trying to
+  remove the tags from.
+- `tag_keys`:  The array of tag key-value pairs that you're trying to remove from of the S3
+  resource.
+- `x-amz-account-id`:  The Amazon Web Services account ID that owns the resource that
+  you're trying to remove the tags from.
+
+"""
+untag_resource(
+    resourceArn,
+    tagKeys,
+    x_amz_account_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "DELETE",
+    "/v20180820/tags/$(resourceArn)",
+    Dict{String,Any}(
+        "tagKeys" => tagKeys,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "DELETE",
+        "/v20180820/tags/$(resourceArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "tagKeys" => tagKeys,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_access_grants_location(iamrole_arn, id, x-amz-account-id)
+    update_access_grants_location(iamrole_arn, id, x-amz-account-id, params::Dict{String,<:Any})
+
+Updates the IAM role of a registered location in your S3 Access Grants instance.
+Permissions  You must have the s3:UpdateAccessGrantsLocation permission to use this
+operation.   Additional Permissions  You must also have the following permission:
+iam:PassRole
+
+# Arguments
+- `iamrole_arn`: The Amazon Resource Name (ARN) of the IAM role for the registered
+  location. S3 Access Grants assumes this role to manage access to the registered location.
+- `id`: The ID of the registered location that you are updating. S3 Access Grants assigns
+  this ID when you register the location. S3 Access Grants assigns the ID default to the
+  default location s3:// and assigns an auto-generated ID to other locations that you
+  register.  The ID of the registered location to which you are granting access. S3 Access
+  Grants assigned this ID when you registered the location. S3 Access Grants assigns the ID
+  default to the default location s3:// and assigns an auto-generated ID to other locations
+  that you register.  If you are passing the default location, you cannot create an access
+  grant for the entire default location. You must also specify a bucket or a bucket and
+  prefix in the Subprefix field.
+- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+
+"""
+update_access_grants_location(
+    IAMRoleArn, id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "PUT",
+    "/v20180820/accessgrantsinstance/location/$(id)",
+    Dict{String,Any}(
+        "IAMRoleArn" => IAMRoleArn,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_access_grants_location(
+    IAMRoleArn,
+    id,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "PUT",
+        "/v20180820/accessgrantsinstance/location/$(id)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IAMRoleArn" => IAMRoleArn,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_job_priority(id, priority, x-amz-account-id)
     update_job_priority(id, priority, x-amz-account-id, params::Dict{String,<:Any})
 
 Updates an existing S3 Batch Operations job's priority. For more information, see S3 Batch
-Operations in the Amazon S3 User Guide.  Related actions include:    CreateJob     ListJobs
-    DescribeJob     UpdateJobStatus
+Operations in the Amazon S3 User Guide.  Permissions  To use the UpdateJobPriority
+operation, you must have permission to perform the s3:UpdateJobPriority action.   Related
+actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus
 
 # Arguments
 - `id`: The ID for the job whose priority you want to update.
@@ -3887,20 +5224,18 @@ Operations in the Amazon S3 User Guide.  Related actions include:    CreateJob  
   Operations job.
 
 """
-function update_job_priority(
+update_job_priority(
     id, priority, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3_control(
+    "POST",
+    "/v20180820/jobs/$(id)/priority",
+    Dict{String,Any}(
+        "priority" => priority,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/jobs/$(id)/priority",
-        Dict{String,Any}(
-            "priority" => priority,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_job_priority(
     id,
     priority,
@@ -3930,10 +5265,11 @@ end
     update_job_status(id, requested_job_status, x-amz-account-id)
     update_job_status(id, requested_job_status, x-amz-account-id, params::Dict{String,<:Any})
 
-Updates the status for the specified job. Use this action to confirm that you want to run a
-job or to cancel an existing job. For more information, see S3 Batch Operations in the
-Amazon S3 User Guide.  Related actions include:    CreateJob     ListJobs     DescribeJob
-  UpdateJobStatus
+Updates the status for the specified job. Use this operation to confirm that you want to
+run a job or to cancel an existing job. For more information, see S3 Batch Operations in
+the Amazon S3 User Guide.  Permissions  To use the UpdateJobStatus operation, you must have
+permission to perform the s3:UpdateJobStatus action.   Related actions include:
+CreateJob     ListJobs     DescribeJob     UpdateJobStatus
 
 # Arguments
 - `id`: The ID of the job whose status you want to update.
@@ -3946,23 +5282,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"statusUpdateReason"`: A description of the reason why you want to change the specified
   job's status. This field can be any string up to the maximum length.
 """
-function update_job_status(
+update_job_status(
     id,
     requestedJobStatus,
     x_amz_account_id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "POST",
+    "/v20180820/jobs/$(id)/status",
+    Dict{String,Any}(
+        "requestedJobStatus" => requestedJobStatus,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3_control(
-        "POST",
-        "/v20180820/jobs/$(id)/status",
-        Dict{String,Any}(
-            "requestedJobStatus" => requestedJobStatus,
-            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_job_status(
     id,
     requestedJobStatus,
@@ -3978,6 +5312,62 @@ function update_job_status(
                 _merge,
                 Dict{String,Any}(
                     "requestedJobStatus" => requestedJobStatus,
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_storage_lens_group(storage_lens_group, name, x-amz-account-id)
+    update_storage_lens_group(storage_lens_group, name, x-amz-account-id, params::Dict{String,<:Any})
+
+ Updates the existing Storage Lens group. To use this operation, you must have the
+permission to perform the s3:UpdateStorageLensGroup action. For more information about the
+required Storage Lens Groups permissions, see Setting account permissions to use S3 Storage
+Lens groups. For information about Storage Lens groups errors, see List of Amazon S3
+Storage Lens error codes.
+
+# Arguments
+- `storage_lens_group`:  The JSON file that contains the Storage Lens group configuration.
+- `name`:  The name of the Storage Lens group that you want to update.
+- `x-amz-account-id`:  The Amazon Web Services account ID of the Storage Lens group owner.
+
+"""
+update_storage_lens_group(
+    StorageLensGroup,
+    name,
+    x_amz_account_id;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3_control(
+    "PUT",
+    "/v20180820/storagelensgroup/$(name)",
+    Dict{String,Any}(
+        "StorageLensGroup" => StorageLensGroup,
+        "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_storage_lens_group(
+    StorageLensGroup,
+    name,
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "PUT",
+        "/v20180820/storagelensgroup/$(name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "StorageLensGroup" => StorageLensGroup,
                     "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id),
                 ),
                 params,

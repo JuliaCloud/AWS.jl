@@ -36,7 +36,8 @@ the access to the correct set of users who need this ability.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
-  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The
+  HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You must specify the Entry and Target pair, where Entry shows how the path is made
@@ -51,9 +52,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   chroot.  [ { \"Entry\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]
 - `"HomeDirectoryType"`: The type of landing directory (folder) that you want your users'
   home directory to be when they log in to the server. If you set it to PATH, the user will
-  see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol
-  clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings
-  for how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+  see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol
+  clients. If you set it to LOGICAL, you need to provide mappings in the
+  HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to
+  your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the
+  HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you
+  provide an absolute path using the HomeDirectory parameter. You cannot have both
+  HomeDirectory and HomeDirectoryMappings in your template.
 - `"Policy"`: A session policy for your user so that you can use the same Identity and
   Access Management (IAM) role across multiple users. This policy scopes down a user's access
   to portions of their Amazon S3 bucket. Variables that you can use inside this policy
@@ -65,18 +70,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   policy. For more information, see AssumeRole in the Security Token Service API Reference.
 - `"PosixProfile"`:
 """
-function create_access(
+create_access(
     ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+) = transfer(
+    "CreateAccess",
+    Dict{String,Any}("ExternalId" => ExternalId, "Role" => Role, "ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return transfer(
-        "CreateAccess",
-        Dict{String,Any}(
-            "ExternalId" => ExternalId, "Role" => Role, "ServerId" => ServerId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_access(
     ExternalId,
     Role,
@@ -112,15 +113,24 @@ certificate, and other attributes. The partner is identified with the PartnerPro
 the AS2 process is identified with the LocalProfileId.
 
 # Arguments
-- `access_role`: With AS2, you can send files by calling StartFileTransfer and specifying
-  the file paths in the request parameter, SendFilePaths. We use the file’s parent
-  directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is
-  /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we
-  receive them from the partner, and write a final JSON file containing relevant metadata of
-  the transmission. So, the AccessRole needs to provide read and write access to the parent
-  directory of the file location used in the StartFileTransfer request. Additionally, you
-  need to provide read and write access to the parent directory of the files that you intend
-  to send with StartFileTransfer.
+- `access_role`: Connectors are used to send files using either the AS2 or SFTP protocol.
+  For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access
+  Management role to use.  For AS2 connectors  With AS2, you can send files by calling
+  StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We
+  use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt,
+  parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store
+  the MDN when we receive them from the partner, and write a final JSON file containing
+  relevant metadata of the transmission. So, the AccessRole needs to provide read and write
+  access to the parent directory of the file location used in the StartFileTransfer request.
+  Additionally, you need to provide read and write access to the parent directory of the
+  files that you intend to send with StartFileTransfer. If you are using Basic authentication
+  for your AS2 connector, the access role requires the secretsmanager:GetSecretValue
+  permission for the secret. If the secret is encrypted using a customer-managed key instead
+  of the Amazon Web Services managed key in Secrets Manager, then the role also needs the
+  kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role
+  provides read and write access to the parent directory of the file location that's used in
+  the StartFileTransfer request. Additionally, make sure that the role provides
+  secretsmanager:GetSecretValue permission to Secrets Manager.
 - `base_directory`: The landing directory (folder) for files transferred by using the AS2
   protocol. A BaseDirectory example is /DOC-EXAMPLE-BUCKET/home/mydirectory.
 - `local_profile_id`: A unique identifier for the AS2 local profile.
@@ -134,27 +144,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: The status of the agreement. The agreement can be either ACTIVE or INACTIVE.
 - `"Tags"`: Key-value pairs that can be used to group and search for agreements.
 """
-function create_agreement(
+create_agreement(
     AccessRole,
     BaseDirectory,
     LocalProfileId,
     PartnerProfileId,
     ServerId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = transfer(
+    "CreateAgreement",
+    Dict{String,Any}(
+        "AccessRole" => AccessRole,
+        "BaseDirectory" => BaseDirectory,
+        "LocalProfileId" => LocalProfileId,
+        "PartnerProfileId" => PartnerProfileId,
+        "ServerId" => ServerId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return transfer(
-        "CreateAgreement",
-        Dict{String,Any}(
-            "AccessRole" => AccessRole,
-            "BaseDirectory" => BaseDirectory,
-            "LocalProfileId" => LocalProfileId,
-            "PartnerProfileId" => PartnerProfileId,
-            "ServerId" => ServerId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_agreement(
     AccessRole,
     BaseDirectory,
@@ -185,49 +193,56 @@ function create_agreement(
 end
 
 """
-    create_connector(access_role, as2_config, url)
-    create_connector(access_role, as2_config, url, params::Dict{String,<:Any})
+    create_connector(access_role, url)
+    create_connector(access_role, url, params::Dict{String,<:Any})
 
-Creates the connector, which captures the parameters for an outbound connection for the AS2
-protocol. The connector is required for sending files to an externally hosted AS2 server.
-For more details about connectors, see Create AS2 connectors.
+Creates the connector, which captures the parameters for a connection for the AS2 or SFTP
+protocol. For AS2, the connector is required for sending files to an externally hosted AS2
+server. For SFTP, the connector is required when sending files to an SFTP server or
+receiving files from an SFTP server. For more details about connectors, see Configure AS2
+connectors and Create SFTP connectors.  You must specify exactly one configuration object:
+either for AS2 (As2Config) or SFTP (SftpConfig).
 
 # Arguments
-- `access_role`: With AS2, you can send files by calling StartFileTransfer and specifying
-  the file paths in the request parameter, SendFilePaths. We use the file’s parent
-  directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is
-  /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we
-  receive them from the partner, and write a final JSON file containing relevant metadata of
-  the transmission. So, the AccessRole needs to provide read and write access to the parent
-  directory of the file location used in the StartFileTransfer request. Additionally, you
-  need to provide read and write access to the parent directory of the files that you intend
-  to send with StartFileTransfer.
-- `as2_config`: A structure that contains the parameters for a connector object.
-- `url`: The URL of the partner's AS2 endpoint.
+- `access_role`: Connectors are used to send files using either the AS2 or SFTP protocol.
+  For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access
+  Management role to use.  For AS2 connectors  With AS2, you can send files by calling
+  StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We
+  use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt,
+  parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store
+  the MDN when we receive them from the partner, and write a final JSON file containing
+  relevant metadata of the transmission. So, the AccessRole needs to provide read and write
+  access to the parent directory of the file location used in the StartFileTransfer request.
+  Additionally, you need to provide read and write access to the parent directory of the
+  files that you intend to send with StartFileTransfer. If you are using Basic authentication
+  for your AS2 connector, the access role requires the secretsmanager:GetSecretValue
+  permission for the secret. If the secret is encrypted using a customer-managed key instead
+  of the Amazon Web Services managed key in Secrets Manager, then the role also needs the
+  kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role
+  provides read and write access to the parent directory of the file location that's used in
+  the StartFileTransfer request. Additionally, make sure that the role provides
+  secretsmanager:GetSecretValue permission to Secrets Manager.
+- `url`: The URL of the partner's AS2 or SFTP endpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"As2Config"`: A structure that contains the parameters for an AS2 connector object.
 - `"LoggingRole"`: The Amazon Resource Name (ARN) of the Identity and Access Management
   (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When
   set, you can view connector activity in your CloudWatch logs.
+- `"SftpConfig"`: A structure that contains the parameters for an SFTP connector object.
 - `"Tags"`: Key-value pairs that can be used to group and search for connectors. Tags are
   metadata attached to connectors for any purpose.
 """
-function create_connector(
-    AccessRole, As2Config, Url; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+create_connector(AccessRole, Url; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "CreateConnector",
-        Dict{String,Any}(
-            "AccessRole" => AccessRole, "As2Config" => As2Config, "Url" => Url
-        );
+        Dict{String,Any}("AccessRole" => AccessRole, "Url" => Url);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_connector(
     AccessRole,
-    As2Config,
     Url,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -236,11 +251,7 @@ function create_connector(
         "CreateConnector",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "AccessRole" => AccessRole, "As2Config" => As2Config, "Url" => Url
-                ),
-                params,
+                _merge, Dict{String,Any}("AccessRole" => AccessRole, "Url" => Url), params
             ),
         );
         aws_config=aws_config,
@@ -270,16 +281,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier for working with profiles and partner profiles.
 - `"Tags"`: Key-value pairs that can be used to group and search for AS2 profiles.
 """
-function create_profile(
-    As2Id, ProfileType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+create_profile(As2Id, ProfileType; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "CreateProfile",
         Dict{String,Any}("As2Id" => As2Id, "ProfileType" => ProfileType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_profile(
     As2Id,
     ProfileType,
@@ -415,8 +423,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED,
   AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the
   EndpointType must be VPC, and domain must be Amazon S3.
+- `"S3StorageOptions"`: Specifies whether or not performance for your Amazon S3 directories
+  is optimized. This is disabled by default. By default, home directory mappings have a TYPE
+  of DIRECTORY. If you enable this option, you would then need to explicitly set the
+  HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
 - `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
   server.
+- `"StructuredLogDestinations"`: Specifies the log groups to which your server logs are
+  sent. To specify a log group, you must provide the ARN for an existing log group. In this
+  case, the format of the log group is as follows:
+  arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example,
+  arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously
+  specified a log group for a server, you can clear it, and in effect turn off structured
+  logging, by providing an empty value for this parameter in an update-server call. For
+  example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
 - `"Tags"`: Key-value pairs that can be used to group and search for servers.
 - `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
   execution role that's used for executing the workflow. In addition to a workflow to execute
@@ -424,9 +444,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   execution role) for a workflow to execute on partial upload. A partial upload occurs when
   the server session disconnects while the file is still being uploaded.
 """
-function create_server(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer("CreateServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+create_server(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer("CreateServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function create_server(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -463,7 +482,8 @@ with tags that can be used to group and search for users.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
-  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The
+  HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You must specify the Entry and Target pair, where Entry shows how the path is made
@@ -474,13 +494,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   { \"Entry\": \"/directory1\", \"Target\": \"/bucket_name/home/mydirectory\" } ]  In most
   cases, you can use this value instead of the session policy to lock your user down to the
   designated home directory (\"chroot\"). To do this, you can set Entry to / and set Target
-  to the HomeDirectory parameter value. The following is an Entry and Target pair example for
-  chroot.  [ { \"Entry\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]
+  to the value the user should see for their home directory when they log in. The following
+  is an Entry and Target pair example for chroot.  [ { \"Entry\": \"/\", \"Target\":
+  \"/bucket_name/home/mydirectory\" } ]
 - `"HomeDirectoryType"`: The type of landing directory (folder) that you want your users'
   home directory to be when they log in to the server. If you set it to PATH, the user will
-  see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol
-  clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings
-  for how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+  see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol
+  clients. If you set it to LOGICAL, you need to provide mappings in the
+  HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to
+  your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the
+  HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you
+  provide an absolute path using the HomeDirectory parameter. You cannot have both
+  HomeDirectory and HomeDirectoryMappings in your template.
 - `"Policy"`: A session policy for your user so that you can use the same Identity and
   Access Management (IAM) role across multiple users. This policy scopes down a user's access
   to portions of their Amazon S3 bucket. Variables that you can use inside this policy
@@ -506,16 +531,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for users. Tags are
   metadata attached to users for any purpose.
 """
-function create_user(
-    Role, ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+create_user(Role, ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "CreateUser",
         Dict{String,Any}("Role" => Role, "ServerId" => ServerId, "UserName" => UserName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_user(
     Role,
     ServerId,
@@ -567,14 +589,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for workflows. Tags are
   metadata attached to workflows for any purpose.
 """
-function create_workflow(Steps; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "CreateWorkflow",
-        Dict{String,Any}("Steps" => Steps);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_workflow(Steps; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "CreateWorkflow",
+    Dict{String,Any}("Steps" => Steps);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_workflow(
     Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -605,16 +625,13 @@ Allows you to delete the access specified in the ServerID and ExternalID paramet
 - `server_id`: A system-assigned unique identifier for a server that has this user assigned.
 
 """
-function delete_access(
-    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+delete_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "DeleteAccess",
         Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_access(
     ExternalId,
     ServerId,
@@ -647,16 +664,13 @@ Delete the agreement that's specified in the provided AgreementId.
 - `server_id`: The server identifier associated with the agreement that you are deleting.
 
 """
-function delete_agreement(
-    AgreementId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+delete_agreement(AgreementId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "DeleteAgreement",
         Dict{String,Any}("AgreementId" => AgreementId, "ServerId" => ServerId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_agreement(
     AgreementId,
     ServerId,
@@ -687,16 +701,13 @@ Deletes the certificate that's specified in the CertificateId parameter.
 - `certificate_id`: The identifier of the certificate object that you are deleting.
 
 """
-function delete_certificate(
-    CertificateId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+delete_certificate(CertificateId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "DeleteCertificate",
         Dict{String,Any}("CertificateId" => CertificateId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_certificate(
     CertificateId,
     params::AbstractDict{String};
@@ -716,20 +727,18 @@ end
     delete_connector(connector_id)
     delete_connector(connector_id, params::Dict{String,<:Any})
 
-Deletes the agreement that's specified in the provided ConnectorId.
+Deletes the connector that's specified in the provided ConnectorId.
 
 # Arguments
 - `connector_id`: The unique identifier for the connector.
 
 """
-function delete_connector(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DeleteConnector",
-        Dict{String,Any}("ConnectorId" => ConnectorId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_connector(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "DeleteConnector",
+    Dict{String,Any}("ConnectorId" => ConnectorId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_connector(
     ConnectorId,
     params::AbstractDict{String};
@@ -757,16 +766,13 @@ Deletes the host key that's specified in the HostKeyId parameter.
   deleting.
 
 """
-function delete_host_key(
-    HostKeyId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+delete_host_key(HostKeyId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "DeleteHostKey",
         Dict{String,Any}("HostKeyId" => HostKeyId, "ServerId" => ServerId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_host_key(
     HostKeyId,
     ServerId,
@@ -797,14 +803,12 @@ Deletes the profile that's specified in the ProfileId parameter.
 - `profile_id`: The identifier of the profile that you are deleting.
 
 """
-function delete_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DeleteProfile",
-        Dict{String,Any}("ProfileId" => ProfileId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "DeleteProfile",
+    Dict{String,Any}("ProfileId" => ProfileId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_profile(
     ProfileId,
     params::AbstractDict{String};
@@ -831,14 +835,12 @@ from this operation.
 - `server_id`: A unique system-assigned identifier for a server instance.
 
 """
-function delete_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DeleteServer",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "DeleteServer",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_server(
     ServerId,
     params::AbstractDict{String};
@@ -867,20 +869,18 @@ Deletes a user's Secure Shell (SSH) public key.
 - `user_name`: A unique string that identifies a user whose public key is being deleted.
 
 """
-function delete_ssh_public_key(
+delete_ssh_public_key(
     ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+) = transfer(
+    "DeleteSshPublicKey",
+    Dict{String,Any}(
+        "ServerId" => ServerId,
+        "SshPublicKeyId" => SshPublicKeyId,
+        "UserName" => UserName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return transfer(
-        "DeleteSshPublicKey",
-        Dict{String,Any}(
-            "ServerId" => ServerId,
-            "SshPublicKeyId" => SshPublicKeyId,
-            "UserName" => UserName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_ssh_public_key(
     ServerId,
     SshPublicKeyId,
@@ -920,14 +920,13 @@ information is lost.
 - `user_name`: A unique string that identifies a user that is being deleted from a server.
 
 """
-function delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
+delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "DeleteUser",
         Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_user(
     ServerId,
     UserName,
@@ -958,14 +957,12 @@ Deletes the specified workflow.
 - `workflow_id`: A unique identifier for the workflow.
 
 """
-function delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DeleteWorkflow",
-        Dict{String,Any}("WorkflowId" => WorkflowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "DeleteWorkflow",
+    Dict{String,Any}("WorkflowId" => WorkflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_workflow(
     WorkflowId,
     params::AbstractDict{String};
@@ -1004,16 +1001,13 @@ was specified.
   assigned.
 
 """
-function describe_access(
-    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+describe_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "DescribeAccess",
         Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_access(
     ExternalId,
     ServerId,
@@ -1046,16 +1040,14 @@ Describes the agreement that's identified by the AgreementId.
 - `server_id`: The server identifier that's associated with the agreement.
 
 """
-function describe_agreement(
+describe_agreement(
     AgreementId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+) = transfer(
+    "DescribeAgreement",
+    Dict{String,Any}("AgreementId" => AgreementId, "ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return transfer(
-        "DescribeAgreement",
-        Dict{String,Any}("AgreementId" => AgreementId, "ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_agreement(
     AgreementId,
     ServerId,
@@ -1087,16 +1079,13 @@ Describes the certificate that's identified by the CertificateId.
   identifier for working with profiles and partner profiles.
 
 """
-function describe_certificate(
-    CertificateId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+describe_certificate(CertificateId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "DescribeCertificate",
         Dict{String,Any}("CertificateId" => CertificateId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_certificate(
     CertificateId,
     params::AbstractDict{String};
@@ -1122,14 +1111,13 @@ Describes the connector that's identified by the ConnectorId.
 - `connector_id`: The unique identifier for the connector.
 
 """
-function describe_connector(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
+describe_connector(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "DescribeConnector",
         Dict{String,Any}("ConnectorId" => ConnectorId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_connector(
     ConnectorId,
     params::AbstractDict{String};
@@ -1159,16 +1147,14 @@ specified workflow ID, you receive a ResourceNotFound exception.
 - `workflow_id`: A unique identifier for the workflow.
 
 """
-function describe_execution(
+describe_execution(
     ExecutionId, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()
+) = transfer(
+    "DescribeExecution",
+    Dict{String,Any}("ExecutionId" => ExecutionId, "WorkflowId" => WorkflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return transfer(
-        "DescribeExecution",
-        Dict{String,Any}("ExecutionId" => ExecutionId, "WorkflowId" => WorkflowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_execution(
     ExecutionId,
     WorkflowId,
@@ -1201,16 +1187,13 @@ Returns the details of the host key that's specified by the HostKeyId and Server
   described.
 
 """
-function describe_host_key(
-    HostKeyId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+describe_host_key(HostKeyId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "DescribeHostKey",
         Dict{String,Any}("HostKeyId" => HostKeyId, "ServerId" => ServerId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_host_key(
     HostKeyId,
     ServerId,
@@ -1241,14 +1224,12 @@ Returns the details of the profile that's specified by the ProfileId.
 - `profile_id`: The identifier of the profile that you want described.
 
 """
-function describe_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DescribeProfile",
-        Dict{String,Any}("ProfileId" => ProfileId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "DescribeProfile",
+    Dict{String,Any}("ProfileId" => ProfileId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_profile(
     ProfileId,
     params::AbstractDict{String};
@@ -1277,16 +1258,14 @@ information about security policies, see Working with security policies.
   server.
 
 """
-function describe_security_policy(
+describe_security_policy(
     SecurityPolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+) = transfer(
+    "DescribeSecurityPolicy",
+    Dict{String,Any}("SecurityPolicyName" => SecurityPolicyName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return transfer(
-        "DescribeSecurityPolicy",
-        Dict{String,Any}("SecurityPolicyName" => SecurityPolicyName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_security_policy(
     SecurityPolicyName,
     params::AbstractDict{String};
@@ -1316,14 +1295,12 @@ EndpointType to VPC, the response will contain the EndpointDetails.
 - `server_id`: A system-assigned unique identifier for a server.
 
 """
-function describe_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DescribeServer",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "DescribeServer",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_server(
     ServerId,
     params::AbstractDict{String};
@@ -1353,16 +1330,13 @@ the user associated with the ServerId value that was specified.
   the sign-in credentials to use the Transfer Family service and perform file transfer tasks.
 
 """
-function describe_user(
-    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+describe_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "DescribeUser",
         Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_user(
     ServerId,
     UserName,
@@ -1393,14 +1367,12 @@ Describes the specified workflow.
 - `workflow_id`: A unique identifier for the workflow.
 
 """
-function describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "DescribeWorkflow",
-        Dict{String,Any}("WorkflowId" => WorkflowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "DescribeWorkflow",
+    Dict{String,Any}("WorkflowId" => WorkflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_workflow(
     WorkflowId,
     params::AbstractDict{String};
@@ -1443,16 +1415,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   file. For example, --private-key \"`cat encryption-key.pem`\"
 - `"Tags"`: Key-value pairs that can be used to group and search for certificates.
 """
-function import_certificate(
-    Certificate, Usage; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+import_certificate(Certificate, Usage; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "ImportCertificate",
         Dict{String,Any}("Certificate" => Certificate, "Usage" => Usage);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function import_certificate(
     Certificate,
     Usage,
@@ -1490,16 +1459,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The text description that identifies this host key.
 - `"Tags"`: Key-value pairs that can be used to group and search for host keys.
 """
-function import_host_key(
-    HostKeyBody, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+import_host_key(HostKeyBody, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "ImportHostKey",
         Dict{String,Any}("HostKeyBody" => HostKeyBody, "ServerId" => ServerId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function import_host_key(
     HostKeyBody,
     ServerId,
@@ -1536,20 +1502,18 @@ SshPublicKeyId.
 - `user_name`: The name of the Transfer Family user that is assigned to one or more servers.
 
 """
-function import_ssh_public_key(
+import_ssh_public_key(
     ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+) = transfer(
+    "ImportSshPublicKey",
+    Dict{String,Any}(
+        "ServerId" => ServerId,
+        "SshPublicKeyBody" => SshPublicKeyBody,
+        "UserName" => UserName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return transfer(
-        "ImportSshPublicKey",
-        Dict{String,Any}(
-            "ServerId" => ServerId,
-            "SshPublicKeyBody" => SshPublicKeyBody,
-            "UserName" => UserName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function import_ssh_public_key(
     ServerId,
     SshPublicKeyBody,
@@ -1592,14 +1556,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional accesses.
 """
-function list_accesses(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListAccesses",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_accesses(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "ListAccesses",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_accesses(
     ServerId,
     params::AbstractDict{String};
@@ -1634,14 +1596,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional agreements.
 """
-function list_agreements(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListAgreements",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_agreements(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "ListAgreements",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_agreements(
     ServerId,
     params::AbstractDict{String};
@@ -1674,11 +1634,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional certificates.
 """
-function list_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_certificates(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer("ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_certificates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1700,11 +1657,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional connectors.
 """
-function list_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_connectors(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer("ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1737,14 +1691,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This call returns the next 10 executions, the 11th through the 20th. You can then repeat
   the call until the details for all 100 executions have been returned.
 """
-function list_executions(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListExecutions",
-        Dict{String,Any}("WorkflowId" => WorkflowId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_executions(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "ListExecutions",
+    Dict{String,Any}("WorkflowId" => WorkflowId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_executions(
     WorkflowId,
     params::AbstractDict{String};
@@ -1777,14 +1729,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned. You can use that value for a subsequent call to ListHostKeys to
   continue listing results.
 """
-function list_host_keys(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListHostKeys",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_host_keys(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "ListHostKeys",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_host_keys(
     ServerId,
     params::AbstractDict{String};
@@ -1818,9 +1768,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfileType"`: Indicates whether to list only LOCAL type profiles or only PARTNER type
   profiles. If not supplied in the request, the command lists all types of profiles.
 """
-function list_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1844,11 +1793,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   command, a NextToken parameter is returned in the output. You can then pass the NextToken
   parameter in a subsequent command to continue listing additional security policies.
 """
-function list_security_policies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListSecurityPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_security_policies(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer("ListSecurityPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_security_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1875,9 +1821,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass the NextToken parameter in
   a subsequent command to continue listing additional servers.
 """
-function list_servers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer("ListServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_servers(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer("ListServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1906,14 +1851,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation, a NextToken parameter is returned in the input. You can then pass in a
   subsequent command to the NextToken parameter to continue listing additional tags.
 """
-function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListTagsForResource",
-        Dict{String,Any}("Arn" => Arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "ListTagsForResource",
+    Dict{String,Any}("Arn" => Arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_tags_for_resource(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1940,18 +1883,16 @@ ServerId parameter.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: Specifies the number of users to return as a response to the ListUsers
   request.
-- `"NextToken"`: When you can get additional results from the ListUsers call, a NextToken
-  parameter is returned in the output. You can then pass in a subsequent command to the
-  NextToken parameter to continue listing additional users.
+- `"NextToken"`: If there are additional results from the ListUsers call, a NextToken
+  parameter is returned in the output. You can then pass the NextToken to a subsequent
+  ListUsers command, to continue listing additional users.
 """
-function list_users(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "ListUsers",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_users(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "ListUsers",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_users(
     ServerId,
     params::AbstractDict{String};
@@ -1981,9 +1922,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pass the NextToken parameter in a subsequent command to continue listing additional
   workflows.
 """
-function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_workflows(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2008,25 +1948,23 @@ include those with their callback as well as providing a status.
 - `workflow_id`: A unique identifier for the workflow.
 
 """
-function send_workflow_step_state(
+send_workflow_step_state(
     ExecutionId,
     Status,
     Token,
     WorkflowId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = transfer(
+    "SendWorkflowStepState",
+    Dict{String,Any}(
+        "ExecutionId" => ExecutionId,
+        "Status" => Status,
+        "Token" => Token,
+        "WorkflowId" => WorkflowId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return transfer(
-        "SendWorkflowStepState",
-        Dict{String,Any}(
-            "ExecutionId" => ExecutionId,
-            "Status" => Status,
-            "Token" => Token,
-            "WorkflowId" => WorkflowId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function send_workflow_step_state(
     ExecutionId,
     Status,
@@ -2055,44 +1993,54 @@ function send_workflow_step_state(
 end
 
 """
-    start_file_transfer(connector_id, send_file_paths)
-    start_file_transfer(connector_id, send_file_paths, params::Dict{String,<:Any})
+    start_file_transfer(connector_id)
+    start_file_transfer(connector_id, params::Dict{String,<:Any})
 
-Begins an outbound file transfer to a remote AS2 server. You specify the ConnectorId and
-the file paths for where to send the files.
+Begins a file transfer between local Amazon Web Services storage and a remote AS2 or SFTP
+server.   For an AS2 connector, you specify the ConnectorId and one or more SendFilePaths
+to identify the files you want to transfer.   For an SFTP connector, the file transfer can
+be either outbound or inbound. In both cases, you specify the ConnectorId. Depending on the
+direction of the transfer, you also specify the following items:   If you are transferring
+file from a partner's SFTP server to Amazon Web Services storage, you specify one or more
+RetreiveFilePaths to identify the files you want to transfer, and a LocalDirectoryPath to
+specify the destination folder.   If you are transferring file to a partner's SFTP server
+from Amazon Web Services storage, you specify one or more SendFilePaths to identify the
+files you want to transfer, and a RemoteDirectoryPath to specify the destination folder.
 
 # Arguments
 - `connector_id`: The unique identifier for the connector.
-- `send_file_paths`: An array of strings. Each string represents the absolute path for one
-  outbound file transfer. For example,  DOC-EXAMPLE-BUCKET/myfile.txt .
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LocalDirectoryPath"`: For an inbound transfer, the LocaDirectoryPath specifies the
+  destination for one or more files that are transferred from the partner's SFTP server.
+- `"RemoteDirectoryPath"`: For an outbound transfer, the RemoteDirectoryPath specifies the
+  destination for one or more files that are transferred to the partner's SFTP server. If you
+  don't specify a RemoteDirectoryPath, the destination for transferred files is the SFTP
+  user's home directory.
+- `"RetrieveFilePaths"`: One or more source paths for the partner's SFTP server. Each
+  string represents a source file path for one inbound file transfer.
+- `"SendFilePaths"`: One or more source paths for the Amazon S3 storage. Each string
+  represents a source file path for one outbound file transfer. For example,
+  DOC-EXAMPLE-BUCKET/myfile.txt .  Replace  DOC-EXAMPLE-BUCKET  with one of your actual
+  buckets.
 """
-function start_file_transfer(
-    ConnectorId, SendFilePaths; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+start_file_transfer(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "StartFileTransfer",
-        Dict{String,Any}("ConnectorId" => ConnectorId, "SendFilePaths" => SendFilePaths);
+        Dict{String,Any}("ConnectorId" => ConnectorId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_file_transfer(
     ConnectorId,
-    SendFilePaths,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return transfer(
         "StartFileTransfer",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ConnectorId" => ConnectorId, "SendFilePaths" => SendFilePaths
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("ConnectorId" => ConnectorId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2113,14 +2061,12 @@ indicate an error condition. No response is returned from this call.
 - `server_id`: A system-assigned unique identifier for a server that you start.
 
 """
-function start_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "StartServer",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "StartServer",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_server(
     ServerId,
     params::AbstractDict{String};
@@ -2153,14 +2099,12 @@ this call.
 - `server_id`: A system-assigned unique identifier for a server that you stopped.
 
 """
-function stop_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "StopServer",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "StopServer",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_server(
     ServerId,
     params::AbstractDict{String};
@@ -2192,14 +2136,12 @@ this call.
   and so on) for any purpose.
 
 """
-function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "TagResource",
-        Dict{String,Any}("Arn" => Arn, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "TagResource",
+    Dict{String,Any}("Arn" => Arn, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     Arn,
     Tags,
@@ -2210,6 +2152,39 @@ function tag_resource(
         "TagResource",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Arn" => Arn, "Tags" => Tags), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    test_connection(connector_id)
+    test_connection(connector_id, params::Dict{String,<:Any})
+
+Tests whether your SFTP connector is set up successfully. We highly recommend that you call
+this operation to test your ability to transfer files between local Amazon Web Services
+storage and a trading partner's SFTP server.
+
+# Arguments
+- `connector_id`: The unique identifier for the connector.
+
+"""
+test_connection(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "TestConnection",
+    Dict{String,Any}("ConnectorId" => ConnectorId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function test_connection(
+    ConnectorId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return transfer(
+        "TestConnection",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ConnectorId" => ConnectorId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2253,16 +2228,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceIp"`: The source IP address of the account to be tested.
 - `"UserPassword"`: The password of the account to be tested.
 """
-function test_identity_provider(
+test_identity_provider(
     ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+) = transfer(
+    "TestIdentityProvider",
+    Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return transfer(
-        "TestIdentityProvider",
-        Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function test_identity_provider(
     ServerId,
     UserName,
@@ -2299,14 +2272,12 @@ call.
   search for resources by type. This metadata can be attached to resources for any purpose.
 
 """
-function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "UntagResource",
-        Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "UntagResource",
+    Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function untag_resource(
     Arn,
     TagKeys,
@@ -2346,7 +2317,8 @@ parameters.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
-  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The
+  HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You must specify the Entry and Target pair, where Entry shows how the path is made
@@ -2361,9 +2333,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   chroot.  [ { \"Entry\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]
 - `"HomeDirectoryType"`: The type of landing directory (folder) that you want your users'
   home directory to be when they log in to the server. If you set it to PATH, the user will
-  see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol
-  clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings
-  for how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+  see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol
+  clients. If you set it to LOGICAL, you need to provide mappings in the
+  HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to
+  your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the
+  HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you
+  provide an absolute path using the HomeDirectory parameter. You cannot have both
+  HomeDirectory and HomeDirectoryMappings in your template.
 - `"Policy"`: A session policy for your user so that you can use the same Identity and
   Access Management (IAM) role across multiple users. This policy scopes down a user's access
   to portions of their Amazon S3 bucket. Variables that you can use inside this policy
@@ -2382,16 +2358,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system. The IAM role should also contain a trust relationship that allows the server to
   access your resources when servicing your users' transfer requests.
 """
-function update_access(
-    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+update_access(ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "UpdateAccess",
         Dict{String,Any}("ExternalId" => ExternalId, "ServerId" => ServerId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_access(
     ExternalId,
     ServerId,
@@ -2428,15 +2401,24 @@ parameters to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessRole"`: With AS2, you can send files by calling StartFileTransfer and specifying
-  the file paths in the request parameter, SendFilePaths. We use the file’s parent
-  directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is
-  /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we
-  receive them from the partner, and write a final JSON file containing relevant metadata of
-  the transmission. So, the AccessRole needs to provide read and write access to the parent
-  directory of the file location used in the StartFileTransfer request. Additionally, you
-  need to provide read and write access to the parent directory of the files that you intend
-  to send with StartFileTransfer.
+- `"AccessRole"`: Connectors are used to send files using either the AS2 or SFTP protocol.
+  For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access
+  Management role to use.  For AS2 connectors  With AS2, you can send files by calling
+  StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We
+  use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt,
+  parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store
+  the MDN when we receive them from the partner, and write a final JSON file containing
+  relevant metadata of the transmission. So, the AccessRole needs to provide read and write
+  access to the parent directory of the file location used in the StartFileTransfer request.
+  Additionally, you need to provide read and write access to the parent directory of the
+  files that you intend to send with StartFileTransfer. If you are using Basic authentication
+  for your AS2 connector, the access role requires the secretsmanager:GetSecretValue
+  permission for the secret. If the secret is encrypted using a customer-managed key instead
+  of the Amazon Web Services managed key in Secrets Manager, then the role also needs the
+  kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role
+  provides read and write access to the parent directory of the file location that's used in
+  the StartFileTransfer request. Additionally, make sure that the role provides
+  secretsmanager:GetSecretValue permission to Secrets Manager.
 - `"BaseDirectory"`: To change the landing directory (folder) for files that are
   transferred, provide the bucket folder that you want to use; for example,
   /DOC-EXAMPLE-BUCKET/home/mydirectory .
@@ -2449,16 +2431,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: You can update the status for the agreement, either activating an inactive
   agreement or the reverse.
 """
-function update_agreement(
-    AgreementId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+update_agreement(AgreementId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "UpdateAgreement",
         Dict{String,Any}("AgreementId" => AgreementId, "ServerId" => ServerId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_agreement(
     AgreementId,
     ServerId,
@@ -2494,16 +2473,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A short description to help identify the certificate.
 - `"InactiveDate"`: An optional date that specifies when the certificate becomes inactive.
 """
-function update_certificate(
-    CertificateId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return transfer(
+update_certificate(CertificateId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "UpdateCertificate",
         Dict{String,Any}("CertificateId" => CertificateId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_certificate(
     CertificateId,
     params::AbstractDict{String};
@@ -2531,29 +2507,37 @@ connector that you want to update, along with the new values for the parameters 
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccessRole"`: With AS2, you can send files by calling StartFileTransfer and specifying
-  the file paths in the request parameter, SendFilePaths. We use the file’s parent
-  directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is
-  /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we
-  receive them from the partner, and write a final JSON file containing relevant metadata of
-  the transmission. So, the AccessRole needs to provide read and write access to the parent
-  directory of the file location used in the StartFileTransfer request. Additionally, you
-  need to provide read and write access to the parent directory of the files that you intend
-  to send with StartFileTransfer.
-- `"As2Config"`: A structure that contains the parameters for a connector object.
+- `"AccessRole"`: Connectors are used to send files using either the AS2 or SFTP protocol.
+  For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access
+  Management role to use.  For AS2 connectors  With AS2, you can send files by calling
+  StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We
+  use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt,
+  parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store
+  the MDN when we receive them from the partner, and write a final JSON file containing
+  relevant metadata of the transmission. So, the AccessRole needs to provide read and write
+  access to the parent directory of the file location used in the StartFileTransfer request.
+  Additionally, you need to provide read and write access to the parent directory of the
+  files that you intend to send with StartFileTransfer. If you are using Basic authentication
+  for your AS2 connector, the access role requires the secretsmanager:GetSecretValue
+  permission for the secret. If the secret is encrypted using a customer-managed key instead
+  of the Amazon Web Services managed key in Secrets Manager, then the role also needs the
+  kms:Decrypt permission for that key.  For SFTP connectors  Make sure that the access role
+  provides read and write access to the parent directory of the file location that's used in
+  the StartFileTransfer request. Additionally, make sure that the role provides
+  secretsmanager:GetSecretValue permission to Secrets Manager.
+- `"As2Config"`: A structure that contains the parameters for an AS2 connector object.
 - `"LoggingRole"`: The Amazon Resource Name (ARN) of the Identity and Access Management
   (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When
   set, you can view connector activity in your CloudWatch logs.
-- `"Url"`: The URL of the partner's AS2 endpoint.
+- `"SftpConfig"`: A structure that contains the parameters for an SFTP connector object.
+- `"Url"`: The URL of the partner's AS2 or SFTP endpoint.
 """
-function update_connector(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "UpdateConnector",
-        Dict{String,Any}("ConnectorId" => ConnectorId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_connector(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "UpdateConnector",
+    Dict{String,Any}("ConnectorId" => ConnectorId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_connector(
     ConnectorId,
     params::AbstractDict{String};
@@ -2583,18 +2567,16 @@ parameters.
   updating.
 
 """
-function update_host_key(
+update_host_key(
     Description, HostKeyId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+) = transfer(
+    "UpdateHostKey",
+    Dict{String,Any}(
+        "Description" => Description, "HostKeyId" => HostKeyId, "ServerId" => ServerId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return transfer(
-        "UpdateHostKey",
-        Dict{String,Any}(
-            "Description" => Description, "HostKeyId" => HostKeyId, "ServerId" => ServerId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_host_key(
     Description,
     HostKeyId,
@@ -2635,14 +2617,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CertificateIds"`: An array of identifiers for the imported certificates. You use this
   identifier for working with profiles and partner profiles.
 """
-function update_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "UpdateProfile",
-        Dict{String,Any}("ProfileId" => ProfileId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "UpdateProfile",
+    Dict{String,Any}("ProfileId" => ProfileId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_profile(
     ProfileId,
     params::AbstractDict{String};
@@ -2757,8 +2737,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the IdentityProviderType can be set any of the supported identity types: SERVICE_MANAGED,
   AWS_DIRECTORY_SERVICE, AWS_LAMBDA, or API_GATEWAY.   If Protocol includes AS2, then the
   EndpointType must be VPC, and domain must be Amazon S3.
+- `"S3StorageOptions"`: Specifies whether or not performance for your Amazon S3 directories
+  is optimized. This is disabled by default. By default, home directory mappings have a TYPE
+  of DIRECTORY. If you enable this option, you would then need to explicitly set the
+  HomeDirectoryMapEntry Type to FILE if you want a mapping to have a file target.
 - `"SecurityPolicyName"`: Specifies the name of the security policy that is attached to the
   server.
+- `"StructuredLogDestinations"`: Specifies the log groups to which your server logs are
+  sent. To specify a log group, you must provide the ARN for an existing log group. In this
+  case, the format of the log group is as follows:
+  arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:*  For example,
+  arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:*  If you have previously
+  specified a log group for a server, you can clear it, and in effect turn off structured
+  logging, by providing an empty value for this parameter in an update-server call. For
+  example:  update-server --server-id s-1234567890abcdef0 --structured-log-destinations
 - `"WorkflowDetails"`: Specifies the workflow ID for the workflow to assign and the
   execution role that's used for executing the workflow. In addition to a workflow to execute
   when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and
@@ -2768,14 +2760,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following example.  aws transfer update-server --server-id s-01234567890abcdef
   --workflow-details '{\"OnUpload\":[]}'
 """
-function update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
-        "UpdateServer",
-        Dict{String,Any}("ServerId" => ServerId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config()) = transfer(
+    "UpdateServer",
+    Dict{String,Any}("ServerId" => ServerId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_server(
     ServerId,
     params::AbstractDict{String};
@@ -2797,7 +2787,16 @@ end
 
 Assigns new properties to a user. Parameters you pass modify any or all of the following:
 the home directory, role, and policy for the UserName and ServerId you specify. The
-response returns the ServerId and the UserName for the updated user.
+response returns the ServerId and the UserName for the updated user. In the console, you
+can select Restricted when you create or update a user. This ensures that the user can't
+access anything outside of their home directory. The programmatic way to configure this
+behavior is to update the user. Set their HomeDirectoryType to LOGICAL, and specify
+HomeDirectoryMappings with Entry as root (/) and Target as their home directory. For
+example, if the user's home directory is /test/admin-user, the following command updates
+the user so that their configuration in the console shows the Restricted flag as selected.
+ aws transfer update-user --server-id &lt;server-id&gt; --user-name admin-user
+--home-directory-type LOGICAL --home-directory-mappings \"[{\"Entry\":\"/\",
+\"Target\":\"/test/admin-user\"}]\"
 
 # Arguments
 - `server_id`: A system-assigned unique identifier for a Transfer Family server instance
@@ -2811,7 +2810,8 @@ response returns the ServerId and the UserName for the updated user.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"HomeDirectory"`: The landing directory (folder) for a user when they log in to the
-  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
+  server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.  The
+  HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
 - `"HomeDirectoryMappings"`: Logical directory mappings that specify what Amazon S3 or
   Amazon EFS paths and keys should be visible to your user and how you want to make them
   visible. You must specify the Entry and Target pair, where Entry shows how the path is made
@@ -2826,9 +2826,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   chroot.  [ { \"Entry\": \"/\", \"Target\": \"/bucket_name/home/mydirectory\" } ]
 - `"HomeDirectoryType"`: The type of landing directory (folder) that you want your users'
   home directory to be when they log in to the server. If you set it to PATH, the user will
-  see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol
-  clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings
-  for how you want to make Amazon S3 or Amazon EFS paths visible to your users.
+  see the absolute Amazon S3 bucket or Amazon EFS path as is in their file transfer protocol
+  clients. If you set it to LOGICAL, you need to provide mappings in the
+  HomeDirectoryMappings for how you want to make Amazon S3 or Amazon EFS paths visible to
+  your users.  If HomeDirectoryType is LOGICAL, you must provide mappings, using the
+  HomeDirectoryMappings parameter. If, on the other hand, HomeDirectoryType is PATH, you
+  provide an absolute path using the HomeDirectory parameter. You cannot have both
+  HomeDirectory and HomeDirectoryMappings in your template.
 - `"Policy"`: A session policy for your user so that you can use the same Identity and
   Access Management (IAM) role across multiple users. This policy scopes down a user's access
   to portions of their Amazon S3 bucket. Variables that you can use inside this policy
@@ -2851,14 +2855,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system. The IAM role should also contain a trust relationship that allows the server to
   access your resources when servicing your users' transfer requests.
 """
-function update_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config())
-    return transfer(
+update_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    transfer(
         "UpdateUser",
         Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_user(
     ServerId,
     UserName,

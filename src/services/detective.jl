@@ -17,15 +17,13 @@ behavior graph. The member account status in the graph must be INVITED.
   invitation for. The member account status in the behavior graph must be INVITED.
 
 """
-function accept_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective(
-        "PUT",
-        "/invitation",
-        Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+accept_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective(
+    "PUT",
+    "/invitation",
+    Dict{String,Any}("GraphArn" => GraphArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function accept_invitation(
     GraphArn,
     params::AbstractDict{String};
@@ -54,17 +52,15 @@ Gets data source package information for the behavior graph.
 - `graph_arn`: The ARN of the behavior graph.
 
 """
-function batch_get_graph_member_datasources(
+batch_get_graph_member_datasources(
     AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = detective(
+    "POST",
+    "/graph/datasources/get",
+    Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return detective(
-        "POST",
-        "/graph/datasources/get",
-        Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_graph_member_datasources(
     AccountIds,
     GraphArn,
@@ -96,17 +92,15 @@ Gets information on the data source package history for an account.
 - `graph_arns`: The ARN of the behavior graph.
 
 """
-function batch_get_membership_datasources(
+batch_get_membership_datasources(
     GraphArns; aws_config::AbstractAWSConfig=global_aws_config()
+) = detective(
+    "POST",
+    "/membership/datasources/get",
+    Dict{String,Any}("GraphArns" => GraphArns);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return detective(
-        "POST",
-        "/membership/datasources/get",
-        Dict{String,Any}("GraphArns" => GraphArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_membership_datasources(
     GraphArns,
     params::AbstractDict{String};
@@ -129,17 +123,12 @@ end
 
 Creates a new behavior graph for the calling account, and sets that account as the
 administrator account. This operation is called by the account that is enabling Detective.
-Before you try to enable Detective, make sure that your account has been enrolled in Amazon
-GuardDuty for at least 48 hours. If you do not meet this requirement, you cannot enable
-Detective. If you do meet the GuardDuty prerequisite, then when you make the request to
-enable Detective, it checks whether your data volume is within the Detective quota. If it
-exceeds the quota, then you cannot enable Detective.  The operation also enables Detective
-for the calling account in the currently selected Region. It returns the ARN of the new
-behavior graph.  CreateGraph triggers a process to create the corresponding data tables for
-the new behavior graph. An account can only be the administrator account for one behavior
-graph within a Region. If the same account calls CreateGraph with the same administrator
-account, it always returns the same behavior graph ARN. It does not create a new behavior
-graph.
+The operation also enables Detective for the calling account in the currently selected
+Region. It returns the ARN of the new behavior graph.  CreateGraph triggers a process to
+create the corresponding data tables for the new behavior graph. An account can only be the
+administrator account for one behavior graph within a Region. If the same account calls
+CreateGraph with the same administrator account, it always returns the same behavior graph
+ARN. It does not create a new behavior graph.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -147,11 +136,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each tag, you provide the tag key and the tag value. Each tag key can contain up to 128
   characters. Each tag value can contain up to 256 characters.
 """
-function create_graph(; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective(
-        "POST", "/graph"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+create_graph(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective("POST", "/graph"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function create_graph(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -200,17 +186,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Message"`: Customized message text to include in the invitation email message to the
   invited member accounts.
 """
-function create_members(
-    Accounts, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return detective(
+create_members(Accounts, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
         "POST",
         "/graph/members",
         Dict{String,Any}("Accounts" => Accounts, "GraphArn" => GraphArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_members(
     Accounts,
     GraphArn,
@@ -244,15 +227,13 @@ only be called by the administrator account for a behavior graph.
 - `graph_arn`: The ARN of the behavior graph to disable.
 
 """
-function delete_graph(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective(
-        "POST",
-        "/graph/removal",
-        Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_graph(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective(
+    "POST",
+    "/graph/removal",
+    Dict{String,Any}("GraphArn" => GraphArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_graph(
     GraphArn,
     params::AbstractDict{String};
@@ -292,17 +273,14 @@ API method.
 - `graph_arn`: The ARN of the behavior graph to remove members from.
 
 """
-function delete_members(
-    AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return detective(
+delete_members(AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
         "POST",
         "/graph/members/removal",
         Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_members(
     AccountIds,
     GraphArn,
@@ -336,17 +314,15 @@ only be called by the Detective administrator account for the organization.
 - `graph_arn`: The ARN of the organization behavior graph.
 
 """
-function describe_organization_configuration(
+describe_organization_configuration(
     GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = detective(
+    "POST",
+    "/orgs/describeOrganizationConfiguration",
+    Dict{String,Any}("GraphArn" => GraphArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return detective(
-        "POST",
-        "/orgs/describeOrganizationConfiguration",
-        Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_organization_configuration(
     GraphArn,
     params::AbstractDict{String};
@@ -376,16 +352,13 @@ Detective administrator account in all Regions, except for Regions where the Det
 administrator account is the organization management account.
 
 """
-function disable_organization_admin_account(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return detective(
+disable_organization_admin_account(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
         "POST",
         "/orgs/disableAdminAccount";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disable_organization_admin_account(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -413,17 +386,14 @@ organization accounts to enable or disable as member accounts.
   account's member status in the behavior graph must be ENABLED.
 
 """
-function disassociate_membership(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return detective(
+disassociate_membership(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
         "POST",
         "/membership/removal",
         Dict{String,Any}("GraphArn" => GraphArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disassociate_membership(
     GraphArn,
     params::AbstractDict{String};
@@ -461,17 +431,15 @@ account.
   the Detective administrator account for the organization.
 
 """
-function enable_organization_admin_account(
+enable_organization_admin_account(
     AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = detective(
+    "POST",
+    "/orgs/enableAdminAccount",
+    Dict{String,Any}("AccountId" => AccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return detective(
-        "POST",
-        "/orgs/enableAdminAccount",
-        Dict{String,Any}("AccountId" => AccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function enable_organization_admin_account(
     AccountId,
     params::AbstractDict{String};
@@ -482,6 +450,53 @@ function enable_organization_admin_account(
         "/orgs/enableAdminAccount",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_investigation(graph_arn, investigation_id)
+    get_investigation(graph_arn, investigation_id, params::Dict{String,<:Any})
+
+Detective investigations lets you investigate IAM users and IAM roles using indicators of
+compromise. An indicator of compromise (IOC) is an artifact observed in or on a network,
+system, or environment that can (with a high level of confidence) identify malicious
+activity or a security incident. GetInvestigation returns the investigation results of an
+investigation for a behavior graph.
+
+# Arguments
+- `graph_arn`: The Amazon Resource Name (ARN) of the behavior graph.
+- `investigation_id`: The investigation ID of the investigation report.
+
+"""
+get_investigation(
+    GraphArn, InvestigationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = detective(
+    "POST",
+    "/investigations/getInvestigation",
+    Dict{String,Any}("GraphArn" => GraphArn, "InvestigationId" => InvestigationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_investigation(
+    GraphArn,
+    InvestigationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/investigations/getInvestigation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GraphArn" => GraphArn, "InvestigationId" => InvestigationId
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -502,17 +517,14 @@ Returns the membership details for specified member accounts for a behavior grap
 - `graph_arn`: The ARN of the behavior graph for which to request the member details.
 
 """
-function get_members(
-    AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return detective(
+get_members(AccountIds, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
         "POST",
         "/graph/members/get",
         Dict{String,Any}("AccountIds" => AccountIds, "GraphArn" => GraphArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_members(
     AccountIds,
     GraphArn,
@@ -550,17 +562,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   was returned with the previous set of results. The initial request does not include a
   pagination token.
 """
-function list_datasource_packages(
-    GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return detective(
+list_datasource_packages(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
         "POST",
         "/graph/datasources/list",
         Dict{String,Any}("GraphArn" => GraphArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_datasource_packages(
     GraphArn,
     params::AbstractDict{String};
@@ -594,11 +603,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   was returned with the previous set of results. The initial request does not include a
   pagination token.
 """
-function list_graphs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective(
-        "POST", "/graphs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_graphs(; aws_config::AbstractAWSConfig=global_aws_config()) = detective(
+    "POST", "/graphs/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_graphs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -606,6 +613,107 @@ function list_graphs(
         "POST",
         "/graphs/list",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_indicators(graph_arn, investigation_id)
+    list_indicators(graph_arn, investigation_id, params::Dict{String,<:Any})
+
+Gets the indicators from an investigation. You can use the information from the indicators
+to determine if an IAM user and/or IAM role is involved in an unusual activity that could
+indicate malicious behavior and its impact.
+
+# Arguments
+- `graph_arn`: The Amazon Resource Name (ARN) of the behavior graph.
+- `investigation_id`: The investigation ID of the investigation report.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IndicatorType"`: For the list of indicators of compromise that are generated by
+  Detective investigations, see Detective investigations.
+- `"MaxResults"`: Lists the maximum number of indicators in a page.
+- `"NextToken"`: Lists if there are more results available. The value of nextToken is a
+  unique pagination token for each page. Repeat the call using the returned token to retrieve
+  the next page. Keep all other arguments unchanged. Each pagination token expires after 24
+  hours. Using an expired pagination token will return a Validation Exception error.
+"""
+list_indicators(
+    GraphArn, InvestigationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = detective(
+    "POST",
+    "/investigations/listIndicators",
+    Dict{String,Any}("GraphArn" => GraphArn, "InvestigationId" => InvestigationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_indicators(
+    GraphArn,
+    InvestigationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/investigations/listIndicators",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GraphArn" => GraphArn, "InvestigationId" => InvestigationId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_investigations(graph_arn)
+    list_investigations(graph_arn, params::Dict{String,<:Any})
+
+Detective investigations lets you investigate IAM users and IAM roles using indicators of
+compromise. An indicator of compromise (IOC) is an artifact observed in or on a network,
+system, or environment that can (with a high level of confidence) identify malicious
+activity or a security incident. ListInvestigations lists all active Detective
+investigations.
+
+# Arguments
+- `graph_arn`: The Amazon Resource Name (ARN) of the behavior graph.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FilterCriteria"`: Filters the investigation results based on a criteria.
+- `"MaxResults"`: Lists the maximum number of investigations in a page.
+- `"NextToken"`: Lists if there are more results available. The value of nextToken is a
+  unique pagination token for each page. Repeat the call using the returned token to retrieve
+  the next page. Keep all other arguments unchanged. Each pagination token expires after 24
+  hours. Using an expired pagination token will return a Validation Exception error.
+- `"SortCriteria"`: Sorts the investigation results based on a criteria.
+"""
+list_investigations(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
+        "POST",
+        "/investigations/listInvestigations",
+        Dict{String,Any}("GraphArn" => GraphArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_investigations(
+    GraphArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/investigations/listInvestigations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -630,11 +738,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that was returned with the previous page of results. The initial request does not include a
   pagination token.
 """
-function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective(
-        "POST", "/invitations/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = detective(
+    "POST", "/invitations/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -669,15 +775,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token that was returned with the previous page of results. The initial request
   does not include a pagination token.
 """
-function list_members(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective(
-        "POST",
-        "/graph/members/list",
-        Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_members(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective(
+    "POST",
+    "/graph/members/list",
+    Dict{String,Any}("GraphArn" => GraphArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_members(
     GraphArn,
     params::AbstractDict{String};
@@ -708,16 +812,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   was returned with the previous set of results. The initial request does not include a
   pagination token.
 """
-function list_organization_admin_accounts(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return detective(
+list_organization_admin_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
         "POST",
         "/orgs/adminAccountslist";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_organization_admin_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -740,16 +841,13 @@ Returns the tag values that are assigned to a behavior graph.
 - `resource_arn`: The ARN of the behavior graph for which to retrieve the tag values.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return detective(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
         "GET",
         "/tags/$(ResourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -778,15 +876,13 @@ organization behavior graph, organization accounts do not receive an invitation.
   account's current member status in the behavior graph must be INVITED.
 
 """
-function reject_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective(
-        "POST",
-        "/invitation/removal",
-        Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+reject_invitation(GraphArn; aws_config::AbstractAWSConfig=global_aws_config()) = detective(
+    "POST",
+    "/invitation/removal",
+    Dict{String,Any}("GraphArn" => GraphArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function reject_invitation(
     GraphArn,
     params::AbstractDict{String};
@@ -797,6 +893,71 @@ function reject_invitation(
         "/invitation/removal",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("GraphArn" => GraphArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_investigation(entity_arn, graph_arn, scope_end_time, scope_start_time)
+    start_investigation(entity_arn, graph_arn, scope_end_time, scope_start_time, params::Dict{String,<:Any})
+
+Detective investigations lets you investigate IAM users and IAM roles using indicators of
+compromise. An indicator of compromise (IOC) is an artifact observed in or on a network,
+system, or environment that can (with a high level of confidence) identify malicious
+activity or a security incident. StartInvestigation initiates an investigation on an entity
+in a behavior graph.
+
+# Arguments
+- `entity_arn`: The unique Amazon Resource Name (ARN) of the IAM user and IAM role.
+- `graph_arn`: The Amazon Resource Name (ARN) of the behavior graph.
+- `scope_end_time`: The data and time when the investigation ended. The value is an UTC
+  ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+- `scope_start_time`: The data and time when the investigation began. The value is an UTC
+  ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+
+"""
+start_investigation(
+    EntityArn,
+    GraphArn,
+    ScopeEndTime,
+    ScopeStartTime;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = detective(
+    "POST",
+    "/investigations/startInvestigation",
+    Dict{String,Any}(
+        "EntityArn" => EntityArn,
+        "GraphArn" => GraphArn,
+        "ScopeEndTime" => ScopeEndTime,
+        "ScopeStartTime" => ScopeStartTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_investigation(
+    EntityArn,
+    GraphArn,
+    ScopeEndTime,
+    ScopeStartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/investigations/startInvestigation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EntityArn" => EntityArn,
+                    "GraphArn" => GraphArn,
+                    "ScopeEndTime" => ScopeEndTime,
+                    "ScopeStartTime" => ScopeStartTime,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -818,17 +979,15 @@ enable the member account, the status remains ACCEPTED_BUT_DISABLED.
 - `graph_arn`: The ARN of the behavior graph.
 
 """
-function start_monitoring_member(
+start_monitoring_member(
     AccountId, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = detective(
+    "POST",
+    "/graph/member/monitoringstate",
+    Dict{String,Any}("AccountId" => AccountId, "GraphArn" => GraphArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return detective(
-        "POST",
-        "/graph/member/monitoringstate",
-        Dict{String,Any}("AccountId" => AccountId, "GraphArn" => GraphArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_monitoring_member(
     AccountId,
     GraphArn,
@@ -863,15 +1022,14 @@ Applies tag values to a behavior graph.
   characters. Each tag value can contain up to 256 characters.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return detective(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
         "POST",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -899,17 +1057,14 @@ Removes tags from a behavior graph.
   to 50 tags at a time.
 
 """
-function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return detective(
+untag_resource(ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    detective(
         "DELETE",
         "/tags/$(ResourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     tagKeys,
@@ -936,19 +1091,15 @@ Starts a data source packages for the behavior graph.
 - `graph_arn`: The ARN of the behavior graph.
 
 """
-function update_datasource_packages(
+update_datasource_packages(
     DatasourcePackages, GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = detective(
+    "POST",
+    "/graph/datasources/update",
+    Dict{String,Any}("DatasourcePackages" => DatasourcePackages, "GraphArn" => GraphArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return detective(
-        "POST",
-        "/graph/datasources/update",
-        Dict{String,Any}(
-            "DatasourcePackages" => DatasourcePackages, "GraphArn" => GraphArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_datasource_packages(
     DatasourcePackages,
     GraphArn,
@@ -973,6 +1124,56 @@ function update_datasource_packages(
 end
 
 """
+    update_investigation_state(graph_arn, investigation_id, state)
+    update_investigation_state(graph_arn, investigation_id, state, params::Dict{String,<:Any})
+
+Updates the state of an investigation.
+
+# Arguments
+- `graph_arn`: The Amazon Resource Name (ARN) of the behavior graph.
+- `investigation_id`: The investigation ID of the investigation report.
+- `state`: The current state of the investigation. An archived investigation indicates you
+  have completed reviewing the investigation.
+
+"""
+update_investigation_state(
+    GraphArn, InvestigationId, State; aws_config::AbstractAWSConfig=global_aws_config()
+) = detective(
+    "POST",
+    "/investigations/updateInvestigationState",
+    Dict{String,Any}(
+        "GraphArn" => GraphArn, "InvestigationId" => InvestigationId, "State" => State
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_investigation_state(
+    GraphArn,
+    InvestigationId,
+    State,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return detective(
+        "POST",
+        "/investigations/updateInvestigationState",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GraphArn" => GraphArn,
+                    "InvestigationId" => InvestigationId,
+                    "State" => State,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_organization_configuration(graph_arn)
     update_organization_configuration(graph_arn, params::Dict{String,<:Any})
 
@@ -987,17 +1188,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AutoEnable"`: Indicates whether to automatically enable new organization accounts as
   member accounts in the organization behavior graph.
 """
-function update_organization_configuration(
+update_organization_configuration(
     GraphArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = detective(
+    "POST",
+    "/orgs/updateOrganizationConfiguration",
+    Dict{String,Any}("GraphArn" => GraphArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return detective(
-        "POST",
-        "/orgs/updateOrganizationConfiguration",
-        Dict{String,Any}("GraphArn" => GraphArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_organization_configuration(
     GraphArn,
     params::AbstractDict{String};

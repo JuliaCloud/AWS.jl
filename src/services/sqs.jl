@@ -5,8 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    add_permission(awsaccount_id, action_name, label, queue_url)
-    add_permission(awsaccount_id, action_name, label, queue_url, params::Dict{String,<:Any})
+    add_permission(awsaccount_ids, actions, label, queue_url)
+    add_permission(awsaccount_ids, actions, label, queue_url, params::Dict{String,<:Any})
 
 Adds a permission to a queue for a specific principal. This allows sharing access to the
 queue. When you create a queue, you have full control access rights for the queue. Only
@@ -23,10 +23,10 @@ permissions don't apply to this action. For more information, see Grant cross-ac
 permissions to a role and a username in the Amazon SQS Developer Guide.
 
 # Arguments
-- `awsaccount_id`: The Amazon Web Services account numbers of the principals who are to
+- `awsaccount_ids`: The Amazon Web Services account numbers of the principals who are to
   receive permission. For information about locating the Amazon Web Services account
   identification, see Your Amazon Web Services Identifiers in the Amazon SQS Developer Guide.
-- `action_name`: The action the client wants to allow for the specified principal. Valid
+- `actions`: The action the client wants to allow for the specified principal. Valid
   values: the name of any action or *. For more information about these actions, see Overview
   of Managing Access Permissions to Your Amazon Simple Queue Service Resource in the Amazon
   SQS Developer Guide. Specifying SendMessage, DeleteMessage, or ChangeMessageVisibility for
@@ -38,40 +38,27 @@ permissions to a role and a username in the Amazon SQS Developer Guide.
 - `queue_url`: The URL of the Amazon SQS queue to which permissions are added. Queue URLs
   and names are case-sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AWSAccountIds"`: The Amazon Web Services account numbers of the principals who are to
-  receive permission. For information about locating the Amazon Web Services account
-  identification, see Your Amazon Web Services Identifiers in the Amazon SQS Developer Guide.
-- `"Actions"`: The action the client wants to allow for the specified principal. Valid
-  values: the name of any action or *. For more information about these actions, see Overview
-  of Managing Access Permissions to Your Amazon Simple Queue Service Resource in the Amazon
-  SQS Developer Guide. Specifying SendMessage, DeleteMessage, or ChangeMessageVisibility for
-  ActionName.n also grants permissions for the corresponding batch versions of those actions:
-  SendMessageBatch, DeleteMessageBatch, and ChangeMessageVisibilityBatch.
 """
-function add_permission(
-    AWSAccountId,
-    ActionName,
+add_permission(
+    AWSAccountIds,
+    Actions,
     Label,
     QueueUrl;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sqs(
+    "AddPermission",
+    Dict{String,Any}(
+        "AWSAccountIds" => AWSAccountIds,
+        "Actions" => Actions,
+        "Label" => Label,
+        "QueueUrl" => QueueUrl,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sqs(
-        "AddPermission",
-        Dict{String,Any}(
-            "AWSAccountId" => AWSAccountId,
-            "ActionName" => ActionName,
-            "Label" => Label,
-            "QueueUrl" => QueueUrl,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_permission(
-    AWSAccountId,
-    ActionName,
+    AWSAccountIds,
+    Actions,
     Label,
     QueueUrl,
     params::AbstractDict{String};
@@ -83,8 +70,8 @@ function add_permission(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "AWSAccountId" => AWSAccountId,
-                    "ActionName" => ActionName,
+                    "AWSAccountIds" => AWSAccountIds,
+                    "Actions" => Actions,
                     "Label" => Label,
                     "QueueUrl" => QueueUrl,
                 ),
@@ -100,25 +87,27 @@ end
     cancel_message_move_task(task_handle)
     cancel_message_move_task(task_handle, params::Dict{String,<:Any})
 
-Cancels a specified message movement task.    A message movement can only be cancelled when
-the current status is RUNNING.   Cancelling a message movement task does not revert the
+Cancels a specified message movement task. A message movement can only be cancelled when
+the current status is RUNNING. Cancelling a message movement task does not revert the
 messages that have already been moved. It can only stop the messages that have not been
-moved yet.
+moved yet.    This action is currently limited to supporting message redrive from
+dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue
+(DLQ), while the destination queue can be the original source queue (from which the
+messages were driven to the dead-letter-queue), or a custom destination queue.
+Currently, only standard queues are supported.   Only one active message movement task is
+supported per queue at any given time.
 
 # Arguments
 - `task_handle`: An identifier associated with a message movement task.
 
 """
-function cancel_message_move_task(
-    TaskHandle; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sqs(
+cancel_message_move_task(TaskHandle; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sqs(
         "CancelMessageMoveTask",
         Dict{String,Any}("TaskHandle" => TaskHandle);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_message_move_task(
     TaskHandle,
     params::AbstractDict{String};
@@ -180,23 +169,21 @@ message is received.
   Values range: 0 to 43200. Maximum: 12 hours.
 
 """
-function change_message_visibility(
+change_message_visibility(
     QueueUrl,
     ReceiptHandle,
     VisibilityTimeout;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sqs(
+    "ChangeMessageVisibility",
+    Dict{String,Any}(
+        "QueueUrl" => QueueUrl,
+        "ReceiptHandle" => ReceiptHandle,
+        "VisibilityTimeout" => VisibilityTimeout,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sqs(
-        "ChangeMessageVisibility",
-        Dict{String,Any}(
-            "QueueUrl" => QueueUrl,
-            "ReceiptHandle" => ReceiptHandle,
-            "VisibilityTimeout" => VisibilityTimeout,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function change_message_visibility(
     QueueUrl,
     ReceiptHandle,
@@ -223,8 +210,8 @@ function change_message_visibility(
 end
 
 """
-    change_message_visibility_batch(change_message_visibility_batch_request_entry, queue_url)
-    change_message_visibility_batch(change_message_visibility_batch_request_entry, queue_url, params::Dict{String,<:Any})
+    change_message_visibility_batch(entries, queue_url)
+    change_message_visibility_batch(entries, queue_url, params::Dict{String,<:Any})
 
 Changes the visibility timeout of multiple messages. This is a batch version of
 ChangeMessageVisibility. The result of the action on each message is reported individually
@@ -234,34 +221,22 @@ of successful and unsuccessful actions, you should check for batch errors even w
 call returns an HTTP status code of 200.
 
 # Arguments
-- `change_message_visibility_batch_request_entry`: Lists the receipt handles of the
-  messages for which the visibility timeout must be changed.
+- `entries`: Lists the receipt handles of the messages for which the visibility timeout
+  must be changed.
 - `queue_url`: The URL of the Amazon SQS queue whose messages' visibility is changed. Queue
   URLs and names are case-sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Entries"`: Lists the receipt handles of the messages for which the visibility timeout
-  must be changed.
 """
-function change_message_visibility_batch(
-    ChangeMessageVisibilityBatchRequestEntry,
-    QueueUrl;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+change_message_visibility_batch(
+    Entries, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()
+) = sqs(
+    "ChangeMessageVisibilityBatch",
+    Dict{String,Any}("Entries" => Entries, "QueueUrl" => QueueUrl);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sqs(
-        "ChangeMessageVisibilityBatch",
-        Dict{String,Any}(
-            "ChangeMessageVisibilityBatchRequestEntry" =>
-                ChangeMessageVisibilityBatchRequestEntry,
-            "QueueUrl" => QueueUrl,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function change_message_visibility_batch(
-    ChangeMessageVisibilityBatchRequestEntry,
+    Entries,
     QueueUrl,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -271,11 +246,7 @@ function change_message_visibility_batch(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "ChangeMessageVisibilityBatchRequestEntry" =>
-                        ChangeMessageVisibilityBatchRequestEntry,
-                    "QueueUrl" => QueueUrl,
-                ),
+                Dict{String,Any}("Entries" => Entries, "QueueUrl" => QueueUrl),
                 params,
             ),
         );
@@ -316,7 +287,7 @@ username in the Amazon SQS Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attribute"`: A map of attributes with their corresponding values. The following lists
+- `"Attributes"`: A map of attributes with their corresponding values. The following lists
   the names, descriptions, and values of the special request parameters that the CreateQueue
   action uses:    DelaySeconds – The length of time, in seconds, for which the delivery of
   all messages in the queue is delayed. Valid values: An integer from 0 to 900 seconds (15
@@ -405,9 +376,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   throughput, normal throughput is in effect and deduplication occurs as specified. For
   information on throughput quotas, see Quotas related to messages in the Amazon SQS
   Developer Guide.
-- `"Tag"`: Add cost allocation tags to the specified Amazon SQS queue. For an overview, see
-  Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide. When you use queue tags,
-  keep the following guidelines in mind:   Adding more than 50 tags to a queue isn't
+- `"tags"`: Add cost allocation tags to the specified Amazon SQS queue. For an overview,
+  see Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide. When you use queue
+  tags, keep the following guidelines in mind:   Adding more than 50 tags to a queue isn't
   recommended.   Tags don't have any semantic meaning. Amazon SQS interprets tags as
   character strings.   Tags are case-sensitive.   A new tag with a key identical to that of
   an existing tag overwrites the existing tag.   For a full list of tag restrictions, see
@@ -416,14 +387,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions don't apply to this action. For more information, see Grant cross-account
   permissions to a role and a username in the Amazon SQS Developer Guide.
 """
-function create_queue(QueueName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs(
-        "CreateQueue",
-        Dict{String,Any}("QueueName" => QueueName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_queue(QueueName; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "CreateQueue",
+    Dict{String,Any}("QueueName" => QueueName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_queue(
     QueueName,
     params::AbstractDict{String};
@@ -465,16 +434,13 @@ not cause issues.
 - `receipt_handle`: The receipt handle associated with the message to delete.
 
 """
-function delete_message(
-    QueueUrl, ReceiptHandle; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sqs(
+delete_message(QueueUrl, ReceiptHandle; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sqs(
         "DeleteMessage",
         Dict{String,Any}("QueueUrl" => QueueUrl, "ReceiptHandle" => ReceiptHandle);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_message(
     QueueUrl,
     ReceiptHandle,
@@ -496,8 +462,8 @@ function delete_message(
 end
 
 """
-    delete_message_batch(delete_message_batch_request_entry, queue_url)
-    delete_message_batch(delete_message_batch_request_entry, queue_url, params::Dict{String,<:Any})
+    delete_message_batch(entries, queue_url)
+    delete_message_batch(entries, queue_url, params::Dict{String,<:Any})
 
 Deletes up to ten messages from the specified queue. This is a batch version of
 DeleteMessage. The result of the action on each message is reported individually in the
@@ -506,32 +472,20 @@ unsuccessful actions, you should check for batch errors even when the call retur
 status code of 200.
 
 # Arguments
-- `delete_message_batch_request_entry`: Lists the receipt handles for the messages to be
-  deleted.
+- `entries`: Lists the receipt handles for the messages to be deleted.
 - `queue_url`: The URL of the Amazon SQS queue from which messages are deleted. Queue URLs
   and names are case-sensitive.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Entries"`: Lists the receipt handles for the messages to be deleted.
 """
-function delete_message_batch(
-    DeleteMessageBatchRequestEntry,
-    QueueUrl;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return sqs(
+delete_message_batch(Entries, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sqs(
         "DeleteMessageBatch",
-        Dict{String,Any}(
-            "DeleteMessageBatchRequestEntry" => DeleteMessageBatchRequestEntry,
-            "QueueUrl" => QueueUrl,
-        );
+        Dict{String,Any}("Entries" => Entries, "QueueUrl" => QueueUrl);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_message_batch(
-    DeleteMessageBatchRequestEntry,
+    Entries,
     QueueUrl,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -541,10 +495,7 @@ function delete_message_batch(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "DeleteMessageBatchRequestEntry" => DeleteMessageBatchRequestEntry,
-                    "QueueUrl" => QueueUrl,
-                ),
+                Dict{String,Any}("Entries" => Entries, "QueueUrl" => QueueUrl),
                 params,
             ),
         );
@@ -572,14 +523,12 @@ username in the Amazon SQS Developer Guide. The delete operation uses the HTTP G
   case-sensitive.
 
 """
-function delete_queue(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs(
-        "DeleteQueue",
-        Dict{String,Any}("QueueUrl" => QueueUrl);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_queue(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "DeleteQueue",
+    Dict{String,Any}("QueueUrl" => QueueUrl);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_queue(
     QueueUrl,
     params::AbstractDict{String};
@@ -688,14 +637,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and deduplication occurs as specified. For information on throughput quotas, see Quotas
   related to messages in the Amazon SQS Developer Guide.
 """
-function get_queue_attributes(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs(
-        "GetQueueAttributes",
-        Dict{String,Any}("QueueUrl" => QueueUrl);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_queue_attributes(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "GetQueueAttributes",
+    Dict{String,Any}("QueueUrl" => QueueUrl);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_queue_attributes(
     QueueUrl,
     params::AbstractDict{String};
@@ -731,14 +678,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"QueueOwnerAWSAccountId"`: The Amazon Web Services account ID of the account that
   created the queue.
 """
-function get_queue_url(QueueName; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs(
-        "GetQueueUrl",
-        Dict{String,Any}("QueueName" => QueueName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_queue_url(QueueName; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "GetQueueUrl",
+    Dict{String,Any}("QueueName" => QueueName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_queue_url(
     QueueName,
     params::AbstractDict{String};
@@ -777,16 +722,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   1000. You must set MaxResults to receive a value for NextToken in the response.
 - `"NextToken"`: Pagination token to request the next set of results.
 """
-function list_dead_letter_source_queues(
+list_dead_letter_source_queues(
     QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()
+) = sqs(
+    "ListDeadLetterSourceQueues",
+    Dict{String,Any}("QueueUrl" => QueueUrl);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sqs(
-        "ListDeadLetterSourceQueues",
-        Dict{String,Any}("QueueUrl" => QueueUrl);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_dead_letter_source_queues(
     QueueUrl,
     params::AbstractDict{String};
@@ -807,6 +750,12 @@ end
     list_message_move_tasks(source_arn, params::Dict{String,<:Any})
 
 Gets the most recent message movement tasks (up to 10) under a specific source queue.
+This action is currently limited to supporting message redrive from dead-letter queues
+(DLQs) only. In this context, the source queue is the dead-letter queue (DLQ), while the
+destination queue can be the original source queue (from which the messages were driven to
+the dead-letter-queue), or a custom destination queue.    Currently, only standard queues
+are supported.   Only one active message movement task is supported per queue at any given
+time.
 
 # Arguments
 - `source_arn`: The ARN of the queue whose message movement tasks are to be listed.
@@ -816,16 +765,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to include in the response. The default is
   1, which provides the most recent message movement task. The upper limit is 10.
 """
-function list_message_move_tasks(
-    SourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+list_message_move_tasks(SourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "ListMessageMoveTasks",
+    Dict{String,Any}("SourceArn" => SourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sqs(
-        "ListMessageMoveTasks",
-        Dict{String,Any}("SourceArn" => SourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_message_move_tasks(
     SourceArn,
     params::AbstractDict{String};
@@ -854,14 +799,12 @@ permissions to a role and a username in the Amazon SQS Developer Guide.
 - `queue_url`: The URL of the queue.
 
 """
-function list_queue_tags(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs(
-        "ListQueueTags",
-        Dict{String,Any}("QueueUrl" => QueueUrl);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_queue_tags(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "ListQueueTags",
+    Dict{String,Any}("QueueUrl" => QueueUrl);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_queue_tags(
     QueueUrl,
     params::AbstractDict{String};
@@ -901,9 +844,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   whose name begins with the specified string are returned. Queue URLs and names are
   case-sensitive.
 """
-function list_queues(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs("ListQueues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_queues(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sqs("ListQueues"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_queues(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -914,26 +856,24 @@ end
     purge_queue(queue_url)
     purge_queue(queue_url, params::Dict{String,<:Any})
 
-Deletes the messages in a queue specified by the QueueURL parameter.  When you use the
-PurgeQueue action, you can't retrieve any messages deleted from a queue. The message
-deletion process takes up to 60 seconds. We recommend waiting for 60 seconds regardless of
-your queue's size.   Messages sent to the queue before you call PurgeQueue might be
-received but are deleted within the next minute. Messages sent to the queue after you call
-PurgeQueue might be deleted while the queue is being purged.
+Deletes available messages in a queue (including in-flight messages) specified by the
+QueueURL parameter.  When you use the PurgeQueue action, you can't retrieve any messages
+deleted from a queue. The message deletion process takes up to 60 seconds. We recommend
+waiting for 60 seconds regardless of your queue's size.   Messages sent to the queue before
+you call PurgeQueue might be received but are deleted within the next minute. Messages sent
+to the queue after you call PurgeQueue might be deleted while the queue is being purged.
 
 # Arguments
 - `queue_url`: The URL of the queue from which the PurgeQueue action deletes messages.
   Queue URLs and names are case-sensitive.
 
 """
-function purge_queue(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs(
-        "PurgeQueue",
-        Dict{String,Any}("QueueUrl" => QueueUrl);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+purge_queue(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "PurgeQueue",
+    Dict{String,Any}("QueueUrl" => QueueUrl);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function purge_queue(
     QueueUrl,
     params::AbstractDict{String};
@@ -1052,14 +992,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NettyNioAsyncHttpClient for asynchronous clients, or the  ApacheHttpClient for synchronous
   clients.
 """
-function receive_message(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs(
-        "ReceiveMessage",
-        Dict{String,Any}("QueueUrl" => QueueUrl);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+receive_message(QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "ReceiveMessage",
+    Dict{String,Any}("QueueUrl" => QueueUrl);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function receive_message(
     QueueUrl,
     params::AbstractDict{String};
@@ -1093,16 +1031,12 @@ SetQueueAttributes actions in your IAM policy.
   URLs and names are case-sensitive.
 
 """
-function remove_permission(
-    Label, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()
+remove_permission(Label, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "RemovePermission",
+    Dict{String,Any}("Label" => Label, "QueueUrl" => QueueUrl);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sqs(
-        "RemovePermission",
-        Dict{String,Any}("Label" => Label, "QueueUrl" => QueueUrl);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_permission(
     Label,
     QueueUrl,
@@ -1146,7 +1080,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   become available for processing after the delay period is finished. If you don't specify a
   value, the default value for the queue applies.   When you set FifoQueue, you can't set
   DelaySeconds per message. You can set this parameter only on a queue level.
-- `"MessageAttribute"`: Each message attribute consists of a Name, Type, and Value. For
+- `"MessageAttributes"`: Each message attribute consists of a Name, Type, and Value. For
   more information, see Amazon SQS message attributes in the Amazon SQS Developer Guide.
 - `"MessageDeduplicationId"`: This parameter applies only to FIFO (first-in-first-out)
   queues. The token used for deduplication of sent messages. If a message with a particular
@@ -1189,22 +1123,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (!\"#%&amp;'()*+,-./:;&lt;=&gt;?@[]^_`{|}~). For best practices of using MessageGroupId,
   see Using the MessageGroupId Property in the Amazon SQS Developer Guide.   MessageGroupId
   is required for FIFO queues. You can't use it for Standard queues.
-- `"MessageSystemAttribute"`: The message system attribute to send. Each message system
+- `"MessageSystemAttributes"`: The message system attribute to send. Each message system
   attribute consists of a Name, Type, and Value.    Currently, the only supported message
   system attribute is AWSTraceHeader. Its type must be String and its value must be a
   correctly formatted X-Ray trace header string.   The size of a message system attribute
   doesn't count towards the total size of a message.
 """
-function send_message(
-    MessageBody, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sqs(
+send_message(MessageBody, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sqs(
         "SendMessage",
         Dict{String,Any}("MessageBody" => MessageBody, "QueueUrl" => QueueUrl);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function send_message(
     MessageBody,
     QueueUrl,
@@ -1226,8 +1157,8 @@ function send_message(
 end
 
 """
-    send_message_batch(queue_url, send_message_batch_request_entry)
-    send_message_batch(queue_url, send_message_batch_request_entry, params::Dict{String,<:Any})
+    send_message_batch(entries, queue_url)
+    send_message_batch(entries, queue_url, params::Dict{String,<:Any})
 
 You can use SendMessageBatch to send up to 10 messages to the specified queue by assigning
 either identical or different values to each message (or by not assigning values at all).
@@ -1245,32 +1176,21 @@ you don't specify the DelaySeconds parameter for an entry, Amazon SQS uses the d
 value for the queue.
 
 # Arguments
+- `entries`: A list of  SendMessageBatchRequestEntry  items.
 - `queue_url`: The URL of the Amazon SQS queue to which batched messages are sent. Queue
   URLs and names are case-sensitive.
-- `send_message_batch_request_entry`: A list of  SendMessageBatchRequestEntry  items.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Entries"`: A list of  SendMessageBatchRequestEntry  items.
 """
-function send_message_batch(
-    QueueUrl,
-    SendMessageBatchRequestEntry;
-    aws_config::AbstractAWSConfig=global_aws_config(),
-)
-    return sqs(
+send_message_batch(Entries, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sqs(
         "SendMessageBatch",
-        Dict{String,Any}(
-            "QueueUrl" => QueueUrl,
-            "SendMessageBatchRequestEntry" => SendMessageBatchRequestEntry,
-        );
+        Dict{String,Any}("Entries" => Entries, "QueueUrl" => QueueUrl);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function send_message_batch(
+    Entries,
     QueueUrl,
-    SendMessageBatchRequestEntry,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1279,10 +1199,7 @@ function send_message_batch(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "QueueUrl" => QueueUrl,
-                    "SendMessageBatchRequestEntry" => SendMessageBatchRequestEntry,
-                ),
+                Dict{String,Any}("Entries" => Entries, "QueueUrl" => QueueUrl),
                 params,
             ),
         );
@@ -1292,8 +1209,8 @@ function send_message_batch(
 end
 
 """
-    set_queue_attributes(attribute, queue_url)
-    set_queue_attributes(attribute, queue_url, params::Dict{String,<:Any})
+    set_queue_attributes(attributes, queue_url)
+    set_queue_attributes(attributes, queue_url, params::Dict{String,<:Any})
 
 Sets the value of one or more queue attributes. When you change a queue's attributes, the
 change can take up to 60 seconds for most of the attributes to propagate throughout the
@@ -1308,8 +1225,8 @@ Guide.   To remove the ability to change queue permissions, you must deny permis
 AddPermission, RemovePermission, and SetQueueAttributes actions in your IAM policy.
 
 # Arguments
-- `attribute`: A map of attributes to set. The following lists the names, descriptions, and
-  values of the special request parameters that the SetQueueAttributes action uses:
+- `attributes`: A map of attributes to set. The following lists the names, descriptions,
+  and values of the special request parameters that the SetQueueAttributes action uses:
   DelaySeconds – The length of time, in seconds, for which the delivery of all messages in
   the queue is delayed. Valid values: An integer from 0 to 900 (15 minutes). Default: 0.
   MaximumMessageSize – The limit of how many bytes a message can contain before Amazon SQS
@@ -1396,18 +1313,16 @@ AddPermission, RemovePermission, and SetQueueAttributes actions in your IAM poli
   names are case-sensitive.
 
 """
-function set_queue_attributes(
-    Attribute, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()
+set_queue_attributes(
+    Attributes, QueueUrl; aws_config::AbstractAWSConfig=global_aws_config()
+) = sqs(
+    "SetQueueAttributes",
+    Dict{String,Any}("Attributes" => Attributes, "QueueUrl" => QueueUrl);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sqs(
-        "SetQueueAttributes",
-        Dict{String,Any}("Attribute" => Attribute, "QueueUrl" => QueueUrl);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function set_queue_attributes(
-    Attribute,
+    Attributes,
     QueueUrl,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -1417,7 +1332,7 @@ function set_queue_attributes(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("Attribute" => Attribute, "QueueUrl" => QueueUrl),
+                Dict{String,Any}("Attributes" => Attributes, "QueueUrl" => QueueUrl),
                 params,
             ),
         );
@@ -1432,15 +1347,20 @@ end
 
 Starts an asynchronous task to move messages from a specified source queue to a specified
 destination queue.    This action is currently limited to supporting message redrive from
-dead-letter queues (DLQs) only. In this context, the source queue is the dead-letter queue
-(DLQ), while the destination queue can be the original source queue (from which the
-messages were driven to the dead-letter-queue), or a custom destination queue.
-Currently, only standard queues are supported.   Only one active message movement task is
-supported per queue at any given time.
+queues that are configured as dead-letter queues (DLQs) of other Amazon SQS queues only.
+Non-SQS queue sources of dead-letter queues, such as Lambda or Amazon SNS topics, are
+currently not supported.   In dead-letter queues redrive context, the StartMessageMoveTask
+the source queue is the DLQ, while the destination queue can be the original source queue
+(from which the messages were driven to the dead-letter-queue), or a custom destination
+queue.   Currently, only standard queues support redrive. FIFO queues don't support
+redrive.   Only one active message movement task is supported per queue at any given time.
+
 
 # Arguments
 - `source_arn`: The ARN of the queue that contains the messages to be moved to another
-  queue. Currently, only dead-letter queue (DLQ) ARNs are accepted.
+  queue. Currently, only ARNs of dead-letter queues (DLQs) whose sources are other Amazon SQS
+  queues are accepted. DLQs whose sources are non-SQS queues, such as Lambda or Amazon SNS
+  topics, are not currently supported.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1454,16 +1374,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   optimize the rate based on the queue message backlog size, which may vary throughout the
   duration of the message movement task.
 """
-function start_message_move_task(
-    SourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+start_message_move_task(SourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "StartMessageMoveTask",
+    Dict{String,Any}("SourceArn" => SourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sqs(
-        "StartMessageMoveTask",
-        Dict{String,Any}("SourceArn" => SourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_message_move_task(
     SourceArn,
     params::AbstractDict{String};
@@ -1498,14 +1414,12 @@ in the Amazon SQS Developer Guide.
 - `tags`: The list of tags to be added to the specified queue.
 
 """
-function tag_queue(QueueUrl, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs(
-        "TagQueue",
-        Dict{String,Any}("QueueUrl" => QueueUrl, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_queue(QueueUrl, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "TagQueue",
+    Dict{String,Any}("QueueUrl" => QueueUrl, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_queue(
     QueueUrl,
     Tags,
@@ -1525,8 +1439,8 @@ function tag_queue(
 end
 
 """
-    untag_queue(queue_url, tag_key)
-    untag_queue(queue_url, tag_key, params::Dict{String,<:Any})
+    untag_queue(queue_url, tag_keys)
+    untag_queue(queue_url, tag_keys, params::Dict{String,<:Any})
 
 Remove cost allocation tags from the specified Amazon SQS queue. For an overview, see
 Tagging Your Amazon SQS Queues in the Amazon SQS Developer Guide.  Cross-account
@@ -1535,23 +1449,18 @@ permissions to a role and a username in the Amazon SQS Developer Guide.
 
 # Arguments
 - `queue_url`: The URL of the queue.
-- `tag_key`: The list of tags to be removed from the specified queue.
+- `tag_keys`: The list of tags to be removed from the specified queue.
 
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"TagKeys"`: The list of tags to be removed from the specified queue.
 """
-function untag_queue(QueueUrl, TagKey; aws_config::AbstractAWSConfig=global_aws_config())
-    return sqs(
-        "UntagQueue",
-        Dict{String,Any}("QueueUrl" => QueueUrl, "TagKey" => TagKey);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_queue(QueueUrl, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = sqs(
+    "UntagQueue",
+    Dict{String,Any}("QueueUrl" => QueueUrl, "TagKeys" => TagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function untag_queue(
     QueueUrl,
-    TagKey,
+    TagKeys,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1559,7 +1468,9 @@ function untag_queue(
         "UntagQueue",
         Dict{String,Any}(
             mergewith(
-                _merge, Dict{String,Any}("QueueUrl" => QueueUrl, "TagKey" => TagKey), params
+                _merge,
+                Dict{String,Any}("QueueUrl" => QueueUrl, "TagKeys" => TagKeys),
+                params,
             ),
         );
         aws_config=aws_config,

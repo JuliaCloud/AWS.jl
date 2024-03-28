@@ -21,15 +21,14 @@ every Search operation performed in that Region.
   operation. The specified view must already exist in the called Region.
 
 """
-function associate_default_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
+associate_default_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "POST",
         "/AssociateDefaultView",
         Dict{String,Any}("ViewArn" => ViewArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function associate_default_view(
     ViewArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -53,11 +52,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ViewArns"`: A list of Amazon resource names (ARNs) that identify the views you want
   details for.
 """
-function batch_get_view(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
-        "POST", "/BatchGetView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+batch_get_view(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_explorer_2(
+    "POST", "/BatchGetView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function batch_get_view(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -105,19 +102,17 @@ service-linked role for all additional indexes you create afterwards.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: This value helps ensure idempotency. Resource Explorer uses this value
   to prevent the accidental creation of duplicate versions. We recommend that you generate a
-  UUID-type value to ensure the uniqueness of your views.
+  UUID-type value to ensure the uniqueness of your index.
 - `"Tags"`: The specified tags are attached only to the index created in this Amazon Web
   Services Region. The tags aren't attached to any of the resources listed in the index.
 """
-function create_index(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
-        "POST",
-        "/CreateIndex",
-        Dict{String,Any}("ClientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_index(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_explorer_2(
+    "POST",
+    "/CreateIndex",
+    Dict{String,Any}("ClientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_index(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -166,17 +161,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludedProperties"`: Specifies optional fields that you want included in search
   results from this view. It is a list of objects that each describe a field to include. The
   default is an empty list, with no optional fields included in the results.
+- `"Scope"`: The root ARN of the account, an organizational unit (OU), or an organization
+  ARN. If left empty, the default is account.
 - `"Tags"`: Tag key and value pairs that are attached to the view.
 """
-function create_view(ViewName; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
+create_view(ViewName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "POST",
         "/CreateView",
         Dict{String,Any}("ViewName" => ViewName, "ClientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_view(
     ViewName,
     params::AbstractDict{String};
@@ -215,15 +211,13 @@ Resource Explorer until another aggregator index is configured.
 - `arn`: The Amazon resource name (ARN) of the index that you want to delete.
 
 """
-function delete_index(Arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
-        "POST",
-        "/DeleteIndex",
-        Dict{String,Any}("Arn" => Arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_index(Arn; aws_config::AbstractAWSConfig=global_aws_config()) = resource_explorer_2(
+    "POST",
+    "/DeleteIndex",
+    Dict{String,Any}("Arn" => Arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_index(
     Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -248,15 +242,14 @@ to use until you configure a new default by calling the AssociateDefaultView ope
 - `view_arn`: The Amazon resource name (ARN) of the view that you want to delete.
 
 """
-function delete_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
+delete_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "POST",
         "/DeleteView",
         Dict{String,Any}("ViewArn" => ViewArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_view(
     ViewArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -280,20 +273,49 @@ operation. If an Amazon Web Services Region doesn't have a default view configur
 users must explicitly specify a view with every Search operation performed in that Region.
 
 """
-function disassociate_default_view(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
+disassociate_default_view(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "POST",
         "/DisassociateDefaultView";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disassociate_default_view(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return resource_explorer_2(
         "POST",
         "/DisassociateDefaultView",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_account_level_service_configuration()
+    get_account_level_service_configuration(params::Dict{String,<:Any})
+
+Retrieves the status of your account's Amazon Web Services service access, and validates
+the service linked role required to access the multi-account search feature. Only the
+management account or a delegated administrator with service access enabled can invoke this
+API call.
+
+"""
+get_account_level_service_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+) = resource_explorer_2(
+    "POST",
+    "/GetAccountLevelServiceConfiguration";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_account_level_service_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/GetAccountLevelServiceConfiguration",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -309,11 +331,9 @@ Services Region in which you call this operation. You can then call GetView to r
 details of that view.
 
 """
-function get_default_view(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
-        "POST", "/GetDefaultView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_default_view(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_explorer_2(
+    "POST", "/GetDefaultView"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_default_view(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -334,11 +354,9 @@ Retrieves details about the Amazon Web Services Resource Explorer index in the A
 Services Region in which you invoked the operation.
 
 """
-function get_index(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
-        "POST", "/GetIndex"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_index(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_explorer_2(
+    "POST", "/GetIndex"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_index(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -357,15 +375,13 @@ Retrieves details of the specified view.
 - `view_arn`: The Amazon resource name (ARN) of the view that you want information about.
 
 """
-function get_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
-        "POST",
-        "/GetView",
-        Dict{String,Any}("ViewArn" => ViewArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config()) = resource_explorer_2(
+    "POST",
+    "/GetView",
+    Dict{String,Any}("ViewArn" => ViewArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_view(
     ViewArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -398,17 +414,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from.
+  indicate where the output should continue from. The pagination tokens expire after 24 hours.
 - `"Regions"`: If specified, limits the response to only information about the index in the
   specified list of Amazon Web Services Regions.
 - `"Type"`: If specified, limits the output to only indexes of the specified Type, either
   LOCAL or AGGREGATOR. Use this option to discover the aggregator index for your account.
 """
-function list_indexes(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
-        "POST", "/ListIndexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_indexes(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_explorer_2(
+    "POST", "/ListIndexes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_indexes(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -416,6 +430,58 @@ function list_indexes(
         "POST",
         "/ListIndexes",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_indexes_for_members(account_id_list)
+    list_indexes_for_members(account_id_list, params::Dict{String,<:Any})
+
+Retrieves a list of a member's indexes in all Amazon Web Services Regions that are
+currently collecting resource information for Amazon Web Services Resource Explorer. Only
+the management account or a delegated administrator with service access enabled can invoke
+this API call.
+
+# Arguments
+- `account_id_list`: The account IDs will limit the output to only indexes from these
+  accounts.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results that you want included on each page of the
+  response. If you do not include this parameter, it defaults to a value appropriate to the
+  operation. If additional items exist beyond those included in the current response, the
+  NextToken response element is present and has a value (is not null). Include that value as
+  the NextToken request parameter in the next call to the operation to get the next part of
+  the results.  An API operation can return fewer results than the maximum even when there
+  are more results available. You should check NextToken after every operation to ensure that
+  you receive all of the results.
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+  response in a previous request. A NextToken response indicates that more output is
+  available. Set this parameter to the value of the previous call's NextToken response to
+  indicate where the output should continue from. The pagination tokens expire after 24 hours.
+"""
+list_indexes_for_members(AccountIdList; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
+        "POST",
+        "/ListIndexesForMembers",
+        Dict{String,Any}("AccountIdList" => AccountIdList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_indexes_for_members(
+    AccountIdList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return resource_explorer_2(
+        "POST",
+        "/ListIndexesForMembers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountIdList" => AccountIdList), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -441,16 +507,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from.
+  indicate where the output should continue from. The pagination tokens expire after 24 hours.
 """
-function list_supported_resource_types(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
+list_supported_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "POST",
         "/ListSupportedResourceTypes";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_supported_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -474,16 +539,13 @@ Lists the tags that are attached to the specified resource.
   attach tags to.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return resource_explorer_2(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -521,13 +583,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from.
+  indicate where the output should continue from. The pagination tokens expire after 24 hours.
 """
-function list_views(; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
-        "POST", "/ListViews"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_views(; aws_config::AbstractAWSConfig=global_aws_config()) = resource_explorer_2(
+    "POST", "/ListViews"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_views(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -572,22 +632,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from.
+  indicate where the output should continue from. The pagination tokens expire after 24 hours.
 - `"ViewArn"`: Specifies the Amazon resource name (ARN) of the view to use for the query.
   If you don't specify a value for this parameter, then the operation automatically uses the
   default view for the Amazon Web Services Region in which you called this operation. If the
   Region either doesn't have a default view or if you don't have permission to use the
   default view, then the operation fails with a 401 Unauthorized exception.
 """
-function search(QueryString; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
+search(QueryString; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "POST",
         "/Search",
         Dict{String,Any}("QueryString" => QueryString);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function search(
     QueryString,
     params::AbstractDict{String};
@@ -620,14 +679,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tag key and value pairs that you want to attach to the specified view
   or index.
 """
-function tag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
+tag_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "POST",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -656,17 +714,14 @@ view or index.
   view or index.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return resource_explorer_2(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -726,15 +781,14 @@ hours before you can promote another index to be the new aggregator index for th
   see Turning on cross-Region search in the Amazon Web Services Resource Explorer User Guide.
 
 """
-function update_index_type(Arn, Type; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
+update_index_type(Arn, Type; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "POST",
         "/UpdateIndexType",
         Dict{String,Any}("Arn" => Arn, "Type" => Type);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_index_type(
     Arn,
     Type,
@@ -777,15 +831,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results from this view. It is a list of objects that each describe a field to include. The
   default is an empty list, with no optional fields included in the results.
 """
-function update_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return resource_explorer_2(
+update_view(ViewArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    resource_explorer_2(
         "POST",
         "/UpdateView",
         Dict{String,Any}("ViewArn" => ViewArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_view(
     ViewArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

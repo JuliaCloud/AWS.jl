@@ -24,15 +24,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"expiresTime"`: The date and time the personal access token expires, in coordinated
   universal time (UTC) timestamp format as specified in RFC 3339.
 """
-function create_access_token(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecatalyst(
-        "PUT",
-        "/v1/accessTokens",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_access_token(name; aws_config::AbstractAWSConfig=global_aws_config()) = codecatalyst(
+    "PUT",
+    "/v1/accessTokens",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_access_token(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -80,24 +78,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Environments consume compute minutes when running.
 - `"repositories"`: The source repository that contains the branch to clone into the Dev
   Environment.
+- `"vpcConnectionName"`: The name of the connection to use connect to a Amazon VPC.
 """
-function create_dev_environment(
+create_dev_environment(
     instanceType,
     persistentStorage,
     projectName,
     spaceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codecatalyst(
+    "PUT",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments",
+    Dict{String,Any}(
+        "instanceType" => instanceType, "persistentStorage" => persistentStorage
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "PUT",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments",
-        Dict{String,Any}(
-            "instanceType" => instanceType, "persistentStorage" => persistentStorage
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_dev_environment(
     instanceType,
     persistentStorage,
@@ -139,17 +136,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   all users of the project. We recommend providing a brief description of the project and its
   intended purpose.
 """
-function create_project(
-    displayName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecatalyst(
+create_project(displayName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codecatalyst(
         "PUT",
         "/v1/spaces/$(spaceName)/projects",
         Dict{String,Any}("displayName" => displayName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_project(
     displayName,
     spaceName,
@@ -162,6 +156,47 @@ function create_project(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("displayName" => displayName), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_source_repository(name, project_name, space_name)
+    create_source_repository(name, project_name, space_name, params::Dict{String,<:Any})
+
+Creates an empty Git-based source repository in a specified project. The repository is
+created with an initial empty commit with a default branch named main.
+
+# Arguments
+- `name`: The name of the source repository. For more information about name requirements,
+  see Quotas for source repositories.
+- `project_name`: The name of the project in the space.
+- `space_name`: The name of the space.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The description of the source repository.
+"""
+create_source_repository(
+    name, projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "PUT",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_source_repository(
+    name,
+    projectName,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "PUT",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -186,20 +221,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"headCommitId"`: The commit ID in an existing branch from which you want to create the
   new branch.
 """
-function create_source_repository_branch(
+create_source_repository_branch(
     name,
     projectName,
     sourceRepositoryName,
     spaceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codecatalyst(
+    "PUT",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/branches/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "PUT",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/branches/$(name)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_source_repository_branch(
     name,
     projectName,
@@ -229,14 +262,12 @@ deleted by the user who created it.
   associated with your Amazon Web Services Builder ID in a space by calling ListAccessTokens.
 
 """
-function delete_access_token(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecatalyst(
-        "DELETE",
-        "/v1/accessTokens/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_access_token(id; aws_config::AbstractAWSConfig=global_aws_config()) = codecatalyst(
+    "DELETE",
+    "/v1/accessTokens/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_access_token(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -262,16 +293,14 @@ Deletes a Dev Environment.
 - `space_name`: The name of the space.
 
 """
-function delete_dev_environment(
+delete_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "DELETE",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "DELETE",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_dev_environment(
     id,
     projectName,
@@ -282,6 +311,106 @@ function delete_dev_environment(
     return codecatalyst(
         "DELETE",
         "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_project(name, space_name)
+    delete_project(name, space_name, params::Dict{String,<:Any})
+
+Deletes a project in a space.
+
+# Arguments
+- `name`: The name of the project in the space. To retrieve a list of project names, use
+  ListProjects.
+- `space_name`: The name of the space.
+
+"""
+delete_project(name, spaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codecatalyst(
+        "DELETE",
+        "/v1/spaces/$(spaceName)/projects/$(name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_project(
+    name,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "DELETE",
+        "/v1/spaces/$(spaceName)/projects/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_source_repository(name, project_name, space_name)
+    delete_source_repository(name, project_name, space_name, params::Dict{String,<:Any})
+
+Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a
+linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
+
+# Arguments
+- `name`: The name of the source repository.
+- `project_name`: The name of the project in the space.
+- `space_name`: The name of the space.
+
+"""
+delete_source_repository(
+    name, projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "DELETE",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_source_repository(
+    name,
+    projectName,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "DELETE",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_space(name)
+    delete_space(name, params::Dict{String,<:Any})
+
+Deletes a space.  Deleting a space cannot be undone. Additionally, since space names must
+be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
+
+# Arguments
+- `name`: The name of the space. To retrieve a list of space names, use ListSpaces.
+
+"""
+delete_space(name; aws_config::AbstractAWSConfig=global_aws_config()) = codecatalyst(
+    "DELETE",
+    "/v1/spaces/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function delete_space(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codecatalyst(
+        "DELETE",
+        "/v1/spaces/$(name)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -302,16 +431,14 @@ Environments are specific to the user who creates them.
 - `space_name`: The name of the space.
 
 """
-function get_dev_environment(
+get_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "GET",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "GET",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_dev_environment(
     id,
     projectName,
@@ -339,14 +466,13 @@ Returns information about a project.
 - `space_name`: The name of the space.
 
 """
-function get_project(name, spaceName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecatalyst(
+get_project(name, spaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codecatalyst(
         "GET",
         "/v1/spaces/$(spaceName)/projects/$(name)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_project(
     name,
     spaceName,
@@ -356,6 +482,42 @@ function get_project(
     return codecatalyst(
         "GET",
         "/v1/spaces/$(spaceName)/projects/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_source_repository(name, project_name, space_name)
+    get_source_repository(name, project_name, space_name, params::Dict{String,<:Any})
+
+Returns information about a source repository.
+
+# Arguments
+- `name`: The name of the source repository.
+- `project_name`: The name of the project in the space.
+- `space_name`: The name of the space.
+
+"""
+get_source_repository(
+    name, projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "GET",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_source_repository(
+    name,
+    projectName,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "GET",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(name)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -375,19 +537,17 @@ repository.
 - `space_name`: The name of the space.
 
 """
-function get_source_repository_clone_urls(
+get_source_repository_clone_urls(
     projectName,
     sourceRepositoryName,
     spaceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codecatalyst(
+    "GET",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/cloneUrls";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "GET",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/cloneUrls";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_source_repository_clone_urls(
     projectName,
     sourceRepositoryName,
@@ -414,11 +574,9 @@ Returns information about an space.
 - `name`: The name of the space.
 
 """
-function get_space(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecatalyst(
-        "GET", "/v1/spaces/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_space(name; aws_config::AbstractAWSConfig=global_aws_config()) = codecatalyst(
+    "GET", "/v1/spaces/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_space(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -442,14 +600,13 @@ billing plan for the space.
 - `space_name`: The name of the space.
 
 """
-function get_subscription(spaceName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecatalyst(
+get_subscription(spaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codecatalyst(
         "GET",
         "/v1/spaces/$(spaceName)/subscription";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_subscription(
     spaceName,
     params::AbstractDict{String};
@@ -475,17 +632,88 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"id"`: The system-generated unique ID of the user.
 - `"userName"`: The name of the user as displayed in Amazon CodeCatalyst.
 """
-function get_user_details(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecatalyst(
-        "GET", "/userDetails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_user_details(; aws_config::AbstractAWSConfig=global_aws_config()) = codecatalyst(
+    "GET", "/userDetails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_user_details(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codecatalyst(
         "GET",
         "/userDetails",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_workflow(id, project_name, space_name)
+    get_workflow(id, project_name, space_name, params::Dict{String,<:Any})
+
+Returns information about a workflow.
+
+# Arguments
+- `id`: The ID of the workflow. To rerieve a list of workflow IDs, use ListWorkflows.
+- `project_name`: The name of the project in the space.
+- `space_name`: The name of the space.
+
+"""
+get_workflow(
+    id, projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "GET",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/workflows/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_workflow(
+    id,
+    projectName,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "GET",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/workflows/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_workflow_run(id, project_name, space_name)
+    get_workflow_run(id, project_name, space_name, params::Dict{String,<:Any})
+
+Returns information about a specified run of a workflow.
+
+# Arguments
+- `id`: The ID of the workflow run. To retrieve a list of workflow run IDs, use
+  ListWorkflowRuns.
+- `project_name`: The name of the project in the space.
+- `space_name`: The name of the space.
+
+"""
+get_workflow_run(
+    id, projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "GET",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_workflow_run(
+    id,
+    projectName,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "GET",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns/$(id)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -507,11 +735,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
-function list_access_tokens(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecatalyst(
-        "POST", "/v1/accessTokens"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_access_tokens(; aws_config::AbstractAWSConfig=global_aws_config()) = codecatalyst(
+    "POST", "/v1/accessTokens"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_access_tokens(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -543,19 +769,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
-function list_dev_environment_sessions(
+list_dev_environment_sessions(
     devEnvironmentId,
     projectName,
     spaceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codecatalyst(
+    "POST",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(devEnvironmentId)/sessions";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "POST",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(devEnvironmentId)/sessions";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_dev_environment_sessions(
     devEnvironmentId,
     projectName,
@@ -573,13 +797,12 @@ function list_dev_environment_sessions(
 end
 
 """
-    list_dev_environments(project_name, space_name)
-    list_dev_environments(project_name, space_name, params::Dict{String,<:Any})
+    list_dev_environments(space_name)
+    list_dev_environments(space_name, params::Dict{String,<:Any})
 
 Retrieves a list of Dev Environments in a project.
 
 # Arguments
-- `project_name`: The name of the project in the space.
 - `space_name`: The name of the space.
 
 # Optional Parameters
@@ -591,26 +814,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken element, which you can use to obtain additional results.
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
+- `"projectName"`: The name of the project in the space.
 """
-function list_dev_environments(
-    projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codecatalyst(
+list_dev_environments(spaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codecatalyst(
         "POST",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments";
+        "/v1/spaces/$(spaceName)/devEnvironments";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_dev_environments(
-    projectName,
     spaceName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return codecatalyst(
         "POST",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments",
+        "/v1/spaces/$(spaceName)/devEnvironments",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -621,8 +841,14 @@ end
     list_event_logs(end_time, space_name, start_time)
     list_event_logs(end_time, space_name, start_time, params::Dict{String,<:Any})
 
-Retrieves a list of events that occurred during a specified time period in a space. You can
-use these events to audit user and system activity in a space.
+Retrieves a list of events that occurred during a specific time in a space. You can use
+these events to audit user and system activity in a space. For more information, see
+Monitoring in the Amazon CodeCatalyst User Guide.  ListEventLogs guarantees events for the
+last 30 days in a given space. You can also view and retrieve a list of management events
+over the last 90 days for Amazon CodeCatalyst in the CloudTrail console by viewing Event
+history, or by creating a trail to create and maintain a record of events that extends past
+90 days. For more information, see Working with CloudTrail Event History and Working with
+CloudTrail trails.
 
 # Arguments
 - `end_time`: The time after which you do not want any events retrieved, in coordinated
@@ -640,17 +866,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
-function list_event_logs(
+list_event_logs(
     endTime, spaceName, startTime; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "POST",
+    "/v1/spaces/$(spaceName)/eventLogs",
+    Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "POST",
-        "/v1/spaces/$(spaceName)/eventLogs",
-        Dict{String,Any}("endTime" => endTime, "startTime" => startTime);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_event_logs(
     endTime,
     spaceName,
@@ -692,14 +916,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
-function list_projects(spaceName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecatalyst(
-        "POST",
-        "/v1/spaces/$(spaceName)/projects";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_projects(spaceName; aws_config::AbstractAWSConfig=global_aws_config()) = codecatalyst(
+    "POST",
+    "/v1/spaces/$(spaceName)/projects";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_projects(
     spaceName,
     params::AbstractDict{String};
@@ -732,16 +954,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
-function list_source_repositories(
+list_source_repositories(
     projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "POST",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "POST",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_source_repositories(
     projectName,
     spaceName,
@@ -776,19 +996,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
-function list_source_repository_branches(
+list_source_repository_branches(
     projectName,
     sourceRepositoryName,
     spaceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codecatalyst(
+    "POST",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/branches";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "POST",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/sourceRepositories/$(sourceRepositoryName)/branches";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_source_repository_branches(
     projectName,
     sourceRepositoryName,
@@ -816,16 +1034,99 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token returned from a call to this API to indicate the next batch of
   results to return, if any.
 """
-function list_spaces(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecatalyst(
-        "POST", "/v1/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_spaces(; aws_config::AbstractAWSConfig=global_aws_config()) = codecatalyst(
+    "POST", "/v1/spaces"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_spaces(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return codecatalyst(
         "POST", "/v1/spaces", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_workflow_runs(project_name, space_name)
+    list_workflow_runs(project_name, space_name, params::Dict{String,<:Any})
+
+Retrieves a list of workflow runs of a specified workflow.
+
+# Arguments
+- `project_name`: The name of the project in the space.
+- `space_name`: The name of the space.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If
+  the number of results is larger than the number you specified, the response will include a
+  NextToken element, which you can use to obtain additional results.
+- `"nextToken"`: A token returned from a call to this API to indicate the next batch of
+  results to return, if any.
+- `"sortBy"`: Information used to sort the items in the returned list.
+- `"workflowId"`: The ID of the workflow. To retrieve a list of workflow IDs, use
+  ListWorkflows.
+"""
+list_workflow_runs(
+    projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "POST",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_workflow_runs(
+    projectName,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "POST",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_workflows(project_name, space_name)
+    list_workflows(project_name, space_name, params::Dict{String,<:Any})
+
+Retrieves a list of workflows in a specified project.
+
+# Arguments
+- `project_name`: The name of the project in the space.
+- `space_name`: The name of the space.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to show in a single call to this API. If
+  the number of results is larger than the number you specified, the response will include a
+  NextToken element, which you can use to obtain additional results.
+- `"nextToken"`: A token returned from a call to this API to indicate the next batch of
+  results to return, if any.
+- `"sortBy"`: Information used to sort the items in the returned list.
+"""
+list_workflows(projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codecatalyst(
+        "POST",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/workflows";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function list_workflows(
+    projectName,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "POST",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/workflows",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -849,16 +1150,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Environments consume compute minutes when running.
 - `"instanceType"`: The Amazon EC2 instace type to use for the Dev Environment.
 """
-function start_dev_environment(
+start_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "PUT",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/start";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "PUT",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/start";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_dev_environment(
     id,
     projectName,
@@ -888,21 +1187,19 @@ Starts a session for a specified Dev Environment.
 - `space_name`: The name of the space.
 
 """
-function start_dev_environment_session(
+start_dev_environment_session(
     id,
     projectName,
     sessionConfiguration,
     spaceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codecatalyst(
+    "PUT",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/session",
+    Dict{String,Any}("sessionConfiguration" => sessionConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "PUT",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/session",
-        Dict{String,Any}("sessionConfiguration" => sessionConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_dev_environment_session(
     id,
     projectName,
@@ -927,6 +1224,58 @@ function start_dev_environment_session(
 end
 
 """
+    start_workflow_run(project_name, space_name, workflow_id)
+    start_workflow_run(project_name, space_name, workflow_id, params::Dict{String,<:Any})
+
+Begins a run of a specified workflow.
+
+# Arguments
+- `project_name`: The name of the project in the space.
+- `space_name`: The name of the space.
+- `workflow_id`: The system-generated unique ID of the workflow. To retrieve a list of
+  workflow IDs, use ListWorkflows.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A user-specified idempotency token. Idempotency ensures that an API
+  request completes only once. With an idempotent request, if the original request completes
+  successfully, the subsequent retries return the result from the original successful request
+  and have no additional effect.
+"""
+start_workflow_run(
+    projectName, spaceName, workflowId; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "PUT",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns",
+    Dict{String,Any}("workflowId" => workflowId, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function start_workflow_run(
+    projectName,
+    spaceName,
+    workflowId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "PUT",
+        "/v1/spaces/$(spaceName)/projects/$(projectName)/workflowRuns",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "workflowId" => workflowId, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_dev_environment(id, project_name, space_name)
     stop_dev_environment(id, project_name, space_name, params::Dict{String,<:Any})
 
@@ -939,16 +1288,14 @@ Environments do not consume compute minutes.
 - `space_name`: The name of the space.
 
 """
-function stop_dev_environment(
+stop_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "PUT",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/stop";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "PUT",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_dev_environment(
     id,
     projectName,
@@ -980,16 +1327,14 @@ Stops a session for a specified Dev Environment.
 - `space_name`: The name of the space.
 
 """
-function stop_dev_environment_session(
+stop_dev_environment_session(
     id, projectName, sessionId, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "DELETE",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/session/$(sessionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "DELETE",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)/session/$(sessionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_dev_environment_session(
     id,
     projectName,
@@ -1036,16 +1381,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"instanceType"`: The Amazon EC2 instace type to use for the Dev Environment.   Changing
   this value will cause a restart of the Dev Environment if it is running.
 """
-function update_dev_environment(
+update_dev_environment(
     id, projectName, spaceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = codecatalyst(
+    "PATCH",
+    "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codecatalyst(
-        "PATCH",
-        "/v1/spaces/$(spaceName)/projects/$(projectName)/devEnvironments/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_dev_environment(
     id,
     projectName,
@@ -1063,6 +1406,73 @@ function update_dev_environment(
 end
 
 """
+    update_project(name, space_name)
+    update_project(name, space_name, params::Dict{String,<:Any})
+
+Changes one or more values for a project.
+
+# Arguments
+- `name`: The name of the project.
+- `space_name`: The name of the space.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The description of the project.
+"""
+update_project(name, spaceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codecatalyst(
+        "PATCH",
+        "/v1/spaces/$(spaceName)/projects/$(name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_project(
+    name,
+    spaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecatalyst(
+        "PATCH",
+        "/v1/spaces/$(spaceName)/projects/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_space(name)
+    update_space(name, params::Dict{String,<:Any})
+
+Changes one or more values for a space.
+
+# Arguments
+- `name`: The name of the space.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The description of the space.
+"""
+update_space(name; aws_config::AbstractAWSConfig=global_aws_config()) = codecatalyst(
+    "PATCH",
+    "/v1/spaces/$(name)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function update_space(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codecatalyst(
+        "PATCH",
+        "/v1/spaces/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     verify_session()
     verify_session(params::Dict{String,<:Any})
 
@@ -1070,11 +1480,8 @@ Verifies whether the calling user has a valid Amazon CodeCatalyst login and sess
 successful, this returns the ID of the user in Amazon CodeCatalyst.
 
 """
-function verify_session(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codecatalyst(
-        "GET", "/session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+verify_session(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codecatalyst("GET", "/session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function verify_session(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

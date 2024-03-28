@@ -15,14 +15,13 @@ Delete Object from the incremental base Backup.
 - `object_name`: The name of the Object.
 
 """
-function delete_object(jobId, objectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return backupstorage(
+delete_object(jobId, objectName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    backupstorage(
         "DELETE",
         "/backup-jobs/$(jobId)/object/$(objectName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_object(
     jobId,
     objectName,
@@ -49,14 +48,13 @@ Gets the specified object's chunk.
 - `job_id`: Storage job id
 
 """
-function get_chunk(chunkToken, jobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return backupstorage(
+get_chunk(chunkToken, jobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    backupstorage(
         "GET",
         "/restore-jobs/$(jobId)/chunk/$(chunkToken)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_chunk(
     chunkToken,
     jobId,
@@ -83,16 +81,13 @@ Get metadata associated with an Object.
 - `object_token`: Object token.
 
 """
-function get_object_metadata(
-    jobId, objectToken; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return backupstorage(
+get_object_metadata(jobId, objectToken; aws_config::AbstractAWSConfig=global_aws_config()) =
+    backupstorage(
         "GET",
         "/restore-jobs/$(jobId)/object/$(objectToken)/metadata";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_object_metadata(
     jobId,
     objectToken,
@@ -123,14 +118,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"max-results"`: Maximum number of chunks
 - `"next-token"`: Pagination token
 """
-function list_chunks(jobId, objectToken; aws_config::AbstractAWSConfig=global_aws_config())
-    return backupstorage(
+list_chunks(jobId, objectToken; aws_config::AbstractAWSConfig=global_aws_config()) =
+    backupstorage(
         "GET",
         "/restore-jobs/$(jobId)/chunks/$(objectToken)/list";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_chunks(
     jobId,
     objectToken,
@@ -166,14 +160,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"starting-object-prefix"`: Optional, specifies the starting Object prefix to list from.
   Ignored if NextToken is not NULL
 """
-function list_objects(jobId; aws_config::AbstractAWSConfig=global_aws_config())
-    return backupstorage(
-        "GET",
-        "/restore-jobs/$(jobId)/objects/list";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_objects(jobId; aws_config::AbstractAWSConfig=global_aws_config()) = backupstorage(
+    "GET",
+    "/restore-jobs/$(jobId)/objects/list";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_objects(
     jobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -207,23 +199,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"metadata-string"`: Optional metadata associated with an Object. Maximum string length
   is 256 bytes.
 """
-function notify_object_complete(
+notify_object_complete(
     checksum,
     checksum_algorithm,
     jobId,
     uploadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = backupstorage(
+    "PUT",
+    "/backup-jobs/$(jobId)/object/$(uploadId)/complete",
+    Dict{String,Any}("checksum" => checksum, "checksum-algorithm" => checksum_algorithm);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return backupstorage(
-        "PUT",
-        "/backup-jobs/$(jobId)/object/$(uploadId)/complete",
-        Dict{String,Any}(
-            "checksum" => checksum, "checksum-algorithm" => checksum_algorithm
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function notify_object_complete(
     checksum,
     checksum_algorithm,
@@ -265,7 +253,7 @@ Upload chunk.
 - `upload_id`: Upload Id for the in-progress upload.
 
 """
-function put_chunk(
+put_chunk(
     Data,
     checksum,
     checksum_algorithm,
@@ -274,20 +262,18 @@ function put_chunk(
     length,
     uploadId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = backupstorage(
+    "PUT",
+    "/backup-jobs/$(jobId)/chunk/$(uploadId)/$(chunkIndex)",
+    Dict{String,Any}(
+        "Data" => Data,
+        "checksum" => checksum,
+        "checksum-algorithm" => checksum_algorithm,
+        "length" => length,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return backupstorage(
-        "PUT",
-        "/backup-jobs/$(jobId)/chunk/$(uploadId)/$(chunkIndex)",
-        Dict{String,Any}(
-            "Data" => Data,
-            "checksum" => checksum,
-            "checksum-algorithm" => checksum_algorithm,
-            "length" => length,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_chunk(
     Data,
     checksum,
@@ -342,14 +328,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"object-checksum-algorithm"`: object checksum algorithm
 - `"throwOnDuplicate"`: Throw an exception if Object name is already exist.
 """
-function put_object(jobId, objectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return backupstorage(
+put_object(jobId, objectName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    backupstorage(
         "PUT",
         "/backup-jobs/$(jobId)/object/$(objectName)/put-object";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_object(
     jobId,
     objectName,
@@ -379,14 +364,13 @@ Start upload containing one or many chunks.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ThrowOnDuplicate"`: Throw an exception if Object name is already exist.
 """
-function start_object(jobId, objectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return backupstorage(
+start_object(jobId, objectName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    backupstorage(
         "PUT",
         "/backup-jobs/$(jobId)/object/$(objectName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_object(
     jobId,
     objectName,

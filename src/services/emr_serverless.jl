@@ -15,16 +15,13 @@ Cancels a job run.
 - `job_run_id`: The ID of the job run to cancel.
 
 """
-function cancel_job_run(
-    applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return emr_serverless(
+cancel_job_run(applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    emr_serverless(
         "DELETE",
         "/applications/$(applicationId)/jobruns/$(jobRunId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_job_run(
     applicationId,
     jobRunId,
@@ -49,7 +46,7 @@ Creates an application.
 # Arguments
 - `client_token`: The client idempotency token of the application to create. Its value must
   be unique for each request.
-- `release_label`: The EMR release associated with the application.
+- `release_label`: The Amazon EMR release associated with the application.
 - `type`: The type of application you want to start, such as Spark or Hive.
 
 # Optional Parameters
@@ -66,8 +63,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This is cumulative across all workers at any given point in time, not just when an
   application is created. No new resources will be created once any one of the defined limits
   is hit.
+- `"monitoringConfiguration"`: The configuration setting for monitoring.
 - `"name"`: The name of the application.
 - `"networkConfiguration"`: The network configuration for customer VPC connectivity.
+- `"runtimeConfiguration"`: The Configuration specifications to use when creating an
+  application. Each configuration consists of a classification and properties. This
+  configuration is applied to all the job runs submitted under the application.
 - `"tags"`: The tags assigned to the application.
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
   WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a
@@ -76,19 +77,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   details in this parameter for each worker type, or in imageConfiguration for all worker
   types.
 """
-function create_application(
+create_application(
     clientToken, releaseLabel, type; aws_config::AbstractAWSConfig=global_aws_config()
+) = emr_serverless(
+    "POST",
+    "/applications",
+    Dict{String,Any}(
+        "clientToken" => clientToken, "releaseLabel" => releaseLabel, "type" => type
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return emr_serverless(
-        "POST",
-        "/applications",
-        Dict{String,Any}(
-            "clientToken" => clientToken, "releaseLabel" => releaseLabel, "type" => type
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_application(
     clientToken,
     releaseLabel,
@@ -126,16 +125,13 @@ be deleted.
 - `application_id`: The ID of the application that will be deleted.
 
 """
-function delete_application(
-    applicationId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return emr_serverless(
+delete_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    emr_serverless(
         "DELETE",
         "/applications/$(applicationId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_application(
     applicationId,
     params::AbstractDict{String};
@@ -160,14 +156,13 @@ Displays detailed information about a specified application.
 - `application_id`: The ID of the application that will be described.
 
 """
-function get_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return emr_serverless(
+get_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    emr_serverless(
         "GET",
         "/applications/$(applicationId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_application(
     applicationId,
     params::AbstractDict{String};
@@ -186,24 +181,26 @@ end
     get_dashboard_for_job_run(application_id, job_run_id)
     get_dashboard_for_job_run(application_id, job_run_id, params::Dict{String,<:Any})
 
-Returns a URL to access the job run dashboard. The generated URL is valid for one hour,
-after which you must invoke the API again to generate a new URL.
+Creates and returns a URL that you can use to access the application UIs for a job run. For
+jobs in a running state, the application UI is a live user interface such as the Spark or
+Tez web UI. For completed jobs, the application UI is a persistent application user
+interface such as the Spark History Server or persistent Tez UI.  The URL is valid for one
+hour after you generate it. To access the application UI after that hour elapses, you must
+invoke the API again to generate a new URL.
 
 # Arguments
 - `application_id`: The ID of the application.
 - `job_run_id`: The ID of the job run.
 
 """
-function get_dashboard_for_job_run(
+get_dashboard_for_job_run(
     applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = emr_serverless(
+    "GET",
+    "/applications/$(applicationId)/jobruns/$(jobRunId)/dashboard";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return emr_serverless(
-        "GET",
-        "/applications/$(applicationId)/jobruns/$(jobRunId)/dashboard";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_dashboard_for_job_run(
     applicationId,
     jobRunId,
@@ -230,16 +227,13 @@ Displays detailed information about a job run.
 - `job_run_id`: The ID of the job run.
 
 """
-function get_job_run(
-    applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return emr_serverless(
+get_job_run(applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    emr_serverless(
         "GET",
         "/applications/$(applicationId)/jobruns/$(jobRunId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_job_run(
     applicationId,
     jobRunId,
@@ -268,11 +262,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: An optional filter for application states. Note that if this filter contains
   multiple states, the resulting list will be grouped by the state.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return emr_serverless(
-        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = emr_serverless(
+    "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -303,14 +295,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"states"`: An optional filter for job run states. Note that if this filter contains
   multiple states, the resulting list will be grouped by the state.
 """
-function list_job_runs(applicationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return emr_serverless(
+list_job_runs(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    emr_serverless(
         "GET",
         "/applications/$(applicationId)/jobruns";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_job_runs(
     applicationId,
     params::AbstractDict{String};
@@ -337,16 +328,13 @@ Lists the tags assigned to the resources.
   runs.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return emr_serverless(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    emr_serverless(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -371,14 +359,13 @@ Starts a specified application and initializes initial capacity if configured.
 - `application_id`: The ID of the application to start.
 
 """
-function start_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return emr_serverless(
+start_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    emr_serverless(
         "POST",
         "/applications/$(applicationId)/start";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_application(
     applicationId,
     params::AbstractDict{String};
@@ -414,22 +401,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The optional job run name. This doesn't have to be unique.
 - `"tags"`: The tags assigned to the job run.
 """
-function start_job_run(
+start_job_run(
     applicationId,
     clientToken,
     executionRoleArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = emr_serverless(
+    "POST",
+    "/applications/$(applicationId)/jobruns",
+    Dict{String,Any}("clientToken" => clientToken, "executionRoleArn" => executionRoleArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return emr_serverless(
-        "POST",
-        "/applications/$(applicationId)/jobruns",
-        Dict{String,Any}(
-            "clientToken" => clientToken, "executionRoleArn" => executionRoleArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_job_run(
     applicationId,
     clientToken,
@@ -465,14 +448,13 @@ and running jobs must be completed or cancelled before stopping an application.
 - `application_id`: The ID of the application to stop.
 
 """
-function stop_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config())
-    return emr_serverless(
+stop_application(applicationId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    emr_serverless(
         "POST",
         "/applications/$(applicationId)/stop";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_application(
     applicationId,
     params::AbstractDict{String};
@@ -504,15 +486,14 @@ identify a specific resource based on the tags you've assigned to it.
 - `tags`: The tags to add to the resource. A tag is an array of key-value pairs.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return emr_serverless(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    emr_serverless(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -541,17 +522,14 @@ Removes tags from resources.
 - `tag_keys`: The keys of the tags to be removed.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return emr_serverless(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    emr_serverless(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -593,7 +571,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maximumCapacity"`: The maximum capacity to allocate when the application is updated.
   This is cumulative across all workers at any given point in time during the lifespan of the
   application. No new resources will be created once any one of the defined limits is hit.
+- `"monitoringConfiguration"`: The configuration setting for monitoring.
 - `"networkConfiguration"`:
+- `"releaseLabel"`: The Amazon EMR release label for the application. You can change the
+  release label to use a different release of Amazon EMR.
+- `"runtimeConfiguration"`: The Configuration specifications to use when updating an
+  application. Each configuration consists of a classification and properties. This
+  configuration is applied across all the job runs submitted under the application.
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
   WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a
   Spark or Hive application. Valid worker types include Driver and Executor for Spark
@@ -601,17 +585,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   details in this parameter for each worker type, or in imageConfiguration for all worker
   types.
 """
-function update_application(
+update_application(
     applicationId, clientToken; aws_config::AbstractAWSConfig=global_aws_config()
+) = emr_serverless(
+    "PATCH",
+    "/applications/$(applicationId)",
+    Dict{String,Any}("clientToken" => clientToken);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return emr_serverless(
-        "PATCH",
-        "/applications/$(applicationId)",
-        Dict{String,Any}("clientToken" => clientToken);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_application(
     applicationId,
     clientToken,

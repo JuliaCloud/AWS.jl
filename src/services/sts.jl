@@ -143,6 +143,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that owns the role. You cannot use session policies to grant more permissions than those
   allowed by the identity-based policy of the role that is being assumed. For more
   information, see Session Policies in the IAM User Guide.
+- `"ProvidedContexts"`: A list of previously acquired trusted context assertions in the
+  format of a JSON array. The trusted context assertion is signed and encrypted by Amazon Web
+  Services STS. The following is an example of a ProvidedContext value that includes a single
+  trusted context assertion and the ARN of the context provider from which the trusted
+  context assertion was generated.
+  [{\"ProviderArn\":\"arn:aws:iam::aws:contextProvider/IdentityCenter\",\"ContextAssertion
+  \":\"trusted-context-assertion\"}]
 - `"SerialNumber"`: The identification number of the MFA device that is associated with the
   user who is making the AssumeRole call. Specify this value if the trust policy of the role
   being assumed includes a condition that requires MFA authentication. The value is either
@@ -196,16 +203,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   choose not to specify a transitive tag key, then no tags are passed from this session to
   any subsequent sessions.
 """
-function assume_role(
-    RoleArn, RoleSessionName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return sts(
+assume_role(RoleArn, RoleSessionName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sts(
         "AssumeRole",
         Dict{String,Any}("RoleArn" => RoleArn, "RoleSessionName" => RoleSessionName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function assume_role(
     RoleArn,
     RoleSessionName,
@@ -364,20 +368,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   allowed by the identity-based policy of the role that is being assumed. For more
   information, see Session Policies in the IAM User Guide.
 """
-function assume_role_with_saml(
+assume_role_with_saml(
     PrincipalArn, RoleArn, SAMLAssertion; aws_config::AbstractAWSConfig=global_aws_config()
+) = sts(
+    "AssumeRoleWithSAML",
+    Dict{String,Any}(
+        "PrincipalArn" => PrincipalArn,
+        "RoleArn" => RoleArn,
+        "SAMLAssertion" => SAMLAssertion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sts(
-        "AssumeRoleWithSAML",
-        Dict{String,Any}(
-            "PrincipalArn" => PrincipalArn,
-            "RoleArn" => RoleArn,
-            "SAMLAssertion" => SAMLAssertion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function assume_role_with_saml(
     PrincipalArn,
     RoleArn,
@@ -500,7 +502,8 @@ use web identity federation to get access to content in Amazon S3.
 - `web_identity_token`: The OAuth 2.0 access token or OpenID Connect ID token that is
   provided by the identity provider. Your application must get this token by authenticating
   the user who is using your application with a web identity provider before the application
-  makes an AssumeRoleWithWebIdentity call.
+  makes an AssumeRoleWithWebIdentity call. Only tokens with RSA algorithms (RS256) are
+  supported.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -556,23 +559,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for OAuth 2.0 access tokens. Do not include URL schemes and port numbers. Do not specify
   this value for OpenID Connect ID tokens.
 """
-function assume_role_with_web_identity(
+assume_role_with_web_identity(
     RoleArn,
     RoleSessionName,
     WebIdentityToken;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = sts(
+    "AssumeRoleWithWebIdentity",
+    Dict{String,Any}(
+        "RoleArn" => RoleArn,
+        "RoleSessionName" => RoleSessionName,
+        "WebIdentityToken" => WebIdentityToken,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sts(
-        "AssumeRoleWithWebIdentity",
-        Dict{String,Any}(
-            "RoleArn" => RoleArn,
-            "RoleSessionName" => RoleSessionName,
-            "WebIdentityToken" => WebIdentityToken,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function assume_role_with_web_identity(
     RoleArn,
     RoleSessionName,
@@ -624,16 +625,14 @@ condition keys in the context of the user's request.
 - `encoded_message`: The encoded message that was returned with the response.
 
 """
-function decode_authorization_message(
+decode_authorization_message(
     EncodedMessage; aws_config::AbstractAWSConfig=global_aws_config()
+) = sts(
+    "DecodeAuthorizationMessage",
+    Dict{String,Any}("EncodedMessage" => EncodedMessage);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return sts(
-        "DecodeAuthorizationMessage",
-        Dict{String,Any}("EncodedMessage" => EncodedMessage);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function decode_authorization_message(
     EncodedMessage,
     params::AbstractDict{String};
@@ -675,14 +674,12 @@ that the key doesn't exist.
   digit.
 
 """
-function get_access_key_info(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config())
-    return sts(
-        "GetAccessKeyInfo",
-        Dict{String,Any}("AccessKeyId" => AccessKeyId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_access_key_info(AccessKeyId; aws_config::AbstractAWSConfig=global_aws_config()) = sts(
+    "GetAccessKeyInfo",
+    Dict{String,Any}("AccessKeyId" => AccessKeyId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_access_key_info(
     AccessKeyId,
     params::AbstractDict{String};
@@ -711,9 +708,8 @@ response, see I Am Not Authorized to Perform: iam:DeleteVirtualMFADevice in the 
 Guide.
 
 """
-function get_caller_identity(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sts("GetCallerIdentity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_caller_identity(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sts("GetCallerIdentity"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_caller_identity(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -864,14 +860,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the department=engineering session tag. Department and department are not saved as separate
   tags, and the session tag passed in the request takes precedence over the role tag.
 """
-function get_federation_token(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return sts(
-        "GetFederationToken",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_federation_token(Name; aws_config::AbstractAWSConfig=global_aws_config()) = sts(
+    "GetFederationToken",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_federation_token(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -945,9 +939,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when requesting resources that require MFA authentication. The format for this parameter,
   as described by its regex pattern, is a sequence of six numeric digits.
 """
-function get_session_token(; aws_config::AbstractAWSConfig=global_aws_config())
-    return sts("GetSessionToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_session_token(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    sts("GetSessionToken"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_session_token(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
