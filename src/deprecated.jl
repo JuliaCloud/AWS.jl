@@ -112,7 +112,15 @@ function legacy_response(
 
     body_str = String(copy(body))
 
-    if occursin(r"/xml", mime)
+    if isempty(body_str)
+        return (
+            if return_headers
+                (nothing, response_dict_type(response.headers))
+            else
+                nothing
+            end
+        )
+    elseif occursin(r"/xml", mime)
         if return_headers
             Base.depwarn(
                 "The keyword `return_headers` is deprecated, " *
