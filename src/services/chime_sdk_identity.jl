@@ -1145,6 +1145,9 @@ Updates the name and metadata of an AppInstanceBot.
 - `name`: The name of the AppInstanceBot.
 - `app_instance_bot_arn`: The ARN of the AppInstanceBot.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Configuration"`: The configuration for the bot update.
 """
 function update_app_instance_bot(
     Metadata, Name, appInstanceBotArn; aws_config::AbstractAWSConfig=global_aws_config()

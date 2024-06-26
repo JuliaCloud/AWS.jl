@@ -20,7 +20,8 @@ connection.
     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google
   Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.
   public:maven-commonsware - for the CommonsWare Android repository.     public:maven-clojars
-  - for the Clojars repository.
+  - for the Clojars repository.     public:ruby-gems-org - for RubyGems.org.
+  public:crates-io - for Crates.io.
 - `repository`:  The name of the repository to which the external connection is added.
 
 # Optional Parameters
@@ -99,12 +100,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeFromUpstream"`:  Set to true to copy packages from repositories that are
   upstream from the source repository to the destination repository. The default setting is
   false. For more information, see Working with upstream repositories.
-- `"namespace"`: The namespace of the package versions to be copied. The package version
-  component that specifies its namespace depends on its type. For example:    The namespace
-  of a Maven package version is its groupId. The namespace is required when copying Maven
-  package versions.     The namespace of an npm package version is its scope.     Python and
-  NuGet package versions do not contain a corresponding component, package versions of those
-  formats do not have a namespace.     The namespace of a generic package is its namespace.
+- `"namespace"`: The namespace of the package versions to be copied. The package component
+  that specifies its namespace depends on its type. For example:  The namespace is required
+  when copying package versions of the following formats:   Maven   Swift   generic       The
+  namespace of a Maven package version is its groupId.     The namespace of an npm or Swift
+  package version is its scope.    The namespace of a generic package is its namespace.
+  Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component,
+  package versions of those formats do not have a namespace.
 - `"versionRevisions"`:  A list of key-value pairs. The keys are package versions and the
   values are package version revisions. A CopyPackageVersion operation succeeds if the
   specified versions in the source repository match the specified package version revision.
@@ -217,6 +219,58 @@ function create_domain(
 end
 
 """
+    create_package_group(domain, package_group)
+    create_package_group(domain, package_group, params::Dict{String,<:Any})
+
+ Creates a package group. For more information about creating package groups, including
+example CLI commands, see Create a package group in the CodeArtifact User Guide.
+
+# Arguments
+- `domain`:  The name of the domain in which you want to create a package group.
+- `package_group`: The pattern of the package group to create. The pattern is also the
+  identifier of the package group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"contactInfo"`:  The contact information for the created package group.
+- `"description"`:  A description of the package group.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"tags"`: One or more tag key-value pairs for the package group.
+"""
+function create_package_group(
+    domain, packageGroup; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "POST",
+        "/v1/package-group",
+        Dict{String,Any}("domain" => domain, "packageGroup" => packageGroup);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_package_group(
+    domain,
+    packageGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "POST",
+        "/v1/package-group",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domain" => domain, "packageGroup" => packageGroup),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_repository(domain, repository)
     create_repository(domain, repository, params::Dict{String,<:Any})
 
@@ -224,7 +278,7 @@ end
 
 # Arguments
 - `domain`:  The name of the domain that contains the created repository.
-- `repository`:  The name of the repository to create.
+- `repository`: The name of the repository to create.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -363,11 +417,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package to delete. The package component that
-  specifies its namespace depends on its type. For example:    The namespace of a Maven
-  package is its groupId. The namespace is required when deleting Maven package versions.
-  The namespace of an npm package is its scope.    Python and NuGet packages do not contain
-  corresponding components, packages of those formats do not have a namespace.     The
-  namespace of a generic package is its namespace.
+  specifies its namespace depends on its type. For example:  The namespace is required when
+  deleting packages of the following formats:   Maven   Swift   generic       The namespace
+  of a Maven package version is its groupId.     The namespace of an npm or Swift package
+  version is its scope.    The namespace of a generic package is its namespace.    Python,
+  NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package
+  versions of those formats do not have a namespace.
 """
 function delete_package(
     domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()
@@ -414,6 +469,57 @@ function delete_package(
 end
 
 """
+    delete_package_group(domain, package-group)
+    delete_package_group(domain, package-group, params::Dict{String,<:Any})
+
+Deletes a package group. Deleting a package group does not delete packages or package
+versions associated with the package group. When a package group is deleted, the direct
+child package groups will become children of the package group's direct parent package
+group. Therefore, if any of the child groups are inheriting any settings from the parent,
+those settings could change.
+
+# Arguments
+- `domain`:  The domain that contains the package group to be deleted.
+- `package-group`: The pattern of the package group to be deleted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+"""
+function delete_package_group(
+    domain, package_group; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "DELETE",
+        "/v1/package-group",
+        Dict{String,Any}("domain" => domain, "package-group" => package_group);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_package_group(
+    domain,
+    package_group,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "DELETE",
+        "/v1/package-group",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domain" => domain, "package-group" => package_group),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_package_versions(domain, format, package, repository, versions)
     delete_package_versions(domain, format, package, repository, versions, params::Dict{String,<:Any})
 
@@ -435,12 +541,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"expectedStatus"`:  The expected status of the package version to delete.
-- `"namespace"`: The namespace of the package versions to be deleted. The package version
-  component that specifies its namespace depends on its type. For example:    The namespace
-  of a Maven package version is its groupId. The namespace is required when deleting Maven
-  package versions.     The namespace of an npm package version is its scope.     Python and
-  NuGet package versions do not contain a corresponding component, package versions of those
-  formats do not have a namespace.     The namespace of a generic package is its namespace.
+- `"namespace"`: The namespace of the package versions to be deleted. The package component
+  that specifies its namespace depends on its type. For example:  The namespace is required
+  when deleting package versions of the following formats:   Maven   Swift   generic
+  The namespace of a Maven package version is its groupId.     The namespace of an npm or
+  Swift package version is its scope.    The namespace of a generic package is its namespace.
+     Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding
+  component, package versions of those formats do not have a namespace.
 """
 function delete_package_versions(
     domain,
@@ -650,11 +757,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the requested package. The package component that
-  specifies its namespace depends on its type. For example:    The namespace of a Maven
-  package is its groupId. The namespace is required when requesting Maven packages.     The
-  namespace of an npm package is its scope.     Python and NuGet packages do not contain a
-  corresponding component, packages of those formats do not have a namespace.     The
-  namespace of a generic package is its namespace.
+  specifies its namespace depends on its type. For example:  The namespace is required when
+  requesting packages of the following formats:   Maven   Swift   generic       The namespace
+  of a Maven package version is its groupId.     The namespace of an npm or Swift package
+  version is its scope.    The namespace of a generic package is its namespace.    Python,
+  NuGet, Ruby, and Cargo package versions do not contain a corresponding component, package
+  versions of those formats do not have a namespace.
 """
 function describe_package(
     domain, format, package, repository; aws_config::AbstractAWSConfig=global_aws_config()
@@ -701,6 +809,54 @@ function describe_package(
 end
 
 """
+    describe_package_group(domain, package-group)
+    describe_package_group(domain, package-group, params::Dict{String,<:Any})
+
+Returns a PackageGroupDescription object that contains information about the requested
+package group.
+
+# Arguments
+- `domain`:  The name of the domain that contains the package group.
+- `package-group`: The pattern of the requested package group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+"""
+function describe_package_group(
+    domain, package_group; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "GET",
+        "/v1/package-group",
+        Dict{String,Any}("domain" => domain, "package-group" => package_group);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_package_group(
+    domain,
+    package_group,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "GET",
+        "/v1/package-group",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domain" => domain, "package-group" => package_group),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_package_version(domain, format, package, repository, version)
     describe_package_version(domain, format, package, repository, version, params::Dict{String,<:Any})
 
@@ -719,12 +875,13 @@ package version.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
-- `"namespace"`: The namespace of the requested package version. The package version
-  component that specifies its namespace depends on its type. For example:    The namespace
-  of a Maven package version is its groupId.     The namespace of an npm package version is
-  its scope.     Python and NuGet package versions do not contain a corresponding component,
-  package versions of those formats do not have a namespace.     The namespace of a generic
-  package is its namespace.
+- `"namespace"`: The namespace of the requested package version. The package component that
+  specifies its namespace depends on its type. For example:  The namespace is required when
+  requesting package versions of the following formats:   Maven   Swift   generic       The
+  namespace of a Maven package version is its groupId.     The namespace of an npm or Swift
+  package version is its scope.    The namespace of a generic package is its namespace.
+  Python, NuGet, Ruby, and Cargo package versions do not contain a corresponding component,
+  package versions of those formats do not have a namespace.
 """
 function describe_package_version(
     domain,
@@ -912,12 +1069,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"expectedStatus"`:  The expected status of the package version to dispose.
-- `"namespace"`: The namespace of the package versions to be disposed. The package version
-  component that specifies its namespace depends on its type. For example:    The namespace
-  of a Maven package version is its groupId.     The namespace of an npm package version is
-  its scope.     Python and NuGet package versions do not contain a corresponding component,
-  package versions of those formats do not have a namespace.     The namespace of a generic
-  package is its namespace.
+- `"namespace"`: The namespace of the package versions to be disposed. The package
+  component that specifies its namespace depends on its type. For example:  The namespace is
+  required when disposing package versions of the following formats:   Maven   Swift
+  generic       The namespace of a Maven package version is its groupId.     The namespace of
+  an npm or Swift package version is its scope.    The namespace of a generic package is its
+  namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain a
+  corresponding component, package versions of those formats do not have a namespace.
 - `"versionRevisions"`:  The revisions of the package versions you want to dispose.
 """
 function dispose_package_versions(
@@ -963,6 +1121,72 @@ function dispose_package_versions(
                     "package" => package,
                     "repository" => repository,
                     "versions" => versions,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_associated_package_group(domain, format, package)
+    get_associated_package_group(domain, format, package, params::Dict{String,<:Any})
+
+Returns the most closely associated package group to the specified package. This API does
+not require that the package exist in any repository in the domain. As such,
+GetAssociatedPackageGroup can be used to see which package group's origin configuration
+applies to a package before that package is in a repository. This can be helpful to check
+if public packages are blocked without ingesting them. For information package group
+association and matching, see Package group definition syntax and matching behavior in the
+CodeArtifact User Guide.
+
+# Arguments
+- `domain`:  The name of the domain that contains the package from which to get the
+  associated package group.
+- `format`:  The format of the package from which to get the associated package group.
+- `package`:  The package from which to get the associated package group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"namespace"`: The namespace of the package from which to get the associated package
+  group. The package component that specifies its namespace depends on its type. For example:
+   The namespace is required when getting associated package groups from packages of the
+  following formats:   Maven   Swift   generic       The namespace of a Maven package version
+  is its groupId.     The namespace of an npm or Swift package version is its scope.    The
+  namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package
+  versions do not contain a corresponding component, package versions of those formats do not
+  have a namespace.
+"""
+function get_associated_package_group(
+    domain, format, package; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "GET",
+        "/v1/get-associated-package-group",
+        Dict{String,Any}("domain" => domain, "format" => format, "package" => package);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_associated_package_group(
+    domain,
+    format,
+    package,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "GET",
+        "/v1/get-associated-package-group",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "domain" => domain, "format" => format, "package" => package
                 ),
                 params,
             ),
@@ -1086,11 +1310,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package version with the requested asset file. The
-  package version component that specifies its namespace depends on its type. For example:
-  The namespace of a Maven package version is its groupId.     The namespace of an npm
-  package version is its scope.     Python and NuGet package versions do not contain a
-  corresponding component, package versions of those formats do not have a namespace.     The
-  namespace of a generic package is its namespace.
+  package component that specifies its namespace depends on its type. For example:  The
+  namespace is required when requesting assets from package versions of the following
+  formats:   Maven   Swift   generic       The namespace of a Maven package version is its
+  groupId.     The namespace of an npm or Swift package version is its scope.    The
+  namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package
+  versions do not contain a corresponding component, package versions of those formats do not
+  have a namespace.
 - `"revision"`:  The name of the package version revision that contains the requested
   asset.
 """
@@ -1172,10 +1398,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package version with the requested readme file. The
-  package version component that specifies its namespace depends on its type. For example:
-  The namespace of an npm package version is its scope.     Python and NuGet package versions
-  do not contain a corresponding component, package versions of those formats do not have a
-  namespace.
+  package component that specifies its namespace depends on its type. For example:  The
+  namespace is required when requesting the readme from package versions of the following
+  formats:   Maven   Swift   generic       The namespace of a Maven package version is its
+  groupId.     The namespace of an npm or Swift package version is its scope.    The
+  namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package
+  versions do not contain a corresponding component, package versions of those formats do not
+  have a namespace.
 """
 function get_package_version_readme(
     domain,
@@ -1234,7 +1463,8 @@ end
     get_repository_endpoint(domain, format, repository, params::Dict{String,<:Any})
 
  Returns the endpoint of a repository for a specific package format. A repository has one
-endpoint for each package format:     maven     npm     nuget     pypi
+endpoint for each package format:     cargo     generic     maven     npm     nuget
+pypi     ruby     swift
 
 # Arguments
 - `domain`:  The name of the domain that contains the repository.
@@ -1334,6 +1564,129 @@ function get_repository_permissions_policy(
 end
 
 """
+    list_allowed_repositories_for_group(domain, origin_restriction_type, package-group)
+    list_allowed_repositories_for_group(domain, origin_restriction_type, package-group, params::Dict{String,<:Any})
+
+Lists the repositories in the added repositories list of the specified restriction type for
+a package group. For more information about restriction types and added repository lists,
+see Package group origin controls in the CodeArtifact User Guide.
+
+# Arguments
+- `domain`:  The name of the domain that contains the package group from which to list
+  allowed repositories.
+- `origin_restriction_type`: The origin configuration restriction type of which to list
+  allowed repositories.
+- `package-group`: The pattern of the package group from which to list allowed repositories.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"max-results"`:  The maximum number of results to return per page.
+- `"next-token"`:  The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_allowed_repositories_for_group(
+    domain,
+    originRestrictionType,
+    package_group;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "GET",
+        "/v1/package-group-allowed-repositories",
+        Dict{String,Any}(
+            "domain" => domain,
+            "originRestrictionType" => originRestrictionType,
+            "package-group" => package_group,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_allowed_repositories_for_group(
+    domain,
+    originRestrictionType,
+    package_group,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "GET",
+        "/v1/package-group-allowed-repositories",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "domain" => domain,
+                    "originRestrictionType" => originRestrictionType,
+                    "package-group" => package_group,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_associated_packages(domain, package-group)
+    list_associated_packages(domain, package-group, params::Dict{String,<:Any})
+
+Returns a list of packages associated with the requested package group. For information
+package group association and matching, see Package group definition syntax and matching
+behavior in the CodeArtifact User Guide.
+
+# Arguments
+- `domain`:  The name of the domain that contains the package group from which to list
+  associated packages.
+- `package-group`:  The pattern of the package group from which to list associated
+  packages.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"max-results"`:  The maximum number of results to return per page.
+- `"next-token"`:  The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"preview"`:  When this flag is included, ListAssociatedPackages will return a list of
+  packages that would be associated with a package group, even if it does not exist.
+"""
+function list_associated_packages(
+    domain, package_group; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "GET",
+        "/v1/list-associated-packages",
+        Dict{String,Any}("domain" => domain, "package-group" => package_group);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_associated_packages(
+    domain,
+    package_group,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "GET",
+        "/v1/list-associated-packages",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domain" => domain, "package-group" => package_group),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_domains()
     list_domains(params::Dict{String,<:Any})
 
@@ -1365,6 +1718,46 @@ function list_domains(
 end
 
 """
+    list_package_groups(domain)
+    list_package_groups(domain, params::Dict{String,<:Any})
+
+Returns a list of package groups in the requested domain.
+
+# Arguments
+- `domain`:  The domain for which you want to list package groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"max-results"`:  The maximum number of results to return per page.
+- `"next-token"`:  The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"prefix"`:  A prefix for which to search package groups. When included,
+  ListPackageGroups will return only package groups with patterns that match the prefix.
+"""
+function list_package_groups(domain; aws_config::AbstractAWSConfig=global_aws_config())
+    return codeartifact(
+        "POST",
+        "/v1/package-groups",
+        Dict{String,Any}("domain" => domain);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_package_groups(
+    domain, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "POST",
+        "/v1/package-groups",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("domain" => domain), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_package_version_assets(domain, format, package, repository, version)
     list_package_version_assets(domain, format, package, repository, version, params::Dict{String,<:Any})
 
@@ -1385,11 +1778,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
 - `"namespace"`: The namespace of the package version that contains the requested package
-  version assets. The package version component that specifies its namespace depends on its
-  type. For example:    The namespace of a Maven package version is its groupId.     The
-  namespace of an npm package version is its scope.     Python and NuGet package versions do
-  not contain a corresponding component, package versions of those formats do not have a
-  namespace.     The namespace of a generic package is its namespace.
+  version assets. The package component that specifies its namespace depends on its type. For
+  example:  The namespace is required requesting assets from package versions of the
+  following formats:   Maven   Swift   generic       The namespace of a Maven package version
+  is its groupId.     The namespace of an npm or Swift package version is its scope.    The
+  namespace of a generic package is its namespace.    Python, NuGet, Ruby, and Cargo package
+  versions do not contain a corresponding component, package versions of those formats do not
+  have a namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -1468,11 +1863,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package version with the requested dependencies. The
-  package version component that specifies its namespace depends on its type. For example:
-  The namespace of a Maven package version is its groupId.     The namespace of an npm
-  package version is its scope.     Python and NuGet package versions do not contain a
-  corresponding component, package versions of those formats do not have a namespace.     The
-  namespace of a generic package is its namespace.
+  package component that specifies its namespace depends on its type. For example:  The
+  namespace is required when listing dependencies from package versions of the following
+  formats:   Maven       The namespace of a Maven package version is its groupId.     The
+  namespace of an npm package version is its scope.     Python and NuGet package versions do
+  not contain a corresponding component, package versions of those formats do not have a
+  namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
@@ -1549,11 +1945,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 - `"max-results"`:  The maximum number of results to return per page.
 - `"namespace"`: The namespace of the package that contains the requested package versions.
-  The package component that specifies its namespace depends on its type. For example:    The
-  namespace of a Maven package is its groupId.     The namespace of an npm package is its
-  scope.     Python and NuGet packages do not contain a corresponding component, packages of
-  those formats do not have a namespace.     The namespace of a generic package is its
-  namespace.
+  The package component that specifies its namespace depends on its type. For example:  The
+  namespace is required when deleting package versions of the following formats:   Maven
+  Swift   generic       The namespace of a Maven package version is its groupId.     The
+  namespace of an npm or Swift package version is its scope.    The namespace of a generic
+  package is its namespace.    Python, NuGet, Ruby, and Cargo package versions do not contain
+  a corresponding component, package versions of those formats do not have a namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 - `"originType"`: The originType used to filter package versions. Only package versions
@@ -1628,9 +2025,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a namespace that starts with the provided string value are returned. Note that although
   this option is called --namespace and not --namespace-prefix, it has prefix-matching
   behavior. Each package format uses namespace as follows:    The namespace of a Maven
-  package is its groupId.     The namespace of an npm package is its scope.     Python and
-  NuGet packages do not contain a corresponding component, packages of those formats do not
-  have a namespace.     The namespace of a generic package is its namespace.
+  package version is its groupId.     The namespace of an npm or Swift package version is its
+  scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and
+  Cargo package versions do not contain a corresponding component, package versions of those
+  formats do not have a namespace.
 - `"next-token"`:  The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 - `"package-prefix"`:  A prefix used to filter requested packages. Only packages with names
@@ -1753,6 +2151,59 @@ function list_repositories_in_domain(
 end
 
 """
+    list_sub_package_groups(domain, package-group)
+    list_sub_package_groups(domain, package-group, params::Dict{String,<:Any})
+
+Returns a list of direct children of the specified package group. For information package
+group hierarchy, see Package group definition syntax and matching behavior in the
+CodeArtifact User Guide.
+
+# Arguments
+- `domain`:  The name of the domain which contains the package group from which to list sub
+  package groups.
+- `package-group`:  The pattern of the package group from which to list sub package groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"max-results"`:  The maximum number of results to return per page.
+- `"next-token"`:  The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_sub_package_groups(
+    domain, package_group; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "POST",
+        "/v1/package-groups/sub-groups",
+        Dict{String,Any}("domain" => domain, "package-group" => package_group);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_sub_package_groups(
+    domain,
+    package_group,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "POST",
+        "/v1/package-groups/sub-groups",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domain" => domain, "package-group" => package_group),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -1810,7 +2261,7 @@ CodeArtifact User Guide.
 - `domain`: The name of the domain that contains the repository that contains the package
   version to publish.
 - `format`: A format that specifies the type of the package version with the requested
-  asset file.
+  asset file. The only supported value is generic.
 - `package`: The name of the package version to publish.
 - `repository`: The name of the repository that the package version will be published to.
 - `version`: The package version to publish (for example, 3.5.2).
@@ -1981,9 +2432,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owns the domain. It does not include dashes or spaces.
 - `"namespace"`: The namespace of the package to be updated. The package component that
   specifies its namespace depends on its type. For example:    The namespace of a Maven
-  package is its groupId.     The namespace of an npm package is its scope.     Python and
-  NuGet packages do not contain a corresponding component, packages of those formats do not
-  have a namespace.     The namespace of a generic package is its namespace.
+  package version is its groupId.     The namespace of an npm or Swift package version is its
+  scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and
+  Cargo package versions do not contain a corresponding component, package versions of those
+  formats do not have a namespace.
 """
 function put_package_origin_configuration(
     domain,
@@ -2190,6 +2642,118 @@ function untag_resource(
 end
 
 """
+    update_package_group(domain, package_group)
+    update_package_group(domain, package_group, params::Dict{String,<:Any})
+
+Updates a package group. This API cannot be used to update a package group's origin
+configuration or pattern. To update a package group's origin configuration, use
+UpdatePackageGroupOriginConfiguration.
+
+# Arguments
+- `domain`:  The name of the domain which contains the package group to be updated.
+- `package_group`:  The pattern of the package group to be updated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"contactInfo"`:  Contact information which you want to update the requested package
+  group with.
+- `"description"`:  The description you want to update the requested package group with.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+"""
+function update_package_group(
+    domain, packageGroup; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "PUT",
+        "/v1/package-group",
+        Dict{String,Any}("domain" => domain, "packageGroup" => packageGroup);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_package_group(
+    domain,
+    packageGroup,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "PUT",
+        "/v1/package-group",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domain" => domain, "packageGroup" => packageGroup),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_package_group_origin_configuration(domain, package-group)
+    update_package_group_origin_configuration(domain, package-group, params::Dict{String,<:Any})
+
+Updates the package origin configuration for a package group. The package origin
+configuration determines how new versions of a package can be added to a repository. You
+can allow or block direct publishing of new package versions, or ingestion and retaining of
+new package versions from an external connection or upstream source. For more information
+about package group origin controls and configuration, see Package group origin controls in
+the CodeArtifact User Guide.
+
+# Arguments
+- `domain`:  The name of the domain which contains the package group for which to update
+  the origin configuration.
+- `package-group`:  The pattern of the package group for which to update the origin
+  configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"addAllowedRepositories"`: The repository name and restrictions to add to the allowed
+  repository list of the specified package group.
+- `"domain-owner"`:  The 12-digit account number of the Amazon Web Services account that
+  owns the domain. It does not include dashes or spaces.
+- `"removeAllowedRepositories"`: The repository name and restrictions to remove from the
+  allowed repository list of the specified package group.
+- `"restrictions"`:  The origin configuration settings that determine how package versions
+  can enter repositories.
+"""
+function update_package_group_origin_configuration(
+    domain, package_group; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codeartifact(
+        "PUT",
+        "/v1/package-group-origin-configuration",
+        Dict{String,Any}("domain" => domain, "package-group" => package_group);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_package_group_origin_configuration(
+    domain,
+    package_group,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codeartifact(
+        "PUT",
+        "/v1/package-group-origin-configuration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domain" => domain, "package-group" => package_group),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_package_versions_status(domain, format, package, repository, target_status, versions)
     update_package_versions_status(domain, format, package, repository, target_status, versions, params::Dict{String,<:Any})
 
@@ -2216,12 +2780,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"expectedStatus"`:  The package version’s expected status before it is updated. If
   expectedStatus is provided, the package version's status is updated only if its status at
   the time UpdatePackageVersionsStatus is called matches expectedStatus.
-- `"namespace"`: The namespace of the package version to be updated. The package version
-  component that specifies its namespace depends on its type. For example:    The namespace
-  of a Maven package version is its groupId.     The namespace of an npm package version is
-  its scope.     Python and NuGet package versions do not contain a corresponding component,
-  package versions of those formats do not have a namespace.     The namespace of a generic
-  package is its namespace.
+- `"namespace"`: The namespace of the package version to be updated. The package component
+  that specifies its namespace depends on its type. For example:    The namespace of a Maven
+  package version is its groupId.     The namespace of an npm or Swift package version is its
+  scope.    The namespace of a generic package is its namespace.    Python, NuGet, Ruby, and
+  Cargo package versions do not contain a corresponding component, package versions of those
+  formats do not have a namespace.
 - `"versionRevisions"`:  A map of package versions and package version revisions. The map
   key is the package version (for example, 3.5.2), and the map value is the package version
   revision.

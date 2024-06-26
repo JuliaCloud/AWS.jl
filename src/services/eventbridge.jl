@@ -72,7 +72,8 @@ end
     create_api_destination(connection_arn, http_method, invocation_endpoint, name, params::Dict{String,<:Any})
 
 Creates an API destination, which is an HTTP invocation endpoint configured as a target for
-events.
+events. API destinations do not support private destinations, such as interface VPC
+endpoints. For more information, see API destinations in the EventBridge User Guide.
 
 # Arguments
 - `connection_arn`: The ARN of the connection to use for the API destination. The
@@ -141,7 +142,14 @@ Creates an archive of events with the specified settings. When you create an arc
 incoming events might not immediately start being sent to the archive. Allow a short period
 of time for changes to take effect. If you do not specify a pattern to filter events sent
 to the archive, all events are sent to the archive except replayed events. Replayed events
-are not sent to an archive.
+are not sent to an archive.  Archives and schema discovery are not supported for event
+buses encrypted using a customer managed key. EventBridge returns an error if:   You call
+CreateArchive  on an event bus set to use a customer managed key for encryption.   You call
+ CreateDiscoverer  on an event bus set to use a customer managed key for encryption.   You
+call  UpdatedEventBus  to set a customer managed key on an event bus with an archives or
+schema discovery enabled.   To enable archives or schema discovery on an event bus, choose
+to use an Amazon Web Services owned key. For more information, see Data encryption in
+EventBridge in the Amazon EventBridge User Guide.
 
 # Arguments
 - `archive_name`: The name for the archive to create.
@@ -327,8 +335,23 @@ event bus which can be matched to a partner event source.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeadLetterConfig"`:
+- `"Description"`: The event bus description.
 - `"EventSourceName"`: If you are creating a partner event bus, this specifies the partner
   event source that the new event bus will be matched with.
+- `"KmsKeyIdentifier"`: The identifier of the KMS customer managed key for EventBridge to
+  use, if you choose to use a customer managed key to encrypt events on this event bus. The
+  identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN.
+  If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
+  Services owned key to encrypt events on the event bus. For more information, see Managing
+  keys in the Key Management Service Developer Guide.   Archives and schema discovery are not
+  supported for event buses encrypted using a customer managed key. EventBridge returns an
+  error if:   You call  CreateArchive  on an event bus set to use a customer managed key for
+  encryption.   You call  CreateDiscoverer  on an event bus set to use a customer managed key
+  for encryption.   You call  UpdatedEventBus  to set a customer managed key on an event bus
+  with an archives or schema discovery enabled.   To enable archives or schema discovery on
+  an event bus, choose to use an Amazon Web Services owned key. For more information, see
+  Data encryption in EventBridge in the Amazon EventBridge User Guide.
 - `"Tags"`: Tags to associate with the event bus.
 """
 function create_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -363,13 +386,15 @@ based on resources within the SaaS partner's service or application. An Amazon W
 account that creates a partner event bus that matches the partner event source can use that
 event bus to receive events from the partner, and then process them using Amazon Web
 Services Events rules and targets. Partner event source names follow this format:
-partner_name/event_namespace/event_name    partner_name is determined during partner
-registration and identifies the partner to Amazon Web Services customers. event_namespace
-is determined by the partner and is a way for the partner to categorize their events.
-event_name is determined by the partner, and should uniquely identify an event-generating
-resource within the partner system. The combination of event_namespace and event_name
-should help Amazon Web Services customers decide whether to create an event bus to receive
-these events.
+partner_name/event_namespace/event_name      partner_name is determined during partner
+registration, and identifies the partner to Amazon Web Services customers.
+event_namespace is determined by the partner, and is a way for the partner to categorize
+their events.    event_name is determined by the partner, and should uniquely identify an
+event-generating resource within the partner system.  The event_name must be unique across
+all Amazon Web Services customers. This is because the event source is a shared resource
+between the partner and customer accounts, and each partner event source unique in the
+partner account.   The combination of event_namespace and event_name should help Amazon Web
+Services customers decide whether to create an event bus to receive these events.
 
 # Arguments
 - `account`: The Amazon Web Services account ID that is permitted to create a matching
@@ -568,7 +593,7 @@ end
 
 Delete an existing global endpoint. For more information about global endpoints, see Making
 applications Regional-fault tolerant with global endpoints and event replication in the
-Amazon EventBridge User Guide.
+Amazon EventBridge User Guide .
 
 # Arguments
 - `name`: The name of the endpoint you want to delete. For example,
@@ -809,7 +834,7 @@ end
 
 Get the information about an existing global endpoint. For more information about global
 endpoints, see Making applications Regional-fault tolerant with global endpoints and event
-replication in the Amazon EventBridge User Guide..
+replication in the  Amazon EventBridge User Guide .
 
 # Arguments
 - `name`: The name of the endpoint you want to get information about. For example,
@@ -1167,7 +1192,7 @@ end
 
 List the global endpoints associated with this account. For more information about global
 endpoints, see Making applications Regional-fault tolerant with global endpoints and event
-replication in the Amazon EventBridge User Guide..
+replication in the  Amazon EventBridge User Guide .
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1380,7 +1405,8 @@ end
     list_rule_names_by_target(target_arn, params::Dict{String,<:Any})
 
 Lists the rules for the specified target. You can see which of the rules in Amazon
-EventBridge can invoke a specific target in your account.
+EventBridge can invoke a specific target in your account. The maximum number of results per
+page for requests is 100.
 
 # Arguments
 - `target_arn`: The Amazon Resource Name (ARN) of the target resource.
@@ -1422,8 +1448,9 @@ end
     list_rules(params::Dict{String,<:Any})
 
 Lists your Amazon EventBridge rules. You can either list all the rules or you can provide a
-prefix to match to the rule names. ListRules does not list the targets of a rule. To see
-the targets associated with a rule, use ListTargetsByRule.
+prefix to match to the rule names. The maximum number of results per page for requests is
+100. ListRules does not list the targets of a rule. To see the targets associated with a
+rule, use ListTargetsByRule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1484,7 +1511,8 @@ end
     list_targets_by_rule(rule)
     list_targets_by_rule(rule, params::Dict{String,<:Any})
 
-Lists the targets assigned to the specified rule.
+Lists the targets assigned to the specified rule. The maximum number of results per page
+for requests is 100.
 
 # Arguments
 - `rule`: The name of the rule.
@@ -1519,8 +1547,13 @@ end
     put_events(entries)
     put_events(entries, params::Dict{String,<:Any})
 
-Sends custom events to Amazon EventBridge so that they can be matched to rules.  PutEvents
-will only process nested JSON up to 1100 levels deep.
+Sends custom events to Amazon EventBridge so that they can be matched to rules. The maximum
+size for a PutEvents event entry is 256 KB. Entry size is calculated including the event
+and any necessary characters and keys of the JSON representation of the event. To learn
+more, see Calculating PutEvents event entry size in the  Amazon EventBridge User Guide
+PutEvents accepts the data in JSON format. For the JSON number (integer) data type, the
+constraints are: a minimum value of -9,223,372,036,854,775,808 and a maximum value of
+9,223,372,036,854,775,807.  PutEvents will only process nested JSON up to 1100 levels deep.
 
 # Arguments
 - `entries`: The entry that defines an event in your system. You can specify several
@@ -1557,7 +1590,8 @@ end
     put_partner_events(entries, params::Dict{String,<:Any})
 
 This is used by SaaS partners to write events to a customer's partner event bus. Amazon Web
-Services customers do not use this operation.
+Services customers do not use this operation. For information on calculating event batch
+size, see Calculating EventBridge PutEvents event entry size in the EventBridge User Guide.
 
 # Arguments
 - `entries`: The list of events to write to the event bus.
@@ -1689,7 +1723,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus to associate with this rule. If you
   omit this, the default event bus is used.
 - `"EventPattern"`: The event pattern. For more information, see Amazon EventBridge event
-  patterns in the Amazon EventBridge User Guide.
+  patterns in the  Amazon EventBridge User Guide .
 - `"RoleArn"`: The Amazon Resource Name (ARN) of the IAM role associated with the rule. If
   you're setting an event bus in another account as the target and that account granted
   permission to your account through an organization instead of directly by the account ID,
@@ -1697,7 +1731,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in this parameter.
 - `"ScheduleExpression"`: The scheduling expression. For example, \"cron(0 20 * * ? *)\" or
   \"rate(5 minutes)\".
-- `"State"`: Indicates whether the rule is enabled or disabled.
+- `"State"`: The state of the rule. Valid values include:    DISABLED: The rule is
+  disabled. EventBridge does not match any events against the rule.    ENABLED: The rule is
+  enabled. EventBridge matches events against the rule, except for Amazon Web Services
+  management events delivered through CloudTrail.
+  ENABLED_WITH_ALL_CLOUDTRAIL_MANAGEMENT_EVENTS: The rule is enabled for all events,
+  including Amazon Web Services management events delivered through CloudTrail. Management
+  events provide visibility into management operations that are performed on resources in
+  your Amazon Web Services account. These are also known as control plane operations. For
+  more information, see Logging management events in the CloudTrail User Guide, and Filtering
+  management events from Amazon Web Services services in the  Amazon EventBridge User Guide .
+  This value is only valid for rules on the default event bus or custom event buses. It does
+  not apply to partner event buses.
 - `"Tags"`: The list of key-value pairs to associate with the rule.
 """
 function put_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1725,28 +1770,22 @@ end
 
 Adds the specified targets to the specified rule, or updates the targets if they are
 already associated with the rule. Targets are the resources that are invoked when a rule is
-triggered.  Each rule can have up to five (5) targets associated with it at one time.  You
-can configure the following as targets for Events:    API destination     API Gateway
-Batch job queue   CloudWatch group   CodeBuild project   CodePipeline   EC2 CreateSnapshot
-API call   EC2 Image Builder   EC2 RebootInstances API call   EC2 StopInstances API call
-EC2 TerminateInstances API call   ECS task    Event bus in a different account or Region
- Event bus in the same account and Region    Firehose delivery stream   Glue workflow
-Incident Manager response plan    Inspector assessment template   Kinesis stream   Lambda
-function   Redshift cluster   Redshift Serverless workgroup   SageMaker Pipeline   SNS
-topic   SQS queue   Step Functions state machine   Systems Manager Automation   Systems
-Manager OpsItem   Systems Manager Run Command   Creating rules with built-in targets is
-supported only in the Amazon Web Services Management Console. The built-in targets are EC2
-CreateSnapshot API call, EC2 RebootInstances API call, EC2 StopInstances API call, and EC2
-TerminateInstances API call.  For some target types, PutTargets provides target-specific
+triggered. The maximum number of entries per request is 10.  Each rule can have up to five
+(5) targets associated with it at one time.  For a list of services you can configure as
+targets for events, see EventBridge targets in the  Amazon EventBridge User Guide .
+Creating rules with built-in targets is supported only in the Amazon Web Services
+Management Console. The built-in targets are:    Amazon EBS CreateSnapshot API call
+Amazon EC2 RebootInstances API call     Amazon EC2 StopInstances API call     Amazon EC2
+TerminateInstances API call    For some target types, PutTargets provides target-specific
 parameters. If the target is a Kinesis data stream, you can optionally specify which shard
 the event goes to by using the KinesisParameters argument. To invoke a command on multiple
 EC2 instances with one rule, you can use the RunCommandParameters field. To be able to make
 API calls against the resources that you own, Amazon EventBridge needs the appropriate
-permissions. For Lambda and Amazon SNS resources, EventBridge relies on resource-based
-policies. For EC2 instances, Kinesis Data Streams, Step Functions state machines and API
+permissions:    For Lambda and Amazon SNS resources, EventBridge relies on resource-based
+policies.   For EC2 instances, Kinesis Data Streams, Step Functions state machines and API
 Gateway APIs, EventBridge relies on IAM roles that you specify in the RoleARN argument in
-PutTargets. For more information, see Authentication and Access Control in the Amazon
-EventBridge User Guide. If another Amazon Web Services account is in the same region and
+PutTargets.   For more information, see Authentication and Access Control in the  Amazon
+EventBridge User Guide . If another Amazon Web Services account is in the same region and
 has granted you permission (using PutPermission), you can send events to that account. Set
 that account's event bus as a target of the rules in your account. To send the matched
 events to the other account, specify that account's event bus as the Arn value when you run
@@ -1759,24 +1798,25 @@ event bus of another account as the target, and that account granted permission 
 account through an organization instead of directly by the account ID, then you must
 specify a RoleArn with proper permissions in the Target structure. For more information,
 see Sending and Receiving Events Between Amazon Web Services Accounts in the Amazon
-EventBridge User Guide. For more information about enabling cross-account events, see
-PutPermission.  Input, InputPath, and InputTransformer are mutually exclusive and optional
-parameters of a target. When a rule is triggered due to a matched event:   If none of the
-following arguments are specified for a target, then the entire event is passed to the
-target in JSON format (unless the target is Amazon EC2 Run Command or Amazon ECS task, in
-which case nothing from the event is passed to the target).   If Input is specified in the
-form of valid JSON, then the matched event is overridden with this constant.   If InputPath
-is specified in the form of JSONPath (for example, .detail), then only the part of the
-event specified in the path is passed to the target (for example, only the detail part of
-the event is passed).   If InputTransformer is specified, then one or more specified
-JSONPaths are extracted from the event and used as values in a template that you specify as
-the input to the target.   When you specify InputPath or InputTransformer, you must use
-JSON dot notation, not bracket notation. When you add targets to a rule and the associated
-rule triggers soon after, new or updated targets might not be immediately invoked. Allow a
-short period of time for changes to take effect. This action can partially fail if too many
-requests are made at the same time. If that happens, FailedEntryCount is non-zero in the
-response and each entry in FailedEntries provides the ID of the failed target and the error
-code.
+EventBridge User Guide.  If you have an IAM role on a cross-account event bus target, a
+PutTargets call without a role on the same target (same Id and Arn) will not remove the
+role.  For more information about enabling cross-account events, see PutPermission.  Input,
+InputPath, and InputTransformer are mutually exclusive and optional parameters of a target.
+When a rule is triggered due to a matched event:   If none of the following arguments are
+specified for a target, then the entire event is passed to the target in JSON format
+(unless the target is Amazon EC2 Run Command or Amazon ECS task, in which case nothing from
+the event is passed to the target).   If Input is specified in the form of valid JSON, then
+the matched event is overridden with this constant.   If InputPath is specified in the form
+of JSONPath (for example, .detail), then only the part of the event specified in the path
+is passed to the target (for example, only the detail part of the event is passed).   If
+InputTransformer is specified, then one or more specified JSONPaths are extracted from the
+event and used as values in a template that you specify as the input to the target.   When
+you specify InputPath or InputTransformer, you must use JSON dot notation, not bracket
+notation. When you add targets to a rule and the associated rule triggers soon after, new
+or updated targets might not be immediately invoked. Allow a short period of time for
+changes to take effect. This action can partially fail if too many requests are made at the
+same time. If that happens, FailedEntryCount is non-zero in the response and each entry in
+FailedEntries provides the ID of the failed target and the error code.
 
 # Arguments
 - `rule`: The name of the rule.
@@ -1854,7 +1894,8 @@ request are removed.  When you remove a target, when the associated rule trigger
 targets might continue to be invoked. Allow a short period of time for changes to take
 effect. This action can partially fail if too many requests are made at the same time. If
 that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries
-provides the ID of the failed target and the error code.
+provides the ID of the failed target and the error code. The maximum number of entries per
+request is 10.
 
 # Arguments
 - `ids`: The IDs of the targets to remove from the rule.
@@ -2033,7 +2074,7 @@ the event you want to match.
   follow the format specified in Amazon Web Services Events, and the following fields are
   mandatory:    id     account     source     time     region     resources     detail-type
 - `event_pattern`: The event pattern. For more information, see Events and Event Patterns
-  in the Amazon EventBridge User Guide.
+  in the  Amazon EventBridge User Guide .
 
 """
 function test_event_pattern(
@@ -2223,7 +2264,7 @@ end
 
 Update an existing endpoint. For more information about global endpoints, see Making
 applications Regional-fault tolerant with global endpoints and event replication in the
-Amazon EventBridge User Guide..
+Amazon EventBridge User Guide .
 
 # Arguments
 - `name`: The name of the endpoint you want to update.
@@ -2253,5 +2294,43 @@ function update_endpoint(
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_event_bus()
+    update_event_bus(params::Dict{String,<:Any})
+
+Updates the specified event bus.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeadLetterConfig"`:
+- `"Description"`: The event bus description.
+- `"KmsKeyIdentifier"`: The identifier of the KMS customer managed key for EventBridge to
+  use, if you choose to use a customer managed key to encrypt events on this event bus. The
+  identifier can be the key Amazon Resource Name (ARN), KeyId, key alias, or key alias ARN.
+  If you do not specify a customer managed key identifier, EventBridge uses an Amazon Web
+  Services owned key to encrypt events on the event bus. For more information, see Managing
+  keys in the Key Management Service Developer Guide.   Archives and schema discovery are not
+  supported for event buses encrypted using a customer managed key. EventBridge returns an
+  error if:   You call  CreateArchive  on an event bus set to use a customer managed key for
+  encryption.   You call  CreateDiscoverer  on an event bus set to use a customer managed key
+  for encryption.   You call  UpdatedEventBus  to set a customer managed key on an event bus
+  with an archives or schema discovery enabled.   To enable archives or schema discovery on
+  an event bus, choose to use an Amazon Web Services owned key. For more information, see
+  Data encryption in EventBridge in the Amazon EventBridge User Guide.
+- `"Name"`: The name of the event bus.
+"""
+function update_event_bus(; aws_config::AbstractAWSConfig=global_aws_config())
+    return eventbridge(
+        "UpdateEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function update_event_bus(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return eventbridge(
+        "UpdateEventBus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end

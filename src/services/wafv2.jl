@@ -15,16 +15,19 @@ Amazon Web Services Verified Access instance.  For Amazon CloudFront, don't use 
 Instead, use your CloudFront distribution configuration. To associate a web ACL, in the
 CloudFront call UpdateDistribution, set the web ACL ID to the Amazon Resource Name (ARN) of
 the web ACL. For information, see UpdateDistribution in the Amazon CloudFront Developer
-Guide.  When you make changes to web ACLs or web ACL components, like rules and rule
-groups, WAF propagates the changes everywhere that the web ACL and its components are
-stored and used. Your changes are applied within seconds, but there might be a brief period
-of inconsistency when the changes have arrived in some places and not in others. So, for
-example, if you change a rule action setting, the action might be the old action in one
-area and the new action in another area. Or if you add an IP address to an IP set used in a
-blocking rule, the new address might briefly be blocked in one area while still allowed in
-another. This temporary inconsistency can occur when you first associate a web ACL with an
-Amazon Web Services resource and when you change a web ACL that is already associated with
-a resource. Generally, any inconsistencies of this type last only a few seconds.
+Guide.   Required permissions for customer-managed IAM policies  This call requires
+permissions that are specific to the protected resource type. For details, see Permissions
+for AssociateWebACL in the WAF Developer Guide.   Temporary inconsistencies during updates
+When you create or change a web ACL or other WAF resources, the changes take a small amount
+of time to propagate to all areas where the resources are stored. The propagation time can
+be from a few seconds to a number of minutes.  The following are examples of the temporary
+inconsistencies that you might notice during change propagation:    After you create a web
+ACL, if you try to associate it with a resource, you might get an exception indicating that
+the web ACL is unavailable.    After you add a rule group to a web ACL, the new rule group
+rules might be in effect in one area where the web ACL is used and not in another.   After
+you change a rule action setting, you might see the old action in some places and the new
+action in others.    After you add an IP address to an IP set that is in use in a blocking
+rule, the new address might be blocked in one area while still allowed in another.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to associate with the web
@@ -142,7 +145,7 @@ you generate a key, you can copy it for use in your JavaScript integration.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 - `token_domains`: The client application domains that you want to use this API key for.
   Example JSON: \"TokenDomains\": [\"abc.com\", \"store.abc.com\"]  Public suffixes aren't
-  allowed. For example, you can't use usa.gov or co.uk as token domains.
+  allowed. For example, you can't use gov.au or co.uk as token domains.
 
 """
 function create_apikey(
@@ -186,15 +189,14 @@ lists those IP addresses.
 
 # Arguments
 - `addresses`: Contains an array of strings that specifies zero or more IP addresses or
-  blocks of IP addresses. All addresses must be specified using Classless Inter-Domain
-  Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example
-  address strings:    To configure WAF to allow, block, or count requests that originated
-  from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block,
-  or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify
-  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from
-  the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
-  1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count
-  requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+  blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses
+  must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all
+  IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    For requests that
+  originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   For requests that
+  originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For
+  requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111,
+  specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   For requests that originated from IP
+  addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
   1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
   1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see
   the Wikipedia entry Classless Inter-Domain Routing. Example JSON Addresses specifications:
@@ -369,9 +371,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on count and size for custom request and response settings, see WAF quotas in the WAF
   Developer Guide.
 - `"Description"`: A description of the rule group that helps with identification.
-- `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
-  block, or count. Each rule includes one top-level statement that WAF uses to identify
-  matching web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The Rule statements used to identify the web requests that you want to manage.
+  Each rule includes one top-level statement that WAF uses to identify matching web requests,
+  and parameters that govern how WAF handles them.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
 function create_rule_group(
@@ -425,14 +427,15 @@ end
     create_web_acl(default_action, name, scope, visibility_config, params::Dict{String,<:Any})
 
 Creates a WebACL per the specifications provided.  A web ACL defines a collection of rules
-to use to inspect and control web requests. Each rule has an action defined (allow, block,
-or count) for requests that match the statement of the rule. In the web ACL, you assign a
-default action to take (allow, block) for any request that does not match any of the rules.
-The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule
-group. You can associate a web ACL with one or more Amazon Web Services resources to
-protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST
-API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an
-App Runner service, or an Amazon Web Services Verified Access instance.
+to use to inspect and control web requests. Each rule has a statement that defines what to
+look for in web requests and an action that WAF applies to requests that match the
+statement. In the web ACL, you assign a default action to take (allow, block) for any
+request that does not match any of the rules. The rules in a web ACL can be a combination
+of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one
+or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront
+distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync
+GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services
+Verified Access instance.
 
 # Arguments
 - `default_action`: The action to perform if none of the Rules contained in the WebACL
@@ -453,10 +456,12 @@ App Runner service, or an Amazon Web Services Verified Access instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AssociationConfig"`: Specifies custom configurations for the associations between the
   web ACL and protected resources.  Use this to customize the maximum size of the request
-  body that your protected CloudFront distributions forward to WAF for inspection. The
-  default is 16 KB (16,384 kilobytes).   You are charged additional fees when your protected
-  resources forward body sizes that are larger than the default. For more information, see
-  WAF Pricing.
+  body that your protected resources forward to WAF for inspection. You can customize this
+  setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access
+  resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees
+  when your protected resources forward body sizes that are larger than the default. For more
+  information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is
+  fixed at 8 KB (8,192 bytes).
 - `"CaptchaConfig"`: Specifies how WAF should handle CAPTCHA evaluations for rules that
   don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its
   default settings for CaptchaConfig.
@@ -471,9 +476,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about the limits on count and size for custom request and response settings, see WAF quotas
   in the WAF Developer Guide.
 - `"Description"`: A description of the web ACL that helps with identification.
-- `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
-  block, or count. Each rule includes one top-level statement that WAF uses to identify
-  matching web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The Rule statements used to identify the web requests that you want to manage.
+  Each rule includes one top-level statement that WAF uses to identify matching web requests,
+  and parameters that govern how WAF handles them.
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 - `"TokenDomains"`: Specifies the domains that WAF should accept in a web request token.
   This enables the use of tokens across multiple protected websites. When WAF provides a
@@ -482,7 +487,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain of the protected resource. With a token domain list, WAF accepts the resource's host
   domain plus all domains in the token domain list, including their prefixed subdomains.
   Example JSON: \"TokenDomains\": { \"mywebsite.com\", \"myotherwebsite.com\" }  Public
-  suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
+  suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
 """
 function create_web_acl(
     DefaultAction,
@@ -523,6 +528,50 @@ function create_web_acl(
                     "VisibilityConfig" => VisibilityConfig,
                 ),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_apikey(apikey, scope)
+    delete_apikey(apikey, scope, params::Dict{String,<:Any})
+
+Deletes the specified API key.  After you delete a key, it can take up to 24 hours for WAF
+to disallow use of the key in all regions.
+
+# Arguments
+- `apikey`: The encrypted API key that you want to delete.
+- `scope`: Specifies whether this is for an Amazon CloudFront distribution or for a
+  regional application. A regional application can be an Application Load Balancer (ALB), an
+  Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App
+  Runner service, or an Amazon Web Services Verified Access instance.  To work with
+  CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI -
+  Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT
+  --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
+
+"""
+function delete_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=global_aws_config())
+    return wafv2(
+        "DeleteAPIKey",
+        Dict{String,Any}("APIKey" => APIKey, "Scope" => Scope);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_apikey(
+    APIKey,
+    Scope,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wafv2(
+        "DeleteAPIKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("APIKey" => APIKey, "Scope" => Scope), params
             ),
         );
         aws_config=aws_config,
@@ -653,6 +702,16 @@ Deletes the LoggingConfiguration from the specified web ACL.
 - `resource_arn`: The Amazon Resource Name (ARN) of the web ACL from which you want to
   delete the LoggingConfiguration.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LogScope"`: The owner of the logging configuration, which must be set to CUSTOMER for
+  the configurations that you manage.  The log scope SECURITY_LAKE indicates a configuration
+  that is managed through Amazon Security Lake. You can use Security Lake to collect log and
+  event data from various sources for normalization, analysis, and management. For
+  information, see Collecting data from Amazon Web Services services in the Amazon Security
+  Lake user guide.  Default: CUSTOMER
+- `"LogType"`: Used to distinguish between various logging options. Currently, there is one
+  option. Default: WAF_LOGS
 """
 function delete_logging_configuration(
     ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1068,7 +1127,9 @@ GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon We
 Verified Access instance.  For Amazon CloudFront, don't use this call. Instead, use your
 CloudFront distribution configuration. To disassociate a web ACL, provide an empty web ACL
 ID in the CloudFront call UpdateDistribution. For information, see UpdateDistribution in
-the Amazon CloudFront API Reference.
+the Amazon CloudFront API Reference.   Required permissions for customer-managed IAM
+policies  This call requires permissions that are specific to the protected resource type.
+For details, see Permissions for DisassociateWebACL in the WAF Developer Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to disassociate from the
@@ -1265,6 +1326,16 @@ Returns the LoggingConfiguration for the specified web ACL.
 - `resource_arn`: The Amazon Resource Name (ARN) of the web ACL for which you want to get
   the LoggingConfiguration.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LogScope"`: The owner of the logging configuration, which must be set to CUSTOMER for
+  the configurations that you manage.  The log scope SECURITY_LAKE indicates a configuration
+  that is managed through Amazon Security Lake. You can use Security Lake to collect log and
+  event data from various sources for normalization, analysis, and management. For
+  information, see Collecting data from Amazon Web Services services in the Amazon Security
+  Lake user guide.  Default: CUSTOMER
+- `"LogType"`: Used to distinguish between various logging options. Currently, there is one
+  option. Default: WAF_LOGS
 """
 function get_logging_configuration(
     ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1735,7 +1806,15 @@ end
     get_web_aclfor_resource(resource_arn)
     get_web_aclfor_resource(resource_arn, params::Dict{String,<:Any})
 
-Retrieves the WebACL for the specified resource.
+Retrieves the WebACL for the specified resource.  This call uses GetWebACL, to verify that
+your account has permission to access the retrieved web ACL. If you get an error that
+indicates that your account isn't authorized to perform wafv2:GetWebACL on the resource,
+that error won't be included in your CloudTrail event history.  For Amazon CloudFront,
+don't use this call. Instead, call the CloudFront action GetDistributionConfig. For
+information, see GetDistributionConfig in the Amazon CloudFront API Reference.   Required
+permissions for customer-managed IAM policies  This call requires permissions that are
+specific to the protected resource type. For details, see Permissions for
+GetWebACLForResource in the WAF Developer Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource whose web ACL you want to
@@ -1999,6 +2078,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of objects that you want WAF to return for this request. If
   more objects are available, in the response, WAF provides a NextMarker value that you can
   use in a subsequent call to get the next batch of objects.
+- `"LogScope"`: The owner of the logging configuration, which must be set to CUSTOMER for
+  the configurations that you manage.  The log scope SECURITY_LAKE indicates a configuration
+  that is managed through Amazon Security Lake. You can use Security Lake to collect log and
+  event data from various sources for normalization, analysis, and management. For
+  information, see Collecting data from Amazon Web Services services in the Amazon Security
+  Lake user guide.  Default: CUSTOMER
 - `"NextMarker"`: When you request a list of objects with a Limit setting, if the number of
   objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker
   value in the response. To retrieve the next batch of objects, provide the marker from the
@@ -2172,8 +2257,12 @@ end
     list_resources_for_web_acl(web_aclarn, params::Dict{String,<:Any})
 
 Retrieves an array of the Amazon Resource Names (ARNs) for the regional resources that are
-associated with the specified web ACL. If you want the list of Amazon CloudFront resources,
-use the CloudFront call ListDistributionsByWebACLId.
+associated with the specified web ACL.  For Amazon CloudFront, don't use this call.
+Instead, use the CloudFront call ListDistributionsByWebACLId. For information, see
+ListDistributionsByWebACLId in the Amazon CloudFront API Reference.   Required permissions
+for customer-managed IAM policies  This call requires permissions that are specific to the
+protected resource type. For details, see Permissions for ListResourcesForWebACL in the WAF
+Developer Guide.
 
 # Arguments
 - `web_aclarn`: The Amazon Resource Name (ARN) of the web ACL.
@@ -2639,29 +2728,29 @@ end
 Updates the specified IPSet.   This operation completely replaces the mutable
 specifications that you already have for the IP set with the ones that you provide to this
 call.  To modify an IP set, do the following:    Retrieve it by calling GetIPSet    Update
-its settings as needed   Provide the complete IP set specification to this call    When you
-make changes to web ACLs or web ACL components, like rules and rule groups, WAF propagates
-the changes everywhere that the web ACL and its components are stored and used. Your
-changes are applied within seconds, but there might be a brief period of inconsistency when
-the changes have arrived in some places and not in others. So, for example, if you change a
-rule action setting, the action might be the old action in one area and the new action in
-another area. Or if you add an IP address to an IP set used in a blocking rule, the new
-address might briefly be blocked in one area while still allowed in another. This temporary
-inconsistency can occur when you first associate a web ACL with an Amazon Web Services
-resource and when you change a web ACL that is already associated with a resource.
-Generally, any inconsistencies of this type last only a few seconds.
+its settings as needed   Provide the complete IP set specification to this call
+Temporary inconsistencies during updates  When you create or change a web ACL or other WAF
+resources, the changes take a small amount of time to propagate to all areas where the
+resources are stored. The propagation time can be from a few seconds to a number of
+minutes.  The following are examples of the temporary inconsistencies that you might notice
+during change propagation:    After you create a web ACL, if you try to associate it with a
+resource, you might get an exception indicating that the web ACL is unavailable.    After
+you add a rule group to a web ACL, the new rule group rules might be in effect in one area
+where the web ACL is used and not in another.   After you change a rule action setting, you
+might see the old action in some places and the new action in others.    After you add an
+IP address to an IP set that is in use in a blocking rule, the new address might be blocked
+in one area while still allowed in another.
 
 # Arguments
 - `addresses`: Contains an array of strings that specifies zero or more IP addresses or
-  blocks of IP addresses. All addresses must be specified using Classless Inter-Domain
-  Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example
-  address strings:    To configure WAF to allow, block, or count requests that originated
-  from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block,
-  or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify
-  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from
-  the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify
-  1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count
-  requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
+  blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses
+  must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all
+  IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    For requests that
+  originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   For requests that
+  originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For
+  requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111,
+  specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   For requests that originated from IP
+  addresses 1111:0000:0000:0000:0000:0000:0000:0000 to
   1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify
   1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see
   the Wikipedia entry Classless Inter-Domain Routing. Example JSON Addresses specifications:
@@ -2839,17 +2928,17 @@ Updates the specified RegexPatternSet.  This operation completely replaces the m
 specifications that you already have for the regex pattern set with the ones that you
 provide to this call.  To modify a regex pattern set, do the following:    Retrieve it by
 calling GetRegexPatternSet    Update its settings as needed   Provide the complete regex
-pattern set specification to this call    When you make changes to web ACLs or web ACL
-components, like rules and rule groups, WAF propagates the changes everywhere that the web
-ACL and its components are stored and used. Your changes are applied within seconds, but
-there might be a brief period of inconsistency when the changes have arrived in some places
-and not in others. So, for example, if you change a rule action setting, the action might
-be the old action in one area and the new action in another area. Or if you add an IP
-address to an IP set used in a blocking rule, the new address might briefly be blocked in
-one area while still allowed in another. This temporary inconsistency can occur when you
-first associate a web ACL with an Amazon Web Services resource and when you change a web
-ACL that is already associated with a resource. Generally, any inconsistencies of this type
-last only a few seconds.
+pattern set specification to this call     Temporary inconsistencies during updates  When
+you create or change a web ACL or other WAF resources, the changes take a small amount of
+time to propagate to all areas where the resources are stored. The propagation time can be
+from a few seconds to a number of minutes.  The following are examples of the temporary
+inconsistencies that you might notice during change propagation:    After you create a web
+ACL, if you try to associate it with a resource, you might get an exception indicating that
+the web ACL is unavailable.    After you add a rule group to a web ACL, the new rule group
+rules might be in effect in one area where the web ACL is used and not in another.   After
+you change a rule action setting, you might see the old action in some places and the new
+action in others.    After you add an IP address to an IP set that is in use in a blocking
+rule, the new address might be blocked in one area while still allowed in another.
 
 # Arguments
 - `id`: A unique identifier for the set. This ID is returned in the responses to create and
@@ -2933,20 +3022,21 @@ Updates the specified RuleGroup.  This operation completely replaces the mutable
 specifications that you already have for the rule group with the ones that you provide to
 this call.  To modify a rule group, do the following:    Retrieve it by calling
 GetRuleGroup    Update its settings as needed   Provide the complete rule group
-specification to this call    When you make changes to web ACLs or web ACL components, like
-rules and rule groups, WAF propagates the changes everywhere that the web ACL and its
-components are stored and used. Your changes are applied within seconds, but there might be
-a brief period of inconsistency when the changes have arrived in some places and not in
-others. So, for example, if you change a rule action setting, the action might be the old
-action in one area and the new action in another area. Or if you add an IP address to an IP
-set used in a blocking rule, the new address might briefly be blocked in one area while
-still allowed in another. This temporary inconsistency can occur when you first associate a
-web ACL with an Amazon Web Services resource and when you change a web ACL that is already
-associated with a resource. Generally, any inconsistencies of this type last only a few
-seconds.  A rule group defines a collection of rules to inspect and control web requests
-that you can use in a WebACL. When you create a rule group, you define an immutable
-capacity limit. If you update a rule group, you must stay within the capacity. This allows
-others to reuse the rule group with confidence in its capacity requirements.
+specification to this call     A rule group defines a collection of rules to inspect and
+control web requests that you can use in a WebACL. When you create a rule group, you define
+an immutable capacity limit. If you update a rule group, you must stay within the capacity.
+This allows others to reuse the rule group with confidence in its capacity requirements.
+Temporary inconsistencies during updates  When you create or change a web ACL or other WAF
+resources, the changes take a small amount of time to propagate to all areas where the
+resources are stored. The propagation time can be from a few seconds to a number of
+minutes.  The following are examples of the temporary inconsistencies that you might notice
+during change propagation:    After you create a web ACL, if you try to associate it with a
+resource, you might get an exception indicating that the web ACL is unavailable.    After
+you add a rule group to a web ACL, the new rule group rules might be in effect in one area
+where the web ACL is used and not in another.   After you change a rule action setting, you
+might see the old action in some places and the new action in others.    After you add an
+IP address to an IP set that is in use in a blocking rule, the new address might be blocked
+in one area while still allowed in another.
 
 # Arguments
 - `id`: A unique identifier for the rule group. This ID is returned in the responses to
@@ -2980,9 +3070,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on count and size for custom request and response settings, see WAF quotas in the WAF
   Developer Guide.
 - `"Description"`: A description of the rule group that helps with identification.
-- `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
-  block, or count. Each rule includes one top-level statement that WAF uses to identify
-  matching web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The Rule statements used to identify the web requests that you want to manage.
+  Each rule includes one top-level statement that WAF uses to identify matching web requests,
+  and parameters that govern how WAF handles them.
 """
 function update_rule_group(
     Id,
@@ -3043,25 +3133,26 @@ the resources that you have associated with the web ACL.   This operation comple
 replaces the mutable specifications that you already have for the web ACL with the ones
 that you provide to this call.  To modify a web ACL, do the following:    Retrieve it by
 calling GetWebACL    Update its settings as needed   Provide the complete web ACL
-specification to this call    When you make changes to web ACLs or web ACL components, like
-rules and rule groups, WAF propagates the changes everywhere that the web ACL and its
-components are stored and used. Your changes are applied within seconds, but there might be
-a brief period of inconsistency when the changes have arrived in some places and not in
-others. So, for example, if you change a rule action setting, the action might be the old
-action in one area and the new action in another area. Or if you add an IP address to an IP
-set used in a blocking rule, the new address might briefly be blocked in one area while
-still allowed in another. This temporary inconsistency can occur when you first associate a
-web ACL with an Amazon Web Services resource and when you change a web ACL that is already
-associated with a resource. Generally, any inconsistencies of this type last only a few
-seconds.  A web ACL defines a collection of rules to use to inspect and control web
-requests. Each rule has an action defined (allow, block, or count) for requests that match
-the statement of the rule. In the web ACL, you assign a default action to take (allow,
-block) for any request that does not match any of the rules. The rules in a web ACL can be
-a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web
-ACL with one or more Amazon Web Services resources to protect. The resources can be an
-Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load
-Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an
-Amazon Web Services Verified Access instance.
+specification to this call     A web ACL defines a collection of rules to use to inspect
+and control web requests. Each rule has a statement that defines what to look for in web
+requests and an action that WAF applies to requests that match the statement. In the web
+ACL, you assign a default action to take (allow, block) for any request that does not match
+any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup,
+and managed rule group. You can associate a web ACL with one or more Amazon Web Services
+resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API
+Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito
+user pool, an App Runner service, or an Amazon Web Services Verified Access instance.
+Temporary inconsistencies during updates  When you create or change a web ACL or other WAF
+resources, the changes take a small amount of time to propagate to all areas where the
+resources are stored. The propagation time can be from a few seconds to a number of
+minutes.  The following are examples of the temporary inconsistencies that you might notice
+during change propagation:    After you create a web ACL, if you try to associate it with a
+resource, you might get an exception indicating that the web ACL is unavailable.    After
+you add a rule group to a web ACL, the new rule group rules might be in effect in one area
+where the web ACL is used and not in another.   After you change a rule action setting, you
+might see the old action in some places and the new action in others.    After you add an
+IP address to an IP set that is in use in a blocking rule, the new address might be blocked
+in one area while still allowed in another.
 
 # Arguments
 - `default_action`: The action to perform if none of the Rules contained in the WebACL
@@ -3091,10 +3182,12 @@ Amazon Web Services Verified Access instance.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AssociationConfig"`: Specifies custom configurations for the associations between the
   web ACL and protected resources.  Use this to customize the maximum size of the request
-  body that your protected CloudFront distributions forward to WAF for inspection. The
-  default is 16 KB (16,384 kilobytes).   You are charged additional fees when your protected
-  resources forward body sizes that are larger than the default. For more information, see
-  WAF Pricing.
+  body that your protected resources forward to WAF for inspection. You can customize this
+  setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access
+  resources. The default setting is 16 KB (16,384 bytes).   You are charged additional fees
+  when your protected resources forward body sizes that are larger than the default. For more
+  information, see WAF Pricing.  For Application Load Balancer and AppSync, the limit is
+  fixed at 8 KB (8,192 bytes).
 - `"CaptchaConfig"`: Specifies how WAF should handle CAPTCHA evaluations for rules that
   don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its
   default settings for CaptchaConfig.
@@ -3109,9 +3202,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about the limits on count and size for custom request and response settings, see WAF quotas
   in the WAF Developer Guide.
 - `"Description"`: A description of the web ACL that helps with identification.
-- `"Rules"`: The Rule statements used to identify the web requests that you want to allow,
-  block, or count. Each rule includes one top-level statement that WAF uses to identify
-  matching web requests, and parameters that govern how WAF handles them.
+- `"Rules"`: The Rule statements used to identify the web requests that you want to manage.
+  Each rule includes one top-level statement that WAF uses to identify matching web requests,
+  and parameters that govern how WAF handles them.
 - `"TokenDomains"`: Specifies the domains that WAF should accept in a web request token.
   This enables the use of tokens across multiple protected websites. When WAF provides a
   token, it uses the domain of the Amazon Web Services resource that the web ACL is
@@ -3119,7 +3212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domain of the protected resource. With a token domain list, WAF accepts the resource's host
   domain plus all domains in the token domain list, including their prefixed subdomains.
   Example JSON: \"TokenDomains\": { \"mywebsite.com\", \"myotherwebsite.com\" }  Public
-  suffixes aren't allowed. For example, you can't use usa.gov or co.uk as token domains.
+  suffixes aren't allowed. For example, you can't use gov.au or co.uk as token domains.
 """
 function update_web_acl(
     DefaultAction,

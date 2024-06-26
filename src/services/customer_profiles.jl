@@ -140,8 +140,13 @@ attributes, object types, profile keys, and encryption keys. You can create mult
 domains, and each domain can have multiple third-party integrations. Each Amazon Connect
 instance can be associated with only one domain. Multiple Amazon Connect instances can be
 associated with one domain. Use this API or UpdateDomain to enable identity resolution: set
-Matching to true.  To prevent cross-service impersonation when you call this API, see
-Cross-service confused deputy prevention for sample policies that you should apply.
+Matching to true. To prevent cross-service impersonation when you call this API, see
+Cross-service confused deputy prevention for sample policies that you should apply.   It is
+not possible to associate a Customer Profiles domain with an Amazon Connect Instance
+directly from the API. If you would like to create a domain and associate a Customer
+Profiles domain, use the Amazon Connect admin website. For more information, see Enable
+Customer Profiles. Each Amazon Connect instance can be associated with only one domain.
+Multiple Amazon Connect instances can be associated with one domain.
 
 # Arguments
 - `default_expiration_days`: The default number of days until the data within the domain
@@ -164,6 +169,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Identity Resolution Job completes, use the GetMatches API to return and review the results.
   Or, if you have configured ExportingConfig in the MatchingRequest, you can download the
   results from S3.
+- `"RuleBasedMatching"`: The process of matching duplicate profiles using the Rule-Based
+  matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match
+  and merge your profiles according to your configuration in the RuleBasedMatchingRequest.
+  You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the
+  results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you
+  can download the results from S3.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_domain(
@@ -326,7 +337,7 @@ customer profile in a domain.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountNumber"`: A unique account number that you have given to the customer.
+- `"AccountNumber"`: An account number that you have given to the customer.
 - `"AdditionalInformation"`: Any additional information relevant to the customer’s
   profile.
 - `"Address"`: A generic address associated with the customer that is not mailing,
@@ -752,6 +763,43 @@ function delete_workflow(
 end
 
 """
+    detect_profile_object_type(domain_name, objects)
+    detect_profile_object_type(domain_name, objects, params::Dict{String,<:Any})
+
+The process of detecting profile object type mapping by using given objects.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `objects`: A string that is serialized from a JSON object.
+
+"""
+function detect_profile_object_type(
+    DomainName, Objects; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/detect/object-types",
+        Dict{String,Any}("Objects" => Objects);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function detect_profile_object_type(
+    DomainName,
+    Objects,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/detect/object-types",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Objects" => Objects), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_auto_merging_preview(conflict_resolution, consolidation, domain_name)
     get_auto_merging_preview(conflict_resolution, consolidation, domain_name, params::Dict{String,<:Any})
 
@@ -1156,6 +1204,69 @@ function get_profile_object_type_template(
         "GET",
         "/templates/$(TemplateId)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_similar_profiles(domain_name, match_type, search_key, search_value)
+    get_similar_profiles(domain_name, match_type, search_key, search_value, params::Dict{String,<:Any})
+
+Returns a set of profiles that belong to the same matching group using the matchId or
+profileId. You can also specify the type of matching that you want for finding similar
+profiles using either RULE_BASED_MATCHING or ML_BASED_MATCHING.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+- `match_type`: Specify the type of matching to get similar profiles for.
+- `search_key`: The string indicating the search key to be used.
+- `search_value`: The string based on SearchKey to be searched for similar profiles.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of objects returned per page.
+- `"next-token"`: The pagination token from the previous GetSimilarProfiles API call.
+"""
+function get_similar_profiles(
+    DomainName,
+    MatchType,
+    SearchKey,
+    SearchValue;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/matches",
+        Dict{String,Any}(
+            "MatchType" => MatchType, "SearchKey" => SearchKey, "SearchValue" => SearchValue
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_similar_profiles(
+    DomainName,
+    MatchType,
+    SearchKey,
+    SearchValue,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "POST",
+        "/domains/$(DomainName)/matches",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MatchType" => MatchType,
+                    "SearchKey" => SearchKey,
+                    "SearchValue" => SearchValue,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1611,6 +1722,44 @@ function list_profile_objects(
 end
 
 """
+    list_rule_based_matches(domain_name)
+    list_rule_based_matches(domain_name, params::Dict{String,<:Any})
+
+Returns a set of MatchIds that belong to the given domain.
+
+# Arguments
+- `domain_name`: The unique name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"max-results"`: The maximum number of MatchIds returned per page.
+- `"next-token"`: The pagination token from the previous ListRuleBasedMatches API call.
+"""
+function list_rule_based_matches(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profiles/ruleBasedMatches";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_rule_based_matches(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return customer_profiles(
+        "GET",
+        "/domains/$(DomainName)/profiles/ruleBasedMatches",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -1878,6 +2027,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExpirationDays"`: The number of days until the data in the object expires.
 - `"Fields"`: A map of the name and ObjectType field.
 - `"Keys"`: A list of unique keys that can be used to map data to the profile.
+- `"MaxProfileObjectCount"`: The amount of profile object max count assigned to the object
+  type
 - `"SourceLastUpdatedTimestampFormat"`: The format of your sourceLastUpdatedTimestamp that
   was previously set up.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
@@ -2121,7 +2272,7 @@ end
 
 Updates the properties of a domain, including creating or selecting a dead letter queue or
 an encryption key. After a domain is created, the name can’t be changed. Use this API or
-CreateDomain to enable identity resolution: set Matching to true.  To prevent cross-service
+CreateDomain to enable identity resolution: set Matching to true. To prevent cross-service
 impersonation when you call this API, see Cross-service confused deputy prevention for
 sample policies that you should apply.  To add or remove tags on an existing Domain, see
 TagResource/UntagResource.
@@ -2149,6 +2300,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Identity Resolution Job completes, use the GetMatches API to return and review the results.
   Or, if you have configured ExportingConfig in the MatchingRequest, you can download the
   results from S3.
+- `"RuleBasedMatching"`: The process of matching duplicate profiles using the rule-Based
+  matching. If RuleBasedMatching = true, Amazon Connect Customer Profiles will start to match
+  and merge your profiles according to your configuration in the RuleBasedMatchingRequest.
+  You can use the ListRuleBasedMatches and GetSimilarProfiles API to return and review the
+  results. Also, if you have configured ExportingConfig in the RuleBasedMatchingRequest, you
+  can download the results from S3.
 - `"Tags"`: The tags used to organize, track, or control access for this resource.
 """
 function update_domain(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2188,7 +2345,7 @@ already there will be kept.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AccountNumber"`: A unique account number that you have given to the customer.
+- `"AccountNumber"`: An account number that you have given to the customer.
 - `"AdditionalInformation"`: Any additional information relevant to the customer’s
   profile.
 - `"Address"`: A generic address associated with the customer that is not mailing,

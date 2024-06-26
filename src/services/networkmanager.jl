@@ -330,8 +330,8 @@ function create_connect_attachment(
 end
 
 """
-    create_connect_peer(connect_attachment_id, inside_cidr_blocks, peer_address)
-    create_connect_peer(connect_attachment_id, inside_cidr_blocks, peer_address, params::Dict{String,<:Any})
+    create_connect_peer(connect_attachment_id, peer_address)
+    create_connect_peer(connect_attachment_id, peer_address, params::Dict{String,<:Any})
 
 Creates a core network Connect peer for a specified core network connect attachment between
 a core network and an appliance. The peer address and transit gateway address must be the
@@ -339,28 +339,28 @@ same IP address family (IPv4 or IPv6).
 
 # Arguments
 - `connect_attachment_id`: The ID of the connection attachment.
-- `inside_cidr_blocks`: The inside IP addresses used for BGP peering.
 - `peer_address`: The Connect peer address.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BgpOptions"`: The Connect peer BGP options.
+- `"BgpOptions"`: The Connect peer BGP options. This only applies only when the protocol is
+  GRE.
 - `"ClientToken"`: The client token associated with the request.
-- `"CoreNetworkAddress"`: A Connect peer core network address.
+- `"CoreNetworkAddress"`: A Connect peer core network address. This only applies only when
+  the protocol is GRE.
+- `"InsideCidrBlocks"`: The inside IP addresses used for BGP peering.
+- `"SubnetArn"`: The subnet ARN for the Connect peer. This only applies only when the
+  protocol is NO_ENCAP.
 - `"Tags"`: The tags associated with the peer request.
 """
 function create_connect_peer(
-    ConnectAttachmentId,
-    InsideCidrBlocks,
-    PeerAddress;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    ConnectAttachmentId, PeerAddress; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return networkmanager(
         "POST",
         "/connect-peers",
         Dict{String,Any}(
             "ConnectAttachmentId" => ConnectAttachmentId,
-            "InsideCidrBlocks" => InsideCidrBlocks,
             "PeerAddress" => PeerAddress,
             "ClientToken" => string(uuid4()),
         );
@@ -370,7 +370,6 @@ function create_connect_peer(
 end
 function create_connect_peer(
     ConnectAttachmentId,
-    InsideCidrBlocks,
     PeerAddress,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -383,7 +382,6 @@ function create_connect_peer(
                 _merge,
                 Dict{String,Any}(
                     "ConnectAttachmentId" => ConnectAttachmentId,
-                    "InsideCidrBlocks" => InsideCidrBlocks,
                     "PeerAddress" => PeerAddress,
                     "ClientToken" => string(uuid4()),
                 ),
@@ -2025,10 +2023,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"resourceType"`: The resource type. The following are the supported resource types for
   Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported
-  resource types for Network Manager:    connection     device     link     site    The
-  following are the supported resource types for Amazon VPC:    customer-gateway
-  transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer
-  transit-gateway-route-table     vpn-connection
+  resource types for Network Manager:    attachment     connect-peer     connection
+  core-network     device     link     peering     site    The following are the supported
+  resource types for Amazon VPC:    customer-gateway     transit-gateway
+  transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table
+      vpn-connection
 """
 function get_network_resource_counts(
     globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2074,10 +2073,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArn"`: The ARN of the gateway.
 - `"resourceType"`: The resource type. The following are the supported resource types for
   Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported
-  resource types for Network Manager:    connection     device     link     site    The
-  following are the supported resource types for Amazon VPC:    customer-gateway
-  transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer
-  transit-gateway-route-table     vpn-connection
+  resource types for Network Manager:    attachment     connect-peer     connection
+  core-network     device     link     peering     site    The following are the supported
+  resource types for Amazon VPC:    customer-gateway     transit-gateway
+  transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table
+      vpn-connection
 """
 function get_network_resource_relationships(
     globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2124,17 +2124,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"registeredGatewayArn"`: The ARN of the gateway.
 - `"resourceArn"`: The ARN of the resource.
 - `"resourceType"`: The resource type. The following are the supported resource types for
-  Direct Connect:    dxcon - The definition model is Connection.    dx-gateway - The
-  definition model is DirectConnectGateway.    dx-vif - The definition model is
-  VirtualInterface.   The following are the supported resource types for Network Manager:
-  connection - The definition model is Connection.    device - The definition model is
-  Device.    link - The definition model is Link.    site - The definition model is Site.
-  The following are the supported resource types for Amazon VPC:    customer-gateway - The
-  definition model is CustomerGateway.    transit-gateway - The definition model is
-  TransitGateway.    transit-gateway-attachment - The definition model is
-  TransitGatewayAttachment.    transit-gateway-connect-peer - The definition model is
-  TransitGatewayConnectPeer.    transit-gateway-route-table - The definition model is
-  TransitGatewayRouteTable.    vpn-connection - The definition model is VpnConnection.
+  Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported
+  resource types for Network Manager:    attachment     connect-peer     connection
+  core-network     device     link     peering     site    The following are the supported
+  resource types for Amazon VPC:    customer-gateway     transit-gateway
+  transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table
+      vpn-connection
 """
 function get_network_resources(
     globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2234,12 +2229,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"registeredGatewayArn"`: The ARN of the gateway.
 - `"resourceArn"`: The ARN of the resource.
-- `"resourceType"`: The resource type. The following are the supported resource types for
-  Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported
-  resource types for Network Manager:    connection     device     link     site    The
-  following are the supported resource types for Amazon VPC:    customer-gateway
-  transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer
-  transit-gateway-route-table     vpn-connection
+- `"resourceType"`: The resource type. The following are the supported resource types:
+  connect-peer     transit-gateway-connect-peer     vpn-connection
 """
 function get_network_telemetry(
     globalNetworkId; aws_config::AbstractAWSConfig=global_aws_config()

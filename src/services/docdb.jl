@@ -406,6 +406,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu,
   Fri, Sat, Sun Constraints: Minimum 30-minute window.
 - `"StorageEncrypted"`: Specifies whether the cluster is encrypted.
+- `"StorageType"`: The storage type to associate with the DB cluster. For information on
+  storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the
+  Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1
+  Default value is standard    When you create a DocumentDB DB cluster with the storage type
+  set to iopt1, the storage type is returned in the response. The storage type isn't returned
+  when you set it to standard.
 - `"Tags"`: The tags to be assigned to the cluster.
 - `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this
   cluster.
@@ -592,6 +598,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AvailabilityZone"`: The Amazon EC2 Availability Zone that the instance is created in.
   Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services
   Region. Example: us-east-1d
+- `"CACertificateIdentifier"`: The CA certificate identifier to use for the DB instance's
+  server certificate. For more information, see Updating Your Amazon DocumentDB TLS
+  Certificates and  Encrypting Data in Transit in the Amazon DocumentDB Developer Guide.
 - `"CopyTagsToSnapshot"`: A value that indicates whether to copy tags from the DB instance
   to snapshots of the DB instance. By default, tags are not copied.
 - `"EnablePerformanceInsights"`: A value that indicates whether to enable Performance
@@ -1947,6 +1956,10 @@ configuration parameters by specifying these parameters and the new values in th
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowMajorVersionUpgrade"`: A value that indicates whether major version upgrades are
+  allowed. Constraints: You must allow major version upgrades when specifying a value for the
+  EngineVersion parameter that is a different major version than the DB cluster's current
+  version.
 - `"ApplyImmediately"`: A value that specifies whether the changes in this request and any
   pending changes are asynchronously applied as soon as possible, regardless of the
   PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false,
@@ -1970,7 +1983,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DeletionProtection is disabled. DeletionProtection protects clusters from being
   accidentally deleted.
 - `"EngineVersion"`: The version number of the database engine to which you want to
-  upgrade. Modifying engine version is not supported on Amazon DocumentDB.
+  upgrade. Changing this parameter results in an outage. The change is applied during the
+  next maintenance window unless ApplyImmediately is enabled. To list all of the available
+  engine versions for Amazon DocumentDB use the following command:  aws docdb
+  describe-db-engine-versions --engine docdb --query \"DBEngineVersions[].EngineVersion\"
 - `"MasterUserPassword"`: The password for the master database user. This password can
   contain any printable ASCII character except forward slash (/), double quote (\"), or the
   \"at\" symbol (@). Constraints: Must contain from 8 to 100 characters.
@@ -1991,6 +2007,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a 30-minute window selected at random from an 8-hour block of time for each Amazon Web
   Services Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu,
   Fri, Sat, Sun Constraints: Minimum 30-minute window.
+- `"StorageType"`: The storage type to associate with the DB cluster. For information on
+  storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the
+  Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1
+  Default value is standard
 - `"VpcSecurityGroupIds"`: A list of virtual private cloud (VPC) security groups that the
   cluster will belong to.
 """
@@ -2183,6 +2203,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DocumentDB does not perform minor version upgrades regardless of the value set.
 - `"CACertificateIdentifier"`: Indicates the certificate that needs to be associated with
   the instance.
+- `"CertificateRotationRestart"`: Specifies whether the DB instance is restarted when you
+  rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate
+  your SSL/TLS certificate. The certificate is not updated until the DB instance is
+  restarted.  Set this parameter only if you are not using SSL/TLS to connect to the DB
+  instance.  If you are using SSL/TLS to connect to the DB instance, see Updating Your Amazon
+  DocumentDB TLS Certificates and  Encrypting Data in Transit in the Amazon DocumentDB
+  Developer Guide.
 - `"CopyTagsToSnapshot"`: A value that indicates whether to copy all tags from the DB
   instance to snapshots of the DB instance. By default, tags are not copied.
 - `"DBInstanceClass"`: The new compute and memory capacity of the instance; for example,
@@ -2701,6 +2728,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DB cluster is not encrypted.
 - `"Port"`: The port number on which the new cluster accepts connections. Constraints: Must
   be a value from 1150 to 65535. Default: The same port as the original cluster.
+- `"StorageType"`: The storage type to associate with the DB cluster. For information on
+  storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the
+  Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1
+  Default value is standard
 - `"Tags"`: The tags to be assigned to the restored cluster.
 - `"VpcSecurityGroupIds"`: A list of virtual private cloud (VPC) security groups that the
   new cluster will belong to.
@@ -2799,6 +2830,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source DB cluster.   Constraints: You can't specify copy-on-write if the engine version of
   the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then
   the new DB cluster is restored as a full copy of the source DB cluster.
+- `"StorageType"`: The storage type to associate with the DB cluster. For information on
+  storage types for Amazon DocumentDB clusters, see Cluster storage configurations in the
+  Amazon DocumentDB Developer Guide. Valid values for storage type - standard | iopt1
+  Default value is standard
 - `"Tags"`: The tags to be assigned to the restored cluster.
 - `"UseLatestRestorableTime"`: A value that is set to true to restore the cluster to the
   latest restorable backup time, and false otherwise.  Default: false  Constraints: Cannot be
@@ -2918,6 +2953,65 @@ function stop_dbcluster(
             mergewith(
                 _merge,
                 Dict{String,Any}("DBClusterIdentifier" => DBClusterIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    switchover_global_cluster(global_cluster_identifier, target_db_cluster_identifier)
+    switchover_global_cluster(global_cluster_identifier, target_db_cluster_identifier, params::Dict{String,<:Any})
+
+Switches over the specified secondary Amazon DocumentDB cluster to be the new primary
+Amazon DocumentDB cluster in the global database cluster.
+
+# Arguments
+- `global_cluster_identifier`: The identifier of the Amazon DocumentDB global database
+  cluster to switch over. The identifier is the unique key assigned by the user when the
+  cluster is created. In other words, it's the name of the global cluster. This parameter
+  isn’t case-sensitive. Constraints:   Must match the identifier of an existing global
+  cluster (Amazon DocumentDB global database).   Minimum length of 1. Maximum length of 255.
+   Pattern: [A-Za-z][0-9A-Za-z-:._]*
+- `target_db_cluster_identifier`: The identifier of the secondary Amazon DocumentDB cluster
+  to promote to the new primary for the global database cluster. Use the Amazon Resource Name
+  (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web
+  Services region. Constraints:   Must match the identifier of an existing secondary cluster.
+    Minimum length of 1. Maximum length of 255.   Pattern: [A-Za-z][0-9A-Za-z-:._]*
+
+"""
+function switchover_global_cluster(
+    GlobalClusterIdentifier,
+    TargetDbClusterIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return docdb(
+        "SwitchoverGlobalCluster",
+        Dict{String,Any}(
+            "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+            "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function switchover_global_cluster(
+    GlobalClusterIdentifier,
+    TargetDbClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return docdb(
+        "SwitchoverGlobalCluster",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "GlobalClusterIdentifier" => GlobalClusterIdentifier,
+                    "TargetDbClusterIdentifier" => TargetDbClusterIdentifier,
+                ),
                 params,
             ),
         );

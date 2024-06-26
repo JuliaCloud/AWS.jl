@@ -41,6 +41,55 @@ function accept_inbound_connection(
 end
 
 """
+    add_data_source(data_source_type, domain_name, name)
+    add_data_source(data_source_type, domain_name, name, params::Dict{String,<:Any})
+
+Creates a new direct-query data source to the specified domain. For more information, see
+Creating Amazon OpenSearch Service data source integrations with Amazon S3.
+
+# Arguments
+- `data_source_type`: The type of data source.
+- `domain_name`: The name of the domain to add the data source to.
+- `name`: A name for the data source.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the data source.
+"""
+function add_data_source(
+    DataSourceType, DomainName, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource",
+        Dict{String,Any}("DataSourceType" => DataSourceType, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function add_data_source(
+    DataSourceType,
+    DomainName,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataSourceType" => DataSourceType, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     add_tags(arn, tag_list)
     add_tags(arn, tag_list, params::Dict{String,<:Any})
 
@@ -157,6 +206,44 @@ function authorize_vpc_endpoint_access(
 end
 
 """
+    cancel_domain_config_change(domain_name)
+    cancel_domain_config_change(domain_name, params::Dict{String,<:Any})
+
+Cancels a pending configuration change on an Amazon OpenSearch Service domain.
+
+# Arguments
+- `domain_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: When set to True, returns the list of change IDs and properties that will be
+  cancelled without actually cancelling the change.
+"""
+function cancel_domain_config_change(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/config/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_domain_config_change(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/config/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_service_software_update(domain_name)
     cancel_service_software_update(domain_name, params::Dict{String,<:Any})
 
@@ -242,6 +329,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   engine version for the OpenSearch Service domain. For example, OpenSearch_1.0 or
   Elasticsearch_7.9. For more information, see Creating and managing Amazon OpenSearch
   Service domains.
+- `"IPAddressType"`: Specify either dual stack or IPv4 as your IP address type. Dual stack
+  allows you to share domain resources across IPv4 and IPv6 address types, and is the
+  recommended option. If you set your IP address type to dual stack, you can't change your
+  address type later.
 - `"LogPublishingOptions"`: Key-value pairs to configure log publishing.
 - `"NodeToNodeEncryptionOptions"`: Enables node-to-node encryption.
 - `"OffPeakWindowOptions"`: Specifies a daily 10-hour time block during which OpenSearch
@@ -445,6 +536,43 @@ function create_vpc_endpoint(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_data_source(data_source_name, domain_name)
+    delete_data_source(data_source_name, domain_name, params::Dict{String,<:Any})
+
+Deletes a direct-query data source. For more information, see Deleting an Amazon OpenSearch
+Service data source with Amazon S3.
+
+# Arguments
+- `data_source_name`: The name of the data source to delete.
+- `domain_name`: The name of the domain.
+
+"""
+function delete_data_source(
+    DataSourceName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_data_source(
+    DataSourceName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "DELETE",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -852,8 +980,7 @@ domains.
 
 # Arguments
 - `domain_names`: Array of OpenSearch Service domain names that you want information about.
-  If you don't specify any domains, OpenSearch Service returns information about all domains
-  owned by the account.
+  You must specify at least one domain name.
 
 """
 function describe_domains(DomainNames; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1263,6 +1390,81 @@ function get_compatible_versions(
 end
 
 """
+    get_data_source(data_source_name, domain_name)
+    get_data_source(data_source_name, domain_name, params::Dict{String,<:Any})
+
+Retrieves information about a direct query data source.
+
+# Arguments
+- `data_source_name`: The name of the data source to get information about.
+- `domain_name`: The name of the domain.
+
+"""
+function get_data_source(
+    DataSourceName, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_source(
+    DataSourceName,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_domain_maintenance_status(domain_name, maintenance_id)
+    get_domain_maintenance_status(domain_name, maintenance_id, params::Dict{String,<:Any})
+
+The status of the maintenance action.
+
+# Arguments
+- `domain_name`: The name of the domain.
+- `maintenance_id`: The request ID of the maintenance action.
+
+"""
+function get_domain_maintenance_status(
+    DomainName, maintenanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance",
+        Dict{String,Any}("maintenanceId" => maintenanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_domain_maintenance_status(
+    DomainName,
+    maintenanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("maintenanceId" => maintenanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_package_version_history(package_id)
     get_package_version_history(package_id, params::Dict{String,<:Any})
 
@@ -1372,6 +1574,82 @@ function get_upgrade_status(
     return opensearch(
         "GET",
         "/2021-01-01/opensearch/upgradeDomain/$(DomainName)/status",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_sources(domain_name)
+    list_data_sources(domain_name, params::Dict{String,<:Any})
+
+Lists direct-query data sources for a specific domain. For more information, see For more
+information, see Working with Amazon OpenSearch Service direct queries with Amazon S3.
+
+# Arguments
+- `domain_name`: The name of the domain.
+
+"""
+function list_data_sources(DomainName; aws_config::AbstractAWSConfig=global_aws_config())
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_data_sources(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_domain_maintenances(domain_name)
+    list_domain_maintenances(domain_name, params::Dict{String,<:Any})
+
+A list of maintenance actions for the domain.
+
+# Arguments
+- `domain_name`: The name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"action"`: The name of the action.
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to get the next page of results.
+- `"nextToken"`: If your initial ListDomainMaintenances operation returns a nextToken,
+  include the returned nextToken in subsequent ListDomainMaintenances operations, which
+  returns results in the next page.
+- `"status"`: The status of the action.
+"""
+function list_domain_maintenances(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenances";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_domain_maintenances(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "GET",
+        "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenances",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1926,6 +2204,47 @@ function revoke_vpc_endpoint_access(
 end
 
 """
+    start_domain_maintenance(action, domain_name)
+    start_domain_maintenance(action, domain_name, params::Dict{String,<:Any})
+
+Starts the node maintenance process on the data node. These processes can include a node
+reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana restart.
+
+# Arguments
+- `action`: The name of the action.
+- `domain_name`: The name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NodeId"`: The ID of the data node.
+"""
+function start_domain_maintenance(
+    Action, DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance",
+        Dict{String,Any}("Action" => Action);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_domain_maintenance(
+    Action,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "POST",
+        "/2021-01-01/opensearch/domain/$(DomainName)/domainMaintenance",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Action" => Action), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_service_software_update(domain_name)
     start_service_software_update(domain_name, params::Dict{String,<:Any})
 
@@ -1977,10 +2296,59 @@ function start_service_software_update(
 end
 
 """
+    update_data_source(data_source_name, data_source_type, domain_name)
+    update_data_source(data_source_name, data_source_type, domain_name, params::Dict{String,<:Any})
+
+Updates a direct-query data source. For more information, see Working with Amazon
+OpenSearch Service data source integrations with Amazon S3.
+
+# Arguments
+- `data_source_name`: The name of the data source to modify.
+- `data_source_type`: The type of data source.
+- `domain_name`: The name of the domain.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A new description of the data source.
+- `"Status"`: The status of the data source update.
+"""
+function update_data_source(
+    DataSourceName,
+    DataSourceType,
+    DomainName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        Dict{String,Any}("DataSourceType" => DataSourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_data_source(
+    DataSourceName,
+    DataSourceType,
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return opensearch(
+        "PUT",
+        "/2021-01-01/opensearch/domain/$(DomainName)/dataSource/$(DataSourceName)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DataSourceType" => DataSourceType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_domain_config(domain_name)
     update_domain_config(domain_name, params::Dict{String,<:Any})
 
-Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.sl
+Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.
 
 # Arguments
 - `domain_name`: The name of the domain that you're updating.
@@ -2018,6 +2386,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Validating a domain update.
 - `"EBSOptions"`: The type and size of the EBS volume to attach to instances in the domain.
 - `"EncryptionAtRestOptions"`: Encryption at rest options for the domain.
+- `"IPAddressType"`: Specify either dual stack or IPv4 as your IP address type. Dual stack
+  allows you to share domain resources across IPv4 and IPv6 address types, and is the
+  recommended option. If your IP address type is currently set to dual stack, you can't
+  change it.
 - `"LogPublishingOptions"`: Options to publish OpenSearch logs to Amazon CloudWatch Logs.
 - `"NodeToNodeEncryptionOptions"`: Node-to-node encryption options for the domain.
 - `"OffPeakWindowOptions"`: Off-peak window options for the domain.

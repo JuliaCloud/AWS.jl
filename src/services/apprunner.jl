@@ -79,12 +79,16 @@ responsiveness during peak demand.
 - `auto_scaling_configuration_name`: A name for the auto scaling configuration. When you
   use it for the first time in an Amazon Web Services Region, App Runner creates revision
   number 1 of this name. When you use the same name in subsequent calls, App Runner creates
-  incremental revisions of the configuration.  The name DefaultConfiguration is reserved
-  (it's the configuration that App Runner uses if you don't provide a custome one). You can't
-  use it to create a new auto scaling configuration, and you can't create a revision of it.
-  When you want to use your own auto scaling configuration for your App Runner service,
-  create a configuration with a different name, and then provide it when you create or update
-  your service.
+  incremental revisions of the configuration.  Prior to the release of Auto scale
+  configuration enhancements, the name DefaultConfiguration was reserved.  This restriction
+  is no longer in place. You can now manage DefaultConfiguration the same way you manage your
+  custom auto scaling configurations. This means you can do the following with the
+  DefaultConfiguration that App Runner provides:   Create new revisions of the
+  DefaultConfiguration.   Delete the revisions of the DefaultConfiguration.   Delete the auto
+  scaling configuration for which the App Runner DefaultConfiguration was created.   If you
+  delete the auto scaling configuration you can create another custom auto scaling
+  configuration with the same DefaultConfiguration name. The original DefaultConfiguration
+  resource provided by App Runner remains in your account unless you make changes to it.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -141,8 +145,8 @@ end
 Create an App Runner connection resource. App Runner requires a connection resource when
 you create App Runner services that access private repositories from certain third-party
 providers. You can share a connection across multiple services. A connection resource is
-needed to access GitHub repositories. GitHub requires a user interface approval process
-through the App Runner console before you can use the connection.
+needed to access GitHub and Bitbucket repositories. Both require a user interface approval
+process through the App Runner console before you can use the connection.
 
 # Arguments
 - `connection_name`: A name for the new connection. It must be unique across all App Runner
@@ -453,9 +457,10 @@ end
     delete_auto_scaling_configuration(auto_scaling_configuration_arn)
     delete_auto_scaling_configuration(auto_scaling_configuration_arn, params::Dict{String,<:Any})
 
-Delete an App Runner automatic scaling configuration resource. You can delete a specific
-revision or the latest active revision. You can't delete a configuration that's used by one
-or more App Runner services.
+Delete an App Runner automatic scaling configuration resource. You can delete a top level
+auto scaling configuration, a specific revision of one, or all revisions associated with
+the top level configuration. You can't delete the default auto scaling configuration or a
+configuration that's used by one or more App Runner services.
 
 # Arguments
 - `auto_scaling_configuration_arn`: The Amazon Resource Name (ARN) of the App Runner auto
@@ -463,6 +468,11 @@ or more App Runner services.
   configuration ARN, or a partial ARN ending with either .../name  or .../name/revision . If
   a revision isn't specified, the latest active revision is deleted.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeleteAllRevisions"`: Set to true to delete all of the revisions associated with the
+  AutoScalingConfigurationArn parameter value. When DeleteAllRevisions is set to true, the
+  only valid value for the Amazon Resource Name (ARN) is a partial ARN ending with: .../name.
 """
 function delete_auto_scaling_configuration(
     AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1183,6 +1193,59 @@ function list_services(
 end
 
 """
+    list_services_for_auto_scaling_configuration(auto_scaling_configuration_arn)
+    list_services_for_auto_scaling_configuration(auto_scaling_configuration_arn, params::Dict{String,<:Any})
+
+Returns a list of the associated App Runner services using an auto scaling configuration.
+
+# Arguments
+- `auto_scaling_configuration_arn`: The Amazon Resource Name (ARN) of the App Runner auto
+  scaling configuration that you want to list the services for. The ARN can be a full auto
+  scaling configuration ARN, or a partial ARN ending with either .../name  or
+  .../name/revision . If a revision isn't specified, the latest active revision is used.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to include in each response (result page).
+  It's used for a paginated request. If you don't specify MaxResults, the request retrieves
+  all available results in a single response.
+- `"NextToken"`: A token from a previous result page. It's used for a paginated request.
+  The request retrieves the next result page. All other parameter values must be identical to
+  the ones specified in the initial request. If you don't specify NextToken, the request
+  retrieves the first result page.
+"""
+function list_services_for_auto_scaling_configuration(
+    AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return apprunner(
+        "ListServicesForAutoScalingConfiguration",
+        Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_services_for_auto_scaling_configuration(
+    AutoScalingConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apprunner(
+        "ListServicesForAutoScalingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutoScalingConfigurationArn" => AutoScalingConfigurationArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -1471,6 +1534,52 @@ function untag_resource(
             mergewith(
                 _merge,
                 Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_default_auto_scaling_configuration(auto_scaling_configuration_arn)
+    update_default_auto_scaling_configuration(auto_scaling_configuration_arn, params::Dict{String,<:Any})
+
+Update an auto scaling configuration to be the default. The existing default auto scaling
+configuration will be set to non-default automatically.
+
+# Arguments
+- `auto_scaling_configuration_arn`: The Amazon Resource Name (ARN) of the App Runner auto
+  scaling configuration that you want to set as the default. The ARN can be a full auto
+  scaling configuration ARN, or a partial ARN ending with either .../name  or
+  .../name/revision . If a revision isn't specified, the latest active revision is set as the
+  default.
+
+"""
+function update_default_auto_scaling_configuration(
+    AutoScalingConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return apprunner(
+        "UpdateDefaultAutoScalingConfiguration",
+        Dict{String,Any}("AutoScalingConfigurationArn" => AutoScalingConfigurationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_default_auto_scaling_configuration(
+    AutoScalingConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return apprunner(
+        "UpdateDefaultAutoScalingConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AutoScalingConfigurationArn" => AutoScalingConfigurationArn
+                ),
                 params,
             ),
         );

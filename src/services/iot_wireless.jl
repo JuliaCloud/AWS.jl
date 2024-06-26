@@ -15,10 +15,13 @@ Associates a partner account with your AWS account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: Each resource must have a unique client request token. If you try
-  to create a new resource with the same token as a resource that already exists, an
-  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+- `"ClientRequestToken"`: Each resource must have a unique client request token. The client
+  token is used to implement idempotency. It ensures that the request completes no more than
+  one time. If you retry a request with the same token and the same parameters, the request
+  will complete successfully. However, if you try to create a new resource using the same
+  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+  SDKs will automatically generate a unique client request. For more information about
+  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
 - `"Tags"`: The tags to attach to the specified resource. Tags are metadata that you can
   use to manage a resource.
 """
@@ -343,10 +346,13 @@ Creates a new destination that maps a device message to an AWS IoT rule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: Each resource must have a unique client request token. If you try
-  to create a new resource with the same token as a resource that already exists, an
-  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+- `"ClientRequestToken"`: Each resource must have a unique client request token. The client
+  token is used to implement idempotency. It ensures that the request completes no more than
+  one time. If you retry a request with the same token and the same parameters, the request
+  will complete successfully. However, if you try to create a new resource using the same
+  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+  SDKs will automatically generate a unique client request. For more information about
+  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
 - `"Description"`: The description of the new resource.
 - `"Tags"`: The tags to attach to the new destination. Tags are metadata that you can use
   to manage a resource.
@@ -409,10 +415,13 @@ Creates a new device profile.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: Each resource must have a unique client request token. If you try
-  to create a new resource with the same token as a resource that already exists, an
-  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+- `"ClientRequestToken"`: Each resource must have a unique client request token. The client
+  token is used to implement idempotency. It ensures that the request completes no more than
+  one time. If you retry a request with the same token and the same parameters, the request
+  will complete successfully. However, if you try to create a new resource using the same
+  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+  SDKs will automatically generate a unique client request. For more information about
+  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
 - `"LoRaWAN"`: The device profile information to use to create the device profile.
 - `"Name"`: The name of the new resource.
 - `"Sidewalk"`: The Sidewalk-related information for creating the Sidewalk device profile.
@@ -518,10 +527,13 @@ Creates a multicast group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: Each resource must have a unique client request token. If you try
-  to create a new resource with the same token as a resource that already exists, an
-  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+- `"ClientRequestToken"`: Each resource must have a unique client request token. The client
+  token is used to implement idempotency. It ensures that the request completes no more than
+  one time. If you retry a request with the same token and the same parameters, the request
+  will complete successfully. However, if you try to create a new resource using the same
+  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+  SDKs will automatically generate a unique client request. For more information about
+  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
 - `"Description"`: The description of the multicast group.
 - `"Name"`:
 - `"Tags"`:
@@ -614,10 +626,13 @@ Creates a new service profile.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: Each resource must have a unique client request token. If you try
-  to create a new resource with the same token as a resource that already exists, an
-  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+- `"ClientRequestToken"`: Each resource must have a unique client request token. The client
+  token is used to implement idempotency. It ensures that the request completes no more than
+  one time. If you retry a request with the same token and the same parameters, the request
+  will complete successfully. However, if you try to create a new resource using the same
+  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+  SDKs will automatically generate a unique client request. For more information about
+  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
 - `"LoRaWAN"`: The service profile information to use to create the service profile.
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the new service profile. Tags are metadata that you can
@@ -660,10 +675,13 @@ Provisions a wireless device.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: Each resource must have a unique client request token. If you try
-  to create a new resource with the same token as a resource that already exists, an
-  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+- `"ClientRequestToken"`: Each resource must have a unique client request token. The client
+  token is used to implement idempotency. It ensures that the request completes no more than
+  one time. If you retry a request with the same token and the same parameters, the request
+  will complete successfully. However, if you try to create a new resource using the same
+  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+  SDKs will automatically generate a unique client request. For more information about
+  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
 - `"Description"`: The description of the new resource.
 - `"LoRaWAN"`: The device configuration information to use to create the wireless device.
 - `"Name"`: The name of the new resource.
@@ -717,17 +735,24 @@ end
     create_wireless_gateway(lo_ra_wan)
     create_wireless_gateway(lo_ra_wan, params::Dict{String,<:Any})
 
-Provisions a wireless gateway.
+Provisions a wireless gateway.  When provisioning a wireless gateway, you might run into
+duplication errors for the following reasons.   If you specify a GatewayEui value that
+already exists.   If you used a ClientRequestToken with the same parameters within the last
+10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters
+for each request within the specified time period.
 
 # Arguments
 - `lo_ra_wan`: The gateway configuration information to use to create the wireless gateway.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: Each resource must have a unique client request token. If you try
-  to create a new resource with the same token as a resource that already exists, an
-  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+- `"ClientRequestToken"`: Each resource must have a unique client request token. The client
+  token is used to implement idempotency. It ensures that the request completes no more than
+  one time. If you retry a request with the same token and the same parameters, the request
+  will complete successfully. However, if you try to create a new resource using the same
+  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+  SDKs will automatically generate a unique client request. For more information about
+  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
 - `"Description"`: The description of the new resource.
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the new wireless gateway. Tags are metadata that you can
@@ -822,10 +847,13 @@ Creates a gateway task definition.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: Each resource must have a unique client request token. If you try
-  to create a new resource with the same token as a resource that already exists, an
-  exception occurs. If you omit this value, AWS SDKs will automatically generate a unique
-  client request.
+- `"ClientRequestToken"`: Each resource must have a unique client request token. The client
+  token is used to implement idempotency. It ensures that the request completes no more than
+  one time. If you retry a request with the same token and the same parameters, the request
+  will complete successfully. However, if you try to create a new resource using the same
+  token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS
+  SDKs will automatically generate a unique client request. For more information about
+  idempotency, see Ensuring idempotency in Amazon EC2 API requests.
 - `"Name"`: The name of the new resource.
 - `"Tags"`: The tags to attach to the specified resource. Tags are metadata that you can
   use to manage a resource.
@@ -1161,7 +1189,11 @@ end
     delete_wireless_gateway(id)
     delete_wireless_gateway(id, params::Dict{String,<:Any})
 
-Deletes a wireless gateway.
+Deletes a wireless gateway.  When deleting a wireless gateway, you might run into
+duplication errors for the following reasons.   If you specify a GatewayEui value that
+already exists.   If you used a ClientRequestToken with the same parameters within the last
+10 minutes.   To avoid this error, make sure that you use unique identifiers and parameters
+for each request within the specified time period.
 
 # Arguments
 - `id`: The ID of the resource to delete.
@@ -1668,6 +1700,56 @@ function get_log_levels_by_resource_types(
 )
     return iot_wireless(
         "GET", "/log-levels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_metric_configuration()
+    get_metric_configuration(params::Dict{String,<:Any})
+
+Get the metric configuration status for this AWS account.
+
+"""
+function get_metric_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "GET",
+        "/metric-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_metric_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "GET",
+        "/metric-configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_metrics()
+    get_metrics(params::Dict{String,<:Any})
+
+Get the summary metrics for this AWS account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SummaryMetricQueries"`: The list of queries to retrieve the summary metrics.
+"""
+function get_metrics(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "POST", "/metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_metrics(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "POST", "/metrics", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -3771,6 +3853,36 @@ function update_log_levels_by_resource_types(
 end
 
 """
+    update_metric_configuration()
+    update_metric_configuration(params::Dict{String,<:Any})
+
+Update the summary metric configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"SummaryMetric"`: The value to be used to set summary metric configuration.
+"""
+function update_metric_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot_wireless(
+        "PUT",
+        "/metric-configuration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_metric_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot_wireless(
+        "PUT",
+        "/metric-configuration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_multicast_group(id)
     update_multicast_group(id, params::Dict{String,<:Any})
 
@@ -3820,8 +3932,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MulticastGroupsToAdd"`: Multicast group resources to add to the network analyzer
   configuration. Provide the MulticastGroupId of the resource to add in the input array.
 - `"MulticastGroupsToRemove"`: Multicast group resources to remove from the network
-  analyzer configuration. Provide the MulticastGroupId of the resource to remove in the input
-  array.
+  analyzer configuration. Provide the MulticastGroupId of the resources to remove in the
+  input array.
 - `"TraceContent"`:
 - `"WirelessDevicesToAdd"`: Wireless device resources to add to the network analyzer
   configuration. Provide the WirelessDeviceId of the resource to add in the input array.

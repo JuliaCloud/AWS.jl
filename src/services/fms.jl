@@ -255,12 +255,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cleanup does the following for each security group in the policy:   Disassociates the
   security group from in-scope resources    Deletes the security group if it was created
   through Firewall Manager and if it's no longer associated with any resources through
-  another policy   After the cleanup, in-scope resources are no longer protected by web ACLs
-  in this policy. Protection of out-of-scope resources remains unchanged. Scope is determined
-  by tags that you create and accounts that you associate with the policy. When creating the
-  policy, if you specify that only resources in specific accounts or with specific tags are
-  in scope of the policy, those accounts and resources are handled by the policy. All others
-  are out of scope. If you don't specify tags or accounts, all resources are in scope.
+  another policy    For security group common policies, even if set to False, Firewall
+  Manager deletes all security groups created by Firewall Manager that aren't associated with
+  any other resources through another policy.  After the cleanup, in-scope resources are no
+  longer protected by web ACLs in this policy. Protection of out-of-scope resources remains
+  unchanged. Scope is determined by tags that you create and accounts that you associate with
+  the policy. When creating the policy, if you specify that only resources in specific
+  accounts or with specific tags are in scope of the policy, those accounts and resources are
+  handled by the policy. All others are out of scope. If you don't specify tags or accounts,
+  all resources are in scope.
 """
 function delete_policy(PolicyId; aws_config::AbstractAWSConfig=global_aws_config())
     return fms(
@@ -440,11 +443,11 @@ end
     get_admin_scope(admin_account)
     get_admin_scope(admin_account, params::Dict{String,<:Any})
 
-Returns information about the specified account's administrative scope. The admistrative
+Returns information about the specified account's administrative scope. The administrative
 scope defines the resources that an Firewall Manager administrator can manage.
 
 # Arguments
-- `admin_account`: The administator account that you want to get the details for.
+- `admin_account`: The administrator account that you want to get the details for.
 
 """
 function get_admin_scope(AdminAccount; aws_config::AbstractAWSConfig=global_aws_config())
@@ -508,17 +511,8 @@ end
     get_compliance_detail(member_account, policy_id, params::Dict{String,<:Any})
 
 Returns detailed compliance information about the specified member account. Details include
-resources that are in and out of compliance with the specified policy.    Resources are
-considered noncompliant for WAF and Shield Advanced policies if the specified policy has
-not been applied to them.   Resources are considered noncompliant for security group
-policies if they are in scope of the policy, they violate one or more of the policy rules,
-and remediation is disabled or not possible.   Resources are considered noncompliant for
-Network Firewall policies if a firewall is missing in the VPC, if the firewall endpoint
-isn't set up in an expected Availability Zone and subnet, if a subnet created by the
-Firewall Manager doesn't have the expected route table, and for modifications to a firewall
-policy that violate the Firewall Manager policy's rules.   Resources are considered
-noncompliant for DNS Firewall policies if a DNS Firewall rule group is missing from the
-rule group associations for the VPC.
+resources that are in and out of compliance with the specified policy.  The reasons for
+resources being considered compliant depend on the Firewall Manager policy type.
 
 # Arguments
 - `member_account`: The Amazon Web Services account that owns the resources that you want
@@ -780,8 +774,10 @@ Amazon Web Services account.
 
 # Arguments
 - `member_account`: The Amazon Web Services account ID that you want the details for.
-- `policy_id`: The ID of the Firewall Manager policy that you want the details for. This
-  currently only supports security group content audit policies.
+- `policy_id`: The ID of the Firewall Manager policy that you want the details for. You can
+  get violation details for the following policy types:   DNS Firewall   Imported Network
+  Firewall   Network Firewall   Security group content audit   Network ACL   Third-party
+  firewall
 - `resource_id`: The ID of the resource that has violations.
 - `resource_type`: The resource type. This is in the format shown in the Amazon Web
   Services Resource Types Reference. Supported resource types are: AWS::EC2::Instance,
@@ -1467,19 +1463,31 @@ end
     put_policy(policy)
     put_policy(policy, params::Dict{String,<:Any})
 
-Creates an Firewall Manager policy. Firewall Manager provides the following types of
-policies:    An WAF policy (type WAFV2), which defines rule groups to run first in the
-corresponding WAF web ACL and rule groups to run last in the web ACL.   An WAF Classic
-policy (type WAF), which defines a rule group.    A Shield Advanced policy, which applies
-Shield Advanced protection to specified accounts and resources.   A security group policy,
-which manages VPC security groups across your Amazon Web Services organization.    An
-Network Firewall policy, which provides firewall rules to filter network traffic in
-specified Amazon VPCs.   A DNS Firewall policy, which provides Route 53 Resolver DNS
-Firewall rules to filter DNS queries for specified VPCs.   Each policy is specific to one
-of the types. If you want to enforce more than one policy type across accounts, create
-multiple policies. You can create multiple policies for each type. You must be subscribed
-to Shield Advanced to create a Shield Advanced policy. For more information about
-subscribing to Shield Advanced, see CreateSubscription.
+Creates an Firewall Manager policy. A Firewall Manager policy is specific to the individual
+policy type. If you want to enforce multiple policy types across accounts, you can create
+multiple policies. You can create more than one policy for each type.  If you add a new
+account to an organization that you created with Organizations, Firewall Manager
+automatically applies the policy to the resources in that account that are within scope of
+the policy.  Firewall Manager provides the following types of policies:     WAF policy -
+This policy applies WAF web ACL protections to specified accounts and resources.     Shield
+Advanced policy - This policy applies Shield Advanced protection to specified accounts and
+resources.     Security Groups policy - This type of policy gives you control over security
+groups that are in use throughout your organization in Organizations and lets you enforce a
+baseline set of rules across your organization.     Network ACL policy - This type of
+policy gives you control over the network ACLs that are in use throughout your organization
+in Organizations and lets you enforce a baseline set of first and last network ACL rules
+across your organization.     Network Firewall policy - This policy applies Network
+Firewall protection to your organization's VPCs.     DNS Firewall policy - This policy
+applies Amazon Route 53 Resolver DNS Firewall protections to your organization's VPCs.
+Third-party firewall policy - This policy applies third-party firewall protections.
+Third-party firewalls are available by subscription through the Amazon Web Services
+Marketplace console at Amazon Web Services Marketplace.    Palo Alto Networks Cloud NGFW
+policy - This policy applies Palo Alto Networks Cloud Next Generation Firewall (NGFW)
+protections and Palo Alto Networks Cloud NGFW rulestacks to your organization's VPCs.
+Fortigate CNF policy - This policy applies Fortigate Cloud Native Firewall (CNF)
+protections. Fortigate CNF is a cloud-centered solution that blocks Zero-Day threats and
+secures cloud infrastructures with industry-leading advanced threat prevention, smart web
+application firewalls (WAF), and API protection.
 
 # Arguments
 - `policy`: The details of the Firewall Manager policy to be created.

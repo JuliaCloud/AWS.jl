@@ -477,8 +477,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   than other jobs that don't use parallel data. For more information, see Amazon Translate
   pricing.  For a list of available parallel data resources, use the ListParallelData
   operation. For more information, see  Customizing your translations with parallel data.
-- `"Settings"`: Settings to configure your translation output, including the option to set
-  the formality level of the output text and the option to mask profane words and phrases.
+- `"Settings"`: Settings to configure your translation output. You can configure the
+  following options:   Brevity: not supported.   Formality: sets the formality level of the
+  output text.   Profanity: masks profane words and phrases in your translation output.
 - `"TerminologyNames"`: The name of a custom terminology resource to add to the translation
   job. This resource lists examples source terms and the desired translation for each term.
   This parameter accepts only one custom terminology resource. If you specify multiple target
@@ -623,26 +624,31 @@ end
     translate_document(document, source_language_code, target_language_code, params::Dict{String,<:Any})
 
 Translates the input document from the source language to the target language. This
-synchronous operation supports plain text or HTML for the input document. TranslateDocument
-supports translations from English to any supported language, and from any supported
-language to English. Therefore, specify either the source language code or the target
-language code as “en” (English).   TranslateDocument does not support language
-auto-detection.   If you set the Formality parameter, the request will fail if the target
-language does not support formality. For a list of target languages that support formality,
-see Setting formality.
+synchronous operation supports text, HTML, or Word documents as the input document.
+TranslateDocument supports translations from English to any supported language, and from
+any supported language to English. Therefore, specify either the source language code or
+the target language code as “en” (English).   If you set the Formality parameter, the
+request will fail if the target language does not support formality. For a list of target
+languages that support formality, see Setting formality.
 
 # Arguments
 - `document`: The content and content type for the document to be translated. The document
   size must not exceed 100 KB.
-- `source_language_code`: The language code for the language of the source text. Do not use
-  auto, because TranslateDocument does not support language auto-detection. For a list of
-  supported language codes, see Supported languages.
+- `source_language_code`: The language code for the language of the source text. For a list
+  of supported language codes, see Supported languages. To have Amazon Translate determine
+  the source language of your text, you can specify auto in the SourceLanguageCode field. If
+  you specify auto, Amazon Translate will call Amazon Comprehend to determine the source
+  language.  If you specify auto, you must send the TranslateDocument request in a region
+  that supports Amazon Comprehend. Otherwise, the request returns an error indicating that
+  autodetect is not supported.
 - `target_language_code`: The language code requested for the translated document. For a
   list of supported language codes, see Supported languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Settings"`:
+- `"Settings"`: Settings to configure your translation output. You can configure the
+  following options:   Brevity: not supported.   Formality: sets the formality level of the
+  output text.   Profanity: masks profane words and phrases in your translation output.
 - `"TerminologyNames"`: The name of a terminology list file to add to the translation job.
   This file provides source terms and the desired translation for each term. A terminology
   list can contain a maximum of 256 terms. You can use one custom terminology resource in
@@ -714,8 +720,10 @@ available languages and language codes, see Supported languages.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Settings"`: Settings to configure your translation output, including the option to set
-  the formality level of the output text and the option to mask profane words and phrases.
+- `"Settings"`: Settings to configure your translation output. You can configure the
+  following options:   Brevity: reduces the length of the translated output for most
+  translations.   Formality: sets the formality level of the output text.   Profanity: masks
+  profane words and phrases in your translation output.
 - `"TerminologyNames"`: The name of a terminology list file to add to the translation job.
   This file provides source terms and the desired translation for each term. A terminology
   list can contain a maximum of 256 terms. You can use one custom terminology resource in

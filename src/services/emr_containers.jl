@@ -181,6 +181,69 @@ function create_managed_endpoint(
 end
 
 """
+    create_security_configuration(client_token, name, security_configuration_data)
+    create_security_configuration(client_token, name, security_configuration_data, params::Dict{String,<:Any})
+
+Creates a security configuration. Security configurations in Amazon EMR on EKS are
+templates for different security setups. You can use security configurations to configure
+the Lake Formation integration setup. You can also create a security configuration to
+re-use a security setup each time you create a virtual cluster.
+
+# Arguments
+- `client_token`: The client idempotency token to use when creating the security
+  configuration.
+- `name`: The name of the security configuration.
+- `security_configuration_data`: Security configuration input for the request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: The tags to add to the security configuration.
+"""
+function create_security_configuration(
+    clientToken,
+    name,
+    securityConfigurationData;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr_containers(
+        "POST",
+        "/securityconfigurations",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "name" => name,
+            "securityConfigurationData" => securityConfigurationData,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_security_configuration(
+    clientToken,
+    name,
+    securityConfigurationData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr_containers(
+        "POST",
+        "/securityconfigurations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "name" => name,
+                    "securityConfigurationData" => securityConfigurationData,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_virtual_cluster(client_token, container_provider, name)
     create_virtual_cluster(client_token, container_provider, name, params::Dict{String,<:Any})
 
@@ -197,6 +260,7 @@ namespaces to meet your requirements.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"securityConfigurationId"`: The ID of the security configuration.
 - `"tags"`: The tags assigned to the virtual cluster.
 """
 function create_virtual_cluster(
@@ -463,6 +527,44 @@ function describe_managed_endpoint(
 end
 
 """
+    describe_security_configuration(security_configuration_id)
+    describe_security_configuration(security_configuration_id, params::Dict{String,<:Any})
+
+Displays detailed information about a specified security configuration. Security
+configurations in Amazon EMR on EKS are templates for different security setups. You can
+use security configurations to configure the Lake Formation integration setup. You can also
+create a security configuration to re-use a security setup each time you create a virtual
+cluster.
+
+# Arguments
+- `security_configuration_id`: The ID of the security configuration.
+
+"""
+function describe_security_configuration(
+    securityConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr_containers(
+        "GET",
+        "/securityconfigurations/$(securityConfigurationId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_security_configuration(
+    securityConfigurationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr_containers(
+        "GET",
+        "/securityconfigurations/$(securityConfigurationId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_virtual_cluster(virtual_cluster_id)
     describe_virtual_cluster(virtual_cluster_id, params::Dict{String,<:Any})
 
@@ -687,6 +789,42 @@ function list_managed_endpoints(
 end
 
 """
+    list_security_configurations()
+    list_security_configurations(params::Dict{String,<:Any})
+
+Lists security configurations based on a set of parameters. Security configurations in
+Amazon EMR on EKS are templates for different security setups. You can use security
+configurations to configure the Lake Formation integration setup. You can also create a
+security configuration to re-use a security setup each time you create a virtual cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"createdAfter"`: The date and time after which the security configuration was created.
+- `"createdBefore"`: The date and time before which the security configuration was created.
+- `"maxResults"`: The maximum number of security configurations the operation can list.
+- `"nextToken"`: The token for the next set of security configurations to return.
+"""
+function list_security_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return emr_containers(
+        "GET",
+        "/securityconfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_security_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr_containers(
+        "GET",
+        "/securityconfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -737,6 +875,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is the only supported type as of now.
 - `"createdAfter"`: The date and time after which the virtual clusters are created.
 - `"createdBefore"`: The date and time before which the virtual clusters are created.
+- `"eksAccessEntryIntegrated"`: Optional Boolean that specifies whether the operation
+  should return the virtual clusters that have the access entry integration enabled or
+  disabled. If not specified, the operation returns all applicable virtual clusters.
 - `"maxResults"`: The maximum number of virtual clusters that can be listed.
 - `"nextToken"`: The token for the next set of virtual clusters to return.
 - `"states"`: The states of the requested virtual clusters.

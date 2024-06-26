@@ -590,6 +590,39 @@ function describe_flow(
 end
 
 """
+    describe_flow_source_metadata(flow_arn)
+    describe_flow_source_metadata(flow_arn, params::Dict{String,<:Any})
+
+Displays details of the flow's source stream. The response contains information about the
+contents of the stream and its programs.
+
+# Arguments
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow.
+
+"""
+function describe_flow_source_metadata(
+    flowArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/flows/$(flowArn)/source-metadata";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_flow_source_metadata(
+    flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/flows/$(flowArn)/source-metadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_gateway(gateway_arn)
     describe_gateway(gateway_arn, params::Dict{String,<:Any})
 

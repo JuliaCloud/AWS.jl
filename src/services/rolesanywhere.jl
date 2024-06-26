@@ -19,7 +19,9 @@ You use profiles to intersect permissions with IAM managed policies.  Required p
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"durationSeconds"`:  The number of seconds the vended session credentials are valid for.
+- `"durationSeconds"`:  Used to determine how long sessions vended using this profile are
+  valid for. See the Expiration section of the CreateSession API documentation page for more
+  details. In requests, if this value is not provided, the default value will be 3600.
 - `"enabled"`: Specifies whether the profile is enabled.
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
@@ -101,6 +103,52 @@ function create_trust_anchor(
         "/trustanchors",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("name" => name, "source" => source), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_attribute_mapping(certificate_field, profile_id)
+    delete_attribute_mapping(certificate_field, profile_id, params::Dict{String,<:Any})
+
+Delete an entry from the attribute mapping rules enforced by a given profile.
+
+# Arguments
+- `certificate_field`: Fields (x509Subject, x509Issuer and x509SAN) within X.509
+  certificates.
+- `profile_id`: The unique identifier of the profile.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"specifiers"`: A list of specifiers of a certificate field; for example, CN, OU, UID
+  from a Subject.
+"""
+function delete_attribute_mapping(
+    certificateField, profileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return rolesanywhere(
+        "DELETE",
+        "/profiles/$(profileId)/mappings",
+        Dict{String,Any}("certificateField" => certificateField);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_attribute_mapping(
+    certificateField,
+    profileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rolesanywhere(
+        "DELETE",
+        "/profiles/$(profileId)/mappings",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("certificateField" => certificateField), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -531,9 +579,9 @@ end
     import_crl(crl_data, name, trust_anchor_arn, params::Dict{String,<:Any})
 
 Imports the certificate revocation list (CRL). A CRL is a list of certificates that have
-been revoked by the issuing certificate Authority (CA). IAM Roles Anywhere validates
-against the CRL before issuing credentials.   Required permissions:
-rolesanywhere:ImportCrl.
+been revoked by the issuing certificate Authority (CA).In order to be properly imported, a
+CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing
+credentials.   Required permissions:  rolesanywhere:ImportCrl.
 
 # Arguments
 - `crl_data`: The x509 v3 specified certificate revocation list (CRL).
@@ -728,6 +776,61 @@ function list_trust_anchors(
         "GET",
         "/trustanchors",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_attribute_mapping(certificate_field, mapping_rules, profile_id)
+    put_attribute_mapping(certificate_field, mapping_rules, profile_id, params::Dict{String,<:Any})
+
+Put an entry in the attribute mapping rules that will be enforced by a given profile. A
+mapping specifies a certificate field and one or more specifiers that have contextual
+meanings.
+
+# Arguments
+- `certificate_field`: Fields (x509Subject, x509Issuer and x509SAN) within X.509
+  certificates.
+- `mapping_rules`: A list of mapping entries for every supported specifier or sub-field.
+- `profile_id`: The unique identifier of the profile.
+
+"""
+function put_attribute_mapping(
+    certificateField,
+    mappingRules,
+    profileId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rolesanywhere(
+        "PUT",
+        "/profiles/$(profileId)/mappings",
+        Dict{String,Any}(
+            "certificateField" => certificateField, "mappingRules" => mappingRules
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_attribute_mapping(
+    certificateField,
+    mappingRules,
+    profileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return rolesanywhere(
+        "PUT",
+        "/profiles/$(profileId)/mappings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateField" => certificateField, "mappingRules" => mappingRules
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -968,7 +1071,9 @@ permissions:  rolesanywhere:UpdateProfile.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"durationSeconds"`:  The number of seconds the vended session credentials are valid for.
+- `"durationSeconds"`:  Used to determine how long sessions vended using this profile are
+  valid for. See the Expiration section of the CreateSession API documentation page for more
+  details. In requests, if this value is not provided, the default value will be 3600.
 - `"managedPolicyArns"`: A list of managed policy ARNs that apply to the vended session
   credentials.
 - `"name"`: The name of the profile.

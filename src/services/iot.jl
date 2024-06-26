@@ -138,7 +138,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
-  is in public preview.
+  is only supported by IoT Greengrass at this time. For more information, see Setting up IoT
+  Greengrass core devices.
 """
 function associate_targets_with_job(
     jobId, targets; aws_config::AbstractAWSConfig=global_aws_config()
@@ -828,11 +829,11 @@ end
 Creates an X.509 certificate using the specified certificate signing request.  Requires
 permission to access the CreateCertificateFromCsr action.   The CSR must include a public
 key that is either an RSA key with a length of at least 2048 bits or an ECC key from NIST
-P-256 or NIST P-384 curves. For supported certificates, consult  Certificate signing
-algorithms supported by IoT.    Reusing the same certificate signing request (CSR) results
-in a distinct certificate.  You can create multiple certificates in a batch by creating a
-directory, copying multiple .csr files into that directory, and then specifying that
-directory on the command line. The following commands show how to create a batch of
+P-256, NIST P-384, or NIST P-521 curves. For supported certificates, consult  Certificate
+signing algorithms supported by IoT.    Reusing the same certificate signing request (CSR)
+results in a distinct certificate.  You can create multiple certificates in a batch by
+creating a directory, copying multiple .csr files into that directory, and then specifying
+that directory on the command line. The following commands show how to create a batch of
 certificates given a batch of CSRs. In the following commands, we assume that a set of CSRs
 are located inside of the directory my-csr-directory: On Linux and OS X, the command is:
 ls my-csr-directory/ | xargs -I {} aws iot create-certificate-from-csr
@@ -879,6 +880,77 @@ function create_certificate_from_csr(
             mergewith(
                 _merge,
                 Dict{String,Any}("certificateSigningRequest" => certificateSigningRequest),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_certificate_provider(account_default_for_operations, certificate_provider_name, lambda_function_arn)
+    create_certificate_provider(account_default_for_operations, certificate_provider_name, lambda_function_arn, params::Dict{String,<:Any})
+
+Creates an Amazon Web Services IoT Core certificate provider. You can use Amazon Web
+Services IoT Core certificate provider to customize how to sign a certificate signing
+request (CSR) in IoT fleet provisioning. For more information, see Customizing certificate
+signing using Amazon Web Services IoT Core certificate provider from Amazon Web Services
+IoT Core Developer Guide. Requires permission to access the CreateCertificateProvider
+action.  After you create a certificate provider, the behavior of  CreateCertificateFromCsr
+API for fleet provisioning will change and all API calls to CreateCertificateFromCsr will
+invoke the certificate provider to create the certificates. It can take up to a few minutes
+for this behavior to change after a certificate provider is created.
+
+# Arguments
+- `account_default_for_operations`: A list of the operations that the certificate provider
+  will use to generate certificates. Valid value: CreateCertificateFromCsr.
+- `certificate_provider_name`: The name of the certificate provider.
+- `lambda_function_arn`: The ARN of the Lambda function that defines the authentication
+  logic.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A string that you can optionally pass in the CreateCertificateProvider
+  request to make sure the request is idempotent.
+- `"tags"`: Metadata which can be used to manage the certificate provider.
+"""
+function create_certificate_provider(
+    accountDefaultForOperations,
+    certificateProviderName,
+    lambdaFunctionArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "POST",
+        "/certificate-providers/$(certificateProviderName)",
+        Dict{String,Any}(
+            "accountDefaultForOperations" => accountDefaultForOperations,
+            "lambdaFunctionArn" => lambdaFunctionArn,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_certificate_provider(
+    accountDefaultForOperations,
+    certificateProviderName,
+    lambdaFunctionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "POST",
+        "/certificate-providers/$(certificateProviderName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "accountDefaultForOperations" => accountDefaultForOperations,
+                    "lambdaFunctionArn" => lambdaFunctionArn,
+                    "clientToken" => string(uuid4()),
+                ),
                 params,
             ),
         );
@@ -1042,6 +1114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serverCertificateArns"`: The ARNs of the certificates that IoT passes to the device
   during the TLS handshake. Currently you can specify only one certificate ARN. This value is
   not required for Amazon Web Services-managed domains.
+- `"serverCertificateConfig"`: The server certificate configuration.
 - `"serviceType"`: The type of service delivered by the endpoint.  Amazon Web Services IoT
   Core currently supports only the DATA service type.
 - `"tags"`: Metadata which can be used to manage the domain configuration.  For URI Request
@@ -1215,8 +1288,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"abortConfig"`: Allows you to create the criteria to abort a job.
 - `"description"`: A short text description of the job.
 - `"destinationPackageVersions"`: The package version Amazon Resource Names (ARNs) that are
-  installed on the device when the job successfully completes.   Note:The following Length
-  Constraints relates to a single string. Up to five strings are allowed.
+  installed on the device when the job successfully completes. The package version must be in
+  either the Published or Deprecated state when the job deploys. For more information, see
+  Package version lifecycle.   Note:The following Length Constraints relates to a single ARN.
+  Up to 25 package version ARNs are allowed.
 - `"document"`: The job document. Required if you don't specify a value for documentSource.
 - `"documentParameters"`: Parameters of an Amazon Web Services managed template that you
   can specify to create the job document.   documentParameters can only be used when creating
@@ -1234,7 +1309,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
-  is in public preview.
+  is only supported by IoT Greengrass at this time. For more information, see Setting up IoT
+  Greengrass core devices.
 - `"presignedUrlConfig"`: Configuration information for pre-signed S3 URLs.
 - `"schedulingConfig"`: The configuration that allows you to schedule a job for a future
   date and time in addition to specifying the end behavior for each job execution.
@@ -1291,14 +1367,16 @@ Creates a job template. Requires permission to access the CreateJobTemplate acti
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"abortConfig"`:
 - `"destinationPackageVersions"`: The package version Amazon Resource Names (ARNs) that are
-  installed on the device when the job successfully completes.   Note:The following Length
-  Constraints relates to a single string. Up to five strings are allowed.
+  installed on the device when the job successfully completes. The package version must be in
+  either the Published or Deprecated state when the job deploys. For more information, see
+  Package version lifecycle.  Note:The following Length Constraints relates to a single ARN.
+  Up to 25 package version ARNs are allowed.
 - `"document"`: The job document. Required if you don't specify a value for documentSource.
-- `"documentSource"`: An S3 link to the job document to use in the template. Required if
-  you don't specify a value for document.  If the job document resides in an S3 bucket, you
-  must use a placeholder link when specifying the document. The placeholder link is of the
-  following form:  {aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where
-  bucket is your bucket name and key is the object in the bucket to which you are linking.
+- `"documentSource"`: An S3 link, or S3 object URL, to the job document. The link is an
+  Amazon S3 object URL and is required if you don't specify a value for document. For
+  example, --document-source
+  https://s3.region-code.amazonaws.com/example-firmware/device-firmware.1.0  For more
+  information, see Methods for accessing a bucket.
 - `"jobArn"`: The ARN of the job to use as the basis for the job template.
 - `"jobExecutionsRetryConfig"`: Allows you to create the criteria to retry a job.
 - `"jobExecutionsRolloutConfig"`:
@@ -1439,8 +1517,8 @@ access the CreateOTAUpdate action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"additionalParameters"`: A list of additional OTA update parameters which are name-value
-  pairs.
+- `"additionalParameters"`: A list of additional OTA update parameters, which are
+  name-value pairs. They won't be sent to devices as a part of the Job document.
 - `"awsJobAbortConfig"`: The criteria that determine when and how a job abort takes place.
 - `"awsJobExecutionsRolloutConfig"`: Configuration for the rollout of OTA updates.
 - `"awsJobPresignedUrlConfig"`: Configuration information for pre-signed URLs.
@@ -1504,7 +1582,7 @@ Creates an IoT software package that can be deployed to your fleet. Requires per
 access the CreatePackage and GetIndexingConfiguration actions.
 
 # Arguments
-- `package_name`: The name of the new package.
+- `package_name`: The name of the new software package.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1548,7 +1626,7 @@ Creates a new version for an existing IoT software package. Requires permission 
 the CreatePackageVersion and GetIndexingConfiguration actions.
 
 # Arguments
-- `package_name`: The name of the associated package.
+- `package_name`: The name of the associated software package.
 - `version_name`: The name of the new package version.
 
 # Optional Parameters
@@ -1978,6 +2056,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   sent to the console.) Alerts are generated when a device (thing) violates a behavior.
 - `"behaviors"`: Specifies the behaviors that, when violated by a device (thing), cause an
   alert.
+- `"metricsExportConfig"`: Specifies the MQTT topic and role ARN required for metric export.
 - `"securityProfileDescription"`: A description of the security profile.
 - `"tags"`: Metadata that can be used to manage the security profile.
 """
@@ -2104,8 +2183,9 @@ end
     create_thing_group(thing_group_name, params::Dict{String,<:Any})
 
 Create a thing group.  This is a control plane operation. See Authorization for information
-about authorizing control plane actions.  Requires permission to access the
-CreateThingGroup action.
+about authorizing control plane actions. If the ThingGroup that you create has the exact
+same attributes as an existing ThingGroup, you will get a 200 success response.   Requires
+permission to access the CreateThingGroup action.
 
 # Arguments
 - `thing_group_name`: The thing group name to create.
@@ -2504,6 +2584,43 @@ function delete_certificate(
 end
 
 """
+    delete_certificate_provider(certificate_provider_name)
+    delete_certificate_provider(certificate_provider_name, params::Dict{String,<:Any})
+
+Deletes a certificate provider. Requires permission to access the DeleteCertificateProvider
+action.  If you delete the certificate provider resource, the behavior of
+CreateCertificateFromCsr will resume, and IoT will create certificates signed by IoT from a
+certificate signing request (CSR).
+
+# Arguments
+- `certificate_provider_name`: The name of the certificate provider.
+
+"""
+function delete_certificate_provider(
+    certificateProviderName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "DELETE",
+        "/certificate-providers/$(certificateProviderName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_certificate_provider(
+    certificateProviderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "DELETE",
+        "/certificate-providers/$(certificateProviderName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_custom_metric(metric_name)
     delete_custom_metric(metric_name, params::Dict{String,<:Any})
 
@@ -2708,7 +2825,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
-  is in public preview.
+  is only supported by IoT Greengrass at this time. For more information, see Setting up IoT
+  Greengrass core devices.
 """
 function delete_job(jobId; aws_config::AbstractAWSConfig=global_aws_config())
     return iot(
@@ -2753,7 +2871,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
-  is in public preview.
+  is only supported by IoT Greengrass at this time. For more information, see Setting up IoT
+  Greengrass core devices.
 """
 function delete_job_execution(
     executionNumber, jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2899,7 +3018,7 @@ deleted before deleting the software package. Requires permission to access the
 DeletePackageVersion action.
 
 # Arguments
-- `package_name`: The name of the target package.
+- `package_name`: The name of the target software package.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2937,11 +3056,11 @@ end
     delete_package_version(package_name, version_name, params::Dict{String,<:Any})
 
 Deletes a specific version from a software package.  Note: If a package version is
-designated as default, you must remove the designation from the package using the
+designated as default, you must remove the designation from the software package using the
 UpdatePackage action.
 
 # Arguments
-- `package_name`: The name of the associated package.
+- `package_name`: The name of the associated software package.
 - `version_name`: The name of the target package version.
 
 # Optional Parameters
@@ -3875,6 +3994,41 @@ function describe_certificate(
 end
 
 """
+    describe_certificate_provider(certificate_provider_name)
+    describe_certificate_provider(certificate_provider_name, params::Dict{String,<:Any})
+
+Describes a certificate provider. Requires permission to access the
+DescribeCertificateProvider action.
+
+# Arguments
+- `certificate_provider_name`: The name of the certificate provider.
+
+"""
+function describe_certificate_provider(
+    certificateProviderName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "GET",
+        "/certificate-providers/$(certificateProviderName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_certificate_provider(
+    certificateProviderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "GET",
+        "/certificate-providers/$(certificateProviderName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_custom_metric(metric_name)
     describe_custom_metric(metric_name, params::Dict{String,<:Any})
 
@@ -4034,8 +4188,10 @@ end
     describe_endpoint()
     describe_endpoint(params::Dict{String,<:Any})
 
-Returns a unique endpoint specific to the Amazon Web Services account making the call.
-Requires permission to access the DescribeEndpoint action.
+Returns or creates a unique endpoint specific to the Amazon Web Services account making the
+call.  The first time DescribeEndpoint is called, an endpoint is created. All subsequent
+calls to DescribeEndpoint return the same endpoint.  Requires permission to access the
+DescribeEndpoint action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4044,7 +4200,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
      iot:CredentialProvider - Returns an IoT credentials provider API endpoint.      iot:Jobs
   - Returns an IoT device management Jobs API endpoint.   We strongly recommend that
   customers use the newer iot:Data-ATS endpoint type to avoid issues related to the
-  widespread distrust of Symantec certificate authorities.
+  widespread distrust of Symantec certificate authorities. ATS Signed Certificates are more
+  secure and are trusted by most popular browsers.
 """
 function describe_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
     return iot("GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -5216,7 +5373,7 @@ Gets information about the specified software package. Requires permission to ac
 GetPackage action.
 
 # Arguments
-- `package_name`: The name of the target package.
+- `package_name`: The name of the target software package.
 
 """
 function get_package(packageName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -5429,8 +5586,10 @@ end
     get_registration_code()
     get_registration_code(params::Dict{String,<:Any})
 
-Gets a registration code used to register a CA certificate with IoT. Requires permission to
-access the GetRegistrationCode action.
+Gets a registration code used to register a CA certificate with IoT. IoT will create a
+registration code as part of this API call if the registration code doesn't exist or has
+been deleted. If you already have a registration code, this API call will return the same
+registration code. Requires permission to access the GetRegistrationCode action.
 
 """
 function get_registration_code(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -5986,6 +6145,40 @@ function list_cacertificates(
 end
 
 """
+    list_certificate_providers()
+    list_certificate_providers(params::Dict{String,<:Any})
+
+Lists all your certificate providers in your Amazon Web Services account. Requires
+permission to access the ListCertificateProviders action.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"isAscendingOrder"`: Returns the list of certificate providers in ascending alphabetical
+  order.
+- `"nextToken"`: The token for the next set of results, or null if there are no more
+  results.
+"""
+function list_certificate_providers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iot(
+        "GET",
+        "/certificate-providers/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_certificate_providers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "GET",
+        "/certificate-providers/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_certificates()
     list_certificates(params::Dict{String,<:Any})
 
@@ -6344,7 +6537,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
-  is in public preview.
+  is only supported by IoT Greengrass at this time. For more information, see Setting up IoT
+  Greengrass core devices.
 - `"nextToken"`: The token to retrieve the next set of results.
 - `"status"`: An optional filter that lets you search for jobs that have the specified
   status.
@@ -6414,7 +6608,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
-  is in public preview.
+  is only supported by IoT Greengrass at this time. For more information, see Setting up IoT
+  Greengrass core devices.
 - `"nextToken"`: The token to retrieve the next set of results.
 - `"status"`: An optional filter that lets you search for jobs that have the specified
   status.
@@ -6642,7 +6837,7 @@ Lists the software package versions associated to the account. Requires permissi
 access the ListPackageVersions action.
 
 # Arguments
-- `package_name`: The name of the target package.
+- `package_name`: The name of the target software package.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -8221,7 +8416,10 @@ The query search index. Requires permission to access the SearchIndex action.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"indexName"`: The search index name.
-- `"maxResults"`: The maximum number of results to return at one time.
+- `"maxResults"`: The maximum number of results to return per page at one time. This
+  maximum number cannot exceed 100. The response might contain fewer results but will never
+  contain more. You can use  nextToken  to retrieve the next set of results until nextToken
+  returns NULL.
 - `"nextToken"`: The token used to get the next set of results, or null if there are no
   additional results.
 - `"queryVersion"`: The query version.
@@ -9235,6 +9433,47 @@ function update_certificate(
 end
 
 """
+    update_certificate_provider(certificate_provider_name)
+    update_certificate_provider(certificate_provider_name, params::Dict{String,<:Any})
+
+Updates a certificate provider. Requires permission to access the UpdateCertificateProvider
+action.
+
+# Arguments
+- `certificate_provider_name`: The name of the certificate provider.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountDefaultForOperations"`: A list of the operations that the certificate provider
+  will use to generate certificates. Valid value: CreateCertificateFromCsr.
+- `"lambdaFunctionArn"`: The Lambda function ARN that's associated with the certificate
+  provider.
+"""
+function update_certificate_provider(
+    certificateProviderName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iot(
+        "PUT",
+        "/certificate-providers/$(certificateProviderName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_certificate_provider(
+    certificateProviderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iot(
+        "PUT",
+        "/certificate-providers/$(certificateProviderName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_custom_metric(display_name, metric_name)
     update_custom_metric(display_name, metric_name, params::Dict{String,<:Any})
 
@@ -9337,6 +9576,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"domainConfigurationStatus"`: The status to which the domain configuration should be
   updated.
 - `"removeAuthorizerConfig"`: Removes the authorization configuration from a domain.
+- `"serverCertificateConfig"`: The server certificate configuration.
 - `"tlsConfig"`: An object that specifies the TLS configuration for a domain.
 """
 function update_domain_configuration(
@@ -9548,7 +9788,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs
   notifications to MQTT topics that contain the value in the following format.
   aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature
-  is in public preview.
+  is only supported by IoT Greengrass at this time. For more information, see Setting up IoT
+  Greengrass core devices.
 - `"presignedUrlConfig"`: Configuration information for pre-signed S3 URLs.
 - `"timeoutConfig"`: Specifies the amount of time each device has to finish its execution
   of the job. The timer is started when the job execution status is set to IN_PROGRESS. If
@@ -9617,11 +9858,11 @@ end
     update_package(package_name)
     update_package(package_name, params::Dict{String,<:Any})
 
-Updates the supported fields for a specific package. Requires permission to access the
-UpdatePackage and GetIndexingConfiguration actions.
+Updates the supported fields for a specific software package. Requires permission to access
+the UpdatePackage and GetIndexingConfiguration actions.
 
 # Arguments
-- `package_name`: The name of the target package.
+- `package_name`: The name of the target software package.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -9665,7 +9906,7 @@ end
     update_package_configuration()
     update_package_configuration(params::Dict{String,<:Any})
 
-Updates the package configuration. Requires permission to access the
+Updates the software package configuration. Requires permission to access the
 UpdatePackageConfiguration and iam:PassRole actions.
 
 # Optional Parameters
@@ -9715,9 +9956,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"action"`: The status that the package version should be assigned. For more information,
   see Package version lifecycle.
 - `"attributes"`: Metadata that can be used to define a package version’s configuration.
-  For example, the S3 file location, configuration options that are being sent to the device
-  or fleet.   Note: Attributes can be updated only when the package version is in a draft
-  state. The combined size of all the attributes on a package version is limited to 3KB.
+  For example, the Amazon S3 file location, configuration options that are being sent to the
+  device or fleet.   Note: Attributes can be updated only when the package version is in a
+  draft state. The combined size of all the attributes on a package version is limited to 3KB.
 - `"clientToken"`: A unique case-sensitive identifier that you can provide to ensure the
   idempotency of the request. Don't reuse this client token if a new idempotent request is
   required.
@@ -9916,9 +10157,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   profile. If any alertTargets are defined in the current invocation, an exception occurs.
 - `"deleteBehaviors"`: If true, delete all behaviors defined for this security profile. If
   any behaviors are defined in the current invocation, an exception occurs.
+- `"deleteMetricsExportConfig"`: Set the value as true to delete metrics export related
+  configurations.
 - `"expectedVersion"`: The expected version of the security profile. A new version is
   generated whenever the security profile is updated. If you specify a value that is
   different from the actual version, a VersionConflictException is thrown.
+- `"metricsExportConfig"`: Specifies the MQTT topic and role ARN required for metric export.
 - `"securityProfileDescription"`: A description of the security profile.
 """
 function update_security_profile(

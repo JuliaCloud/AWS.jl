@@ -194,7 +194,7 @@ Services charges, based off of the predefined pricing plan computation.
 
 # Arguments
 - `account_grouping`:  The set of accounts that will be under the billing group. The set of
-  accounts resemble the linked accounts in a consolidated family.
+  accounts resemble the linked accounts in a consolidated billing family.
 - `computation_preference`:  The preferences and settings that will be used to compute the
   Amazon Web Services charges for a billing group.
 - `name`:  The billing group name. The names must be unique.
@@ -258,7 +258,7 @@ end
     create_custom_line_item(billing_group_arn, charge_details, description, name)
     create_custom_line_item(billing_group_arn, charge_details, description, name, params::Dict{String,<:Any})
 
- Creates a custom line item that can be used to create a one-time fixed charge that can be
+Creates a custom line item that can be used to create a one-time fixed charge that can be
 applied to a single billing group for the current or previous billing period. The one-time
 fixed charge is either a fee or discount.
 
@@ -273,6 +273,8 @@ fixed charge is either a fee or discount.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: The Amazon Web Services account in which this custom line item will be
+  applied to.
 - `"BillingPeriodRange"`:  A time range for which the custom line item is effective.
 - `"Tags"`:  A map that contains tag keys and tag values that are attached to a custom line
   item.
@@ -665,6 +667,49 @@ function disassociate_pricing_rules(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_billing_group_cost_report(arn)
+    get_billing_group_cost_report(arn, params::Dict{String,<:Any})
+
+Retrieves the margin summary report, which includes the Amazon Web Services cost and
+charged amount (pro forma cost) by Amazon Web Service for a specific billing group.
+
+# Arguments
+- `arn`: The Amazon Resource Number (ARN) that uniquely identifies the billing group.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BillingPeriodRange"`: A time range for which the margin summary is effective. You can
+  specify up to 12 months.
+- `"GroupBy"`: A list of strings that specify the attributes that are used to break down
+  costs in the margin summary reports for the billing group. For example, you can view your
+  costs by the Amazon Web Service name or the billing period.
+- `"MaxResults"`: The maximum number of margin summary reports to retrieve.
+- `"NextToken"`: The pagination token used on subsequent calls to get reports.
+"""
+function get_billing_group_cost_report(
+    Arn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/get-billing-group-cost-report",
+        Dict{String,Any}("Arn" => Arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_billing_group_cost_report(
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return billingconductor(
+        "POST",
+        "/get-billing-group-cost-report",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1178,6 +1223,8 @@ This updates an existing billing group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountGrouping"`: Specifies if the billing group has automatic account association
+  (AutoAssociate) enabled.
 - `"ComputationPreference"`:  The preferences and settings that will be used to compute the
   Amazon Web Services charges for a billing group.
 - `"Description"`: A description of the billing group.

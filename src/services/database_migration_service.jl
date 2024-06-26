@@ -188,6 +188,54 @@ function cancel_replication_task_assessment_run(
 end
 
 """
+    create_data_provider(engine, settings)
+    create_data_provider(engine, settings, params::Dict{String,<:Any})
+
+Creates a data provider using the provided settings. A data provider stores a data store
+type and location information about your database.
+
+# Arguments
+- `engine`: The type of database engine for the data provider. Valid values include
+  \"aurora\", \"aurora-postgresql\", \"mysql\", \"oracle\", \"postgres\", \"sqlserver\",
+  redshift, mariadb, mongodb, and docdb. A value of \"aurora\" represents Amazon Aurora
+  MySQL-Compatible Edition.
+- `settings`: The settings in JSON format for a data provider.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataProviderName"`: A user-friendly name for the data provider.
+- `"Description"`: A user-friendly description of the data provider.
+- `"Tags"`: One or more tags to be assigned to the data provider.
+"""
+function create_data_provider(
+    Engine, Settings; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "CreateDataProvider",
+        Dict{String,Any}("Engine" => Engine, "Settings" => Settings);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_data_provider(
+    Engine,
+    Settings,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "CreateDataProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("Engine" => Engine, "Settings" => Settings), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_endpoint(endpoint_identifier, endpoint_type, engine_name)
     create_endpoint(endpoint_identifier, endpoint_type, engine_name, params::Dict{String,<:Any})
 
@@ -299,6 +347,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SAP ASE as a source for DMS and Extra connection attributes when using SAP ASE as a target
   for DMS in the Database Migration Service User Guide.
 - `"Tags"`: One or more tags to be assigned to the endpoint.
+- `"TimestreamSettings"`: Settings in JSON format for the target Amazon Timestream endpoint.
 - `"Username"`: The user name to be used to log in to the endpoint database.
 """
 function create_endpoint(
@@ -478,6 +527,220 @@ function create_fleet_advisor_collector(
 end
 
 """
+    create_instance_profile()
+    create_instance_profile(params::Dict{String,<:Any})
+
+Creates the instance profile using the specified parameters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AvailabilityZone"`: The Availability Zone where the instance profile will be created.
+  The default value is a random, system-chosen Availability Zone in the Amazon Web Services
+  Region where your data provider is created, for examplem us-east-1d.
+- `"Description"`: A user-friendly description of the instance profile.
+- `"InstanceProfileName"`: A user-friendly name for the instance profile.
+- `"KmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
+  connection parameters for the instance profile. If you don't specify a value for the
+  KmsKeyArn parameter, then DMS uses your default encryption key. KMS creates the default
+  encryption key for your Amazon Web Services account. Your Amazon Web Services account has a
+  different default encryption key for each Amazon Web Services Region.
+- `"NetworkType"`: Specifies the network type for the instance profile. A value of IPV4
+  represents an instance profile with IPv4 network type and only supports IPv4 addressing. A
+  value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6
+  addressing. A value of DUAL represents an instance profile with dual network type that
+  supports IPv4 and IPv6 addressing.
+- `"PubliclyAccessible"`: Specifies the accessibility options for the instance profile. A
+  value of true represents an instance profile with a public IP address. A value of false
+  represents an instance profile with a private IP address. The default value is true.
+- `"SubnetGroupIdentifier"`: A subnet group to associate with the instance profile.
+- `"Tags"`: One or more tags to be assigned to the instance profile.
+- `"VpcSecurityGroups"`: Specifies the VPC security group names to be used with the
+  instance profile. The VPC security group must work with the VPC containing the instance
+  profile.
+"""
+function create_instance_profile(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "CreateInstanceProfile"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function create_instance_profile(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "CreateInstanceProfile",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_migration_project(instance_profile_identifier, source_data_provider_descriptors, target_data_provider_descriptors)
+    create_migration_project(instance_profile_identifier, source_data_provider_descriptors, target_data_provider_descriptors, params::Dict{String,<:Any})
+
+Creates the migration project using the specified parameters. You can run this action only
+after you create an instance profile and data providers using CreateInstanceProfile and
+CreateDataProvider.
+
+# Arguments
+- `instance_profile_identifier`: The identifier of the associated instance profile.
+  Identifiers must begin with a letter and must contain only ASCII letters, digits, and
+  hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
+- `source_data_provider_descriptors`: Information about the source data provider, including
+  the name, ARN, and Secrets Manager parameters.
+- `target_data_provider_descriptors`: Information about the target data provider, including
+  the name, ARN, and Amazon Web Services Secrets Manager parameters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A user-friendly description of the migration project.
+- `"MigrationProjectName"`: A user-friendly name for the migration project.
+- `"SchemaConversionApplicationAttributes"`: The schema conversion application attributes,
+  including the Amazon S3 bucket name and Amazon S3 role ARN.
+- `"Tags"`: One or more tags to be assigned to the migration project.
+- `"TransformationRules"`: The settings in JSON format for migration rules. Migration rules
+  make it possible for you to change the object names according to the rules that you
+  specify. For example, you can change an object name to lowercase or uppercase, add or
+  remove a prefix or suffix, or rename objects.
+"""
+function create_migration_project(
+    InstanceProfileIdentifier,
+    SourceDataProviderDescriptors,
+    TargetDataProviderDescriptors;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "CreateMigrationProject",
+        Dict{String,Any}(
+            "InstanceProfileIdentifier" => InstanceProfileIdentifier,
+            "SourceDataProviderDescriptors" => SourceDataProviderDescriptors,
+            "TargetDataProviderDescriptors" => TargetDataProviderDescriptors,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_migration_project(
+    InstanceProfileIdentifier,
+    SourceDataProviderDescriptors,
+    TargetDataProviderDescriptors,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "CreateMigrationProject",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceProfileIdentifier" => InstanceProfileIdentifier,
+                    "SourceDataProviderDescriptors" => SourceDataProviderDescriptors,
+                    "TargetDataProviderDescriptors" => TargetDataProviderDescriptors,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_replication_config(compute_config, replication_config_identifier, replication_type, source_endpoint_arn, table_mappings, target_endpoint_arn)
+    create_replication_config(compute_config, replication_config_identifier, replication_type, source_endpoint_arn, table_mappings, target_endpoint_arn, params::Dict{String,<:Any})
+
+Creates a configuration that you can later provide to configure and start an DMS Serverless
+replication. You can also provide options to validate the configuration inputs before you
+start the replication.
+
+# Arguments
+- `compute_config`: Configuration parameters for provisioning an DMS Serverless replication.
+- `replication_config_identifier`: A unique identifier that you want to use to create a
+  ReplicationConfigArn that is returned as part of the output from this action. You can then
+  pass this output ReplicationConfigArn as the value of the ReplicationConfigArn option for
+  other actions to identify both DMS Serverless replications and replication configurations
+  that you want those actions to operate on. For some actions, you can also use either this
+  unique identifier or a corresponding ARN in action filters to identify the specific
+  replication and replication configuration to operate on.
+- `replication_type`: The type of DMS Serverless replication to provision using this
+  replication configuration. Possible values:    \"full-load\"     \"cdc\"
+  \"full-load-and-cdc\"
+- `source_endpoint_arn`: The Amazon Resource Name (ARN) of the source endpoint for this DMS
+  Serverless replication configuration.
+- `table_mappings`: JSON table mappings for DMS Serverless replications that are
+  provisioned using this replication configuration. For more information, see  Specifying
+  table selection and transformations rules using JSON.
+- `target_endpoint_arn`: The Amazon Resource Name (ARN) of the target endpoint for this DMS
+  serverless replication configuration.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ReplicationSettings"`: Optional JSON settings for DMS Serverless replications that are
+  provisioned using this replication configuration. For example, see  Change processing
+  tuning settings.
+- `"ResourceIdentifier"`: Optional unique value or name that you set for a given resource
+  that can be used to construct an Amazon Resource Name (ARN) for that resource. For more
+  information, see  Fine-grained access control using resource names and tags.
+- `"SupplementalSettings"`: Optional JSON settings for specifying supplemental data. For
+  more information, see  Specifying supplemental data for task settings.
+- `"Tags"`: One or more optional tags associated with resources used by the DMS Serverless
+  replication. For more information, see  Tagging resources in Database Migration Service.
+"""
+function create_replication_config(
+    ComputeConfig,
+    ReplicationConfigIdentifier,
+    ReplicationType,
+    SourceEndpointArn,
+    TableMappings,
+    TargetEndpointArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "CreateReplicationConfig",
+        Dict{String,Any}(
+            "ComputeConfig" => ComputeConfig,
+            "ReplicationConfigIdentifier" => ReplicationConfigIdentifier,
+            "ReplicationType" => ReplicationType,
+            "SourceEndpointArn" => SourceEndpointArn,
+            "TableMappings" => TableMappings,
+            "TargetEndpointArn" => TargetEndpointArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_replication_config(
+    ComputeConfig,
+    ReplicationConfigIdentifier,
+    ReplicationType,
+    SourceEndpointArn,
+    TableMappings,
+    TargetEndpointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "CreateReplicationConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ComputeConfig" => ComputeConfig,
+                    "ReplicationConfigIdentifier" => ReplicationConfigIdentifier,
+                    "ReplicationType" => ReplicationType,
+                    "SourceEndpointArn" => SourceEndpointArn,
+                    "TableMappings" => TableMappings,
+                    "TargetEndpointArn" => TargetEndpointArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_replication_instance(replication_instance_class, replication_instance_identifier)
     create_replication_instance(replication_instance_class, replication_instance_identifier, params::Dict{String,<:Any})
 
@@ -485,14 +748,17 @@ Creates the replication instance using the specified parameters. DMS requires th
 account have certain roles with appropriate permissions before you can create a replication
 instance. For information on the required roles, see Creating the IAM Roles to Use With the
 CLI and DMS API. For information on the required permissions, see IAM Permissions Needed to
-Use DMS.
+Use DMS.  If you don't specify a version when creating a replication instance, DMS will
+create the instance using the default engine version. For information about the default
+engine version, see Release Notes.
 
 # Arguments
 - `replication_instance_class`: The compute and memory capacity of the replication instance
   as defined for the specified replication instance class. For example to specify the
   instance class dms.c4.large, set this parameter to \"dms.c4.large\". For more information
   on the settings and capacities for the available replication instance classes, see
-  Selecting the right DMS replication instance for your migration.
+  Choosing the right DMS replication instance; and, Selecting the best size for a replication
+  instance.
 - `replication_instance_identifier`: The replication instance identifier. This parameter is
   stored as a lowercase string. Constraints:   Must contain 1-63 alphanumeric characters or
   hyphens.   First character must be a letter.   Can't end with a hyphen or contain two
@@ -504,15 +770,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the replication instance.
 - `"AutoMinorVersionUpgrade"`: A value that indicates whether minor engine upgrades are
   applied automatically to the replication instance during the maintenance window. This
-  parameter defaults to true. Default: true  When AutoMinorVersionUpgrade is enabled, DMS
-  uses the current default engine version when you create a replication instance. For
-  example, if you set EngineVersion to a lower version number than the current default
-  version, DMS uses the default version. If AutoMinorVersionUpgrade isn’t enabled when you
-  create a replication instance, DMS uses the engine version specified by the EngineVersion
-  parameter.
+  parameter defaults to true. Default: true
 - `"AvailabilityZone"`: The Availability Zone where the replication instance will be
   created. The default value is a random, system-chosen Availability Zone in the endpoint's
-  Amazon Web Services Region, for example: us-east-1d
+  Amazon Web Services Region, for example: us-east-1d.
 - `"DnsNameServers"`: A list of custom DNS name servers supported for the replication
   instance to access your on-premise source or target database. This list overrides the
   default name servers supported by the replication instance. You can specify a
@@ -599,7 +860,11 @@ end
 Creates a replication subnet group given a list of the subnet IDs in a VPC. The VPC needs
 to have at least one subnet in at least two availability zones in the Amazon Web Services
 Region, otherwise the service will throw a ReplicationSubnetGroupDoesNotCoverEnoughAZs
-exception.
+exception. If a replication subnet group exists in your Amazon Web Services account, the
+CreateReplicationSubnetGroup action returns the following error message: The Replication
+Subnet Group already exists. In this case, delete the existing replication subnet group. To
+do so, use the DeleteReplicationSubnetGroup action. Optionally, choose Subnet groups in the
+DMS console, then choose your subnet group. Next, choose Delete from Actions.
 
 # Arguments
 - `replication_subnet_group_description`: The description for the subnet group.
@@ -607,7 +872,7 @@ exception.
   value is stored as a lowercase string. Constraints: Must contain no more than 255
   alphanumeric characters, periods, spaces, underscores, or hyphens. Must not be \"default\".
   Example: mySubnetgroup
-- `subnet_ids`: One or more subnet IDs to be assigned to the subnet group.
+- `subnet_ids`: Two or more subnet IDs to be assigned to the subnet group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -697,7 +962,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time. Server time example:
   --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example:
-  --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
+  --cdc-stop-position “commit_time:2018-02-09T12:12:12“
 - `"ReplicationTaskSettings"`: Overall settings for the task, in JSON format. For more
   information, see Specifying Task Settings for Database Migration Service Tasks in the
   Database Migration Service User Guide.
@@ -851,6 +1116,46 @@ function delete_connection(
 end
 
 """
+    delete_data_provider(data_provider_identifier)
+    delete_data_provider(data_provider_identifier, params::Dict{String,<:Any})
+
+Deletes the specified data provider.  All migration projects associated with the data
+provider must be deleted or modified before you can delete the data provider.
+
+# Arguments
+- `data_provider_identifier`: The identifier of the data provider to delete.
+
+"""
+function delete_data_provider(
+    DataProviderIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DeleteDataProvider",
+        Dict{String,Any}("DataProviderIdentifier" => DataProviderIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_data_provider(
+    DataProviderIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DeleteDataProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataProviderIdentifier" => DataProviderIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_endpoint(endpoint_arn)
     delete_endpoint(endpoint_arn, params::Dict{String,<:Any})
 
@@ -990,6 +1295,131 @@ function delete_fleet_advisor_databases(
         "DeleteFleetAdvisorDatabases",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("DatabaseIds" => DatabaseIds), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_instance_profile(instance_profile_identifier)
+    delete_instance_profile(instance_profile_identifier, params::Dict{String,<:Any})
+
+Deletes the specified instance profile.  All migration projects associated with the
+instance profile must be deleted or modified before you can delete the instance profile.
+
+# Arguments
+- `instance_profile_identifier`: The identifier of the instance profile to delete.
+
+"""
+function delete_instance_profile(
+    InstanceProfileIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DeleteInstanceProfile",
+        Dict{String,Any}("InstanceProfileIdentifier" => InstanceProfileIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_instance_profile(
+    InstanceProfileIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DeleteInstanceProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceProfileIdentifier" => InstanceProfileIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_migration_project(migration_project_identifier)
+    delete_migration_project(migration_project_identifier, params::Dict{String,<:Any})
+
+Deletes the specified migration project.  The migration project must be closed before you
+can delete it.
+
+# Arguments
+- `migration_project_identifier`: The name or Amazon Resource Name (ARN) of the migration
+  project to delete.
+
+"""
+function delete_migration_project(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DeleteMigrationProject",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_migration_project(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DeleteMigrationProject",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_replication_config(replication_config_arn)
+    delete_replication_config(replication_config_arn, params::Dict{String,<:Any})
+
+Deletes an DMS Serverless replication configuration. This effectively deprovisions any and
+all replications that use this configuration. You can't delete the configuration for an DMS
+Serverless replication that is ongoing. You can delete the configuration when the
+replication is in a non-RUNNING and non-STARTING state.
+
+# Arguments
+- `replication_config_arn`: The replication config to delete.
+
+"""
+function delete_replication_config(
+    ReplicationConfigArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DeleteReplicationConfig",
+        Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_replication_config(
+    ReplicationConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DeleteReplicationConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1321,6 +1751,84 @@ function describe_connections(
 end
 
 """
+    describe_conversion_configuration(migration_project_identifier)
+    describe_conversion_configuration(migration_project_identifier, params::Dict{String,<:Any})
+
+Returns configuration parameters for a schema conversion project.
+
+# Arguments
+- `migration_project_identifier`: The name or Amazon Resource Name (ARN) for the schema
+  conversion project to describe.
+
+"""
+function describe_conversion_configuration(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeConversionConfiguration",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_conversion_configuration(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DescribeConversionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_data_providers()
+    describe_data_providers(params::Dict{String,<:Any})
+
+Returns a paginated list of data providers for your account in the current region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the data providers described in the form of key-value
+  pairs. Valid filter names: data-provider-identifier
+- `"Marker"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a
+  previous response, there are more results available. The value of Marker is a unique
+  pagination token for each page. To retrieve the next page, make the call again using the
+  returned token and keeping all other arguments unchanged.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, DMS includes a pagination token in the response
+  so that you can retrieve the remaining results.
+"""
+function describe_data_providers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "DescribeDataProviders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_data_providers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeDataProviders",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_endpoint_settings(engine_name)
     describe_endpoint_settings(engine_name, params::Dict{String,<:Any})
 
@@ -1328,7 +1836,7 @@ Returns information about the possible endpoint settings available when you crea
 endpoint for a specific database engine.
 
 # Arguments
-- `engine_name`: The databse engine used for your source or target endpoint.
+- `engine_name`: The database engine used for your source or target endpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1426,6 +1934,37 @@ function describe_endpoints(
 )
     return database_migration_service(
         "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_engine_versions()
+    describe_engine_versions(params::Dict{String,<:Any})
+
+Returns information about the replication instance versions used in the project.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: An optional pagination token provided by a previous request. If this
+  parameter is specified, the response includes only records beyond the marker, up to the
+  value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved.
+"""
+function describe_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "DescribeEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_engine_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeEngineVersions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1533,6 +2072,63 @@ function describe_events(
 )
     return database_migration_service(
         "DescribeEvents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_extension_pack_associations(migration_project_identifier)
+    describe_extension_pack_associations(migration_project_identifier, params::Dict{String,<:Any})
+
+Returns a paginated list of extension pack associations for the specified migration
+project. An extension pack is an add-on module that emulates functions present in a source
+database that are required when converting objects to the target database.
+
+# Arguments
+- `migration_project_identifier`: The name or Amazon Resource Name (ARN) for the migration
+  project.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the extension pack associations described in the form of
+  key-value pairs.
+- `"Marker"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a
+  previous response, there are more results available. The value of Marker is a unique
+  pagination token for each page. To retrieve the next page, make the call again using the
+  returned token and keeping all other arguments unchanged.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, DMS includes a pagination token in the response
+  so that you can retrieve the remaining results.
+"""
+function describe_extension_pack_associations(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeExtensionPackAssociations",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_extension_pack_associations(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DescribeExtensionPackAssociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1733,6 +2329,348 @@ function describe_fleet_advisor_schemas(
 end
 
 """
+    describe_instance_profiles()
+    describe_instance_profiles(params::Dict{String,<:Any})
+
+Returns a paginated list of instance profiles for your account in the current region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the instance profiles described in the form of key-value
+  pairs.
+- `"Marker"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a
+  previous response, there are more results available. The value of Marker is a unique
+  pagination token for each page. To retrieve the next page, make the call again using the
+  returned token and keeping all other arguments unchanged.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, DMS includes a pagination token in the response
+  so that you can retrieve the remaining results.
+"""
+function describe_instance_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "DescribeInstanceProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_instance_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeInstanceProfiles",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_metadata_model_assessments(migration_project_identifier)
+    describe_metadata_model_assessments(migration_project_identifier, params::Dict{String,<:Any})
+
+Returns a paginated list of metadata model assessments for your account in the current
+region.
+
+# Arguments
+- `migration_project_identifier`: The name or Amazon Resource Name (ARN) of the migration
+  project.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the metadata model assessments described in the form of
+  key-value pairs.
+- `"Marker"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a
+  previous response, there are more results available. The value of Marker is a unique
+  pagination token for each page. To retrieve the next page, make the call again using the
+  returned token and keeping all other arguments unchanged.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, DMS includes a pagination token in the response
+  so that you can retrieve the remaining results.
+"""
+function describe_metadata_model_assessments(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeMetadataModelAssessments",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_metadata_model_assessments(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelAssessments",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_metadata_model_conversions(migration_project_identifier)
+    describe_metadata_model_conversions(migration_project_identifier, params::Dict{String,<:Any})
+
+Returns a paginated list of metadata model conversions for a migration project.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the metadata model conversions described in the form of
+  key-value pairs.
+- `"Marker"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a
+  previous response, there are more results available. The value of Marker is a unique
+  pagination token for each page. To retrieve the next page, make the call again using the
+  returned token and keeping all other arguments unchanged.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, DMS includes a pagination token in the response
+  so that you can retrieve the remaining results.
+"""
+function describe_metadata_model_conversions(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeMetadataModelConversions",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_metadata_model_conversions(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelConversions",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_metadata_model_exports_as_script(migration_project_identifier)
+    describe_metadata_model_exports_as_script(migration_project_identifier, params::Dict{String,<:Any})
+
+Returns a paginated list of metadata model exports.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the metadata model exports described in the form of
+  key-value pairs.
+- `"Marker"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a
+  previous response, there are more results available. The value of Marker is a unique
+  pagination token for each page. To retrieve the next page, make the call again using the
+  returned token and keeping all other arguments unchanged.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, DMS includes a pagination token in the response
+  so that you can retrieve the remaining results.
+"""
+function describe_metadata_model_exports_as_script(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeMetadataModelExportsAsScript",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_metadata_model_exports_as_script(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelExportsAsScript",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_metadata_model_exports_to_target(migration_project_identifier)
+    describe_metadata_model_exports_to_target(migration_project_identifier, params::Dict{String,<:Any})
+
+Returns a paginated list of metadata model exports.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the metadata model exports described in the form of
+  key-value pairs.
+- `"Marker"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a
+  previous response, there are more results available. The value of Marker is a unique
+  pagination token for each page. To retrieve the next page, make the call again using the
+  returned token and keeping all other arguments unchanged.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, DMS includes a pagination token in the response
+  so that you can retrieve the remaining results.
+"""
+function describe_metadata_model_exports_to_target(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeMetadataModelExportsToTarget",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_metadata_model_exports_to_target(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelExportsToTarget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_metadata_model_imports(migration_project_identifier)
+    describe_metadata_model_imports(migration_project_identifier, params::Dict{String,<:Any})
+
+Returns a paginated list of metadata model imports.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the metadata model imports described in the form of
+  key-value pairs.
+- `"Marker"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a
+  previous response, there are more results available. The value of Marker is a unique
+  pagination token for each page. To retrieve the next page, make the call again using the
+  returned token and keeping all other arguments unchanged.
+- `"MaxRecords"`: A paginated list of metadata model imports.
+"""
+function describe_metadata_model_imports(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeMetadataModelImports",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_metadata_model_imports(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DescribeMetadataModelImports",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_migration_projects()
+    describe_migration_projects(params::Dict{String,<:Any})
+
+Returns a paginated list of migration projects for your account in the current region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the migration projects described in the form of key-value
+  pairs.
+- `"Marker"`: Specifies the unique pagination token that makes it possible to display the
+  next page of results. If this parameter is specified, the response includes only records
+  beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a
+  previous response, there are more results available. The value of Marker is a unique
+  pagination token for each page. To retrieve the next page, make the call again using the
+  returned token and keeping all other arguments unchanged.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, DMS includes a pagination token in the response
+  so that you can retrieve the remaining results.
+"""
+function describe_migration_projects(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "DescribeMigrationProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_migration_projects(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeMigrationProjects",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_orderable_replication_instances()
     describe_orderable_replication_instances(params::Dict{String,<:Any})
 
@@ -1920,6 +2858,39 @@ function describe_refresh_schemas_status(
 end
 
 """
+    describe_replication_configs()
+    describe_replication_configs(params::Dict{String,<:Any})
+
+Returns one or more existing DMS Serverless replication configurations as a list of
+structures.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the replication configs.
+- `"Marker"`: An optional pagination token provided by a previous request. If this
+  parameter is specified, the response includes only records beyond the marker, up to the
+  value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved.
+"""
+function describe_replication_configs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "DescribeReplicationConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_replication_configs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplicationConfigs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_replication_instance_task_logs(replication_instance_arn)
     describe_replication_instance_task_logs(replication_instance_arn, params::Dict{String,<:Any})
 
@@ -2037,6 +3008,55 @@ function describe_replication_subnet_groups(
     return database_migration_service(
         "DescribeReplicationSubnetGroups",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_replication_table_statistics(replication_config_arn)
+    describe_replication_table_statistics(replication_config_arn, params::Dict{String,<:Any})
+
+Returns table and schema statistics for one or more provisioned replications that use a
+given DMS Serverless replication configuration.
+
+# Arguments
+- `replication_config_arn`: The replication config to describe.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the replication table statistics.
+- `"Marker"`: An optional pagination token provided by a previous request. If this
+  parameter is specified, the response includes only records beyond the marker, up to the
+  value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved.
+"""
+function describe_replication_table_statistics(
+    ReplicationConfigArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplicationTableStatistics",
+        Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_replication_table_statistics(
+    ReplicationConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "DescribeReplicationTableStatistics",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2205,6 +3225,39 @@ function describe_replication_tasks(
 end
 
 """
+    describe_replications()
+    describe_replications(params::Dict{String,<:Any})
+
+Provides details on replication progress by returning status information for one or more
+provisioned DMS Serverless replications.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Filters applied to the replications.
+- `"Marker"`: An optional pagination token provided by a previous request. If this
+  parameter is specified, the response includes only records beyond the marker, up to the
+  value specified by MaxRecords.
+- `"MaxRecords"`: The maximum number of records to include in the response. If more records
+  exist than the specified MaxRecords value, a pagination token called a marker is included
+  in the response so that the remaining results can be retrieved.
+"""
+function describe_replications(; aws_config::AbstractAWSConfig=global_aws_config())
+    return database_migration_service(
+        "DescribeReplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_replications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "DescribeReplications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_schemas(endpoint_arn)
     describe_schemas(endpoint_arn, params::Dict{String,<:Any})
 
@@ -2300,6 +3353,60 @@ function describe_table_statistics(
 end
 
 """
+    export_metadata_model_assessment(migration_project_identifier, selection_rules)
+    export_metadata_model_assessment(migration_project_identifier, selection_rules, params::Dict{String,<:Any})
+
+Saves a copy of a database migration assessment report to your Amazon S3 bucket. DMS can
+save your assessment report as a comma-separated value (CSV) or a PDF file.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `selection_rules`: A value that specifies the database objects to assess.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AssessmentReportTypes"`: The file format of the assessment file.
+- `"FileName"`: The name of the assessment file to create in your Amazon S3 bucket.
+"""
+function export_metadata_model_assessment(
+    MigrationProjectIdentifier,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "ExportMetadataModelAssessment",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "SelectionRules" => SelectionRules,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function export_metadata_model_assessment(
+    MigrationProjectIdentifier,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "ExportMetadataModelAssessment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     import_certificate(certificate_identifier)
     import_certificate(certificate_identifier, params::Dict{String,<:Any})
 
@@ -2376,6 +3483,112 @@ function list_tags_for_resource(
     return database_migration_service(
         "ListTagsForResource",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_conversion_configuration(conversion_configuration, migration_project_identifier)
+    modify_conversion_configuration(conversion_configuration, migration_project_identifier, params::Dict{String,<:Any})
+
+Modifies the specified schema conversion configuration using the provided parameters.
+
+# Arguments
+- `conversion_configuration`: The new conversion configuration.
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+
+"""
+function modify_conversion_configuration(
+    ConversionConfiguration,
+    MigrationProjectIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "ModifyConversionConfiguration",
+        Dict{String,Any}(
+            "ConversionConfiguration" => ConversionConfiguration,
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_conversion_configuration(
+    ConversionConfiguration,
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "ModifyConversionConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ConversionConfiguration" => ConversionConfiguration,
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_data_provider(data_provider_identifier)
+    modify_data_provider(data_provider_identifier, params::Dict{String,<:Any})
+
+Modifies the specified data provider using the provided settings.  You must remove the data
+provider from all migration projects before you can modify it.
+
+# Arguments
+- `data_provider_identifier`: The identifier of the data provider. Identifiers must begin
+  with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with
+  a hyphen, or contain two consecutive hyphens.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataProviderName"`: The name of the data provider.
+- `"Description"`: A user-friendly description of the data provider.
+- `"Engine"`: The type of database engine for the data provider. Valid values include
+  \"aurora\", \"aurora-postgresql\", \"mysql\", \"oracle\", \"postgres\", \"sqlserver\",
+  redshift, mariadb, mongodb, and docdb. A value of \"aurora\" represents Amazon Aurora
+  MySQL-Compatible Edition.
+- `"ExactSettings"`: If this attribute is Y, the current call to ModifyDataProvider
+  replaces all existing data provider settings with the exact settings that you specify in
+  this call. If this attribute is N, the current call to ModifyDataProvider does two things:
+    It replaces any data provider settings that already exist with new values, for settings
+  with the same names.   It creates new data provider settings that you specify in the call,
+  for settings with different names.
+- `"Settings"`: The settings in JSON format for a data provider.
+"""
+function modify_data_provider(
+    DataProviderIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "ModifyDataProvider",
+        Dict{String,Any}("DataProviderIdentifier" => DataProviderIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_data_provider(
+    DataProviderIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "ModifyDataProvider",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DataProviderIdentifier" => DataProviderIdentifier),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2492,6 +3705,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   For information about other available settings, see Extra connection attributes when using
   SAP ASE as a source for DMS and Extra connection attributes when using SAP ASE as a target
   for DMS in the Database Migration Service User Guide.
+- `"TimestreamSettings"`: Settings in JSON format for the target Amazon Timestream endpoint.
 - `"Username"`: The user name to be used to login to the endpoint database.
 """
 function modify_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2565,6 +3779,188 @@ function modify_event_subscription(
 end
 
 """
+    modify_instance_profile(instance_profile_identifier)
+    modify_instance_profile(instance_profile_identifier, params::Dict{String,<:Any})
+
+Modifies the specified instance profile using the provided parameters.  All migration
+projects associated with the instance profile must be deleted or modified before you can
+modify the instance profile.
+
+# Arguments
+- `instance_profile_identifier`: The identifier of the instance profile. Identifiers must
+  begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't
+  end with a hyphen, or contain two consecutive hyphens.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AvailabilityZone"`: The Availability Zone where the instance profile runs.
+- `"Description"`: A user-friendly description for the instance profile.
+- `"InstanceProfileName"`: A user-friendly name for the instance profile.
+- `"KmsKeyArn"`: The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the
+  connection parameters for the instance profile. If you don't specify a value for the
+  KmsKeyArn parameter, then DMS uses your default encryption key. KMS creates the default
+  encryption key for your Amazon Web Services account. Your Amazon Web Services account has a
+  different default encryption key for each Amazon Web Services Region.
+- `"NetworkType"`: Specifies the network type for the instance profile. A value of IPV4
+  represents an instance profile with IPv4 network type and only supports IPv4 addressing. A
+  value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6
+  addressing. A value of DUAL represents an instance profile with dual network type that
+  supports IPv4 and IPv6 addressing.
+- `"PubliclyAccessible"`: Specifies the accessibility options for the instance profile. A
+  value of true represents an instance profile with a public IP address. A value of false
+  represents an instance profile with a private IP address. The default value is true.
+- `"SubnetGroupIdentifier"`: A subnet group to associate with the instance profile.
+- `"VpcSecurityGroups"`: Specifies the VPC security groups to be used with the instance
+  profile. The VPC security group must work with the VPC containing the instance profile.
+"""
+function modify_instance_profile(
+    InstanceProfileIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "ModifyInstanceProfile",
+        Dict{String,Any}("InstanceProfileIdentifier" => InstanceProfileIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_instance_profile(
+    InstanceProfileIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "ModifyInstanceProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstanceProfileIdentifier" => InstanceProfileIdentifier),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_migration_project(migration_project_identifier)
+    modify_migration_project(migration_project_identifier, params::Dict{String,<:Any})
+
+Modifies the specified migration project using the provided parameters.  The migration
+project must be closed before you can modify it.
+
+# Arguments
+- `migration_project_identifier`: The identifier of the migration project. Identifiers must
+  begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't
+  end with a hyphen, or contain two consecutive hyphens.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A user-friendly description of the migration project.
+- `"InstanceProfileIdentifier"`: The name or Amazon Resource Name (ARN) for the instance
+  profile.
+- `"MigrationProjectName"`: A user-friendly name for the migration project.
+- `"SchemaConversionApplicationAttributes"`: The schema conversion application attributes,
+  including the Amazon S3 bucket name and Amazon S3 role ARN.
+- `"SourceDataProviderDescriptors"`: Information about the source data provider, including
+  the name, ARN, and Amazon Web Services Secrets Manager parameters.
+- `"TargetDataProviderDescriptors"`: Information about the target data provider, including
+  the name, ARN, and Amazon Web Services Secrets Manager parameters.
+- `"TransformationRules"`: The settings in JSON format for migration rules. Migration rules
+  make it possible for you to change the object names according to the rules that you
+  specify. For example, you can change an object name to lowercase or uppercase, add or
+  remove a prefix or suffix, or rename objects.
+"""
+function modify_migration_project(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "ModifyMigrationProject",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_migration_project(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "ModifyMigrationProject",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_replication_config(replication_config_arn)
+    modify_replication_config(replication_config_arn, params::Dict{String,<:Any})
+
+Modifies an existing DMS Serverless replication configuration that you can use to start a
+replication. This command includes input validation and logic to check the state of any
+replication that uses this configuration. You can only modify a replication configuration
+before any replication that uses it has started. As soon as you have initially started a
+replication with a given configuiration, you can't modify that configuration, even if you
+stop it. Other run statuses that allow you to run this command include FAILED and CREATED.
+A provisioning state that allows you to run this command is FAILED_PROVISION.
+
+# Arguments
+- `replication_config_arn`: The Amazon Resource Name of the replication to modify.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ComputeConfig"`: Configuration parameters for provisioning an DMS Serverless
+  replication.
+- `"ReplicationConfigIdentifier"`: The new replication config to apply to the replication.
+- `"ReplicationSettings"`: The settings for the replication.
+- `"ReplicationType"`: The type of replication.
+- `"SourceEndpointArn"`: The Amazon Resource Name (ARN) of the source endpoint for this DMS
+  serverless replication configuration.
+- `"SupplementalSettings"`: Additional settings for the replication.
+- `"TableMappings"`: Table mappings specified in the replication.
+- `"TargetEndpointArn"`: The Amazon Resource Name (ARN) of the target endpoint for this DMS
+  serverless replication configuration.
+"""
+function modify_replication_config(
+    ReplicationConfigArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "ModifyReplicationConfig",
+        Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_replication_config(
+    ReplicationConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "ModifyReplicationConfig",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     modify_replication_instance(replication_instance_arn)
     modify_replication_instance(replication_instance_arn, params::Dict{String,<:Any})
 
@@ -2592,11 +3988,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   change is asynchronously applied as soon as possible.  An outage does result if these
   factors apply:    This parameter is set to true during the maintenance window.   A newer
   minor version is available.    DMS has enabled automatic patching for the given engine
-  version.    When AutoMinorVersionUpgrade is enabled, DMS uses the current default engine
-  version when you modify a replication instance. For example, if you set EngineVersion to a
-  lower version number than the current default version, DMS uses the default version. If
-  AutoMinorVersionUpgrade isn’t enabled when you modify a replication instance, DMS uses
-  the engine version specified by the EngineVersion parameter.
+  version.
 - `"EngineVersion"`: The engine version number of the replication instance. When modifying
   a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
 - `"MultiAZ"`:  Specifies whether the replication instance is a Multi-AZ deployment. You
@@ -2736,7 +4128,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time. Server time example:
   --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example:
-  --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
+  --cdc-stop-position “commit_time:2018-02-09T12:12:12“
 - `"MigrationType"`: The migration type. Valid values: full-load | cdc | full-load-and-cdc
 - `"ReplicationTaskIdentifier"`: The replication task identifier. Constraints:   Must
   contain 1-255 alphanumeric characters or hyphens.   First character must be a letter.
@@ -2929,6 +4321,61 @@ function refresh_schemas(
 end
 
 """
+    reload_replication_tables(replication_config_arn, tables_to_reload)
+    reload_replication_tables(replication_config_arn, tables_to_reload, params::Dict{String,<:Any})
+
+Reloads the target database table with the source data for a given DMS Serverless
+replication configuration. You can only use this operation with a task in the RUNNING
+state, otherwise the service will throw an InvalidResourceStateFault exception.
+
+# Arguments
+- `replication_config_arn`: The Amazon Resource Name of the replication config for which to
+  reload tables.
+- `tables_to_reload`: The list of tables to reload.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ReloadOption"`: Options for reload. Specify data-reload to reload the data and
+  re-validate it if validation is enabled. Specify validate-only to re-validate the table.
+  This option applies only when validation is enabled for the replication.
+"""
+function reload_replication_tables(
+    ReplicationConfigArn, TablesToReload; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "ReloadReplicationTables",
+        Dict{String,Any}(
+            "ReplicationConfigArn" => ReplicationConfigArn,
+            "TablesToReload" => TablesToReload,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function reload_replication_tables(
+    ReplicationConfigArn,
+    TablesToReload,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "ReloadReplicationTables",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationConfigArn" => ReplicationConfigArn,
+                    "TablesToReload" => TablesToReload,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     reload_tables(replication_task_arn, tables_to_reload)
     reload_tables(replication_task_arn, tables_to_reload, params::Dict{String,<:Any})
 
@@ -3049,6 +4496,321 @@ function run_fleet_advisor_lsa_analysis(
 end
 
 """
+    start_extension_pack_association(migration_project_identifier)
+    start_extension_pack_association(migration_project_identifier, params::Dict{String,<:Any})
+
+Applies the extension pack to your target database. An extension pack is an add-on module
+that emulates functions present in a source database that are required when converting
+objects to the target database.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+
+"""
+function start_extension_pack_association(
+    MigrationProjectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "StartExtensionPackAssociation",
+        Dict{String,Any}("MigrationProjectIdentifier" => MigrationProjectIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_extension_pack_association(
+    MigrationProjectIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartExtensionPackAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_metadata_model_assessment(migration_project_identifier, selection_rules)
+    start_metadata_model_assessment(migration_project_identifier, selection_rules, params::Dict{String,<:Any})
+
+Creates a database migration assessment report by assessing the migration complexity for
+your source database. A database migration assessment report summarizes all of the schema
+conversion tasks. It also details the action items for database objects that can't be
+converted to the database engine of your target database instance.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `selection_rules`: A value that specifies the database objects to assess.
+
+"""
+function start_metadata_model_assessment(
+    MigrationProjectIdentifier,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelAssessment",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "SelectionRules" => SelectionRules,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_metadata_model_assessment(
+    MigrationProjectIdentifier,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelAssessment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_metadata_model_conversion(migration_project_identifier, selection_rules)
+    start_metadata_model_conversion(migration_project_identifier, selection_rules, params::Dict{String,<:Any})
+
+Converts your source database objects to a format compatible with the target database.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `selection_rules`: A value that specifies the database objects to convert.
+
+"""
+function start_metadata_model_conversion(
+    MigrationProjectIdentifier,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelConversion",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "SelectionRules" => SelectionRules,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_metadata_model_conversion(
+    MigrationProjectIdentifier,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelConversion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_metadata_model_export_as_script(migration_project_identifier, origin, selection_rules)
+    start_metadata_model_export_as_script(migration_project_identifier, origin, selection_rules, params::Dict{String,<:Any})
+
+Saves your converted code to a file as a SQL script, and stores this file on your Amazon S3
+bucket.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `origin`: Whether to export the metadata model from the source or the target.
+- `selection_rules`: A value that specifies the database objects to export.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FileName"`: The name of the model file to create in the Amazon S3 bucket.
+"""
+function start_metadata_model_export_as_script(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelExportAsScript",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "Origin" => Origin,
+            "SelectionRules" => SelectionRules,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_metadata_model_export_as_script(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelExportAsScript",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "Origin" => Origin,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_metadata_model_export_to_target(migration_project_identifier, selection_rules)
+    start_metadata_model_export_to_target(migration_project_identifier, selection_rules, params::Dict{String,<:Any})
+
+Applies converted database objects to your target database.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `selection_rules`: A value that specifies the database objects to export.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"OverwriteExtensionPack"`: Whether to overwrite the migration project extension pack. An
+  extension pack is an add-on module that emulates functions present in a source database
+  that are required when converting objects to the target database.
+"""
+function start_metadata_model_export_to_target(
+    MigrationProjectIdentifier,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelExportToTarget",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "SelectionRules" => SelectionRules,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_metadata_model_export_to_target(
+    MigrationProjectIdentifier,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelExportToTarget",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_metadata_model_import(migration_project_identifier, origin, selection_rules)
+    start_metadata_model_import(migration_project_identifier, origin, selection_rules, params::Dict{String,<:Any})
+
+Loads the metadata for all the dependent database objects of the parent object. This
+operation uses your project's Amazon S3 bucket as a metadata cache to improve performance.
+
+# Arguments
+- `migration_project_identifier`: The migration project name or Amazon Resource Name (ARN).
+- `origin`: Whether to load metadata to the source or target database.
+- `selection_rules`: A value that specifies the database objects to import.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Refresh"`: If true, DMS loads metadata for the specified objects from the source
+  database.
+"""
+function start_metadata_model_import(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelImport",
+        Dict{String,Any}(
+            "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+            "Origin" => Origin,
+            "SelectionRules" => SelectionRules,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_metadata_model_import(
+    MigrationProjectIdentifier,
+    Origin,
+    SelectionRules,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartMetadataModelImport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MigrationProjectIdentifier" => MigrationProjectIdentifier,
+                    "Origin" => Origin,
+                    "SelectionRules" => SelectionRules,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_recommendations(database_id, settings)
     start_recommendations(database_id, settings, params::Dict{String,<:Any})
 
@@ -3098,6 +4860,71 @@ function start_recommendations(
 end
 
 """
+    start_replication(replication_config_arn, start_replication_type)
+    start_replication(replication_config_arn, start_replication_type, params::Dict{String,<:Any})
+
+For a given DMS Serverless replication configuration, DMS connects to the source endpoint
+and collects the metadata to analyze the replication workload. Using this metadata, DMS
+then computes and provisions the required capacity and starts replicating to the target
+endpoint using the server resources that DMS has provisioned for the DMS Serverless
+replication.
+
+# Arguments
+- `replication_config_arn`: The Amazon Resource Name of the replication for which to start
+  replication.
+- `start_replication_type`: The replication type.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CdcStartPosition"`: Indicates when you want a change data capture (CDC) operation to
+  start. Use either CdcStartPosition or CdcStartTime to specify when you want a CDC operation
+  to start. Specifying both values results in an error. The value can be in date, checkpoint,
+  or LSN/SCN format.
+- `"CdcStartTime"`: Indicates the start time for a change data capture (CDC) operation. Use
+  either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start.
+  Specifying both values results in an error.
+- `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
+  stop. The value can be either server time or commit time.
+"""
+function start_replication(
+    ReplicationConfigArn,
+    StartReplicationType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartReplication",
+        Dict{String,Any}(
+            "ReplicationConfigArn" => ReplicationConfigArn,
+            "StartReplicationType" => StartReplicationType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_replication(
+    ReplicationConfigArn,
+    StartReplicationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StartReplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ReplicationConfigArn" => ReplicationConfigArn,
+                    "StartReplicationType" => StartReplicationType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_replication_task(replication_task_arn, start_replication_task_type)
     start_replication_task(replication_task_arn, start_replication_task_type, params::Dict{String,<:Any})
 
@@ -3138,7 +4965,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CdcStopPosition"`: Indicates when you want a change data capture (CDC) operation to
   stop. The value can be either server time or commit time. Server time example:
   --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example:
-  --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
+  --cdc-stop-position “commit_time:2018-02-09T12:12:12“
 """
 function start_replication_task(
     ReplicationTaskArn,
@@ -3315,6 +5142,46 @@ function start_replication_task_assessment_run(
 end
 
 """
+    stop_replication(replication_config_arn)
+    stop_replication(replication_config_arn, params::Dict{String,<:Any})
+
+For a given DMS Serverless replication configuration, DMS stops any and all ongoing DMS
+Serverless replications. This command doesn't deprovision the stopped replications.
+
+# Arguments
+- `replication_config_arn`: The Amazon Resource Name of the replication to stop.
+
+"""
+function stop_replication(
+    ReplicationConfigArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return database_migration_service(
+        "StopReplication",
+        Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_replication(
+    ReplicationConfigArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return database_migration_service(
+        "StopReplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ReplicationConfigArn" => ReplicationConfigArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_replication_task(replication_task_arn)
     stop_replication_task(replication_task_arn, params::Dict{String,<:Any})
 
@@ -3405,11 +5272,11 @@ end
 
 Migrates 10 active and enabled Amazon SNS subscriptions at a time and converts them to
 corresponding Amazon EventBridge rules. By default, this operation migrates subscriptions
-only when all your replication instance versions are 3.4.6 or higher. If any replication
-instances are from versions earlier than 3.4.6, the operation raises an error and tells you
-to upgrade these instances to version 3.4.6 or higher. To enable migration regardless of
+only when all your replication instance versions are 3.4.5 or higher. If any replication
+instances are from versions earlier than 3.4.5, the operation raises an error and tells you
+to upgrade these instances to version 3.4.5 or higher. To enable migration regardless of
 version, set the Force option to true. However, if you don't upgrade instances earlier than
-version 3.4.6, some types of events might not be available when you use Amazon EventBridge.
+version 3.4.5, some types of events might not be available when you use Amazon EventBridge.
 To call this operation, make sure that you have certain permissions added to your user
 account. For more information, see Migrating event subscriptions to Amazon EventBridge in
 the Amazon Web Services Database Migration Service User Guide.
@@ -3419,7 +5286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ForceMove"`: When set to true, this operation migrates DMS subscriptions for Amazon SNS
   notifications no matter what your replication instance version is. If not set or set to
   false, this operation runs only when all your replication instances are from DMS version
-  3.4.6 or higher.
+  3.4.5 or higher.
 """
 function update_subscriptions_to_event_bridge(;
     aws_config::AbstractAWSConfig=global_aws_config()

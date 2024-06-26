@@ -178,12 +178,11 @@ component from a recipe, specify inlineRecipe when you call this operation.    C
 components from Lambda functions  Create a component from an Lambda function that runs on
 IoT Greengrass. This creates a recipe and artifacts from the Lambda function's deployment
 package. You can use this operation to migrate Lambda functions from IoT Greengrass V1 to
-IoT Greengrass V2. This function only accepts Lambda functions that use the following
-runtimes:   Python 2.7 – python2.7    Python 3.7 – python3.7    Python 3.8 –
-python3.8    Python 3.9 – python3.9    Java 8 – java8    Java 11 – java11    Node.js
-10 – nodejs10.x    Node.js 12 – nodejs12.x    Node.js 14 – nodejs14.x    To create a
-component from a Lambda function, specify lambdaFunction when you call this operation.  IoT
-Greengrass currently supports Lambda functions on only Linux core devices.
+IoT Greengrass V2. This function accepts Lambda functions in all supported versions of
+Python, Node.js, and Java runtimes. IoT Greengrass doesn't apply any additional
+restrictions on deprecated Lambda runtime versions. To create a component from a Lambda
+function, specify lambdaFunction when you call this operation.  IoT Greengrass currently
+supports Lambda functions on only Linux core devices.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -512,6 +511,15 @@ install.
   the section of the URI after the scheme. For example, in the artifact URI
   greengrass:SomeArtifact.zip, the artifact name is SomeArtifact.zip.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"s3EndpointType"`: Specifies the endpoint to use when getting Amazon S3 pre-signed URLs.
+  All Amazon Web Services Regions except US East (N. Virginia) use REGIONAL in all cases. In
+  the US East (N. Virginia) Region the default is GLOBAL, but you can change it to REGIONAL
+  with this parameter.
+- `"x-amz-iot-endpoint-type"`: Determines if the Amazon S3 URL returned is a FIPS
+  pre-signed URL endpoint. Specify fips if you want the returned Amazon S3 pre-signed URL to
+  point to an Amazon S3 FIPS endpoint. If you don't specify a value, the default is standard.
 """
 function get_component_version_artifact(
     arn, artifactName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -849,6 +857,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   options:    ALL – The list includes all deployments.    LATEST_ONLY – The list includes
   only the latest revision of each deployment.   Default: LATEST_ONLY
 - `"maxResults"`: The maximum number of results to be returned per paginated request.
+  Default: 50
 - `"nextToken"`: The token to be used for the next set of paginated results.
 - `"parentTargetArn"`: The parent deployment's target ARN within a subdeployment.
 - `"targetArn"`: The ARN of the target IoT thing or thing group.

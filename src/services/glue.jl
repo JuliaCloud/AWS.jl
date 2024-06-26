@@ -552,6 +552,38 @@ function batch_get_partition(
 end
 
 """
+    batch_get_table_optimizer(entries)
+    batch_get_table_optimizer(entries, params::Dict{String,<:Any})
+
+Returns the configuration for the specified table optimizers.
+
+# Arguments
+- `entries`: A list of BatchGetTableOptimizerEntry objects specifying the table optimizers
+  to retrieve.
+
+"""
+function batch_get_table_optimizer(
+    Entries; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "BatchGetTableOptimizer",
+        Dict{String,Any}("Entries" => Entries);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_table_optimizer(
+    Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "BatchGetTableOptimizer",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Entries" => Entries), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_triggers(trigger_names)
     batch_get_triggers(trigger_names, params::Dict{String,<:Any})
 
@@ -988,7 +1020,8 @@ end
     create_connection(connection_input)
     create_connection(connection_input, params::Dict{String,<:Any})
 
-Creates a connection definition in the Data Catalog.
+Creates a connection definition in the Data Catalog. Connections used for creating
+federated resources require the IAM glue:PassConnection permission.
 
 # Arguments
 - `connection_input`: A ConnectionInput object defining the connection to create.
@@ -1376,7 +1409,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by the Runtime parameter of the Job command. For more information about the available Glue
   versions and corresponding Spark and Python versions, see Glue version in the developer
   guide. Jobs that are created without specifying a Glue version default to Glue 0.9.
+- `"JobMode"`: A mode that describes how a job was created. Valid values are:    SCRIPT -
+  The job was created using the Glue Studio script editor.    VISUAL - The job was created
+  using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive
+  sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the
+  default value.
 - `"LogUri"`: This field is reserved for future use.
+- `"MaintenanceWindow"`: This field specifies a day of the week and hour for a maintenance
+  window for streaming jobs. Glue periodically performs maintenance activities. During these
+  maintenance windows, Glue will need to restart your streaming jobs. Glue will restart the
+  job within 3 hours of the specified maintenance window. For instance, if you set up the
+  maintenance window for Monday at 10:00AM GMT, your jobs will be restarted between 10:00AM
+  GMT to 1:00PM GMT.
 - `"MaxCapacity"`: For Glue version 1.0 or earlier jobs, using the standard worker type,
   the number of Glue data processing units (DPUs) that can be allocated when this job runs. A
   DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity
@@ -1405,20 +1449,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   guide.
 - `"Timeout"`: The job timeout in minutes. This is the maximum time that a job run can
   consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
-  minutes (48 hours).
+  minutes (48 hours) for batch jobs. Streaming jobs must have timeout values less than 7 days
+  or 10080 minutes. When the value is left blank, the job will be restarted after 7 days
+  based if you have not setup a maintenance window. If you have setup maintenance window, it
+  will be restarted during the maintenance window after 7 days.
 - `"WorkerType"`: The type of predefined worker that is allocated when a job runs. Accepts
-  a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray
-  jobs.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a
-  50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1
-  DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend
-  this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to
-  2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We
-  recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each
-  worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per
-  worker. We recommend this worker type for low volume streaming jobs. This worker type is
-  only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker
-  maps to 2 M-DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers
-  based on the autoscaler.
+  a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray
+  jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with
+  84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this
+  worker type for workloads such as data transforms, joins, and queries, to offers a scalable
+  and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2
+  DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1
+  executor per worker. We recommend this worker type for workloads such as data transforms,
+  joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the
+  G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk
+  (approximately 235GB free), and provides 1 executor per worker. We recommend this worker
+  type for jobs whose workloads contain your most demanding transforms, aggregations, joins,
+  and queries. This worker type is available only for Glue version 3.0 or later Spark ETL
+  jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia),
+  US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo),
+  Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the
+  G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk
+  (approximately 487GB free), and provides 1 executor per worker. We recommend this worker
+  type for jobs whose workloads contain your most demanding transforms, aggregations, joins,
+  and queries. This worker type is available only for Glue version 3.0 or later Spark ETL
+  jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For
+  the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB
+  disk (approximately 34GB free), and provides 1 executor per worker. We recommend this
+  worker type for low volume streaming jobs. This worker type is only available for Glue
+  version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU
+  (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8
+  Ray workers based on the autoscaler.
 """
 function create_job(Command, Name, Role; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -1914,17 +1975,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Timeout"`:  The number of minutes before session times out. Default for Spark ETL jobs
   is 48 hours (2880 minutes), the maximum session lifetime for this job type. Consult the
   documentation for other job types.
-- `"WorkerType"`: The type of predefined worker that is allocated to use for the session.
-  Accepts a value of Standard, G.1X, G.2X, or G.025X.   For the Standard worker type, each
-  worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For
-  the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and
-  provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
-  For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk),
-  and provides 1 executor per worker. We recommend this worker type for memory-intensive
-  jobs.   For the G.025X worker type, each worker maps to 0.25 DPU (2 vCPU, 4 GB of memory,
-  64 GB disk), and provides 1 executor per worker. We recommend this worker type for low
-  volume streaming jobs. This worker type is only available for Glue version 3.0 streaming
-  jobs.
+- `"WorkerType"`: The type of predefined worker that is allocated when a job runs. Accepts
+  a value of G.1X, G.2X, G.4X, or G.8X for Spark jobs. Accepts the value Z.2X for Ray
+  notebooks.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory)
+  with 84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend
+  this worker type for workloads such as data transforms, joins, and queries, to offers a
+  scalable and cost effective way to run most jobs.   For the G.2X worker type, each worker
+  maps to 2 DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and
+  provides 1 executor per worker. We recommend this worker type for workloads such as data
+  transforms, joins, and queries, to offers a scalable and cost effective way to run most
+  jobs.   For the G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory)
+  with 256GB disk (approximately 235GB free), and provides 1 executor per worker. We
+  recommend this worker type for jobs whose workloads contain your most demanding transforms,
+  aggregations, joins, and queries. This worker type is available only for Glue version 3.0
+  or later Spark ETL jobs in the following Amazon Web Services Regions: US East (Ohio), US
+  East (N. Virginia), US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia
+  Pacific (Tokyo), Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe
+  (Stockholm).   For the G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of
+  memory) with 512GB disk (approximately 487GB free), and provides 1 executor per worker. We
+  recommend this worker type for jobs whose workloads contain your most demanding transforms,
+  aggregations, joins, and queries. This worker type is available only for Glue version 3.0
+  or later Spark ETL jobs, in the same Amazon Web Services Regions as supported for the G.4X
+  worker type.   For the Z.2X worker type, each worker maps to 2 M-DPU (8vCPUs, 64 GB of
+  memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based
+  on the autoscaler.
 """
 function create_session(
     Command, Id, Role; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1973,6 +2047,8 @@ Creates a new table definition in the Data Catalog.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog in which to create the Table. If none is
   supplied, the Amazon Web Services account ID is used by default.
+- `"OpenTableFormatInput"`: Specifies an OpenTableFormatInput structure when creating an
+  open format table.
 - `"PartitionIndexes"`: A list of partition indexes, PartitionIndex structures, to create
   in the table.
 - `"TransactionId"`: The ID of the transaction.
@@ -2000,6 +2076,72 @@ function create_table(
                 _merge,
                 Dict{String,Any}(
                     "DatabaseName" => DatabaseName, "TableInput" => TableInput
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_table_optimizer(catalog_id, database_name, table_name, table_optimizer_configuration, type)
+    create_table_optimizer(catalog_id, database_name, table_name, table_optimizer_configuration, type, params::Dict{String,<:Any})
+
+Creates a new table optimizer for a specific function. compaction is the only currently
+supported optimizer type.
+
+# Arguments
+- `catalog_id`: The Catalog ID of the table.
+- `database_name`: The name of the database in the catalog in which the table resides.
+- `table_name`: The name of the table.
+- `table_optimizer_configuration`: A TableOptimizerConfiguration object representing the
+  configuration of a table optimizer.
+- `type`: The type of table optimizer. Currently, the only valid value is compaction.
+
+"""
+function create_table_optimizer(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    TableOptimizerConfiguration,
+    Type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "CreateTableOptimizer",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "TableName" => TableName,
+            "TableOptimizerConfiguration" => TableOptimizerConfiguration,
+            "Type" => Type,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_table_optimizer(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    TableOptimizerConfiguration,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "CreateTableOptimizer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "TableName" => TableName,
+                    "TableOptimizerConfiguration" => TableOptimizerConfiguration,
+                    "Type" => Type,
                 ),
                 params,
             ),
@@ -2060,6 +2202,52 @@ function create_trigger(
             mergewith(
                 _merge,
                 Dict{String,Any}("Actions" => Actions, "Name" => Name, "Type" => Type),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_usage_profile(configuration, name)
+    create_usage_profile(configuration, name, params::Dict{String,<:Any})
+
+Creates an Glue usage profile.
+
+# Arguments
+- `configuration`: A ProfileConfiguration object specifying the job and session values for
+  the profile.
+- `name`: The name of the usage profile.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the usage profile.
+- `"Tags"`: A list of tags applied to the usage profile.
+"""
+function create_usage_profile(
+    Configuration, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "CreateUsageProfile",
+        Dict{String,Any}("Configuration" => Configuration, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_usage_profile(
+    Configuration,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "CreateUsageProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Configuration" => Configuration, "Name" => Name),
                 params,
             ),
         );
@@ -2989,6 +3177,66 @@ function delete_table(
 end
 
 """
+    delete_table_optimizer(catalog_id, database_name, table_name, type)
+    delete_table_optimizer(catalog_id, database_name, table_name, type, params::Dict{String,<:Any})
+
+Deletes an optimizer and all associated metadata for a table. The optimization will no
+longer be performed on the table.
+
+# Arguments
+- `catalog_id`: The Catalog ID of the table.
+- `database_name`: The name of the database in the catalog in which the table resides.
+- `table_name`: The name of the table.
+- `type`: The type of table optimizer.
+
+"""
+function delete_table_optimizer(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    Type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "DeleteTableOptimizer",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "TableName" => TableName,
+            "Type" => Type,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_table_optimizer(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "DeleteTableOptimizer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "TableName" => TableName,
+                    "Type" => Type,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_table_version(database_name, table_name, version_id)
     delete_table_version(database_name, table_name, version_id, params::Dict{String,<:Any})
 
@@ -3069,6 +3317,35 @@ function delete_trigger(
 )
     return glue(
         "DeleteTrigger",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_usage_profile(name)
+    delete_usage_profile(name, params::Dict{String,<:Any})
+
+Deletes the Glue specified usage profile.
+
+# Arguments
+- `name`: The name of the usage profile to delete.
+
+"""
+function delete_usage_profile(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "DeleteUsageProfile",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_usage_profile(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "DeleteUsageProfile",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3454,6 +3731,91 @@ function get_column_statistics_for_table(
                     "DatabaseName" => DatabaseName,
                     "TableName" => TableName,
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_column_statistics_task_run(column_statistics_task_run_id)
+    get_column_statistics_task_run(column_statistics_task_run_id, params::Dict{String,<:Any})
+
+Get the associated metadata/information for a task run, given a task run ID.
+
+# Arguments
+- `column_statistics_task_run_id`: The identifier for the particular column statistics task
+  run.
+
+"""
+function get_column_statistics_task_run(
+    ColumnStatisticsTaskRunId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetColumnStatisticsTaskRun",
+        Dict{String,Any}("ColumnStatisticsTaskRunId" => ColumnStatisticsTaskRunId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_column_statistics_task_run(
+    ColumnStatisticsTaskRunId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetColumnStatisticsTaskRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ColumnStatisticsTaskRunId" => ColumnStatisticsTaskRunId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_column_statistics_task_runs(database_name, table_name)
+    get_column_statistics_task_runs(database_name, table_name, params::Dict{String,<:Any})
+
+Retrieves information about all runs associated with the specified table.
+
+# Arguments
+- `database_name`: The name of the database where the table resides.
+- `table_name`: The name of the table.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum size of the response.
+- `"NextToken"`: A continuation token, if this is a continuation call.
+"""
+function get_column_statistics_task_runs(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetColumnStatisticsTaskRuns",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_column_statistics_task_runs(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetColumnStatisticsTaskRuns",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
                 params,
             ),
         );
@@ -4003,7 +4365,8 @@ end
     get_job_run(job_name, run_id)
     get_job_run(job_name, run_id, params::Dict{String,<:Any})
 
-Retrieves the metadata for a given job run.
+Retrieves the metadata for a given job run. Job run history is accessible for 90 days for
+your workflow and job run.
 
 # Arguments
 - `job_name`: Name of the job definition being run.
@@ -4953,6 +5316,65 @@ function get_table(
 end
 
 """
+    get_table_optimizer(catalog_id, database_name, table_name, type)
+    get_table_optimizer(catalog_id, database_name, table_name, type, params::Dict{String,<:Any})
+
+Returns the configuration of all optimizers associated with a specified table.
+
+# Arguments
+- `catalog_id`: The Catalog ID of the table.
+- `database_name`: The name of the database in the catalog in which the table resides.
+- `table_name`: The name of the table.
+- `type`: The type of table optimizer.
+
+"""
+function get_table_optimizer(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    Type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetTableOptimizer",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "TableName" => TableName,
+            "Type" => Type,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_table_optimizer(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetTableOptimizer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "TableName" => TableName,
+                    "Type" => Type,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_table_version(database_name, table_name)
     get_table_version(database_name, table_name, params::Dict{String,<:Any})
 
@@ -5198,6 +5620,11 @@ IAM authorization, the public IAM action associated with this API is glue:GetPar
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AuditContext"`: A structure containing Lake Formation audit context information.
+- `"QuerySessionContext"`: A structure used as a protocol between query engines and Lake
+  Formation or Glue. Contains both a Lake Formation generated authorization identifier and
+  information from the request's authorization context.
+- `"Region"`: Specified only if the base tables belong to a different Amazon Web Services
+  Region.
 """
 function get_unfiltered_partition_metadata(
     CatalogId,
@@ -5288,6 +5715,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of partitions to return in a single response.
 - `"NextToken"`: A continuation token, if this is not the first call to retrieve these
   partitions.
+- `"QuerySessionContext"`: A structure used as a protocol between query engines and Lake
+  Formation or Glue. Contains both a Lake Formation generated authorization identifier and
+  information from the request's authorization context.
+- `"Region"`: Specified only if the base tables belong to a different Amazon Web Services
+  Region.
 - `"Segment"`: The segment of the table's partitions to scan in this request.
 """
 function get_unfiltered_partitions_metadata(
@@ -5340,18 +5772,48 @@ end
     get_unfiltered_table_metadata(catalog_id, database_name, name, supported_permission_types)
     get_unfiltered_table_metadata(catalog_id, database_name, name, supported_permission_types, params::Dict{String,<:Any})
 
-Retrieves table metadata from the Data Catalog that contains unfiltered metadata. For IAM
-authorization, the public IAM action associated with this API is glue:GetTable.
+Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data
+Catalog. For IAM authorization, the public IAM action associated with this API is
+glue:GetTable.
 
 # Arguments
 - `catalog_id`: The catalog ID where the table resides.
 - `database_name`: (Required) Specifies the name of a database that contains the table.
 - `name`: (Required) Specifies the name of a table for which you are requesting metadata.
-- `supported_permission_types`: (Required) A list of supported permission types.
+- `supported_permission_types`: Indicates the level of filtering a third-party analytical
+  engine is capable of enforcing when calling the GetUnfilteredTableMetadata API operation.
+  Accepted values are:    COLUMN_PERMISSION - Column permissions ensure that users can access
+  only specific columns in the table. If there are particular columns contain sensitive data,
+  data lake administrators can define column filters that exclude access to specific columns.
+     CELL_FILTER_PERMISSION - Cell-level filtering combines column filtering (include or
+  exclude columns) and row filter expressions to restrict access to individual elements in
+  the table.    NESTED_PERMISSION - Nested permissions combines cell-level filtering and
+  nested column filtering to restrict access to columns and/or nested columns in specific
+  rows based on row filter expressions.    NESTED_CELL_PERMISSION - Nested cell permissions
+  combines nested permission with nested cell-level filtering. This allows different subsets
+  of nested columns to be restricted based on an array of row filter expressions.    Note:
+  Each of these permission types follows a hierarchical order where each subsequent
+  permission type includes all permission of the previous type. Important: If you provide a
+  supported permission type that doesn't match the user's level of permissions on the table,
+  then Lake Formation raises an exception. For example, if the third-party engine calling the
+  GetUnfilteredTableMetadata operation can enforce only column-level filtering, and the user
+  has nested cell filtering applied on the table, Lake Formation throws an exception, and
+  will not return unfiltered table metadata and data access credentials.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AuditContext"`: A structure containing Lake Formation audit context information.
+- `"ParentResourceArn"`: The resource ARN of the view.
+- `"Permissions"`: The Lake Formation data permissions of the caller on the table. Used to
+  authorize the call when no view context is found.
+- `"QuerySessionContext"`: A structure used as a protocol between query engines and Lake
+  Formation or Glue. Contains both a Lake Formation generated authorization identifier and
+  information from the request's authorization context.
+- `"Region"`: Specified only if the base tables belong to a different Amazon Web Services
+  Region.
+- `"RootResourceArn"`: The resource ARN of the root view in a chain of nested views.
+- `"SupportedDialect"`: A structure specifying the dialect and dialect version used by the
+  query engine.
 """
 function get_unfiltered_table_metadata(
     CatalogId,
@@ -5394,6 +5856,35 @@ function get_unfiltered_table_metadata(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_usage_profile(name)
+    get_usage_profile(name, params::Dict{String,<:Any})
+
+Retrieves information about the specified Glue usage profile.
+
+# Arguments
+- `name`: The name of the usage profile to retrieve.
+
+"""
+function get_usage_profile(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "GetUsageProfile",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_usage_profile(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetUsageProfile",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -5523,7 +6014,8 @@ end
     get_workflow_run(name, run_id)
     get_workflow_run(name, run_id, params::Dict{String,<:Any})
 
-Retrieves the metadata for a given workflow run.
+Retrieves the metadata for a given workflow run. Job run history is accessible for 90 days
+for your workflow and job run.
 
 # Arguments
 - `name`: Name of the workflow being run.
@@ -5675,6 +6167,37 @@ function list_blueprints(
 )
     return glue(
         "ListBlueprints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_column_statistics_task_runs()
+    list_column_statistics_task_runs(params::Dict{String,<:Any})
+
+List all task runs for a particular account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum size of the response.
+- `"NextToken"`: A continuation token, if this is a continuation call.
+"""
+function list_column_statistics_task_runs(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListColumnStatisticsTaskRuns";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_column_statistics_task_runs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListColumnStatisticsTaskRuns",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -6141,6 +6664,69 @@ function list_statements(
 end
 
 """
+    list_table_optimizer_runs(catalog_id, database_name, table_name, type)
+    list_table_optimizer_runs(catalog_id, database_name, table_name, type, params::Dict{String,<:Any})
+
+Lists the history of previous optimizer runs for a specific table.
+
+# Arguments
+- `catalog_id`: The Catalog ID of the table.
+- `database_name`: The name of the database in the catalog in which the table resides.
+- `table_name`: The name of the table.
+- `type`: The type of table optimizer. Currently, the only valid value is compaction.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of optimizer runs to return on each call.
+- `"NextToken"`: A continuation token, if this is a continuation call.
+"""
+function list_table_optimizer_runs(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    Type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "ListTableOptimizerRuns",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "TableName" => TableName,
+            "Type" => Type,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_table_optimizer_runs(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "ListTableOptimizerRuns",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "TableName" => TableName,
+                    "Type" => Type,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_triggers()
     list_triggers(params::Dict{String,<:Any})
 
@@ -6166,6 +6752,28 @@ function list_triggers(
 )
     return glue(
         "ListTriggers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_usage_profiles()
+    list_usage_profiles(params::Dict{String,<:Any})
+
+List all the Glue usage profiles.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of usage profiles to return in a single response.
+- `"NextToken"`: A continuation token, included if this is a continuation call.
+"""
+function list_usage_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue("ListUsageProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_usage_profiles(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListUsageProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -6723,6 +7331,63 @@ function start_blueprint_run(
 end
 
 """
+    start_column_statistics_task_run(database_name, role, table_name)
+    start_column_statistics_task_run(database_name, role, table_name, params::Dict{String,<:Any})
+
+Starts a column statistics task run, for a specified table and columns.
+
+# Arguments
+- `database_name`: The name of the database where the table resides.
+- `role`: The IAM role that the service assumes to generate statistics.
+- `table_name`: The name of the table to generate statistics.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CatalogID"`: The ID of the Data Catalog where the table reside. If none is supplied,
+  the Amazon Web Services account ID is used by default.
+- `"ColumnNameList"`: A list of the column names to generate statistics. If none is
+  supplied, all column names for the table will be used by default.
+- `"SampleSize"`: The percentage of rows used to generate statistics. If none is supplied,
+  the entire table will be used to generate stats.
+- `"SecurityConfiguration"`: Name of the security configuration that is used to encrypt
+  CloudWatch logs for the column stats task run.
+"""
+function start_column_statistics_task_run(
+    DatabaseName, Role, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "StartColumnStatisticsTaskRun",
+        Dict{String,Any}(
+            "DatabaseName" => DatabaseName, "Role" => Role, "TableName" => TableName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_column_statistics_task_run(
+    DatabaseName,
+    Role,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "StartColumnStatisticsTaskRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DatabaseName" => DatabaseName, "Role" => Role, "TableName" => TableName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_crawler(name)
     start_crawler(name, params::Dict{String,<:Any})
 
@@ -6795,7 +7460,7 @@ end
 Starts a recommendation run that is used to generate rules when you don't know what rules
 to write. Glue Data Quality analyzes the data and comes up with recommendations for a
 potential ruleset. You can then triage the ruleset and modify the generated ruleset to your
-liking.
+liking. Recommendation runs are automatically deleted after 90 days.
 
 # Arguments
 - `data_source`: The data source (Glue table) associated with this run.
@@ -7071,21 +7736,37 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with this job run.
 - `"Timeout"`: The JobRun timeout in minutes. This is the maximum time that a job run can
   consume resources before it is terminated and enters TIMEOUT status. This value overrides
-  the timeout value set in the parent job. Streaming jobs do not have a timeout. The default
-  for non-streaming jobs is 2,880 minutes (48 hours).
+  the timeout value set in the parent job.  Streaming jobs must have timeout values less than
+  7 days or 10080 minutes. When the value is left blank, the job will be restarted after 7
+  days based if you have not setup a maintenance window. If you have setup maintenance
+  window, it will be restarted during the maintenance window after 7 days.
 - `"WorkerType"`: The type of predefined worker that is allocated when a job runs. Accepts
-  a value of Standard, G.1X, G.2X, or G.025X for Spark jobs. Accepts the value Z.2X for Ray
-  jobs.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a
-  50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1
-  DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend
-  this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to
-  2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We
-  recommend this worker type for memory-intensive jobs.   For the G.025X worker type, each
-  worker maps to 0.25 DPU (2 vCPU, 4 GB of memory, 64 GB disk), and provides 1 executor per
-  worker. We recommend this worker type for low volume streaming jobs. This worker type is
-  only available for Glue version 3.0 streaming jobs.   For the Z.2X worker type, each worker
-  maps to 2 DPU (8vCPU, 64 GB of m emory, 128 GB disk), and provides up to 8 Ray workers (one
-  per vCPU) based on the autoscaler.
+  a value of G.1X, G.2X, G.4X, G.8X or G.025X for Spark jobs. Accepts the value Z.2X for Ray
+  jobs.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPUs, 16 GB of memory) with
+  84GB disk (approximately 34GB free), and provides 1 executor per worker. We recommend this
+  worker type for workloads such as data transforms, joins, and queries, to offers a scalable
+  and cost effective way to run most jobs.   For the G.2X worker type, each worker maps to 2
+  DPU (8 vCPUs, 32 GB of memory) with 128GB disk (approximately 77GB free), and provides 1
+  executor per worker. We recommend this worker type for workloads such as data transforms,
+  joins, and queries, to offers a scalable and cost effective way to run most jobs.   For the
+  G.4X worker type, each worker maps to 4 DPU (16 vCPUs, 64 GB of memory) with 256GB disk
+  (approximately 235GB free), and provides 1 executor per worker. We recommend this worker
+  type for jobs whose workloads contain your most demanding transforms, aggregations, joins,
+  and queries. This worker type is available only for Glue version 3.0 or later Spark ETL
+  jobs in the following Amazon Web Services Regions: US East (Ohio), US East (N. Virginia),
+  US West (Oregon), Asia Pacific (Singapore), Asia Pacific (Sydney), Asia Pacific (Tokyo),
+  Canada (Central), Europe (Frankfurt), Europe (Ireland), and Europe (Stockholm).   For the
+  G.8X worker type, each worker maps to 8 DPU (32 vCPUs, 128 GB of memory) with 512GB disk
+  (approximately 487GB free), and provides 1 executor per worker. We recommend this worker
+  type for jobs whose workloads contain your most demanding transforms, aggregations, joins,
+  and queries. This worker type is available only for Glue version 3.0 or later Spark ETL
+  jobs, in the same Amazon Web Services Regions as supported for the G.4X worker type.   For
+  the G.025X worker type, each worker maps to 0.25 DPU (2 vCPUs, 4 GB of memory) with 84GB
+  disk (approximately 34GB free), and provides 1 executor per worker. We recommend this
+  worker type for low volume streaming jobs. This worker type is only available for Glue
+  version 3.0 streaming jobs.   For the Z.2X worker type, each worker maps to 2 M-DPU
+  (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8
+  Ray workers based on the autoscaler.
 """
 function start_job_run(JobName; aws_config::AbstractAWSConfig=global_aws_config())
     return glue(
@@ -7254,6 +7935,47 @@ function start_workflow_run(
     return glue(
         "StartWorkflowRun",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_column_statistics_task_run(database_name, table_name)
+    stop_column_statistics_task_run(database_name, table_name, params::Dict{String,<:Any})
+
+Stops a task run for the specified table.
+
+# Arguments
+- `database_name`: The name of the database where the table resides.
+- `table_name`: The name of the table.
+
+"""
+function stop_column_statistics_task_run(
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "StopColumnStatisticsTaskRun",
+        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_column_statistics_task_run(
+    DatabaseName,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "StopColumnStatisticsTaskRun",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -8033,8 +8755,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CommitId"`: A commit ID for a commit in the remote repository.
 - `"Folder"`: An optional folder in the remote repository.
 - `"JobName"`: The name of the Glue job to be synchronized to or from the remote repository.
-- `"Provider"`: The provider for the remote repository.
+- `"Provider"`:  The provider for the remote repository. Possible values: GITHUB,
+  AWS_CODE_COMMIT, GITLAB, BITBUCKET.
 - `"RepositoryName"`: The name of the remote repository that contains the job artifacts.
+  For BitBucket providers, RepositoryName should include WorkspaceName. Use the format
+  &lt;WorkspaceName&gt;/&lt;RepositoryName&gt;.
 - `"RepositoryOwner"`: The owner of the remote repository that contains the job artifacts.
 """
 function update_job_from_source_control(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -8297,8 +9022,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CommitId"`: A commit ID for a commit in the remote repository.
 - `"Folder"`: An optional folder in the remote repository.
 - `"JobName"`: The name of the Glue job to be synchronized to or from the remote repository.
-- `"Provider"`: The provider for the remote repository.
+- `"Provider"`:  The provider for the remote repository. Possible values: GITHUB,
+  AWS_CODE_COMMIT, GITLAB, BITBUCKET.
 - `"RepositoryName"`: The name of the remote repository that contains the job artifacts.
+  For BitBucket providers, RepositoryName should include WorkspaceName. Use the format
+  &lt;WorkspaceName&gt;/&lt;RepositoryName&gt;.
 - `"RepositoryOwner"`: The owner of the remote repository that contains the job artifacts.
 """
 function update_source_control_from_job(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -8332,11 +9060,14 @@ Updates a metadata table in the Data Catalog.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `"Force"`: A flag that can be set to true to ignore matching storage descriptor and
+  subobject matching requirements.
 - `"SkipArchive"`: By default, UpdateTable always creates an archived version of the table
   before updating it. However, if skipArchive is set to true, UpdateTable does not create the
   archived version.
 - `"TransactionId"`: The transaction ID at which to update the table contents.
 - `"VersionId"`: The version ID at which to update the table contents.
+- `"ViewUpdateAction"`: The operation to be performed when updating the view.
 """
 function update_table(
     DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()
@@ -8361,6 +9092,71 @@ function update_table(
                 _merge,
                 Dict{String,Any}(
                     "DatabaseName" => DatabaseName, "TableInput" => TableInput
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_table_optimizer(catalog_id, database_name, table_name, table_optimizer_configuration, type)
+    update_table_optimizer(catalog_id, database_name, table_name, table_optimizer_configuration, type, params::Dict{String,<:Any})
+
+Updates the configuration for an existing table optimizer.
+
+# Arguments
+- `catalog_id`: The Catalog ID of the table.
+- `database_name`: The name of the database in the catalog in which the table resides.
+- `table_name`: The name of the table.
+- `table_optimizer_configuration`: A TableOptimizerConfiguration object representing the
+  configuration of a table optimizer.
+- `type`: The type of table optimizer. Currently, the only valid value is compaction.
+
+"""
+function update_table_optimizer(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    TableOptimizerConfiguration,
+    Type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "UpdateTableOptimizer",
+        Dict{String,Any}(
+            "CatalogId" => CatalogId,
+            "DatabaseName" => DatabaseName,
+            "TableName" => TableName,
+            "TableOptimizerConfiguration" => TableOptimizerConfiguration,
+            "Type" => Type,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_table_optimizer(
+    CatalogId,
+    DatabaseName,
+    TableName,
+    TableOptimizerConfiguration,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "UpdateTableOptimizer",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CatalogId" => CatalogId,
+                    "DatabaseName" => DatabaseName,
+                    "TableName" => TableName,
+                    "TableOptimizerConfiguration" => TableOptimizerConfiguration,
+                    "Type" => Type,
                 ),
                 params,
             ),
@@ -8403,6 +9199,51 @@ function update_trigger(
             mergewith(
                 _merge,
                 Dict{String,Any}("Name" => Name, "TriggerUpdate" => TriggerUpdate),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_usage_profile(configuration, name)
+    update_usage_profile(configuration, name, params::Dict{String,<:Any})
+
+Update an Glue usage profile.
+
+# Arguments
+- `configuration`: A ProfileConfiguration object specifying the job and session values for
+  the profile.
+- `name`: The name of the usage profile.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: A description of the usage profile.
+"""
+function update_usage_profile(
+    Configuration, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "UpdateUsageProfile",
+        Dict{String,Any}("Configuration" => Configuration, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_usage_profile(
+    Configuration,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "UpdateUsageProfile",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Configuration" => Configuration, "Name" => Name),
                 params,
             ),
         );

@@ -132,10 +132,10 @@ end
     channel_flow_callback(callback_id, channel_message, channel_arn)
     channel_flow_callback(callback_id, channel_message, channel_arn, params::Dict{String,<:Any})
 
-Calls back Chime SDK Messaging with a processing response message. This should be invoked
-from the processor Lambda. This is a developer API. You can return one of the following
-processing responses:   Update message content or metadata   Deny a message   Make no
-changes to the message
+Calls back Amazon Chime SDK messaging with a processing response message. This should be
+invoked from the processor Lambda. This is a developer API. You can return one of the
+following processing responses:   Update message content or metadata   Deny a message
+Make no changes to the message
 
 # Arguments
 - `callback_id`: The identifier passed to the processor by the service when invoked. Use
@@ -341,7 +341,7 @@ channel flows with channels, and the processors in the channel flow then take ac
 messages sent to that channel. This is a developer API. Channel flows process the following
 items:   New and updated messages   Persistent and non-persistent messages   The Standard
 message type    Channel flows don't process Control or System messages. For more
-information about the message types provided by Chime SDK Messaging, refer to Message types
+information about the message types provided by Chime SDK messaging, refer to Message types
 in the Amazon Chime developer guide.
 
 # Arguments
@@ -1329,8 +1329,8 @@ end
     get_channel_membership_preferences(channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
 Gets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified
-channel. A user or a bot must be a member of the channel and own the membership to be able
-to retrieve membership preferences. Users or bots in the AppInstanceAdmin and channel
+channel. A user or a bot must be a member of the channel and own the membership in order to
+retrieve membership preferences. Users or bots in the AppInstanceAdmin and channel
 moderator roles can't retrieve preferences for other users or bots. Banned users or bots
 can't retrieve membership preferences for the channel from which they are banned.  The
 x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
@@ -1453,11 +1453,10 @@ status of messages going through channel flow processing. The API provides an al
 to retrieving message status if the event was not received because a client wasn't
 connected to a websocket.  Messages can have any one of these statuses.  SENT  Message
 processed successfully  PENDING  Ongoing processing  FAILED  Processing failed  DENIED
-Messasge denied by the processor      This API does not return statuses for denied
-messages, because we don't store them once the processor denies them.    Only the message
-sender can invoke this API.   The x-amz-chime-bearer request header is mandatory. Use the
-ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the value in the
-header.
+Message denied by the processor      This API does not return statuses for denied messages,
+because we don't store them once the processor denies them.    Only the message sender can
+invoke this API.   The x-amz-chime-bearer request header is mandatory. Use the ARN of the
+AppInstanceUser or AppInstanceBot that makes the API call as the value in the header.
 
 # Arguments
 - `channel_arn`: The ARN of the channel
@@ -1739,7 +1738,7 @@ end
     list_channel_memberships_for_app_instance_user(x-amz-chime-bearer)
     list_channel_memberships_for_app_instance_user(x-amz-chime-bearer, params::Dict{String,<:Any})
 
- Lists all channels that anr AppInstanceUser or AppInstanceBot is a part of. Only an
+ Lists all channels that an AppInstanceUser or AppInstanceBot is a part of. Only an
 AppInstanceAdmin can call the API with a user ARN that is not their own.   The
 x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
 AppInstanceBot that makes the API call as the value in the header.
@@ -2210,13 +2209,13 @@ end
     put_channel_membership_preferences(preferences, channel_arn, member_arn, x-amz-chime-bearer)
     put_channel_membership_preferences(preferences, channel_arn, member_arn, x-amz-chime-bearer, params::Dict{String,<:Any})
 
-Sets the membership preferences of an AppInstanceUser or AppIntanceBot for the specified
+Sets the membership preferences of an AppInstanceUser or AppInstanceBot for the specified
 channel. The user or bot must be a member of the channel. Only the user or bot who owns the
 membership can set preferences. Users or bots in the AppInstanceAdmin and channel moderator
-roles can't set preferences for other users or users. Banned users or bots can't set
-membership preferences for the channel from which they are banned.  The x-amz-chime-bearer
-request header is mandatory. Use the ARN of an AppInstanceUser or AppInstanceBot that makes
-the API call as the value in the header.
+roles can't set preferences for other users. Banned users or bots can't set membership
+preferences for the channel from which they are banned.  The x-amz-chime-bearer request
+header is mandatory. Use the ARN of an AppInstanceUser or AppInstanceBot that makes the API
+call as the value in the header.
 
 # Arguments
 - `preferences`: The channel membership preferences of an AppInstanceUser .
@@ -2424,15 +2423,19 @@ end
 Sends a message to a particular channel that the member is a part of.  The
 x-amz-chime-bearer request header is mandatory. Use the ARN of the AppInstanceUser or
 AppInstanceBot that makes the API call as the value in the header. Also, STANDARD messages
-can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of
-data and no metadata.
+can be up to 4KB in size and contain metadata. Metadata is arbitrary, and you can use it in
+a variety of ways, such as containing a link to an attachment.  CONTROL messages are
+limited to 30 bytes and do not contain metadata.
 
 # Arguments
 - `client_request_token`: The Idempotency token for each client request.
-- `content`: The content of the message.
+- `content`: The content of the channel message.
 - `persistence`: Boolean that controls whether the message is persisted on the back end.
   Required.
-- `type`: The type of message, STANDARD or CONTROL.
+- `type`: The type of message, STANDARD or CONTROL.  STANDARD messages can be up to 4KB in
+  size and contain metadata. Metadata is arbitrary, and you can use it in a variety of ways,
+  such as containing a link to an attachment.  CONTROL messages are limited to 30 bytes and
+  do not contain metadata.
 - `channel_arn`: The ARN of the channel.
 - `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API
   call.
@@ -2445,6 +2448,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Metadata"`: The optional metadata for each message.
 - `"PushNotification"`: The push notification configuration of the message.
 - `"SubChannelId"`: The ID of the SubChannel in the request.
+- `"Target"`: The target of a message. Must be a member of the channel, such as another
+  user, a bot, or the sender. Only the target and the sender can view targeted messages. Only
+  users who can see targeted messages can take actions on them. However, administrators can
+  delete targeted messages that they can’t see.
 """
 function send_channel_message(
     ClientRequestToken,
@@ -2693,7 +2700,7 @@ the ARN of the AppInstanceUser or AppInstanceBot that makes the API call as the 
 the header.
 
 # Arguments
-- `content`: The content of the message being updated.
+- `content`: The content of the channel message.
 - `channel_arn`: The ARN of the channel.
 - `message_id`: The ID string of the message being updated.
 - `x-amz-chime-bearer`: The ARN of the AppInstanceUser or AppInstanceBot that makes the API

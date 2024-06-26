@@ -434,6 +434,60 @@ function get_anomaly_subscriptions(
 end
 
 """
+    get_approximate_usage_records(approximation_dimension, granularity)
+    get_approximate_usage_records(approximation_dimension, granularity, params::Dict{String,<:Any})
+
+Retrieves estimated usage records for hourly granularity or resource-level data at daily
+granularity.
+
+# Arguments
+- `approximation_dimension`: The service to evaluate for the usage records. You can choose
+  resource-level data at daily granularity, or hourly granularity with or without
+  resource-level data.
+- `granularity`: How granular you want the data to be. You can enable data at hourly or
+  daily granularity.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Services"`: The service metadata for the service or services you want to query. If not
+  specified, all elements are returned.
+"""
+function get_approximate_usage_records(
+    ApproximationDimension, Granularity; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "GetApproximateUsageRecords",
+        Dict{String,Any}(
+            "ApproximationDimension" => ApproximationDimension, "Granularity" => Granularity
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_approximate_usage_records(
+    ApproximationDimension,
+    Granularity,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cost_explorer(
+        "GetApproximateUsageRecords",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApproximationDimension" => ApproximationDimension,
+                    "Granularity" => Granularity,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_cost_and_usage(granularity, metrics, time_period)
     get_cost_and_usage(granularity, metrics, time_period, params::Dict{String,<:Any})
 
@@ -528,11 +582,11 @@ cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you w
 request to return. You can also filter and group your data by various dimensions, such as
 SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the
 GetDimensionValues operation. Management account in an organization in Organizations have
-access to all member accounts. This API is currently available for the Amazon Elastic
-Compute Cloud – Compute service only.  This is an opt-in only feature. You can enable
-this feature from the Cost Explorer Settings page. For information about how to access the
-Settings page, see Controlling Access for Cost Explorer in the Billing and Cost Management
-User Guide.
+access to all member accounts. Hourly granularity is only available for EC2-Instances
+(Elastic Compute Cloud) resource-level data. All other resource-level data is available at
+daily granularity.  This is an opt-in only feature. You can enable this feature from the
+Cost Explorer Settings page. For information about how to access the Settings page, see
+Controlling Access for Cost Explorer in the Billing and Cost Management User Guide.
 
 # Arguments
 - `filter`: Filters Amazon Web Services costs by different dimensions. For example, you can
@@ -1112,6 +1166,47 @@ function get_rightsizing_recommendation(
 end
 
 """
+    get_savings_plan_purchase_recommendation_details(recommendation_detail_id)
+    get_savings_plan_purchase_recommendation_details(recommendation_detail_id, params::Dict{String,<:Any})
+
+Retrieves the details for a Savings Plan recommendation. These details include the hourly
+data-points that construct the cost, coverage, and utilization charts.
+
+# Arguments
+- `recommendation_detail_id`: The ID that is associated with the Savings Plan
+  recommendation.
+
+"""
+function get_savings_plan_purchase_recommendation_details(
+    RecommendationDetailId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "GetSavingsPlanPurchaseRecommendationDetails",
+        Dict{String,Any}("RecommendationDetailId" => RecommendationDetailId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_savings_plan_purchase_recommendation_details(
+    RecommendationDetailId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cost_explorer(
+        "GetSavingsPlanPurchaseRecommendationDetails",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RecommendationDetailId" => RecommendationDetailId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_savings_plans_coverage(time_period)
     get_savings_plans_coverage(time_period, params::Dict{String,<:Any})
 
@@ -1499,6 +1594,39 @@ function get_usage_forecast(
 end
 
 """
+    list_cost_allocation_tag_backfill_history()
+    list_cost_allocation_tag_backfill_history(params::Dict{String,<:Any})
+
+ Retrieves a list of your historical cost allocation tag backfill requests.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:  The maximum number of objects that are returned for this request.
+- `"NextToken"`:  The token to retrieve the next set of results. Amazon Web Services
+  provides the token when the response from a previous call has more results than the maximum
+  page size.
+"""
+function list_cost_allocation_tag_backfill_history(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "ListCostAllocationTagBackfillHistory";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_cost_allocation_tag_backfill_history(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "ListCostAllocationTagBackfillHistory",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_cost_allocation_tags()
     list_cost_allocation_tags(params::Dict{String,<:Any})
 
@@ -1680,6 +1808,45 @@ function provide_anomaly_feedback(
                 Dict{String,Any}("AnomalyId" => AnomalyId, "Feedback" => Feedback),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_cost_allocation_tag_backfill(backfill_from)
+    start_cost_allocation_tag_backfill(backfill_from, params::Dict{String,<:Any})
+
+ Request a cost allocation tag backfill. This will backfill the activation status (either
+active or inactive) for all tag keys from para:BackfillFrom up to the when this request is
+made. You can request a backfill once every 24 hours.
+
+# Arguments
+- `backfill_from`:  The date you want the backfill to start from. The date can only be a
+  first day of the month (a billing start date). Dates can't precede the previous twelve
+  months, or in the future.
+
+"""
+function start_cost_allocation_tag_backfill(
+    BackfillFrom; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cost_explorer(
+        "StartCostAllocationTagBackfill",
+        Dict{String,Any}("BackfillFrom" => BackfillFrom);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_cost_allocation_tag_backfill(
+    BackfillFrom,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cost_explorer(
+        "StartCostAllocationTagBackfill",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("BackfillFrom" => BackfillFrom), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1869,7 +2036,9 @@ end
     update_anomaly_subscription(subscription_arn)
     update_anomaly_subscription(subscription_arn, params::Dict{String,<:Any})
 
-Updates an existing cost anomaly monitor subscription.
+Updates an existing cost anomaly subscription. Specify the fields that you want to update.
+Omitted fields are unchanged.  The JSON below describes the generic construct for each
+type. See Request Parameters for possible values as they apply to AnomalySubscription.
 
 # Arguments
 - `subscription_arn`: A cost anomaly subscription Amazon Resource Name (ARN).
@@ -1883,20 +2052,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Threshold"`: (deprecated) The update to the threshold value for receiving
   notifications.  This field has been deprecated. To update a threshold, use
   ThresholdExpression. Continued use of Threshold will be treated as shorthand syntax for a
-  ThresholdExpression.
+  ThresholdExpression. You can specify either Threshold or ThresholdExpression, but not both.
 - `"ThresholdExpression"`: The update to the Expression object used to specify the
   anomalies that you want to generate alerts for. This supports dimensions and nested
   expressions. The supported dimensions are ANOMALY_TOTAL_IMPACT_ABSOLUTE and
-  ANOMALY_TOTAL_IMPACT_PERCENTAGE. The supported nested expression types are AND and OR. The
-  match option GREATER_THAN_OR_EQUAL is required. Values must be numbers between 0 and
-  10,000,000,000. The following are examples of valid ThresholdExpressions:   Absolute
-  threshold: { \"Dimensions\": { \"Key\": \"ANOMALY_TOTAL_IMPACT_ABSOLUTE\",
-  \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\" ], \"Values\": [ \"100\" ] } }    Percentage
-  threshold: { \"Dimensions\": { \"Key\": \"ANOMALY_TOTAL_IMPACT_PERCENTAGE\",
-  \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\" ], \"Values\": [ \"100\" ] } }     AND two
-  thresholds together: { \"And\": [ { \"Dimensions\": { \"Key\":
+  ANOMALY_TOTAL_IMPACT_PERCENTAGE, corresponding to an anomaly’s TotalImpact and
+  TotalImpactPercentage, respectively (see Impact for more details). The supported nested
+  expression types are AND and OR. The match option GREATER_THAN_OR_EQUAL is required. Values
+  must be numbers between 0 and 10,000,000,000 in string format. You can specify either
+  Threshold or ThresholdExpression, but not both. The following are examples of valid
+  ThresholdExpressions:   Absolute threshold: { \"Dimensions\": { \"Key\":
   \"ANOMALY_TOTAL_IMPACT_ABSOLUTE\", \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\" ],
-  \"Values\": [ \"100\" ] } }, { \"Dimensions\": { \"Key\":
+  \"Values\": [ \"100\" ] } }    Percentage threshold: { \"Dimensions\": { \"Key\":
+  \"ANOMALY_TOTAL_IMPACT_PERCENTAGE\", \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\" ],
+  \"Values\": [ \"100\" ] } }     AND two thresholds together: { \"And\": [ { \"Dimensions\":
+  { \"Key\": \"ANOMALY_TOTAL_IMPACT_ABSOLUTE\", \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\"
+  ], \"Values\": [ \"100\" ] } }, { \"Dimensions\": { \"Key\":
   \"ANOMALY_TOTAL_IMPACT_PERCENTAGE\", \"MatchOptions\": [ \"GREATER_THAN_OR_EQUAL\" ],
   \"Values\": [ \"100\" ] } } ] }     OR two thresholds together: { \"Or\": [ {
   \"Dimensions\": { \"Key\": \"ANOMALY_TOTAL_IMPACT_ABSOLUTE\", \"MatchOptions\": [

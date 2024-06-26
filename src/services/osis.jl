@@ -22,6 +22,9 @@ OpenSearch Ingestion pipelines.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BufferOptions"`: Key-value pairs to configure persistent buffering for the pipeline.
+- `"EncryptionAtRestOptions"`: Key-value pairs to configure encryption for data that is
+  written to a persistent buffer.
 - `"LogPublishingOptions"`: Key-value pairs to configure log publishing.
 - `"Tags"`: List of tags to add to the pipeline upon creation.
 - `"VpcOptions"`: Container for the values required to configure VPC access for the
@@ -116,7 +119,7 @@ end
 Retrieves information about an OpenSearch Ingestion pipeline.
 
 # Arguments
-- `pipeline_name`: The name of the pipeline to get information about.
+- `pipeline_name`: The name of the pipeline.
 
 """
 function get_pipeline(PipelineName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -152,6 +155,9 @@ see Using blueprints to create a pipeline.
 # Arguments
 - `blueprint_name`: The name of the blueprint to retrieve.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"format"`: The format format of the blueprint to retrieve.
 """
 function get_pipeline_blueprint(
     BlueprintName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -462,6 +468,9 @@ OpenSearch Ingestion pipelines.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BufferOptions"`: Key-value pairs to configure persistent buffering for the pipeline.
+- `"EncryptionAtRestOptions"`: Key-value pairs to configure encryption for data that is
+  written to a persistent buffer.
 - `"LogPublishingOptions"`: Key-value pairs to configure log publishing.
 - `"MaxUnits"`: The maximum pipeline capacity, in Ingestion Compute Units (ICUs)
 - `"MinUnits"`: The minimum pipeline capacity, in Ingestion Compute Units (ICUs).

@@ -5,6 +5,43 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    cancel_capacity_task(capacity_task_id, outpost_id)
+    cancel_capacity_task(capacity_task_id, outpost_id, params::Dict{String,<:Any})
+
+Cancels the capacity task.
+
+# Arguments
+- `capacity_task_id`: ID of the capacity task that you want to cancel.
+- `outpost_id`: ID or ARN of the Outpost associated with the capacity task that you want to
+  cancel.
+
+"""
+function cancel_capacity_task(
+    CapacityTaskId, OutpostId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return outposts(
+        "POST",
+        "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_capacity_task(
+    CapacityTaskId,
+    OutpostId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return outposts(
+        "POST",
+        "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_order(order_id)
     cancel_order(order_id, params::Dict{String,<:Any})
 
@@ -189,7 +226,7 @@ end
 Deletes the specified Outpost.
 
 # Arguments
-- `outpost_id`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `outpost_id`:  The ID or ARN of the Outpost.
 
 """
 function delete_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -235,6 +272,42 @@ function delete_site(
     return outposts(
         "DELETE",
         "/sites/$(SiteId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_capacity_task(capacity_task_id, outpost_id)
+    get_capacity_task(capacity_task_id, outpost_id, params::Dict{String,<:Any})
+
+Gets details of the specified capacity task.
+
+# Arguments
+- `capacity_task_id`: ID of the capacity task.
+- `outpost_id`: ID or ARN of the Outpost associated with the specified capacity task.
+
+"""
+function get_capacity_task(
+    CapacityTaskId, OutpostId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_capacity_task(
+    CapacityTaskId,
+    OutpostId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostId)/capacity/$(CapacityTaskId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -344,7 +417,7 @@ end
 Gets information about the specified Outpost.
 
 # Arguments
-- `outpost_id`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `outpost_id`:  The ID or ARN of the Outpost.
 
 """
 function get_outpost(OutpostId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -376,7 +449,7 @@ end
 Gets the instance types for the specified Outpost.
 
 # Arguments
-- `outpost_id`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `outpost_id`:  The ID or ARN of the Outpost.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -402,6 +475,49 @@ function get_outpost_instance_types(
         "GET",
         "/outposts/$(OutpostId)/instanceTypes",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_outpost_supported_instance_types(order_id, outpost_id)
+    get_outpost_supported_instance_types(order_id, outpost_id, params::Dict{String,<:Any})
+
+Gets the instance types that an Outpost can support in InstanceTypeCapacity. This will
+generally include instance types that are not currently configured and therefore cannot be
+launched with the current Outpost capacity configuration.
+
+# Arguments
+- `order_id`: The ID for the Amazon Web Services Outposts order.
+- `outpost_id`: The ID or ARN of the Outpost.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:
+- `"NextToken"`:
+"""
+function get_outpost_supported_instance_types(
+    OrderId, OutpostId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostId)/supportedInstanceTypes",
+        Dict{String,Any}("OrderId" => OrderId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_outpost_supported_instance_types(
+    OrderId,
+    OutpostId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return outposts(
+        "GET",
+        "/outposts/$(OutpostId)/supportedInstanceTypes",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("OrderId" => OrderId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -508,6 +624,41 @@ function list_assets(
     return outposts(
         "GET",
         "/outposts/$(OutpostId)/assets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_capacity_tasks()
+    list_capacity_tasks(params::Dict{String,<:Any})
+
+Lists the capacity tasks for your Amazon Web Services account. Use filters to return
+specific results. If you specify multiple filters, the results include only the resources
+that match all of the specified filters. For a filter where you can specify multiple
+values, the results include items that match any of the values that you specify for the
+filter.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CapacityTaskStatusFilter"`: A list of statuses. For example, REQUESTED or
+  WAITING_FOR_EVACUATION.
+- `"MaxResults"`:
+- `"NextToken"`:
+- `"OutpostIdentifierFilter"`: Filters the results by an Outpost ID or an Outpost ARN.
+"""
+function list_capacity_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+    return outposts(
+        "GET", "/capacity/tasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_capacity_tasks(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return outposts(
+        "GET",
+        "/capacity/tasks",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -672,8 +823,59 @@ function list_tags_for_resource(
 end
 
 """
-    start_connection(asset_id, client_public_key, device_serial_number, network_interface_device_index)
-    start_connection(asset_id, client_public_key, device_serial_number, network_interface_device_index, params::Dict{String,<:Any})
+    start_capacity_task(instance_pools, order_id, outpost_id)
+    start_capacity_task(instance_pools, order_id, outpost_id, params::Dict{String,<:Any})
+
+Starts the specified capacity task. You can have one active capacity task for an order.
+
+# Arguments
+- `instance_pools`: The instance pools specified in the capacity task.
+- `order_id`: The ID of the Amazon Web Services Outposts order associated with the
+  specified capacity task.
+- `outpost_id`: The ID or ARN of the Outposts associated with the specified capacity task.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: You can request a dry run to determine if the instance type and instance size
+  changes is above or below available instance capacity. Requesting a dry run does not make
+  any changes to your plan.
+"""
+function start_capacity_task(
+    InstancePools, OrderId, OutpostId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return outposts(
+        "POST",
+        "/outposts/$(OutpostId)/capacity",
+        Dict{String,Any}("InstancePools" => InstancePools, "OrderId" => OrderId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_capacity_task(
+    InstancePools,
+    OrderId,
+    OutpostId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return outposts(
+        "POST",
+        "/outposts/$(OutpostId)/capacity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InstancePools" => InstancePools, "OrderId" => OrderId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_connection(asset_id, client_public_key, network_interface_device_index)
+    start_connection(asset_id, client_public_key, network_interface_device_index, params::Dict{String,<:Any})
 
   Amazon Web Services uses this action to install Outpost servers.   Starts the connection
 required for Outpost server installation.   Use CloudTrail to monitor this action or Amazon
@@ -685,15 +887,16 @@ Amazon Web Services Outposts User Guide.
 # Arguments
 - `asset_id`:  The ID of the Outpost server.
 - `client_public_key`:  The public key of the client.
-- `device_serial_number`:  The serial number of the dongle.
 - `network_interface_device_index`:  The device index of the network interface on the
   Outpost server.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeviceSerialNumber"`:  The serial number of the dongle.
 """
 function start_connection(
     AssetId,
     ClientPublicKey,
-    DeviceSerialNumber,
     NetworkInterfaceDeviceIndex;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -703,7 +906,6 @@ function start_connection(
         Dict{String,Any}(
             "AssetId" => AssetId,
             "ClientPublicKey" => ClientPublicKey,
-            "DeviceSerialNumber" => DeviceSerialNumber,
             "NetworkInterfaceDeviceIndex" => NetworkInterfaceDeviceIndex,
         );
         aws_config=aws_config,
@@ -713,7 +915,6 @@ end
 function start_connection(
     AssetId,
     ClientPublicKey,
-    DeviceSerialNumber,
     NetworkInterfaceDeviceIndex,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -727,7 +928,6 @@ function start_connection(
                 Dict{String,Any}(
                     "AssetId" => AssetId,
                     "ClientPublicKey" => ClientPublicKey,
-                    "DeviceSerialNumber" => DeviceSerialNumber,
                     "NetworkInterfaceDeviceIndex" => NetworkInterfaceDeviceIndex,
                 ),
                 params,
@@ -817,7 +1017,7 @@ end
  Updates an Outpost.
 
 # Arguments
-- `outpost_id`:  The ID or the Amazon Resource Name (ARN) of the Outpost.
+- `outpost_id`:  The ID or ARN of the Outpost.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

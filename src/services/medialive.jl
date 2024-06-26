@@ -276,6 +276,245 @@ function create_channel(
 end
 
 """
+    create_cloud_watch_alarm_template(comparison_operator, evaluation_periods, group_identifier, metric_name, name, period, statistic, target_resource_type, threshold, treat_missing_data)
+    create_cloud_watch_alarm_template(comparison_operator, evaluation_periods, group_identifier, metric_name, name, period, statistic, target_resource_type, threshold, treat_missing_data, params::Dict{String,<:Any})
+
+Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on
+targeted resource types.
+
+# Arguments
+- `comparison_operator`:
+- `evaluation_periods`: The number of periods over which data is compared to the specified
+  threshold.
+- `group_identifier`: A cloudwatch alarm template group's identifier. Can be either be its
+  id or current name.
+- `metric_name`: The name of the metric associated with the alarm. Must be compatible with
+  targetResourceType.
+- `name`: A resource's name. Names must be unique within the scope of a resource type in a
+  specific region.
+- `period`: The period, in seconds, over which the specified statistic is applied.
+- `statistic`:
+- `target_resource_type`:
+- `threshold`: The threshold value to compare with the specified statistic.
+- `treat_missing_data`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"datapointsToAlarm"`: The number of datapoints within the evaluation period that must be
+  breaching to trigger the alarm.
+- `"description"`: A resource's optional description.
+- `"tags"`:
+"""
+function create_cloud_watch_alarm_template(
+    comparisonOperator,
+    evaluationPeriods,
+    groupIdentifier,
+    metricName,
+    name,
+    period,
+    statistic,
+    targetResourceType,
+    threshold,
+    treatMissingData;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/cloudwatch-alarm-templates",
+        Dict{String,Any}(
+            "comparisonOperator" => comparisonOperator,
+            "evaluationPeriods" => evaluationPeriods,
+            "groupIdentifier" => groupIdentifier,
+            "metricName" => metricName,
+            "name" => name,
+            "period" => period,
+            "statistic" => statistic,
+            "targetResourceType" => targetResourceType,
+            "threshold" => threshold,
+            "treatMissingData" => treatMissingData,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_cloud_watch_alarm_template(
+    comparisonOperator,
+    evaluationPeriods,
+    groupIdentifier,
+    metricName,
+    name,
+    period,
+    statistic,
+    targetResourceType,
+    threshold,
+    treatMissingData,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/cloudwatch-alarm-templates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "comparisonOperator" => comparisonOperator,
+                    "evaluationPeriods" => evaluationPeriods,
+                    "groupIdentifier" => groupIdentifier,
+                    "metricName" => metricName,
+                    "name" => name,
+                    "period" => period,
+                    "statistic" => statistic,
+                    "targetResourceType" => targetResourceType,
+                    "threshold" => threshold,
+                    "treatMissingData" => treatMissingData,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_cloud_watch_alarm_template_group(name)
+    create_cloud_watch_alarm_template_group(name, params::Dict{String,<:Any})
+
+Creates a cloudwatch alarm template group to group your cloudwatch alarm templates and to
+attach to signal maps for dynamically creating alarms.
+
+# Arguments
+- `name`: A resource's name. Names must be unique within the scope of a resource type in a
+  specific region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A resource's optional description.
+- `"tags"`:
+"""
+function create_cloud_watch_alarm_template_group(
+    name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/cloudwatch-alarm-template-groups",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_cloud_watch_alarm_template_group(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/cloudwatch-alarm-template-groups",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_event_bridge_rule_template(event_type, group_identifier, name)
+    create_event_bridge_rule_template(event_type, group_identifier, name, params::Dict{String,<:Any})
+
+Creates an eventbridge rule template to monitor events and send notifications to your
+targeted resources.
+
+# Arguments
+- `event_type`:
+- `group_identifier`: An eventbridge rule template group's identifier. Can be either be its
+  id or current name.
+- `name`: A resource's name. Names must be unique within the scope of a resource type in a
+  specific region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A resource's optional description.
+- `"eventTargets"`:
+- `"tags"`:
+"""
+function create_event_bridge_rule_template(
+    eventType, groupIdentifier, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/eventbridge-rule-templates",
+        Dict{String,Any}(
+            "eventType" => eventType, "groupIdentifier" => groupIdentifier, "name" => name
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_event_bridge_rule_template(
+    eventType,
+    groupIdentifier,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/eventbridge-rule-templates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "eventType" => eventType,
+                    "groupIdentifier" => groupIdentifier,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_event_bridge_rule_template_group(name)
+    create_event_bridge_rule_template_group(name, params::Dict{String,<:Any})
+
+Creates an eventbridge rule template group to group your eventbridge rule templates and to
+attach to signal maps for dynamically creating notification rules.
+
+# Arguments
+- `name`: A resource's name. Names must be unique within the scope of a resource type in a
+  specific region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A resource's optional description.
+- `"tags"`:
+"""
+function create_event_bridge_rule_template_group(
+    name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/eventbridge-rule-template-groups",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_event_bridge_rule_template_group(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/eventbridge-rule-template-groups",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_input()
     create_input(params::Dict{String,<:Any})
 
@@ -528,6 +767,62 @@ function create_partner_input(
 end
 
 """
+    create_signal_map(discovery_entry_point_arn, name)
+    create_signal_map(discovery_entry_point_arn, name, params::Dict{String,<:Any})
+
+Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on
+the provided discoveryEntryPointArn.
+
+# Arguments
+- `discovery_entry_point_arn`: A top-level supported AWS resource ARN to discovery a signal
+  map from.
+- `name`: A resource's name. Names must be unique within the scope of a resource type in a
+  specific region.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"cloudWatchAlarmTemplateGroupIdentifiers"`:
+- `"description"`: A resource's optional description.
+- `"eventBridgeRuleTemplateGroupIdentifiers"`:
+- `"tags"`:
+"""
+function create_signal_map(
+    discoveryEntryPointArn, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/signal-maps",
+        Dict{String,Any}(
+            "discoveryEntryPointArn" => discoveryEntryPointArn, "name" => name
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_signal_map(
+    discoveryEntryPointArn,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/signal-maps",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "discoveryEntryPointArn" => discoveryEntryPointArn, "name" => name
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_tags(resource-arn)
     create_tags(resource-arn, params::Dict{String,<:Any})
 
@@ -588,6 +883,148 @@ function delete_channel(
     return medialive(
         "DELETE",
         "/prod/channels/$(channelId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_cloud_watch_alarm_template(identifier)
+    delete_cloud_watch_alarm_template(identifier, params::Dict{String,<:Any})
+
+Deletes a cloudwatch alarm template.
+
+# Arguments
+- `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or
+  current name.
+
+"""
+function delete_cloud_watch_alarm_template(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "DELETE",
+        "/prod/cloudwatch-alarm-templates/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_cloud_watch_alarm_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/cloudwatch-alarm-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_cloud_watch_alarm_template_group(identifier)
+    delete_cloud_watch_alarm_template_group(identifier, params::Dict{String,<:Any})
+
+Deletes a cloudwatch alarm template group. You must detach this group from all signal maps
+and ensure its existing templates are moved to another group or deleted.
+
+# Arguments
+- `identifier`: A cloudwatch alarm template group's identifier. Can be either be its id or
+  current name.
+
+"""
+function delete_cloud_watch_alarm_template_group(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "DELETE",
+        "/prod/cloudwatch-alarm-template-groups/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_cloud_watch_alarm_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/cloudwatch-alarm-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_event_bridge_rule_template(identifier)
+    delete_event_bridge_rule_template(identifier, params::Dict{String,<:Any})
+
+Deletes an eventbridge rule template.
+
+# Arguments
+- `identifier`: An eventbridge rule template's identifier. Can be either be its id or
+  current name.
+
+"""
+function delete_event_bridge_rule_template(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "DELETE",
+        "/prod/eventbridge-rule-templates/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_event_bridge_rule_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/eventbridge-rule-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_event_bridge_rule_template_group(identifier)
+    delete_event_bridge_rule_template_group(identifier, params::Dict{String,<:Any})
+
+Deletes an eventbridge rule template group. You must detach this group from all signal maps
+and ensure its existing templates are moved to another group or deleted.
+
+# Arguments
+- `identifier`: An eventbridge rule template group's identifier. Can be either be its id or
+  current name.
+
+"""
+function delete_event_bridge_rule_template_group(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "DELETE",
+        "/prod/eventbridge-rule-template-groups/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_event_bridge_rule_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/eventbridge-rule-template-groups/$(identifier)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -793,6 +1230,38 @@ function delete_schedule(
 end
 
 """
+    delete_signal_map(identifier)
+    delete_signal_map(identifier, params::Dict{String,<:Any})
+
+Deletes the specified signal map.
+
+# Arguments
+- `identifier`: A signal map's identifier. Can be either be its id or current name.
+
+"""
+function delete_signal_map(identifier; aws_config::AbstractAWSConfig=global_aws_config())
+    return medialive(
+        "DELETE",
+        "/prod/signal-maps/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_signal_map(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/signal-maps/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_tags(resource-arn, tag_keys)
     delete_tags(resource-arn, tag_keys, params::Dict{String,<:Any})
 
@@ -824,6 +1293,33 @@ function delete_tags(
         "DELETE",
         "/prod/tags/$(resource-arn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_account_configuration()
+    describe_account_configuration(params::Dict{String,<:Any})
+
+Describe account configuration
+
+"""
+function describe_account_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return medialive(
+        "GET",
+        "/prod/accountConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_account_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/accountConfiguration",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1173,6 +1669,225 @@ function describe_schedule(
 end
 
 """
+    describe_thumbnails(channel_id, pipeline_id, thumbnail_type)
+    describe_thumbnails(channel_id, pipeline_id, thumbnail_type, params::Dict{String,<:Any})
+
+Describe the latest thumbnails data.
+
+# Arguments
+- `channel_id`: Unique ID of the channel
+- `pipeline_id`: Pipeline ID (\"0\" or \"1\")
+- `thumbnail_type`: thumbnail type
+
+"""
+function describe_thumbnails(
+    channelId, pipelineId, thumbnailType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/channels/$(channelId)/thumbnails",
+        Dict{String,Any}("pipelineId" => pipelineId, "thumbnailType" => thumbnailType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_thumbnails(
+    channelId,
+    pipelineId,
+    thumbnailType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/channels/$(channelId)/thumbnails",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "pipelineId" => pipelineId, "thumbnailType" => thumbnailType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_cloud_watch_alarm_template(identifier)
+    get_cloud_watch_alarm_template(identifier, params::Dict{String,<:Any})
+
+Retrieves the specified cloudwatch alarm template.
+
+# Arguments
+- `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or
+  current name.
+
+"""
+function get_cloud_watch_alarm_template(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-templates/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_cloud_watch_alarm_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_cloud_watch_alarm_template_group(identifier)
+    get_cloud_watch_alarm_template_group(identifier, params::Dict{String,<:Any})
+
+Retrieves the specified cloudwatch alarm template group.
+
+# Arguments
+- `identifier`: A cloudwatch alarm template group's identifier. Can be either be its id or
+  current name.
+
+"""
+function get_cloud_watch_alarm_template_group(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-template-groups/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_cloud_watch_alarm_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_event_bridge_rule_template(identifier)
+    get_event_bridge_rule_template(identifier, params::Dict{String,<:Any})
+
+Retrieves the specified eventbridge rule template.
+
+# Arguments
+- `identifier`: An eventbridge rule template's identifier. Can be either be its id or
+  current name.
+
+"""
+function get_event_bridge_rule_template(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-templates/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_event_bridge_rule_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_event_bridge_rule_template_group(identifier)
+    get_event_bridge_rule_template_group(identifier, params::Dict{String,<:Any})
+
+Retrieves the specified eventbridge rule template group.
+
+# Arguments
+- `identifier`: An eventbridge rule template group's identifier. Can be either be its id or
+  current name.
+
+"""
+function get_event_bridge_rule_template_group(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-template-groups/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_event_bridge_rule_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_signal_map(identifier)
+    get_signal_map(identifier, params::Dict{String,<:Any})
+
+Retrieves the specified signal map.
+
+# Arguments
+- `identifier`: A signal map's identifier. Can be either be its id or current name.
+
+"""
+function get_signal_map(identifier; aws_config::AbstractAWSConfig=global_aws_config())
+    return medialive(
+        "GET",
+        "/prod/signal-maps/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_signal_map(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "GET",
+        "/prod/signal-maps/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_channels()
     list_channels(params::Dict{String,<:Any})
 
@@ -1194,6 +1909,158 @@ function list_channels(
     return medialive(
         "GET",
         "/prod/channels",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cloud_watch_alarm_template_groups()
+    list_cloud_watch_alarm_template_groups(params::Dict{String,<:Any})
+
+Lists cloudwatch alarm template groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`: A token used to retrieve the next set of results in paginated list
+  responses.
+- `"scope"`: Represents the scope of a resource, with options for all scopes, AWS provided
+  resources, or local resources.
+- `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
+  name.
+"""
+function list_cloud_watch_alarm_template_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-template-groups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_cloud_watch_alarm_template_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-template-groups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cloud_watch_alarm_templates()
+    list_cloud_watch_alarm_templates(params::Dict{String,<:Any})
+
+Lists cloudwatch alarm templates.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"groupIdentifier"`: A cloudwatch alarm template group's identifier. Can be either be its
+  id or current name.
+- `"maxResults"`:
+- `"nextToken"`: A token used to retrieve the next set of results in paginated list
+  responses.
+- `"scope"`: Represents the scope of a resource, with options for all scopes, AWS provided
+  resources, or local resources.
+- `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
+  name.
+"""
+function list_cloud_watch_alarm_templates(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-templates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_cloud_watch_alarm_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/cloudwatch-alarm-templates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_event_bridge_rule_template_groups()
+    list_event_bridge_rule_template_groups(params::Dict{String,<:Any})
+
+Lists eventbridge rule template groups.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:
+- `"nextToken"`: A token used to retrieve the next set of results in paginated list
+  responses.
+- `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
+  name.
+"""
+function list_event_bridge_rule_template_groups(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-template-groups";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_event_bridge_rule_template_groups(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-template-groups",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_event_bridge_rule_templates()
+    list_event_bridge_rule_templates(params::Dict{String,<:Any})
+
+Lists eventbridge rule templates.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"groupIdentifier"`: An eventbridge rule template group's identifier. Can be either be
+  its id or current name.
+- `"maxResults"`:
+- `"nextToken"`: A token used to retrieve the next set of results in paginated list
+  responses.
+- `"signalMapIdentifier"`: A signal map's identifier. Can be either be its id or current
+  name.
+"""
+function list_event_bridge_rule_templates(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-templates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_event_bridge_rule_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/eventbridge-rule-templates",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1472,6 +2339,39 @@ function list_reservations(
 end
 
 """
+    list_signal_maps()
+    list_signal_maps(params::Dict{String,<:Any})
+
+Lists signal maps.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"cloudWatchAlarmTemplateGroupIdentifier"`: A cloudwatch alarm template group's
+  identifier. Can be either be its id or current name.
+- `"eventBridgeRuleTemplateGroupIdentifier"`: An eventbridge rule template group's
+  identifier. Can be either be its id or current name.
+- `"maxResults"`:
+- `"nextToken"`: A token used to retrieve the next set of results in paginated list
+  responses.
+"""
+function list_signal_maps(; aws_config::AbstractAWSConfig=global_aws_config())
+    return medialive(
+        "GET", "/prod/signal-maps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_signal_maps(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "GET",
+        "/prod/signal-maps",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_tags_for_resource(resource-arn)
     list_tags_for_resource(resource-arn, params::Dict{String,<:Any})
 
@@ -1637,6 +2537,44 @@ function reject_input_device_transfer(
 end
 
 """
+    restart_channel_pipelines(channel_id)
+    restart_channel_pipelines(channel_id, params::Dict{String,<:Any})
+
+Restart pipelines in one channel that is currently running.
+
+# Arguments
+- `channel_id`: ID of channel
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"pipelineIds"`: An array of pipelines to restart in this channel. Format PIPELINE_0 or
+  PIPELINE_1.
+"""
+function restart_channel_pipelines(
+    channelId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/channels/$(channelId)/restartChannelPipelines";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function restart_channel_pipelines(
+    channelId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/channels/$(channelId)/restartChannelPipelines",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_channel(channel_id)
     start_channel(channel_id, params::Dict{String,<:Any})
 
@@ -1662,6 +2600,77 @@ function start_channel(
     return medialive(
         "POST",
         "/prod/channels/$(channelId)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_delete_monitor_deployment(identifier)
+    start_delete_monitor_deployment(identifier, params::Dict{String,<:Any})
+
+Initiates a deployment to delete the monitor of the specified signal map.
+
+# Arguments
+- `identifier`: A signal map's identifier. Can be either be its id or current name.
+
+"""
+function start_delete_monitor_deployment(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "DELETE",
+        "/prod/signal-maps/$(identifier)/monitor-deployment";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_delete_monitor_deployment(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "DELETE",
+        "/prod/signal-maps/$(identifier)/monitor-deployment",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_input_device(input_device_id)
+    start_input_device(input_device_id, params::Dict{String,<:Any})
+
+Start an input device that is attached to a MediaConnect flow. (There is no need to start a
+device that is attached to a MediaLive input; MediaLive starts the device when the channel
+starts.)
+
+# Arguments
+- `input_device_id`: The unique ID of the input device to start. For example,
+  hd-123456789abcdef.
+
+"""
+function start_input_device(
+    inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/start";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_input_device(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/start",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1710,6 +2719,43 @@ function start_input_device_maintenance_window(
 end
 
 """
+    start_monitor_deployment(identifier)
+    start_monitor_deployment(identifier, params::Dict{String,<:Any})
+
+Initiates a deployment to deploy the latest monitor of the specified signal map.
+
+# Arguments
+- `identifier`: A signal map's identifier. Can be either be its id or current name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"dryRun"`:
+"""
+function start_monitor_deployment(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "POST",
+        "/prod/signal-maps/$(identifier)/monitor-deployment";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_monitor_deployment(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/signal-maps/$(identifier)/monitor-deployment",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_multiplex(multiplex_id)
     start_multiplex(multiplex_id, params::Dict{String,<:Any})
 
@@ -1743,6 +2789,52 @@ function start_multiplex(
 end
 
 """
+    start_update_signal_map(identifier)
+    start_update_signal_map(identifier, params::Dict{String,<:Any})
+
+Initiates an update for the specified signal map. Will discover a new signal map if a
+changed discoveryEntryPointArn is provided.
+
+# Arguments
+- `identifier`: A signal map's identifier. Can be either be its id or current name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"cloudWatchAlarmTemplateGroupIdentifiers"`:
+- `"description"`: A resource's optional description.
+- `"discoveryEntryPointArn"`: A top-level supported AWS resource ARN to discovery a signal
+  map from.
+- `"eventBridgeRuleTemplateGroupIdentifiers"`:
+- `"forceRediscovery"`: If true, will force a rediscovery of a signal map if an unchanged
+  discoveryEntryPointArn is provided.
+- `"name"`: A resource's name. Names must be unique within the scope of a resource type in
+  a specific region.
+"""
+function start_update_signal_map(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "PATCH",
+        "/prod/signal-maps/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_update_signal_map(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "PATCH",
+        "/prod/signal-maps/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_channel(channel_id)
     stop_channel(channel_id, params::Dict{String,<:Any})
 
@@ -1768,6 +2860,41 @@ function stop_channel(
     return medialive(
         "POST",
         "/prod/channels/$(channelId)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_input_device(input_device_id)
+    stop_input_device(input_device_id, params::Dict{String,<:Any})
+
+Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a
+device that is attached to a MediaLive input; MediaLive automatically stops the device when
+the channel stops.)
+
+# Arguments
+- `input_device_id`: The unique ID of the input device to stop. For example,
+  hd-123456789abcdef.
+
+"""
+function stop_input_device(inputDeviceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/stop";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_input_device(
+    inputDeviceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "POST",
+        "/prod/inputDevices/$(inputDeviceId)/stop",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1841,6 +2968,36 @@ function transfer_input_device(
     return medialive(
         "POST",
         "/prod/inputDevices/$(inputDeviceId)/transfer",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_account_configuration()
+    update_account_configuration(params::Dict{String,<:Any})
+
+Update account configuration
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"accountConfiguration"`:
+"""
+function update_account_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return medialive(
+        "PUT",
+        "/prod/accountConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_account_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "PUT",
+        "/prod/accountConfiguration",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1935,6 +3092,180 @@ function update_channel_class(
 end
 
 """
+    update_cloud_watch_alarm_template(identifier)
+    update_cloud_watch_alarm_template(identifier, params::Dict{String,<:Any})
+
+Updates the specified cloudwatch alarm template.
+
+# Arguments
+- `identifier`: A cloudwatch alarm template's identifier. Can be either be its id or
+  current name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"comparisonOperator"`:
+- `"datapointsToAlarm"`: The number of datapoints within the evaluation period that must be
+  breaching to trigger the alarm.
+- `"description"`: A resource's optional description.
+- `"evaluationPeriods"`: The number of periods over which data is compared to the specified
+  threshold.
+- `"groupIdentifier"`: A cloudwatch alarm template group's identifier. Can be either be its
+  id or current name.
+- `"metricName"`: The name of the metric associated with the alarm. Must be compatible with
+  targetResourceType.
+- `"name"`: A resource's name. Names must be unique within the scope of a resource type in
+  a specific region.
+- `"period"`: The period, in seconds, over which the specified statistic is applied.
+- `"statistic"`:
+- `"targetResourceType"`:
+- `"threshold"`: The threshold value to compare with the specified statistic.
+- `"treatMissingData"`:
+"""
+function update_cloud_watch_alarm_template(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "PATCH",
+        "/prod/cloudwatch-alarm-templates/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_cloud_watch_alarm_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "PATCH",
+        "/prod/cloudwatch-alarm-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_cloud_watch_alarm_template_group(identifier)
+    update_cloud_watch_alarm_template_group(identifier, params::Dict{String,<:Any})
+
+Updates the specified cloudwatch alarm template group.
+
+# Arguments
+- `identifier`: A cloudwatch alarm template group's identifier. Can be either be its id or
+  current name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A resource's optional description.
+"""
+function update_cloud_watch_alarm_template_group(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "PATCH",
+        "/prod/cloudwatch-alarm-template-groups/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_cloud_watch_alarm_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "PATCH",
+        "/prod/cloudwatch-alarm-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_event_bridge_rule_template(identifier)
+    update_event_bridge_rule_template(identifier, params::Dict{String,<:Any})
+
+Updates the specified eventbridge rule template.
+
+# Arguments
+- `identifier`: An eventbridge rule template's identifier. Can be either be its id or
+  current name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A resource's optional description.
+- `"eventTargets"`:
+- `"eventType"`:
+- `"groupIdentifier"`: An eventbridge rule template group's identifier. Can be either be
+  its id or current name.
+- `"name"`: A resource's name. Names must be unique within the scope of a resource type in
+  a specific region.
+"""
+function update_event_bridge_rule_template(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "PATCH",
+        "/prod/eventbridge-rule-templates/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_event_bridge_rule_template(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "PATCH",
+        "/prod/eventbridge-rule-templates/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_event_bridge_rule_template_group(identifier)
+    update_event_bridge_rule_template_group(identifier, params::Dict{String,<:Any})
+
+Updates the specified eventbridge rule template group.
+
+# Arguments
+- `identifier`: An eventbridge rule template group's identifier. Can be either be its id or
+  current name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A resource's optional description.
+"""
+function update_event_bridge_rule_template_group(
+    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return medialive(
+        "PATCH",
+        "/prod/eventbridge-rule-template-groups/$(identifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_event_bridge_rule_template_group(
+    identifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return medialive(
+        "PATCH",
+        "/prod/eventbridge-rule-template-groups/$(identifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_input(input_id)
     update_input(input_id, params::Dict{String,<:Any})
 
@@ -1995,6 +3326,7 @@ Updates the parameters for the input device.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"availabilityZone"`: The Availability Zone you want associated with this input device.
 - `"hdDeviceSettings"`: The settings that you want to apply to the HD input device.
 - `"name"`: The name that you assigned to this input device (not the unique ID).
 - `"uhdDeviceSettings"`: The settings that you want to apply to the UHD input device.

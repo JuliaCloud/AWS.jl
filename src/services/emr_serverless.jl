@@ -49,7 +49,7 @@ Creates an application.
 # Arguments
 - `client_token`: The client idempotency token of the application to create. Its value must
   be unique for each request.
-- `release_label`: The EMR release associated with the application.
+- `release_label`: The Amazon EMR release associated with the application.
 - `type`: The type of application you want to start, such as Spark or Hive.
 
 # Optional Parameters
@@ -62,12 +62,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"imageConfiguration"`: The image configuration for all worker types. You can either set
   this parameter or imageConfiguration for each worker type in workerTypeSpecifications.
 - `"initialCapacity"`: The capacity to initialize when the application is created.
+- `"interactiveConfiguration"`: The interactive configuration object that enables the
+  interactive use cases to use when running an application.
 - `"maximumCapacity"`: The maximum capacity to allocate when the application is created.
   This is cumulative across all workers at any given point in time, not just when an
   application is created. No new resources will be created once any one of the defined limits
   is hit.
+- `"monitoringConfiguration"`: The configuration setting for monitoring.
 - `"name"`: The name of the application.
 - `"networkConfiguration"`: The network configuration for customer VPC connectivity.
+- `"runtimeConfiguration"`: The Configuration specifications to use when creating an
+  application. Each configuration consists of a classification and properties. This
+  configuration is applied to all the job runs submitted under the application.
 - `"tags"`: The tags assigned to the application.
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
   WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a
@@ -186,13 +192,21 @@ end
     get_dashboard_for_job_run(application_id, job_run_id)
     get_dashboard_for_job_run(application_id, job_run_id, params::Dict{String,<:Any})
 
-Returns a URL to access the job run dashboard. The generated URL is valid for one hour,
-after which you must invoke the API again to generate a new URL.
+Creates and returns a URL that you can use to access the application UIs for a job run. For
+jobs in a running state, the application UI is a live user interface such as the Spark or
+Tez web UI. For completed jobs, the application UI is a persistent application user
+interface such as the Spark History Server or persistent Tez UI.  The URL is valid for one
+hour after you generate it. To access the application UI after that hour elapses, you must
+invoke the API again to generate a new URL.
 
 # Arguments
 - `application_id`: The ID of the application.
 - `job_run_id`: The ID of the job run.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"attempt"`: An optimal parameter that indicates the amount of attempts for the job. If
+  not specified, this value defaults to the attempt of the latest job.
 """
 function get_dashboard_for_job_run(
     applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -229,6 +243,10 @@ Displays detailed information about a job run.
 - `application_id`: The ID of the application on which the job run is submitted.
 - `job_run_id`: The ID of the job run.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"attempt"`: An optimal parameter that indicates the amount of attempts for the job. If
+  not specified, this value defaults to the attempt of the latest job.
 """
 function get_job_run(
     applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -286,6 +304,46 @@ function list_applications(
 end
 
 """
+    list_job_run_attempts(application_id, job_run_id)
+    list_job_run_attempts(application_id, job_run_id, params::Dict{String,<:Any})
+
+Lists all attempt of a job run.
+
+# Arguments
+- `application_id`: The ID of the application for which to list job runs.
+- `job_run_id`: The ID of the job run to list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of job run attempts to list.
+- `"nextToken"`: The token for the next set of job run attempt results.
+"""
+function list_job_run_attempts(
+    applicationId, jobRunId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr_serverless(
+        "GET",
+        "/applications/$(applicationId)/jobruns/$(jobRunId)/attempts";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_job_run_attempts(
+    applicationId,
+    jobRunId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr_serverless(
+        "GET",
+        "/applications/$(applicationId)/jobruns/$(jobRunId)/attempts",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_job_runs(application_id)
     list_job_runs(application_id, params::Dict{String,<:Any})
 
@@ -299,6 +357,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"createdAtAfter"`: The lower bound of the option to filter by creation date and time.
 - `"createdAtBefore"`: The upper bound of the option to filter by creation date and time.
 - `"maxResults"`: The maximum number of job runs that can be listed.
+- `"mode"`: The mode of the job runs to list.
 - `"nextToken"`: The token for the next set of job run results.
 - `"states"`: An optional filter for job run states. Note that if this filter contains
   multiple states, the resulting list will be grouped by the state.
@@ -411,7 +470,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"executionTimeoutMinutes"`: The maximum duration for the job run to run. If the job run
   runs beyond this duration, it will be automatically cancelled.
 - `"jobDriver"`: The job driver for the job run.
+- `"mode"`: The mode of the job run when it starts.
 - `"name"`: The optional job run name. This doesn't have to be unique.
+- `"retryPolicy"`: The retry policy when job run starts.
 - `"tags"`: The tags assigned to the job run.
 """
 function start_job_run(
@@ -590,10 +651,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   either set this parameter or imageConfiguration for each worker type in
   WorkerTypeSpecificationInput.
 - `"initialCapacity"`: The capacity to initialize when the application is updated.
+- `"interactiveConfiguration"`: The interactive configuration object that contains new
+  interactive use cases when the application is updated.
 - `"maximumCapacity"`: The maximum capacity to allocate when the application is updated.
   This is cumulative across all workers at any given point in time during the lifespan of the
   application. No new resources will be created once any one of the defined limits is hit.
+- `"monitoringConfiguration"`: The configuration setting for monitoring.
 - `"networkConfiguration"`:
+- `"releaseLabel"`: The Amazon EMR release label for the application. You can change the
+  release label to use a different release of Amazon EMR.
+- `"runtimeConfiguration"`: The Configuration specifications to use when updating an
+  application. Each configuration consists of a classification and properties. This
+  configuration is applied across all the job runs submitted under the application.
 - `"workerTypeSpecifications"`: The key-value pairs that specify worker type to
   WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a
   Spark or Hive application. Valid worker types include Driver and Executor for Spark

@@ -5,6 +5,66 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    accept_primary_email_update(account_id, otp, primary_email)
+    accept_primary_email_update(account_id, otp, primary_email, params::Dict{String,<:Any})
+
+Accepts the request that originated from StartPrimaryEmailUpdate to update the primary
+email address (also known as the root user email address) for the specified account.
+
+# Arguments
+- `account_id`: Specifies the 12-digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. To use this parameter, the caller
+  must be an identity in the organization's management account or a delegated administrator
+  account. The specified account ID must be a member account in the same organization. The
+  organization must have all features enabled, and the organization must have trusted access
+  enabled for the Account Management service, and optionally a delegated admin account
+  assigned. This operation can only be called from the management account or the delegated
+  administrator account of an organization for a member account.  The management account
+  can't specify its own AccountId.
+- `otp`: The OTP code sent to the PrimaryEmail specified on the StartPrimaryEmailUpdate API
+  call.
+- `primary_email`: The new primary email address for use with the specified account. This
+  must match the PrimaryEmail from the StartPrimaryEmailUpdate API call.
+
+"""
+function accept_primary_email_update(
+    AccountId, Otp, PrimaryEmail; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return account(
+        "POST",
+        "/acceptPrimaryEmailUpdate",
+        Dict{String,Any}(
+            "AccountId" => AccountId, "Otp" => Otp, "PrimaryEmail" => PrimaryEmail
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function accept_primary_email_update(
+    AccountId,
+    Otp,
+    PrimaryEmail,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return account(
+        "POST",
+        "/acceptPrimaryEmailUpdate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AccountId" => AccountId, "Otp" => Otp, "PrimaryEmail" => PrimaryEmail
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_alternate_contact(alternate_contact_type)
     delete_alternate_contact(alternate_contact_type, params::Dict{String,<:Any})
 
@@ -68,7 +128,8 @@ end
     disable_region(region_name)
     disable_region(region_name, params::Dict{String,<:Any})
 
-Disables (opts-out) a particular Region for an account.
+Disables (opts-out) a particular Region for an account.  The act of disabling a Region will
+remove all IAM access to any resources that reside in that Region.
 
 # Arguments
 - `region_name`: Specifies the Region-code for a given Region name (for example,
@@ -83,14 +144,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account that you want to access or modify with this operation. If you don't specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
-  management account or a delegated administrator account. The specified account ID must also
-  be a member account in the same organization. The organization must have all features
-  enabled, and the organization must have trusted access enabled for the Account Management
-  service, and optionally a delegated admin account assigned.  The management account can't
-  specify its own AccountId. It must call the operation in standalone context by not
-  including the AccountId parameter.  To call this operation on an account that is not a
-  member of an organization, don't specify this parameter. Instead, call the operation using
-  an identity belonging to the account whose contacts you wish to retrieve or modify.
+  management account or a delegated administrator account. The specified account ID must be a
+  member account in the same organization. The organization must have all features enabled,
+  and the organization must have trusted access enabled for the Account Management service,
+  and optionally a delegated admin account assigned.  The management account can't specify
+  its own AccountId. It must call the operation in standalone context by not including the
+  AccountId parameter.  To call this operation on an account that is not a member of an
+  organization, don't specify this parameter. Instead, call the operation using an identity
+  belonging to the account whose contacts you wish to retrieve or modify.
 """
 function disable_region(RegionName; aws_config::AbstractAWSConfig=global_aws_config())
     return account(
@@ -137,14 +198,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account that you want to access or modify with this operation. If you don't specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
-  management account or a delegated administrator account. The specified account ID must also
-  be a member account in the same organization. The organization must have all features
-  enabled, and the organization must have trusted access enabled for the Account Management
-  service, and optionally a delegated admin account assigned.  The management account can't
-  specify its own AccountId. It must call the operation in standalone context by not
-  including the AccountId parameter.  To call this operation on an account that is not a
-  member of an organization, don't specify this parameter. Instead, call the operation using
-  an identity belonging to the account whose contacts you wish to retrieve or modify.
+  management account or a delegated administrator account. The specified account ID must be a
+  member account in the same organization. The organization must have all features enabled,
+  and the organization must have trusted access enabled for the Account Management service,
+  and optionally a delegated admin account assigned.  The management account can't specify
+  its own AccountId. It must call the operation in standalone context by not including the
+  AccountId parameter.  To call this operation on an account that is not a member of an
+  organization, don't specify this parameter. Instead, call the operation using an identity
+  belonging to the account whose contacts you wish to retrieve or modify.
 """
 function enable_region(RegionName; aws_config::AbstractAWSConfig=global_aws_config())
     return account(
@@ -245,14 +306,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account that you want to access or modify with this operation. If you don't specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
-  management account or a delegated administrator account. The specified account ID must also
-  be a member account in the same organization. The organization must have all features
-  enabled, and the organization must have trusted access enabled for the Account Management
-  service, and optionally a delegated admin account assigned.  The management account can't
-  specify its own AccountId. It must call the operation in standalone context by not
-  including the AccountId parameter.  To call this operation on an account that is not a
-  member of an organization, don't specify this parameter. Instead, call the operation using
-  an identity belonging to the account whose contacts you wish to retrieve or modify.
+  management account or a delegated administrator account. The specified account ID must be a
+  member account in the same organization. The organization must have all features enabled,
+  and the organization must have trusted access enabled for the Account Management service,
+  and optionally a delegated admin account assigned.  The management account can't specify
+  its own AccountId. It must call the operation in standalone context by not including the
+  AccountId parameter.  To call this operation on an account that is not a member of an
+  organization, don't specify this parameter. Instead, call the operation using an identity
+  belonging to the account whose contacts you wish to retrieve or modify.
 """
 function get_contact_information(; aws_config::AbstractAWSConfig=global_aws_config())
     return account(
@@ -275,6 +336,49 @@ function get_contact_information(
 end
 
 """
+    get_primary_email(account_id)
+    get_primary_email(account_id, params::Dict{String,<:Any})
+
+Retrieves the primary email address for the specified account.
+
+# Arguments
+- `account_id`: Specifies the 12-digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. To use this parameter, the caller
+  must be an identity in the organization's management account or a delegated administrator
+  account. The specified account ID must be a member account in the same organization. The
+  organization must have all features enabled, and the organization must have trusted access
+  enabled for the Account Management service, and optionally a delegated admin account
+  assigned. This operation can only be called from the management account or the delegated
+  administrator account of an organization for a member account.  The management account
+  can't specify its own AccountId.
+
+"""
+function get_primary_email(AccountId; aws_config::AbstractAWSConfig=global_aws_config())
+    return account(
+        "POST",
+        "/getPrimaryEmail",
+        Dict{String,Any}("AccountId" => AccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_primary_email(
+    AccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return account(
+        "POST",
+        "/getPrimaryEmail",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountId" => AccountId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_region_opt_status(region_name)
     get_region_opt_status(region_name, params::Dict{String,<:Any})
 
@@ -291,14 +395,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account that you want to access or modify with this operation. If you don't specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
-  management account or a delegated administrator account. The specified account ID must also
-  be a member account in the same organization. The organization must have all features
-  enabled, and the organization must have trusted access enabled for the Account Management
-  service, and optionally a delegated admin account assigned.  The management account can't
-  specify its own AccountId. It must call the operation in standalone context by not
-  including the AccountId parameter.  To call this operation on an account that is not a
-  member of an organization, don't specify this parameter. Instead, call the operation using
-  an identity belonging to the account whose contacts you wish to retrieve or modify.
+  management account or a delegated administrator account. The specified account ID must be a
+  member account in the same organization. The organization must have all features enabled,
+  and the organization must have trusted access enabled for the Account Management service,
+  and optionally a delegated admin account assigned.  The management account can't specify
+  its own AccountId. It must call the operation in standalone context by not including the
+  AccountId parameter.  To call this operation on an account that is not a member of an
+  organization, don't specify this parameter. Instead, call the operation using an identity
+  belonging to the account whose contacts you wish to retrieve or modify.
 """
 function get_region_opt_status(
     RegionName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -340,14 +444,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account that you want to access or modify with this operation. If you don't specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
-  management account or a delegated administrator account. The specified account ID must also
-  be a member account in the same organization. The organization must have all features
-  enabled, and the organization must have trusted access enabled for the Account Management
-  service, and optionally a delegated admin account assigned.  The management account can't
-  specify its own AccountId. It must call the operation in standalone context by not
-  including the AccountId parameter.  To call this operation on an account that is not a
-  member of an organization, don't specify this parameter. Instead, call the operation using
-  an identity belonging to the account whose contacts you wish to retrieve or modify.
+  management account or a delegated administrator account. The specified account ID must be a
+  member account in the same organization. The organization must have all features enabled,
+  and the organization must have trusted access enabled for the Account Management service,
+  and optionally a delegated admin account assigned.  The management account can't specify
+  its own AccountId. It must call the operation in standalone context by not including the
+  AccountId parameter.  To call this operation on an account that is not a member of an
+  organization, don't specify this parameter. Instead, call the operation using an identity
+  belonging to the account whose contacts you wish to retrieve or modify.
 - `"MaxResults"`: The total number of items to return in the command’s output. If the
   total number of items available is more than the value specified, a NextToken is provided
   in the command’s output. To resume pagination, provide the NextToken value in the
@@ -482,14 +586,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account that you want to access or modify with this operation. If you don't specify this
   parameter, it defaults to the Amazon Web Services account of the identity used to call the
   operation. To use this parameter, the caller must be an identity in the organization's
-  management account or a delegated administrator account. The specified account ID must also
-  be a member account in the same organization. The organization must have all features
-  enabled, and the organization must have trusted access enabled for the Account Management
-  service, and optionally a delegated admin account assigned.  The management account can't
-  specify its own AccountId. It must call the operation in standalone context by not
-  including the AccountId parameter.  To call this operation on an account that is not a
-  member of an organization, don't specify this parameter. Instead, call the operation using
-  an identity belonging to the account whose contacts you wish to retrieve or modify.
+  management account or a delegated administrator account. The specified account ID must be a
+  member account in the same organization. The organization must have all features enabled,
+  and the organization must have trusted access enabled for the Account Management service,
+  and optionally a delegated admin account assigned.  The management account can't specify
+  its own AccountId. It must call the operation in standalone context by not including the
+  AccountId parameter.  To call this operation on an account that is not a member of an
+  organization, don't specify this parameter. Instead, call the operation using an identity
+  belonging to the account whose contacts you wish to retrieve or modify.
 """
 function put_contact_information(
     ContactInformation; aws_config::AbstractAWSConfig=global_aws_config()
@@ -513,6 +617,58 @@ function put_contact_information(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("ContactInformation" => ContactInformation), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_primary_email_update(account_id, primary_email)
+    start_primary_email_update(account_id, primary_email, params::Dict{String,<:Any})
+
+Starts the process to update the primary email address for the specified account.
+
+# Arguments
+- `account_id`: Specifies the 12-digit account ID number of the Amazon Web Services account
+  that you want to access or modify with this operation. To use this parameter, the caller
+  must be an identity in the organization's management account or a delegated administrator
+  account. The specified account ID must be a member account in the same organization. The
+  organization must have all features enabled, and the organization must have trusted access
+  enabled for the Account Management service, and optionally a delegated admin account
+  assigned. This operation can only be called from the management account or the delegated
+  administrator account of an organization for a member account.  The management account
+  can't specify its own AccountId.
+- `primary_email`: The new primary email address (also known as the root user email
+  address) to use in the specified account.
+
+"""
+function start_primary_email_update(
+    AccountId, PrimaryEmail; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return account(
+        "POST",
+        "/startPrimaryEmailUpdate",
+        Dict{String,Any}("AccountId" => AccountId, "PrimaryEmail" => PrimaryEmail);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_primary_email_update(
+    AccountId,
+    PrimaryEmail,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return account(
+        "POST",
+        "/startPrimaryEmailUpdate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AccountId" => AccountId, "PrimaryEmail" => PrimaryEmail),
+                params,
             ),
         );
         aws_config=aws_config,

@@ -10,7 +10,10 @@ using AWS.UUIDs
 
 Seals and completes the snapshot after all of the required blocks of data have been written
 to it. Completing the snapshot changes the status to completed. You cannot write new blocks
-to a snapshot after it has been completed.
+to a snapshot after it has been completed.  You should always retry requests that receive
+server (5xx) error responses, and ThrottlingException and RequestThrottledException client
+error responses. For more information see Error retries in the Amazon Elastic Compute Cloud
+User Guide.
 
 # Arguments
 - `snapshot_id`: The ID of the snapshot.
@@ -71,7 +74,10 @@ end
     get_snapshot_block(block_index, block_token, snapshot_id)
     get_snapshot_block(block_index, block_token, snapshot_id, params::Dict{String,<:Any})
 
-Returns the data in a block in an Amazon Elastic Block Store snapshot.
+Returns the data in a block in an Amazon Elastic Block Store snapshot.  You should always
+retry requests that receive server (5xx) error responses, and ThrottlingException and
+RequestThrottledException client error responses. For more information see Error retries in
+the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `block_index`: The block index of the block in which to read the data. A block index is a
@@ -120,7 +126,10 @@ end
     list_changed_blocks(second_snapshot_id, params::Dict{String,<:Any})
 
 Returns information about the blocks that are different between two Amazon Elastic Block
-Store snapshots of the same volume/snapshot lineage.
+Store snapshots of the same volume/snapshot lineage.  You should always retry requests that
+receive server (5xx) error responses, and ThrottlingException and RequestThrottledException
+client error responses. For more information see Error retries in the Amazon Elastic
+Compute Cloud User Guide.
 
 # Arguments
 - `second_snapshot_id`: The ID of the second snapshot to use for the comparison.  The
@@ -171,7 +180,10 @@ end
     list_snapshot_blocks(snapshot_id)
     list_snapshot_blocks(snapshot_id, params::Dict{String,<:Any})
 
-Returns information about the blocks in an Amazon Elastic Block Store snapshot.
+Returns information about the blocks in an Amazon Elastic Block Store snapshot.  You should
+always retry requests that receive server (5xx) error responses, and ThrottlingException
+and RequestThrottledException client error responses. For more information see Error
+retries in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `snapshot_id`: The ID of the snapshot from which to get block indexes and block tokens.
@@ -217,7 +229,10 @@ end
 
 Writes a block of data to a snapshot. If the specified block contains data, the existing
 data is overwritten. The target snapshot must be in the pending state. Data written to a
-snapshot must be aligned with 512-KiB sectors.
+snapshot must be aligned with 512-KiB sectors.  You should always retry requests that
+receive server (5xx) error responses, and ThrottlingException and RequestThrottledException
+client error responses. For more information see Error retries in the Amazon Elastic
+Compute Cloud User Guide.
 
 # Arguments
 - `block_data`: The data to write to the block. The block data is not signed as part of the
@@ -309,7 +324,9 @@ end
 
 Creates a new Amazon EBS snapshot. The new snapshot enters the pending state after the
 request completes.  After creating the snapshot, use  PutSnapshotBlock to write blocks of
-data to the snapshot.
+data to the snapshot.  You should always retry requests that receive server (5xx) error
+responses, and ThrottlingException and RequestThrottledException client error responses.
+For more information see Error retries in the Amazon Elastic Compute Cloud User Guide.
 
 # Arguments
 - `volume_size`: The size of the volume, in GiB. The maximum size is 65536 GiB (64 TiB).

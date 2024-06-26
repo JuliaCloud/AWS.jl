@@ -1075,6 +1075,35 @@ function delete_component(
 end
 
 """
+    delete_deployment(id)
+    delete_deployment(id, params::Dict{String,<:Any})
+
+Delete the deployment.
+
+# Arguments
+- `id`: The ID of the deployment to delete.
+
+"""
+function delete_deployment(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "DeleteDeployment",
+        Dict{String,Any}("id" => id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_deployment(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "DeleteDeployment",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_environment(name)
     delete_environment(name, params::Dict{String,<:Any})
 
@@ -1517,6 +1546,42 @@ function get_component(
     return proton(
         "GetComponent",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_deployment(id)
+    get_deployment(id, params::Dict{String,<:Any})
+
+Get detailed data for a deployment.
+
+# Arguments
+- `id`: The ID of the deployment that you want to get the detailed data for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"componentName"`: The name of a component that you want to get the detailed data for.
+- `"environmentName"`: The name of a environment that you want to get the detailed data for.
+- `"serviceInstanceName"`: The name of the service instance associated with the given
+  deployment ID. serviceName must be specified to identify the service instance.
+- `"serviceName"`: The name of the service associated with the given deployment ID.
+"""
+function get_deployment(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton(
+        "GetDeployment",
+        Dict{String,Any}("id" => id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_deployment(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "GetDeployment",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2192,6 +2257,7 @@ components, see Proton components in the Proton User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"deploymentId"`: The ID of the deployment whose outputs you want.
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
@@ -2293,6 +2359,38 @@ function list_components(
 end
 
 """
+    list_deployments()
+    list_deployments(params::Dict{String,<:Any})
+
+List deployments. You can filter the result list by environment, service, or a single
+service instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"componentName"`: The name of a component for result list filtering. Proton returns
+  deployments associated with that component.
+- `"environmentName"`: The name of an environment for result list filtering. Proton returns
+  deployments associated with the environment.
+- `"maxResults"`: The maximum number of deployments to list.
+- `"nextToken"`: A token that indicates the location of the next deployment in the array of
+  deployment, after the list of deployment that was previously requested.
+- `"serviceInstanceName"`: The name of a service instance for result list filtering. Proton
+  returns the deployments associated with the service instance.
+- `"serviceName"`: The name of a service for result list filtering. Proton returns
+  deployments associated with service instances of the service.
+"""
+function list_deployments(; aws_config::AbstractAWSConfig=global_aws_config())
+    return proton("ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_deployments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return proton(
+        "ListDeployments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_environment_account_connections(requested_by)
     list_environment_account_connections(requested_by, params::Dict{String,<:Any})
 
@@ -2348,6 +2446,7 @@ List the infrastructure as code outputs for your environment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"deploymentId"`: The ID of the deployment whose outputs you want.
 - `"nextToken"`: A token that indicates the location of the next environment output in the
   array of environment outputs, after the list of environment outputs that was previously
   requested.
@@ -2617,6 +2716,7 @@ Get a list service of instance Infrastructure as Code (IaC) outputs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"deploymentId"`: The ID of the deployment whose outputs you want.
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
@@ -2754,6 +2854,7 @@ Get a list of service pipeline Infrastructure as Code (IaC) outputs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"deploymentId"`: The ID of the deployment you want the outputs for.
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """

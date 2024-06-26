@@ -320,6 +320,80 @@ function create_legal_hold(
 end
 
 """
+    create_logically_air_gapped_backup_vault(max_retention_days, min_retention_days, backup_vault_name)
+    create_logically_air_gapped_backup_vault(max_retention_days, min_retention_days, backup_vault_name, params::Dict{String,<:Any})
+
+This request creates a logical container to where backups may be copied. This request
+includes a name, the Region, the maximum number of retention days, the minimum number of
+retention days, and optionally can include tags and a creator request ID.  Do not include
+sensitive data, such as passport numbers, in the name of a backup vault.
+
+# Arguments
+- `max_retention_days`: This is the setting that specifies the maximum retention period
+  that the vault retains its recovery points. If this parameter is not specified, Backup does
+  not enforce a maximum retention period on the recovery points in the vault (allowing
+  indefinite storage). If specified, any backup or copy job to the vault must have a
+  lifecycle policy with a retention period equal to or shorter than the maximum retention
+  period. If the job retention period is longer than that maximum retention period, then the
+  vault fails the backup or copy job, and you should either modify your lifecycle settings or
+  use a different vault.
+- `min_retention_days`: This setting specifies the minimum retention period that the vault
+  retains its recovery points. If this parameter is not specified, no minimum retention
+  period is enforced. If specified, any backup or copy job to the vault must have a lifecycle
+  policy with a retention period equal to or longer than the minimum retention period. If a
+  job retention period is shorter than that minimum retention period, then the vault fails
+  the backup or copy job, and you should either modify your lifecycle settings or use a
+  different vault.
+- `backup_vault_name`: This is the name of the vault that is being created.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BackupVaultTags"`: These are the tags that will be included in the newly-created vault.
+- `"CreatorRequestId"`: This is the ID of the creation request. This parameter is optional.
+  If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+"""
+function create_logically_air_gapped_backup_vault(
+    MaxRetentionDays,
+    MinRetentionDays,
+    backupVaultName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/logically-air-gapped-backup-vaults/$(backupVaultName)",
+        Dict{String,Any}(
+            "MaxRetentionDays" => MaxRetentionDays, "MinRetentionDays" => MinRetentionDays
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_logically_air_gapped_backup_vault(
+    MaxRetentionDays,
+    MinRetentionDays,
+    backupVaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/logically-air-gapped-backup-vaults/$(backupVaultName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "MaxRetentionDays" => MaxRetentionDays,
+                    "MinRetentionDays" => MinRetentionDays,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_report_plan(report_delivery_channel, report_plan_name, report_setting)
     create_report_plan(report_delivery_channel, report_plan_name, report_setting, params::Dict{String,<:Any})
 
@@ -388,6 +462,126 @@ function create_report_plan(
                     "ReportSetting" => ReportSetting,
                     "IdempotencyToken" => string(uuid4()),
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_restore_testing_plan(restore_testing_plan)
+    create_restore_testing_plan(restore_testing_plan, params::Dict{String,<:Any})
+
+This is the first of two steps to create a restore testing plan; once this request is
+successful, finish the procedure with request CreateRestoreTestingSelection. You must
+include the parameter RestoreTestingPlan. You may optionally include CreatorRequestId and
+Tags.
+
+# Arguments
+- `restore_testing_plan`: A restore testing plan must contain a unique
+  RestoreTestingPlanName string you create and must contain a ScheduleExpression cron. You
+  may optionally include a StartWindowHours integer and a CreatorRequestId string. The
+  RestoreTestingPlanName is a unique string that is the name of the restore testing plan.
+  This cannot be changed after creation, and it must consist of only alphanumeric characters
+  and underscores.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreatorRequestId"`: This is a unique string that identifies the request and allows
+  failed requests to be retriedwithout the risk of running the operation twice. This
+  parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.'
+  characters.
+- `"Tags"`: Optional tags to include. A tag is a key-value pair you can use to manage,
+  filter, and search for your resources. Allowed characters include UTF-8 letters,numbers,
+  spaces, and the following characters: + - = . _ : /.
+"""
+function create_restore_testing_plan(
+    RestoreTestingPlan; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "PUT",
+        "/restore-testing/plans",
+        Dict{String,Any}("RestoreTestingPlan" => RestoreTestingPlan);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_restore_testing_plan(
+    RestoreTestingPlan,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/restore-testing/plans",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RestoreTestingPlan" => RestoreTestingPlan), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_restore_testing_selection(restore_testing_plan_name, restore_testing_selection)
+    create_restore_testing_selection(restore_testing_plan_name, restore_testing_selection, params::Dict{String,<:Any})
+
+This request can be sent after CreateRestoreTestingPlan request returns successfully. This
+is the second part of creating a resource testing plan, and it must be completed
+sequentially. This consists of RestoreTestingSelectionName, ProtectedResourceType, and one
+of the following:    ProtectedResourceArns     ProtectedResourceConditions    Each
+protected resource type can have one single value. A restore testing selection can include
+a wildcard value (\"*\") for ProtectedResourceArns along with ProtectedResourceConditions.
+Alternatively, you can include up to 30 specific protected resource ARNs in
+ProtectedResourceArns. Cannot select by both protected resource types AND specific ARNs.
+Request will fail if both are included.
+
+# Arguments
+- `restore_testing_plan_name`: Input the restore testing plan name that was returned from
+  the related CreateRestoreTestingPlan request.
+- `restore_testing_selection`: This consists of RestoreTestingSelectionName,
+  ProtectedResourceType, and one of the following:    ProtectedResourceArns
+  ProtectedResourceConditions    Each protected resource type can have one single value. A
+  restore testing selection can include a wildcard value (\"*\") for ProtectedResourceArns
+  along with ProtectedResourceConditions. Alternatively, you can include up to 30 specific
+  protected resource ARNs in ProtectedResourceArns.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreatorRequestId"`: This is an optional unique string that identifies the request and
+  allows failed requests to be retried without the risk of running the operation twice. If
+  used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
+"""
+function create_restore_testing_selection(
+    RestoreTestingPlanName,
+    RestoreTestingSelection;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/restore-testing/plans/$(RestoreTestingPlanName)/selections",
+        Dict{String,Any}("RestoreTestingSelection" => RestoreTestingSelection);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_restore_testing_selection(
+    RestoreTestingPlanName,
+    RestoreTestingSelection,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/restore-testing/plans/$(RestoreTestingPlanName)/selections",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RestoreTestingSelection" => RestoreTestingSelection),
                 params,
             ),
         );
@@ -731,6 +925,84 @@ function delete_report_plan(
 end
 
 """
+    delete_restore_testing_plan(restore_testing_plan_name)
+    delete_restore_testing_plan(restore_testing_plan_name, params::Dict{String,<:Any})
+
+This request deletes the specified restore testing plan. Deletion can only successfully
+occur if all associated restore testing selections are deleted first.
+
+# Arguments
+- `restore_testing_plan_name`: Required unique name of the restore testing plan you wish to
+  delete.
+
+"""
+function delete_restore_testing_plan(
+    RestoreTestingPlanName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "DELETE",
+        "/restore-testing/plans/$(RestoreTestingPlanName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_restore_testing_plan(
+    RestoreTestingPlanName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "DELETE",
+        "/restore-testing/plans/$(RestoreTestingPlanName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_restore_testing_selection(restore_testing_plan_name, restore_testing_selection_name)
+    delete_restore_testing_selection(restore_testing_plan_name, restore_testing_selection_name, params::Dict{String,<:Any})
+
+Input the Restore Testing Plan name and Restore Testing Selection name. All testing
+selections associated with a restore testing plan must be deleted before the restore
+testing plan can be deleted.
+
+# Arguments
+- `restore_testing_plan_name`: Required unique name of the restore testing plan that
+  contains the restore testing selection you wish to delete.
+- `restore_testing_selection_name`: Required unique name of the restore testing selection
+  you wish to delete.
+
+"""
+function delete_restore_testing_selection(
+    RestoreTestingPlanName,
+    RestoreTestingSelectionName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "DELETE",
+        "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_restore_testing_selection(
+    RestoreTestingPlanName,
+    RestoreTestingSelectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "DELETE",
+        "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_backup_job(backup_job_id)
     describe_backup_job(backup_job_id, params::Dict{String,<:Any})
 
@@ -774,6 +1046,9 @@ Returns metadata about a backup vault specified by its name.
   Amazon Web Services Region where they are created. They consist of lowercase letters,
   numbers, and hyphens.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"backupVaultAccountId"`: This is the account ID of the specified backup vault.
 """
 function describe_backup_vault(
     backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -943,6 +1218,9 @@ lifecycle.
   point; for example,
   arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"backupVaultAccountId"`: This is the account ID of the specified backup vault.
 """
 function describe_recovery_point(
     backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1487,6 +1765,9 @@ Returns a set of metadata key-value pairs that were used to create the backup.
   point; for example,
   arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"backupVaultAccountId"`: This is the account ID of the specified backup vault.
 """
 function get_recovery_point_restore_metadata(
     backupVaultName, recoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1507,6 +1788,172 @@ function get_recovery_point_restore_metadata(
     return backup(
         "GET",
         "/backup-vaults/$(backupVaultName)/recovery-points/$(recoveryPointArn)/restore-metadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_restore_job_metadata(restore_job_id)
+    get_restore_job_metadata(restore_job_id, params::Dict{String,<:Any})
+
+This request returns the metadata for the specified restore job.
+
+# Arguments
+- `restore_job_id`: This is a unique identifier of a restore job within Backup.
+
+"""
+function get_restore_job_metadata(
+    restoreJobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/restore-jobs/$(restoreJobId)/metadata";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_restore_job_metadata(
+    restoreJobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "GET",
+        "/restore-jobs/$(restoreJobId)/metadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_restore_testing_inferred_metadata(backup_vault_name, recovery_point_arn)
+    get_restore_testing_inferred_metadata(backup_vault_name, recovery_point_arn, params::Dict{String,<:Any})
+
+This request returns the minimal required set of metadata needed to start a restore job
+with secure default settings. BackupVaultName and RecoveryPointArn are required parameters.
+BackupVaultAccountId is an optional parameter.
+
+# Arguments
+- `backup_vault_name`: The name of a logical container where backups are stored. Backup
+  vaults are identified by names that are unique to the account used to create them and the
+  Amazon Web ServicesRegion where they are created. They consist of letters, numbers, and
+  hyphens.
+- `recovery_point_arn`: An Amazon Resource Name (ARN) that uniquely identifies a recovery
+  point; for example,
+  arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"BackupVaultAccountId"`: This is the account ID of the specified backup vault.
+"""
+function get_restore_testing_inferred_metadata(
+    BackupVaultName, RecoveryPointArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/restore-testing/inferred-metadata",
+        Dict{String,Any}(
+            "BackupVaultName" => BackupVaultName, "RecoveryPointArn" => RecoveryPointArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_restore_testing_inferred_metadata(
+    BackupVaultName,
+    RecoveryPointArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "GET",
+        "/restore-testing/inferred-metadata",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BackupVaultName" => BackupVaultName,
+                    "RecoveryPointArn" => RecoveryPointArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_restore_testing_plan(restore_testing_plan_name)
+    get_restore_testing_plan(restore_testing_plan_name, params::Dict{String,<:Any})
+
+Returns RestoreTestingPlan details for the specified RestoreTestingPlanName. The details
+are the body of a restore testing plan in JSON format, in addition to plan metadata.
+
+# Arguments
+- `restore_testing_plan_name`: Required unique name of the restore testing plan.
+
+"""
+function get_restore_testing_plan(
+    RestoreTestingPlanName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/restore-testing/plans/$(RestoreTestingPlanName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_restore_testing_plan(
+    RestoreTestingPlanName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "GET",
+        "/restore-testing/plans/$(RestoreTestingPlanName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_restore_testing_selection(restore_testing_plan_name, restore_testing_selection_name)
+    get_restore_testing_selection(restore_testing_plan_name, restore_testing_selection_name, params::Dict{String,<:Any})
+
+Returns RestoreTestingSelection, which displays resources and elements of the restore
+testing plan.
+
+# Arguments
+- `restore_testing_plan_name`: Required unique name of the restore testing plan.
+- `restore_testing_selection_name`: Required unique name of the restore testing selection.
+
+"""
+function get_restore_testing_selection(
+    RestoreTestingPlanName,
+    RestoreTestingSelectionName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "GET",
+        "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_restore_testing_selection(
+    RestoreTestingPlanName,
+    RestoreTestingSelectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "GET",
+        "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1541,6 +1988,75 @@ function get_supported_resource_types(
 end
 
 """
+    list_backup_job_summaries()
+    list_backup_job_summaries(params::Dict{String,<:Any})
+
+This is a request for a summary of backup jobs created or running within the most recent 30
+days. You can include parameters AccountID, State, ResourceType, MessageCategory,
+AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a
+summary that contains Region, Account, State, ResourceType, MessageCategory, StartTime,
+EndTime, and Count of included jobs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: Returns the job count for the specified account. If the request is sent
+  from a member account or an account not part of Amazon Web Services Organizations, jobs
+  within requestor's account will be returned. Root, admin, and delegated administrator
+  accounts can use the value ANY to return job counts from every account in the organization.
+   AGGREGATE_ALL aggregates job counts from all accounts within the authenticated
+  organization, then returns the sum.
+- `"AggregationPeriod"`: This is the period that sets the boundaries for returned results.
+  Acceptable values include    ONE_DAY for daily job count for the prior 14 days.
+  SEVEN_DAYS for the aggregated job count for the prior 7 days.    FOURTEEN_DAYS for
+  aggregated job count for prior 14 days.
+- `"MaxResults"`: This parameter sets the maximum number of items to be returned. The value
+  is an integer. Range of accepted values is from 1 to 500.
+- `"MessageCategory"`: This parameter returns the job count for the specified message
+  category. Example accepted strings include AccessDenied, Success, and InvalidParameters.
+  See Monitoring for a list of accepted MessageCategory strings. The the value ANY returns
+  count of all message categories.  AGGREGATE_ALL aggregates job counts for all message
+  categories and returns the sum.
+- `"NextToken"`: The next item following a partial list of returned resources. For example,
+  if a request is made to return MaxResults number of resources, NextToken allows you to
+  return more items in your list starting at the location pointed to by the next token.
+- `"ResourceType"`: Returns the job count for the specified resource type. Use request
+  GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY
+  returns count of all resource types.  AGGREGATE_ALL aggregates job counts for all resource
+  types and returns the sum. The type of Amazon Web Services resource to be backed up; for
+  example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database
+  Service (Amazon RDS) database.
+- `"State"`: This parameter returns the job count for jobs with the specified state. The
+  the value ANY returns count of all states.  AGGREGATE_ALL aggregates job counts for all
+  states and returns the sum.  Completed with issues is a status found only in the Backup
+  console. For API, this status refers to jobs with a state of COMPLETED and a
+  MessageCategory with a value other than SUCCESS; that is, the status is completed but comes
+  with a status message. To obtain the job count for Completed with issues, run two GET
+  requests, and subtract the second, smaller number: GET
+  /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&amp;State=COMPLETED GET
+  /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&amp;MessageCategory=SUCCESS&amp
+  ;State=COMPLETED
+"""
+function list_backup_job_summaries(; aws_config::AbstractAWSConfig=global_aws_config())
+    return backup(
+        "GET",
+        "/audit/backup-job-summaries";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_backup_job_summaries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/audit/backup-job-summaries",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_backup_jobs()
     list_backup_jobs(params::Dict{String,<:Any})
 
@@ -1563,19 +2079,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"createdAfter"`: Returns only backup jobs that were created after the specified date.
 - `"createdBefore"`: Returns only backup jobs that were created before the specified date.
 - `"maxResults"`: The maximum number of items to be returned.
+- `"messageCategory"`: This is an optional parameter that can be used to filter out jobs
+  with a MessageCategory which matches the value you input. Example strings may include
+  AccessDenied, SUCCESS, AGGREGATE_ALL, and InvalidParameters. View Monitoring  The wildcard
+  () returns count of all message categories.  AGGREGATE_ALL aggregates job counts for all
+  message categories and returns the sum.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 - `"parentJobId"`: This is a filter to list child (nested) jobs based on parent job ID.
 - `"resourceArn"`: Returns only backup jobs that match the specified resource Amazon
   Resource Name (ARN).
 - `"resourceType"`: Returns only backup jobs for the specified resources:    Aurora for
-  Amazon Aurora    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB
-  for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute
-  Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon
-  Neptune    RDS for Amazon Relational Database Service    Storage Gateway for Storage
-  Gateway    S3 for Amazon S3    VirtualMachine for virtual machines
-- `"state"`: Returns only backup jobs that are in the specified state.
+  Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB
+  (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic
+  Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System
+   FSx for Amazon FSx    Neptune for Amazon Neptune    Redshift for Amazon Redshift    RDS
+  for Amazon Relational Database Service    SAP HANA on Amazon EC2 for SAP HANA databases
+  Storage Gateway for Storage Gateway    S3 for Amazon S3    Timestream for Amazon Timestream
+     VirtualMachine for virtual machines
+- `"state"`: Returns only backup jobs that are in the specified state.  Completed with
+  issues is a status found only in the Backup console. For API, this status refers to jobs
+  with a state of COMPLETED and a MessageCategory with a value other than SUCCESS; that is,
+  the status is completed but comes with a status message. To obtain the job count for
+  Completed with issues, run two GET requests, and subtract the second, smaller number: GET
+  /backup-jobs/?state=COMPLETED GET /backup-jobs/?messageCategory=SUCCESS&amp;state=COMPLETED
 """
 function list_backup_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
@@ -1605,7 +2133,7 @@ the creation and deletion dates.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of items to be returned.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
 function list_backup_plan_templates(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1642,7 +2170,7 @@ backup plan IDs, creation and deletion dates, plan names, and version IDs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of items to be returned.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
 function list_backup_plan_versions(
@@ -1683,7 +2211,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   backup plans when set to TRUE.
 - `"maxResults"`: The maximum number of items to be returned.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
 function list_backup_plans(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1717,7 +2245,7 @@ plan.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of items to be returned.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
 function list_backup_selections(
@@ -1754,8 +2282,10 @@ Returns a list of recovery point storage containers along with information about
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of items to be returned.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
+- `"shared"`: This parameter will sort the list of vaults by shared vaults.
+- `"vaultType"`: This parameter will sort the list of vaults by vault type.
 """
 function list_backup_vaults(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
@@ -1768,6 +2298,67 @@ function list_backup_vaults(
     return backup(
         "GET",
         "/backup-vaults/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_copy_job_summaries()
+    list_copy_job_summaries(params::Dict{String,<:Any})
+
+This request obtains a list of copy jobs created or running within the the most recent 30
+days. You can include parameters AccountID, State, ResourceType, MessageCategory,
+AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a
+summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime,
+EndTime, and Count of included jobs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: Returns the job count for the specified account. If the request is sent
+  from a member account or an account not part of Amazon Web Services Organizations, jobs
+  within requestor's account will be returned. Root, admin, and delegated administrator
+  accounts can use the value ANY to return job counts from every account in the organization.
+   AGGREGATE_ALL aggregates job counts from all accounts within the authenticated
+  organization, then returns the sum.
+- `"AggregationPeriod"`: This is the period that sets the boundaries for returned results.
+    ONE_DAY for daily job count for the prior 14 days.    SEVEN_DAYS for the aggregated job
+  count for the prior 7 days.    FOURTEEN_DAYS for aggregated job count for prior 14 days.
+- `"MaxResults"`: This parameter sets the maximum number of items to be returned. The value
+  is an integer. Range of accepted values is from 1 to 500.
+- `"MessageCategory"`: This parameter returns the job count for the specified message
+  category. Example accepted strings include AccessDenied, Success, and InvalidParameters.
+  See Monitoring for a list of accepted MessageCategory strings. The the value ANY returns
+  count of all message categories.  AGGREGATE_ALL aggregates job counts for all message
+  categories and returns the sum.
+- `"NextToken"`: The next item following a partial list of returned resources. For example,
+  if a request is made to return MaxResults number of resources, NextToken allows you to
+  return more items in your list starting at the location pointed to by the next token.
+- `"ResourceType"`: Returns the job count for the specified resource type. Use request
+  GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY
+  returns count of all resource types.  AGGREGATE_ALL aggregates job counts for all resource
+  types and returns the sum. The type of Amazon Web Services resource to be backed up; for
+  example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database
+  Service (Amazon RDS) database.
+- `"State"`: This parameter returns the job count for jobs with the specified state. The
+  the value ANY returns count of all states.  AGGREGATE_ALL aggregates job counts for all
+  states and returns the sum.
+"""
+function list_copy_job_summaries(; aws_config::AbstractAWSConfig=global_aws_config())
+    return backup(
+        "GET",
+        "/audit/copy-job-summaries";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_copy_job_summaries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/audit/copy-job-summaries",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1794,18 +2385,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   backup vault to copy from; for example,
   arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
 - `"maxResults"`: The maximum number of items to be returned.
+- `"messageCategory"`: This is an optional parameter that can be used to filter out jobs
+  with a MessageCategory which matches the value you input. Example strings may include
+  AccessDenied, SUCCESS, AGGREGATE_ALL, and INVALIDPARAMETERS. View Monitoring for a list of
+  accepted strings. The the value ANY returns count of all message categories.  AGGREGATE_ALL
+  aggregates job counts for all message categories and returns the sum.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 - `"parentJobId"`: This is a filter to list child (nested) jobs based on parent job ID.
 - `"resourceArn"`: Returns only copy jobs that match the specified resource Amazon Resource
   Name (ARN).
 - `"resourceType"`: Returns only backup jobs for the specified resources:    Aurora for
-  Amazon Aurora    DocumentDB for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB
-  for Amazon DynamoDB    EBS for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute
-  Cloud    EFS for Amazon Elastic File System    FSx for Amazon FSx    Neptune for Amazon
-  Neptune    RDS for Amazon Relational Database Service    Storage Gateway for Storage
-  Gateway    S3 for Amazon S3    VirtualMachine for virtual machines
+  Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon DocumentDB
+  (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon Elastic
+  Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File System
+   FSx for Amazon FSx    Neptune for Amazon Neptune    Redshift for Amazon Redshift    RDS
+  for Amazon Relational Database Service    SAP HANA on Amazon EC2 for SAP HANA databases
+  Storage Gateway for Storage Gateway    S3 for Amazon S3    Timestream for Amazon Timestream
+     VirtualMachine for virtual machines
 - `"state"`: Returns only copy jobs that are in the specified state.
 """
 function list_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1862,7 +2460,7 @@ This action returns metadata about active and previous legal holds.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of resource list items to be returned.
 - `"nextToken"`: The next item following a partial list of returned resources. For example,
-  if a request is made to return maxResults number of resources, NextToken allows you to
+  if a request is made to return MaxResults number of resources, NextToken allows you to
   return more items in your list starting at the location pointed to by the next token.
 """
 function list_legal_holds(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1893,7 +2491,7 @@ resource was saved, an Amazon Resource Name (ARN) of the resource, and a resourc
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of items to be returned.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
 function list_protected_resources(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1906,6 +2504,49 @@ function list_protected_resources(
 )
     return backup(
         "GET", "/resources/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_protected_resources_by_backup_vault(backup_vault_name)
+    list_protected_resources_by_backup_vault(backup_vault_name, params::Dict{String,<:Any})
+
+This request lists the protected resources corresponding to each backup vault.
+
+# Arguments
+- `backup_vault_name`: This is the list of protected resources by backup vault within the
+  vault(s) you specify by name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"backupVaultAccountId"`: This is the list of protected resources by backup vault within
+  the vault(s) you specify by account ID.
+- `"maxResults"`: The maximum number of items to be returned.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if
+  a request is made to return MaxResults number of items, NextToken allows you to return more
+  items in your list starting at the location pointed to by the next token.
+"""
+function list_protected_resources_by_backup_vault(
+    backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/backup-vaults/$(backupVaultName)/resources/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_protected_resources_by_backup_vault(
+    backupVaultName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "GET",
+        "/backup-vaults/$(backupVaultName)/resources/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1925,19 +2566,28 @@ Returns detailed information about the recovery points stored in a backup vault.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"backupPlanId"`: Returns only recovery points that match the specified backup plan ID.
+- `"backupVaultAccountId"`: This parameter will sort the list of recovery points by account
+  ID.
 - `"createdAfter"`: Returns only recovery points that were created after the specified
   timestamp.
 - `"createdBefore"`: Returns only recovery points that were created before the specified
   timestamp.
 - `"maxResults"`: The maximum number of items to be returned.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 - `"parentRecoveryPointArn"`: This returns only recovery points that match the specified
   parent (composite) recovery point Amazon Resource Name (ARN).
 - `"resourceArn"`: Returns only recovery points that match the specified resource Amazon
   Resource Name (ARN).
-- `"resourceType"`: Returns only recovery points that match the specified resource type.
+- `"resourceType"`: Returns only recovery points that match the specified resource type(s):
+     Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB for Amazon
+  DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS for Amazon
+  Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon Elastic File
+  System    FSx for Amazon FSx    Neptune for Amazon Neptune    Redshift for Amazon Redshift
+    RDS for Amazon Relational Database Service    SAP HANA on Amazon EC2 for SAP HANA
+  databases    Storage Gateway for Storage Gateway    S3 for Amazon S3    Timestream for
+  Amazon Timestream    VirtualMachine for virtual machines
 """
 function list_recovery_points_by_backup_vault(
     backupVaultName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1976,7 +2626,7 @@ This action returns recovery point ARNs (Amazon Resource Names) of the specified
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: This is the maximum number of resource list items to be returned.
 - `"nextToken"`: This is the next item following a partial list of returned resources. For
-  example, if a request is made to return maxResults number of resources, NextToken allows
+  example, if a request is made to return MaxResults number of resources, NextToken allows
   you to return more items in your list starting at the location pointed to by the next token.
 """
 function list_recovery_points_by_legal_hold(
@@ -2017,10 +2667,14 @@ recovery points created by Backup.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"managedByAWSBackupOnly"`: This attribute filters recovery points based on ownership. If
+  this is set to TRUE, the response will contain recovery points associated with the selected
+  resources that are managed by Backup. If this is set to FALSE, the response will contain
+  all recovery points associated with the selected resource. Type: Boolean
 - `"maxResults"`: The maximum number of items to be returned.  Amazon RDS requires a value
   of at least 20.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
 function list_recovery_points_by_resource(
@@ -2118,6 +2772,63 @@ function list_report_plans(
 end
 
 """
+    list_restore_job_summaries()
+    list_restore_job_summaries(params::Dict{String,<:Any})
+
+This request obtains a summary of restore jobs created or running within the the most
+recent 30 days. You can include parameters AccountID, State, ResourceType,
+AggregationPeriod, MaxResults, or NextToken to filter results. This request returns a
+summary that contains Region, Account, State, RestourceType, MessageCategory, StartTime,
+EndTime, and Count of included jobs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccountId"`: Returns the job count for the specified account. If the request is sent
+  from a member account or an account not part of Amazon Web Services Organizations, jobs
+  within requestor's account will be returned. Root, admin, and delegated administrator
+  accounts can use the value ANY to return job counts from every account in the organization.
+   AGGREGATE_ALL aggregates job counts from all accounts within the authenticated
+  organization, then returns the sum.
+- `"AggregationPeriod"`: This is the period that sets the boundaries for returned results.
+  Acceptable values include    ONE_DAY for daily job count for the prior 14 days.
+  SEVEN_DAYS for the aggregated job count for the prior 7 days.    FOURTEEN_DAYS for
+  aggregated job count for prior 14 days.
+- `"MaxResults"`: This parameter sets the maximum number of items to be returned. The value
+  is an integer. Range of accepted values is from 1 to 500.
+- `"NextToken"`: The next item following a partial list of returned resources. For example,
+  if a request is made to return MaxResults number of resources, NextToken allows you to
+  return more items in your list starting at the location pointed to by the next token.
+- `"ResourceType"`: Returns the job count for the specified resource type. Use request
+  GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY
+  returns count of all resource types.  AGGREGATE_ALL aggregates job counts for all resource
+  types and returns the sum. The type of Amazon Web Services resource to be backed up; for
+  example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database
+  Service (Amazon RDS) database.
+- `"State"`: This parameter returns the job count for jobs with the specified state. The
+  the value ANY returns count of all states.  AGGREGATE_ALL aggregates job counts for all
+  states and returns the sum.
+"""
+function list_restore_job_summaries(; aws_config::AbstractAWSConfig=global_aws_config())
+    return backup(
+        "GET",
+        "/audit/restore-job-summaries";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_restore_job_summaries(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/audit/restore-job-summaries",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_restore_jobs()
     list_restore_jobs(params::Dict{String,<:Any})
 
@@ -2136,8 +2847,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"createdBefore"`: Returns only restore jobs that were created before the specified date.
 - `"maxResults"`: The maximum number of items to be returned.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
+- `"resourceType"`: Include this parameter to return only restore jobs for the specified
+  resources:    Aurora for Amazon Aurora    CloudFormation for CloudFormation    DocumentDB
+  for Amazon DocumentDB (with MongoDB compatibility)    DynamoDB for Amazon DynamoDB    EBS
+  for Amazon Elastic Block Store    EC2 for Amazon Elastic Compute Cloud    EFS for Amazon
+  Elastic File System    FSx for Amazon FSx    Neptune for Amazon Neptune    Redshift for
+  Amazon Redshift    RDS for Amazon Relational Database Service    SAP HANA on Amazon EC2 for
+  SAP HANA databases    Storage Gateway for Storage Gateway    S3 for Amazon S3    Timestream
+  for Amazon Timestream    VirtualMachine for virtual machines
+- `"restoreTestingPlanArn"`: This returns only restore testing jobs that match the
+  specified resource Amazon Resource Name (ARN).
 - `"status"`: Returns only restore jobs associated with the specified job status.
 """
 function list_restore_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2151,6 +2872,129 @@ function list_restore_jobs(
     return backup(
         "GET",
         "/restore-jobs/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_restore_jobs_by_protected_resource(resource_arn)
+    list_restore_jobs_by_protected_resource(resource_arn, params::Dict{String,<:Any})
+
+This returns restore jobs that contain the specified protected resource. You must include
+ResourceArn. You can optionally include NextToken, ByStatus, MaxResults,
+ByRecoveryPointCreationDateAfter , and ByRecoveryPointCreationDateBefore.
+
+# Arguments
+- `resource_arn`: Returns only restore jobs that match the specified resource Amazon
+  Resource Name (ARN).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of items to be returned.
+- `"nextToken"`: The next item following a partial list of returned items. For example, if
+  a request ismade to return MaxResults number of items, NextToken allows you to return more
+  items in your list starting at the location pointed to by the next token.
+- `"recoveryPointCreationDateAfter"`: Returns only restore jobs of recovery points that
+  were created after the specified date.
+- `"recoveryPointCreationDateBefore"`: Returns only restore jobs of recovery points that
+  were created before the specified date.
+- `"status"`: Returns only restore jobs associated with the specified job status.
+"""
+function list_restore_jobs_by_protected_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/resources/$(resourceArn)/restore-jobs/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_restore_jobs_by_protected_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "GET",
+        "/resources/$(resourceArn)/restore-jobs/",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_restore_testing_plans()
+    list_restore_testing_plans(params::Dict{String,<:Any})
+
+Returns a list of restore testing plans.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of items to be returned.
+- `"NextToken"`: The next item following a partial list of returned items. For example, if
+  a request is made to return MaxResults number of items, NextToken allows you to return more
+  items in your list starting at the location pointed to by the nexttoken.
+"""
+function list_restore_testing_plans(; aws_config::AbstractAWSConfig=global_aws_config())
+    return backup(
+        "GET",
+        "/restore-testing/plans";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_restore_testing_plans(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/restore-testing/plans",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_restore_testing_selections(restore_testing_plan_name)
+    list_restore_testing_selections(restore_testing_plan_name, params::Dict{String,<:Any})
+
+Returns a list of restore testing selections. Can be filtered by MaxResults and
+RestoreTestingPlanName.
+
+# Arguments
+- `restore_testing_plan_name`: Returns restore testing selections by the specified restore
+  testing plan name.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of items to be returned.
+- `"NextToken"`: The next item following a partial list of returned items. For example, if
+  a request is made to return MaxResults number of items, NextToken allows you to return more
+  items in your list starting at the location pointed to by the nexttoken.
+"""
+function list_restore_testing_selections(
+    RestoreTestingPlanName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "GET",
+        "/restore-testing/plans/$(RestoreTestingPlanName)/selections";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_restore_testing_selections(
+    RestoreTestingPlanName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "GET",
+        "/restore-testing/plans/$(RestoreTestingPlanName)/selections",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2175,7 +3019,7 @@ of the  Feature availability by resource table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of items to be returned.
 - `"nextToken"`: The next item following a partial list of returned items. For example, if
-  a request is made to return maxResults number of items, NextToken allows you to return more
+  a request is made to return MaxResults number of items, NextToken allows you to return more
   items in your list starting at the location pointed to by the next token.
 """
 function list_tags(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2385,6 +3229,53 @@ function put_backup_vault_notifications(
 end
 
 """
+    put_restore_validation_result(validation_status, restore_job_id)
+    put_restore_validation_result(validation_status, restore_job_id, params::Dict{String,<:Any})
+
+This request allows you to send your independent self-run restore test validation results.
+RestoreJobId and ValidationStatus are required. Optionally, you can input a
+ValidationStatusMessage.
+
+# Arguments
+- `validation_status`: This is the status of your restore validation.
+- `restore_job_id`: This is a unique identifier of a restore job within Backup.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ValidationStatusMessage"`: This is an optional message string you can input to describe
+  the validation status for the restore test validation.
+"""
+function put_restore_validation_result(
+    ValidationStatus, restoreJobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return backup(
+        "PUT",
+        "/restore-jobs/$(restoreJobId)/validations",
+        Dict{String,Any}("ValidationStatus" => ValidationStatus);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_restore_validation_result(
+    ValidationStatus,
+    restoreJobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/restore-jobs/$(restoreJobId)/validations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ValidationStatus" => ValidationStatus), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_backup_job(backup_vault_name, iam_role_arn, resource_arn)
     start_backup_job(backup_vault_name, iam_role_arn, resource_arn, params::Dict{String,<:Any})
 
@@ -2410,7 +3301,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CompleteWindowMinutes"`: A value in minutes during which a successfully started backup
   must complete, or else Backup will cancel the job. This value is optional. This value
   begins counting down from when the backup was scheduled. It does not add additional time
-  for StartWindowMinutes, or if the backup started later than scheduled.
+  for StartWindowMinutes, or if the backup started later than scheduled. Like
+  StartWindowMinutes, this parameter has a maximum value of 100 years (52,560,000 minutes).
 - `"IdempotencyToken"`: A customer-chosen string that you can use to distinguish between
   otherwise identical calls to StartBackupJob. Retrying a successful request with the same
   idempotency token results in a success message with no action taken.
@@ -2422,18 +3314,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   “transition to cold after days” setting cannot be changed after a backup has been
   transitioned to cold.  Resource types that are able to be transitioned to cold storage are
   listed in the \"Lifecycle to cold storage\" section of the  Feature availability by
-  resource table. Backup ignores this expression for other resource types.
+  resource table. Backup ignores this expression for other resource types. This parameter has
+  a maximum value of 100 years (36,500 days).
 - `"RecoveryPointTags"`: To help organize your resources, you can assign your own metadata
   to the resources that you create. Each tag is a key-value pair.
 - `"StartWindowMinutes"`: A value in minutes after a backup is scheduled before a job will
   be canceled if it doesn't start successfully. This value is optional, and the default is 8
-  hours. If this value is included, it must be at least 60 minutes to avoid errors. During
-  the start window, the backup job status remains in CREATED status until it has successfully
-  begun or until the start window time has run out. If within the start window time Backup
-  receives an error that allows the job to be retried, Backup will automatically retry to
-  begin the job at least every 10 minutes until the backup successfully begins (the job
-  status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to
-  occur when the start window time is over).
+  hours. If this value is included, it must be at least 60 minutes to avoid errors. This
+  parameter has a maximum value of 100 years (52,560,000 minutes). During the start window,
+  the backup job status remains in CREATED status until it has successfully begun or until
+  the start window time has run out. If within the start window time Backup receives an error
+  that allows the job to be retried, Backup will automatically retry to begin the job at
+  least every 10 minutes until the backup successfully begins (the job status changes to
+  RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the
+  start window time is over).
 """
 function start_backup_job(
     BackupVaultName,
@@ -2685,8 +3579,8 @@ end
 
 Attempts to cancel a job to create a one-time backup of a resource. This action is not
 supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for
-Lustre, FSx for ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB
-compatibility), Amazon RDS, Amazon Aurora, and Amazon Neptune.
+Lustre, Amazon FSx for NetApp ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with
+MongoDB compatibility), Amazon RDS, Amazon Aurora, and Amazon Neptune.
 
 # Arguments
 - `backup_job_id`: Uniquely identifies a request to Backup to back up a resource.
@@ -2977,11 +3871,8 @@ end
     update_region_settings()
     update_region_settings(params::Dict{String,<:Any})
 
-Updates the current service opt-in settings for the Region. If service-opt-in is enabled
-for a service, Backup tries to protect that service's resources in this Region, when the
-resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup
-does not try to protect that service's resources in this Region. Use the
-DescribeRegionSettings API to determine the resource types that are supported.
+Updates the current service opt-in settings for the Region. Use the DescribeRegionSettings
+API to determine the resource types that are supported.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2990,7 +3881,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Backup's advanced DynamoDB backup features, follow the procedure to  enable advanced
   DynamoDB backup programmatically.
 - `"ResourceTypeOptInPreference"`: Updates the list of services along with the opt-in
-  preferences for the Region.
+  preferences for the Region. If resource assignments are only based on tags, then service
+  opt-in settings are applied. If a resource type is explicitly assigned to a backup plan,
+  such as Amazon S3, Amazon EC2, or Amazon RDS, it will be included in the backup even if the
+  opt-in is not enabled for that particular service. If both a resource type and tags are
+  specified in a resource assignment, the resource type specified in the backup plan takes
+  priority over the tag condition. Service opt-in settings are disregarded in this situation.
 """
 function update_region_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return backup(
@@ -3059,6 +3955,108 @@ function update_report_plan(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("IdempotencyToken" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_restore_testing_plan(restore_testing_plan, restore_testing_plan_name)
+    update_restore_testing_plan(restore_testing_plan, restore_testing_plan_name, params::Dict{String,<:Any})
+
+This request will send changes to your specified restore testing plan.
+RestoreTestingPlanName cannot be updated after it is created.  RecoveryPointSelection can
+contain:    Algorithm     ExcludeVaults     IncludeVaults     RecoveryPointTypes
+SelectionWindowDays
+
+# Arguments
+- `restore_testing_plan`: Specifies the body of a restore testing plan.
+- `restore_testing_plan_name`: This is the restore testing plan name you wish to update.
+
+"""
+function update_restore_testing_plan(
+    RestoreTestingPlan,
+    RestoreTestingPlanName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/restore-testing/plans/$(RestoreTestingPlanName)",
+        Dict{String,Any}("RestoreTestingPlan" => RestoreTestingPlan);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_restore_testing_plan(
+    RestoreTestingPlan,
+    RestoreTestingPlanName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/restore-testing/plans/$(RestoreTestingPlanName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("RestoreTestingPlan" => RestoreTestingPlan), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_restore_testing_selection(restore_testing_plan_name, restore_testing_selection, restore_testing_selection_name)
+    update_restore_testing_selection(restore_testing_plan_name, restore_testing_selection, restore_testing_selection_name, params::Dict{String,<:Any})
+
+Most elements except the RestoreTestingSelectionName can be updated with this request.
+RestoreTestingSelection can use either protected resource ARNs or conditions, but not both.
+That is, if your selection has ProtectedResourceArns, requesting an update with the
+parameter ProtectedResourceConditions will be unsuccessful.
+
+# Arguments
+- `restore_testing_plan_name`: The restore testing plan name is required to update the
+  indicated testing plan.
+- `restore_testing_selection`: To update your restore testing selection, you can use either
+  protected resource ARNs or conditions, but not both. That is, if your selection has
+  ProtectedResourceArns, requesting an update with the parameter ProtectedResourceConditions
+  will be unsuccessful.
+- `restore_testing_selection_name`: This is the required restore testing selection name of
+  the restore testing selection you wish to update.
+
+"""
+function update_restore_testing_selection(
+    RestoreTestingPlanName,
+    RestoreTestingSelection,
+    RestoreTestingSelectionName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)",
+        Dict{String,Any}("RestoreTestingSelection" => RestoreTestingSelection);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_restore_testing_selection(
+    RestoreTestingPlanName,
+    RestoreTestingSelection,
+    RestoreTestingSelectionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return backup(
+        "PUT",
+        "/restore-testing/plans/$(RestoreTestingPlanName)/selections/$(RestoreTestingSelectionName)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RestoreTestingSelection" => RestoreTestingSelection),
+                params,
             ),
         );
         aws_config=aws_config,

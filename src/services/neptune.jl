@@ -471,8 +471,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DeletionProtection"`: A value that indicates whether the DB cluster has deletion
   protection enabled. The database can't be deleted when deletion protection is enabled. By
   default, deletion protection is enabled.
-- `"EnableCloudwatchLogsExports"`: The list of log types that need to be enabled for
-  exporting to CloudWatch Logs.
+- `"EnableCloudwatchLogsExports"`: A list of the log types that this DB cluster should
+  export to CloudWatch Logs. Valid log types are: audit (to publish audit logs) and slowquery
+  (to publish slow-query logs). See Publishing Neptune logs to Amazon CloudWatch logs.
 - `"EnableIAMDatabaseAuthentication"`: If set to true, enables Amazon Identity and Access
   Management (IAM) authentication for the entire DB cluster (this cannot be set at an
   instance level). Default: false.
@@ -503,20 +504,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PreferredBackupWindow"`: The daily time range during which automated backups are
   created if automated backups are enabled using the BackupRetentionPeriod parameter. The
   default is a 30-minute window selected at random from an 8-hour block of time for each
-  Amazon Region. To see the time blocks available, see  Adjusting the Preferred Maintenance
-  Window in the Amazon Neptune User Guide.  Constraints:   Must be in the format
-  hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with
-  the preferred maintenance window.   Must be at least 30 minutes.
+  Amazon Region. To see the time blocks available, see Neptune Maintenance Window in the
+  Amazon Neptune User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be
+  in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance
+  window.   Must be at least 30 minutes.
 - `"PreferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is
   a 30-minute window selected at random from an 8-hour block of time for each Amazon Region,
-  occurring on a random day of the week. To see the time blocks available, see  Adjusting the
-  Preferred Maintenance Window in the Amazon Neptune User Guide.  Valid Days: Mon, Tue, Wed,
-  Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
+  occurring on a random day of the week. To see the time blocks available, see Neptune
+  Maintenance Window in the Amazon Neptune User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri,
+  Sat, Sun. Constraints: Minimum 30-minute window.
 - `"ReplicationSourceIdentifier"`: The Amazon Resource Name (ARN) of the source DB instance
   or DB cluster if this DB cluster is created as a Read Replica.
-- `"ServerlessV2ScalingConfiguration"`:
+- `"ServerlessV2ScalingConfiguration"`: Contains the scaling configuration of a Neptune
+  Serverless DB cluster. For more information, see Using Amazon Neptune Serverless in the
+  Amazon Neptune User Guide.
 - `"StorageEncrypted"`: Specifies whether the DB cluster is encrypted.
+- `"StorageType"`: The storage type to associate with the DB cluster. Valid Values:
+  standard | iopt1    Default:    standard     When you create a Neptune cluster with the
+  storage type set to iopt1, the storage type is returned in the response. The storage type
+  isn't returned when you set it to standard.
 - `"Tags"`: The tags to assign to the new DB cluster.
 - `"VpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with this DB
   cluster.
@@ -2657,7 +2664,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to
   35
 - `"CloudwatchLogsExportConfiguration"`: The configuration setting for the log types to be
-  enabled for export to CloudWatch Logs for a specific DB cluster.
+  enabled for export to CloudWatch Logs for a specific DB cluster. See Using the CLI to
+  publish Neptune audit logs to CloudWatch Logs.
 - `"CopyTagsToSnapshot"`:  If set to true, tags are copied to any snapshot of the DB
   cluster that is created.
 - `"DBClusterParameterGroupName"`: The name of the DB cluster parameter group to use for
@@ -2698,7 +2706,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a 30-minute window selected at random from an 8-hour block of time for each Amazon Region,
   occurring on a random day of the week. Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.
   Constraints: Minimum 30-minute window.
-- `"ServerlessV2ScalingConfiguration"`:
+- `"ServerlessV2ScalingConfiguration"`: Contains the scaling configuration of a Neptune
+  Serverless DB cluster. For more information, see Using Amazon Neptune Serverless in the
+  Amazon Neptune User Guide.
+- `"StorageType"`: The storage type to associate with the DB cluster. Valid Values:
+  standard | iopt1    Default:    standard
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the DB cluster will belong to.
 """
 function modify_dbcluster(
@@ -3771,7 +3783,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OptionGroupName"`:  (Not supported by Neptune)
 - `"Port"`: The port number on which the new DB cluster accepts connections. Constraints:
   Value must be 1150-65535  Default: The same port as the original DB cluster.
-- `"ServerlessV2ScalingConfiguration"`:
+- `"ServerlessV2ScalingConfiguration"`: Contains the scaling configuration of a Neptune
+  Serverless DB cluster. For more information, see Using Amazon Neptune Serverless in the
+  Amazon Neptune User Guide.
+- `"StorageType"`: Specifies the storage type to be associated with the DB cluster. Valid
+  values: standard, iopt1  Default: standard
 - `"Tags"`: The tags to be assigned to the restored DB cluster.
 - `"VpcSecurityGroupIds"`: A list of VPC security groups that the new DB cluster will
   belong to.
@@ -3881,7 +3897,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the
   source DB cluster.   If you don't specify a RestoreType value, then the new DB cluster is
   restored as a full copy of the source DB cluster.
-- `"ServerlessV2ScalingConfiguration"`:
+- `"ServerlessV2ScalingConfiguration"`: Contains the scaling configuration of a Neptune
+  Serverless DB cluster. For more information, see Using Amazon Neptune Serverless in the
+  Amazon Neptune User Guide.
+- `"StorageType"`: Specifies the storage type to be associated with the DB cluster. Valid
+  values: standard, iopt1  Default: standard
 - `"Tags"`: The tags to be applied to the restored DB cluster.
 - `"UseLatestRestorableTime"`: A value that is set to true to restore the DB cluster to the
   latest restorable backup time, and false otherwise. Default: false  Constraints: Cannot be

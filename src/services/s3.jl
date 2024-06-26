@@ -8,39 +8,65 @@ using AWS.UUIDs
     abort_multipart_upload(bucket, key, upload_id)
     abort_multipart_upload(bucket, key, upload_id, params::Dict{String,<:Any})
 
-This action aborts a multipart upload. After a multipart upload is aborted, no additional
-parts can be uploaded using that upload ID. The storage consumed by any previously uploaded
-parts will be freed. However, if any part uploads are currently in progress, those part
-uploads might or might not succeed. As a result, it might be necessary to abort a given
-multipart upload multiple times in order to completely free all storage consumed by all
-parts.  To verify that all parts have been removed, so you don't get charged for the part
-storage, you should call the ListParts action and ensure that the parts list is empty. For
-information about permissions required to use the multipart upload, see Multipart Upload
-and Permissions. The following operations are related to AbortMultipartUpload:
-CreateMultipartUpload     UploadPart     CompleteMultipartUpload     ListParts
-ListMultipartUploads
+This operation aborts a multipart upload. After a multipart upload is aborted, no
+additional parts can be uploaded using that upload ID. The storage consumed by any
+previously uploaded parts will be freed. However, if any part uploads are currently in
+progress, those part uploads might or might not succeed. As a result, it might be necessary
+to abort a given multipart upload multiple times in order to completely free all storage
+consumed by all parts.  To verify that all parts have been removed and prevent getting
+charged for the part storage, you should call the ListParts API operation and ensure that
+the parts list is empty.   Directory buckets - For directory buckets, you must make
+requests for this API operation to the Zonal endpoint. These endpoints support
+virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
+not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.   Permissions     General purpose bucket permissions - For information about
+permissions required to use the multipart upload, see Multipart Upload and Permissions in
+the Amazon S3 User Guide.    Directory bucket permissions - To grant access to this API
+operation on a directory bucket, we recommend that you use the  CreateSession  API
+operation for session-based authorization. Specifically, you grant the
+s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM
+identity-based policy. Then, you make the CreateSession API call on the bucket to obtain a
+session token. With the session token in your request header, you can make API requests to
+this operation. After the session token expires, you make another CreateSession API call to
+generate a new session token for use. Amazon Web Services CLI or SDKs create session and
+refresh the session token automatically to avoid service interruptions when a session
+expires. For more information about authorization, see  CreateSession .    HTTP Host header
+syntax   Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
+AbortMultipartUpload:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload
+  ListParts     ListMultipartUploads
 
 # Arguments
-- `bucket`: The bucket name to which the upload was taking place.  When using this action
-  with an access point, you must direct requests to the access point hostname. The access
-  point hostname takes the form
-  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
-  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
-  place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+- `bucket`: The bucket name to which the upload was taking place.   Directory buckets -
+  When you use this operation with a directory bucket, you must use virtual-hosted-style
+  requests in the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style
+  requests are not supported. Directory bucket names must be unique in the chosen
+  Availability Zone. Bucket names must follow the format  bucket_base_name--az-id--x-s3 (for
+  example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming
+  restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points
+  - When you use this action with an access point, you must provide the alias of the access
+  point in place of the bucket name or specify the access point ARN. When using the access
+  point ARN, you must direct requests to the access point hostname. The access point hostname
+  takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
+  this action with an access point through the Amazon Web Services SDKs, you provide the
+  access point ARN in place of the bucket name. For more information about access point ARNs,
+  see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda
+  access points are not supported by directory buckets.   S3 on Outposts - When you use this
+  action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname.
+  The S3 on Outposts hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Key of the object for which the multipart upload was initiated.
 - `upload_id`: Upload ID that identifies the multipart upload.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
 function abort_multipart_upload(
@@ -77,57 +103,86 @@ end
     complete_multipart_upload(bucket, key, upload_id, params::Dict{String,<:Any})
 
 Completes a multipart upload by assembling previously uploaded parts. You first initiate
-the multipart upload and then upload all parts using the UploadPart operation. After
-successfully uploading all relevant parts of an upload, you call this action to complete
-the upload. Upon receiving this request, Amazon S3 concatenates all the parts in ascending
-order by part number to create a new object. In the Complete Multipart Upload request, you
-must provide the parts list. You must ensure that the parts list is complete. This action
+the multipart upload and then upload all parts using the UploadPart operation or the
+UploadPartCopy operation. After successfully uploading all relevant parts of an upload, you
+call this CompleteMultipartUpload operation to complete the upload. Upon receiving this
+request, Amazon S3 concatenates all the parts in ascending order by part number to create a
+new object. In the CompleteMultipartUpload request, you must provide the parts list and
+ensure that the parts list is complete. The CompleteMultipartUpload API operation
 concatenates the parts that you provide in the list. For each part in the list, you must
-provide the part number and the ETag value, returned after that part was uploaded.
-Processing of a Complete Multipart Upload request could take several minutes to complete.
-After Amazon S3 begins processing the request, it sends an HTTP response header that
-specifies a 200 OK response. While processing is in progress, Amazon S3 periodically sends
-white space characters to keep the connection from timing out. A request could fail after
-the initial 200 OK response has been sent. This means that a 200 OK response can contain
-either a success or an error. If you call the S3 API directly, make sure to design your
-application to parse the contents of the response and handle it appropriately. If you use
-Amazon Web Services SDKs, SDKs handle this condition. The SDKs detect the embedded error
-and apply error handling per your configuration settings (including automatically retrying
-the request as appropriate). If the condition persists, the SDKs throws an exception (or,
-for the SDKs that don't use exceptions, they return the error).  Note that if
-CompleteMultipartUpload fails, applications should be prepared to retry the failed
-requests. For more information, see Amazon S3 Error Best Practices.  You cannot use
-Content-Type: application/x-www-form-urlencoded with Complete Multipart Upload requests.
-Also, if you do not provide a Content-Type header, CompleteMultipartUpload returns a 200 OK
-response.  For more information about multipart uploads, see Uploading Objects Using
-Multipart Upload. For information about permissions required to use the multipart upload
-API, see Multipart Upload and Permissions.  CompleteMultipartUpload has the following
-special errors:   Error code: EntityTooSmall    Description: Your proposed upload is
-smaller than the minimum allowed object size. Each part must be at least 5 MB in size,
-except the last part.   400 Bad Request     Error code: InvalidPart    Description: One or
-more of the specified parts could not be found. The part might not have been uploaded, or
-the specified entity tag might not have matched the part's entity tag.   400 Bad Request
- Error code: InvalidPartOrder    Description: The list of parts was not in ascending order.
-The parts list must be specified in order by part number.   400 Bad Request     Error code:
-NoSuchUpload    Description: The specified multipart upload does not exist. The upload ID
-might be invalid, or the multipart upload might have been aborted or completed.   404 Not
-Found     The following operations are related to CompleteMultipartUpload:
-CreateMultipartUpload     UploadPart     AbortMultipartUpload     ListParts
-ListMultipartUploads
+provide the PartNumber value and the ETag value that are returned after that part was
+uploaded. The processing of a CompleteMultipartUpload request could take several minutes to
+finalize. After Amazon S3 begins processing the request, it sends an HTTP response header
+that specifies a 200 OK response. While processing is in progress, Amazon S3 periodically
+sends white space characters to keep the connection from timing out. A request could fail
+after the initial 200 OK response has been sent. This means that a 200 OK response can
+contain either a success or an error. The error response might be embedded in the 200 OK
+response. If you call this API operation directly, make sure to design your application to
+parse the contents of the response and handle it appropriately. If you use Amazon Web
+Services SDKs, SDKs handle this condition. The SDKs detect the embedded error and apply
+error handling per your configuration settings (including automatically retrying the
+request as appropriate). If the condition persists, the SDKs throw an exception (or, for
+the SDKs that don't use exceptions, they return an error).  Note that if
+CompleteMultipartUpload fails, applications should be prepared to retry any failed requests
+(including 500 error responses). For more information, see Amazon S3 Error Best Practices.
+You can't use Content-Type: application/x-www-form-urlencoded for the
+CompleteMultipartUpload requests. Also, if you don't provide a Content-Type header,
+CompleteMultipartUpload can still return a 200 OK response.  For more information about
+multipart uploads, see Uploading Objects Using Multipart Upload in the Amazon S3 User
+Guide.   Directory buckets - For directory buckets, you must make requests for this API
+operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in
+the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style
+requests are not supported. For more information, see Regional and Zonal endpoints in the
+Amazon S3 User Guide.   Permissions     General purpose bucket permissions - For
+information about permissions required to use the multipart upload API, see Multipart
+Upload and Permissions in the Amazon S3 User Guide.    Directory bucket permissions - To
+grant access to this API operation on a directory bucket, we recommend that you use the
+CreateSession  API operation for session-based authorization. Specifically, you grant the
+s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM
+identity-based policy. Then, you make the CreateSession API call on the bucket to obtain a
+session token. With the session token in your request header, you can make API requests to
+this operation. After the session token expires, you make another CreateSession API call to
+generate a new session token for use. Amazon Web Services CLI or SDKs create session and
+refresh the session token automatically to avoid service interruptions when a session
+expires. For more information about authorization, see  CreateSession .    Special errors
+ Error Code: EntityTooSmall    Description: Your proposed upload is smaller than the
+minimum allowed object size. Each part must be at least 5 MB in size, except the last part.
+  HTTP Status Code: 400 Bad Request     Error Code: InvalidPart    Description: One or more
+of the specified parts could not be found. The part might not have been uploaded, or the
+specified ETag might not have matched the uploaded part's ETag.   HTTP Status Code: 400 Bad
+Request     Error Code: InvalidPartOrder    Description: The list of parts was not in
+ascending order. The parts list must be specified in order by part number.   HTTP Status
+Code: 400 Bad Request     Error Code: NoSuchUpload    Description: The specified multipart
+upload does not exist. The upload ID might be invalid, or the multipart upload might have
+been aborted or completed.   HTTP Status Code: 404 Not Found      HTTP Host header syntax
+Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
+CompleteMultipartUpload:    CreateMultipartUpload     UploadPart     AbortMultipartUpload
+  ListParts     ListMultipartUploads
 
 # Arguments
-- `bucket`: Name of the bucket to which the multipart upload was initiated. When using this
-  action with an access point, you must direct requests to the access point hostname. The
-  access point hostname takes the form
+- `bucket`: Name of the bucket to which the multipart upload was initiated.  Directory
+  buckets - When you use this operation with a directory bucket, you must use
+  virtual-hosted-style requests in the format
+  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.
+  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must
+  follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Object key for which the multipart upload was initiated.
 - `upload_id`: ID for the initiated multipart upload.
 
@@ -151,21 +206,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   base64-encoded, 256-bit SHA-256 digest of the object. For more information, see Checking
   object integrity in the Amazon S3 User Guide.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 - `"x-amz-server-side-encryption-customer-algorithm"`: The server-side encryption (SSE)
-  algorithm used to encrypt the object. This parameter is needed only when the object was
-  created using a checksum algorithm. For more information, see Protecting data using SSE-C
-  keys in the Amazon S3 User Guide.
+  algorithm used to encrypt the object. This parameter is required only when the object was
+  created using a checksum algorithm or if your bucket policy requires the use of SSE-C. For
+  more information, see Protecting data using SSE-C keys in the Amazon S3 User Guide.  This
+  functionality is not supported for directory buckets.
 - `"x-amz-server-side-encryption-customer-key"`: The server-side encryption (SSE) customer
   managed key. This parameter is needed only when the object was created using a checksum
   algorithm. For more information, see Protecting data using SSE-C keys in the Amazon S3 User
-  Guide.
+  Guide.  This functionality is not supported for directory buckets.
 - `"x-amz-server-side-encryption-customer-key-MD5"`: The MD5 server-side encryption (SSE)
   customer managed key. This parameter is needed only when the object was created using a
   checksum algorithm. For more information, see Protecting data using SSE-C keys in the
-  Amazon S3 User Guide.
+  Amazon S3 User Guide.  This functionality is not supported for directory buckets.
 """
 function complete_multipart_upload(
     Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -204,240 +260,382 @@ Creates a copy of an object that is already stored in Amazon S3.  You can store 
 objects of up to 5 TB in Amazon S3. You create a copy of your object up to 5 GB in size in
 a single atomic action using this API. However, to copy an object greater than 5 GB, you
 must use the multipart upload Upload Part - Copy (UploadPartCopy) API. For more
-information, see Copy Object Using the REST Multipart Upload API.  All copy requests must
-be authenticated. Additionally, you must have read access to the source object and write
-access to the destination bucket. For more information, see REST Authentication. Both the
-Region that you want to copy the object from and the Region that you want to copy the
-object to must be enabled for your account. A copy request might return an error when
-Amazon S3 receives the copy request or while Amazon S3 is copying the files. If the error
-occurs before the copy action starts, you receive a standard Amazon S3 error. If the error
-occurs during the copy operation, the error response is embedded in the 200 OK response.
-This means that a 200 OK response can contain either a success or an error. If you call the
-S3 API directly, make sure to design your application to parse the contents of the response
-and handle it appropriately. If you use Amazon Web Services SDKs, SDKs handle this
-condition. The SDKs detect the embedded error and apply error handling per your
-configuration settings (including automatically retrying the request as appropriate). If
-the condition persists, the SDKs throws an exception (or, for the SDKs that don't use
-exceptions, they return the error). If the copy is successful, you receive a response with
-information about the copied object.  If the request is an HTTP 1.1 request, the response
-is chunk encoded. If it were not, it would not contain the content-length, and you would
-need to read the entire body.  The copy request charge is based on the storage class and
-Region that you specify for the destination object. For pricing information, see Amazon S3
-pricing.  Amazon S3 transfer acceleration does not support cross-Region copies. If you
-request a cross-Region copy using a transfer acceleration endpoint, you get a 400 Bad
-Request error. For more information, see Transfer Acceleration.   Metadata  When copying an
-object, you can preserve all metadata (default) or specify new metadata. However, the ACL
-is not preserved and is set to private for the user making the request. To override the
-default ACL setting, specify a new ACL when generating a copy request. For more
-information, see Using ACLs.  To specify whether you want the object metadata copied from
-the source object or replaced with metadata provided in the request, you can optionally add
-the x-amz-metadata-directive header. When you grant permissions, you can use the
-s3:x-amz-metadata-directive condition key to enforce certain metadata behavior when objects
-are uploaded. For more information, see Specifying Conditions in a Policy in the Amazon S3
-User Guide. For a complete list of Amazon S3-specific condition keys, see Actions,
-Resources, and Condition Keys for Amazon S3.   x-amz-website-redirect-location is unique to
-each object and must be specified in the request headers to copy the value.
-x-amz-copy-source-if Headers  To only copy an object under certain conditions, such as
-whether the Etag matches or whether the object was modified before or after a specified
-date, use the following request parameters:    x-amz-copy-source-if-match
-x-amz-copy-source-if-none-match     x-amz-copy-source-if-unmodified-since
-x-amz-copy-source-if-modified-since     If both the x-amz-copy-source-if-match and
-x-amz-copy-source-if-unmodified-since headers are present in the request and evaluate as
-follows, Amazon S3 returns 200 OK and copies the data:    x-amz-copy-source-if-match
-condition evaluates to true    x-amz-copy-source-if-unmodified-since condition evaluates to
-false   If both the x-amz-copy-source-if-none-match and x-amz-copy-source-if-modified-since
-headers are present in the request and evaluate as follows, Amazon S3 returns the 412
-Precondition Failed response code:    x-amz-copy-source-if-none-match condition evaluates
-to false    x-amz-copy-source-if-modified-since condition evaluates to true    All headers
-with the x-amz- prefix, including x-amz-copy-source, must be signed.   Server-side
-encryption  Amazon S3 automatically encrypts all new objects that are copied to an S3
-bucket. When copying an object, if you don't specify encryption information in your copy
-request, the encryption setting of the target object is set to the default encryption
-configuration of the destination bucket. By default, all buckets have a base level of
-encryption configuration that uses server-side encryption with Amazon S3 managed keys
-(SSE-S3). If the destination bucket has a default encryption configuration that uses
-server-side encryption with an Key Management Service (KMS) key (SSE-KMS), or a
-customer-provided encryption key (SSE-C), Amazon S3 uses the corresponding KMS key, or a
-customer-provided key to encrypt the target object copy. When you perform a CopyObject
-operation, if you want to use a different type of encryption setting for the target object,
-you can use other appropriate encryption-related headers to encrypt the target object with
-a KMS key, an Amazon S3 managed key, or a customer-provided key. With server-side
-encryption, Amazon S3 encrypts your data as it writes it to disks in its data centers and
-decrypts the data when you access it. If the encryption setting in your request is
-different from the default encryption configuration of the destination bucket, the
-encryption setting in your request takes precedence. If the source object for the copy is
-stored in Amazon S3 using SSE-C, you must provide the necessary encryption information in
-your request so that Amazon S3 can decrypt the object for copying. For more information
-about server-side encryption, see Using Server-Side Encryption. If a target object uses
-SSE-KMS, you can enable an S3 Bucket Key for the object. For more information, see Amazon
-S3 Bucket Keys in the Amazon S3 User Guide.  Access Control List (ACL)-Specific Request
-Headers  When copying an object, you can optionally use headers to grant ACL-based
-permissions. By default, all objects are private. Only the owner has full access control.
-When adding a new object, you can grant permissions to individual Amazon Web Services
-accounts or to predefined groups defined by Amazon S3. These permissions are then added to
-the ACL on the object. For more information, see Access Control List (ACL) Overview and
-Managing ACLs Using the REST API.  If the bucket that you're copying objects to uses the
-bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer
-affect permissions. Buckets that use this setting only accept PUT requests that don't
-specify an ACL or PUT requests that specify bucket owner full control ACLs, such as the
-bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML
-format. For more information, see  Controlling ownership of objects and disabling ACLs in
-the Amazon S3 User Guide.  If your bucket uses the bucket owner enforced setting for Object
-Ownership, all objects written to the bucket by any account will be owned by the bucket
-owner.   Checksums  When copying an object, if it has a checksum, that checksum will be
-copied to the new object by default. When you copy the object over, you may optionally
-specify a different checksum algorithm to use with the x-amz-checksum-algorithm header.
-Storage Class Options  You can use the CopyObject action to change the storage class of an
-object that is already stored in Amazon S3 using the StorageClass parameter. For more
-information, see Storage Classes in the Amazon S3 User Guide. If the source object's
-storage class is GLACIER, you must restore a copy of this object before you can use it as a
-source object for the copy operation. For more information, see RestoreObject. For more
-information, see Copying Objects.  Versioning  By default, x-amz-copy-source identifies the
-current version of an object to copy. If the current version is a delete marker, Amazon S3
-behaves as if the object was deleted. To copy a different version, use the versionId
-subresource. If you enable versioning on the target bucket, Amazon S3 generates a unique
-version ID for the object being copied. This version ID is different from the version ID of
-the source object. Amazon S3 returns the version ID of the copied object in the
-x-amz-version-id response header in the response. If you do not enable versioning or
-suspend it on the target bucket, the version ID that Amazon S3 generates is always null.
-The following operations are related to CopyObject:    PutObject     GetObject
+information, see Copy Object Using the REST Multipart Upload API.  You can copy individual
+objects between general purpose buckets, between directory buckets, and between general
+purpose buckets and directory buckets.   Directory buckets  - For directory buckets, you
+must make requests for this API operation to the Zonal endpoint. These endpoints support
+virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
+not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.  Both the Region that you want to copy the object from and the Region that you want
+to copy the object to must be enabled for your account. For more information about how to
+enable a Region for your account, see Enable or disable a Region for standalone accounts in
+the Amazon Web Services Account Management Guide.  Amazon S3 transfer acceleration does not
+support cross-Region copies. If you request a cross-Region copy using a transfer
+acceleration endpoint, you get a 400 Bad Request error. For more information, see Transfer
+Acceleration.   Authentication and authorization  All CopyObject requests must be
+authenticated and signed by using IAM credentials (access key ID and secret access key for
+the IAM identities). All headers with the x-amz- prefix, including x-amz-copy-source, must
+be signed. For more information, see REST Authentication.  Directory buckets - You must use
+the IAM credentials to authenticate and authorize your access to the CopyObject API
+operation, instead of using the temporary security credentials through the CreateSession
+API operation. Amazon Web Services CLI or SDKs handles authentication and authorization on
+your behalf.  Permissions  You must have read access to the source object and write access
+to the destination bucket.    General purpose bucket permissions - You must have
+permissions in an IAM policy based on the source and destination bucket types in a
+CopyObject operation.   If the source object is in a general purpose bucket, you must have
+s3:GetObject  permission to read the source object that is being copied.    If the
+destination bucket is a general purpose bucket, you must have  s3:PutObject  permission to
+write the object copy to the destination bucket.       Directory bucket permissions - You
+must have permissions in a bucket policy or an IAM identity-based policy based on the
+source and destination bucket types in a CopyObject operation.   If the source object that
+you want to copy is in a directory bucket, you must have the  s3express:CreateSession
+permission in the Action element of a policy to read the object. By default, the session is
+in the ReadWrite mode. If you want to restrict the access, you can explicitly set the
+s3express:SessionMode condition key to ReadOnly on the copy source bucket.   If the copy
+destination is a directory bucket, you must have the  s3express:CreateSession  permission
+in the Action element of a policy to write the object to the destination. The
+s3express:SessionMode condition key can't be set to ReadOnly on the copy destination
+bucket.    For example policies, see Example bucket policies for S3 Express One Zone and
+Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3
+Express One Zone in the Amazon S3 User Guide.    Response and special errors  When the
+request is an HTTP 1.1 request, the response is chunk encoded. When the request is not an
+HTTP 1.1 request, the response would not contain the Content-Length. You always need to
+read the entire response body to check if the copy succeeds. to keep the connection alive
+while we copy the data.    If the copy is successful, you receive a response with
+information about the copied object.   A copy request might return an error when Amazon S3
+receives the copy request or while Amazon S3 is copying the files. A 200 OK response can
+contain either a success or an error.   If the error occurs before the copy action starts,
+you receive a standard Amazon S3 error.   If the error occurs during the copy operation,
+the error response is embedded in the 200 OK response. For example, in a cross-region copy,
+you may encounter throttling and receive a 200 OK response. For more information, see
+Resolve the Error 200 response when copying objects to Amazon S3. The 200 OK status code
+means the copy was accepted, but it doesn't mean the copy is complete. Another example is
+when you disconnect from Amazon S3 before the copy is complete, Amazon S3 might cancel the
+copy and you may receive a 200 OK response. You must stay connected to Amazon S3 until the
+entire response is successfully received and processed. If you call this API operation
+directly, make sure to design your application to parse the content of the response and
+handle it appropriately. If you use Amazon Web Services SDKs, SDKs handle this condition.
+The SDKs detect the embedded error and apply error handling per your configuration settings
+(including automatically retrying the request as appropriate). If the condition persists,
+the SDKs throw an exception (or, for the SDKs that don't use exceptions, they return an
+error).      Charge  The copy request charge is based on the storage class and Region that
+you specify for the destination object. The request can also result in a data retrieval
+charge for the source if the source storage class bills for data retrieval. If the copy
+source is in a different region, the data transfer is billed to the copy source account.
+For pricing information, see Amazon S3 pricing.  HTTP Host header syntax   Directory
+buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
+CopyObject:    PutObject     GetObject
 
 # Arguments
-- `bucket`: The name of the destination bucket. When using this action with an access
-  point, you must direct requests to the access point hostname. The access point hostname
-  takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
-  this action with an access point through the Amazon Web Services SDKs, you provide the
-  access point ARN in place of the bucket name. For more information about access point ARNs,
-  see Using access points in the Amazon S3 User Guide. When you use this action with Amazon
-  S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+- `bucket`: The name of the destination bucket.  Directory buckets - When you use this
+  operation with a directory bucket, you must use virtual-hosted-style requests in the format
+   Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.
+  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must
+  follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
+  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
+  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
   hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
   action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   access point ARN in place of the bucket name. For more information about S3 on Outposts
-  ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: The key of the destination object.
-- `x-amz-copy-source`: Specifies the source object for the copy operation. You specify the
-  value in one of two formats, depending on whether you want to access the source object
-  through an access point:   For objects not accessed through an access point, specify the
-  name of the source bucket and the key of the source object, separated by a slash (/). For
-  example, to copy the object reports/january.pdf from the bucket awsexamplebucket, use
-  awsexamplebucket/reports/january.pdf. The value must be URL-encoded.   For objects accessed
-  through access points, specify the Amazon Resource Name (ARN) of the object as accessed
-  through the access point, in the format
+- `x-amz-copy-source`: Specifies the source object for the copy operation. The source
+  object can be up to 5 GB. If the source object is an object that was uploaded by using a
+  multipart upload, the object copy will be a single part object after the source object is
+  copied to the destination bucket. You specify the value of the copy source in one of two
+  formats, depending on whether you want to access the source object through an access point:
+    For objects not accessed through an access point, specify the name of the source bucket
+  and the key of the source object, separated by a slash (/). For example, to copy the object
+  reports/january.pdf from the general purpose bucket awsexamplebucket, use
+  awsexamplebucket/reports/january.pdf. The value must be URL-encoded. To copy the object
+  reports/january.pdf from the directory bucket awsexamplebucket--use1-az5--x-s3, use
+  awsexamplebucket--use1-az5--x-s3/reports/january.pdf. The value must be URL-encoded.   For
+  objects accessed through access points, specify the Amazon Resource Name (ARN) of the
+  object as accessed through the access point, in the format
   arn:aws:s3:&lt;Region&gt;:&lt;account-id&gt;:accesspoint/&lt;access-point-name&gt;/object/&l
   t;key&gt;. For example, to copy the object reports/january.pdf through access point
   my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf.
-  The value must be URL encoded.  Amazon S3 supports copy operations using access points only
-  when the source and destination buckets are in the same Amazon Web Services Region.
-  Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the
-  object as accessed in the format
+  The value must be URL encoded.    Amazon S3 supports copy operations using Access points
+  only when the source and destination buckets are in the same Amazon Web Services Region.
+  Access points are not supported by directory buckets.    Alternatively, for objects
+  accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the
+  format
   arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/object/&lt
   ;key&gt;. For example, to copy the object reports/january.pdf through outpost my-outpost
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf.
-  The value must be URL-encoded.    To copy a specific version of an object, append
+  The value must be URL-encoded.    If your source bucket versioning is enabled, the
+  x-amz-copy-source header by default identifies the current version of an object to copy. If
+  the current version is a delete marker, Amazon S3 behaves as if the object was deleted. To
+  copy a different version, use the versionId query parameter. Specifically, append
   ?versionId=&lt;version-id&gt; to the value (for example,
   awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you
-  don't specify a version ID, Amazon S3 copies the latest version of the source object.
+  don't specify a version ID, Amazon S3 copies the latest version of the source object. If
+  you enable versioning on the destination bucket, Amazon S3 generates a unique version ID
+  for the copied object. This version ID is different from the version ID of the source
+  object. Amazon S3 returns the version ID of the copied object in the x-amz-version-id
+  response header in the response. If you do not enable versioning or suspend it on the
+  destination bucket, the version ID that Amazon S3 generates in the x-amz-version-id
+  response header is always null.   Directory buckets - S3 Versioning isn't enabled and
+  supported for directory buckets.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Cache-Control"`: Specifies caching behavior along the request/reply chain.
-- `"Content-Disposition"`: Specifies presentational information for the object.
+- `"Cache-Control"`: Specifies the caching behavior along the request/reply chain.
+- `"Content-Disposition"`: Specifies presentational information for the object. Indicates
+  whether an object should be displayed in a web browser or downloaded as a file. It allows
+  specifying the desired filename for the downloaded file.
 - `"Content-Encoding"`: Specifies what content encodings have been applied to the object
   and thus what decoding mechanisms must be applied to obtain the media-type referenced by
-  the Content-Type header field.
+  the Content-Type header field.  For directory buckets, only the aws-chunked value is
+  supported in this header field.
 - `"Content-Language"`: The language the content is in.
-- `"Content-Type"`: A standard MIME type describing the format of the object data.
+- `"Content-Type"`: A standard MIME type that describes the format of the object data.
 - `"Expires"`: The date and time at which the object is no longer cacheable.
-- `"x-amz-acl"`: The canned ACL to apply to the object. This action is not supported by
-  Amazon S3 on Outposts.
-- `"x-amz-checksum-algorithm"`: Indicates the algorithm you want Amazon S3 to use to create
-  the checksum for the object. For more information, see Checking object integrity in the
-  Amazon S3 User Guide.
+- `"x-amz-acl"`: The canned access control list (ACL) to apply to the object. When you copy
+  an object, the ACL metadata is not preserved and is set to private by default. Only the
+  owner has full access control. To override the default ACL setting, specify a new ACL when
+  you generate a copy request. For more information, see Using ACLs.  If the destination
+  bucket that you're copying objects to uses the bucket owner enforced setting for S3 Object
+  Ownership, ACLs are disabled and no longer affect permissions. Buckets that use this
+  setting only accept PUT requests that don't specify an ACL or PUT requests that specify
+  bucket owner full control ACLs, such as the bucket-owner-full-control canned ACL or an
+  equivalent form of this ACL expressed in the XML format. For more information, see
+  Controlling ownership of objects and disabling ACLs in the Amazon S3 User Guide.    If your
+  destination bucket uses the bucket owner enforced setting for Object Ownership, all objects
+  written to the bucket by any account will be owned by the bucket owner.   This
+  functionality is not supported for directory buckets.   This functionality is not supported
+  for Amazon S3 on Outposts.
+- `"x-amz-checksum-algorithm"`: Indicates the algorithm that you want Amazon S3 to use to
+  create the checksum for the object. For more information, see Checking object integrity in
+  the Amazon S3 User Guide. When you copy an object, if the source object has a checksum,
+  that checksum value will be copied to the new object by default. If the CopyObject request
+  does not include this x-amz-checksum-algorithm header, the checksum algorithm will be
+  copied from the source object to the destination object (if it's present on the source
+  object). You can optionally specify a different checksum algorithm to use with the
+  x-amz-checksum-algorithm header. Unrecognized or unsupported values will respond with the
+  HTTP status code 400 Bad Request.  For directory buckets, when you use Amazon Web Services
+  SDKs, CRC32 is the default checksum algorithm that's used for performance.
 - `"x-amz-copy-source-if-match"`: Copies the object if its entity tag (ETag) matches the
-  specified tag.
+  specified tag.  If both the x-amz-copy-source-if-match and
+  x-amz-copy-source-if-unmodified-since headers are present in the request and evaluate as
+  follows, Amazon S3 returns 200 OK and copies the data:    x-amz-copy-source-if-match
+  condition evaluates to true    x-amz-copy-source-if-unmodified-since condition evaluates to
+  false
 - `"x-amz-copy-source-if-modified-since"`: Copies the object if it has been modified since
-  the specified time.
+  the specified time. If both the x-amz-copy-source-if-none-match and
+  x-amz-copy-source-if-modified-since headers are present in the request and evaluate as
+  follows, Amazon S3 returns the 412 Precondition Failed response code:
+  x-amz-copy-source-if-none-match condition evaluates to false
+  x-amz-copy-source-if-modified-since condition evaluates to true
 - `"x-amz-copy-source-if-none-match"`: Copies the object if its entity tag (ETag) is
-  different than the specified ETag.
+  different than the specified ETag. If both the x-amz-copy-source-if-none-match and
+  x-amz-copy-source-if-modified-since headers are present in the request and evaluate as
+  follows, Amazon S3 returns the 412 Precondition Failed response code:
+  x-amz-copy-source-if-none-match condition evaluates to false
+  x-amz-copy-source-if-modified-since condition evaluates to true
 - `"x-amz-copy-source-if-unmodified-since"`: Copies the object if it hasn't been modified
-  since the specified time.
+  since the specified time.  If both the x-amz-copy-source-if-match and
+  x-amz-copy-source-if-unmodified-since headers are present in the request and evaluate as
+  follows, Amazon S3 returns 200 OK and copies the data:    x-amz-copy-source-if-match
+  condition evaluates to true    x-amz-copy-source-if-unmodified-since condition evaluates to
+  false
 - `"x-amz-copy-source-server-side-encryption-customer-algorithm"`: Specifies the algorithm
-  to use when decrypting the source object (for example, AES256).
+  to use when decrypting the source object (for example, AES256). If the source object for
+  the copy is stored in Amazon S3 using SSE-C, you must provide the necessary encryption
+  information in your request so that Amazon S3 can decrypt the object for copying.  This
+  functionality is not supported when the source object is in a directory bucket.
 - `"x-amz-copy-source-server-side-encryption-customer-key"`: Specifies the
   customer-provided encryption key for Amazon S3 to use to decrypt the source object. The
-  encryption key provided in this header must be one that was used when the source object was
-  created.
+  encryption key provided in this header must be the same one that was used when the source
+  object was created. If the source object for the copy is stored in Amazon S3 using SSE-C,
+  you must provide the necessary encryption information in your request so that Amazon S3 can
+  decrypt the object for copying.  This functionality is not supported when the source object
+  is in a directory bucket.
 - `"x-amz-copy-source-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5
   digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a
-  message integrity check to ensure that the encryption key was transmitted without error.
+  message integrity check to ensure that the encryption key was transmitted without error. If
+  the source object for the copy is stored in Amazon S3 using SSE-C, you must provide the
+  necessary encryption information in your request so that Amazon S3 can decrypt the object
+  for copying.  This functionality is not supported when the source object is in a directory
+  bucket.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected destination bucket owner.
-  If the destination bucket is owned by a different account, the request fails with the HTTP
-  status code 403 Forbidden (access denied).
+  If the account ID that you provide does not match the actual owner of the destination
+  bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-grant-full-control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
-  on the object. This action is not supported by Amazon S3 on Outposts.
-- `"x-amz-grant-read"`: Allows grantee to read the object data and its metadata. This
-  action is not supported by Amazon S3 on Outposts.
-- `"x-amz-grant-read-acp"`: Allows grantee to read the object ACL. This action is not
-  supported by Amazon S3 on Outposts.
+  on the object.    This functionality is not supported for directory buckets.   This
+  functionality is not supported for Amazon S3 on Outposts.
+- `"x-amz-grant-read"`: Allows grantee to read the object data and its metadata.    This
+  functionality is not supported for directory buckets.   This functionality is not supported
+  for Amazon S3 on Outposts.
+- `"x-amz-grant-read-acp"`: Allows grantee to read the object ACL.    This functionality is
+  not supported for directory buckets.   This functionality is not supported for Amazon S3 on
+  Outposts.
 - `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable object.
-  This action is not supported by Amazon S3 on Outposts.
+  This functionality is not supported for directory buckets.   This functionality is not
+  supported for Amazon S3 on Outposts.
 - `"x-amz-meta-"`: A map of metadata to store with the object in S3.
 - `"x-amz-metadata-directive"`: Specifies whether the metadata is copied from the source
-  object or replaced with metadata provided in the request.
+  object or replaced with metadata that's provided in the request. When copying an object,
+  you can preserve all metadata (the default) or specify new metadata. If this header isn’t
+  specified, COPY is the default behavior.   General purpose bucket - For general purpose
+  buckets, when you grant permissions, you can use the s3:x-amz-metadata-directive condition
+  key to enforce certain metadata behavior when objects are uploaded. For more information,
+  see Amazon S3 condition key examples in the Amazon S3 User Guide.
+  x-amz-website-redirect-location is unique to each object and is not copied when using the
+  x-amz-metadata-directive header. To copy the value, you must specify
+  x-amz-website-redirect-location in the request header.
 - `"x-amz-object-lock-legal-hold"`: Specifies whether you want to apply a legal hold to the
-  copied object.
-- `"x-amz-object-lock-mode"`: The Object Lock mode that you want to apply to the copied
-  object.
-- `"x-amz-object-lock-retain-until-date"`: The date and time when you want the copied
-  object's Object Lock to expire.
+  object copy.  This functionality is not supported for directory buckets.
+- `"x-amz-object-lock-mode"`: The Object Lock mode that you want to apply to the object
+  copy.  This functionality is not supported for directory buckets.
+- `"x-amz-object-lock-retain-until-date"`: The date and time when you want the Object Lock
+  of the object copy to expire.  This functionality is not supported for directory buckets.
 - `"x-amz-request-payer"`:
 - `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when storing
-  this object in Amazon S3 (for example, AES256, aws:kms).
-- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the Amazon Web Services KMS
-  key ID to use for object encryption. All GET and PUT requests for an object protected by
-  Amazon Web Services KMS will fail if not made via SSL or using SigV4. For information about
-  configuring using any of the officially supported Amazon Web Services SDKs and Amazon Web
+  this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse). Unrecognized or
+  unsupported values won’t write a destination object and will receive a 400 Bad Request
+  response.  Amazon S3 automatically encrypts all new objects that are copied to an S3
+  bucket. When copying an object, if you don't specify encryption information in your copy
+  request, the encryption setting of the target object is set to the default encryption
+  configuration of the destination bucket. By default, all buckets have a base level of
+  encryption configuration that uses server-side encryption with Amazon S3 managed keys
+  (SSE-S3). If the destination bucket has a default encryption configuration that uses
+  server-side encryption with Key Management Service (KMS) keys (SSE-KMS), dual-layer
+  server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), or server-side
+  encryption with customer-provided encryption keys (SSE-C), Amazon S3 uses the corresponding
+  KMS key, or a customer-provided key to encrypt the target object copy. When you perform a
+  CopyObject operation, if you want to use a different type of encryption setting for the
+  target object, you can specify appropriate encryption-related headers to encrypt the target
+  object with an Amazon S3 managed key, a KMS key, or a customer-provided key. If the
+  encryption setting in your request is different from the default encryption configuration
+  of the destination bucket, the encryption setting in your request takes precedence.  With
+  server-side encryption, Amazon S3 encrypts your data as it writes your data to disks in its
+  data centers and decrypts the data when you access it. For more information about
+  server-side encryption, see Using Server-Side Encryption in the Amazon S3 User Guide.  For
+  directory buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3)
+  (AES256) is supported.
+- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the KMS ID (Key ID, Key ARN,
+  or Key Alias) to use for object encryption. All GET and PUT requests for an object
+  protected by KMS will fail if they're not made via SSL or using SigV4. For information
+  about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web
   Services CLI, see Specifying the Signature Version in Request Authentication in the Amazon
-  S3 User Guide.
+  S3 User Guide.  This functionality is not supported when the destination bucket is a
+  directory bucket.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
-  use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
-  (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
-  encryption with SSE-KMS.  Specifying this header with a COPY action doesn’t affect
-  bucket-level settings for S3 Bucket Key.
+  use an S3 Bucket Key for object encryption with server-side encryption using Key Management
+  Service (KMS) keys (SSE-KMS). If a target object uses SSE-KMS, you can enable an S3 Bucket
+  Key for the object. Setting this header to true causes Amazon S3 to use an S3 Bucket Key
+  for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t
+  affect bucket-level settings for S3 Bucket Key. For more information, see Amazon S3 Bucket
+  Keys in the Amazon S3 User Guide.  This functionality is not supported when the destination
+  bucket is a directory bucket.
 - `"x-amz-server-side-encryption-context"`: Specifies the Amazon Web Services KMS
   Encryption Context to use for object encryption. The value of this header is a
-  base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
-- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
-  when encrypting the object (for example, AES256).
+  base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs. This
+  value must be explicitly added to specify encryption context for CopyObject requests.  This
+  functionality is not supported when the destination bucket is a directory bucket.
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
+  encrypting the object (for example, AES256). When you perform a CopyObject operation, if
+  you want to use a different type of encryption setting for the target object, you can
+  specify appropriate encryption-related headers to encrypt the target object with an Amazon
+  S3 managed key, a KMS key, or a customer-provided key. If the encryption setting in your
+  request is different from the default encryption configuration of the destination bucket,
+  the encryption setting in your request takes precedence.   This functionality is not
+  supported when the destination bucket is a directory bucket.
 - `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
-  then it is discarded; Amazon S3 does not store the encryption key. The key must be
+  then it is discarded. Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
-  x-amz-server-side-encryption-customer-algorithm header.
+  x-amz-server-side-encryption-customer-algorithm header.  This functionality is not
+  supported when the destination bucket is a directory bucket.
 - `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
   the encryption key according to RFC 1321. Amazon S3 uses this header for a message
-  integrity check to ensure that the encryption key was transmitted without error.
+  integrity check to ensure that the encryption key was transmitted without error.  This
+  functionality is not supported when the destination bucket is a directory bucket.
 - `"x-amz-source-expected-bucket-owner"`: The account ID of the expected source bucket
-  owner. If the source bucket is owned by a different account, the request fails with the
-  HTTP status code 403 Forbidden (access denied).
-- `"x-amz-storage-class"`: By default, Amazon S3 uses the STANDARD Storage Class to store
-  newly created objects. The STANDARD storage class provides high durability and high
-  availability. Depending on performance needs, you can specify a different Storage Class.
-  Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see
-  Storage Classes in the Amazon S3 User Guide.
-- `"x-amz-tagging"`: The tag-set for the object destination object this value must be used
-  in conjunction with the TaggingDirective. The tag-set must be encoded as URL Query
-  parameters.
-- `"x-amz-tagging-directive"`: Specifies whether the object tag-set are copied from the
-  source object or replaced with tag-set provided in the request.
-- `"x-amz-website-redirect-location"`: If the bucket is configured as a website, redirects
-  requests for this object to another object in the same bucket or to an external URL. Amazon
-  S3 stores the value of this header in the object metadata. This value is unique to each
-  object and is not copied when using the x-amz-metadata-directive header. Instead, you may
-  opt to provide this header in combination with the directive.
+  owner. If the account ID that you provide does not match the actual owner of the source
+  bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+- `"x-amz-storage-class"`: If the x-amz-storage-class header is not used, the copied object
+  will be stored in the STANDARD Storage Class by default. The STANDARD storage class
+  provides high durability and high availability. Depending on performance needs, you can
+  specify a different Storage Class.      Directory buckets  - For directory buckets, only
+  the S3 Express One Zone storage class is supported to store newly created objects.
+  Unsupported storage class values won't write a destination object and will respond with the
+  HTTP status code 400 Bad Request.    Amazon S3 on Outposts  - S3 on Outposts only uses the
+  OUTPOSTS Storage Class.    You can use the CopyObject action to change the storage class of
+  an object that is already stored in Amazon S3 by using the x-amz-storage-class header. For
+  more information, see Storage Classes in the Amazon S3 User Guide. Before using an object
+  as a source object for the copy operation, you must restore a copy of it if it meets any of
+  the following conditions:   The storage class of the source object is GLACIER or
+  DEEP_ARCHIVE.   The storage class of the source object is INTELLIGENT_TIERING and it's S3
+  Intelligent-Tiering access tier is Archive Access or Deep Archive Access.   For more
+  information, see RestoreObject and Copying Objects in the Amazon S3 User Guide.
+- `"x-amz-tagging"`: The tag-set for the object copy in the destination bucket. This value
+  must be used in conjunction with the x-amz-tagging-directive if you choose REPLACE for the
+  x-amz-tagging-directive. If you choose COPY for the x-amz-tagging-directive, you don't need
+  to set the x-amz-tagging header, because the tag-set will be copied from the source object
+  directly. The tag-set must be encoded as URL Query parameters. The default value is the
+  empty value.   Directory buckets - For directory buckets in a CopyObject operation, only
+  the empty tag-set is supported. Any requests that attempt to write non-empty tags into
+  directory buckets will receive a 501 Not Implemented status code. When the destination
+  bucket is a directory bucket, you will receive a 501 Not Implemented response in any of the
+  following situations:   When you attempt to COPY the tag-set from an S3 source object that
+  has non-empty tags.   When you attempt to REPLACE the tag-set of a source object and set a
+  non-empty value to x-amz-tagging.   When you don't set the x-amz-tagging-directive header
+  and the source object has non-empty tags. This is because the default value of
+  x-amz-tagging-directive is COPY.   Because only the empty tag-set is supported for
+  directory buckets in a CopyObject operation, the following situations are allowed:   When
+  you attempt to COPY the tag-set from a directory bucket source object that has no tags to a
+  general purpose bucket. It copies an empty tag-set to the destination object.   When you
+  attempt to REPLACE the tag-set of a directory bucket source object and set the
+  x-amz-tagging value of the directory bucket destination object to empty.   When you attempt
+  to REPLACE the tag-set of a general purpose bucket source object that has non-empty tags
+  and set the x-amz-tagging value of the directory bucket destination object to empty.   When
+  you attempt to REPLACE the tag-set of a directory bucket source object and don't set the
+  x-amz-tagging value of the directory bucket destination object. This is because the default
+  value of x-amz-tagging is the empty value.
+- `"x-amz-tagging-directive"`: Specifies whether the object tag-set is copied from the
+  source object or replaced with the tag-set that's provided in the request. The default
+  value is COPY.   Directory buckets - For directory buckets in a CopyObject operation, only
+  the empty tag-set is supported. Any requests that attempt to write non-empty tags into
+  directory buckets will receive a 501 Not Implemented status code. When the destination
+  bucket is a directory bucket, you will receive a 501 Not Implemented response in any of the
+  following situations:   When you attempt to COPY the tag-set from an S3 source object that
+  has non-empty tags.   When you attempt to REPLACE the tag-set of a source object and set a
+  non-empty value to x-amz-tagging.   When you don't set the x-amz-tagging-directive header
+  and the source object has non-empty tags. This is because the default value of
+  x-amz-tagging-directive is COPY.   Because only the empty tag-set is supported for
+  directory buckets in a CopyObject operation, the following situations are allowed:   When
+  you attempt to COPY the tag-set from a directory bucket source object that has no tags to a
+  general purpose bucket. It copies an empty tag-set to the destination object.   When you
+  attempt to REPLACE the tag-set of a directory bucket source object and set the
+  x-amz-tagging value of the directory bucket destination object to empty.   When you attempt
+  to REPLACE the tag-set of a general purpose bucket source object that has non-empty tags
+  and set the x-amz-tagging value of the directory bucket destination object to empty.   When
+  you attempt to REPLACE the tag-set of a directory bucket source object and don't set the
+  x-amz-tagging value of the directory bucket destination object. This is because the default
+  value of x-amz-tagging is the empty value.
+- `"x-amz-website-redirect-location"`: If the destination bucket is configured as a
+  website, redirects requests for this object copy to another object in the same bucket or to
+  an external URL. Amazon S3 stores the value of this header in the object metadata. This
+  value is unique to each object and is not copied when using the x-amz-metadata-directive
+  header. Instead, you may opt to provide this header in combination with the
+  x-amz-metadata-directive header.  This functionality is not supported for directory
+  buckets.
 """
 function copy_object(
     Bucket, Key, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config()
@@ -480,77 +678,96 @@ end
     create_bucket(bucket)
     create_bucket(bucket, params::Dict{String,<:Any})
 
-Creates a new S3 bucket. To create a bucket, you must register with Amazon S3 and have a
-valid Amazon Web Services Access Key ID to authenticate requests. Anonymous requests are
-never allowed to create buckets. By creating the bucket, you become the bucket owner. Not
-every string is an acceptable bucket name. For information about bucket naming
-restrictions, see Bucket naming rules. If you want to create an Amazon S3 on Outposts
-bucket, see Create Bucket.  By default, the bucket is created in the US East (N. Virginia)
-Region. You can optionally specify a Region in the request body. You might choose a Region
-to optimize latency, minimize costs, or address regulatory requirements. For example, if
-you reside in Europe, you will probably find it advantageous to create buckets in the
-Europe (Ireland) Region. For more information, see Accessing a bucket.  If you send your
-create bucket request to the s3.amazonaws.com endpoint, the request goes to the us-east-1
-Region. Accordingly, the signature calculations in Signature Version 4 must use us-east-1
+ This action creates an Amazon S3 bucket. To create an Amazon S3 on Outposts bucket, see
+CreateBucket .  Creates a new S3 bucket. To create a bucket, you must set up Amazon S3 and
+have a valid Amazon Web Services Access Key ID to authenticate requests. Anonymous requests
+are never allowed to create buckets. By creating the bucket, you become the bucket owner.
+There are two types of buckets: general purpose buckets and directory buckets. For more
+information about these bucket types, see Creating, configuring, and working with Amazon S3
+buckets in the Amazon S3 User Guide.     General purpose buckets - If you send your
+CreateBucket request to the s3.amazonaws.com global endpoint, the request goes to the
+us-east-1 Region. So the signature calculations in Signature Version 4 must use us-east-1
 as the Region, even if the location constraint in the request specifies another Region
 where the bucket is to be created. If you create a bucket in a Region other than US East
 (N. Virginia), your application must be able to handle 307 redirect. For more information,
-see Virtual hosting of buckets.   Access control lists (ACLs)  When creating a bucket using
-this operation, you can optionally configure the bucket ACL to specify the accounts or
-groups that should be granted specific permissions on the bucket.  If your CreateBucket
-request sets bucket owner enforced for S3 Object Ownership and specifies a bucket ACL that
-provides access to an external Amazon Web Services account, your request fails with a 400
-error and returns the InvalidBucketAclWithObjectOwnership error code. For more information,
-see Controlling object ownership in the Amazon S3 User Guide.  There are two ways to grant
-the appropriate permissions using the request headers.   Specify a canned ACL using the
-x-amz-acl request header. Amazon S3 supports a set of predefined ACLs, known as canned
-ACLs. Each canned ACL has a predefined set of grantees and permissions. For more
-information, see Canned ACL.   Specify access permissions explicitly using the
-x-amz-grant-read, x-amz-grant-write, x-amz-grant-read-acp, x-amz-grant-write-acp, and
-x-amz-grant-full-control headers. These headers map to the set of permissions Amazon S3
-supports in an ACL. For more information, see Access control list (ACL) overview. You
-specify each grantee as a type=value pair, where the type is one of the following:    id
-– if the value specified is the canonical user ID of an Amazon Web Services account
-uri – if you are granting permissions to a predefined group    emailAddress – if the
-value specified is the email address of an Amazon Web Services account  Using email
-addresses to specify a grantee is only supported in the following Amazon Web Services
-Regions:    US East (N. Virginia)   US West (N. California)    US West (Oregon)    Asia
-Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)
-South America (São Paulo)   For a list of all the Amazon S3 supported Regions and
-endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For
-example, the following x-amz-grant-read header grants the Amazon Web Services accounts
-identified by account IDs permissions to read object data and its metadata:
-x-amz-grant-read: id=\"11112222333\", id=\"444455556666\"      You can use either a canned
-ACL or specify access permissions explicitly. You cannot do both.   Permissions  In
-addition to s3:CreateBucket, the following permissions are required when your CreateBucket
-includes specific headers:    ACLs - If your CreateBucket request specifies ACL permissions
-and the ACL is public-read, public-read-write, authenticated-read, or if you specify access
-permissions explicitly through any other ACL, both s3:CreateBucket and s3:PutBucketAcl
-permissions are needed. If the ACL the CreateBucket request is private or doesn't specify
-any ACLs, only s3:CreateBucket permission is needed.     Object Lock - If
-ObjectLockEnabledForBucket is set to true in your CreateBucket request,
+see Virtual hosting of buckets in the Amazon S3 User Guide.    Directory buckets  - For
+directory buckets, you must make requests for this API operation to the Regional endpoint.
+These endpoints support path-style requests in the format
+https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+requests aren't supported. For more information, see Regional and Zonal endpoints in the
+Amazon S3 User Guide.     Permissions     General purpose bucket permissions - In addition
+to the s3:CreateBucket permission, the following permissions are required in a policy when
+your CreateBucket request includes specific headers:     Access control lists (ACLs) - In
+your CreateBucket request, if you specify an access control list (ACL) and set it to
+public-read, public-read-write, authenticated-read, or if you explicitly specify any other
+custom ACLs, both s3:CreateBucket and s3:PutBucketAcl permissions are required. In your
+CreateBucket request, if you set the ACL to private, or if you don't specify any ACLs, only
+the s3:CreateBucket permission is required.     Object Lock - In your CreateBucket request,
+if you set x-amz-bucket-object-lock-enabled to true, the
 s3:PutBucketObjectLockConfiguration and s3:PutBucketVersioning permissions are required.
 S3 Object Ownership - If your CreateBucket request includes the x-amz-object-ownership
-header, s3:PutBucketOwnershipControls permission is required.     The following operations
-are related to CreateBucket:    PutObject     DeleteBucket
+header, then the s3:PutBucketOwnershipControls permission is required.   To set an ACL on a
+bucket as part of a CreateBucket request, you must explicitly set S3 Object Ownership for
+the bucket to a different value than the default, BucketOwnerEnforced. Additionally, if
+your desired bucket ACL grants public access, you must first create the bucket (without the
+bucket ACL) and then explicitly disable Block Public Access on the bucket before using
+PutBucketAcl to set the ACL. If you try to create a bucket with a public ACL, the request
+will fail.   For the majority of modern use cases in S3, we recommend that you keep all
+Block Public Access settings enabled and keep ACLs disabled. If you would like to share
+data with users outside of your account, you can use bucket policies as needed. For more
+information, see Controlling ownership of objects and disabling ACLs for your bucket  and
+Blocking public access to your Amazon S3 storage  in the Amazon S3 User Guide.      S3
+Block Public Access - If your specific use case requires granting public access to your S3
+resources, you can disable Block Public Access. Specifically, you can create a new bucket
+with Block Public Access enabled, then separately call the  DeletePublicAccessBlock  API.
+To use this operation, you must have the s3:PutBucketPublicAccessBlock permission. For more
+information about S3 Block Public Access, see Blocking public access to your Amazon S3
+storage  in the Amazon S3 User Guide.       Directory bucket permissions - You must have
+the s3express:CreateBucket permission in an IAM identity-based policy instead of a bucket
+policy. Cross-account access to this API operation isn't supported. This operation can only
+be performed by the Amazon Web Services account that owns the resource. For more
+information about directory bucket policies and permissions, see Amazon Web Services
+Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.
+The permissions for ACLs, Object Lock, S3 Object Ownership, and S3 Block Public Access are
+not supported for directory buckets. For directory buckets, all Block Public Access
+settings are enabled at the bucket level and S3 Object Ownership is set to Bucket owner
+enforced (ACLs disabled). These settings can't be modified.  For more information about
+permissions for creating and working with directory buckets, see Directory buckets in the
+Amazon S3 User Guide. For more information about supported S3 features for directory
+buckets, see Features of S3 Express One Zone in the Amazon S3 User Guide.     HTTP Host
+header syntax   Directory buckets  - The HTTP Host header syntax is
+s3express-control.region.amazonaws.com.   The following operations are related to
+CreateBucket:    PutObject     DeleteBucket
 
 # Arguments
-- `bucket`: The name of the bucket to create.
+- `bucket`: The name of the bucket to create.  General purpose buckets - For information
+  about bucket naming restrictions, see Bucket naming rules in the Amazon S3 User Guide.
+  Directory buckets  - When you use this operation with a directory bucket, you must use
+  path-style requests in the format
+  https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+  requests aren't supported. Directory bucket names must be unique in the chosen Availability
+  Zone. Bucket names must also follow the format  bucket_base_name--az_id--x-s3 (for example,
+   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CreateBucketConfiguration"`: The configuration information for the bucket.
-- `"x-amz-acl"`: The canned ACL to apply to the bucket.
+- `"x-amz-acl"`: The canned ACL to apply to the bucket.  This functionality is not
+  supported for directory buckets.
 - `"x-amz-bucket-object-lock-enabled"`: Specifies whether you want S3 Object Lock to be
-  enabled for the new bucket.
+  enabled for the new bucket.  This functionality is not supported for directory buckets.
 - `"x-amz-grant-full-control"`: Allows grantee the read, write, read ACP, and write ACP
-  permissions on the bucket.
-- `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket.
-- `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL.
+  permissions on the bucket.  This functionality is not supported for directory buckets.
+- `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket.  This
+  functionality is not supported for directory buckets.
+- `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL.  This functionality is
+  not supported for directory buckets.
 - `"x-amz-grant-write"`: Allows grantee to create new objects in the bucket. For the bucket
   and object owners of existing objects, also allows deletions and overwrites of those
-  objects.
+  objects.  This functionality is not supported for directory buckets.
 - `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
+  This functionality is not supported for directory buckets.
 - `"x-amz-object-ownership"`:
 """
 function create_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
@@ -572,25 +789,48 @@ This action initiates a multipart upload and returns an upload ID. This upload I
 to associate all of the parts in the specific multipart upload. You specify this upload ID
 in each of your subsequent upload part requests (see UploadPart). You also include this
 upload ID in the final request to either complete or abort the multipart upload request.
-For more information about multipart uploads, see Multipart Upload Overview. If you have
-configured a lifecycle rule to abort incomplete multipart uploads, the upload must complete
-within the number of days specified in the bucket lifecycle configuration. Otherwise, the
-incomplete multipart upload becomes eligible for an abort action and Amazon S3 aborts the
-multipart upload. For more information, see Aborting Incomplete Multipart Uploads Using a
-Bucket Lifecycle Configuration. For information about the permissions required to use the
-multipart upload API, see Multipart Upload and Permissions. For request signing, multipart
-upload is just a series of regular requests. You initiate a multipart upload, send one or
-more requests to upload parts, and then complete the multipart upload process. You sign
-each request individually. There is nothing special about signing multipart upload
-requests. For more information about signing, see Authenticating Requests (Amazon Web
-Services Signature Version 4).  After you initiate a multipart upload and upload one or
-more parts, to stop being charged for storing the uploaded parts, you must either complete
-or abort the multipart upload. Amazon S3 frees up the space used to store the parts and
-stop charging you for storing them only after you either complete or abort a multipart
-upload.   Server-side encryption is for data encryption at rest. Amazon S3 encrypts your
-data as it writes it to disks in its data centers and decrypts it when you access it.
-Amazon S3 automatically encrypts all new objects that are uploaded to an S3 bucket. When
-doing a multipart upload, if you don't specify encryption information in your request, the
+For more information about multipart uploads, see Multipart Upload Overview in the Amazon
+S3 User Guide.  After you initiate a multipart upload and upload one or more parts, to stop
+being charged for storing the uploaded parts, you must either complete or abort the
+multipart upload. Amazon S3 frees up the space used to store the parts and stops charging
+you for storing them only after you either complete or abort a multipart upload.   If you
+have configured a lifecycle rule to abort incomplete multipart uploads, the created
+multipart upload must be completed within the number of days specified in the bucket
+lifecycle configuration. Otherwise, the incomplete multipart upload becomes eligible for an
+abort action and Amazon S3 aborts the multipart upload. For more information, see Aborting
+Incomplete Multipart Uploads Using a Bucket Lifecycle Configuration.     Directory buckets
+- S3 Lifecycle is not supported by directory buckets.    Directory buckets  - For directory
+buckets, you must make requests for this API operation to the Zonal endpoint. These
+endpoints support virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
+not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.     Request signing  For request signing, multipart upload is just a series of
+regular requests. You initiate a multipart upload, send one or more requests to upload
+parts, and then complete the multipart upload process. You sign each request individually.
+There is nothing special about signing multipart upload requests. For more information
+about signing, see Authenticating Requests (Amazon Web Services Signature Version 4) in the
+Amazon S3 User Guide.  Permissions     General purpose bucket permissions - For information
+about the permissions required to use the multipart upload API, see Multipart upload and
+permissions in the Amazon S3 User Guide.  To perform a multipart upload with encryption by
+using an Amazon Web Services KMS key, the requester must have permission to the kms:Decrypt
+and kms:GenerateDataKey* actions on the key. These permissions are required because Amazon
+S3 must decrypt and read data from the encrypted file parts before it completes the
+multipart upload. For more information, see Multipart upload API and permissions and
+Protecting data using server-side encryption with Amazon Web Services KMS in the Amazon S3
+User Guide.    Directory bucket permissions - To grant access to this API operation on a
+directory bucket, we recommend that you use the  CreateSession  API operation for
+session-based authorization. Specifically, you grant the s3express:CreateSession permission
+to the directory bucket in a bucket policy or an IAM identity-based policy. Then, you make
+the CreateSession API call on the bucket to obtain a session token. With the session token
+in your request header, you can make API requests to this operation. After the session
+token expires, you make another CreateSession API call to generate a new session token for
+use. Amazon Web Services CLI or SDKs create session and refresh the session token
+automatically to avoid service interruptions when a session expires. For more information
+about authorization, see  CreateSession .    Encryption     General purpose buckets -
+Server-side encryption is for data encryption at rest. Amazon S3 encrypts your data as it
+writes it to disks in its data centers and decrypts it when you access it. Amazon S3
+automatically encrypts all new objects that are uploaded to an S3 bucket. When doing a
+multipart upload, if you don't specify encryption information in your request, the
 encryption setting of the uploaded parts is set to the default encryption configuration of
 the destination bucket. By default, all buckets have a base level of encryption
 configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). If the
@@ -599,99 +839,71 @@ with an Key Management Service (KMS) key (SSE-KMS), or a customer-provided encry
 (SSE-C), Amazon S3 uses the corresponding KMS key, or a customer-provided key to encrypt
 the uploaded parts. When you perform a CreateMultipartUpload operation, if you want to use
 a different type of encryption setting for the uploaded parts, you can request that Amazon
-S3 encrypts the object with a KMS key, an Amazon S3 managed key, or a customer-provided
-key. If the encryption setting in your request is different from the default encryption
-configuration of the destination bucket, the encryption setting in your request takes
-precedence. If you choose to provide your own encryption key, the request headers you
-provide in UploadPart and UploadPartCopy requests must match the headers you used in the
-request to initiate the upload by using CreateMultipartUpload. You can request that Amazon
-S3 save the uploaded parts encrypted with server-side encryption with an Amazon S3 managed
-key (SSE-S3), an Key Management Service (KMS) key (SSE-KMS), or a customer-provided
-encryption key (SSE-C).  To perform a multipart upload with encryption by using an Amazon
-Web Services KMS key, the requester must have permission to the kms:Decrypt and
-kms:GenerateDataKey* actions on the key. These permissions are required because Amazon S3
-must decrypt and read data from the encrypted file parts before it completes the multipart
-upload. For more information, see Multipart upload API and permissions and Protecting data
-using server-side encryption with Amazon Web Services KMS in the Amazon S3 User Guide. If
-your Identity and Access Management (IAM) user or role is in the same Amazon Web Services
-account as the KMS key, then you must have these permissions on the key policy. If your IAM
-user or role belongs to a different account than the key, then you must have the
-permissions on both the key policy and your IAM user or role.  For more information, see
-Protecting Data Using Server-Side Encryption.  Access Permissions  When copying an object,
-you can optionally specify the accounts or groups that should be granted specific
-permissions on the new object. There are two ways to grant the permissions using the
-request headers:   Specify a canned ACL with the x-amz-acl request header. For more
-information, see Canned ACL.   Specify access permissions explicitly with the
-x-amz-grant-read, x-amz-grant-read-acp, x-amz-grant-write-acp, and x-amz-grant-full-control
-headers. These parameters map to the set of permissions that Amazon S3 supports in an ACL.
-For more information, see Access Control List (ACL) Overview.   You can use either a canned
-ACL or specify access permissions explicitly. You cannot do both.  Server-Side-
-Encryption-Specific Request Headers  Amazon S3 encrypts data by using server-side
-encryption with an Amazon S3 managed key (SSE-S3) by default. Server-side encryption is for
-data encryption at rest. Amazon S3 encrypts your data as it writes it to disks in its data
-centers and decrypts it when you access it. You can request that Amazon S3 encrypts data at
-rest by using server-side encryption with other key options. The option you use depends on
-whether you want to use KMS keys (SSE-KMS) or provide your own encryption keys (SSE-C).
-Use KMS keys (SSE-KMS) that include the Amazon Web Services managed key (aws/s3) and KMS
-customer managed keys stored in Key Management Service (KMS) – If you want Amazon Web
-Services to manage the keys used to encrypt data, specify the following headers in the
-request.    x-amz-server-side-encryption     x-amz-server-side-encryption-aws-kms-key-id
- x-amz-server-side-encryption-context     If you specify
+S3 encrypts the object with a different encryption key (such as an Amazon S3 managed key, a
+KMS key, or a customer-provided key). When the encryption setting in your request is
+different from the default encryption configuration of the destination bucket, the
+encryption setting in your request takes precedence. If you choose to provide your own
+encryption key, the request headers you provide in UploadPart and UploadPartCopy requests
+must match the headers you used in the CreateMultipartUpload request.   Use KMS keys
+(SSE-KMS) that include the Amazon Web Services managed key (aws/s3) and KMS customer
+managed keys stored in Key Management Service (KMS) – If you want Amazon Web Services to
+manage the keys used to encrypt data, specify the following headers in the request.
+x-amz-server-side-encryption     x-amz-server-side-encryption-aws-kms-key-id
+x-amz-server-side-encryption-context       If you specify
 x-amz-server-side-encryption:aws:kms, but don't provide
 x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed
-key (aws/s3 key) in KMS to protect the data.   All GET and PUT requests for an object
-protected by KMS fail if you don't make them by using Secure Sockets Layer (SSL), Transport
-Layer Security (TLS), or Signature Version 4.  For more information about server-side
-encryption with KMS keys (SSE-KMS), see Protecting Data Using Server-Side Encryption with
-KMS keys.   Use customer-provided encryption keys (SSE-C) – If you want to manage your
-own encryption keys, provide all the following headers in the request.
+key (aws/s3 key) in KMS to protect the data.   To perform a multipart upload with
+encryption by using an Amazon Web Services KMS key, the requester must have permission to
+the kms:Decrypt and kms:GenerateDataKey* actions on the key. These permissions are required
+because Amazon S3 must decrypt and read data from the encrypted file parts before it
+completes the multipart upload. For more information, see Multipart upload API and
+permissions and Protecting data using server-side encryption with Amazon Web Services KMS
+in the Amazon S3 User Guide.   If your Identity and Access Management (IAM) user or role is
+in the same Amazon Web Services account as the KMS key, then you must have these
+permissions on the key policy. If your IAM user or role is in a different account from the
+key, then you must have the permissions on both the key policy and your IAM user or role.
+All GET and PUT requests for an object protected by KMS fail if you don't make them by
+using Secure Sockets Layer (SSL), Transport Layer Security (TLS), or Signature Version 4.
+For information about configuring any of the officially supported Amazon Web Services SDKs
+and Amazon Web Services CLI, see Specifying the Signature Version in Request Authentication
+in the Amazon S3 User Guide.    For more information about server-side encryption with KMS
+keys (SSE-KMS), see Protecting Data Using Server-Side Encryption with KMS keys in the
+Amazon S3 User Guide.   Use customer-provided encryption keys (SSE-C) – If you want to
+manage your own encryption keys, provide all the following headers in the request.
 x-amz-server-side-encryption-customer-algorithm
 x-amz-server-side-encryption-customer-key     x-amz-server-side-encryption-customer-key-MD5
    For more information about server-side encryption with customer-provided encryption keys
 (SSE-C), see  Protecting data using server-side encryption with customer-provided
-encryption keys (SSE-C).    Access-Control-List (ACL)-Specific Request Headers  You also
-can use the following access control–related headers with this operation. By default, all
-objects are private. Only the owner has full access control. When adding a new object, you
-can grant permissions to individual Amazon Web Services accounts or to predefined groups
-defined by Amazon S3. These permissions are then added to the access control list (ACL) on
-the object. For more information, see Using ACLs. With this operation, you can grant access
-permissions using one of the following two methods:   Specify a canned ACL (x-amz-acl) —
-Amazon S3 supports a set of predefined ACLs, known as canned ACLs. Each canned ACL has a
-predefined set of grantees and permissions. For more information, see Canned ACL.   Specify
-access permissions explicitly — To explicitly grant access permissions to specific Amazon
-Web Services accounts or groups, use the following headers. Each header maps to specific
-permissions that Amazon S3 supports in an ACL. For more information, see Access Control
-List (ACL) Overview. In the header, you specify a list of grantees who get the specific
-permission. To grant permissions explicitly, use:    x-amz-grant-read     x-amz-grant-write
-    x-amz-grant-read-acp     x-amz-grant-write-acp     x-amz-grant-full-control    You
-specify each grantee as a type=value pair, where the type is one of the following:    id
-– if the value specified is the canonical user ID of an Amazon Web Services account
-uri – if you are granting permissions to a predefined group    emailAddress – if the
-value specified is the email address of an Amazon Web Services account  Using email
-addresses to specify a grantee is only supported in the following Amazon Web Services
-Regions:    US East (N. Virginia)   US West (N. California)    US West (Oregon)    Asia
-Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)
-South America (São Paulo)   For a list of all the Amazon S3 supported Regions and
-endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For
-example, the following x-amz-grant-read header grants the Amazon Web Services accounts
-identified by account IDs permissions to read object data and its metadata:
-x-amz-grant-read: id=\"11112222333\", id=\"444455556666\"       The following operations
-are related to CreateMultipartUpload:    UploadPart     CompleteMultipartUpload
+encryption keys (SSE-C) in the Amazon S3 User Guide.      Directory buckets -For directory
+buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) is
+supported.    HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
+ Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related
+to CreateMultipartUpload:    UploadPart     CompleteMultipartUpload
 AbortMultipartUpload     ListParts     ListMultipartUploads
 
 # Arguments
-- `bucket`: The name of the bucket to which to initiate the upload When using this action
-  with an access point, you must direct requests to the access point hostname. The access
-  point hostname takes the form
+- `bucket`: The name of the bucket where the multipart upload is initiated and where the
+  object is uploaded.  Directory buckets - When you use this operation with a directory
+  bucket, you must use virtual-hosted-style requests in the format
+  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.
+  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must
+  follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Object key for which the multipart upload is to be initiated.
 
 # Optional Parameters
@@ -700,70 +912,154 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Content-Disposition"`: Specifies presentational information for the object.
 - `"Content-Encoding"`: Specifies what content encodings have been applied to the object
   and thus what decoding mechanisms must be applied to obtain the media-type referenced by
-  the Content-Type header field.
-- `"Content-Language"`: The language the content is in.
+  the Content-Type header field.  For directory buckets, only the aws-chunked value is
+  supported in this header field.
+- `"Content-Language"`: The language that the content is in.
 - `"Content-Type"`: A standard MIME type describing the format of the object data.
 - `"Expires"`: The date and time at which the object is no longer cacheable.
-- `"x-amz-acl"`: The canned ACL to apply to the object. This action is not supported by
-  Amazon S3 on Outposts.
-- `"x-amz-checksum-algorithm"`: Indicates the algorithm you want Amazon S3 to use to create
-  the checksum for the object. For more information, see Checking object integrity in the
-  Amazon S3 User Guide.
+- `"x-amz-acl"`: The canned ACL to apply to the object. Amazon S3 supports a set of
+  predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of grantees and
+  permissions. For more information, see Canned ACL in the Amazon S3 User Guide. By default,
+  all objects are private. Only the owner has full access control. When uploading an object,
+  you can grant access permissions to individual Amazon Web Services accounts or to
+  predefined groups defined by Amazon S3. These permissions are then added to the access
+  control list (ACL) on the new object. For more information, see Using ACLs. One way to
+  grant the permissions using the request headers is to specify a canned ACL with the
+  x-amz-acl request header.    This functionality is not supported for directory buckets.
+  This functionality is not supported for Amazon S3 on Outposts.
+- `"x-amz-checksum-algorithm"`: Indicates the algorithm that you want Amazon S3 to use to
+  create the checksum for the object. For more information, see Checking object integrity in
+  the Amazon S3 User Guide.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
-- `"x-amz-grant-full-control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
-  on the object. This action is not supported by Amazon S3 on Outposts.
-- `"x-amz-grant-read"`: Allows grantee to read the object data and its metadata. This
-  action is not supported by Amazon S3 on Outposts.
-- `"x-amz-grant-read-acp"`: Allows grantee to read the object ACL. This action is not
-  supported by Amazon S3 on Outposts.
-- `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable object.
-  This action is not supported by Amazon S3 on Outposts.
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
+- `"x-amz-grant-full-control"`: Specify access permissions explicitly to give the grantee
+  READ, READ_ACP, and WRITE_ACP permissions on the object. By default, all objects are
+  private. Only the owner has full access control. When uploading an object, you can use this
+  header to explicitly grant access permissions to specific Amazon Web Services accounts or
+  groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For
+  more information, see Access Control List (ACL) Overview in the Amazon S3 User Guide. You
+  specify each grantee as a type=value pair, where the type is one of the following:    id
+  – if the value specified is the canonical user ID of an Amazon Web Services account
+  uri – if you are granting permissions to a predefined group    emailAddress – if the
+  value specified is the email address of an Amazon Web Services account  Using email
+  addresses to specify a grantee is only supported in the following Amazon Web Services
+  Regions:    US East (N. Virginia)   US West (N. California)    US West (Oregon)    Asia
+  Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)
+  South America (São Paulo)   For a list of all the Amazon S3 supported Regions and
+  endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For
+  example, the following x-amz-grant-read header grants the Amazon Web Services accounts
+  identified by account IDs permissions to read object data and its metadata:
+  x-amz-grant-read: id=\"11112222333\", id=\"444455556666\"      This functionality is not
+  supported for directory buckets.   This functionality is not supported for Amazon S3 on
+  Outposts.
+- `"x-amz-grant-read"`: Specify access permissions explicitly to allow grantee to read the
+  object data and its metadata. By default, all objects are private. Only the owner has full
+  access control. When uploading an object, you can use this header to explicitly grant
+  access permissions to specific Amazon Web Services accounts or groups. This header maps to
+  specific permissions that Amazon S3 supports in an ACL. For more information, see Access
+  Control List (ACL) Overview in the Amazon S3 User Guide. You specify each grantee as a
+  type=value pair, where the type is one of the following:    id – if the value specified
+  is the canonical user ID of an Amazon Web Services account    uri – if you are granting
+  permissions to a predefined group    emailAddress – if the value specified is the email
+  address of an Amazon Web Services account  Using email addresses to specify a grantee is
+  only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US
+  West (N. California)    US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific
+  (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a
+  list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the
+  Amazon Web Services General Reference.    For example, the following x-amz-grant-read
+  header grants the Amazon Web Services accounts identified by account IDs permissions to
+  read object data and its metadata:  x-amz-grant-read: id=\"11112222333\",
+  id=\"444455556666\"      This functionality is not supported for directory buckets.   This
+  functionality is not supported for Amazon S3 on Outposts.
+- `"x-amz-grant-read-acp"`: Specify access permissions explicitly to allows grantee to read
+  the object ACL. By default, all objects are private. Only the owner has full access
+  control. When uploading an object, you can use this header to explicitly grant access
+  permissions to specific Amazon Web Services accounts or groups. This header maps to
+  specific permissions that Amazon S3 supports in an ACL. For more information, see Access
+  Control List (ACL) Overview in the Amazon S3 User Guide. You specify each grantee as a
+  type=value pair, where the type is one of the following:    id – if the value specified
+  is the canonical user ID of an Amazon Web Services account    uri – if you are granting
+  permissions to a predefined group    emailAddress – if the value specified is the email
+  address of an Amazon Web Services account  Using email addresses to specify a grantee is
+  only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US
+  West (N. California)    US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific
+  (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a
+  list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the
+  Amazon Web Services General Reference.    For example, the following x-amz-grant-read
+  header grants the Amazon Web Services accounts identified by account IDs permissions to
+  read object data and its metadata:  x-amz-grant-read: id=\"11112222333\",
+  id=\"444455556666\"      This functionality is not supported for directory buckets.   This
+  functionality is not supported for Amazon S3 on Outposts.
+- `"x-amz-grant-write-acp"`: Specify access permissions explicitly to allows grantee to
+  allow grantee to write the ACL for the applicable object. By default, all objects are
+  private. Only the owner has full access control. When uploading an object, you can use this
+  header to explicitly grant access permissions to specific Amazon Web Services accounts or
+  groups. This header maps to specific permissions that Amazon S3 supports in an ACL. For
+  more information, see Access Control List (ACL) Overview in the Amazon S3 User Guide. You
+  specify each grantee as a type=value pair, where the type is one of the following:    id
+  – if the value specified is the canonical user ID of an Amazon Web Services account
+  uri – if you are granting permissions to a predefined group    emailAddress – if the
+  value specified is the email address of an Amazon Web Services account  Using email
+  addresses to specify a grantee is only supported in the following Amazon Web Services
+  Regions:    US East (N. Virginia)   US West (N. California)    US West (Oregon)    Asia
+  Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)
+  South America (São Paulo)   For a list of all the Amazon S3 supported Regions and
+  endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For
+  example, the following x-amz-grant-read header grants the Amazon Web Services accounts
+  identified by account IDs permissions to read object data and its metadata:
+  x-amz-grant-read: id=\"11112222333\", id=\"444455556666\"      This functionality is not
+  supported for directory buckets.   This functionality is not supported for Amazon S3 on
+  Outposts.
 - `"x-amz-meta-"`: A map of metadata to store with the object in S3.
 - `"x-amz-object-lock-legal-hold"`: Specifies whether you want to apply a legal hold to the
-  uploaded object.
+  uploaded object.  This functionality is not supported for directory buckets.
 - `"x-amz-object-lock-mode"`: Specifies the Object Lock mode that you want to apply to the
-  uploaded object.
+  uploaded object.  This functionality is not supported for directory buckets.
 - `"x-amz-object-lock-retain-until-date"`: Specifies the date and time when you want the
-  Object Lock to expire.
+  Object Lock to expire.  This functionality is not supported for directory buckets.
 - `"x-amz-request-payer"`:
-- `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when storing
-  this object in Amazon S3 (for example, AES256, aws:kms).
-- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the ID of the symmetric
-  encryption customer managed key to use for object encryption. All GET and PUT requests for
-  an object protected by Amazon Web Services KMS will fail if not made via SSL or using
-  SigV4. For information about configuring using any of the officially supported Amazon Web
-  Services SDKs and Amazon Web Services CLI, see Specifying the Signature Version in Request
-  Authentication in the Amazon S3 User Guide.
+- `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when you
+  store this object in Amazon S3 (for example, AES256, aws:kms).  For directory buckets, only
+  server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) is supported.
+- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the ID (Key ID, Key ARN, or
+  Key Alias) of the symmetric encryption customer managed key to use for object encryption.
+  This functionality is not supported for directory buckets.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
-  use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
-  (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
-  encryption with SSE-KMS. Specifying this header with an object action doesn’t affect
-  bucket-level settings for S3 Bucket Key.
+  use an S3 Bucket Key for object encryption with server-side encryption using Key Management
+  Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3
+  Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action
+  doesn’t affect bucket-level settings for S3 Bucket Key.  This functionality is not
+  supported for directory buckets.
 - `"x-amz-server-side-encryption-context"`: Specifies the Amazon Web Services KMS
   Encryption Context to use for object encryption. The value of this header is a
-  base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
-- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
-  when encrypting the object (for example, AES256).
+  base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.  This
+  functionality is not supported for directory buckets.
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
+  encrypting the object (for example, AES256).  This functionality is not supported for
+  directory buckets.
 - `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
-  x-amz-server-side-encryption-customer-algorithm header.
+  x-amz-server-side-encryption-customer-algorithm header.  This functionality is not
+  supported for directory buckets.
 - `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
-  the encryption key according to RFC 1321. Amazon S3 uses this header for a message
-  integrity check to ensure that the encryption key was transmitted without error.
+  the customer-provided encryption key according to RFC 1321. Amazon S3 uses this header for
+  a message integrity check to ensure that the encryption key was transmitted without error.
+  This functionality is not supported for directory buckets.
 - `"x-amz-storage-class"`: By default, Amazon S3 uses the STANDARD Storage Class to store
   newly created objects. The STANDARD storage class provides high durability and high
   availability. Depending on performance needs, you can specify a different Storage Class.
-  Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see
-  Storage Classes in the Amazon S3 User Guide.
+  For more information, see Storage Classes in the Amazon S3 User Guide.    For directory
+  buckets, only the S3 Express One Zone storage class is supported to store newly created
+  objects.   Amazon S3 on Outposts only uses the OUTPOSTS Storage Class.
 - `"x-amz-tagging"`: The tag-set for the object. The tag-set must be encoded as URL Query
-  parameters.
+  parameters.  This functionality is not supported for directory buckets.
 - `"x-amz-website-redirect-location"`: If the bucket is configured as a website, redirects
   requests for this object to another object in the same bucket or to an external URL. Amazon
-  S3 stores the value of this header in the object metadata.
+  S3 stores the value of this header in the object metadata.  This functionality is not
+  supported for directory buckets.
 """
 function create_multipart_upload(
     Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()
@@ -791,21 +1087,123 @@ function create_multipart_upload(
 end
 
 """
+    create_session(bucket)
+    create_session(bucket, params::Dict{String,<:Any})
+
+Creates a session that establishes temporary security credentials to support fast
+authentication and authorization for the Zonal endpoint APIs on directory buckets. For more
+information about Zonal endpoint APIs that include the Availability Zone in the request
+endpoint, see S3 Express One Zone APIs in the Amazon S3 User Guide.  To make Zonal endpoint
+API requests on a directory bucket, use the CreateSession API operation. Specifically, you
+grant s3express:CreateSession permission to a bucket in a bucket policy or an IAM
+identity-based policy. Then, you use IAM credentials to make the CreateSession API request
+on the bucket, which returns temporary security credentials that include the access key ID,
+secret access key, session token, and expiration. These credentials have associated
+permissions to access the Zonal endpoint APIs. After the session is created, you don’t
+need to use other policies to grant permissions to each Zonal endpoint API individually.
+Instead, in your Zonal endpoint API requests, you sign your requests by applying the
+temporary security credentials of the session to the request headers and following the
+SigV4 protocol for authentication. You also apply the session token to the
+x-amz-s3session-token request header for authorization. Temporary security credentials are
+scoped to the bucket and expire after 5 minutes. After the expiration time, any calls that
+you make with those credentials will fail. You must use IAM credentials again to make a
+CreateSession API request that generates a new set of temporary credentials for use.
+Temporary credentials cannot be extended or refreshed beyond the original specified
+interval. If you use Amazon Web Services SDKs, SDKs handle the session token refreshes
+automatically to avoid service interruptions when a session expires. We recommend that you
+use the Amazon Web Services SDKs to initiate and manage requests to the CreateSession API.
+For more information, see Performance guidelines and design patterns in the Amazon S3 User
+Guide.    You must make requests for this API operation to the Zonal endpoint. These
+endpoints support virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not
+supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.     CopyObject API operation - Unlike other Zonal endpoint APIs, the CopyObject API
+operation doesn't use the temporary security credentials returned from the CreateSession
+API operation for authentication and authorization. For information about authentication
+and authorization of the CopyObject API operation on directory buckets, see CopyObject.
+HeadBucket API operation - Unlike other Zonal endpoint APIs, the HeadBucket API operation
+doesn't use the temporary security credentials returned from the CreateSession API
+operation for authentication and authorization. For information about authentication and
+authorization of the HeadBucket API operation on directory buckets, see HeadBucket.
+Permissions  To obtain temporary security credentials, you must create a bucket policy or
+an IAM identity-based policy that grants s3express:CreateSession permission to the bucket.
+In a policy, you can have the s3express:SessionMode condition key to control who can create
+a ReadWrite or ReadOnly session. For more information about ReadWrite or ReadOnly sessions,
+see  x-amz-create-session-mode . For example policies, see Example bucket policies for S3
+Express One Zone and Amazon Web Services Identity and Access Management (IAM)
+identity-based policies for S3 Express One Zone in the Amazon S3 User Guide.  To grant
+cross-account access to Zonal endpoint APIs, the bucket policy should also grant both
+accounts the s3express:CreateSession permission.  HTTP Host header syntax   Directory
+buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.
+
+# Arguments
+- `bucket`: The name of the bucket that you create a session for.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amz-create-session-mode"`: Specifies the mode of the session that will be created,
+  either ReadWrite or ReadOnly. By default, a ReadWrite session is created. A ReadWrite
+  session is capable of executing all the Zonal endpoint APIs on a directory bucket. A
+  ReadOnly session is constrained to execute the following Zonal endpoint APIs: GetObject,
+  HeadObject, ListObjectsV2, GetObjectAttributes, ListParts, and ListMultipartUploads.
+"""
+function create_session(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
+    return s3(
+        "GET", "/$(Bucket)?session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function create_session(
+    Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3(
+        "GET",
+        "/$(Bucket)?session",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_bucket(bucket)
     delete_bucket(bucket, params::Dict{String,<:Any})
 
 Deletes the S3 bucket. All objects (including all object versions and delete markers) in
-the bucket must be deleted before the bucket itself can be deleted. The following
+the bucket must be deleted before the bucket itself can be deleted.     Directory buckets -
+If multipart uploads in a directory bucket are in progress, you can't delete the bucket
+until all the in-progress multipart uploads are aborted or completed.    Directory buckets
+- For directory buckets, you must make requests for this API operation to the Regional
+endpoint. These endpoints support path-style requests in the format
+https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+requests aren't supported. For more information, see Regional and Zonal endpoints in the
+Amazon S3 User Guide.     Permissions     General purpose bucket permissions - You must
+have the s3:DeleteBucket permission on the specified bucket in a policy.    Directory
+bucket permissions - You must have the s3express:DeleteBucket permission in an IAM
+identity-based policy instead of a bucket policy. Cross-account access to this API
+operation isn't supported. This operation can only be performed by the Amazon Web Services
+account that owns the resource. For more information about directory bucket policies and
+permissions, see Amazon Web Services Identity and Access Management (IAM) for S3 Express
+One Zone in the Amazon S3 User Guide.    HTTP Host header syntax   Directory buckets  - The
+HTTP Host header syntax is s3express-control.region.amazonaws.com.   The following
 operations are related to DeleteBucket:    CreateBucket     DeleteObject
 
 # Arguments
-- `bucket`: Specifies the bucket being deleted.
+- `bucket`: Specifies the bucket being deleted.  Directory buckets  - When you use this
+  operation with a directory bucket, you must use path-style requests in the format
+  https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+  requests aren't supported. Directory bucket names must be unique in the chosen Availability
+  Zone. Bucket names must also follow the format  bucket_base_name--az_id--x-s3 (for example,
+   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this
+  header is not supported in this API operation. If you specify this header, the request
+  fails with the HTTP status code 501 Not Implemented.
 """
 function delete_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -828,15 +1226,16 @@ end
     delete_bucket_analytics_configuration(bucket, id)
     delete_bucket_analytics_configuration(bucket, id, params::Dict{String,<:Any})
 
-Deletes an analytics configuration for the bucket (specified by the analytics configuration
-ID). To use this operation, you must have permissions to perform the
-s3:PutAnalyticsConfiguration action. The bucket owner has this permission by default. The
-bucket owner can grant this permission to others. For more information about permissions,
-see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
-Your Amazon S3 Resources. For information about the Amazon S3 analytics feature, see Amazon
-S3 Analytics – Storage Class Analysis.  The following operations are related to
-DeleteBucketAnalyticsConfiguration:    GetBucketAnalyticsConfiguration
-ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
+ This operation is not supported by directory buckets.  Deletes an analytics configuration
+for the bucket (specified by the analytics configuration ID). To use this operation, you
+must have permissions to perform the s3:PutAnalyticsConfiguration action. The bucket owner
+has this permission by default. The bucket owner can grant this permission to others. For
+more information about permissions, see Permissions Related to Bucket Subresource
+Operations and Managing Access Permissions to Your Amazon S3 Resources. For information
+about the Amazon S3 analytics feature, see Amazon S3 Analytics – Storage Class Analysis.
+The following operations are related to DeleteBucketAnalyticsConfiguration:
+GetBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations
+PutBucketAnalyticsConfiguration
 
 # Arguments
 - `bucket`: The name of the bucket from which an analytics configuration is deleted.
@@ -845,8 +1244,8 @@ ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_bucket_analytics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -878,11 +1277,12 @@ end
     delete_bucket_cors(bucket)
     delete_bucket_cors(bucket, params::Dict{String,<:Any})
 
-Deletes the cors configuration information set for the bucket. To use this operation, you
-must have permission to perform the s3:PutBucketCORS action. The bucket owner has this
-permission by default and can grant this permission to others.  For information about cors,
-see Enabling Cross-Origin Resource Sharing in the Amazon S3 User Guide. The following
-operations are related to DeleteBucketCors:    PutBucketCors     RESTOPTIONSobject
+ This operation is not supported by directory buckets.  Deletes the cors configuration
+information set for the bucket. To use this operation, you must have permission to perform
+the s3:PutBucketCORS action. The bucket owner has this permission by default and can grant
+this permission to others.  For information about cors, see Enabling Cross-Origin Resource
+Sharing in the Amazon S3 User Guide.  Related Resources     PutBucketCors
+RESTOPTIONSobject
 
 # Arguments
 - `bucket`: Specifies the bucket whose cors configuration is being deleted.
@@ -890,8 +1290,8 @@ operations are related to DeleteBucketCors:    PutBucketCors     RESTOPTIONSobje
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -914,15 +1314,16 @@ end
     delete_bucket_encryption(bucket)
     delete_bucket_encryption(bucket, params::Dict{String,<:Any})
 
-This implementation of the DELETE action resets the default encryption for the bucket as
-server-side encryption with Amazon S3 managed keys (SSE-S3). For information about the
-bucket default encryption feature, see Amazon S3 Bucket Default Encryption in the Amazon S3
-User Guide. To use this operation, you must have permissions to perform the
-s3:PutEncryptionConfiguration action. The bucket owner has this permission by default. The
-bucket owner can grant this permission to others. For more information about permissions,
-see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
-your Amazon S3 Resources in the Amazon S3 User Guide. The following operations are related
-to DeleteBucketEncryption:    PutBucketEncryption     GetBucketEncryption
+ This operation is not supported by directory buckets.  This implementation of the DELETE
+action resets the default encryption for the bucket as server-side encryption with Amazon
+S3 managed keys (SSE-S3). For information about the bucket default encryption feature, see
+Amazon S3 Bucket Default Encryption in the Amazon S3 User Guide. To use this operation, you
+must have permissions to perform the s3:PutEncryptionConfiguration action. The bucket owner
+has this permission by default. The bucket owner can grant this permission to others. For
+more information about permissions, see Permissions Related to Bucket Subresource
+Operations and Managing Access Permissions to your Amazon S3 Resources in the Amazon S3
+User Guide. The following operations are related to DeleteBucketEncryption:
+PutBucketEncryption     GetBucketEncryption
 
 # Arguments
 - `bucket`: The name of the bucket containing the server-side encryption configuration to
@@ -931,8 +1332,8 @@ to DeleteBucketEncryption:    PutBucketEncryption     GetBucketEncryption
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -958,21 +1359,22 @@ end
     delete_bucket_intelligent_tiering_configuration(bucket, id)
     delete_bucket_intelligent_tiering_configuration(bucket, id, params::Dict{String,<:Any})
 
-Deletes the S3 Intelligent-Tiering configuration from the specified bucket. The S3
-Intelligent-Tiering storage class is designed to optimize storage costs by automatically
-moving data to the most cost-effective storage access tier, without performance impact or
-operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low
-latency and high throughput access tiers. To get the lowest storage cost on data that can
-be accessed in minutes to hours, you can choose to activate additional archiving
-capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data
-with unknown, changing, or unpredictable access patterns, independent of object size or
-retention period. If the size of an object is less than 128 KB, it is not monitored and not
-eligible for auto-tiering. Smaller objects can be stored, but they are always charged at
-the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more
-information, see Storage class for automatically optimizing frequently and infrequently
-accessed objects. Operations related to DeleteBucketIntelligentTieringConfiguration
-include:     GetBucketIntelligentTieringConfiguration
-PutBucketIntelligentTieringConfiguration     ListBucketIntelligentTieringConfigurations
+ This operation is not supported by directory buckets.  Deletes the S3 Intelligent-Tiering
+configuration from the specified bucket. The S3 Intelligent-Tiering storage class is
+designed to optimize storage costs by automatically moving data to the most cost-effective
+storage access tier, without performance impact or operational overhead. S3
+Intelligent-Tiering delivers automatic cost savings in three low latency and high
+throughput access tiers. To get the lowest storage cost on data that can be accessed in
+minutes to hours, you can choose to activate additional archiving capabilities. The S3
+Intelligent-Tiering storage class is the ideal storage class for data with unknown,
+changing, or unpredictable access patterns, independent of object size or retention period.
+If the size of an object is less than 128 KB, it is not monitored and not eligible for
+auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
+Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
+Storage class for automatically optimizing frequently and infrequently accessed objects.
+Operations related to DeleteBucketIntelligentTieringConfiguration include:
+GetBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
+ListBucketIntelligentTieringConfigurations
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
@@ -1010,14 +1412,15 @@ end
     delete_bucket_inventory_configuration(bucket, id)
     delete_bucket_inventory_configuration(bucket, id, params::Dict{String,<:Any})
 
-Deletes an inventory configuration (identified by the inventory ID) from the bucket. To use
-this operation, you must have permissions to perform the s3:PutInventoryConfiguration
-action. The bucket owner has this permission by default. The bucket owner can grant this
-permission to others. For more information about permissions, see Permissions Related to
-Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.
-For information about the Amazon S3 inventory feature, see Amazon S3 Inventory. Operations
-related to DeleteBucketInventoryConfiguration include:     GetBucketInventoryConfiguration
-   PutBucketInventoryConfiguration     ListBucketInventoryConfigurations
+ This operation is not supported by directory buckets.  Deletes an inventory configuration
+(identified by the inventory ID) from the bucket. To use this operation, you must have
+permissions to perform the s3:PutInventoryConfiguration action. The bucket owner has this
+permission by default. The bucket owner can grant this permission to others. For more
+information about permissions, see Permissions Related to Bucket Subresource Operations and
+Managing Access Permissions to Your Amazon S3 Resources. For information about the Amazon
+S3 inventory feature, see Amazon S3 Inventory. Operations related to
+DeleteBucketInventoryConfiguration include:     GetBucketInventoryConfiguration
+PutBucketInventoryConfiguration     ListBucketInventoryConfigurations
 
 # Arguments
 - `bucket`: The name of the bucket containing the inventory configuration to delete.
@@ -1026,8 +1429,8 @@ related to DeleteBucketInventoryConfiguration include:     GetBucketInventoryCon
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_bucket_inventory_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1059,16 +1462,17 @@ end
     delete_bucket_lifecycle(bucket)
     delete_bucket_lifecycle(bucket, params::Dict{String,<:Any})
 
-Deletes the lifecycle configuration from the specified bucket. Amazon S3 removes all the
-lifecycle configuration rules in the lifecycle subresource associated with the bucket. Your
-objects never expire, and Amazon S3 no longer automatically deletes any objects on the
-basis of rules contained in the deleted lifecycle configuration. To use this operation, you
-must have permission to perform the s3:PutLifecycleConfiguration action. By default, the
-bucket owner has this permission and the bucket owner can grant this permission to others.
-There is usually some time lag before lifecycle configuration deletion is fully propagated
-to all the Amazon S3 systems. For more information about the object expiration, see
-Elements to Describe Lifecycle Actions. Related actions include:
-PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
+ This operation is not supported by directory buckets.  Deletes the lifecycle configuration
+from the specified bucket. Amazon S3 removes all the lifecycle configuration rules in the
+lifecycle subresource associated with the bucket. Your objects never expire, and Amazon S3
+no longer automatically deletes any objects on the basis of rules contained in the deleted
+lifecycle configuration. To use this operation, you must have permission to perform the
+s3:PutLifecycleConfiguration action. By default, the bucket owner has this permission and
+the bucket owner can grant this permission to others. There is usually some time lag before
+lifecycle configuration deletion is fully propagated to all the Amazon S3 systems. For more
+information about the object expiration, see Elements to Describe Lifecycle Actions.
+Related actions include:    PutBucketLifecycleConfiguration
+GetBucketLifecycleConfiguration
 
 # Arguments
 - `bucket`: The bucket name of the lifecycle to delete.
@@ -1076,8 +1480,8 @@ PutBucketLifecycleConfiguration     GetBucketLifecycleConfiguration
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -1103,17 +1507,17 @@ end
     delete_bucket_metrics_configuration(bucket, id)
     delete_bucket_metrics_configuration(bucket, id, params::Dict{String,<:Any})
 
-Deletes a metrics configuration for the Amazon CloudWatch request metrics (specified by the
-metrics configuration ID) from the bucket. Note that this doesn't include the daily storage
-metrics.  To use this operation, you must have permissions to perform the
-s3:PutMetricsConfiguration action. The bucket owner has this permission by default. The
-bucket owner can grant this permission to others. For more information about permissions,
-see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
-Your Amazon S3 Resources. For information about CloudWatch request metrics for Amazon S3,
-see Monitoring Metrics with Amazon CloudWatch.  The following operations are related to
-DeleteBucketMetricsConfiguration:    GetBucketMetricsConfiguration
-PutBucketMetricsConfiguration     ListBucketMetricsConfigurations     Monitoring Metrics
-with Amazon CloudWatch
+ This operation is not supported by directory buckets.  Deletes a metrics configuration for
+the Amazon CloudWatch request metrics (specified by the metrics configuration ID) from the
+bucket. Note that this doesn't include the daily storage metrics.  To use this operation,
+you must have permissions to perform the s3:PutMetricsConfiguration action. The bucket
+owner has this permission by default. The bucket owner can grant this permission to others.
+For more information about permissions, see Permissions Related to Bucket Subresource
+Operations and Managing Access Permissions to Your Amazon S3 Resources. For information
+about CloudWatch request metrics for Amazon S3, see Monitoring Metrics with Amazon
+CloudWatch.  The following operations are related to DeleteBucketMetricsConfiguration:
+GetBucketMetricsConfiguration     PutBucketMetricsConfiguration
+ListBucketMetricsConfigurations     Monitoring Metrics with Amazon CloudWatch
 
 # Arguments
 - `bucket`: The name of the bucket containing the metrics configuration to delete.
@@ -1123,8 +1527,8 @@ with Amazon CloudWatch
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_bucket_metrics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1156,12 +1560,12 @@ end
     delete_bucket_ownership_controls(bucket)
     delete_bucket_ownership_controls(bucket, params::Dict{String,<:Any})
 
-Removes OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the
-s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions,
-see Specifying Permissions in a Policy. For information about Amazon S3 Object Ownership,
-see Using Object Ownership.  The following operations are related to
-DeleteBucketOwnershipControls:    GetBucketOwnershipControls     PutBucketOwnershipControls
-
+ This operation is not supported by directory buckets.  Removes OwnershipControls for an
+Amazon S3 bucket. To use this operation, you must have the s3:PutBucketOwnershipControls
+permission. For more information about Amazon S3 permissions, see Specifying Permissions in
+a Policy. For information about Amazon S3 Object Ownership, see Using Object Ownership.
+The following operations are related to DeleteBucketOwnershipControls:
+GetBucketOwnershipControls     PutBucketOwnershipControls
 
 # Arguments
 - `bucket`: The Amazon S3 bucket whose OwnershipControls you want to delete.
@@ -1169,8 +1573,8 @@ DeleteBucketOwnershipControls:    GetBucketOwnershipControls     PutBucketOwners
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_bucket_ownership_controls(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1198,30 +1602,52 @@ end
     delete_bucket_policy(bucket)
     delete_bucket_policy(bucket, params::Dict{String,<:Any})
 
-This implementation of the DELETE action uses the policy subresource to delete the policy
-of a specified bucket. If you are using an identity other than the root user of the Amazon
-Web Services account that owns the bucket, the calling identity must have the
-DeleteBucketPolicy permissions on the specified bucket and belong to the bucket owner's
-account to use this operation.  If you don't have DeleteBucketPolicy permissions, Amazon S3
-returns a 403 Access Denied error. If you have the correct permissions, but you're not
-using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405
-Method Not Allowed error.   To ensure that bucket owners don't inadvertently lock
-themselves out of their own buckets, the root principal in a bucket owner's Amazon Web
-Services account can perform the GetBucketPolicy, PutBucketPolicy, and DeleteBucketPolicy
-API actions, even if their bucket policy explicitly denies the root principal's access.
-Bucket owner root principals can only be blocked from performing these API actions by VPC
-endpoint policies and Amazon Web Services Organizations policies.  For more information
-about bucket policies, see Using Bucket Policies and UserPolicies.  The following
-operations are related to DeleteBucketPolicy     CreateBucket     DeleteObject
+Deletes the policy of a specified bucket.   Directory buckets  - For directory buckets, you
+must make requests for this API operation to the Regional endpoint. These endpoints support
+path-style requests in the format
+https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+requests aren't supported. For more information, see Regional and Zonal endpoints in the
+Amazon S3 User Guide.   Permissions  If you are using an identity other than the root user
+of the Amazon Web Services account that owns the bucket, the calling identity must both
+have the DeleteBucketPolicy permissions on the specified bucket and belong to the bucket
+owner's account in order to use this operation. If you don't have DeleteBucketPolicy
+permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct
+permissions, but you're not using an identity that belongs to the bucket owner's account,
+Amazon S3 returns a 405 Method Not Allowed error.  To ensure that bucket owners don't
+inadvertently lock themselves out of their own buckets, the root principal in a bucket
+owner's Amazon Web Services account can perform the GetBucketPolicy, PutBucketPolicy, and
+DeleteBucketPolicy API actions, even if their bucket policy explicitly denies the root
+principal's access. Bucket owner root principals can only be blocked from performing these
+API actions by VPC endpoint policies and Amazon Web Services Organizations policies.
+General purpose bucket permissions - The s3:DeleteBucketPolicy permission is required in a
+policy. For more information about general purpose buckets bucket policies, see Using
+Bucket Policies and User Policies in the Amazon S3 User Guide.    Directory bucket
+permissions - To grant access to this API operation, you must have the
+s3express:DeleteBucketPolicy permission in an IAM identity-based policy instead of a bucket
+policy. Cross-account access to this API operation isn't supported. This operation can only
+be performed by the Amazon Web Services account that owns the resource. For more
+information about directory bucket policies and permissions, see Amazon Web Services
+Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.
+ HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
+s3express-control.region.amazonaws.com.   The following operations are related to
+DeleteBucketPolicy     CreateBucket     DeleteObject
 
 # Arguments
-- `bucket`: The bucket name.
+- `bucket`: The bucket name.  Directory buckets  - When you use this operation with a
+  directory bucket, you must use path-style requests in the format
+  https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+  requests aren't supported. Directory bucket names must be unique in the chosen Availability
+  Zone. Bucket names must also follow the format  bucket_base_name--az_id--x-s3 (for example,
+   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this
+  header is not supported in this API operation. If you specify this header, the request
+  fails with the HTTP status code 501 Not Implemented.
 """
 function delete_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -1247,14 +1673,15 @@ end
     delete_bucket_replication(bucket)
     delete_bucket_replication(bucket, params::Dict{String,<:Any})
 
- Deletes the replication configuration from the bucket. To use this operation, you must
-have permissions to perform the s3:PutReplicationConfiguration action. The bucket owner has
-these permissions by default and can grant it to others. For more information about
-permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
-Permissions to Your Amazon S3 Resources.   It can take a while for the deletion of a
-replication configuration to fully propagate.   For information about replication
-configuration, see Replication in the Amazon S3 User Guide. The following operations are
-related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplication
+ This operation is not supported by directory buckets.   Deletes the replication
+configuration from the bucket. To use this operation, you must have permissions to perform
+the s3:PutReplicationConfiguration action. The bucket owner has these permissions by
+default and can grant it to others. For more information about permissions, see Permissions
+Related to Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3
+Resources.   It can take a while for the deletion of a replication configuration to fully
+propagate.   For information about replication configuration, see Replication in the Amazon
+S3 User Guide. The following operations are related to DeleteBucketReplication:
+PutBucketReplication     GetBucketReplication
 
 # Arguments
 - `bucket`:  The bucket name.
@@ -1262,8 +1689,8 @@ related to DeleteBucketReplication:    PutBucketReplication     GetBucketReplica
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_bucket_replication(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1291,10 +1718,11 @@ end
     delete_bucket_tagging(bucket)
     delete_bucket_tagging(bucket, params::Dict{String,<:Any})
 
-Deletes the tags from the bucket. To use this operation, you must have permission to
-perform the s3:PutBucketTagging action. By default, the bucket owner has this permission
-and can grant this permission to others.  The following operations are related to
-DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
+ This operation is not supported by directory buckets.  Deletes the tags from the bucket.
+To use this operation, you must have permission to perform the s3:PutBucketTagging action.
+By default, the bucket owner has this permission and can grant this permission to others.
+The following operations are related to DeleteBucketTagging:    GetBucketTagging
+PutBucketTagging
 
 # Arguments
 - `bucket`: The bucket that has the tag set to be removed.
@@ -1302,8 +1730,8 @@ DeleteBucketTagging:    GetBucketTagging     PutBucketTagging
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -1329,17 +1757,17 @@ end
     delete_bucket_website(bucket)
     delete_bucket_website(bucket, params::Dict{String,<:Any})
 
-This action removes the website configuration for a bucket. Amazon S3 returns a 200 OK
-response upon successfully deleting a website configuration on the specified bucket. You
-will get a 200 OK response if the website configuration you are trying to delete does not
-exist on the bucket. Amazon S3 returns a 404 response if the bucket specified in the
-request does not exist. This DELETE action requires the S3:DeleteBucketWebsite permission.
-By default, only the bucket owner can delete the website configuration attached to a
-bucket. However, bucket owners can grant other users permission to delete the website
-configuration by writing a bucket policy granting them the S3:DeleteBucketWebsite
-permission.  For more information about hosting websites, see Hosting Websites on Amazon
-S3.  The following operations are related to DeleteBucketWebsite:    GetBucketWebsite
-PutBucketWebsite
+ This operation is not supported by directory buckets.  This action removes the website
+configuration for a bucket. Amazon S3 returns a 200 OK response upon successfully deleting
+a website configuration on the specified bucket. You will get a 200 OK response if the
+website configuration you are trying to delete does not exist on the bucket. Amazon S3
+returns a 404 response if the bucket specified in the request does not exist. This DELETE
+action requires the S3:DeleteBucketWebsite permission. By default, only the bucket owner
+can delete the website configuration attached to a bucket. However, bucket owners can grant
+other users permission to delete the website configuration by writing a bucket policy
+granting them the S3:DeleteBucketWebsite permission.  For more information about hosting
+websites, see Hosting Websites on Amazon S3.  The following operations are related to
+DeleteBucketWebsite:    GetBucketWebsite     PutBucketWebsite
 
 # Arguments
 - `bucket`: The bucket name for which you want to remove the website configuration.
@@ -1347,8 +1775,8 @@ PutBucketWebsite
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -1374,49 +1802,97 @@ end
     delete_object(bucket, key)
     delete_object(bucket, key, params::Dict{String,<:Any})
 
-Removes the null version (if there is one) of an object and inserts a delete marker, which
-becomes the latest version of the object. If there isn't a null version, Amazon S3 does not
-remove any objects but will still respond that the command was successful. To remove a
-specific version, you must use the version Id subresource. Using this subresource
-permanently deletes the version. If the object deleted is a delete marker, Amazon S3 sets
-the response header, x-amz-delete-marker, to true.  If the object you want to delete is in
-a bucket where the bucket versioning configuration is MFA Delete enabled, you must include
-the x-amz-mfa request header in the DELETE versionId request. Requests that include
-x-amz-mfa must use HTTPS.   For more information about MFA Delete, see Using MFA Delete. To
-see sample requests that use versioning, see Sample Request.  You can delete objects by
-explicitly calling DELETE Object or configure its lifecycle (PutBucketLifecycle) to enable
-Amazon S3 to remove them for you. If you want to block users or accounts from removing or
-deleting objects from your bucket, you must deny them the s3:DeleteObject,
-s3:DeleteObjectVersion, and s3:PutLifeCycleConfiguration actions.  The following action is
-related to DeleteObject:    PutObject
+Removes an object from a bucket. The behavior depends on the bucket's versioning state:
+If bucket versioning is not enabled, the operation permanently deletes the object.   If
+bucket versioning is enabled, the operation inserts a delete marker, which becomes the
+current version of the object. To permanently delete an object in a versioned bucket, you
+must include the object’s versionId in the request. For more information about
+versioning-enabled buckets, see Deleting object versions from a versioning-enabled bucket.
+ If bucket versioning is suspended, the operation removes the object that has a null
+versionId, if there is one, and inserts a delete marker that becomes the current version of
+the object. If there isn't an object with a null versionId, and all versions of the object
+have a versionId, Amazon S3 does not remove the object and only inserts a delete marker. To
+permanently delete an object that has a versionId, you must include the object’s
+versionId in the request. For more information about versioning-suspended buckets, see
+Deleting objects from versioning-suspended buckets.       Directory buckets - S3 Versioning
+isn't enabled and supported for directory buckets. For this API operation, only the null
+value of the version ID is supported by directory buckets. You can only specify null to the
+versionId query parameter in the request.    Directory buckets - For directory buckets, you
+must make requests for this API operation to the Zonal endpoint. These endpoints support
+virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
+not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.    To remove a specific version, you must use the versionId query parameter. Using
+this query parameter permanently deletes the version. If the object deleted is a delete
+marker, Amazon S3 sets the response header x-amz-delete-marker to true.  If the object you
+want to delete is in a bucket where the bucket versioning configuration is MFA Delete
+enabled, you must include the x-amz-mfa request header in the DELETE versionId request.
+Requests that include x-amz-mfa must use HTTPS. For more information about MFA Delete, see
+Using MFA Delete in the Amazon S3 User Guide. To see sample requests that use versioning,
+see Sample Request.    Directory buckets - MFA delete is not supported by directory
+buckets.  You can delete objects by explicitly calling DELETE Object or calling
+(PutBucketLifecycle) to enable Amazon S3 to remove them for you. If you want to block users
+or accounts from removing or deleting objects from your bucket, you must deny them the
+s3:DeleteObject, s3:DeleteObjectVersion, and s3:PutLifeCycleConfiguration actions.
+Directory buckets - S3 Lifecycle is not supported by directory buckets.   Permissions
+General purpose bucket permissions - The following permissions are required in your
+policies when your DeleteObjects request includes specific headers.     s3:DeleteObject  -
+To delete an object from a bucket, you must always have the s3:DeleteObject permission.
+s3:DeleteObjectVersion  - To delete a specific version of an object from a
+versioning-enabled bucket, you must have the s3:DeleteObjectVersion permission.
+Directory bucket permissions - To grant access to this API operation on a directory bucket,
+we recommend that you use the  CreateSession  API operation for session-based
+authorization. Specifically, you grant the s3express:CreateSession permission to the
+directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the
+CreateSession API call on the bucket to obtain a session token. With the session token in
+your request header, you can make API requests to this operation. After the session token
+expires, you make another CreateSession API call to generate a new session token for use.
+Amazon Web Services CLI or SDKs create session and refresh the session token automatically
+to avoid service interruptions when a session expires. For more information about
+authorization, see  CreateSession .    HTTP Host header syntax   Directory buckets  - The
+HTTP Host header syntax is  Bucket_name.s3express-az_id.region.amazonaws.com.   The
+following action is related to DeleteObject:    PutObject
 
 # Arguments
-- `bucket`: The bucket name of the bucket containing the object.  When using this action
-  with an access point, you must direct requests to the access point hostname. The access
-  point hostname takes the form
+- `bucket`: The bucket name of the bucket containing the object.   Directory buckets - When
+  you use this operation with a directory bucket, you must use virtual-hosted-style requests
+  in the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are
+  not supported. Directory bucket names must be unique in the chosen Availability Zone.
+  Bucket names must follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Key name of the object to delete.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"versionId"`: Version ID used to reference a specific version of the object.  For
+  directory buckets in this API operation, only the null value of the version ID is
+  supported.
 - `"x-amz-bypass-governance-retention"`: Indicates whether S3 Object Lock should bypass
   Governance-mode restrictions to process this operation. To use this header, you must have
-  the s3:BypassGovernanceRetention permission.
+  the s3:BypassGovernanceRetention permission.  This functionality is not supported for
+  directory buckets.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
   and the value that is displayed on your authentication device. Required to permanently
-  delete a versioned object if versioning is configured with MFA delete enabled.
+  delete a versioned object if versioning is configured with MFA delete enabled.  This
+  functionality is not supported for directory buckets.
 - `"x-amz-request-payer"`:
 """
 function delete_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1446,34 +1922,37 @@ end
     delete_object_tagging(bucket, key)
     delete_object_tagging(bucket, key, params::Dict{String,<:Any})
 
-Removes the entire tag set from the specified object. For more information about managing
-object tags, see  Object Tagging. To use this operation, you must have permission to
-perform the s3:DeleteObjectTagging action. To delete tags of a specific object version, add
-the versionId query parameter in the request. You will need permission for the
-s3:DeleteObjectVersionTagging action. The following operations are related to
-DeleteObjectTagging:    PutObjectTagging     GetObjectTagging
+ This operation is not supported by directory buckets.  Removes the entire tag set from the
+specified object. For more information about managing object tags, see  Object Tagging. To
+use this operation, you must have permission to perform the s3:DeleteObjectTagging action.
+To delete tags of a specific object version, add the versionId query parameter in the
+request. You will need permission for the s3:DeleteObjectVersionTagging action. The
+following operations are related to DeleteObjectTagging:    PutObjectTagging
+GetObjectTagging
 
 # Arguments
-- `bucket`: The bucket name containing the objects from which to remove the tags.  When
-  using this action with an access point, you must direct requests to the access point
-  hostname. The access point hostname takes the form
-  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
-  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
-  place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+- `bucket`: The bucket name containing the objects from which to remove the tags.   Access
+  points - When you use this action with an access point, you must provide the alias of the
+  access point in place of the bucket name or specify the access point ARN. When using the
+  access point ARN, you must direct requests to the access point hostname. The access point
+  hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
+  using this action with an access point through the Amazon Web Services SDKs, you provide
+  the access point ARN in place of the bucket name. For more information about access point
+  ARNs, see Using access points in the Amazon S3 User Guide.  S3 on Outposts - When you use
+  this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts
+  hostname. The S3 on Outposts hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: The key that identifies the object in the bucket from which to remove all tags.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"versionId"`: The versionId of the object that the tag-set will be removed from.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_object_tagging(
     Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1504,64 +1983,113 @@ end
     delete_objects(bucket, delete)
     delete_objects(bucket, delete, params::Dict{String,<:Any})
 
-This action enables you to delete multiple objects from a bucket using a single HTTP
-request. If you know the object keys that you want to delete, then this action provides a
-suitable alternative to sending individual delete requests, reducing per-request overhead.
-The request contains a list of up to 1000 keys that you want to delete. In the XML, you
-provide the object key names, and optionally, version IDs if you want to delete a specific
-version of the object from a versioning-enabled bucket. For each key, Amazon S3 performs a
-delete action and returns the result of that delete, success, or failure, in the response.
-Note that if the object specified in the request is not found, Amazon S3 returns the result
-as deleted.  The action supports two modes for the response: verbose and quiet. By default,
-the action uses verbose mode in which the response includes the result of deletion of each
-key in your request. In quiet mode the response includes only keys where the delete action
-encountered an error. For a successful deletion, the action does not return any information
-about the delete in the response body. When performing this action on an MFA Delete enabled
-bucket, that attempts to delete any versioned objects, you must include an MFA token. If
-you do not provide one, the entire request will fail, even if there are non-versioned
-objects you are trying to delete. If you provide an invalid token, whether there are
-versioned keys in the request or not, the entire Multi-Object Delete request will fail. For
-information about MFA Delete, see  MFA Delete. Finally, the Content-MD5 header is required
-for all Multi-Object Delete requests. Amazon S3 uses the header value to ensure that your
-request body has not been altered in transit. The following operations are related to
+This operation enables you to delete multiple objects from a bucket using a single HTTP
+request. If you know the object keys that you want to delete, then this operation provides
+a suitable alternative to sending individual delete requests, reducing per-request
+overhead. The request can contain a list of up to 1000 keys that you want to delete. In the
+XML, you provide the object key names, and optionally, version IDs if you want to delete a
+specific version of the object from a versioning-enabled bucket. For each key, Amazon S3
+performs a delete operation and returns the result of that delete, success or failure, in
+the response. Note that if the object specified in the request is not found, Amazon S3
+returns the result as deleted.     Directory buckets - S3 Versioning isn't enabled and
+supported for directory buckets.    Directory buckets - For directory buckets, you must
+make requests for this API operation to the Zonal endpoint. These endpoints support
+virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
+not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.    The operation supports two modes for the response: verbose and quiet. By default,
+the operation uses verbose mode in which the response includes the result of deletion of
+each key in your request. In quiet mode the response includes only keys where the delete
+operation encountered an error. For a successful deletion in a quiet mode, the operation
+does not return any information about the delete in the response body. When performing this
+action on an MFA Delete enabled bucket, that attempts to delete any versioned objects, you
+must include an MFA token. If you do not provide one, the entire request will fail, even if
+there are non-versioned objects you are trying to delete. If you provide an invalid token,
+whether there are versioned keys in the request or not, the entire Multi-Object Delete
+request will fail. For information about MFA Delete, see MFA Delete in the Amazon S3 User
+Guide.   Directory buckets - MFA delete is not supported by directory buckets.
+Permissions     General purpose bucket permissions - The following permissions are required
+in your policies when your DeleteObjects request includes specific headers.
+s3:DeleteObject  - To delete an object from a bucket, you must always specify the
+s3:DeleteObject permission.     s3:DeleteObjectVersion  - To delete a specific version of
+an object from a versiong-enabled bucket, you must specify the s3:DeleteObjectVersion
+permission.      Directory bucket permissions - To grant access to this API operation on a
+directory bucket, we recommend that you use the  CreateSession  API operation for
+session-based authorization. Specifically, you grant the s3express:CreateSession permission
+to the directory bucket in a bucket policy or an IAM identity-based policy. Then, you make
+the CreateSession API call on the bucket to obtain a session token. With the session token
+in your request header, you can make API requests to this operation. After the session
+token expires, you make another CreateSession API call to generate a new session token for
+use. Amazon Web Services CLI or SDKs create session and refresh the session token
+automatically to avoid service interruptions when a session expires. For more information
+about authorization, see  CreateSession .    Content-MD5 request header     General purpose
+bucket - The Content-MD5 request header is required for all Multi-Object Delete requests.
+Amazon S3 uses the header value to ensure that your request body has not been altered in
+transit.    Directory bucket - The Content-MD5 request header or a additional checksum
+request header (including x-amz-checksum-crc32, x-amz-checksum-crc32c, x-amz-checksum-sha1,
+or x-amz-checksum-sha256) is required for all Multi-Object Delete requests.    HTTP Host
+header syntax   Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
 DeleteObjects:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload
 ListParts     AbortMultipartUpload
 
 # Arguments
-- `bucket`: The bucket name containing the objects to delete.  When using this action with
-  an access point, you must direct requests to the access point hostname. The access point
-  hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
-  using this action with an access point through the Amazon Web Services SDKs, you provide
-  the access point ARN in place of the bucket name. For more information about access point
-  ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with
-  Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on
-  Outposts hostname takes the form
+- `bucket`: The bucket name containing the objects to delete.   Directory buckets - When
+  you use this operation with a directory bucket, you must use virtual-hosted-style requests
+  in the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are
+  not supported. Directory bucket names must be unique in the chosen Availability Zone.
+  Bucket names must follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
+  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
+  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
   action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   access point ARN in place of the bucket name. For more information about S3 on Outposts
-  ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `delete`: Container for the request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-bypass-governance-retention"`: Specifies whether you want to delete this object
   even if it has a Governance-type Object Lock in place. To use this header, you must have
-  the s3:BypassGovernanceRetention permission.
+  the s3:BypassGovernanceRetention permission.  This functionality is not supported for
+  directory buckets.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
   and the value that is displayed on your authentication device. Required to permanently
-  delete a versioned object if versioning is configured with MFA delete enabled.
+  delete a versioned object if versioning is configured with MFA delete enabled. When
+  performing the DeleteObjects operation on an MFA delete enabled bucket, which attempts to
+  delete the specified versioned objects, you must include an MFA token. If you don't provide
+  an MFA token, the entire request will fail, even if there are non-versioned objects that
+  you are trying to delete. If you provide an invalid token, whether there are versioned
+  object keys in the request or not, the entire Multi-Object Delete request will fail. For
+  information about MFA Delete, see  MFA Delete in the Amazon S3 User Guide.  This
+  functionality is not supported for directory buckets.
 - `"x-amz-request-payer"`:
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter. This checksum algorithm must be the same for all parts and it
-  match the checksum value supplied in the CreateMultipartUpload request.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum-algorithm  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the
+  request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm
+  header, replace  algorithm  with the supported algorithm from the following list:    CRC32
+   CRC32C   SHA1   SHA256   For more information, see Checking object integrity in the Amazon
+  S3 User Guide. If the individual checksum value you provide through
+  x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through
+  x-amz-sdk-checksum-algorithm, Amazon S3 ignores any provided ChecksumAlgorithm parameter
+  and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm
+  . If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm
+  parameter.
 """
 function delete_objects(Bucket, Delete; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -1591,12 +2119,13 @@ end
     delete_public_access_block(bucket)
     delete_public_access_block(bucket, params::Dict{String,<:Any})
 
-Removes the PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation,
-you must have the s3:PutBucketPublicAccessBlock permission. For more information about
-permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
-Permissions to Your Amazon S3 Resources. The following operations are related to
-DeletePublicAccessBlock:    Using Amazon S3 Block Public Access     GetPublicAccessBlock
- PutPublicAccessBlock     GetBucketPolicyStatus
+ This operation is not supported by directory buckets.  Removes the PublicAccessBlock
+configuration for an Amazon S3 bucket. To use this operation, you must have the
+s3:PutBucketPublicAccessBlock permission. For more information about permissions, see
+Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
+Your Amazon S3 Resources. The following operations are related to DeletePublicAccessBlock:
+  Using Amazon S3 Block Public Access     GetPublicAccessBlock     PutPublicAccessBlock
+GetBucketPolicyStatus
 
 # Arguments
 - `bucket`: The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete.
@@ -1604,8 +2133,8 @@ DeletePublicAccessBlock:    Using Amazon S3 Block Public Access     GetPublicAcc
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function delete_public_access_block(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1633,15 +2162,16 @@ end
     get_bucket_accelerate_configuration(bucket)
     get_bucket_accelerate_configuration(bucket, params::Dict{String,<:Any})
 
-This implementation of the GET action uses the accelerate subresource to return the
-Transfer Acceleration state of a bucket, which is either Enabled or Suspended. Amazon S3
-Transfer Acceleration is a bucket-level feature that enables you to perform faster data
-transfers to and from Amazon S3. To use this operation, you must have permission to perform
-the s3:GetAccelerateConfiguration action. The bucket owner has this permission by default.
-The bucket owner can grant this permission to others. For more information about
-permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
-Permissions to your Amazon S3 Resources in the Amazon S3 User Guide. You set the Transfer
-Acceleration state of an existing bucket to Enabled or Suspended by using the
+ This operation is not supported by directory buckets.  This implementation of the GET
+action uses the accelerate subresource to return the Transfer Acceleration state of a
+bucket, which is either Enabled or Suspended. Amazon S3 Transfer Acceleration is a
+bucket-level feature that enables you to perform faster data transfers to and from Amazon
+S3. To use this operation, you must have permission to perform the
+s3:GetAccelerateConfiguration action. The bucket owner has this permission by default. The
+bucket owner can grant this permission to others. For more information about permissions,
+see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
+your Amazon S3 Resources in the Amazon S3 User Guide. You set the Transfer Acceleration
+state of an existing bucket to Enabled or Suspended by using the
 PutBucketAccelerateConfiguration operation.  A GET accelerate request does not return a
 state value for a bucket that has no transfer acceleration state. A bucket has no Transfer
 Acceleration state if a state has never been set on the bucket.  For more information about
@@ -1655,8 +2185,9 @@ PutBucketAccelerateConfiguration
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
+- `"x-amz-request-payer"`:
 """
 function get_bucket_accelerate_configuration(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1684,34 +2215,36 @@ end
     get_bucket_acl(bucket)
     get_bucket_acl(bucket, params::Dict{String,<:Any})
 
-This implementation of the GET action uses the acl subresource to return the access control
-list (ACL) of a bucket. To use GET to return the ACL of the bucket, you must have READ_ACP
-access to the bucket. If READ_ACP permission is granted to the anonymous user, you can
-return the ACL of the bucket without using an authorization header. To use this API
-operation against an access point, provide the alias of the access point in place of the
-bucket name. To use this API operation against an Object Lambda access point, provide the
-alias of the Object Lambda access point in place of the bucket name. If the Object Lambda
-access point alias in a request is not valid, the error code InvalidAccessPointAliasError
-is returned. For more information about InvalidAccessPointAliasError, see List of Error
-Codes.  If your bucket uses the bucket owner enforced setting for S3 Object Ownership,
-requests to read ACLs are still supported and return the bucket-owner-full-control ACL with
-the owner being the account that created the bucket. For more information, see  Controlling
-object ownership and disabling ACLs in the Amazon S3 User Guide.  The following operations
-are related to GetBucketAcl:    ListObjects
+ This operation is not supported by directory buckets.  This implementation of the GET
+action uses the acl subresource to return the access control list (ACL) of a bucket. To use
+GET to return the ACL of the bucket, you must have the READ_ACP access to the bucket. If
+READ_ACP permission is granted to the anonymous user, you can return the ACL of the bucket
+without using an authorization header. When you use this API operation with an access
+point, provide the alias of the access point in place of the bucket name. When you use this
+API operation with an Object Lambda access point, provide the alias of the Object Lambda
+access point in place of the bucket name. If the Object Lambda access point alias in a
+request is not valid, the error code InvalidAccessPointAliasError is returned. For more
+information about InvalidAccessPointAliasError, see List of Error Codes.  If your bucket
+uses the bucket owner enforced setting for S3 Object Ownership, requests to read ACLs are
+still supported and return the bucket-owner-full-control ACL with the owner being the
+account that created the bucket. For more information, see  Controlling object ownership
+and disabling ACLs in the Amazon S3 User Guide.  The following operations are related to
+GetBucketAcl:    ListObjects
 
 # Arguments
-- `bucket`: Specifies the S3 bucket whose ACL is being requested. To use this API operation
-  against an access point, provide the alias of the access point in place of the bucket name.
-  To use this API operation against an Object Lambda access point, provide the alias of the
-  Object Lambda access point in place of the bucket name. If the Object Lambda access point
-  alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
-  For more information about InvalidAccessPointAliasError, see List of Error Codes.
+- `bucket`: Specifies the S3 bucket whose ACL is being requested. When you use this API
+  operation with an access point, provide the alias of the access point in place of the
+  bucket name. When you use this API operation with an Object Lambda access point, provide
+  the alias of the Object Lambda access point in place of the bucket name. If the Object
+  Lambda access point alias in a request is not valid, the error code
+  InvalidAccessPointAliasError is returned. For more information about
+  InvalidAccessPointAliasError, see List of Error Codes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -1734,16 +2267,17 @@ end
     get_bucket_analytics_configuration(bucket, id)
     get_bucket_analytics_configuration(bucket, id, params::Dict{String,<:Any})
 
-This implementation of the GET action returns an analytics configuration (identified by the
-analytics configuration ID) from the bucket. To use this operation, you must have
-permissions to perform the s3:GetAnalyticsConfiguration action. The bucket owner has this
-permission by default. The bucket owner can grant this permission to others. For more
-information about permissions, see  Permissions Related to Bucket Subresource Operations
-and Managing Access Permissions to Your Amazon S3 Resources in the Amazon S3 User Guide.
-For information about Amazon S3 analytics feature, see Amazon S3 Analytics – Storage
-Class Analysis in the Amazon S3 User Guide. The following operations are related to
-GetBucketAnalyticsConfiguration:    DeleteBucketAnalyticsConfiguration
-ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
+ This operation is not supported by directory buckets.  This implementation of the GET
+action returns an analytics configuration (identified by the analytics configuration ID)
+from the bucket. To use this operation, you must have permissions to perform the
+s3:GetAnalyticsConfiguration action. The bucket owner has this permission by default. The
+bucket owner can grant this permission to others. For more information about permissions,
+see  Permissions Related to Bucket Subresource Operations and Managing Access Permissions
+to Your Amazon S3 Resources in the Amazon S3 User Guide.  For information about Amazon S3
+analytics feature, see Amazon S3 Analytics – Storage Class Analysis in the Amazon S3 User
+Guide. The following operations are related to GetBucketAnalyticsConfiguration:
+DeleteBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations
+PutBucketAnalyticsConfiguration
 
 # Arguments
 - `bucket`: The name of the bucket from which an analytics configuration is retrieved.
@@ -1752,8 +2286,8 @@ ListBucketAnalyticsConfigurations     PutBucketAnalyticsConfiguration
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_analytics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1785,32 +2319,32 @@ end
     get_bucket_cors(bucket)
     get_bucket_cors(bucket, params::Dict{String,<:Any})
 
-Returns the Cross-Origin Resource Sharing (CORS) configuration information set for the
-bucket.  To use this operation, you must have permission to perform the s3:GetBucketCORS
-action. By default, the bucket owner has this permission and can grant it to others. To use
-this API operation against an access point, provide the alias of the access point in place
-of the bucket name. To use this API operation against an Object Lambda access point,
-provide the alias of the Object Lambda access point in place of the bucket name. If the
-Object Lambda access point alias in a request is not valid, the error code
-InvalidAccessPointAliasError is returned. For more information about
-InvalidAccessPointAliasError, see List of Error Codes.  For more information about CORS,
-see  Enabling Cross-Origin Resource Sharing. The following operations are related to
-GetBucketCors:    PutBucketCors     DeleteBucketCors
+ This operation is not supported by directory buckets.  Returns the Cross-Origin Resource
+Sharing (CORS) configuration information set for the bucket.  To use this operation, you
+must have permission to perform the s3:GetBucketCORS action. By default, the bucket owner
+has this permission and can grant it to others. When you use this API operation with an
+access point, provide the alias of the access point in place of the bucket name. When you
+use this API operation with an Object Lambda access point, provide the alias of the Object
+Lambda access point in place of the bucket name. If the Object Lambda access point alias in
+a request is not valid, the error code InvalidAccessPointAliasError is returned. For more
+information about InvalidAccessPointAliasError, see List of Error Codes.  For more
+information about CORS, see  Enabling Cross-Origin Resource Sharing. The following
+operations are related to GetBucketCors:    PutBucketCors     DeleteBucketCors
 
 # Arguments
-- `bucket`: The bucket name for which to get the cors configuration. To use this API
-  operation against an access point, provide the alias of the access point in place of the
-  bucket name. To use this API operation against an Object Lambda access point, provide the
-  alias of the Object Lambda access point in place of the bucket name. If the Object Lambda
-  access point alias in a request is not valid, the error code InvalidAccessPointAliasError
-  is returned. For more information about InvalidAccessPointAliasError, see List of Error
-  Codes.
+- `bucket`: The bucket name for which to get the cors configuration. When you use this API
+  operation with an access point, provide the alias of the access point in place of the
+  bucket name. When you use this API operation with an Object Lambda access point, provide
+  the alias of the Object Lambda access point in place of the bucket name. If the Object
+  Lambda access point alias in a request is not valid, the error code
+  InvalidAccessPointAliasError is returned. For more information about
+  InvalidAccessPointAliasError, see List of Error Codes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -1833,16 +2367,16 @@ end
     get_bucket_encryption(bucket)
     get_bucket_encryption(bucket, params::Dict{String,<:Any})
 
-Returns the default encryption configuration for an Amazon S3 bucket. By default, all
-buckets have a default encryption configuration that uses server-side encryption with
-Amazon S3 managed keys (SSE-S3). For information about the bucket default encryption
-feature, see Amazon S3 Bucket Default Encryption in the Amazon S3 User Guide. To use this
-operation, you must have permission to perform the s3:GetEncryptionConfiguration action.
-The bucket owner has this permission by default. The bucket owner can grant this permission
-to others. For more information about permissions, see Permissions Related to Bucket
-Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. The
-following operations are related to GetBucketEncryption:    PutBucketEncryption
-DeleteBucketEncryption
+ This operation is not supported by directory buckets.  Returns the default encryption
+configuration for an Amazon S3 bucket. By default, all buckets have a default encryption
+configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). For
+information about the bucket default encryption feature, see Amazon S3 Bucket Default
+Encryption in the Amazon S3 User Guide. To use this operation, you must have permission to
+perform the s3:GetEncryptionConfiguration action. The bucket owner has this permission by
+default. The bucket owner can grant this permission to others. For more information about
+permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
+Permissions to Your Amazon S3 Resources. The following operations are related to
+GetBucketEncryption:    PutBucketEncryption     DeleteBucketEncryption
 
 # Arguments
 - `bucket`: The name of the bucket from which the server-side encryption configuration is
@@ -1851,8 +2385,8 @@ DeleteBucketEncryption
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -1878,21 +2412,22 @@ end
     get_bucket_intelligent_tiering_configuration(bucket, id)
     get_bucket_intelligent_tiering_configuration(bucket, id, params::Dict{String,<:Any})
 
-Gets the S3 Intelligent-Tiering configuration from the specified bucket. The S3
-Intelligent-Tiering storage class is designed to optimize storage costs by automatically
-moving data to the most cost-effective storage access tier, without performance impact or
-operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low
-latency and high throughput access tiers. To get the lowest storage cost on data that can
-be accessed in minutes to hours, you can choose to activate additional archiving
-capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data
-with unknown, changing, or unpredictable access patterns, independent of object size or
-retention period. If the size of an object is less than 128 KB, it is not monitored and not
-eligible for auto-tiering. Smaller objects can be stored, but they are always charged at
-the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more
-information, see Storage class for automatically optimizing frequently and infrequently
-accessed objects. Operations related to GetBucketIntelligentTieringConfiguration include:
-  DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
-   ListBucketIntelligentTieringConfigurations
+ This operation is not supported by directory buckets.  Gets the S3 Intelligent-Tiering
+configuration from the specified bucket. The S3 Intelligent-Tiering storage class is
+designed to optimize storage costs by automatically moving data to the most cost-effective
+storage access tier, without performance impact or operational overhead. S3
+Intelligent-Tiering delivers automatic cost savings in three low latency and high
+throughput access tiers. To get the lowest storage cost on data that can be accessed in
+minutes to hours, you can choose to activate additional archiving capabilities. The S3
+Intelligent-Tiering storage class is the ideal storage class for data with unknown,
+changing, or unpredictable access patterns, independent of object size or retention period.
+If the size of an object is less than 128 KB, it is not monitored and not eligible for
+auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
+Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
+Storage class for automatically optimizing frequently and infrequently accessed objects.
+Operations related to GetBucketIntelligentTieringConfiguration include:
+DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
+ ListBucketIntelligentTieringConfigurations
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
@@ -1930,15 +2465,15 @@ end
     get_bucket_inventory_configuration(bucket, id)
     get_bucket_inventory_configuration(bucket, id, params::Dict{String,<:Any})
 
-Returns an inventory configuration (identified by the inventory configuration ID) from the
-bucket. To use this operation, you must have permissions to perform the
-s3:GetInventoryConfiguration action. The bucket owner has this permission by default and
-can grant this permission to others. For more information about permissions, see
-Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
-Your Amazon S3 Resources. For information about the Amazon S3 inventory feature, see Amazon
-S3 Inventory. The following operations are related to GetBucketInventoryConfiguration:
-DeleteBucketInventoryConfiguration     ListBucketInventoryConfigurations
-PutBucketInventoryConfiguration
+ This operation is not supported by directory buckets.  Returns an inventory configuration
+(identified by the inventory configuration ID) from the bucket. To use this operation, you
+must have permissions to perform the s3:GetInventoryConfiguration action. The bucket owner
+has this permission by default and can grant this permission to others. For more
+information about permissions, see Permissions Related to Bucket Subresource Operations and
+Managing Access Permissions to Your Amazon S3 Resources. For information about the Amazon
+S3 inventory feature, see Amazon S3 Inventory. The following operations are related to
+GetBucketInventoryConfiguration:    DeleteBucketInventoryConfiguration
+ListBucketInventoryConfigurations     PutBucketInventoryConfiguration
 
 # Arguments
 - `bucket`: The name of the bucket containing the inventory configuration to retrieve.
@@ -1947,8 +2482,8 @@ PutBucketInventoryConfiguration
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_inventory_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1982,17 +2517,18 @@ end
 
  For an updated version of this API, see GetBucketLifecycleConfiguration. If you configured
 a bucket lifecycle using the filter element, you should see the updated version of this
-topic. This topic is provided for backward compatibility.  Returns the lifecycle
-configuration information set on the bucket. For information about lifecycle configuration,
-see Object Lifecycle Management.  To use this operation, you must have permission to
-perform the s3:GetLifecycleConfiguration action. The bucket owner has this permission by
-default. The bucket owner can grant this permission to others. For more information about
-permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
-Permissions to Your Amazon S3 Resources.  GetBucketLifecycle has the following special
-error:   Error code: NoSuchLifecycleConfiguration    Description: The lifecycle
-configuration does not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix:
-Client     The following operations are related to GetBucketLifecycle:
-GetBucketLifecycleConfiguration     PutBucketLifecycle     DeleteBucketLifecycle
+topic. This topic is provided for backward compatibility.   This operation is not supported
+by directory buckets.  Returns the lifecycle configuration information set on the bucket.
+For information about lifecycle configuration, see Object Lifecycle Management.  To use
+this operation, you must have permission to perform the s3:GetLifecycleConfiguration
+action. The bucket owner has this permission by default. The bucket owner can grant this
+permission to others. For more information about permissions, see Permissions Related to
+Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.
+GetBucketLifecycle has the following special error:   Error code:
+NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.
+HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The following
+operations are related to GetBucketLifecycle:    GetBucketLifecycleConfiguration
+PutBucketLifecycle     DeleteBucketLifecycle
 
 # Arguments
 - `bucket`: The name of the bucket for which to get the lifecycle information.
@@ -2000,8 +2536,8 @@ GetBucketLifecycleConfiguration     PutBucketLifecycle     DeleteBucketLifecycle
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2027,22 +2563,26 @@ end
     get_bucket_lifecycle_configuration(bucket)
     get_bucket_lifecycle_configuration(bucket, params::Dict{String,<:Any})
 
- Bucket lifecycle configuration now supports specifying a lifecycle rule using an object
-key name prefix, one or more object tags, or a combination of both. Accordingly, this
-section describes the latest API. The response describes the new filter element that you
-can use to specify a filter to select a subset of objects to which the rule applies. If you
-are using a previous version of the lifecycle configuration, it still works. For the
-earlier action, see GetBucketLifecycle.  Returns the lifecycle configuration information
-set on the bucket. For information about lifecycle configuration, see Object Lifecycle
-Management. To use this operation, you must have permission to perform the
-s3:GetLifecycleConfiguration action. The bucket owner has this permission, by default. The
-bucket owner can grant this permission to others. For more information about permissions,
-see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
-Your Amazon S3 Resources.  GetBucketLifecycleConfiguration has the following special error:
-  Error code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does
-not exist.   HTTP Status Code: 404 Not Found   SOAP Fault Code Prefix: Client     The
-following operations are related to GetBucketLifecycleConfiguration:    GetBucketLifecycle
-   PutBucketLifecycle     DeleteBucketLifecycle
+ This operation is not supported by directory buckets.   Bucket lifecycle configuration now
+supports specifying a lifecycle rule using an object key name prefix, one or more object
+tags, object size, or any combination of these. Accordingly, this section describes the
+latest API. The previous version of the API supported filtering based only on an object key
+name prefix, which is supported for backward compatibility. For the related API
+description, see GetBucketLifecycle. Accordingly, this section describes the latest API.
+The response describes the new filter element that you can use to specify a filter to
+select a subset of objects to which the rule applies. If you are using a previous version
+of the lifecycle configuration, it still works. For the earlier action,   Returns the
+lifecycle configuration information set on the bucket. For information about lifecycle
+configuration, see Object Lifecycle Management. To use this operation, you must have
+permission to perform the s3:GetLifecycleConfiguration action. The bucket owner has this
+permission, by default. The bucket owner can grant this permission to others. For more
+information about permissions, see Permissions Related to Bucket Subresource Operations and
+Managing Access Permissions to Your Amazon S3 Resources.  GetBucketLifecycleConfiguration
+has the following special error:   Error code: NoSuchLifecycleConfiguration    Description:
+The lifecycle configuration does not exist.   HTTP Status Code: 404 Not Found   SOAP Fault
+Code Prefix: Client     The following operations are related to
+GetBucketLifecycleConfiguration:    GetBucketLifecycle     PutBucketLifecycle
+DeleteBucketLifecycle
 
 # Arguments
 - `bucket`: The name of the bucket for which to get the lifecycle information.
@@ -2050,8 +2590,8 @@ following operations are related to GetBucketLifecycleConfiguration:    GetBucke
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_lifecycle_configuration(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2079,31 +2619,33 @@ end
     get_bucket_location(bucket)
     get_bucket_location(bucket, params::Dict{String,<:Any})
 
-Returns the Region the bucket resides in. You set the bucket's Region using the
-LocationConstraint request parameter in a CreateBucket request. For more information, see
-CreateBucket. To use this API operation against an access point, provide the alias of the
-access point in place of the bucket name. To use this API operation against an Object
-Lambda access point, provide the alias of the Object Lambda access point in place of the
-bucket name. If the Object Lambda access point alias in a request is not valid, the error
-code InvalidAccessPointAliasError is returned. For more information about
+ This operation is not supported by directory buckets.  Returns the Region the bucket
+resides in. You set the bucket's Region using the LocationConstraint request parameter in a
+CreateBucket request. For more information, see CreateBucket. When you use this API
+operation with an access point, provide the alias of the access point in place of the
+bucket name. When you use this API operation with an Object Lambda access point, provide
+the alias of the Object Lambda access point in place of the bucket name. If the Object
+Lambda access point alias in a request is not valid, the error code
+InvalidAccessPointAliasError is returned. For more information about
 InvalidAccessPointAliasError, see List of Error Codes.  We recommend that you use
 HeadBucket to return the Region that a bucket resides in. For backward compatibility,
 Amazon S3 continues to support GetBucketLocation.  The following operations are related to
 GetBucketLocation:    GetObject     CreateBucket
 
 # Arguments
-- `bucket`: The name of the bucket for which to get the location. To use this API operation
-  against an access point, provide the alias of the access point in place of the bucket name.
-  To use this API operation against an Object Lambda access point, provide the alias of the
-  Object Lambda access point in place of the bucket name. If the Object Lambda access point
-  alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
-  For more information about InvalidAccessPointAliasError, see List of Error Codes.
+- `bucket`: The name of the bucket for which to get the location. When you use this API
+  operation with an access point, provide the alias of the access point in place of the
+  bucket name. When you use this API operation with an Object Lambda access point, provide
+  the alias of the Object Lambda access point in place of the bucket name. If the Object
+  Lambda access point alias in a request is not valid, the error code
+  InvalidAccessPointAliasError is returned. For more information about
+  InvalidAccessPointAliasError, see List of Error Codes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_location(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2126,9 +2668,9 @@ end
     get_bucket_logging(bucket)
     get_bucket_logging(bucket, params::Dict{String,<:Any})
 
-Returns the logging status of a bucket and the permissions users have to view and modify
-that status. The following operations are related to GetBucketLogging:    CreateBucket
-PutBucketLogging
+ This operation is not supported by directory buckets.  Returns the logging status of a
+bucket and the permissions users have to view and modify that status. The following
+operations are related to GetBucketLogging:    CreateBucket     PutBucketLogging
 
 # Arguments
 - `bucket`: The bucket name for which to get the logging information.
@@ -2136,8 +2678,8 @@ PutBucketLogging
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_logging(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2160,16 +2702,17 @@ end
     get_bucket_metrics_configuration(bucket, id)
     get_bucket_metrics_configuration(bucket, id, params::Dict{String,<:Any})
 
-Gets a metrics configuration (specified by the metrics configuration ID) from the bucket.
-Note that this doesn't include the daily storage metrics.  To use this operation, you must
-have permissions to perform the s3:GetMetricsConfiguration action. The bucket owner has
-this permission by default. The bucket owner can grant this permission to others. For more
-information about permissions, see Permissions Related to Bucket Subresource Operations and
-Managing Access Permissions to Your Amazon S3 Resources.  For information about CloudWatch
-request metrics for Amazon S3, see Monitoring Metrics with Amazon CloudWatch. The following
-operations are related to GetBucketMetricsConfiguration:    PutBucketMetricsConfiguration
-  DeleteBucketMetricsConfiguration     ListBucketMetricsConfigurations     Monitoring
-Metrics with Amazon CloudWatch
+ This operation is not supported by directory buckets.  Gets a metrics configuration
+(specified by the metrics configuration ID) from the bucket. Note that this doesn't include
+the daily storage metrics.  To use this operation, you must have permissions to perform the
+s3:GetMetricsConfiguration action. The bucket owner has this permission by default. The
+bucket owner can grant this permission to others. For more information about permissions,
+see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
+Your Amazon S3 Resources.  For information about CloudWatch request metrics for Amazon S3,
+see Monitoring Metrics with Amazon CloudWatch. The following operations are related to
+GetBucketMetricsConfiguration:    PutBucketMetricsConfiguration
+DeleteBucketMetricsConfiguration     ListBucketMetricsConfigurations     Monitoring Metrics
+with Amazon CloudWatch
 
 # Arguments
 - `bucket`: The name of the bucket containing the metrics configuration to retrieve.
@@ -2179,8 +2722,8 @@ Metrics with Amazon CloudWatch
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_metrics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2212,22 +2755,23 @@ end
     get_bucket_notification(bucket)
     get_bucket_notification(bucket, params::Dict{String,<:Any})
 
- No longer used, see GetBucketNotificationConfiguration.
+ This operation is not supported by directory buckets.   No longer used, see
+GetBucketNotificationConfiguration.
 
 # Arguments
-- `bucket`: The name of the bucket for which to get the notification configuration. To use
-  this API operation against an access point, provide the alias of the access point in place
-  of the bucket name. To use this API operation against an Object Lambda access point,
-  provide the alias of the Object Lambda access point in place of the bucket name. If the
-  Object Lambda access point alias in a request is not valid, the error code
+- `bucket`: The name of the bucket for which to get the notification configuration. When
+  you use this API operation with an access point, provide the alias of the access point in
+  place of the bucket name. When you use this API operation with an Object Lambda access
+  point, provide the alias of the Object Lambda access point in place of the bucket name. If
+  the Object Lambda access point alias in a request is not valid, the error code
   InvalidAccessPointAliasError is returned. For more information about
   InvalidAccessPointAliasError, see List of Error Codes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_notification(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2253,35 +2797,35 @@ end
     get_bucket_notification_configuration(bucket)
     get_bucket_notification_configuration(bucket, params::Dict{String,<:Any})
 
-Returns the notification configuration of a bucket. If notifications are not enabled on the
-bucket, the action returns an empty NotificationConfiguration element. By default, you must
-be the bucket owner to read the notification configuration of a bucket. However, the bucket
-owner can use a bucket policy to grant permission to other users to read this configuration
-with the s3:GetBucketNotification permission. To use this API operation against an access
-point, provide the alias of the access point in place of the bucket name. To use this API
-operation against an Object Lambda access point, provide the alias of the Object Lambda
-access point in place of the bucket name. If the Object Lambda access point alias in a
-request is not valid, the error code InvalidAccessPointAliasError is returned. For more
-information about InvalidAccessPointAliasError, see List of Error Codes. For more
-information about setting and reading the notification configuration on a bucket, see
-Setting Up Notification of Bucket Events. For more information about bucket policies, see
-Using Bucket Policies. The following action is related to GetBucketNotification:
-PutBucketNotification
+ This operation is not supported by directory buckets.  Returns the notification
+configuration of a bucket. If notifications are not enabled on the bucket, the action
+returns an empty NotificationConfiguration element. By default, you must be the bucket
+owner to read the notification configuration of a bucket. However, the bucket owner can use
+a bucket policy to grant permission to other users to read this configuration with the
+s3:GetBucketNotification permission. When you use this API operation with an access point,
+provide the alias of the access point in place of the bucket name. When you use this API
+operation with an Object Lambda access point, provide the alias of the Object Lambda access
+point in place of the bucket name. If the Object Lambda access point alias in a request is
+not valid, the error code InvalidAccessPointAliasError is returned. For more information
+about InvalidAccessPointAliasError, see List of Error Codes. For more information about
+setting and reading the notification configuration on a bucket, see Setting Up Notification
+of Bucket Events. For more information about bucket policies, see Using Bucket Policies.
+The following action is related to GetBucketNotification:    PutBucketNotification
 
 # Arguments
-- `bucket`: The name of the bucket for which to get the notification configuration. To use
-  this API operation against an access point, provide the alias of the access point in place
-  of the bucket name. To use this API operation against an Object Lambda access point,
-  provide the alias of the Object Lambda access point in place of the bucket name. If the
-  Object Lambda access point alias in a request is not valid, the error code
+- `bucket`: The name of the bucket for which to get the notification configuration. When
+  you use this API operation with an access point, provide the alias of the access point in
+  place of the bucket name. When you use this API operation with an Object Lambda access
+  point, provide the alias of the Object Lambda access point in place of the bucket name. If
+  the Object Lambda access point alias in a request is not valid, the error code
   InvalidAccessPointAliasError is returned. For more information about
   InvalidAccessPointAliasError, see List of Error Codes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_notification_configuration(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2309,12 +2853,12 @@ end
     get_bucket_ownership_controls(bucket)
     get_bucket_ownership_controls(bucket, params::Dict{String,<:Any})
 
-Retrieves OwnershipControls for an Amazon S3 bucket. To use this operation, you must have
-the s3:GetBucketOwnershipControls permission. For more information about Amazon S3
-permissions, see Specifying permissions in a policy.  For information about Amazon S3
-Object Ownership, see Using Object Ownership.  The following operations are related to
-GetBucketOwnershipControls:    PutBucketOwnershipControls     DeleteBucketOwnershipControls
-
+ This operation is not supported by directory buckets.  Retrieves OwnershipControls for an
+Amazon S3 bucket. To use this operation, you must have the s3:GetBucketOwnershipControls
+permission. For more information about Amazon S3 permissions, see Specifying permissions in
+a policy.  For information about Amazon S3 Object Ownership, see Using Object Ownership.
+The following operations are related to GetBucketOwnershipControls:
+PutBucketOwnershipControls     DeleteBucketOwnershipControls
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose OwnershipControls you want to retrieve.
@@ -2322,8 +2866,8 @@ GetBucketOwnershipControls:    PutBucketOwnershipControls     DeleteBucketOwners
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_ownership_controls(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2351,8 +2895,13 @@ end
     get_bucket_policy(bucket)
     get_bucket_policy(bucket, params::Dict{String,<:Any})
 
-Returns the policy of a specified bucket. If you are using an identity other than the root
-user of the Amazon Web Services account that owns the bucket, the calling identity must
+Returns the policy of a specified bucket.   Directory buckets  - For directory buckets, you
+must make requests for this API operation to the Regional endpoint. These endpoints support
+path-style requests in the format
+https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+requests aren't supported. For more information, see Regional and Zonal endpoints in the
+Amazon S3 User Guide.   Permissions  If you are using an identity other than the root user
+of the Amazon Web Services account that owns the bucket, the calling identity must both
 have the GetBucketPolicy permissions on the specified bucket and belong to the bucket
 owner's account in order to use this operation. If you don't have GetBucketPolicy
 permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct
@@ -2362,29 +2911,46 @@ inadvertently lock themselves out of their own buckets, the root principal in a 
 owner's Amazon Web Services account can perform the GetBucketPolicy, PutBucketPolicy, and
 DeleteBucketPolicy API actions, even if their bucket policy explicitly denies the root
 principal's access. Bucket owner root principals can only be blocked from performing these
-API actions by VPC endpoint policies and Amazon Web Services Organizations policies.  To
-use this API operation against an access point, provide the alias of the access point in
-place of the bucket name. To use this API operation against an Object Lambda access point,
-provide the alias of the Object Lambda access point in place of the bucket name. If the
-Object Lambda access point alias in a request is not valid, the error code
-InvalidAccessPointAliasError is returned. For more information about
-InvalidAccessPointAliasError, see List of Error Codes. For more information about bucket
-policies, see Using Bucket Policies and User Policies. The following action is related to
+API actions by VPC endpoint policies and Amazon Web Services Organizations policies.
+General purpose bucket permissions - The s3:GetBucketPolicy permission is required in a
+policy. For more information about general purpose buckets bucket policies, see Using
+Bucket Policies and User Policies in the Amazon S3 User Guide.    Directory bucket
+permissions - To grant access to this API operation, you must have the
+s3express:GetBucketPolicy permission in an IAM identity-based policy instead of a bucket
+policy. Cross-account access to this API operation isn't supported. This operation can only
+be performed by the Amazon Web Services account that owns the resource. For more
+information about directory bucket policies and permissions, see Amazon Web Services
+Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.
+ Example bucket policies   General purpose buckets example bucket policies - See Bucket
+policy examples in the Amazon S3 User Guide.  Directory bucket example bucket policies -
+See Example bucket policies for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host
+header syntax   Directory buckets  - The HTTP Host header syntax is
+s3express-control.region.amazonaws.com.   The following action is related to
 GetBucketPolicy:    GetObject
 
 # Arguments
-- `bucket`: The bucket name for which to get the bucket policy. To use this API operation
-  against an access point, provide the alias of the access point in place of the bucket name.
-  To use this API operation against an Object Lambda access point, provide the alias of the
-  Object Lambda access point in place of the bucket name. If the Object Lambda access point
-  alias in a request is not valid, the error code InvalidAccessPointAliasError is returned.
-  For more information about InvalidAccessPointAliasError, see List of Error Codes.
+- `bucket`: The bucket name to get the bucket policy for.  Directory buckets  - When you
+  use this operation with a directory bucket, you must use path-style requests in the format
+  https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+  requests aren't supported. Directory bucket names must be unique in the chosen Availability
+  Zone. Bucket names must also follow the format  bucket_base_name--az_id--x-s3 (for example,
+   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide   Access points - When you use
+  this API operation with an access point, provide the alias of the access point in place of
+  the bucket name.  Object Lambda access points - When you use this API operation with an
+  Object Lambda access point, provide the alias of the Object Lambda access point in place of
+  the bucket name. If the Object Lambda access point alias in a request is not valid, the
+  error code InvalidAccessPointAliasError is returned. For more information about
+  InvalidAccessPointAliasError, see List of Error Codes.  Access points and Object Lambda
+  access points are not supported by directory buckets.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this
+  header is not supported in this API operation. If you specify this header, the request
+  fails with the HTTP status code 501 Not Implemented.
 """
 function get_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2407,13 +2973,13 @@ end
     get_bucket_policy_status(bucket)
     get_bucket_policy_status(bucket, params::Dict{String,<:Any})
 
-Retrieves the policy status for an Amazon S3 bucket, indicating whether the bucket is
-public. In order to use this operation, you must have the s3:GetBucketPolicyStatus
-permission. For more information about Amazon S3 permissions, see Specifying Permissions in
-a Policy.  For more information about when Amazon S3 considers a bucket public, see The
-Meaning of \"Public\".  The following operations are related to GetBucketPolicyStatus:
-Using Amazon S3 Block Public Access     GetPublicAccessBlock     PutPublicAccessBlock
-DeletePublicAccessBlock
+ This operation is not supported by directory buckets.  Retrieves the policy status for an
+Amazon S3 bucket, indicating whether the bucket is public. In order to use this operation,
+you must have the s3:GetBucketPolicyStatus permission. For more information about Amazon S3
+permissions, see Specifying Permissions in a Policy.  For more information about when
+Amazon S3 considers a bucket public, see The Meaning of \"Public\".  The following
+operations are related to GetBucketPolicyStatus:    Using Amazon S3 Block Public Access
+GetPublicAccessBlock     PutPublicAccessBlock     DeletePublicAccessBlock
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose policy status you want to retrieve.
@@ -2421,8 +2987,8 @@ DeletePublicAccessBlock
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_policy_status(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2448,17 +3014,17 @@ end
     get_bucket_replication(bucket)
     get_bucket_replication(bucket, params::Dict{String,<:Any})
 
-Returns the replication configuration of a bucket.   It can take a while to propagate the
-put or delete a replication configuration to all Amazon S3 systems. Therefore, a get
-request soon after put or delete can return a wrong result.    For information about
-replication configuration, see Replication in the Amazon S3 User Guide. This action
-requires permissions for the s3:GetReplicationConfiguration action. For more information
-about permissions, see Using Bucket Policies and User Policies. If you include the Filter
-element in a replication configuration, you must also include the DeleteMarkerReplication
-and Priority elements. The response also returns those elements. For information about
-GetBucketReplication errors, see List of replication-related error codes  The following
-operations are related to GetBucketReplication:    PutBucketReplication
-DeleteBucketReplication
+ This operation is not supported by directory buckets.  Returns the replication
+configuration of a bucket.   It can take a while to propagate the put or delete a
+replication configuration to all Amazon S3 systems. Therefore, a get request soon after put
+or delete can return a wrong result.    For information about replication configuration,
+see Replication in the Amazon S3 User Guide. This action requires permissions for the
+s3:GetReplicationConfiguration action. For more information about permissions, see Using
+Bucket Policies and User Policies. If you include the Filter element in a replication
+configuration, you must also include the DeleteMarkerReplication and Priority elements. The
+response also returns those elements. For information about GetBucketReplication errors,
+see List of replication-related error codes  The following operations are related to
+GetBucketReplication:    PutBucketReplication     DeleteBucketReplication
 
 # Arguments
 - `bucket`: The bucket name for which to get the replication information.
@@ -2466,8 +3032,8 @@ DeleteBucketReplication
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2493,9 +3059,10 @@ end
     get_bucket_request_payment(bucket)
     get_bucket_request_payment(bucket, params::Dict{String,<:Any})
 
-Returns the request payment configuration of a bucket. To use this version of the
-operation, you must be the bucket owner. For more information, see Requester Pays Buckets.
-The following operations are related to GetBucketRequestPayment:    ListObjects
+ This operation is not supported by directory buckets.  Returns the request payment
+configuration of a bucket. To use this version of the operation, you must be the bucket
+owner. For more information, see Requester Pays Buckets. The following operations are
+related to GetBucketRequestPayment:    ListObjects
 
 # Arguments
 - `bucket`: The name of the bucket for which to get the payment request configuration
@@ -2503,8 +3070,8 @@ The following operations are related to GetBucketRequestPayment:    ListObjects
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_request_payment(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2532,12 +3099,13 @@ end
     get_bucket_tagging(bucket)
     get_bucket_tagging(bucket, params::Dict{String,<:Any})
 
-Returns the tag set associated with the bucket. To use this operation, you must have
-permission to perform the s3:GetBucketTagging action. By default, the bucket owner has this
-permission and can grant this permission to others.  GetBucketTagging has the following
-special error:   Error code: NoSuchTagSet    Description: There is no tag set associated
-with the bucket.     The following operations are related to GetBucketTagging:
-PutBucketTagging     DeleteBucketTagging
+ This operation is not supported by directory buckets.  Returns the tag set associated with
+the bucket. To use this operation, you must have permission to perform the
+s3:GetBucketTagging action. By default, the bucket owner has this permission and can grant
+this permission to others.  GetBucketTagging has the following special error:   Error code:
+NoSuchTagSet    Description: There is no tag set associated with the bucket.     The
+following operations are related to GetBucketTagging:    PutBucketTagging
+DeleteBucketTagging
 
 # Arguments
 - `bucket`: The name of the bucket for which to get the tagging information.
@@ -2545,8 +3113,8 @@ PutBucketTagging     DeleteBucketTagging
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2569,12 +3137,12 @@ end
     get_bucket_versioning(bucket)
     get_bucket_versioning(bucket, params::Dict{String,<:Any})
 
-Returns the versioning state of a bucket. To retrieve the versioning state of a bucket, you
-must be the bucket owner. This implementation also returns the MFA Delete status of the
-versioning state. If the MFA Delete status is enabled, the bucket owner must use an
-authentication device to change the versioning state of the bucket. The following
-operations are related to GetBucketVersioning:    GetObject     PutObject     DeleteObject
-
+ This operation is not supported by directory buckets.  Returns the versioning state of a
+bucket. To retrieve the versioning state of a bucket, you must be the bucket owner. This
+implementation also returns the MFA Delete status of the versioning state. If the MFA
+Delete status is enabled, the bucket owner must use an authentication device to change the
+versioning state of the bucket. The following operations are related to
+GetBucketVersioning:    GetObject     PutObject     DeleteObject
 
 # Arguments
 - `bucket`: The name of the bucket for which to get the versioning information.
@@ -2582,8 +3150,8 @@ operations are related to GetBucketVersioning:    GetObject     PutObject     De
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_versioning(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2609,14 +3177,14 @@ end
     get_bucket_website(bucket)
     get_bucket_website(bucket, params::Dict{String,<:Any})
 
-Returns the website configuration for a bucket. To host website on Amazon S3, you can
-configure a bucket as website by adding a website configuration. For more information about
-hosting websites, see Hosting Websites on Amazon S3.  This GET action requires the
-S3:GetBucketWebsite permission. By default, only the bucket owner can read the bucket
-website configuration. However, bucket owners can allow other users to read the website
-configuration by writing a bucket policy granting them the S3:GetBucketWebsite permission.
-The following operations are related to GetBucketWebsite:    DeleteBucketWebsite
-PutBucketWebsite
+ This operation is not supported by directory buckets.  Returns the website configuration
+for a bucket. To host website on Amazon S3, you can configure a bucket as website by adding
+a website configuration. For more information about hosting websites, see Hosting Websites
+on Amazon S3.  This GET action requires the S3:GetBucketWebsite permission. By default,
+only the bucket owner can read the bucket website configuration. However, bucket owners can
+allow other users to read the website configuration by writing a bucket policy granting
+them the S3:GetBucketWebsite permission. The following operations are related to
+GetBucketWebsite:    DeleteBucketWebsite     PutBucketWebsite
 
 # Arguments
 - `bucket`: The bucket name for which to get the website configuration.
@@ -2624,8 +3192,8 @@ PutBucketWebsite
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2648,128 +3216,189 @@ end
     get_object(bucket, key)
     get_object(bucket, key, params::Dict{String,<:Any})
 
-Retrieves objects from Amazon S3. To use GET, you must have READ access to the object. If
-you grant READ access to the anonymous user, you can return the object without using an
-authorization header. An Amazon S3 bucket has no directory hierarchy such as you would find
-in a typical computer file system. You can, however, create a logical hierarchy by using
-object key names that imply a folder structure. For example, instead of naming an object
-sample.jpg, you can name it photos/2006/February/sample.jpg. To get an object from such a
-logical hierarchy, specify the full key name for the object in the GET operation. For a
-virtual hosted-style request example, if you have the object
-photos/2006/February/sample.jpg, specify the resource as /photos/2006/February/sample.jpg.
-For a path-style request example, if you have the object photos/2006/February/sample.jpg in
-the bucket named examplebucket, specify the resource as
-/examplebucket/photos/2006/February/sample.jpg. For more information about request types,
-see HTTP Host Header Bucket Specification. For more information about returning the ACL of
-an object, see GetObjectAcl. If the object you are retrieving is stored in the S3 Glacier
-or S3 Glacier Deep Archive storage class, or S3 Intelligent-Tiering Archive or S3
-Intelligent-Tiering Deep Archive tiers, before you can retrieve the object you must first
-restore a copy using RestoreObject. Otherwise, this action returns an InvalidObjectState
-error. For information about restoring archived objects, see Restoring Archived Objects.
-Encryption request headers, like x-amz-server-side-encryption, should not be sent for GET
-requests if your object uses server-side encryption with KMS keys (SSE-KMS) or server-side
-encryption with Amazon S3–managed encryption keys (SSE-S3). If your object does use these
-types of keys, you’ll get an HTTP 400 BadRequest error. If you encrypt an object by using
-server-side encryption with customer-provided encryption keys (SSE-C) when you store the
-object in Amazon S3, then when you GET the object, you must use the following headers:
-x-amz-server-side-encryption-customer-algorithm   x-amz-server-side-encryption-customer-key
-  x-amz-server-side-encryption-customer-key-MD5   For more information about SSE-C, see
-Server-Side Encryption (Using Customer-Provided Encryption Keys). Assuming you have the
-relevant permission to read object tags, the response also returns the x-amz-tagging-count
-header that provides the count of number of tags associated with the object. You can use
-GetObjectTagging to retrieve the tag set associated with an object.  Permissions  You need
-the relevant read object (or version) permission for this operation. For more information,
-see Specifying Permissions in a Policy. If the object you request does not exist, the error
-Amazon S3 returns depends on whether you also have the s3:ListBucket permission.   If you
-have the s3:ListBucket permission on the bucket, Amazon S3 will return an HTTP status code
-404 (\"no such key\") error.   If you don’t have the s3:ListBucket permission, Amazon S3
-will return an HTTP status code 403 (\"access denied\") error.    Versioning  By default,
-the GET action returns the current version of an object. To return a different version, use
-the versionId subresource.     If you supply a versionId, you need the s3:GetObjectVersion
-permission to access a specific version of an object. If you request a specific version,
-you do not need to have the s3:GetObject permission. If you request the current version
-without a specific version ID, only s3:GetObject permission is required.
-s3:GetObjectVersion permission won't be required.   If the current version of the object is
-a delete marker, Amazon S3 behaves as if the object was deleted and includes
-x-amz-delete-marker: true in the response.    For more information about versioning, see
-PutBucketVersioning.   Overriding Response Header Values  There are times when you want to
-override certain response header values in a GET response. For example, you might override
-the Content-Disposition response header value in your GET request. You can override values
-for a set of response headers using the following query parameters. These response header
-values are sent only on a successful request, that is, when status code 200 OK is returned.
-The set of headers you can override using these parameters is a subset of the headers that
-Amazon S3 accepts when you create an object. The response headers that you can override for
-the GET response are Content-Type, Content-Language, Expires, Cache-Control,
-Content-Disposition, and Content-Encoding. To override these header values in the GET
-response, you use the following request parameters.  You must sign the request, either
-using an Authorization header or a presigned URL, when using these parameters. They cannot
-be used with an unsigned (anonymous) request.     response-content-type
-response-content-language     response-expires     response-cache-control
-response-content-disposition     response-content-encoding     Overriding Response Header
-Values  If both of the If-Match and If-Unmodified-Since headers are present in the request
-as follows: If-Match condition evaluates to true, and; If-Unmodified-Since condition
-evaluates to false; then, S3 returns 200 OK and the data requested.  If both of the
-If-None-Match and If-Modified-Since headers are present in the request as follows:
-If-None-Match condition evaluates to false, and; If-Modified-Since condition evaluates to
-true; then, S3 returns 304 Not Modified response code. For more information about
-conditional requests, see RFC 7232.   The following operations are related to GetObject:
-ListBuckets     GetObjectAcl
+Retrieves an object from Amazon S3. In the GetObject request, specify the full key name for
+the object.  General purpose buckets - Both the virtual-hosted-style requests and the
+path-style requests are supported. For a virtual hosted-style request example, if you have
+the object photos/2006/February/sample.jpg, specify the object key name as
+/photos/2006/February/sample.jpg. For a path-style request example, if you have the object
+photos/2006/February/sample.jpg in the bucket named examplebucket, specify the object key
+name as /examplebucket/photos/2006/February/sample.jpg. For more information about request
+types, see HTTP Host Header Bucket Specification in the Amazon S3 User Guide.  Directory
+buckets - Only virtual-hosted-style requests are supported. For a virtual hosted-style
+request example, if you have the object photos/2006/February/sample.jpg in the bucket named
+examplebucket--use1-az5--x-s3, specify the object key name as
+/photos/2006/February/sample.jpg. Also, when you make requests to this API operation, your
+requests are sent to the Zonal endpoint. These endpoints support virtual-hosted-style
+requests in the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name .
+Path-style requests are not supported. For more information, see Regional and Zonal
+endpoints in the Amazon S3 User Guide.  Permissions     General purpose bucket permissions
+- You must have the required permissions in a policy. To use GetObject, you must have the
+READ access to the object (or version). If you grant READ access to the anonymous user, the
+GetObject operation returns the object without using an authorization header. For more
+information, see Specifying permissions in a policy in the Amazon S3 User Guide. If you
+include a versionId in your request header, you must have the s3:GetObjectVersion
+permission to access a specific version of an object. The s3:GetObject permission is not
+required in this scenario. If you request the current version of an object without a
+specific versionId in the request header, only the s3:GetObject permission is required. The
+s3:GetObjectVersion permission is not required in this scenario.  If the object that you
+request doesn’t exist, the error that Amazon S3 returns depends on whether you also have
+the s3:ListBucket permission.   If you have the s3:ListBucket permission on the bucket,
+Amazon S3 returns an HTTP status code 404 Not Found error.   If you don’t have the
+s3:ListBucket permission, Amazon S3 returns an HTTP status code 403 Access Denied error.
+  Directory bucket permissions - To grant access to this API operation on a directory
+bucket, we recommend that you use the  CreateSession  API operation for session-based
+authorization. Specifically, you grant the s3express:CreateSession permission to the
+directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the
+CreateSession API call on the bucket to obtain a session token. With the session token in
+your request header, you can make API requests to this operation. After the session token
+expires, you make another CreateSession API call to generate a new session token for use.
+Amazon Web Services CLI or SDKs create session and refresh the session token automatically
+to avoid service interruptions when a session expires. For more information about
+authorization, see  CreateSession .    Storage classes  If the object you are retrieving is
+stored in the S3 Glacier Flexible Retrieval storage class, the S3 Glacier Deep Archive
+storage class, the S3 Intelligent-Tiering Archive Access tier, or the S3
+Intelligent-Tiering Deep Archive Access tier, before you can retrieve the object you must
+first restore a copy using RestoreObject. Otherwise, this operation returns an
+InvalidObjectState error. For information about restoring archived objects, see Restoring
+Archived Objects in the Amazon S3 User Guide.  Directory buckets  - For directory buckets,
+only the S3 Express One Zone storage class is supported to store newly created objects.
+Unsupported storage class values won't write a destination object and will respond with the
+HTTP status code 400 Bad Request.  Encryption  Encryption request headers, like
+x-amz-server-side-encryption, should not be sent for the GetObject requests, if your object
+uses server-side encryption with Amazon S3 managed encryption keys (SSE-S3), server-side
+encryption with Key Management Service (KMS) keys (SSE-KMS), or dual-layer server-side
+encryption with Amazon Web Services KMS keys (DSSE-KMS). If you include the header in your
+GetObject requests for the object that uses these types of keys, you’ll get an HTTP 400
+Bad Request error.  Overriding response header values through the request  There are times
+when you want to override certain response header values of a GetObject response. For
+example, you might override the Content-Disposition response header value through your
+GetObject request. You can override values for a set of response headers. These modified
+response header values are included only in a successful response, that is, when the HTTP
+status code 200 OK is returned. The headers you can override using the following query
+parameters in the request are a subset of the headers that Amazon S3 accepts when you
+create an object.  The response headers that you can override for the GetObject response
+are Cache-Control, Content-Disposition, Content-Encoding, Content-Language, Content-Type,
+and Expires. To override values for a set of response headers in the GetObject response,
+you can use the following query parameters in the request.    response-cache-control
+response-content-disposition     response-content-encoding     response-content-language
+ response-content-type     response-expires     When you use these parameters, you must
+sign the request by using either an Authorization header or a presigned URL. These
+parameters cannot be used with an unsigned (anonymous) request.   HTTP Host header syntax
+Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
+GetObject:    ListBuckets     GetObjectAcl
 
 # Arguments
-- `bucket`: The bucket name containing the object.  When using this action with an access
-  point, you must direct requests to the access point hostname. The access point hostname
-  takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
-  this action with an access point through the Amazon Web Services SDKs, you provide the
-  access point ARN in place of the bucket name. For more information about access point ARNs,
-  see Using access points in the Amazon S3 User Guide. When using an Object Lambda access
-  point the hostname takes the form
-  AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com. When you use this action
-  with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3
-  on Outposts hostname takes the form
+- `bucket`: The bucket name containing the object.   Directory buckets - When you use this
+  operation with a directory bucket, you must use virtual-hosted-style requests in the format
+   Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.
+  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must
+  follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
+  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
+  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide.  Object Lambda access points - When you use this action
+  with an Object Lambda access point, you must direct requests to the Object Lambda access
+  point hostname. The Object Lambda access point hostname takes the form
+  AccessPointName-AccountId.s3-object-lambda.Region.amazonaws.com.  Access points and Object
+  Lambda access points are not supported by directory buckets.   S3 on Outposts - When you
+  use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts
+  hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
   action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   access point ARN in place of the bucket name. For more information about S3 on Outposts
-  ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Key of the object to get.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"If-Match"`: Return the object only if its entity tag (ETag) is the same as the one
-  specified; otherwise, return a 412 (precondition failed) error.
+  specified in this header; otherwise, return a 412 Precondition Failed error. If both of the
+  If-Match and If-Unmodified-Since headers are present in the request as follows: If-Match
+  condition evaluates to true, and; If-Unmodified-Since condition evaluates to false; then,
+  S3 returns 200 OK and the data requested.  For more information about conditional requests,
+  see RFC 7232.
 - `"If-Modified-Since"`: Return the object only if it has been modified since the specified
-  time; otherwise, return a 304 (not modified) error.
+  time; otherwise, return a 304 Not Modified error. If both of the If-None-Match and
+  If-Modified-Since headers are present in the request as follows: If-None-Match condition
+  evaluates to false, and; If-Modified-Since condition evaluates to true; then, S3 returns
+  304 Not Modified status code. For more information about conditional requests, see RFC 7232.
 - `"If-None-Match"`: Return the object only if its entity tag (ETag) is different from the
-  one specified; otherwise, return a 304 (not modified) error.
+  one specified in this header; otherwise, return a 304 Not Modified error. If both of the
+  If-None-Match and If-Modified-Since headers are present in the request as follows:
+  If-None-Match condition evaluates to false, and; If-Modified-Since condition evaluates to
+  true; then, S3 returns 304 Not Modified HTTP status code. For more information about
+  conditional requests, see RFC 7232.
 - `"If-Unmodified-Since"`: Return the object only if it has not been modified since the
-  specified time; otherwise, return a 412 (precondition failed) error.
-- `"Range"`: Downloads the specified range bytes of an object. For more information about
+  specified time; otherwise, return a 412 Precondition Failed error. If both of the If-Match
+  and If-Unmodified-Since headers are present in the request as follows: If-Match condition
+  evaluates to true, and; If-Unmodified-Since condition evaluates to false; then, S3 returns
+  200 OK and the data requested.  For more information about conditional requests, see RFC
+  7232.
+- `"Range"`: Downloads the specified byte range of an object. For more information about
   the HTTP Range header, see https://www.rfc-editor.org/rfc/rfc9110.html#name-range.  Amazon
   S3 doesn't support retrieving multiple ranges of data per GET request.
 - `"partNumber"`: Part number of the object being read. This is a positive integer between
   1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful
   for downloading just a part of an object.
 - `"response-cache-control"`: Sets the Cache-Control header of the response.
-- `"response-content-disposition"`: Sets the Content-Disposition header of the response
+- `"response-content-disposition"`: Sets the Content-Disposition header of the response.
 - `"response-content-encoding"`: Sets the Content-Encoding header of the response.
 - `"response-content-language"`: Sets the Content-Language header of the response.
 - `"response-content-type"`: Sets the Content-Type header of the response.
 - `"response-expires"`: Sets the Expires header of the response.
-- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"versionId"`: Version ID used to reference a specific version of the object. By default,
+  the GetObject operation returns the current version of an object. To return a different
+  version, use the versionId subresource.    If you include a versionId in your request
+  header, you must have the s3:GetObjectVersion permission to access a specific version of an
+  object. The s3:GetObject permission is not required in this scenario.   If you request the
+  current version of an object without a specific versionId in the request header, only the
+  s3:GetObject permission is required. The s3:GetObjectVersion permission is not required in
+  this scenario.    Directory buckets - S3 Versioning isn't enabled and supported for
+  directory buckets. For this API operation, only the null value of the version ID is
+  supported by directory buckets. You can only specify null to the versionId query parameter
+  in the request.    For more information about versioning, see PutBucketVersioning.
 - `"x-amz-checksum-mode"`: To retrieve the checksum, this mode must be enabled.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
-- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
-  when decrypting the object (for example, AES256).
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
+  decrypting the object (for example, AES256). If you encrypt an object by using server-side
+  encryption with customer-provided encryption keys (SSE-C) when you store the object in
+  Amazon S3, then when you GET the object, you must use the following headers:
+  x-amz-server-side-encryption-customer-algorithm
+  x-amz-server-side-encryption-customer-key     x-amz-server-side-encryption-customer-key-MD5
+     For more information about SSE-C, see Server-Side Encryption (Using Customer-Provided
+  Encryption Keys) in the Amazon S3 User Guide.  This functionality is not supported for
+  directory buckets.
 - `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
-  key for Amazon S3 used to encrypt the data. This value is used to decrypt the object when
-  recovering it and must match the one used when storing the data. The key must be
-  appropriate for use with the algorithm specified in the
-  x-amz-server-side-encryption-customer-algorithm header.
+  key that you originally provided for Amazon S3 to encrypt the data before storing it. This
+  value is used to decrypt the object when recovering it and must match the one used when
+  storing the data. The key must be appropriate for use with the algorithm specified in the
+  x-amz-server-side-encryption-customer-algorithm header. If you encrypt an object by using
+  server-side encryption with customer-provided encryption keys (SSE-C) when you store the
+  object in Amazon S3, then when you GET the object, you must use the following headers:
+  x-amz-server-side-encryption-customer-algorithm
+  x-amz-server-side-encryption-customer-key     x-amz-server-side-encryption-customer-key-MD5
+     For more information about SSE-C, see Server-Side Encryption (Using Customer-Provided
+  Encryption Keys) in the Amazon S3 User Guide.  This functionality is not supported for
+  directory buckets.
 - `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
-  the encryption key according to RFC 1321. Amazon S3 uses this header for a message
-  integrity check to ensure that the encryption key was transmitted without error.
+  the customer-provided encryption key according to RFC 1321. Amazon S3 uses this header for
+  a message integrity check to ensure that the encryption key was transmitted without error.
+  If you encrypt an object by using server-side encryption with customer-provided encryption
+  keys (SSE-C) when you store the object in Amazon S3, then when you GET the object, you must
+  use the following headers:    x-amz-server-side-encryption-customer-algorithm
+  x-amz-server-side-encryption-customer-key     x-amz-server-side-encryption-customer-key-MD5
+     For more information about SSE-C, see Server-Side Encryption (Using Customer-Provided
+  Encryption Keys) in the Amazon S3 User Guide.  This functionality is not supported for
+  directory buckets.
 """
 function get_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -2795,13 +3424,14 @@ end
     get_object_acl(bucket, key)
     get_object_acl(bucket, key, params::Dict{String,<:Any})
 
-Returns the access control list (ACL) of an object. To use this operation, you must have
-s3:GetObjectAcl permissions or READ_ACP access to the object. For more information, see
-Mapping of ACL permissions and access policy permissions in the Amazon S3 User Guide  This
-action is not supported by Amazon S3 on Outposts. By default, GET returns ACL information
-about the current version of an object. To return ACL information about a different
-version, use the versionId subresource.  If your bucket uses the bucket owner enforced
-setting for S3 Object Ownership, requests to read ACLs are still supported and return the
+ This operation is not supported by directory buckets.  Returns the access control list
+(ACL) of an object. To use this operation, you must have s3:GetObjectAcl permissions or
+READ_ACP access to the object. For more information, see Mapping of ACL permissions and
+access policy permissions in the Amazon S3 User Guide  This functionality is not supported
+for Amazon S3 on Outposts. By default, GET returns ACL information about the current
+version of an object. To return ACL information about a different version, use the
+versionId subresource.  If your bucket uses the bucket owner enforced setting for S3 Object
+Ownership, requests to read ACLs are still supported and return the
 bucket-owner-full-control ACL with the owner being the account that created the bucket. For
 more information, see  Controlling object ownership and disabling ACLs in the Amazon S3
 User Guide.  The following operations are related to GetObjectAcl:    GetObject
@@ -2809,8 +3439,10 @@ GetObjectAttributes     DeleteObject     PutObject
 
 # Arguments
 - `bucket`: The bucket name that contains the object for which to get the ACL information.
-  When using this action with an access point, you must direct requests to the access point
-  hostname. The access point hostname takes the form
+   Access points - When you use this action with an access point, you must provide the alias
+  of the access point in place of the bucket name or specify the access point ARN. When using
+  the access point ARN, you must direct requests to the access point hostname. The access
+  point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
@@ -2819,10 +3451,11 @@ GetObjectAttributes     DeleteObject     PutObject
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"versionId"`: Version ID used to reference a specific version of the object.  This
+  functionality is not supported for directory buckets.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
 function get_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2852,80 +3485,122 @@ end
     get_object_attributes(bucket, key, x-amz-object-attributes)
     get_object_attributes(bucket, key, x-amz-object-attributes, params::Dict{String,<:Any})
 
-Retrieves all the metadata from an object without returning the object itself. This action
-is useful if you're interested only in an object's metadata. To use GetObjectAttributes,
-you must have READ access to the object.  GetObjectAttributes combines the functionality of
-HeadObject and ListParts. All of the data returned with each of those individual calls can
-be returned with a single call to GetObjectAttributes. If you encrypt an object by using
-server-side encryption with customer-provided encryption keys (SSE-C) when you store the
-object in Amazon S3, then when you retrieve the metadata from the object, you must use the
-following headers:    x-amz-server-side-encryption-customer-algorithm
+Retrieves all the metadata from an object without returning the object itself. This
+operation is useful if you're interested only in an object's metadata.
+GetObjectAttributes combines the functionality of HeadObject and ListParts. All of the data
+returned with each of those individual calls can be returned with a single call to
+GetObjectAttributes.   Directory buckets - For directory buckets, you must make requests
+for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style
+requests in the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name .
+Path-style requests are not supported. For more information, see Regional and Zonal
+endpoints in the Amazon S3 User Guide.   Permissions     General purpose bucket permissions
+- To use GetObjectAttributes, you must have READ access to the object. The permissions that
+you need to use this operation with depend on whether the bucket is versioned. If the
+bucket is versioned, you need both the s3:GetObjectVersion and
+s3:GetObjectVersionAttributes permissions for this operation. If the bucket is not
+versioned, you need the s3:GetObject and s3:GetObjectAttributes permissions. For more
+information, see Specifying Permissions in a Policy in the Amazon S3 User Guide. If the
+object that you request does not exist, the error Amazon S3 returns depends on whether you
+also have the s3:ListBucket permission.   If you have the s3:ListBucket permission on the
+bucket, Amazon S3 returns an HTTP status code 404 Not Found (\"no such key\") error.   If
+you don't have the s3:ListBucket permission, Amazon S3 returns an HTTP status code 403
+Forbidden (\"access denied\") error.      Directory bucket permissions - To grant access to
+this API operation on a directory bucket, we recommend that you use the  CreateSession  API
+operation for session-based authorization. Specifically, you grant the
+s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM
+identity-based policy. Then, you make the CreateSession API call on the bucket to obtain a
+session token. With the session token in your request header, you can make API requests to
+this operation. After the session token expires, you make another CreateSession API call to
+generate a new session token for use. Amazon Web Services CLI or SDKs create session and
+refresh the session token automatically to avoid service interruptions when a session
+expires. For more information about authorization, see  CreateSession .    Encryption
+Encryption request headers, like x-amz-server-side-encryption, should not be sent for HEAD
+requests if your object uses server-side encryption with Key Management Service (KMS) keys
+(SSE-KMS), dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS),
+or server-side encryption with Amazon S3 managed encryption keys (SSE-S3). The
+x-amz-server-side-encryption header is used when you PUT an object to S3 and want to
+specify the encryption method. If you include this header in a GET request for an object
+that uses these types of keys, you’ll get an HTTP 400 Bad Request error. It's because the
+encryption method can't be changed when you retrieve the object.  If you encrypt an object
+by using server-side encryption with customer-provided encryption keys (SSE-C) when you
+store the object in Amazon S3, then when you retrieve the metadata from the object, you
+must use the following headers to provide the encryption key for the server to be able to
+retrieve the object's metadata. The headers are:
+x-amz-server-side-encryption-customer-algorithm
 x-amz-server-side-encryption-customer-key     x-amz-server-side-encryption-customer-key-MD5
    For more information about SSE-C, see Server-Side Encryption (Using Customer-Provided
-Encryption Keys) in the Amazon S3 User Guide.    Encryption request headers, such as
-x-amz-server-side-encryption, should not be sent for GET requests if your object uses
-server-side encryption with Amazon Web Services KMS keys stored in Amazon Web Services Key
-Management Service (SSE-KMS) or server-side encryption with Amazon S3 managed keys
-(SSE-S3). If your object does use these types of keys, you'll get an HTTP 400 Bad Request
-error.    The last modified property in this case is the creation date of the object.
-Consider the following when using request headers:    If both of the If-Match and
-If-Unmodified-Since headers are present in the request as follows, then Amazon S3 returns
-the HTTP status code 200 OK and the data requested:    If-Match condition evaluates to
-true.    If-Unmodified-Since condition evaluates to false.     If both of the If-None-Match
-and If-Modified-Since headers are present in the request as follows, then Amazon S3 returns
-the HTTP status code 304 Not Modified:    If-None-Match condition evaluates to false.
-If-Modified-Since condition evaluates to true.     For more information about conditional
-requests, see RFC 7232.  Permissions  The permissions that you need to use this operation
-depend on whether the bucket is versioned. If the bucket is versioned, you need both the
-s3:GetObjectVersion and s3:GetObjectVersionAttributes permissions for this operation. If
-the bucket is not versioned, you need the s3:GetObject and s3:GetObjectAttributes
-permissions. For more information, see Specifying Permissions in a Policy in the Amazon S3
-User Guide. If the object that you request does not exist, the error Amazon S3 returns
-depends on whether you also have the s3:ListBucket permission.   If you have the
-s3:ListBucket permission on the bucket, Amazon S3 returns an HTTP status code 404 Not Found
-(\"no such key\") error.   If you don't have the s3:ListBucket permission, Amazon S3
-returns an HTTP status code 403 Forbidden (\"access denied\") error.     The following
-actions are related to GetObjectAttributes:    GetObject     GetObjectAcl
-GetObjectLegalHold     GetObjectLockConfiguration     GetObjectRetention
-GetObjectTagging     HeadObject     ListParts
+Encryption Keys) in the Amazon S3 User Guide.   Directory bucket permissions - For
+directory buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3)
+(AES256) is supported.   Versioning   Directory buckets - S3 Versioning isn't enabled and
+supported for directory buckets. For this API operation, only the null value of the version
+ID is supported by directory buckets. You can only specify null to the versionId query
+parameter in the request.  Conditional request headers  Consider the following when using
+request headers:   If both of the If-Match and If-Unmodified-Since headers are present in
+the request as follows, then Amazon S3 returns the HTTP status code 200 OK and the data
+requested:    If-Match condition evaluates to true.    If-Unmodified-Since condition
+evaluates to false.   For more information about conditional requests, see RFC 7232.   If
+both of the If-None-Match and If-Modified-Since headers are present in the request as
+follows, then Amazon S3 returns the HTTP status code 304 Not Modified:    If-None-Match
+condition evaluates to false.    If-Modified-Since condition evaluates to true.   For more
+information about conditional requests, see RFC 7232.    HTTP Host header syntax
+Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following actions are related to
+GetObjectAttributes:    GetObject     GetObjectAcl     GetObjectLegalHold
+GetObjectLockConfiguration     GetObjectRetention     GetObjectTagging     HeadObject
+ListParts
 
 # Arguments
-- `bucket`: The name of the bucket that contains the object. When using this action with an
-  access point, you must direct requests to the access point hostname. The access point
-  hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
-  using this action with an access point through the Amazon Web Services SDKs, you provide
-  the access point ARN in place of the bucket name. For more information about access point
-  ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with
-  Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on
-  Outposts hostname takes the form
+- `bucket`: The name of the bucket that contains the object.  Directory buckets - When you
+  use this operation with a directory bucket, you must use virtual-hosted-style requests in
+  the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not
+  supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket
+  names must follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
+  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
+  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
   action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   access point ARN in place of the bucket name. For more information about S3 on Outposts
-  ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: The object key.
-- `x-amz-object-attributes`: An XML header that specifies the fields at the root level that
-  you want returned in the response. Fields that you do not specify are not returned.
+- `x-amz-object-attributes`: Specifies the fields at the root level that you want returned
+  in the response. Fields that you do not specify are not returned.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"versionId"`: The version ID used to reference a specific version of the object.
+- `"versionId"`: The version ID used to reference a specific version of the object.  S3
+  Versioning isn't enabled and supported for directory buckets. For this API operation, only
+  the null value of the version ID is supported by directory buckets. You can only specify
+  null to the versionId query parameter in the request.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-max-parts"`: Sets the maximum number of parts to return.
 - `"x-amz-part-number-marker"`: Specifies the part after which listing should begin. Only
   parts with higher part numbers will be listed.
 - `"x-amz-request-payer"`:
 - `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
-  encrypting the object (for example, AES256).
+  encrypting the object (for example, AES256).  This functionality is not supported for
+  directory buckets.
 - `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
-  x-amz-server-side-encryption-customer-algorithm header.
+  x-amz-server-side-encryption-customer-algorithm header.  This functionality is not
+  supported for directory buckets.
 - `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
   the encryption key according to RFC 1321. Amazon S3 uses this header for a message
-  integrity check to ensure that the encryption key was transmitted without error.
+  integrity check to ensure that the encryption key was transmitted without error.  This
+  functionality is not supported for directory buckets.
 """
 function get_object_attributes(
     Bucket, Key, x_amz_object_attributes; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2971,14 +3646,17 @@ end
     get_object_legal_hold(bucket, key)
     get_object_legal_hold(bucket, key, params::Dict{String,<:Any})
 
-Gets an object's current legal hold status. For more information, see Locking Objects. This
-action is not supported by Amazon S3 on Outposts. The following action is related to
-GetObjectLegalHold:    GetObjectAttributes
+ This operation is not supported by directory buckets.  Gets an object's current legal hold
+status. For more information, see Locking Objects. This functionality is not supported for
+Amazon S3 on Outposts. The following action is related to GetObjectLegalHold:
+GetObjectAttributes
 
 # Arguments
 - `bucket`: The bucket name containing the object whose legal hold status you want to
-  retrieve.  When using this action with an access point, you must direct requests to the
-  access point hostname. The access point hostname takes the form
+  retrieve.   Access points - When you use this action with an access point, you must provide
+  the alias of the access point in place of the bucket name or specify the access point ARN.
+  When using the access point ARN, you must direct requests to the access point hostname. The
+  access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
@@ -2989,8 +3667,8 @@ GetObjectLegalHold:    GetObjectAttributes
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"versionId"`: The version ID of the object whose legal hold status you want to retrieve.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
 function get_object_legal_hold(
@@ -3022,25 +3700,27 @@ end
     get_object_lock_configuration(bucket)
     get_object_lock_configuration(bucket, params::Dict{String,<:Any})
 
-Gets the Object Lock configuration for a bucket. The rule specified in the Object Lock
-configuration will be applied by default to every new object placed in the specified
-bucket. For more information, see Locking Objects. The following action is related to
-GetObjectLockConfiguration:    GetObjectAttributes
+ This operation is not supported by directory buckets.  Gets the Object Lock configuration
+for a bucket. The rule specified in the Object Lock configuration will be applied by
+default to every new object placed in the specified bucket. For more information, see
+Locking Objects. The following action is related to GetObjectLockConfiguration:
+GetObjectAttributes
 
 # Arguments
-- `bucket`: The bucket whose Object Lock configuration you want to retrieve. When using
-  this action with an access point, you must direct requests to the access point hostname.
-  The access point hostname takes the form
-  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
-  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
-  place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide.
+- `bucket`: The bucket whose Object Lock configuration you want to retrieve.  Access points
+  - When you use this action with an access point, you must provide the alias of the access
+  point in place of the bucket name or specify the access point ARN. When using the access
+  point ARN, you must direct requests to the access point hostname. The access point hostname
+  takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
+  this action with an access point through the Amazon Web Services SDKs, you provide the
+  access point ARN in place of the bucket name. For more information about access point ARNs,
+  see Using access points in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_object_lock_configuration(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3068,14 +3748,17 @@ end
     get_object_retention(bucket, key)
     get_object_retention(bucket, key, params::Dict{String,<:Any})
 
-Retrieves an object's retention settings. For more information, see Locking Objects. This
-action is not supported by Amazon S3 on Outposts. The following action is related to
-GetObjectRetention:    GetObjectAttributes
+ This operation is not supported by directory buckets.  Retrieves an object's retention
+settings. For more information, see Locking Objects. This functionality is not supported
+for Amazon S3 on Outposts. The following action is related to GetObjectRetention:
+GetObjectAttributes
 
 # Arguments
 - `bucket`: The bucket name containing the object whose retention settings you want to
-  retrieve.  When using this action with an access point, you must direct requests to the
-  access point hostname. The access point hostname takes the form
+  retrieve.   Access points - When you use this action with an access point, you must provide
+  the alias of the access point in place of the bucket name or specify the access point ARN.
+  When using the access point ARN, you must direct requests to the access point hostname. The
+  access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
@@ -3087,8 +3770,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"versionId"`: The version ID for the object whose retention settings you want to
   retrieve.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
 function get_object_retention(
@@ -3120,37 +3803,41 @@ end
     get_object_tagging(bucket, key)
     get_object_tagging(bucket, key, params::Dict{String,<:Any})
 
-Returns the tag-set of an object. You send the GET request against the tagging subresource
-associated with the object. To use this operation, you must have permission to perform the
-s3:GetObjectTagging action. By default, the GET action returns information about current
-version of an object. For a versioned bucket, you can have multiple versions of an object
-in your bucket. To retrieve tags of any other version, use the versionId query parameter.
-You also need permission for the s3:GetObjectVersionTagging action.  By default, the bucket
-owner has this permission and can grant this permission to others.  For information about
-the Amazon S3 object tagging feature, see Object Tagging. The following actions are related
-to GetObjectTagging:    DeleteObjectTagging     GetObjectAttributes     PutObjectTagging
+ This operation is not supported by directory buckets.  Returns the tag-set of an object.
+You send the GET request against the tagging subresource associated with the object. To use
+this operation, you must have permission to perform the s3:GetObjectTagging action. By
+default, the GET action returns information about current version of an object. For a
+versioned bucket, you can have multiple versions of an object in your bucket. To retrieve
+tags of any other version, use the versionId query parameter. You also need permission for
+the s3:GetObjectVersionTagging action.  By default, the bucket owner has this permission
+and can grant this permission to others.  For information about the Amazon S3 object
+tagging feature, see Object Tagging. The following actions are related to GetObjectTagging:
+   DeleteObjectTagging     GetObjectAttributes     PutObjectTagging
 
 # Arguments
 - `bucket`: The bucket name containing the object for which to get the tagging information.
-   When using this action with an access point, you must direct requests to the access point
-  hostname. The access point hostname takes the form
+    Access points - When you use this action with an access point, you must provide the alias
+  of the access point in place of the bucket name or specify the access point ARN. When using
+  the access point ARN, you must direct requests to the access point hostname. The access
+  point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with Amazon
+  S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Object key for which to get the tagging information.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"versionId"`: The versionId of the object for which to get the tagging information.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
 function get_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3180,12 +3867,12 @@ end
     get_object_torrent(bucket, key)
     get_object_torrent(bucket, key, params::Dict{String,<:Any})
 
-Returns torrent files from a bucket. BitTorrent can save you bandwidth when you're
-distributing large files.  You can get torrent only for objects that are less than 5 GB in
-size, and that are not encrypted using server-side encryption with a customer-provided
-encryption key.  To use GET, you must have READ access to the object. This action is not
-supported by Amazon S3 on Outposts. The following action is related to GetObjectTorrent:
-GetObject
+ This operation is not supported by directory buckets.  Returns torrent files from a
+bucket. BitTorrent can save you bandwidth when you're distributing large files.  You can
+get torrent only for objects that are less than 5 GB in size, and that are not encrypted
+using server-side encryption with a customer-provided encryption key.  To use GET, you must
+have READ access to the object. This functionality is not supported for Amazon S3 on
+Outposts. The following action is related to GetObjectTorrent:    GetObject
 
 # Arguments
 - `bucket`: The name of the bucket containing the object for which to get the torrent files.
@@ -3194,8 +3881,8 @@ GetObject
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
 function get_object_torrent(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3225,17 +3912,18 @@ end
     get_public_access_block(bucket)
     get_public_access_block(bucket, params::Dict{String,<:Any})
 
-Retrieves the PublicAccessBlock configuration for an Amazon S3 bucket. To use this
-operation, you must have the s3:GetBucketPublicAccessBlock permission. For more information
-about Amazon S3 permissions, see Specifying Permissions in a Policy.  When Amazon S3
-evaluates the PublicAccessBlock configuration for a bucket or an object, it checks the
-PublicAccessBlock configuration for both the bucket (or the bucket that contains the
-object) and the bucket owner's account. If the PublicAccessBlock settings are different
-between the bucket and the account, Amazon S3 uses the most restrictive combination of the
-bucket-level and account-level settings.  For more information about when Amazon S3
-considers a bucket or an object public, see The Meaning of \"Public\". The following
-operations are related to GetPublicAccessBlock:    Using Amazon S3 Block Public Access
-PutPublicAccessBlock     GetPublicAccessBlock     DeletePublicAccessBlock
+ This operation is not supported by directory buckets.  Retrieves the PublicAccessBlock
+configuration for an Amazon S3 bucket. To use this operation, you must have the
+s3:GetBucketPublicAccessBlock permission. For more information about Amazon S3 permissions,
+see Specifying Permissions in a Policy.  When Amazon S3 evaluates the PublicAccessBlock
+configuration for a bucket or an object, it checks the PublicAccessBlock configuration for
+both the bucket (or the bucket that contains the object) and the bucket owner's account. If
+the PublicAccessBlock settings are different between the bucket and the account, Amazon S3
+uses the most restrictive combination of the bucket-level and account-level settings.  For
+more information about when Amazon S3 considers a bucket or an object public, see The
+Meaning of \"Public\". The following operations are related to GetPublicAccessBlock:
+Using Amazon S3 Block Public Access     PutPublicAccessBlock     GetPublicAccessBlock
+DeletePublicAccessBlock
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want
@@ -3244,8 +3932,8 @@ PutPublicAccessBlock     GetPublicAccessBlock     DeletePublicAccessBlock
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function get_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -3271,49 +3959,67 @@ end
     head_bucket(bucket)
     head_bucket(bucket, params::Dict{String,<:Any})
 
-This action is useful to determine if a bucket exists and you have permission to access it.
-The action returns a 200 OK if the bucket exists and you have permission to access it. If
-the bucket does not exist or you do not have permission to access it, the HEAD request
-returns a generic 400 Bad Request, 403 Forbidden or 404 Not Found code. A message body is
-not included, so you cannot determine the exception beyond these error codes. To use this
-operation, you must have permissions to perform the s3:ListBucket action. The bucket owner
-has this permission by default and can grant this permission to others. For more
-information about permissions, see Permissions Related to Bucket Subresource Operations and
-Managing Access Permissions to Your Amazon S3 Resources. To use this API operation against
-an access point, you must provide the alias of the access point in place of the bucket name
-or specify the access point ARN. When using the access point ARN, you must direct requests
-to the access point hostname. The access point hostname takes the form
-AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using the Amazon Web
-Services SDKs, you provide the ARN in place of the bucket name. For more information, see
-Using access points. To use this API operation against an Object Lambda access point,
-provide the alias of the Object Lambda access point in place of the bucket name. If the
-Object Lambda access point alias in a request is not valid, the error code
-InvalidAccessPointAliasError is returned. For more information about
-InvalidAccessPointAliasError, see List of Error Codes.
+You can use this operation to determine if a bucket exists and if you have permission to
+access it. The action returns a 200 OK if the bucket exists and you have permission to
+access it. If the bucket does not exist or you do not have permission to access it, the
+HEAD request returns a generic 400 Bad Request, 403 Forbidden or 404 Not Found code. A
+message body is not included, so you cannot determine the exception beyond these HTTP
+response codes.   Directory buckets  - You must make requests for this API operation to the
+Zonal endpoint. These endpoints support virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not
+supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.   Authentication and authorization  All HeadBucket requests must be authenticated
+and signed by using IAM credentials (access key ID and secret access key for the IAM
+identities). All headers with the x-amz- prefix, including x-amz-copy-source, must be
+signed. For more information, see REST Authentication.  Directory bucket - You must use IAM
+credentials to authenticate and authorize your access to the HeadBucket API operation,
+instead of using the temporary security credentials through the CreateSession API
+operation. Amazon Web Services CLI or SDKs handles authentication and authorization on your
+behalf.  Permissions      General purpose bucket permissions - To use this operation, you
+must have permissions to perform the s3:ListBucket action. The bucket owner has this
+permission by default and can grant this permission to others. For more information about
+permissions, see Managing access permissions to your Amazon S3 resources in the Amazon S3
+User Guide.    Directory bucket permissions - You must have the  s3express:CreateSession
+permission in the Action element of a policy. By default, the session is in the ReadWrite
+mode. If you want to restrict the access, you can explicitly set the s3express:SessionMode
+condition key to ReadOnly on the bucket. For more information about example bucket
+policies, see Example bucket policies for S3 Express One Zone and Amazon Web Services
+Identity and Access Management (IAM) identity-based policies for S3 Express One Zone in the
+Amazon S3 User Guide.    HTTP Host header syntax   Directory buckets  - The HTTP Host
+header syntax is  Bucket_name.s3express-az_id.region.amazonaws.com.
 
 # Arguments
-- `bucket`: The bucket name. When using this action with an access point, you must direct
-  requests to the access point hostname. The access point hostname takes the form
+- `bucket`: The bucket name.  Directory buckets - When you use this operation with a
+  directory bucket, you must use virtual-hosted-style requests in the format
+  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.
+  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must
+  follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with an Object Lambda access
-  point, provide the alias of the Object Lambda access point in place of the bucket name. If
-  the Object Lambda access point alias in a request is not valid, the error code
-  InvalidAccessPointAliasError is returned. For more information about
-  InvalidAccessPointAliasError, see List of Error Codes. When you use this action with Amazon
-  S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
-  hostname takes the form
+  points in the Amazon S3 User Guide.  Object Lambda access points - When you use this API
+  operation with an Object Lambda access point, provide the alias of the Object Lambda access
+  point in place of the bucket name. If the Object Lambda access point alias in a request is
+  not valid, the error code InvalidAccessPointAliasError is returned. For more information
+  about InvalidAccessPointAliasError, see List of Error Codes.  Access points and Object
+  Lambda access points are not supported by directory buckets.   S3 on Outposts - When you
+  use this action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts
+  hostname. The S3 on Outposts hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
   action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   access point ARN in place of the bucket name. For more information about S3 on Outposts
-  ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function head_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3("HEAD", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -3330,90 +4036,144 @@ end
     head_object(bucket, key)
     head_object(bucket, key, params::Dict{String,<:Any})
 
-The HEAD action retrieves metadata from an object without returning the object itself. This
-action is useful if you're only interested in an object's metadata. To use HEAD, you must
-have READ access to the object. A HEAD request has the same options as a GET action on an
-object. The response is identical to the GET response except that there is no response
-body. Because of this, if the HEAD request generates an error, it returns a generic 400 Bad
-Request, 403 Forbidden or 404 Not Found code. It is not possible to retrieve the exact
-exception beyond these error codes. If you encrypt an object by using server-side
-encryption with customer-provided encryption keys (SSE-C) when you store the object in
-Amazon S3, then when you retrieve the metadata from the object, you must use the following
-headers:   x-amz-server-side-encryption-customer-algorithm
-x-amz-server-side-encryption-customer-key   x-amz-server-side-encryption-customer-key-MD5
-For more information about SSE-C, see Server-Side Encryption (Using Customer-Provided
-Encryption Keys).    Encryption request headers, like x-amz-server-side-encryption, should
-not be sent for GET requests if your object uses server-side encryption with KMS keys
-(SSE-KMS) or server-side encryption with Amazon S3–managed encryption keys (SSE-S3). If
-your object does use these types of keys, you’ll get an HTTP 400 BadRequest error.    The
-last modified property in this case is the creation date of the object.    Request headers
-are limited to 8 KB in size. For more information, see Common Request Headers. Consider the
-following when using request headers:    Consideration 1 – If both of the If-Match and
-If-Unmodified-Since headers are present in the request as follows:    If-Match condition
-evaluates to true, and;    If-Unmodified-Since condition evaluates to false;   Then Amazon
-S3 returns 200 OK and the data requested.    Consideration 2 – If both of the
-If-None-Match and If-Modified-Since headers are present in the request as follows:
-If-None-Match condition evaluates to false, and;    If-Modified-Since condition evaluates
-to true;   Then Amazon S3 returns the 304 Not Modified response code.   For more
-information about conditional requests, see RFC 7232.  Permissions  You need the relevant
-read object (or version) permission for this operation. For more information, see Actions,
-resources, and condition keys for Amazon S3. If the object you request does not exist, the
-error Amazon S3 returns depends on whether you also have the s3:ListBucket permission.   If
-you have the s3:ListBucket permission on the bucket, Amazon S3 returns an HTTP status code
-404 (\"no such key\") error.   If you don’t have the s3:ListBucket permission, Amazon S3
-returns an HTTP status code 403 (\"access denied\") error.     The following actions are
-related to HeadObject:    GetObject     GetObjectAttributes
+The HEAD operation retrieves metadata from an object without returning the object itself.
+This operation is useful if you're interested only in an object's metadata. A HEAD request
+has the same options as a GET operation on an object. The response is identical to the GET
+response except that there is no response body. Because of this, if the HEAD request
+generates an error, it returns a generic code, such as 400 Bad Request, 403 Forbidden, 404
+Not Found, 405 Method Not Allowed, 412 Precondition Failed, or 304 Not Modified. It's not
+possible to retrieve the exact exception of these error codes. Request headers are limited
+to 8 KB in size. For more information, see Common Request Headers.   Directory buckets -
+For directory buckets, you must make requests for this API operation to the Zonal endpoint.
+These endpoints support virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
+not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.   Permissions      General purpose bucket permissions - To use HEAD, you must have
+the s3:GetObject permission. You need the relevant read object (or version) permission for
+this operation. For more information, see Actions, resources, and condition keys for Amazon
+S3 in the Amazon S3 User Guide. If the object you request doesn't exist, the error that
+Amazon S3 returns depends on whether you also have the s3:ListBucket permission.   If you
+have the s3:ListBucket permission on the bucket, Amazon S3 returns an HTTP status code 404
+Not Found error.   If you don’t have the s3:ListBucket permission, Amazon S3 returns an
+HTTP status code 403 Forbidden error.      Directory bucket permissions - To grant access
+to this API operation on a directory bucket, we recommend that you use the  CreateSession
+API operation for session-based authorization. Specifically, you grant the
+s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM
+identity-based policy. Then, you make the CreateSession API call on the bucket to obtain a
+session token. With the session token in your request header, you can make API requests to
+this operation. After the session token expires, you make another CreateSession API call to
+generate a new session token for use. Amazon Web Services CLI or SDKs create session and
+refresh the session token automatically to avoid service interruptions when a session
+expires. For more information about authorization, see  CreateSession .    Encryption
+Encryption request headers, like x-amz-server-side-encryption, should not be sent for HEAD
+requests if your object uses server-side encryption with Key Management Service (KMS) keys
+(SSE-KMS), dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS),
+or server-side encryption with Amazon S3 managed encryption keys (SSE-S3). The
+x-amz-server-side-encryption header is used when you PUT an object to S3 and want to
+specify the encryption method. If you include this header in a HEAD request for an object
+that uses these types of keys, you’ll get an HTTP 400 Bad Request error. It's because the
+encryption method can't be changed when you retrieve the object.  If you encrypt an object
+by using server-side encryption with customer-provided encryption keys (SSE-C) when you
+store the object in Amazon S3, then when you retrieve the metadata from the object, you
+must use the following headers to provide the encryption key for the server to be able to
+retrieve the object's metadata. The headers are:
+x-amz-server-side-encryption-customer-algorithm
+x-amz-server-side-encryption-customer-key     x-amz-server-side-encryption-customer-key-MD5
+   For more information about SSE-C, see Server-Side Encryption (Using Customer-Provided
+Encryption Keys) in the Amazon S3 User Guide.   Directory bucket permissions - For
+directory buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3)
+(AES256) is supported.   Versioning    If the current version of the object is a delete
+marker, Amazon S3 behaves as if the object was deleted and includes x-amz-delete-marker:
+true in the response.   If the specified version is a delete marker, the response returns a
+405 Method Not Allowed error and the Last-Modified: timestamp response header.
+Directory buckets - Delete marker is not supported by directory buckets.    Directory
+buckets - S3 Versioning isn't enabled and supported for directory buckets. For this API
+operation, only the null value of the version ID is supported by directory buckets. You can
+only specify null to the versionId query parameter in the request.     HTTP Host header
+syntax   Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following actions are related to
+HeadObject:    GetObject     GetObjectAttributes
 
 # Arguments
-- `bucket`: The name of the bucket containing the object. When using this action with an
-  access point, you must direct requests to the access point hostname. The access point
-  hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
-  using this action with an access point through the Amazon Web Services SDKs, you provide
-  the access point ARN in place of the bucket name. For more information about access point
-  ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with
-  Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on
-  Outposts hostname takes the form
+- `bucket`: The name of the bucket that contains the object.  Directory buckets - When you
+  use this operation with a directory bucket, you must use virtual-hosted-style requests in
+  the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not
+  supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket
+  names must follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
+  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
+  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
   action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   access point ARN in place of the bucket name. For more information about S3 on Outposts
-  ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: The object key.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"If-Match"`: Return the object only if its entity tag (ETag) is the same as the one
-  specified; otherwise, return a 412 (precondition failed) error.
+  specified; otherwise, return a 412 (precondition failed) error. If both of the If-Match and
+  If-Unmodified-Since headers are present in the request as follows:    If-Match condition
+  evaluates to true, and;    If-Unmodified-Since condition evaluates to false;   Then Amazon
+  S3 returns 200 OK and the data requested. For more information about conditional requests,
+  see RFC 7232.
 - `"If-Modified-Since"`: Return the object only if it has been modified since the specified
-  time; otherwise, return a 304 (not modified) error.
+  time; otherwise, return a 304 (not modified) error. If both of the If-None-Match and
+  If-Modified-Since headers are present in the request as follows:    If-None-Match condition
+  evaluates to false, and;    If-Modified-Since condition evaluates to true;   Then Amazon S3
+  returns the 304 Not Modified response code. For more information about conditional
+  requests, see RFC 7232.
 - `"If-None-Match"`: Return the object only if its entity tag (ETag) is different from the
-  one specified; otherwise, return a 304 (not modified) error.
+  one specified; otherwise, return a 304 (not modified) error. If both of the If-None-Match
+  and If-Modified-Since headers are present in the request as follows:    If-None-Match
+  condition evaluates to false, and;    If-Modified-Since condition evaluates to true;   Then
+  Amazon S3 returns the 304 Not Modified response code. For more information about
+  conditional requests, see RFC 7232.
 - `"If-Unmodified-Since"`: Return the object only if it has not been modified since the
-  specified time; otherwise, return a 412 (precondition failed) error.
+  specified time; otherwise, return a 412 (precondition failed) error. If both of the
+  If-Match and If-Unmodified-Since headers are present in the request as follows:    If-Match
+  condition evaluates to true, and;    If-Unmodified-Since condition evaluates to false;
+  Then Amazon S3 returns 200 OK and the data requested. For more information about
+  conditional requests, see RFC 7232.
 - `"Range"`: HeadObject returns only the metadata for an object. If the Range is
   satisfiable, only the ContentLength is affected in the response. If the Range is not
   satisfiable, S3 returns a 416 - Requested Range Not Satisfiable error.
 - `"partNumber"`: Part number of the object being read. This is a positive integer between
   1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful
   querying about the size of the part and the number of parts in this object.
-- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"versionId"`: Version ID used to reference a specific version of the object.  For
+  directory buckets in this API operation, only the null value of the version ID is
+  supported.
 - `"x-amz-checksum-mode"`: To retrieve the checksum, this parameter must be enabled. In
   addition, if you enable ChecksumMode and the object is encrypted with Amazon Web Services
   Key Management Service (Amazon Web Services KMS), you must have permission to use the
   kms:Decrypt action for the request to succeed.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
-- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
-  when encrypting the object (for example, AES256).
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
+  encrypting the object (for example, AES256).  This functionality is not supported for
+  directory buckets.
 - `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
-  x-amz-server-side-encryption-customer-algorithm header.
+  x-amz-server-side-encryption-customer-algorithm header.  This functionality is not
+  supported for directory buckets.
 - `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
   the encryption key according to RFC 1321. Amazon S3 uses this header for a message
-  integrity check to ensure that the encryption key was transmitted without error.
+  integrity check to ensure that the encryption key was transmitted without error.  This
+  functionality is not supported for directory buckets.
 """
 function head_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -3439,21 +4199,22 @@ end
     list_bucket_analytics_configurations(bucket)
     list_bucket_analytics_configurations(bucket, params::Dict{String,<:Any})
 
-Lists the analytics configurations for the bucket. You can have up to 1,000 analytics
-configurations per bucket. This action supports list pagination and does not return more
-than 100 configurations at a time. You should always check the IsTruncated element in the
-response. If there are no more configurations to list, IsTruncated is set to false. If
-there are more configurations to list, IsTruncated is set to true, and there will be a
-value in NextContinuationToken. You use the NextContinuationToken value to continue the
-pagination of the list by passing the value in continuation-token in the request to GET the
-next page. To use this operation, you must have permissions to perform the
-s3:GetAnalyticsConfiguration action. The bucket owner has this permission by default. The
-bucket owner can grant this permission to others. For more information about permissions,
-see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
-Your Amazon S3 Resources. For information about Amazon S3 analytics feature, see Amazon S3
-Analytics – Storage Class Analysis.  The following operations are related to
-ListBucketAnalyticsConfigurations:    GetBucketAnalyticsConfiguration
-DeleteBucketAnalyticsConfiguration     PutBucketAnalyticsConfiguration
+ This operation is not supported by directory buckets.  Lists the analytics configurations
+for the bucket. You can have up to 1,000 analytics configurations per bucket. This action
+supports list pagination and does not return more than 100 configurations at a time. You
+should always check the IsTruncated element in the response. If there are no more
+configurations to list, IsTruncated is set to false. If there are more configurations to
+list, IsTruncated is set to true, and there will be a value in NextContinuationToken. You
+use the NextContinuationToken value to continue the pagination of the list by passing the
+value in continuation-token in the request to GET the next page. To use this operation, you
+must have permissions to perform the s3:GetAnalyticsConfiguration action. The bucket owner
+has this permission by default. The bucket owner can grant this permission to others. For
+more information about permissions, see Permissions Related to Bucket Subresource
+Operations and Managing Access Permissions to Your Amazon S3 Resources. For information
+about Amazon S3 analytics feature, see Amazon S3 Analytics – Storage Class Analysis.  The
+following operations are related to ListBucketAnalyticsConfigurations:
+GetBucketAnalyticsConfiguration     DeleteBucketAnalyticsConfiguration
+PutBucketAnalyticsConfiguration
 
 # Arguments
 - `bucket`: The name of the bucket from which analytics configurations are retrieved.
@@ -3463,8 +4224,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"continuation-token"`: The ContinuationToken that represents a placeholder from where
   this request should begin.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function list_bucket_analytics_configurations(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3492,21 +4253,22 @@ end
     list_bucket_intelligent_tiering_configurations(bucket)
     list_bucket_intelligent_tiering_configurations(bucket, params::Dict{String,<:Any})
 
-Lists the S3 Intelligent-Tiering configuration from the specified bucket. The S3
-Intelligent-Tiering storage class is designed to optimize storage costs by automatically
-moving data to the most cost-effective storage access tier, without performance impact or
-operational overhead. S3 Intelligent-Tiering delivers automatic cost savings in three low
-latency and high throughput access tiers. To get the lowest storage cost on data that can
-be accessed in minutes to hours, you can choose to activate additional archiving
-capabilities. The S3 Intelligent-Tiering storage class is the ideal storage class for data
-with unknown, changing, or unpredictable access patterns, independent of object size or
-retention period. If the size of an object is less than 128 KB, it is not monitored and not
-eligible for auto-tiering. Smaller objects can be stored, but they are always charged at
-the Frequent Access tier rates in the S3 Intelligent-Tiering storage class. For more
-information, see Storage class for automatically optimizing frequently and infrequently
-accessed objects. Operations related to ListBucketIntelligentTieringConfigurations include:
-    DeleteBucketIntelligentTieringConfiguration
-PutBucketIntelligentTieringConfiguration     GetBucketIntelligentTieringConfiguration
+ This operation is not supported by directory buckets.  Lists the S3 Intelligent-Tiering
+configuration from the specified bucket. The S3 Intelligent-Tiering storage class is
+designed to optimize storage costs by automatically moving data to the most cost-effective
+storage access tier, without performance impact or operational overhead. S3
+Intelligent-Tiering delivers automatic cost savings in three low latency and high
+throughput access tiers. To get the lowest storage cost on data that can be accessed in
+minutes to hours, you can choose to activate additional archiving capabilities. The S3
+Intelligent-Tiering storage class is the ideal storage class for data with unknown,
+changing, or unpredictable access patterns, independent of object size or retention period.
+If the size of an object is less than 128 KB, it is not monitored and not eligible for
+auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
+Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
+Storage class for automatically optimizing frequently and infrequently accessed objects.
+Operations related to ListBucketIntelligentTieringConfigurations include:
+DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfiguration
+ GetBucketIntelligentTieringConfiguration
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose configuration you want to modify or
@@ -3543,11 +4305,12 @@ end
     list_bucket_inventory_configurations(bucket)
     list_bucket_inventory_configurations(bucket, params::Dict{String,<:Any})
 
-Returns a list of inventory configurations for the bucket. You can have up to 1,000
-analytics configurations per bucket. This action supports list pagination and does not
-return more than 100 configurations at a time. Always check the IsTruncated element in the
-response. If there are no more configurations to list, IsTruncated is set to false. If
-there are more configurations to list, IsTruncated is set to true, and there is a value in
+ This operation is not supported by directory buckets.  Returns a list of inventory
+configurations for the bucket. You can have up to 1,000 analytics configurations per
+bucket. This action supports list pagination and does not return more than 100
+configurations at a time. Always check the IsTruncated element in the response. If there
+are no more configurations to list, IsTruncated is set to false. If there are more
+configurations to list, IsTruncated is set to true, and there is a value in
 NextContinuationToken. You use the NextContinuationToken value to continue the pagination
 of the list by passing the value in continuation-token in the request to GET the next page.
  To use this operation, you must have permissions to perform the
@@ -3569,8 +4332,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue the listing. The continuation token is an opaque value that Amazon S3
   understands.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function list_bucket_inventory_configurations(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3598,21 +4361,22 @@ end
     list_bucket_metrics_configurations(bucket)
     list_bucket_metrics_configurations(bucket, params::Dict{String,<:Any})
 
-Lists the metrics configurations for the bucket. The metrics configurations are only for
-the request metrics of the bucket and do not provide information on daily storage metrics.
-You can have up to 1,000 configurations per bucket. This action supports list pagination
-and does not return more than 100 configurations at a time. Always check the IsTruncated
-element in the response. If there are no more configurations to list, IsTruncated is set to
-false. If there are more configurations to list, IsTruncated is set to true, and there is a
-value in NextContinuationToken. You use the NextContinuationToken value to continue the
-pagination of the list by passing the value in continuation-token in the request to GET the
-next page. To use this operation, you must have permissions to perform the
-s3:GetMetricsConfiguration action. The bucket owner has this permission by default. The
-bucket owner can grant this permission to others. For more information about permissions,
-see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
-Your Amazon S3 Resources. For more information about metrics configurations and CloudWatch
-request metrics, see Monitoring Metrics with Amazon CloudWatch. The following operations
-are related to ListBucketMetricsConfigurations:    PutBucketMetricsConfiguration
+ This operation is not supported by directory buckets.  Lists the metrics configurations
+for the bucket. The metrics configurations are only for the request metrics of the bucket
+and do not provide information on daily storage metrics. You can have up to 1,000
+configurations per bucket. This action supports list pagination and does not return more
+than 100 configurations at a time. Always check the IsTruncated element in the response. If
+there are no more configurations to list, IsTruncated is set to false. If there are more
+configurations to list, IsTruncated is set to true, and there is a value in
+NextContinuationToken. You use the NextContinuationToken value to continue the pagination
+of the list by passing the value in continuation-token in the request to GET the next page.
+To use this operation, you must have permissions to perform the s3:GetMetricsConfiguration
+action. The bucket owner has this permission by default. The bucket owner can grant this
+permission to others. For more information about permissions, see Permissions Related to
+Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.
+For more information about metrics configurations and CloudWatch request metrics, see
+Monitoring Metrics with Amazon CloudWatch. The following operations are related to
+ListBucketMetricsConfigurations:    PutBucketMetricsConfiguration
 GetBucketMetricsConfiguration     DeleteBucketMetricsConfiguration
 
 # Arguments
@@ -3625,8 +4389,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list response to continue the listing. The continuation token is an opaque value that
   Amazon S3 understands.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function list_bucket_metrics_configurations(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3651,9 +4415,10 @@ end
     list_buckets()
     list_buckets(params::Dict{String,<:Any})
 
-Returns a list of all buckets owned by the authenticated sender of the request. To use this
-operation, you must have the s3:ListAllMyBuckets permission.  For information about Amazon
-S3 buckets, see Creating, configuring, and working with Amazon S3 buckets.
+ This operation is not supported by directory buckets.  Returns a list of all buckets owned
+by the authenticated sender of the request. To use this operation, you must have the
+s3:ListAllMyBuckets permission.  For information about Amazon S3 buckets, see Creating,
+configuring, and working with Amazon S3 buckets.
 
 """
 function list_buckets(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -3666,39 +4431,117 @@ function list_buckets(
 end
 
 """
+    list_directory_buckets()
+    list_directory_buckets(params::Dict{String,<:Any})
+
+Returns a list of all Amazon S3 directory buckets owned by the authenticated sender of the
+request. For more information about directory buckets, see Directory buckets in the Amazon
+S3 User Guide.   Directory buckets  - For directory buckets, you must make requests for
+this API operation to the Regional endpoint. These endpoints support path-style requests in
+the format https://s3express-control.region_code.amazonaws.com/bucket-name .
+Virtual-hosted-style requests aren't supported. For more information, see Regional and
+Zonal endpoints in the Amazon S3 User Guide.   Permissions  You must have the
+s3express:ListAllMyDirectoryBuckets permission in an IAM identity-based policy instead of a
+bucket policy. Cross-account access to this API operation isn't supported. This operation
+can only be performed by the Amazon Web Services account that owns the resource. For more
+information about directory bucket policies and permissions, see Amazon Web Services
+Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.
+HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
+s3express-control.region.amazonaws.com.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"continuation-token"`:  ContinuationToken indicates to Amazon S3 that the list is being
+  continued on this bucket with a token. ContinuationToken is obfuscated and is not a real
+  key. You can use this ContinuationToken for pagination of the list results.
+- `"max-directory-buckets"`: Maximum number of buckets to be returned in response. When the
+  number is more than the count of buckets that are owned by an Amazon Web Services account,
+  return all the buckets in response.
+"""
+function list_directory_buckets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return s3("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_directory_buckets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3("GET", "/", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+
+"""
     list_multipart_uploads(bucket)
     list_multipart_uploads(bucket, params::Dict{String,<:Any})
 
-This action lists in-progress multipart uploads. An in-progress multipart upload is a
-multipart upload that has been initiated using the Initiate Multipart Upload request, but
-has not yet been completed or aborted. This action returns at most 1,000 multipart uploads
-in the response. 1,000 multipart uploads is the maximum number of uploads a response can
-include, which is also the default value. You can further limit the number of uploads in a
-response by specifying the max-uploads parameter in the response. If additional multipart
-uploads satisfy the list criteria, the response will contain an IsTruncated element with
-the value true. To list the additional multipart uploads, use the key-marker and
-upload-id-marker request parameters. In the response, the uploads are sorted by key. If
-your application has initiated more than one multipart upload using the same object key,
-then uploads in the response are first sorted by key. Additionally, uploads are sorted in
-ascending order within each key by the upload initiation time. For more information on
-multipart uploads, see Uploading Objects Using Multipart Upload. For information on
-permissions required to use the multipart upload API, see Multipart Upload and Permissions.
-The following operations are related to ListMultipartUploads:    CreateMultipartUpload
-UploadPart     CompleteMultipartUpload     ListParts     AbortMultipartUpload
+This operation lists in-progress multipart uploads in a bucket. An in-progress multipart
+upload is a multipart upload that has been initiated by the CreateMultipartUpload request,
+but has not yet been completed or aborted.   Directory buckets - If multipart uploads in a
+directory bucket are in progress, you can't delete the bucket until all the in-progress
+multipart uploads are aborted or completed.   The ListMultipartUploads operation returns a
+maximum of 1,000 multipart uploads in the response. The limit of 1,000 multipart uploads is
+also the default value. You can further limit the number of uploads in a response by
+specifying the max-uploads request parameter. If there are more than 1,000 multipart
+uploads that satisfy your ListMultipartUploads request, the response returns an IsTruncated
+element with the value of true, a NextKeyMarker element, and a NextUploadIdMarker element.
+To list the remaining multipart uploads, you need to make subsequent ListMultipartUploads
+requests. In these requests, include two query parameters: key-marker and upload-id-marker.
+Set the value of key-marker to the NextKeyMarker value from the previous response.
+Similarly, set the value of upload-id-marker to the NextUploadIdMarker value from the
+previous response.   Directory buckets - The upload-id-marker element and the
+NextUploadIdMarker element aren't supported by directory buckets. To list the additional
+multipart uploads, you only need to set the value of key-marker to the NextKeyMarker value
+from the previous response.   For more information about multipart uploads, see Uploading
+Objects Using Multipart Upload in the Amazon S3 User Guide.   Directory buckets - For
+directory buckets, you must make requests for this API operation to the Zonal endpoint.
+These endpoints support virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
+not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.   Permissions     General purpose bucket permissions - For information about
+permissions required to use the multipart upload API, see Multipart Upload and Permissions
+in the Amazon S3 User Guide.    Directory bucket permissions - To grant access to this API
+operation on a directory bucket, we recommend that you use the  CreateSession  API
+operation for session-based authorization. Specifically, you grant the
+s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM
+identity-based policy. Then, you make the CreateSession API call on the bucket to obtain a
+session token. With the session token in your request header, you can make API requests to
+this operation. After the session token expires, you make another CreateSession API call to
+generate a new session token for use. Amazon Web Services CLI or SDKs create session and
+refresh the session token automatically to avoid service interruptions when a session
+expires. For more information about authorization, see  CreateSession .    Sorting of
+multipart uploads in response     General purpose bucket - In the ListMultipartUploads
+response, the multipart uploads are sorted based on two criteria:   Key-based sorting -
+Multipart uploads are initially sorted in ascending order based on their object keys.
+Time-based sorting - For uploads that share the same object key, they are further sorted in
+ascending order based on the upload initiation time. Among uploads with the same key, the
+one that was initiated first will appear before the ones that were initiated later.
+Directory bucket - In the ListMultipartUploads response, the multipart uploads aren't
+sorted lexicographically based on the object keys.     HTTP Host header syntax   Directory
+buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
+ListMultipartUploads:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload
+  ListParts     AbortMultipartUpload
 
 # Arguments
-- `bucket`: The name of the bucket to which the multipart upload was initiated.  When using
-  this action with an access point, you must direct requests to the access point hostname.
-  The access point hostname takes the form
+- `bucket`: The name of the bucket to which the multipart upload was initiated.   Directory
+  buckets - When you use this operation with a directory bucket, you must use
+  virtual-hosted-style requests in the format
+  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.
+  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must
+  follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3707,27 +4550,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prefix are grouped under a single result element, CommonPrefixes. If you don't specify the
   prefix parameter, then the substring starts at the beginning of the key. The keys that are
   grouped under CommonPrefixes result element are not returned elsewhere in the response.
+  Directory buckets - For directory buckets, / is the only supported delimiter.
 - `"encoding-type"`:
-- `"key-marker"`: Together with upload-id-marker, this parameter specifies the multipart
-  upload after which listing should begin. If upload-id-marker is not specified, only the
-  keys lexicographically greater than the specified key-marker will be included in the list.
-  If upload-id-marker is specified, any multipart uploads for a key equal to the key-marker
-  might also be included, provided those multipart uploads have upload IDs lexicographically
-  greater than the specified upload-id-marker.
+- `"key-marker"`: Specifies the multipart upload after which listing should begin.
+  General purpose buckets - For general purpose buckets, key-marker is an object key.
+  Together with upload-id-marker, this parameter specifies the multipart upload after which
+  listing should begin. If upload-id-marker is not specified, only the keys lexicographically
+  greater than the specified key-marker will be included in the list. If upload-id-marker is
+  specified, any multipart uploads for a key equal to the key-marker might also be included,
+  provided those multipart uploads have upload IDs lexicographically greater than the
+  specified upload-id-marker.    Directory buckets - For directory buckets, key-marker is
+  obfuscated and isn't a real object key. The upload-id-marker parameter isn't supported by
+  directory buckets. To list the additional multipart uploads, you only need to set the value
+  of key-marker to the NextKeyMarker value from the previous response.  In the
+  ListMultipartUploads response, the multipart uploads aren't sorted lexicographically based
+  on the object keys.
 - `"max-uploads"`: Sets the maximum number of multipart uploads, from 1 to 1,000, to return
   in the response body. 1,000 is the maximum number of uploads that can be returned in a
   response.
 - `"prefix"`: Lists in-progress uploads only for those keys that begin with the specified
   prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can
-  think of using prefix to make groups in the same way you'd use a folder in a file system.)
+  think of using prefix to make groups in the same way that you'd use a folder in a file
+  system.)   Directory buckets - For directory buckets, only prefixes that end in a delimiter
+  (/) are supported.
 - `"upload-id-marker"`: Together with key-marker, specifies the multipart upload after
   which listing should begin. If key-marker is not specified, the upload-id-marker parameter
   is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be
   included in the list only if they have an upload ID lexicographically greater than the
-  specified upload-id-marker.
+  specified upload-id-marker.  This functionality is not supported for directory buckets.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
+- `"x-amz-request-payer"`:
 """
 function list_multipart_uploads(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -3750,15 +4604,15 @@ end
     list_object_versions(bucket)
     list_object_versions(bucket, params::Dict{String,<:Any})
 
-Returns metadata about all versions of the objects in a bucket. You can also use request
-parameters as selection criteria to return metadata about a subset of all the object
-versions.   To use this operation, you must have permissions to perform the
-s3:ListBucketVersions action. Be aware of the name difference.     A 200 OK response can
-contain valid or invalid XML. Make sure to design your application to parse the contents of
-the response and handle it appropriately.  To use this operation, you must have READ access
-to the bucket. This action is not supported by Amazon S3 on Outposts. The following
-operations are related to ListObjectVersions:    ListObjectsV2     GetObject     PutObject
-   DeleteObject
+ This operation is not supported by directory buckets.  Returns metadata about all versions
+of the objects in a bucket. You can also use request parameters as selection criteria to
+return metadata about a subset of all the object versions.   To use this operation, you
+must have permission to perform the s3:ListBucketVersions action. Be aware of the name
+difference.     A 200 OK response can contain valid or invalid XML. Make sure to design
+your application to parse the contents of the response and handle it appropriately.  To use
+this operation, you must have READ access to the bucket. The following operations are
+related to ListObjectVersions:    ListObjectsV2     GetObject     PutObject
+DeleteObject
 
 # Arguments
 - `bucket`: The bucket name that contains the objects.
@@ -3772,20 +4626,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response.
 - `"encoding-type"`:
 - `"key-marker"`: Specifies the key to start with when listing objects in a bucket.
-- `"max-keys"`: Sets the maximum number of keys returned in the response. By default the
+- `"max-keys"`: Sets the maximum number of keys returned in the response. By default, the
   action returns up to 1,000 key names. The response might contain fewer keys but will never
   contain more. If additional keys satisfy the search criteria, but were not returned because
   max-keys was exceeded, the response contains &lt;isTruncated&gt;true&lt;/isTruncated&gt;.
   To return the additional keys, see key-marker and version-id-marker.
 - `"prefix"`: Use this parameter to select only those keys that begin with the specified
   prefix. You can use prefixes to separate a bucket into different groupings of keys. (You
-  can think of using prefix to make groups in the same way you'd use a folder in a file
+  can think of using prefix to make groups in the same way that you'd use a folder in a file
   system.) You can use prefix with delimiter to roll up numerous objects into a single result
   under CommonPrefixes.
 - `"version-id-marker"`: Specifies the object version you want to start listing from.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
+- `"x-amz-optional-object-attributes"`: Specifies the optional fields that you want
+  returned in the response. Fields that you do not specify are not returned.
+- `"x-amz-request-payer"`:
 """
 function list_object_versions(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -3808,42 +4665,53 @@ end
     list_objects(bucket)
     list_objects(bucket, params::Dict{String,<:Any})
 
-Returns some or all (up to 1,000) of the objects in a bucket. You can use the request
-parameters as selection criteria to return a subset of the objects in a bucket. A 200 OK
-response can contain valid or invalid XML. Be sure to design your application to parse the
-contents of the response and handle it appropriately.  This action has been revised. We
-recommend that you use the newer version, ListObjectsV2, when developing applications. For
-backward compatibility, Amazon S3 continues to support ListObjects.  The following
-operations are related to ListObjects:    ListObjectsV2     GetObject     PutObject
-CreateBucket     ListBuckets
+ This operation is not supported by directory buckets.  Returns some or all (up to 1,000)
+of the objects in a bucket. You can use the request parameters as selection criteria to
+return a subset of the objects in a bucket. A 200 OK response can contain valid or invalid
+XML. Be sure to design your application to parse the contents of the response and handle it
+appropriately.  This action has been revised. We recommend that you use the newer version,
+ListObjectsV2, when developing applications. For backward compatibility, Amazon S3
+continues to support ListObjects.  The following operations are related to ListObjects:
+ListObjectsV2     GetObject     PutObject     CreateBucket     ListBuckets
 
 # Arguments
-- `bucket`: The name of the bucket containing the objects. When using this action with an
-  access point, you must direct requests to the access point hostname. The access point
-  hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
-  using this action with an access point through the Amazon Web Services SDKs, you provide
-  the access point ARN in place of the bucket name. For more information about access point
-  ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with
-  Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on
-  Outposts hostname takes the form
+- `bucket`: The name of the bucket containing the objects.  Directory buckets - When you
+  use this operation with a directory bucket, you must use virtual-hosted-style requests in
+  the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not
+  supported. Directory bucket names must be unique in the chosen Availability Zone. Bucket
+  names must follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
+  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
+  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
   action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   access point ARN in place of the bucket name. For more information about S3 on Outposts
-  ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"delimiter"`: A delimiter is a character you use to group keys.
+- `"delimiter"`: A delimiter is a character that you use to group keys.
 - `"encoding-type"`:
 - `"marker"`: Marker is where you want Amazon S3 to start listing from. Amazon S3 starts
   listing after this specified key. Marker can be any key in the bucket.
-- `"max-keys"`: Sets the maximum number of keys returned in the response. By default the
+- `"max-keys"`: Sets the maximum number of keys returned in the response. By default, the
   action returns up to 1,000 key names. The response might contain fewer keys but will never
   contain more.
 - `"prefix"`: Limits the response to keys that begin with the specified prefix.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
+- `"x-amz-optional-object-attributes"`: Specifies the optional fields that you want
+  returned in the response. Fields that you do not specify are not returned.
 - `"x-amz-request-payer"`: Confirms that the requester knows that she or he will be charged
   for the list objects request. Bucket owners need not specify this parameter in their
   requests.
@@ -3866,53 +4734,96 @@ end
 Returns some or all (up to 1,000) of the objects in a bucket with each request. You can use
 the request parameters as selection criteria to return a subset of the objects in a bucket.
 A 200 OK response can contain valid or invalid XML. Make sure to design your application to
-parse the contents of the response and handle it appropriately. Objects are returned sorted
-in an ascending order of the respective key names in the list. For more information about
-listing objects, see Listing object keys programmatically  To use this operation, you must
-have READ access to the bucket. To use this action in an Identity and Access Management
-(IAM) policy, you must have permissions to perform the s3:ListBucket action. The bucket
-owner has this permission by default and can grant this permission to others. For more
-information about permissions, see Permissions Related to Bucket Subresource Operations and
-Managing Access Permissions to Your Amazon S3 Resources.  This section describes the latest
-revision of this action. We recommend that you use this revised API for application
-development. For backward compatibility, Amazon S3 continues to support the prior version
-of this API, ListObjects.  To get a list of your buckets, see ListBuckets. The following
-operations are related to ListObjectsV2:    GetObject     PutObject     CreateBucket
+parse the contents of the response and handle it appropriately. For more information about
+listing objects, see Listing object keys programmatically in the Amazon S3 User Guide. To
+get a list of your buckets, see ListBuckets.   Directory buckets - For directory buckets,
+you must make requests for this API operation to the Zonal endpoint. These endpoints
+support virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
+not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.   Permissions     General purpose bucket permissions - To use this operation, you
+must have READ access to the bucket. You must have permission to perform the s3:ListBucket
+action. The bucket owner has this permission by default and can grant this permission to
+others. For more information about permissions, see Permissions Related to Bucket
+Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources in the
+Amazon S3 User Guide.    Directory bucket permissions - To grant access to this API
+operation on a directory bucket, we recommend that you use the  CreateSession  API
+operation for session-based authorization. Specifically, you grant the
+s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM
+identity-based policy. Then, you make the CreateSession API call on the bucket to obtain a
+session token. With the session token in your request header, you can make API requests to
+this operation. After the session token expires, you make another CreateSession API call to
+generate a new session token for use. Amazon Web Services CLI or SDKs create session and
+refresh the session token automatically to avoid service interruptions when a session
+expires. For more information about authorization, see  CreateSession .    Sorting order of
+returned objects     General purpose bucket - For general purpose buckets, ListObjectsV2
+returns objects in lexicographical order based on their key names.    Directory bucket -
+For directory buckets, ListObjectsV2 does not return objects in lexicographical order.
+HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.    This section describes the latest
+revision of this action. We recommend that you use this revised API operation for
+application development. For backward compatibility, Amazon S3 continues to support the
+prior version of this API operation, ListObjects.  The following operations are related to
+ListObjectsV2:    GetObject     PutObject     CreateBucket
 
 # Arguments
-- `bucket`: Bucket name to list.  When using this action with an access point, you must
-  direct requests to the access point hostname. The access point hostname takes the form
+- `bucket`:  Directory buckets - When you use this operation with a directory bucket, you
+  must use virtual-hosted-style requests in the format
+  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.
+  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must
+  follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"continuation-token"`: ContinuationToken indicates Amazon S3 that the list is being
+- `"continuation-token"`:  ContinuationToken indicates to Amazon S3 that the list is being
   continued on this bucket with a token. ContinuationToken is obfuscated and is not a real
-  key.
-- `"delimiter"`: A delimiter is a character you use to group keys.
+  key. You can use this ContinuationToken for pagination of the list results.
+- `"delimiter"`: A delimiter is a character that you use to group keys.     Directory
+  buckets - For directory buckets, / is the only supported delimiter.    Directory buckets  -
+  When you query ListObjectsV2 with a delimiter during in-progress multipart uploads, the
+  CommonPrefixes response parameter contains the prefixes that are associated with the
+  in-progress multipart uploads. For more information about multipart uploads, see Multipart
+  Upload Overview in the Amazon S3 User Guide.
 - `"encoding-type"`: Encoding type used by Amazon S3 to encode object keys in the response.
-- `"fetch-owner"`: The owner field is not present in listV2 by default, if you want to
-  return owner field with each key in the result then set the fetch owner field to true.
-- `"max-keys"`: Sets the maximum number of keys returned in the response. By default the
+  If using url, non-ASCII characters used in an object's key name will be URL encoded. For
+  example, the object test_file(3).png will appear as test_file%283%29.png.
+- `"fetch-owner"`: The owner field is not present in ListObjectsV2 by default. If you want
+  to return the owner field with each key in the result, then set the FetchOwner field to
+  true.   Directory buckets - For directory buckets, the bucket owner is returned as the
+  object owner for all objects.
+- `"max-keys"`: Sets the maximum number of keys returned in the response. By default, the
   action returns up to 1,000 key names. The response might contain fewer keys but will never
   contain more.
-- `"prefix"`: Limits the response to keys that begin with the specified prefix.
+- `"prefix"`: Limits the response to keys that begin with the specified prefix.   Directory
+  buckets - For directory buckets, only prefixes that end in a delimiter (/) are supported.
 - `"start-after"`: StartAfter is where you want Amazon S3 to start listing from. Amazon S3
-  starts listing after this specified key. StartAfter can be any key in the bucket.
+  starts listing after this specified key. StartAfter can be any key in the bucket.  This
+  functionality is not supported for directory buckets.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
+- `"x-amz-optional-object-attributes"`: Specifies the optional fields that you want
+  returned in the response. Fields that you do not specify are not returned.  This
+  functionality is not supported for directory buckets.
 - `"x-amz-request-payer"`: Confirms that the requester knows that she or he will be charged
   for the list objects request in V2 style. Bucket owners need not specify this parameter in
-  their requests.
+  their requests.  This functionality is not supported for directory buckets.
 """
 function list_objects_v2(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -3938,35 +4849,64 @@ end
     list_parts(bucket, key, upload_id)
     list_parts(bucket, key, upload_id, params::Dict{String,<:Any})
 
-Lists the parts that have been uploaded for a specific multipart upload. This operation
-must include the upload ID, which you obtain by sending the initiate multipart upload
-request (see CreateMultipartUpload). This request returns a maximum of 1,000 uploaded
-parts. The default number of parts returned is 1,000 parts. You can restrict the number of
-parts returned by specifying the max-parts request parameter. If your multipart upload
-consists of more than 1,000 parts, the response returns an IsTruncated field with the value
-of true, and a NextPartNumberMarker element. In subsequent ListParts requests you can
-include the part-number-marker query string parameter and set its value to the
-NextPartNumberMarker field value from the previous response. If the upload was created
-using a checksum algorithm, you will need to have permission to the kms:Decrypt action for
-the request to succeed.  For more information on multipart uploads, see Uploading Objects
-Using Multipart Upload. For information on permissions required to use the multipart upload
-API, see Multipart Upload and Permissions. The following operations are related to
-ListParts:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload
-AbortMultipartUpload     GetObjectAttributes     ListMultipartUploads
+Lists the parts that have been uploaded for a specific multipart upload. To use this
+operation, you must provide the upload ID in the request. You obtain this uploadID by
+sending the initiate multipart upload request through CreateMultipartUpload. The ListParts
+request returns a maximum of 1,000 uploaded parts. The limit of 1,000 parts is also the
+default value. You can restrict the number of parts in a response by specifying the
+max-parts request parameter. If your multipart upload consists of more than 1,000 parts,
+the response returns an IsTruncated field with the value of true, and a
+NextPartNumberMarker element. To list remaining uploaded parts, in subsequent ListParts
+requests, include the part-number-marker query string parameter and set its value to the
+NextPartNumberMarker field value from the previous response. For more information on
+multipart uploads, see Uploading Objects Using Multipart Upload in the Amazon S3 User
+Guide.   Directory buckets - For directory buckets, you must make requests for this API
+operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in
+the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style
+requests are not supported. For more information, see Regional and Zonal endpoints in the
+Amazon S3 User Guide.   Permissions     General purpose bucket permissions - For
+information about permissions required to use the multipart upload API, see Multipart
+Upload and Permissions in the Amazon S3 User Guide. If the upload was created using
+server-side encryption with Key Management Service (KMS) keys (SSE-KMS) or dual-layer
+server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), you must have
+permission to the kms:Decrypt action for the ListParts request to succeed.    Directory
+bucket permissions - To grant access to this API operation on a directory bucket, we
+recommend that you use the  CreateSession  API operation for session-based authorization.
+Specifically, you grant the s3express:CreateSession permission to the directory bucket in a
+bucket policy or an IAM identity-based policy. Then, you make the CreateSession API call on
+the bucket to obtain a session token. With the session token in your request header, you
+can make API requests to this operation. After the session token expires, you make another
+CreateSession API call to generate a new session token for use. Amazon Web Services CLI or
+SDKs create session and refresh the session token automatically to avoid service
+interruptions when a session expires. For more information about authorization, see
+CreateSession .    HTTP Host header syntax   Directory buckets  - The HTTP Host header
+syntax is  Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are
+related to ListParts:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload
+  AbortMultipartUpload     GetObjectAttributes     ListMultipartUploads
 
 # Arguments
-- `bucket`: The name of the bucket to which the parts are being uploaded.  When using this
-  action with an access point, you must direct requests to the access point hostname. The
-  access point hostname takes the form
+- `bucket`: The name of the bucket to which the parts are being uploaded.   Directory
+  buckets - When you use this operation with a directory bucket, you must use
+  virtual-hosted-style requests in the format
+  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.
+  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must
+  follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Object key for which the multipart upload was initiated.
 - `upload_id`: Upload ID identifying the multipart upload whose parts are being listed.
 
@@ -3976,21 +4916,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"part-number-marker"`: Specifies the part after which listing should begin. Only parts
   with higher part numbers will be listed.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 - `"x-amz-server-side-encryption-customer-algorithm"`: The server-side encryption (SSE)
   algorithm used to encrypt the object. This parameter is needed only when the object was
   created using a checksum algorithm. For more information, see Protecting data using SSE-C
-  keys in the Amazon S3 User Guide.
+  keys in the Amazon S3 User Guide.  This functionality is not supported for directory
+  buckets.
 - `"x-amz-server-side-encryption-customer-key"`: The server-side encryption (SSE) customer
   managed key. This parameter is needed only when the object was created using a checksum
   algorithm. For more information, see Protecting data using SSE-C keys in the Amazon S3 User
-  Guide.
+  Guide.  This functionality is not supported for directory buckets.
 - `"x-amz-server-side-encryption-customer-key-MD5"`: The MD5 server-side encryption (SSE)
   customer managed key. This parameter is needed only when the object was created using a
   checksum algorithm. For more information, see Protecting data using SSE-C keys in the
-  Amazon S3 User Guide.
+  Amazon S3 User Guide.  This functionality is not supported for directory buckets.
 """
 function list_parts(
     Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4025,22 +4966,22 @@ end
     put_bucket_accelerate_configuration(accelerate_configuration, bucket)
     put_bucket_accelerate_configuration(accelerate_configuration, bucket, params::Dict{String,<:Any})
 
-Sets the accelerate configuration of an existing bucket. Amazon S3 Transfer Acceleration is
-a bucket-level feature that enables you to perform faster data transfers to Amazon S3.  To
-use this operation, you must have permission to perform the s3:PutAccelerateConfiguration
-action. The bucket owner has this permission by default. The bucket owner can grant this
-permission to others. For more information about permissions, see Permissions Related to
-Bucket Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.
-The Transfer Acceleration state of a bucket can be set to one of the following two values:
-  Enabled – Enables accelerated data transfers to the bucket.    Suspended – Disables
-accelerated data transfers to the bucket.   The GetBucketAccelerateConfiguration action
-returns the transfer acceleration state of a bucket. After setting the Transfer
-Acceleration state of a bucket to Enabled, it might take up to thirty minutes before the
-data transfer rates to the bucket increase.  The name of the bucket used for Transfer
-Acceleration must be DNS-compliant and must not contain periods (\".\").  For more
-information about transfer acceleration, see Transfer Acceleration. The following
-operations are related to PutBucketAccelerateConfiguration:
-GetBucketAccelerateConfiguration     CreateBucket
+ This operation is not supported by directory buckets.  Sets the accelerate configuration
+of an existing bucket. Amazon S3 Transfer Acceleration is a bucket-level feature that
+enables you to perform faster data transfers to Amazon S3.  To use this operation, you must
+have permission to perform the s3:PutAccelerateConfiguration action. The bucket owner has
+this permission by default. The bucket owner can grant this permission to others. For more
+information about permissions, see Permissions Related to Bucket Subresource Operations and
+Managing Access Permissions to Your Amazon S3 Resources.  The Transfer Acceleration state
+of a bucket can be set to one of the following two values:    Enabled – Enables
+accelerated data transfers to the bucket.    Suspended – Disables accelerated data
+transfers to the bucket.   The GetBucketAccelerateConfiguration action returns the transfer
+acceleration state of a bucket. After setting the Transfer Acceleration state of a bucket
+to Enabled, it might take up to thirty minutes before the data transfer rates to the bucket
+increase.  The name of the bucket used for Transfer Acceleration must be DNS-compliant and
+must not contain periods (\".\").  For more information about transfer acceleration, see
+Transfer Acceleration. The following operations are related to
+PutBucketAccelerateConfiguration:    GetBucketAccelerateConfiguration     CreateBucket
 
 # Arguments
 - `accelerate_configuration`: Container for setting the transfer acceleration state.
@@ -4049,15 +4990,15 @@ GetBucketAccelerateConfiguration     CreateBucket
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_accelerate_configuration(
     AccelerateConfiguration, Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4095,30 +5036,30 @@ end
     put_bucket_acl(bucket)
     put_bucket_acl(bucket, params::Dict{String,<:Any})
 
-Sets the permissions on an existing bucket using access control lists (ACL). For more
-information, see Using ACLs. To set the ACL of a bucket, you must have WRITE_ACP
-permission. You can use one of the following two ways to set a bucket's permissions:
-Specify the ACL in the request body   Specify permissions using request headers    You
-cannot specify access permission using both the body and the request headers.  Depending on
-your application needs, you may choose to set the ACL on a bucket using either the request
-body or the headers. For example, if you have an existing application that updates a bucket
-ACL using the request body, then you can continue to use that approach.  If your bucket
-uses the bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no
-longer affect permissions. You must use policies to grant access to your bucket and the
-objects in it. Requests to set ACLs or update ACLs fail and return the
-AccessControlListNotSupported error code. Requests to read ACLs are still supported. For
-more information, see Controlling object ownership in the Amazon S3 User Guide.
-Permissions  You can set access permissions using one of the following methods:   Specify a
-canned ACL with the x-amz-acl request header. Amazon S3 supports a set of predefined ACLs,
-known as canned ACLs. Each canned ACL has a predefined set of grantees and permissions.
-Specify the canned ACL name as the value of x-amz-acl. If you use this header, you cannot
-use other access control-specific headers in your request. For more information, see Canned
-ACL.   Specify access permissions explicitly with the x-amz-grant-read,
-x-amz-grant-read-acp, x-amz-grant-write-acp, and x-amz-grant-full-control headers. When
-using these headers, you specify explicit access permissions and grantees (Amazon Web
-Services accounts or Amazon S3 groups) who will receive the permission. If you use these
-ACL-specific headers, you cannot use the x-amz-acl header to set a canned ACL. These
-parameters map to the set of permissions that Amazon S3 supports in an ACL. For more
+ This operation is not supported by directory buckets.  Sets the permissions on an existing
+bucket using access control lists (ACL). For more information, see Using ACLs. To set the
+ACL of a bucket, you must have the WRITE_ACP permission. You can use one of the following
+two ways to set a bucket's permissions:   Specify the ACL in the request body   Specify
+permissions using request headers    You cannot specify access permission using both the
+body and the request headers.  Depending on your application needs, you may choose to set
+the ACL on a bucket using either the request body or the headers. For example, if you have
+an existing application that updates a bucket ACL using the request body, then you can
+continue to use that approach.  If your bucket uses the bucket owner enforced setting for
+S3 Object Ownership, ACLs are disabled and no longer affect permissions. You must use
+policies to grant access to your bucket and the objects in it. Requests to set ACLs or
+update ACLs fail and return the AccessControlListNotSupported error code. Requests to read
+ACLs are still supported. For more information, see Controlling object ownership in the
+Amazon S3 User Guide.   Permissions  You can set access permissions by using one of the
+following methods:   Specify a canned ACL with the x-amz-acl request header. Amazon S3
+supports a set of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined
+set of grantees and permissions. Specify the canned ACL name as the value of x-amz-acl. If
+you use this header, you cannot use other access control-specific headers in your request.
+For more information, see Canned ACL.   Specify access permissions explicitly with the
+x-amz-grant-read, x-amz-grant-read-acp, x-amz-grant-write-acp, and x-amz-grant-full-control
+headers. When using these headers, you specify explicit access permissions and grantees
+(Amazon Web Services accounts or Amazon S3 groups) who will receive the permission. If you
+use these ACL-specific headers, you cannot use the x-amz-acl header to set a canned ACL.
+These parameters map to the set of permissions that Amazon S3 supports in an ACL. For more
 information, see Access Control List (ACL) Overview. You specify each grantee as a
 type=value pair, where the type is one of the following:    id – if the value specified
 is the canonical user ID of an Amazon Web Services account    uri – if you are granting
@@ -4169,8 +5110,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automatically.
 - `"x-amz-acl"`: The canned ACL to apply to the bucket.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-grant-full-control"`: Allows grantee the read, write, read ACP, and write ACP
   permissions on the bucket.
 - `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket.
@@ -4180,12 +5121,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   objects.
 - `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -4208,31 +5149,32 @@ end
     put_bucket_analytics_configuration(analytics_configuration, bucket, id)
     put_bucket_analytics_configuration(analytics_configuration, bucket, id, params::Dict{String,<:Any})
 
-Sets an analytics configuration for the bucket (specified by the analytics configuration
-ID). You can have up to 1,000 analytics configurations per bucket. You can choose to have
-storage class analysis export analysis reports sent to a comma-separated values (CSV) flat
-file. See the DataExport request element. Reports are updated daily and are based on the
-object filters that you configure. When selecting data export, you specify a destination
-bucket and an optional destination prefix where the file is written. You can export the
-data to a destination bucket in a different account. However, the destination bucket must
-be in the same Region as the bucket that you are making the PUT analytics configuration to.
-For more information, see Amazon S3 Analytics – Storage Class Analysis.   You must create
-a bucket policy on the destination bucket where the exported file is written to grant
-permissions to Amazon S3 to write objects to the bucket. For an example policy, see
-Granting Permissions for Amazon S3 Inventory and Storage Class Analysis.  To use this
-operation, you must have permissions to perform the s3:PutAnalyticsConfiguration action.
-The bucket owner has this permission by default. The bucket owner can grant this permission
-to others. For more information about permissions, see Permissions Related to Bucket
-Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.
-PutBucketAnalyticsConfiguration has the following special errors:      HTTP Error: HTTP 400
-Bad Request     Code: InvalidArgument     Cause: Invalid argument.         HTTP Error: HTTP
-400 Bad Request     Code: TooManyConfigurations     Cause: You are attempting to create a
-new configuration but have already reached the 1,000-configuration limit.         HTTP
-Error: HTTP 403 Forbidden     Code: AccessDenied     Cause: You are not the owner of the
-specified bucket, or you do not have the s3:PutAnalyticsConfiguration bucket permission to
-set the configuration on the bucket.      The following operations are related to
-PutBucketAnalyticsConfiguration:    GetBucketAnalyticsConfiguration
-DeleteBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations
+ This operation is not supported by directory buckets.  Sets an analytics configuration for
+the bucket (specified by the analytics configuration ID). You can have up to 1,000
+analytics configurations per bucket. You can choose to have storage class analysis export
+analysis reports sent to a comma-separated values (CSV) flat file. See the DataExport
+request element. Reports are updated daily and are based on the object filters that you
+configure. When selecting data export, you specify a destination bucket and an optional
+destination prefix where the file is written. You can export the data to a destination
+bucket in a different account. However, the destination bucket must be in the same Region
+as the bucket that you are making the PUT analytics configuration to. For more information,
+see Amazon S3 Analytics – Storage Class Analysis.   You must create a bucket policy on
+the destination bucket where the exported file is written to grant permissions to Amazon S3
+to write objects to the bucket. For an example policy, see Granting Permissions for Amazon
+S3 Inventory and Storage Class Analysis.  To use this operation, you must have permissions
+to perform the s3:PutAnalyticsConfiguration action. The bucket owner has this permission by
+default. The bucket owner can grant this permission to others. For more information about
+permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
+Permissions to Your Amazon S3 Resources.  PutBucketAnalyticsConfiguration has the following
+special errors:      HTTP Error: HTTP 400 Bad Request     Code: InvalidArgument     Cause:
+Invalid argument.         HTTP Error: HTTP 400 Bad Request     Code: TooManyConfigurations
+   Cause: You are attempting to create a new configuration but have already reached the
+1,000-configuration limit.         HTTP Error: HTTP 403 Forbidden     Code: AccessDenied
+ Cause: You are not the owner of the specified bucket, or you do not have the
+s3:PutAnalyticsConfiguration bucket permission to set the configuration on the bucket.
+The following operations are related to PutBucketAnalyticsConfiguration:
+GetBucketAnalyticsConfiguration     DeleteBucketAnalyticsConfiguration
+ListBucketAnalyticsConfigurations
 
 # Arguments
 - `analytics_configuration`: The configuration and any analyses for the analytics filter.
@@ -4242,8 +5184,8 @@ DeleteBucketAnalyticsConfiguration     ListBucketAnalyticsConfigurations
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function put_bucket_analytics_configuration(
     AnalyticsConfiguration, Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4284,26 +5226,27 @@ end
     put_bucket_cors(bucket, corsconfiguration)
     put_bucket_cors(bucket, corsconfiguration, params::Dict{String,<:Any})
 
-Sets the cors configuration for your bucket. If the configuration exists, Amazon S3
-replaces it. To use this operation, you must be allowed to perform the s3:PutBucketCORS
-action. By default, the bucket owner has this permission and can grant it to others. You
-set this configuration on a bucket so that the bucket can service cross-origin requests.
-For example, you might want to enable a request whose origin is http://www.example.com to
-access your Amazon S3 bucket at my.example.bucket.com by using the browser's XMLHttpRequest
-capability. To enable cross-origin resource sharing (CORS) on a bucket, you add the cors
-subresource to the bucket. The cors subresource is an XML document in which you configure
-rules that identify origins and the HTTP methods that can be executed on your bucket. The
-document is limited to 64 KB in size.  When Amazon S3 receives a cross-origin request (or a
-pre-flight OPTIONS request) against a bucket, it evaluates the cors configuration on the
-bucket and uses the first CORSRule rule that matches the incoming browser request to enable
-a cross-origin request. For a rule to match, the following conditions must be met:   The
-request's Origin header must match AllowedOrigin elements.   The request method (for
-example, GET, PUT, HEAD, and so on) or the Access-Control-Request-Method header in case of
-a pre-flight OPTIONS request must be one of the AllowedMethod elements.    Every header
-specified in the Access-Control-Request-Headers request header of a pre-flight request must
-match an AllowedHeader element.     For more information about CORS, go to Enabling
-Cross-Origin Resource Sharing in the Amazon S3 User Guide. The following operations are
-related to PutBucketCors:    GetBucketCors     DeleteBucketCors     RESTOPTIONSobject
+ This operation is not supported by directory buckets.  Sets the cors configuration for
+your bucket. If the configuration exists, Amazon S3 replaces it. To use this operation, you
+must be allowed to perform the s3:PutBucketCORS action. By default, the bucket owner has
+this permission and can grant it to others. You set this configuration on a bucket so that
+the bucket can service cross-origin requests. For example, you might want to enable a
+request whose origin is http://www.example.com to access your Amazon S3 bucket at
+my.example.bucket.com by using the browser's XMLHttpRequest capability. To enable
+cross-origin resource sharing (CORS) on a bucket, you add the cors subresource to the
+bucket. The cors subresource is an XML document in which you configure rules that identify
+origins and the HTTP methods that can be executed on your bucket. The document is limited
+to 64 KB in size.  When Amazon S3 receives a cross-origin request (or a pre-flight OPTIONS
+request) against a bucket, it evaluates the cors configuration on the bucket and uses the
+first CORSRule rule that matches the incoming browser request to enable a cross-origin
+request. For a rule to match, the following conditions must be met:   The request's Origin
+header must match AllowedOrigin elements.   The request method (for example, GET, PUT,
+HEAD, and so on) or the Access-Control-Request-Method header in case of a pre-flight
+OPTIONS request must be one of the AllowedMethod elements.    Every header specified in the
+Access-Control-Request-Headers request header of a pre-flight request must match an
+AllowedHeader element.     For more information about CORS, go to Enabling Cross-Origin
+Resource Sharing in the Amazon S3 User Guide. The following operations are related to
+PutBucketCors:    GetBucketCors     DeleteBucketCors     RESTOPTIONSobject
 
 # Arguments
 - `bucket`: Specifies the bucket impacted by the corsconfiguration.
@@ -4319,15 +5262,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_cors(
     Bucket, CORSConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4363,22 +5306,24 @@ end
     put_bucket_encryption(bucket, server_side_encryption_configuration)
     put_bucket_encryption(bucket, server_side_encryption_configuration, params::Dict{String,<:Any})
 
-This action uses the encryption subresource to configure default encryption and Amazon S3
-Bucket Keys for an existing bucket. By default, all buckets have a default encryption
-configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). You
-can optionally configure default encryption for a bucket by using server-side encryption
-with an Amazon Web Services KMS key (SSE-KMS) or a customer-provided key (SSE-C). If you
-specify default encryption by using SSE-KMS, you can also configure Amazon S3 Bucket Keys.
-For information about bucket default encryption, see Amazon S3 bucket default encryption in
-the Amazon S3 User Guide. For more information about S3 Bucket Keys, see Amazon S3 Bucket
-Keys in the Amazon S3 User Guide.  This action requires Amazon Web Services Signature
-Version 4. For more information, see  Authenticating Requests (Amazon Web Services
-Signature Version 4).   To use this operation, you must have permissions to perform the
-s3:PutEncryptionConfiguration action. The bucket owner has this permission by default. The
-bucket owner can grant this permission to others. For more information about permissions,
-see Permissions Related to Bucket Subresource Operations and Managing Access Permissions to
-Your Amazon S3 Resources in the Amazon S3 User Guide.  The following operations are related
-to PutBucketEncryption:    GetBucketEncryption     DeleteBucketEncryption
+ This operation is not supported by directory buckets.  This action uses the encryption
+subresource to configure default encryption and Amazon S3 Bucket Keys for an existing
+bucket. By default, all buckets have a default encryption configuration that uses
+server-side encryption with Amazon S3 managed keys (SSE-S3). You can optionally configure
+default encryption for a bucket by using server-side encryption with Key Management Service
+(KMS) keys (SSE-KMS) or dual-layer server-side encryption with Amazon Web Services KMS keys
+(DSSE-KMS). If you specify default encryption by using SSE-KMS, you can also configure
+Amazon S3 Bucket Keys. If you use PutBucketEncryption to set your default bucket encryption
+to SSE-KMS, you should verify that your KMS key ID is correct. Amazon S3 does not validate
+the KMS key ID provided in PutBucketEncryption requests.  This action requires Amazon Web
+Services Signature Version 4. For more information, see  Authenticating Requests (Amazon
+Web Services Signature Version 4).   To use this operation, you must have permission to
+perform the s3:PutEncryptionConfiguration action. The bucket owner has this permission by
+default. The bucket owner can grant this permission to others. For more information about
+permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
+Permissions to Your Amazon S3 Resources in the Amazon S3 User Guide.  The following
+operations are related to PutBucketEncryption:    GetBucketEncryption
+DeleteBucketEncryption
 
 # Arguments
 - `bucket`: Specifies default encryption for a bucket using server-side encryption with
@@ -4396,15 +5341,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration. For requests made using the Amazon Web Services Command Line Interface (CLI)
   or Amazon Web Services SDKs, this field is calculated automatically.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_encryption(
     Bucket,
@@ -4448,20 +5393,21 @@ end
     put_bucket_intelligent_tiering_configuration(bucket, intelligent_tiering_configuration, id)
     put_bucket_intelligent_tiering_configuration(bucket, intelligent_tiering_configuration, id, params::Dict{String,<:Any})
 
-Puts a S3 Intelligent-Tiering configuration to the specified bucket. You can have up to
-1,000 S3 Intelligent-Tiering configurations per bucket. The S3 Intelligent-Tiering storage
-class is designed to optimize storage costs by automatically moving data to the most
-cost-effective storage access tier, without performance impact or operational overhead. S3
-Intelligent-Tiering delivers automatic cost savings in three low latency and high
-throughput access tiers. To get the lowest storage cost on data that can be accessed in
-minutes to hours, you can choose to activate additional archiving capabilities. The S3
-Intelligent-Tiering storage class is the ideal storage class for data with unknown,
-changing, or unpredictable access patterns, independent of object size or retention period.
-If the size of an object is less than 128 KB, it is not monitored and not eligible for
-auto-tiering. Smaller objects can be stored, but they are always charged at the Frequent
-Access tier rates in the S3 Intelligent-Tiering storage class. For more information, see
-Storage class for automatically optimizing frequently and infrequently accessed objects.
-Operations related to PutBucketIntelligentTieringConfiguration include:
+ This operation is not supported by directory buckets.  Puts a S3 Intelligent-Tiering
+configuration to the specified bucket. You can have up to 1,000 S3 Intelligent-Tiering
+configurations per bucket. The S3 Intelligent-Tiering storage class is designed to optimize
+storage costs by automatically moving data to the most cost-effective storage access tier,
+without performance impact or operational overhead. S3 Intelligent-Tiering delivers
+automatic cost savings in three low latency and high throughput access tiers. To get the
+lowest storage cost on data that can be accessed in minutes to hours, you can choose to
+activate additional archiving capabilities. The S3 Intelligent-Tiering storage class is the
+ideal storage class for data with unknown, changing, or unpredictable access patterns,
+independent of object size or retention period. If the size of an object is less than 128
+KB, it is not monitored and not eligible for auto-tiering. Smaller objects can be stored,
+but they are always charged at the Frequent Access tier rates in the S3 Intelligent-Tiering
+storage class. For more information, see Storage class for automatically optimizing
+frequently and infrequently accessed objects. Operations related to
+PutBucketIntelligentTieringConfiguration include:
 DeleteBucketIntelligentTieringConfiguration     GetBucketIntelligentTieringConfiguration
  ListBucketIntelligentTieringConfigurations     You only need S3 Intelligent-Tiering
 enabled on a bucket if you want to automatically move objects stored in the S3
@@ -4526,39 +5472,40 @@ end
     put_bucket_inventory_configuration(bucket, inventory_configuration, id)
     put_bucket_inventory_configuration(bucket, inventory_configuration, id, params::Dict{String,<:Any})
 
-This implementation of the PUT action adds an inventory configuration (identified by the
-inventory ID) to the bucket. You can have up to 1,000 inventory configurations per bucket.
-Amazon S3 inventory generates inventories of the objects in the bucket on a daily or weekly
-basis, and the results are published to a flat file. The bucket that is inventoried is
-called the source bucket, and the bucket where the inventory flat file is stored is called
-the destination bucket. The destination bucket must be in the same Amazon Web Services
-Region as the source bucket.  When you configure an inventory for a source bucket, you
-specify the destination bucket where you want the inventory to be stored, and whether to
-generate the inventory daily or weekly. You can also configure what object metadata to
-include and whether to inventory all object versions or only current versions. For more
-information, see Amazon S3 Inventory in the Amazon S3 User Guide.  You must create a bucket
-policy on the destination bucket to grant permissions to Amazon S3 to write objects to the
-bucket in the defined location. For an example policy, see  Granting Permissions for Amazon
-S3 Inventory and Storage Class Analysis.   Permissions  To use this operation, you must
-have permission to perform the s3:PutInventoryConfiguration action. The bucket owner has
-this permission by default and can grant this permission to others.  The
-s3:PutInventoryConfiguration permission allows a user to create an S3 Inventory report that
-includes all object metadata fields available and to specify the destination bucket to
-store the inventory. A user with read access to objects in the destination bucket can also
-access all object metadata fields that are available in the inventory report.  To restrict
-access to an inventory report, see Restricting access to an Amazon S3 Inventory report in
-the Amazon S3 User Guide. For more information about the metadata fields available in S3
-Inventory, see Amazon S3 Inventory lists in the Amazon S3 User Guide. For more information
-about permissions, see Permissions related to bucket subresource operations and Identity
-and access management in Amazon S3 in the Amazon S3 User Guide.
-PutBucketInventoryConfiguration has the following special errors:  HTTP 400 Bad Request
-Error   Code: InvalidArgument  Cause: Invalid Argument  HTTP 400 Bad Request Error   Code:
-TooManyConfigurations  Cause: You are attempting to create a new configuration but have
-already reached the 1,000-configuration limit.   HTTP 403 Forbidden Error   Cause: You are
-not the owner of the specified bucket, or you do not have the s3:PutInventoryConfiguration
-bucket permission to set the configuration on the bucket.    The following operations are
-related to PutBucketInventoryConfiguration:    GetBucketInventoryConfiguration
-DeleteBucketInventoryConfiguration     ListBucketInventoryConfigurations
+ This operation is not supported by directory buckets.  This implementation of the PUT
+action adds an inventory configuration (identified by the inventory ID) to the bucket. You
+can have up to 1,000 inventory configurations per bucket.  Amazon S3 inventory generates
+inventories of the objects in the bucket on a daily or weekly basis, and the results are
+published to a flat file. The bucket that is inventoried is called the source bucket, and
+the bucket where the inventory flat file is stored is called the destination bucket. The
+destination bucket must be in the same Amazon Web Services Region as the source bucket.
+When you configure an inventory for a source bucket, you specify the destination bucket
+where you want the inventory to be stored, and whether to generate the inventory daily or
+weekly. You can also configure what object metadata to include and whether to inventory all
+object versions or only current versions. For more information, see Amazon S3 Inventory in
+the Amazon S3 User Guide.  You must create a bucket policy on the destination bucket to
+grant permissions to Amazon S3 to write objects to the bucket in the defined location. For
+an example policy, see  Granting Permissions for Amazon S3 Inventory and Storage Class
+Analysis.   Permissions  To use this operation, you must have permission to perform the
+s3:PutInventoryConfiguration action. The bucket owner has this permission by default and
+can grant this permission to others.  The s3:PutInventoryConfiguration permission allows a
+user to create an S3 Inventory report that includes all object metadata fields available
+and to specify the destination bucket to store the inventory. A user with read access to
+objects in the destination bucket can also access all object metadata fields that are
+available in the inventory report.  To restrict access to an inventory report, see
+Restricting access to an Amazon S3 Inventory report in the Amazon S3 User Guide. For more
+information about the metadata fields available in S3 Inventory, see Amazon S3 Inventory
+lists in the Amazon S3 User Guide. For more information about permissions, see Permissions
+related to bucket subresource operations and Identity and access management in Amazon S3 in
+the Amazon S3 User Guide.    PutBucketInventoryConfiguration has the following special
+errors:  HTTP 400 Bad Request Error   Code: InvalidArgument  Cause: Invalid Argument  HTTP
+400 Bad Request Error   Code: TooManyConfigurations  Cause: You are attempting to create a
+new configuration but have already reached the 1,000-configuration limit.   HTTP 403
+Forbidden Error   Cause: You are not the owner of the specified bucket, or you do not have
+the s3:PutInventoryConfiguration bucket permission to set the configuration on the bucket.
+  The following operations are related to PutBucketInventoryConfiguration:
+GetBucketInventoryConfiguration     DeleteBucketInventoryConfiguration
+ListBucketInventoryConfigurations
 
 # Arguments
 - `bucket`: The name of the bucket where the inventory configuration will be stored.
@@ -4568,8 +5515,8 @@ DeleteBucketInventoryConfiguration     ListBucketInventoryConfigurations
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function put_bucket_inventory_configuration(
     Bucket, InventoryConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4610,30 +5557,30 @@ end
     put_bucket_lifecycle(bucket)
     put_bucket_lifecycle(bucket, params::Dict{String,<:Any})
 
- For an updated version of this API, see PutBucketLifecycleConfiguration. This version has
-been deprecated. Existing lifecycle configurations will work. For new lifecycle
-configurations, use the updated API.   Creates a new lifecycle configuration for the bucket
-or replaces an existing lifecycle configuration. For information about lifecycle
-configuration, see Object Lifecycle Management in the Amazon S3 User Guide.  By default,
-all Amazon S3 resources, including buckets, objects, and related subresources (for example,
-lifecycle configuration and website configuration) are private. Only the resource owner,
-the Amazon Web Services account that created the resource, can access it. The resource
-owner can optionally grant access permissions to others by writing an access policy. For
-this operation, users must get the s3:PutLifecycleConfiguration permission. You can also
-explicitly deny permissions. Explicit denial also supersedes any other permissions. If you
-want to prevent users or accounts from removing or deleting objects from your bucket, you
-must deny them permissions for the following actions:     s3:DeleteObject
-s3:DeleteObjectVersion     s3:PutLifecycleConfiguration    For more information about
-permissions, see Managing Access Permissions to your Amazon S3 Resources in the Amazon S3
-User Guide. For more examples of transitioning objects to storage classes such as
-STANDARD_IA or ONEZONE_IA, see Examples of Lifecycle Configuration. The following
-operations are related to PutBucketLifecycle:    GetBucketLifecycle(Deprecated)
-GetBucketLifecycleConfiguration     RestoreObject    By default, a resource owner—in this
-case, a bucket owner, which is the Amazon Web Services account that created the
-bucket—can perform any of the operations. A resource owner can also grant others
-permission to perform the operation. For more information, see the following topics in the
-Amazon S3 User Guide:     Specifying Permissions in a Policy     Managing Access
-Permissions to your Amazon S3 Resources
+ This operation is not supported by directory buckets.   For an updated version of this
+API, see PutBucketLifecycleConfiguration. This version has been deprecated. Existing
+lifecycle configurations will work. For new lifecycle configurations, use the updated API.
+ Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle
+configuration. For information about lifecycle configuration, see Object Lifecycle
+Management in the Amazon S3 User Guide.  By default, all Amazon S3 resources, including
+buckets, objects, and related subresources (for example, lifecycle configuration and
+website configuration) are private. Only the resource owner, the Amazon Web Services
+account that created the resource, can access it. The resource owner can optionally grant
+access permissions to others by writing an access policy. For this operation, users must
+get the s3:PutLifecycleConfiguration permission. You can also explicitly deny permissions.
+Explicit denial also supersedes any other permissions. If you want to prevent users or
+accounts from removing or deleting objects from your bucket, you must deny them permissions
+for the following actions:     s3:DeleteObject     s3:DeleteObjectVersion
+s3:PutLifecycleConfiguration    For more information about permissions, see Managing Access
+Permissions to your Amazon S3 Resources in the Amazon S3 User Guide. For more examples of
+transitioning objects to storage classes such as STANDARD_IA or ONEZONE_IA, see Examples of
+Lifecycle Configuration. The following operations are related to PutBucketLifecycle:
+GetBucketLifecycle(Deprecated)    GetBucketLifecycleConfiguration     RestoreObject    By
+default, a resource owner—in this case, a bucket owner, which is the Amazon Web Services
+account that created the bucket—can perform any of the operations. A resource owner can
+also grant others permission to perform the operation. For more information, see the
+following topics in the Amazon S3 User Guide:     Specifying Permissions in a Policy
+Managing Access Permissions to your Amazon S3 Resources
 
 # Arguments
 - `bucket`:
@@ -4644,15 +5591,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
 - `"LifecycleConfiguration"`:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -4678,35 +5625,36 @@ end
     put_bucket_lifecycle_configuration(bucket)
     put_bucket_lifecycle_configuration(bucket, params::Dict{String,<:Any})
 
-Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle
-configuration. Keep in mind that this will overwrite an existing lifecycle configuration,
-so if you want to retain any configuration details, they must be included in the new
-lifecycle configuration. For information about lifecycle configuration, see Managing your
-storage lifecycle.  Bucket lifecycle configuration now supports specifying a lifecycle rule
-using an object key name prefix, one or more object tags, or a combination of both.
-Accordingly, this section describes the latest API. The previous version of the API
-supported filtering based only on an object key name prefix, which is supported for
-backward compatibility. For the related API description, see PutBucketLifecycle.   Rules
-You specify the lifecycle configuration in your request body. The lifecycle configuration
-is specified as XML consisting of one or more rules. An Amazon S3 Lifecycle configuration
-can have up to 1,000 rules. This limit is not adjustable. Each rule consists of the
-following:   Filter identifying a subset of objects to which the rule applies. The filter
-can be based on a key name prefix, object tags, or a combination of both.   Status whether
-the rule is in effect.   One or more lifecycle transition and expiration actions that you
-want Amazon S3 to perform on the objects identified by the filter. If the state of your
-bucket is versioning-enabled or versioning-suspended, you can have many versions of the
-same object (one current version and zero or more noncurrent versions). Amazon S3 provides
-predefined actions that you can specify for current and noncurrent object versions.   For
-more information, see Object Lifecycle Management and Lifecycle Configuration Elements.
-Permissions  By default, all Amazon S3 resources are private, including buckets, objects,
-and related subresources (for example, lifecycle configuration and website configuration).
-Only the resource owner (that is, the Amazon Web Services account that created it) can
-access the resource. The resource owner can optionally grant access permissions to others
-by writing an access policy. For this operation, a user must get the
-s3:PutLifecycleConfiguration permission. You can also explicitly deny permissions. Explicit
-deny also supersedes any other permissions. If you want to block users or accounts from
-removing or deleting objects from your bucket, you must deny them permissions for the
-following actions:    s3:DeleteObject     s3:DeleteObjectVersion
+ This operation is not supported by directory buckets.  Creates a new lifecycle
+configuration for the bucket or replaces an existing lifecycle configuration. Keep in mind
+that this will overwrite an existing lifecycle configuration, so if you want to retain any
+configuration details, they must be included in the new lifecycle configuration. For
+information about lifecycle configuration, see Managing your storage lifecycle.  Bucket
+lifecycle configuration now supports specifying a lifecycle rule using an object key name
+prefix, one or more object tags, object size, or any combination of these. Accordingly,
+this section describes the latest API. The previous version of the API supported filtering
+based only on an object key name prefix, which is supported for backward compatibility. For
+the related API description, see PutBucketLifecycle.   Rules  You specify the lifecycle
+configuration in your request body. The lifecycle configuration is specified as XML
+consisting of one or more rules. An Amazon S3 Lifecycle configuration can have up to 1,000
+rules. This limit is not adjustable. Each rule consists of the following:   A filter
+identifying a subset of objects to which the rule applies. The filter can be based on a key
+name prefix, object tags, object size, or any combination of these.   A status indicating
+whether the rule is in effect.   One or more lifecycle transition and expiration actions
+that you want Amazon S3 to perform on the objects identified by the filter. If the state of
+your bucket is versioning-enabled or versioning-suspended, you can have many versions of
+the same object (one current version and zero or more noncurrent versions). Amazon S3
+provides predefined actions that you can specify for current and noncurrent object
+versions.   For more information, see Object Lifecycle Management and Lifecycle
+Configuration Elements.  Permissions  By default, all Amazon S3 resources are private,
+including buckets, objects, and related subresources (for example, lifecycle configuration
+and website configuration). Only the resource owner (that is, the Amazon Web Services
+account that created it) can access the resource. The resource owner can optionally grant
+access permissions to others by writing an access policy. For this operation, a user must
+get the s3:PutLifecycleConfiguration permission. You can also explicitly deny permissions.
+An explicit deny also supersedes any other permissions. If you want to block users or
+accounts from removing or deleting objects from your bucket, you must deny them permissions
+for the following actions:    s3:DeleteObject     s3:DeleteObjectVersion
 s3:PutLifecycleConfiguration    For more information about permissions, see Managing Access
 Permissions to Your Amazon S3 Resources.   The following operations are related to
 PutBucketLifecycleConfiguration:    Examples of Lifecycle Configuration
@@ -4720,15 +5668,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LifecycleConfiguration"`: Container for lifecycle rules. You can add as many as 1,000
   rules.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_lifecycle_configuration(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4756,25 +5704,26 @@ end
     put_bucket_logging(bucket, bucket_logging_status)
     put_bucket_logging(bucket, bucket_logging_status, params::Dict{String,<:Any})
 
-Set the logging parameters for a bucket and to specify permissions for who can view and
-modify the logging parameters. All logs are saved to buckets in the same Amazon Web
-Services Region as the source bucket. To set the logging status of a bucket, you must be
-the bucket owner. The bucket owner is automatically granted FULL_CONTROL to all logs. You
-use the Grantee request element to grant access to other people. The Permissions request
-element specifies the kind of access the grantee has to the logs.  If the target bucket for
-log delivery uses the bucket owner enforced setting for S3 Object Ownership, you can't use
-the Grantee request element to grant access to others. Permissions can only be granted
-using policies. For more information, see Permissions for server access log delivery in the
-Amazon S3 User Guide.   Grantee Values  You can specify the person (grantee) to whom you're
-assigning access rights (using request elements) in the following ways:   By the person's
-ID:  &lt;Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+ This operation is not supported by directory buckets.  Set the logging parameters for a
+bucket and to specify permissions for who can view and modify the logging parameters. All
+logs are saved to buckets in the same Amazon Web Services Region as the source bucket. To
+set the logging status of a bucket, you must be the bucket owner. The bucket owner is
+automatically granted FULL_CONTROL to all logs. You use the Grantee request element to
+grant access to other people. The Permissions request element specifies the kind of access
+the grantee has to the logs.  If the target bucket for log delivery uses the bucket owner
+enforced setting for S3 Object Ownership, you can't use the Grantee request element to
+grant access to others. Permissions can only be granted using policies. For more
+information, see Permissions for server access log delivery in the Amazon S3 User Guide.
+Grantee Values  You can specify the person (grantee) to whom you're assigning access rights
+(by using request elements) in the following ways:   By the person's ID:  &lt;Grantee
+xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
 xsi:type=\"CanonicalUser\"&gt;&lt;ID&gt;&lt;&gt;ID&lt;&gt;&lt;/ID&gt;&lt;DisplayName&gt;&lt
-;&gt;GranteesEmail&lt;&gt;&lt;/DisplayName&gt; &lt;/Grantee&gt;  DisplayName is optional
+;&gt;GranteesEmail&lt;&gt;&lt;/DisplayName&gt; &lt;/Grantee&gt;   DisplayName is optional
 and ignored in the request.   By Email address:   &lt;Grantee
 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
 xsi:type=\"AmazonCustomerByEmail\"&gt;&lt;EmailAddress&gt;&lt;&gt;Grantees@email.com&lt;&gt
 ;&lt;/EmailAddress&gt;&lt;/Grantee&gt;  The grantee is resolved to the CanonicalUser and,
-in a response to a GET Object acl request, appears as the CanonicalUser.   By URI:
+in a response to a GETObjectAcl request, appears as the CanonicalUser.   By URI:
 &lt;Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
 xsi:type=\"Group\"&gt;&lt;URI&gt;&lt;&gt;http://acs.amazonaws.com/groups/global/Authenticate
 dUsers&lt;&gt;&lt;/URI&gt;&lt;/Grantee&gt;      To enable logging, you use LoggingEnabled
@@ -4796,15 +5745,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs,
   this field is calculated automatically.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_logging(
     Bucket, BucketLoggingStatus; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4842,21 +5791,22 @@ end
     put_bucket_metrics_configuration(bucket, metrics_configuration, id)
     put_bucket_metrics_configuration(bucket, metrics_configuration, id, params::Dict{String,<:Any})
 
-Sets a metrics configuration (specified by the metrics configuration ID) for the bucket.
-You can have up to 1,000 metrics configurations per bucket. If you're updating an existing
-metrics configuration, note that this is a full replacement of the existing metrics
-configuration. If you don't include the elements you want to keep, they are erased. To use
-this operation, you must have permissions to perform the s3:PutMetricsConfiguration action.
-The bucket owner has this permission by default. The bucket owner can grant this permission
-to others. For more information about permissions, see Permissions Related to Bucket
-Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources. For
-information about CloudWatch request metrics for Amazon S3, see Monitoring Metrics with
-Amazon CloudWatch. The following operations are related to PutBucketMetricsConfiguration:
- DeleteBucketMetricsConfiguration     GetBucketMetricsConfiguration
-ListBucketMetricsConfigurations     GetBucketLifecycle has the following special error:
-Error code: TooManyConfigurations    Description: You are attempting to create a new
-configuration but have already reached the 1,000-configuration limit.   HTTP Status Code:
-HTTP 400 Bad Request
+ This operation is not supported by directory buckets.  Sets a metrics configuration
+(specified by the metrics configuration ID) for the bucket. You can have up to 1,000
+metrics configurations per bucket. If you're updating an existing metrics configuration,
+note that this is a full replacement of the existing metrics configuration. If you don't
+include the elements you want to keep, they are erased. To use this operation, you must
+have permissions to perform the s3:PutMetricsConfiguration action. The bucket owner has
+this permission by default. The bucket owner can grant this permission to others. For more
+information about permissions, see Permissions Related to Bucket Subresource Operations and
+Managing Access Permissions to Your Amazon S3 Resources. For information about CloudWatch
+request metrics for Amazon S3, see Monitoring Metrics with Amazon CloudWatch. The following
+operations are related to PutBucketMetricsConfiguration:
+DeleteBucketMetricsConfiguration     GetBucketMetricsConfiguration
+ListBucketMetricsConfigurations     PutBucketMetricsConfiguration has the following special
+error:   Error code: TooManyConfigurations    Description: You are attempting to create a
+new configuration but have already reached the 1,000-configuration limit.   HTTP Status
+Code: HTTP 400 Bad Request
 
 # Arguments
 - `bucket`: The name of the bucket for which the metrics configuration is set.
@@ -4867,8 +5817,8 @@ HTTP 400 Bad Request
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function put_bucket_metrics_configuration(
     Bucket, MetricsConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4909,7 +5859,8 @@ end
     put_bucket_notification(bucket, notification_configuration)
     put_bucket_notification(bucket, notification_configuration, params::Dict{String,<:Any})
 
- No longer used, see the PutBucketNotificationConfiguration operation.
+ This operation is not supported by directory buckets.   No longer used, see the
+PutBucketNotificationConfiguration operation.
 
 # Arguments
 - `bucket`: The name of the bucket.
@@ -4921,15 +5872,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs,
   this field is calculated automatically.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_notification(
     Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
@@ -4967,26 +5918,27 @@ end
     put_bucket_notification_configuration(bucket, notification_configuration)
     put_bucket_notification_configuration(bucket, notification_configuration, params::Dict{String,<:Any})
 
-Enables notifications of specified events for a bucket. For more information about event
-notifications, see Configuring Event Notifications. Using this API, you can replace an
-existing notification configuration. The configuration is an XML file that defines the
-event types that you want Amazon S3 to publish and the destination where you want Amazon S3
-to publish an event notification when it detects an event of the specified type. By
-default, your bucket has no event notifications configured. That is, the notification
-configuration will be an empty NotificationConfiguration.
-&lt;NotificationConfiguration&gt;   &lt;/NotificationConfiguration&gt;  This action
-replaces the existing notification configuration with the configuration you include in the
-request body. After Amazon S3 receives this request, it first verifies that any Amazon
-Simple Notification Service (Amazon SNS) or Amazon Simple Queue Service (Amazon SQS)
-destination exists, and that the bucket owner has permission to publish to it by sending a
-test notification. In the case of Lambda destinations, Amazon S3 verifies that the Lambda
-function permissions grant Amazon S3 permission to invoke the function from the Amazon S3
-bucket. For more information, see Configuring Notifications for Amazon S3 Events. You can
-disable notifications by adding the empty NotificationConfiguration element. For more
-information about the number of event notification configurations that you can create per
-bucket, see Amazon S3 service quotas in Amazon Web Services General Reference. By default,
-only the bucket owner can configure notifications on a bucket. However, bucket owners can
-use a bucket policy to grant permission to other users to set this configuration with
+ This operation is not supported by directory buckets.  Enables notifications of specified
+events for a bucket. For more information about event notifications, see Configuring Event
+Notifications. Using this API, you can replace an existing notification configuration. The
+configuration is an XML file that defines the event types that you want Amazon S3 to
+publish and the destination where you want Amazon S3 to publish an event notification when
+it detects an event of the specified type. By default, your bucket has no event
+notifications configured. That is, the notification configuration will be an empty
+NotificationConfiguration.  &lt;NotificationConfiguration&gt;
+&lt;/NotificationConfiguration&gt;  This action replaces the existing notification
+configuration with the configuration you include in the request body. After Amazon S3
+receives this request, it first verifies that any Amazon Simple Notification Service
+(Amazon SNS) or Amazon Simple Queue Service (Amazon SQS) destination exists, and that the
+bucket owner has permission to publish to it by sending a test notification. In the case of
+Lambda destinations, Amazon S3 verifies that the Lambda function permissions grant Amazon
+S3 permission to invoke the function from the Amazon S3 bucket. For more information, see
+Configuring Notifications for Amazon S3 Events. You can disable notifications by adding the
+empty NotificationConfiguration element. For more information about the number of event
+notification configurations that you can create per bucket, see Amazon S3 service quotas in
+Amazon Web Services General Reference. By default, only the bucket owner can configure
+notifications on a bucket. However, bucket owners can use a bucket policy to grant
+permission to other users to set this configuration with the required
 s3:PutBucketNotification permission.  The PUT notification is an atomic operation. For
 example, suppose your notification configuration includes SNS topic, SQS queue, and Lambda
 function configurations. When you send a PUT request with this configuration, Amazon S3
@@ -5005,8 +5957,8 @@ GetBucketNotificationConfiguration
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-skip-destination-validation"`: Skips validation of Amazon SQS, Amazon SNS, and
   Lambda destinations. True or false value.
 """
@@ -5046,10 +5998,11 @@ end
     put_bucket_ownership_controls(bucket, ownership_controls)
     put_bucket_ownership_controls(bucket, ownership_controls, params::Dict{String,<:Any})
 
-Creates or modifies OwnershipControls for an Amazon S3 bucket. To use this operation, you
-must have the s3:PutBucketOwnershipControls permission. For more information about Amazon
-S3 permissions, see Specifying permissions in a policy.  For information about Amazon S3
-Object Ownership, see Using object ownership.  The following operations are related to
+ This operation is not supported by directory buckets.  Creates or modifies
+OwnershipControls for an Amazon S3 bucket. To use this operation, you must have the
+s3:PutBucketOwnershipControls permission. For more information about Amazon S3 permissions,
+see Specifying permissions in a policy.  For information about Amazon S3 Object Ownership,
+see Using object ownership.  The following operations are related to
 PutBucketOwnershipControls:    GetBucketOwnershipControls     DeleteBucketOwnershipControls
 
 
@@ -5064,8 +6017,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs,
   this field is calculated automatically.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 """
 function put_bucket_ownership_controls(
     Bucket, OwnershipControls; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5101,42 +6054,76 @@ end
     put_bucket_policy(bucket, policy)
     put_bucket_policy(bucket, policy, params::Dict{String,<:Any})
 
-Applies an Amazon S3 bucket policy to an Amazon S3 bucket. If you are using an identity
-other than the root user of the Amazon Web Services account that owns the bucket, the
-calling identity must have the PutBucketPolicy permissions on the specified bucket and
-belong to the bucket owner's account in order to use this operation. If you don't have
-PutBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the
-correct permissions, but you're not using an identity that belongs to the bucket owner's
-account, Amazon S3 returns a 405 Method Not Allowed error.  To ensure that bucket owners
-don't inadvertently lock themselves out of their own buckets, the root principal in a
-bucket owner's Amazon Web Services account can perform the GetBucketPolicy,
-PutBucketPolicy, and DeleteBucketPolicy API actions, even if their bucket policy explicitly
-denies the root principal's access. Bucket owner root principals can only be blocked from
-performing these API actions by VPC endpoint policies and Amazon Web Services Organizations
-policies.  For more information, see Bucket policy examples. The following operations are
-related to PutBucketPolicy:    CreateBucket     DeleteBucket
+Applies an Amazon S3 bucket policy to an Amazon S3 bucket.   Directory buckets  - For
+directory buckets, you must make requests for this API operation to the Regional endpoint.
+These endpoints support path-style requests in the format
+https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+requests aren't supported. For more information, see Regional and Zonal endpoints in the
+Amazon S3 User Guide.   Permissions  If you are using an identity other than the root user
+of the Amazon Web Services account that owns the bucket, the calling identity must both
+have the PutBucketPolicy permissions on the specified bucket and belong to the bucket
+owner's account in order to use this operation. If you don't have PutBucketPolicy
+permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct
+permissions, but you're not using an identity that belongs to the bucket owner's account,
+Amazon S3 returns a 405 Method Not Allowed error.  To ensure that bucket owners don't
+inadvertently lock themselves out of their own buckets, the root principal in a bucket
+owner's Amazon Web Services account can perform the GetBucketPolicy, PutBucketPolicy, and
+DeleteBucketPolicy API actions, even if their bucket policy explicitly denies the root
+principal's access. Bucket owner root principals can only be blocked from performing these
+API actions by VPC endpoint policies and Amazon Web Services Organizations policies.
+General purpose bucket permissions - The s3:PutBucketPolicy permission is required in a
+policy. For more information about general purpose buckets bucket policies, see Using
+Bucket Policies and User Policies in the Amazon S3 User Guide.    Directory bucket
+permissions - To grant access to this API operation, you must have the
+s3express:PutBucketPolicy permission in an IAM identity-based policy instead of a bucket
+policy. Cross-account access to this API operation isn't supported. This operation can only
+be performed by the Amazon Web Services account that owns the resource. For more
+information about directory bucket policies and permissions, see Amazon Web Services
+Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.
+ Example bucket policies   General purpose buckets example bucket policies - See Bucket
+policy examples in the Amazon S3 User Guide.  Directory bucket example bucket policies -
+See Example bucket policies for S3 Express One Zone in the Amazon S3 User Guide.  HTTP Host
+header syntax   Directory buckets  - The HTTP Host header syntax is
+s3express-control.region.amazonaws.com.   The following operations are related to
+PutBucketPolicy:    CreateBucket     DeleteBucket
 
 # Arguments
-- `bucket`: The name of the bucket.
-- `policy`: The bucket policy as a JSON document.
+- `bucket`: The name of the bucket.  Directory buckets  - When you use this operation with
+  a directory bucket, you must use path-style requests in the format
+  https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+  requests aren't supported. Directory bucket names must be unique in the chosen Availability
+  Zone. Bucket names must also follow the format  bucket_base_name--az_id--x-s3 (for example,
+   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide
+- `policy`: The bucket policy as a JSON document. For directory buckets, the only IAM
+  action supported in the bucket policy is s3express:CreateSession.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Content-MD5"`: The MD5 hash of the request body. For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
-  automatically.
+  automatically.  This functionality is not supported for directory buckets.
 - `"x-amz-confirm-remove-self-bucket-access"`: Set this parameter to true to confirm that
-  you want to remove your permissions to change this bucket policy in the future.
+  you want to remove your permissions to change this bucket policy in the future.  This
+  functionality is not supported for directory buckets.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this
+  header is not supported in this API operation. If you specify this header, the request
+  fails with the HTTP status code 501 Not Implemented.
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum-algorithm  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the
+  request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm
+  header, replace  algorithm  with the supported algorithm from the following list:    CRC32
+   CRC32C   SHA1   SHA256   For more information, see Checking object integrity in the Amazon
+  S3 User Guide. If the individual checksum value you provide through
+  x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through
+  x-amz-sdk-checksum-algorithm, Amazon S3 ignores any provided ChecksumAlgorithm parameter
+  and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm
+  .  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default
+  checksum algorithm that's used for performance.
 """
 function put_bucket_policy(
     Bucket, Policy; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5168,18 +6155,20 @@ end
     put_bucket_replication(bucket, replication_configuration)
     put_bucket_replication(bucket, replication_configuration, params::Dict{String,<:Any})
 
- Creates a replication configuration or replaces an existing one. For more information, see
-Replication in the Amazon S3 User Guide.  Specify the replication configuration in the
-request body. In the replication configuration, you provide the name of the destination
-bucket or buckets where you want Amazon S3 to replicate objects, the IAM role that Amazon
-S3 can assume to replicate objects on your behalf, and other relevant information. A
-replication configuration must include at least one rule, and can contain a maximum of
-1,000. Each rule identifies a subset of objects to replicate by filtering the objects in
-the source bucket. To choose additional subsets of objects to replicate, add a rule for
-each subset. To specify a subset of the objects in the source bucket to apply a replication
-rule to, add the Filter element as a child of the Rule element. You can filter objects
-based on an object key prefix, one or more object tags, or both. When you add the Filter
-element in the configuration, you must also add the following elements:
+ This operation is not supported by directory buckets.   Creates a replication
+configuration or replaces an existing one. For more information, see Replication in the
+Amazon S3 User Guide.  Specify the replication configuration in the request body. In the
+replication configuration, you provide the name of the destination bucket or buckets where
+you want Amazon S3 to replicate objects, the IAM role that Amazon S3 can assume to
+replicate objects on your behalf, and other relevant information. You can invoke this
+request for a specific Amazon Web Services Region by using the  aws:RequestedRegion
+condition key. A replication configuration must include at least one rule, and can contain
+a maximum of 1,000. Each rule identifies a subset of objects to replicate by filtering the
+objects in the source bucket. To choose additional subsets of objects to replicate, add a
+rule for each subset. To specify a subset of the objects in the source bucket to apply a
+replication rule to, add the Filter element as a child of the Rule element. You can filter
+objects based on an object key prefix, one or more object tags, or both. When you add the
+Filter element in the configuration, you must also add the following elements:
 DeleteMarkerReplication, Status, and Priority.  If you are using an earlier version of the
 replication configuration, Amazon S3 handles replication of delete markers differently. For
 more information, see Backward Compatibility.  For information about enabling versioning on
@@ -5213,15 +6202,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-bucket-object-lock-token"`: A token to allow Object Lock to be enabled for an
   existing bucket.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_replication(
     Bucket, ReplicationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5259,11 +6248,12 @@ end
     put_bucket_request_payment(bucket, request_payment_configuration)
     put_bucket_request_payment(bucket, request_payment_configuration, params::Dict{String,<:Any})
 
-Sets the request payment configuration for a bucket. By default, the bucket owner pays for
-downloads from the bucket. This configuration parameter enables the bucket owner (only) to
-specify that the person requesting the download will be charged for the download. For more
-information, see Requester Pays Buckets. The following operations are related to
-PutBucketRequestPayment:    CreateBucket     GetBucketRequestPayment
+ This operation is not supported by directory buckets.  Sets the request payment
+configuration for a bucket. By default, the bucket owner pays for downloads from the
+bucket. This configuration parameter enables the bucket owner (only) to specify that the
+person requesting the download will be charged for the download. For more information, see
+Requester Pays Buckets. The following operations are related to PutBucketRequestPayment:
+CreateBucket     GetBucketRequestPayment
 
 # Arguments
 - `bucket`: The bucket name.
@@ -5277,15 +6267,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_request_payment(
     Bucket, RequestPaymentConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5325,29 +6315,27 @@ end
     put_bucket_tagging(bucket, tagging)
     put_bucket_tagging(bucket, tagging, params::Dict{String,<:Any})
 
-Sets the tags for a bucket. Use tags to organize your Amazon Web Services bill to reflect
-your own cost structure. To do this, sign up to get your Amazon Web Services account bill
-with tag key values included. Then, to see the cost of combined resources, organize your
-billing information according to resources with the same tag key values. For example, you
-can tag several resources with a specific application name, and then organize your billing
-information to see the total cost of that application across several services. For more
-information, see Cost Allocation and Tagging and Using Cost Allocation in Amazon S3 Bucket
-Tags.   When this operation sets the tags for a bucket, it will overwrite any current tags
-the bucket already has. You cannot use this operation to add tags to an existing list of
-tags.  To use this operation, you must have permissions to perform the s3:PutBucketTagging
-action. The bucket owner has this permission by default and can grant this permission to
-others. For more information about permissions, see Permissions Related to Bucket
-Subresource Operations and Managing Access Permissions to Your Amazon S3 Resources.
-PutBucketTagging has the following special errors:   Error code: InvalidTagError
-Description: The tag provided was not a valid tag. This error can occur if the tag did not
-pass input validation. For information about tag restrictions, see User-Defined Tag
-Restrictions and Amazon Web Services-Generated Cost Allocation Tag Restrictions.     Error
-code: MalformedXMLError    Description: The XML provided does not match the schema.
-Error code: OperationAbortedError     Description: A conflicting conditional action is
-currently in progress against this resource. Please try again.     Error code:
-InternalError    Description: The service was unable to apply the provided tag to the
-bucket.     The following operations are related to PutBucketTagging:    GetBucketTagging
-  DeleteBucketTagging
+ This operation is not supported by directory buckets.  Sets the tags for a bucket. Use
+tags to organize your Amazon Web Services bill to reflect your own cost structure. To do
+this, sign up to get your Amazon Web Services account bill with tag key values included.
+Then, to see the cost of combined resources, organize your billing information according to
+resources with the same tag key values. For example, you can tag several resources with a
+specific application name, and then organize your billing information to see the total cost
+of that application across several services. For more information, see Cost Allocation and
+Tagging and Using Cost Allocation in Amazon S3 Bucket Tags.   When this operation sets the
+tags for a bucket, it will overwrite any current tags the bucket already has. You cannot
+use this operation to add tags to an existing list of tags.  To use this operation, you
+must have permissions to perform the s3:PutBucketTagging action. The bucket owner has this
+permission by default and can grant this permission to others. For more information about
+permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
+Permissions to Your Amazon S3 Resources.  PutBucketTagging has the following special
+errors. For more Amazon S3 errors see, Error Responses.    InvalidTag - The tag provided
+was not a valid tag. This error can occur if the tag did not pass input validation. For
+more information, see Using Cost Allocation in Amazon S3 Bucket Tags.    MalformedXML - The
+XML provided does not match the schema.    OperationAborted - A conflicting conditional
+action is currently in progress against this resource. Please try again.    InternalError -
+The service was unable to apply the provided tag to the bucket.   The following operations
+are related to PutBucketTagging:    GetBucketTagging     DeleteBucketTagging
 
 # Arguments
 - `bucket`: The bucket name.
@@ -5361,15 +6349,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_tagging(
     Bucket, Tagging; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5401,18 +6389,19 @@ end
     put_bucket_versioning(bucket, versioning_configuration)
     put_bucket_versioning(bucket, versioning_configuration, params::Dict{String,<:Any})
 
-Sets the versioning state of an existing bucket. You can set the versioning state with one
-of the following values:  Enabled—Enables versioning for the objects in the bucket. All
-objects added to the bucket receive a unique version ID.  Suspended—Disables versioning
-for the objects in the bucket. All objects added to the bucket receive the version ID null.
-If the versioning state has never been set on a bucket, it has no versioning state; a
-GetBucketVersioning request does not return a versioning state value. In order to enable
-MFA Delete, you must be the bucket owner. If you are the bucket owner and want to enable
-MFA Delete in the bucket versioning configuration, you must include the x-amz-mfa request
-header and the Status and the MfaDelete request elements in a request to set the versioning
-state of the bucket.  If you have an object expiration lifecycle configuration in your
-non-versioned bucket and you want to maintain the same permanent delete behavior when you
-enable versioning, you must add a noncurrent expiration policy. The noncurrent expiration
+ This operation is not supported by directory buckets.  Sets the versioning state of an
+existing bucket. You can set the versioning state with one of the following values:
+Enabled—Enables versioning for the objects in the bucket. All objects added to the bucket
+receive a unique version ID.  Suspended—Disables versioning for the objects in the
+bucket. All objects added to the bucket receive the version ID null. If the versioning
+state has never been set on a bucket, it has no versioning state; a GetBucketVersioning
+request does not return a versioning state value. In order to enable MFA Delete, you must
+be the bucket owner. If you are the bucket owner and want to enable MFA Delete in the
+bucket versioning configuration, you must include the x-amz-mfa request header and the
+Status and the MfaDelete request elements in a request to set the versioning state of the
+bucket.  If you have an object expiration lifecycle configuration in your non-versioned
+bucket and you want to maintain the same permanent delete behavior when you enable
+versioning, you must add a noncurrent expiration policy. The noncurrent expiration
 lifecycle configuration will manage the deletes of the noncurrent object versions in the
 version-enabled bucket. (A version-enabled bucket maintains one current and zero or more
 noncurrent object versions.) For more information, see Lifecycle and Versioning.  The
@@ -5431,17 +6420,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-mfa"`: The concatenation of the authentication device's serial number, a space,
   and the value that is displayed on your authentication device.
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_versioning(
     Bucket, VersioningConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5479,27 +6468,28 @@ end
     put_bucket_website(bucket, website_configuration)
     put_bucket_website(bucket, website_configuration, params::Dict{String,<:Any})
 
-Sets the configuration of the website that is specified in the website subresource. To
-configure a bucket as a website, you can add this subresource on the bucket with website
-configuration information such as the file name of the index document and any redirect
-rules. For more information, see Hosting Websites on Amazon S3. This PUT action requires
-the S3:PutBucketWebsite permission. By default, only the bucket owner can configure the
-website attached to a bucket; however, bucket owners can allow other users to set the
-website configuration by writing a bucket policy that grants them the S3:PutBucketWebsite
-permission. To redirect all website requests sent to the bucket's website endpoint, you add
-a website configuration with the following elements. Because all requests are sent to
-another website, you don't need to provide index document name for the bucket.
-WebsiteConfiguration     RedirectAllRequestsTo     HostName     Protocol    If you want
-granular control over redirects, you can use the following elements to add routing rules
-that describe conditions for redirecting requests and information about the redirect
-destination. In this case, the website configuration must provide an index document for the
-bucket, because some requests might not be redirected.     WebsiteConfiguration
-IndexDocument     Suffix     ErrorDocument     Key     RoutingRules     RoutingRule
-Condition     HttpErrorCodeReturnedEquals     KeyPrefixEquals     Redirect     Protocol
-HostName     ReplaceKeyPrefixWith     ReplaceKeyWith     HttpRedirectCode    Amazon S3 has
-a limitation of 50 routing rules per website configuration. If you require more than 50
-routing rules, you can use object redirect. For more information, see Configuring an Object
-Redirect in the Amazon S3 User Guide.
+ This operation is not supported by directory buckets.  Sets the configuration of the
+website that is specified in the website subresource. To configure a bucket as a website,
+you can add this subresource on the bucket with website configuration information such as
+the file name of the index document and any redirect rules. For more information, see
+Hosting Websites on Amazon S3. This PUT action requires the S3:PutBucketWebsite permission.
+By default, only the bucket owner can configure the website attached to a bucket; however,
+bucket owners can allow other users to set the website configuration by writing a bucket
+policy that grants them the S3:PutBucketWebsite permission. To redirect all website
+requests sent to the bucket's website endpoint, you add a website configuration with the
+following elements. Because all requests are sent to another website, you don't need to
+provide index document name for the bucket.    WebsiteConfiguration
+RedirectAllRequestsTo     HostName     Protocol    If you want granular control over
+redirects, you can use the following elements to add routing rules that describe conditions
+for redirecting requests and information about the redirect destination. In this case, the
+website configuration must provide an index document for the bucket, because some requests
+might not be redirected.     WebsiteConfiguration     IndexDocument     Suffix
+ErrorDocument     Key     RoutingRules     RoutingRule     Condition
+HttpErrorCodeReturnedEquals     KeyPrefixEquals     Redirect     Protocol     HostName
+ReplaceKeyPrefixWith     ReplaceKeyWith     HttpRedirectCode    Amazon S3 has a limitation
+of 50 routing rules per website configuration. If you require more than 50 routing rules,
+you can use object redirect. For more information, see Configuring an Object Redirect in
+the Amazon S3 User Guide. The maximum request length is limited to 128 KB.
 
 # Arguments
 - `bucket`: The bucket name.
@@ -5513,15 +6503,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_bucket_website(
     Bucket, WebsiteConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5559,79 +6549,84 @@ end
     put_object(bucket, key)
     put_object(bucket, key, params::Dict{String,<:Any})
 
-Adds an object to a bucket. You must have WRITE permissions on a bucket to add an object to
-it.  Amazon S3 never adds partial objects; if you receive a success response, Amazon S3
-added the entire object to the bucket. You cannot use PutObject to only update a single
-piece of metadata for an existing object. You must put the entire object with updated
-metadata if you want to update some values.  Amazon S3 is a distributed system. If it
-receives multiple write requests for the same object simultaneously, it overwrites all but
-the last object written. To prevent objects from being deleted or overwritten, you can use
-Amazon S3 Object Lock. To ensure that data is not corrupted traversing the network, use the
-Content-MD5 header. When you use this header, Amazon S3 checks the object against the
-provided MD5 value and, if they do not match, returns an error. Additionally, you can
-calculate the MD5 while putting an object to Amazon S3 and compare the returned ETag to the
-calculated MD5 value.    To successfully complete the PutObject request, you must have the
-s3:PutObject in your IAM permissions.   To successfully change the objects acl of your
-PutObject request, you must have the s3:PutObjectAcl in your IAM permissions.   To
-successfully set the tag-set with your PutObject request, you must have the
-s3:PutObjectTagging in your IAM permissions.    The Content-MD5 header is required for any
-request to upload an object with a retention period configured using Amazon S3 Object Lock.
-For more information about Amazon S3 Object Lock, see Amazon S3 Object Lock Overview in the
-Amazon S3 User Guide.     You have three mutually exclusive options to protect data using
-server-side encryption in Amazon S3, depending on how you choose to manage the encryption
-keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon
-Web Services KMS keys (SSE-KMS), and customer-provided keys (SSE-C). Amazon S3 encrypts
-data with server-side encryption by using Amazon S3 managed keys (SSE-S3) by default. You
-can optionally tell Amazon S3 to encrypt data at by rest using server-side encryption with
-other key options. For more information, see Using Server-Side Encryption. When adding a
-new object, you can use headers to grant ACL-based permissions to individual Amazon Web
-Services accounts or to predefined groups defined by Amazon S3. These permissions are then
-added to the ACL on the object. By default, all objects are private. Only the owner has
-full access control. For more information, see Access Control List (ACL) Overview and
-Managing ACLs Using the REST API.  If the bucket that you're uploading objects to uses the
-bucket owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer
-affect permissions. Buckets that use this setting only accept PUT requests that don't
-specify an ACL or PUT requests that specify bucket owner full control ACLs, such as the
-bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML
-format. PUT requests that contain other ACLs (for example, custom grants to certain Amazon
-Web Services accounts) fail and return a 400 error with the error code
-AccessControlListNotSupported. For more information, see  Controlling ownership of objects
-and disabling ACLs in the Amazon S3 User Guide.  If your bucket uses the bucket owner
-enforced setting for Object Ownership, all objects written to the bucket by any account
-will be owned by the bucket owner.  By default, Amazon S3 uses the STANDARD Storage Class
-to store newly created objects. The STANDARD storage class provides high durability and
-high availability. Depending on performance needs, you can specify a different Storage
-Class. Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information,
-see Storage Classes in the Amazon S3 User Guide. If you enable versioning for a bucket,
-Amazon S3 automatically generates a unique version ID for the object being stored. Amazon
-S3 returns this ID in the response. When you enable versioning for a bucket, if Amazon S3
-receives multiple write requests for the same object simultaneously, it stores all of the
-objects. For more information about versioning, see Adding Objects to Versioning-Enabled
-Buckets. For information about returning the versioning state of a bucket, see
-GetBucketVersioning.  For more information about related Amazon S3 APIs, see the following:
-   CopyObject     DeleteObject
+Adds an object to a bucket.    Amazon S3 never adds partial objects; if you receive a
+success response, Amazon S3 added the entire object to the bucket. You cannot use PutObject
+to only update a single piece of metadata for an existing object. You must put the entire
+object with updated metadata if you want to update some values.   If your bucket uses the
+bucket owner enforced setting for Object Ownership, ACLs are disabled and no longer affect
+permissions. All objects written to the bucket by any account will be owned by the bucket
+owner.    Directory buckets - For directory buckets, you must make requests for this API
+operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in
+the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style
+requests are not supported. For more information, see Regional and Zonal endpoints in the
+Amazon S3 User Guide.    Amazon S3 is a distributed system. If it receives multiple write
+requests for the same object simultaneously, it overwrites all but the last object written.
+However, Amazon S3 provides features that can modify this behavior:    S3 Object Lock - To
+prevent objects from being deleted or overwritten, you can use Amazon S3 Object Lock in the
+Amazon S3 User Guide.  This functionality is not supported for directory buckets.     S3
+Versioning - When you enable versioning for a bucket, if Amazon S3 receives multiple write
+requests for the same object simultaneously, it stores all versions of the objects. For
+each write request that is made to the same object, Amazon S3 automatically generates a
+unique version ID of that object being stored in Amazon S3. You can retrieve, replace, or
+delete any version of the object. For more information about versioning, see Adding Objects
+to Versioning-Enabled Buckets in the Amazon S3 User Guide. For information about returning
+the versioning state of a bucket, see GetBucketVersioning.   This functionality is not
+supported for directory buckets.     Permissions     General purpose bucket permissions -
+The following permissions are required in your policies when your PutObject request
+includes specific headers.     s3:PutObject  - To successfully complete the PutObject
+request, you must always have the s3:PutObject permission on a bucket to add an object to
+it.     s3:PutObjectAcl  - To successfully change the objects ACL of your PutObject
+request, you must have the s3:PutObjectAcl.     s3:PutObjectTagging  - To successfully set
+the tag-set with your PutObject request, you must have the s3:PutObjectTagging.
+Directory bucket permissions - To grant access to this API operation on a directory bucket,
+we recommend that you use the  CreateSession  API operation for session-based
+authorization. Specifically, you grant the s3express:CreateSession permission to the
+directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the
+CreateSession API call on the bucket to obtain a session token. With the session token in
+your request header, you can make API requests to this operation. After the session token
+expires, you make another CreateSession API call to generate a new session token for use.
+Amazon Web Services CLI or SDKs create session and refresh the session token automatically
+to avoid service interruptions when a session expires. For more information about
+authorization, see  CreateSession .    Data integrity with Content-MD5     General purpose
+bucket - To ensure that data is not corrupted traversing the network, use the Content-MD5
+header. When you use this header, Amazon S3 checks the object against the provided MD5
+value and, if they do not match, Amazon S3 returns an error. Alternatively, when the
+object's ETag is its MD5 digest, you can calculate the MD5 while putting the object to
+Amazon S3 and compare the returned ETag to the calculated MD5 value.    Directory bucket -
+This functionality is not supported for directory buckets.    HTTP Host header syntax
+Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   For more information about related
+Amazon S3 APIs, see the following:    CopyObject     DeleteObject
 
 # Arguments
-- `bucket`: The bucket name to which the PUT action was initiated.  When using this action
-  with an access point, you must direct requests to the access point hostname. The access
-  point hostname takes the form
-  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
-  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
-  place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+- `bucket`: The bucket name to which the PUT action was initiated.   Directory buckets -
+  When you use this operation with a directory bucket, you must use virtual-hosted-style
+  requests in the format  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style
+  requests are not supported. Directory bucket names must be unique in the chosen
+  Availability Zone. Bucket names must follow the format  bucket_base_name--az-id--x-s3 (for
+  example,  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming
+  restrictions, see Directory bucket naming rules in the Amazon S3 User Guide.  Access points
+  - When you use this action with an access point, you must provide the alias of the access
+  point in place of the bucket name or specify the access point ARN. When using the access
+  point ARN, you must direct requests to the access point hostname. The access point hostname
+  takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
+  this action with an access point through the Amazon Web Services SDKs, you provide the
+  access point ARN in place of the bucket name. For more information about access point ARNs,
+  see Using access points in the Amazon S3 User Guide.  Access points and Object Lambda
+  access points are not supported by directory buckets.   S3 on Outposts - When you use this
+  action with Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname.
+  The S3 on Outposts hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Object key for which the PUT action was initiated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Body"`: Object data.
-- `"Cache-Control"`:  Can be used to specify caching behavior along the request/reply
-  chain. For more information, see
-  http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
+- `"Cache-Control"`: Can be used to specify caching behavior along the request/reply chain.
+  For more information, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9.
 - `"Content-Disposition"`: Specifies presentational information for the object. For more
   information, see https://www.rfc-editor.org/rfc/rfc6266#section-4.
 - `"Content-Encoding"`: Specifies what content encodings have been applied to the object
@@ -5646,13 +6641,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   headers) according to RFC 1864. This header can be used as a message integrity check to
   verify that the data is the same data that was originally sent. Although it is optional, we
   recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more
-  information about REST request authentication, see REST Authentication.
+  information about REST request authentication, see REST Authentication.  The Content-MD5
+  header is required for any request to upload an object with a retention period configured
+  using Amazon S3 Object Lock. For more information about Amazon S3 Object Lock, see Amazon
+  S3 Object Lock Overview in the Amazon S3 User Guide.    This functionality is not supported
+  for directory buckets.
 - `"Content-Type"`: A standard MIME type describing the format of the contents. For more
   information, see https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type.
 - `"Expires"`: The date and time at which the object is no longer cacheable. For more
   information, see https://www.rfc-editor.org/rfc/rfc7234#section-5.3.
 - `"x-amz-acl"`: The canned ACL to apply to the object. For more information, see Canned
-  ACL. This action is not supported by Amazon S3 on Outposts.
+  ACL in the Amazon S3 User Guide. When adding a new object, you can use headers to grant
+  ACL-based permissions to individual Amazon Web Services accounts or to predefined groups
+  defined by Amazon S3. These permissions are then added to the ACL on the object. By
+  default, all objects are private. Only the owner has full access control. For more
+  information, see Access Control List (ACL) Overview and Managing ACLs Using the REST API in
+  the Amazon S3 User Guide. If the bucket that you're uploading objects to uses the bucket
+  owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect
+  permissions. Buckets that use this setting only accept PUT requests that don't specify an
+  ACL or PUT requests that specify bucket owner full control ACLs, such as the
+  bucket-owner-full-control canned ACL or an equivalent form of this ACL expressed in the XML
+  format. PUT requests that contain other ACLs (for example, custom grants to certain Amazon
+  Web Services accounts) fail and return a 400 error with the error code
+  AccessControlListNotSupported. For more information, see  Controlling ownership of objects
+  and disabling ACLs in the Amazon S3 User Guide.    This functionality is not supported for
+  directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
 - `"x-amz-checksum-crc32"`: This header can be used as a data integrity check to verify
   that the data received is the same data that was originally sent. This header specifies the
   base64-encoded, 32-bit CRC32 checksum of the object. For more information, see Checking
@@ -5670,75 +6683,109 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   base64-encoded, 256-bit SHA-256 digest of the object. For more information, see Checking
   object integrity in the Amazon S3 User Guide.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-grant-full-control"`: Gives the grantee READ, READ_ACP, and WRITE_ACP permissions
-  on the object. This action is not supported by Amazon S3 on Outposts.
-- `"x-amz-grant-read"`: Allows grantee to read the object data and its metadata. This
-  action is not supported by Amazon S3 on Outposts.
-- `"x-amz-grant-read-acp"`: Allows grantee to read the object ACL. This action is not
-  supported by Amazon S3 on Outposts.
+  on the object.    This functionality is not supported for directory buckets.   This
+  functionality is not supported for Amazon S3 on Outposts.
+- `"x-amz-grant-read"`: Allows grantee to read the object data and its metadata.    This
+  functionality is not supported for directory buckets.   This functionality is not supported
+  for Amazon S3 on Outposts.
+- `"x-amz-grant-read-acp"`: Allows grantee to read the object ACL.    This functionality is
+  not supported for directory buckets.   This functionality is not supported for Amazon S3 on
+  Outposts.
 - `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable object.
-  This action is not supported by Amazon S3 on Outposts.
+  This functionality is not supported for directory buckets.   This functionality is not
+  supported for Amazon S3 on Outposts.
 - `"x-amz-meta-"`: A map of metadata to store with the object in S3.
 - `"x-amz-object-lock-legal-hold"`: Specifies whether a legal hold will be applied to this
-  object. For more information about S3 Object Lock, see Object Lock.
+  object. For more information about S3 Object Lock, see Object Lock in the Amazon S3 User
+  Guide.  This functionality is not supported for directory buckets.
 - `"x-amz-object-lock-mode"`: The Object Lock mode that you want to apply to this object.
+  This functionality is not supported for directory buckets.
 - `"x-amz-object-lock-retain-until-date"`: The date and time when you want this object's
-  Object Lock to expire. Must be formatted as a timestamp parameter.
+  Object Lock to expire. Must be formatted as a timestamp parameter.  This functionality is
+  not supported for directory buckets.
 - `"x-amz-request-payer"`:
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
-- `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when storing
-  this object in Amazon S3 (for example, AES256, aws:kms).
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum-algorithm  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the
+  request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm
+  header, replace  algorithm  with the supported algorithm from the following list:    CRC32
+   CRC32C   SHA1   SHA256   For more information, see Checking object integrity in the Amazon
+  S3 User Guide. If the individual checksum value you provide through
+  x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through
+  x-amz-sdk-checksum-algorithm, Amazon S3 ignores any provided ChecksumAlgorithm parameter
+  and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm
+  .  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default
+  checksum algorithm that's used for performance.
+- `"x-amz-server-side-encryption"`: The server-side encryption algorithm that was used when
+  you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).  General
+  purpose buckets  - You have four mutually exclusive options to protect data using
+  server-side encryption in Amazon S3, depending on how you choose to manage the encryption
+  keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon
+  Web Services KMS keys (SSE-KMS or DSSE-KMS), and customer-provided keys (SSE-C). Amazon S3
+  encrypts data with server-side encryption by using Amazon S3 managed keys (SSE-S3) by
+  default. You can optionally tell Amazon S3 to encrypt data at rest by using server-side
+  encryption with other key options. For more information, see Using Server-Side Encryption
+  in the Amazon S3 User Guide.  Directory buckets  - For directory buckets, only the
+  server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) value is supported.
 - `"x-amz-server-side-encryption-aws-kms-key-id"`: If x-amz-server-side-encryption has a
-  valid value of aws:kms, this header specifies the ID of the Amazon Web Services Key
-  Management Service (Amazon Web Services KMS) symmetric encryption customer managed key that
-  was used for the object. If you specify x-amz-server-side-encryption:aws:kms, but do not
-  provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services
-  managed key to protect the data. If the KMS key does not exist in the same account issuing
-  the command, you must use the full ARN and not just the ID.
+  valid value of aws:kms or aws:kms:dsse, this header specifies the ID (Key ID, Key ARN, or
+  Key Alias) of the Key Management Service (KMS) symmetric encryption customer managed key
+  that was used for the object. If you specify x-amz-server-side-encryption:aws:kms or
+  x-amz-server-side-encryption:aws:kms:dsse, but do not provide
+  x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed
+  key (aws/s3) to protect the data. If the KMS key does not exist in the same account that's
+  issuing the command, you must use the full ARN and not just the ID.   This functionality is
+  not supported for directory buckets.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
-  use an S3 Bucket Key for object encryption with server-side encryption using AWS KMS
-  (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object
-  encryption with SSE-KMS. Specifying this header with a PUT action doesn’t affect
-  bucket-level settings for S3 Bucket Key.
+  use an S3 Bucket Key for object encryption with server-side encryption using Key Management
+  Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3
+  Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT action
+  doesn’t affect bucket-level settings for S3 Bucket Key.  This functionality is not
+  supported for directory buckets.
 - `"x-amz-server-side-encryption-context"`: Specifies the Amazon Web Services KMS
   Encryption Context to use for object encryption. The value of this header is a
   base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs. This
   value is stored as object metadata and automatically gets passed on to Amazon Web Services
-  KMS for future GetObject or CopyObject operations on this object.
-- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
-  when encrypting the object (for example, AES256).
+  KMS for future GetObject or CopyObject operations on this object. This value must be
+  explicitly added during CopyObject operations.  This functionality is not supported for
+  directory buckets.
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
+  encrypting the object (for example, AES256).  This functionality is not supported for
+  directory buckets.
 - `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
-  x-amz-server-side-encryption-customer-algorithm header.
+  x-amz-server-side-encryption-customer-algorithm header.  This functionality is not
+  supported for directory buckets.
 - `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
   the encryption key according to RFC 1321. Amazon S3 uses this header for a message
-  integrity check to ensure that the encryption key was transmitted without error.
+  integrity check to ensure that the encryption key was transmitted without error.  This
+  functionality is not supported for directory buckets.
 - `"x-amz-storage-class"`: By default, Amazon S3 uses the STANDARD Storage Class to store
   newly created objects. The STANDARD storage class provides high durability and high
   availability. Depending on performance needs, you can specify a different Storage Class.
-  Amazon S3 on Outposts only uses the OUTPOSTS Storage Class. For more information, see
-  Storage Classes in the Amazon S3 User Guide.
+  For more information, see Storage Classes in the Amazon S3 User Guide.    For directory
+  buckets, only the S3 Express One Zone storage class is supported to store newly created
+  objects.   Amazon S3 on Outposts only uses the OUTPOSTS Storage Class.
 - `"x-amz-tagging"`: The tag-set for the object. The tag-set must be encoded as URL Query
-  parameters. (For example, \"Key1=Value1\")
+  parameters. (For example, \"Key1=Value1\")  This functionality is not supported for
+  directory buckets.
 - `"x-amz-website-redirect-location"`: If the bucket is configured as a website, redirects
   requests for this object to another object in the same bucket or to an external URL. Amazon
   S3 stores the value of this header in the object metadata. For information about object
-  metadata, see Object Key and Metadata. In the following example, the request header sets
-  the redirect to an object (anotherPage.html) in the same bucket:
-  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request
-  header sets the object redirect to another website:  x-amz-website-redirect-location:
-  http://www.example.com/  For more information about website hosting in Amazon S3, see
-  Hosting Websites on Amazon S3 and How to Configure Website Page Redirects.
+  metadata, see Object Key and Metadata in the Amazon S3 User Guide. In the following
+  example, the request header sets the redirect to an object (anotherPage.html) in the same
+  bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the
+  request header sets the object redirect to another website:
+  x-amz-website-redirect-location: http://www.example.com/  For more information about
+  website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure
+  Website Page Redirects in the Amazon S3 User Guide.   This functionality is not supported
+  for directory buckets.
 """
 function put_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -5764,45 +6811,46 @@ end
     put_object_acl(bucket, key)
     put_object_acl(bucket, key, params::Dict{String,<:Any})
 
-Uses the acl subresource to set the access control list (ACL) permissions for a new or
-existing object in an S3 bucket. You must have WRITE_ACP permission to set the ACL of an
-object. For more information, see What permissions can I grant? in the Amazon S3 User
-Guide. This action is not supported by Amazon S3 on Outposts. Depending on your application
-needs, you can choose to set the ACL on an object using either the request body or the
-headers. For example, if you have an existing application that updates a bucket ACL using
-the request body, you can continue to use that approach. For more information, see Access
-Control List (ACL) Overview in the Amazon S3 User Guide.  If your bucket uses the bucket
-owner enforced setting for S3 Object Ownership, ACLs are disabled and no longer affect
-permissions. You must use policies to grant access to your bucket and the objects in it.
-Requests to set ACLs or update ACLs fail and return the AccessControlListNotSupported error
-code. Requests to read ACLs are still supported. For more information, see Controlling
-object ownership in the Amazon S3 User Guide.   Permissions  You can set access permissions
-using one of the following methods:   Specify a canned ACL with the x-amz-acl request
-header. Amazon S3 supports a set of predefined ACLs, known as canned ACLs. Each canned ACL
-has a predefined set of grantees and permissions. Specify the canned ACL name as the value
-of x-amz-acl. If you use this header, you cannot use other access control-specific headers
-in your request. For more information, see Canned ACL.   Specify access permissions
-explicitly with the x-amz-grant-read, x-amz-grant-read-acp, x-amz-grant-write-acp, and
-x-amz-grant-full-control headers. When using these headers, you specify explicit access
-permissions and grantees (Amazon Web Services accounts or Amazon S3 groups) who will
-receive the permission. If you use these ACL-specific headers, you cannot use x-amz-acl
-header to set a canned ACL. These parameters map to the set of permissions that Amazon S3
-supports in an ACL. For more information, see Access Control List (ACL) Overview. You
-specify each grantee as a type=value pair, where the type is one of the following:    id
-– if the value specified is the canonical user ID of an Amazon Web Services account
-uri – if you are granting permissions to a predefined group    emailAddress – if the
-value specified is the email address of an Amazon Web Services account  Using email
-addresses to specify a grantee is only supported in the following Amazon Web Services
-Regions:    US East (N. Virginia)   US West (N. California)    US West (Oregon)    Asia
-Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)
-South America (São Paulo)   For a list of all the Amazon S3 supported Regions and
-endpoints, see Regions and Endpoints in the Amazon Web Services General Reference.    For
-example, the following x-amz-grant-read header grants list objects permission to the two
-Amazon Web Services accounts identified by their email addresses.  x-amz-grant-read:
-emailAddress=\"xyz@amazon.com\", emailAddress=\"abc@amazon.com\"     You can use either a
-canned ACL or specify access permissions explicitly. You cannot do both.  Grantee Values
-You can specify the person (grantee) to whom you're assigning access rights (using request
-elements) in the following ways:   By the person's ID:  &lt;Grantee
+ This operation is not supported by directory buckets.  Uses the acl subresource to set the
+access control list (ACL) permissions for a new or existing object in an S3 bucket. You
+must have the WRITE_ACP permission to set the ACL of an object. For more information, see
+What permissions can I grant? in the Amazon S3 User Guide. This functionality is not
+supported for Amazon S3 on Outposts. Depending on your application needs, you can choose to
+set the ACL on an object using either the request body or the headers. For example, if you
+have an existing application that updates a bucket ACL using the request body, you can
+continue to use that approach. For more information, see Access Control List (ACL) Overview
+in the Amazon S3 User Guide.  If your bucket uses the bucket owner enforced setting for S3
+Object Ownership, ACLs are disabled and no longer affect permissions. You must use policies
+to grant access to your bucket and the objects in it. Requests to set ACLs or update ACLs
+fail and return the AccessControlListNotSupported error code. Requests to read ACLs are
+still supported. For more information, see Controlling object ownership in the Amazon S3
+User Guide.   Permissions  You can set access permissions using one of the following
+methods:   Specify a canned ACL with the x-amz-acl request header. Amazon S3 supports a set
+of predefined ACLs, known as canned ACLs. Each canned ACL has a predefined set of grantees
+and permissions. Specify the canned ACL name as the value of x-amz-acl. If you use this
+header, you cannot use other access control-specific headers in your request. For more
+information, see Canned ACL.   Specify access permissions explicitly with the
+x-amz-grant-read, x-amz-grant-read-acp, x-amz-grant-write-acp, and x-amz-grant-full-control
+headers. When using these headers, you specify explicit access permissions and grantees
+(Amazon Web Services accounts or Amazon S3 groups) who will receive the permission. If you
+use these ACL-specific headers, you cannot use x-amz-acl header to set a canned ACL. These
+parameters map to the set of permissions that Amazon S3 supports in an ACL. For more
+information, see Access Control List (ACL) Overview. You specify each grantee as a
+type=value pair, where the type is one of the following:    id – if the value specified
+is the canonical user ID of an Amazon Web Services account    uri – if you are granting
+permissions to a predefined group    emailAddress – if the value specified is the email
+address of an Amazon Web Services account  Using email addresses to specify a grantee is
+only supported in the following Amazon Web Services Regions:    US East (N. Virginia)   US
+West (N. California)    US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific
+(Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a
+list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the
+Amazon Web Services General Reference.    For example, the following x-amz-grant-read
+header grants list objects permission to the two Amazon Web Services accounts identified by
+their email addresses.  x-amz-grant-read: emailAddress=\"xyz@amazon.com\",
+emailAddress=\"abc@amazon.com\"     You can use either a canned ACL or specify access
+permissions explicitly. You cannot do both.  Grantee Values  You can specify the person
+(grantee) to whom you're assigning access rights (using request elements) in the following
+ways:   By the person's ID:  &lt;Grantee
 xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
 xsi:type=\"CanonicalUser\"&gt;&lt;ID&gt;&lt;&gt;ID&lt;&gt;&lt;/ID&gt;&lt;DisplayName&gt;&lt
 ;&gt;GranteesEmail&lt;&gt;&lt;/DisplayName&gt; &lt;/Grantee&gt;  DisplayName is optional
@@ -5826,24 +6874,21 @@ CopyObject     GetObject
 
 # Arguments
 - `bucket`: The bucket name that contains the object to which you want to attach the ACL.
-  When using this action with an access point, you must direct requests to the access point
-  hostname. The access point hostname takes the form
+  Access points - When you use this action with an access point, you must provide the alias
+  of the access point in place of the bucket name or specify the access point ARN. When using
+  the access point ARN, you must direct requests to the access point hostname. The access
+  point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide.
-- `key`: Key for which the PUT action was initiated. When using this action with an access
-  point, you must direct requests to the access point hostname. The access point hostname
-  takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
-  this action with an access point through the Amazon Web Services SDKs, you provide the
-  access point ARN in place of the bucket name. For more information about access point ARNs,
-  see Using access points in the Amazon S3 User Guide. When you use this action with Amazon
+  points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with Amazon
   S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
   hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
   action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   access point ARN in place of the bucket name. For more information about S3 on Outposts
-  ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
+- `key`: Key for which the PUT action was initiated.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5854,31 +6899,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   transit. For more information, go to RFC 1864.&gt;  For requests made using the Amazon Web
   Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated
   automatically.
-- `"versionId"`: VersionId used to reference a specific version of the object.
+- `"versionId"`: Version ID used to reference a specific version of the object.  This
+  functionality is not supported for directory buckets.
 - `"x-amz-acl"`: The canned ACL to apply to the object. For more information, see Canned
   ACL.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-grant-full-control"`: Allows grantee the read, write, read ACP, and write ACP
-  permissions on the bucket. This action is not supported by Amazon S3 on Outposts.
-- `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket. This action is
-  not supported by Amazon S3 on Outposts.
-- `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL. This action is not
-  supported by Amazon S3 on Outposts.
+  permissions on the bucket. This functionality is not supported for Amazon S3 on Outposts.
+- `"x-amz-grant-read"`: Allows grantee to list the objects in the bucket. This
+  functionality is not supported for Amazon S3 on Outposts.
+- `"x-amz-grant-read-acp"`: Allows grantee to read the bucket ACL. This functionality is
+  not supported for Amazon S3 on Outposts.
 - `"x-amz-grant-write"`: Allows grantee to create new objects in the bucket. For the bucket
   and object owners of existing objects, also allows deletions and overwrites of those
   objects.
 - `"x-amz-grant-write-acp"`: Allows grantee to write the ACL for the applicable bucket.
-  This action is not supported by Amazon S3 on Outposts.
+  This functionality is not supported for Amazon S3 on Outposts.
 - `"x-amz-request-payer"`:
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -5907,13 +6953,16 @@ end
     put_object_legal_hold(bucket, key)
     put_object_legal_hold(bucket, key, params::Dict{String,<:Any})
 
-Applies a legal hold configuration to the specified object. For more information, see
-Locking Objects. This action is not supported by Amazon S3 on Outposts.
+ This operation is not supported by directory buckets.  Applies a legal hold configuration
+to the specified object. For more information, see Locking Objects. This functionality is
+not supported for Amazon S3 on Outposts.
 
 # Arguments
 - `bucket`: The bucket name containing the object that you want to place a legal hold on.
-  When using this action with an access point, you must direct requests to the access point
-  hostname. The access point hostname takes the form
+  Access points - When you use this action with an access point, you must provide the alias
+  of the access point in place of the bucket name or specify the access point ARN. When using
+  the access point ARN, you must direct requests to the access point hostname. The access
+  point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
@@ -5929,16 +6978,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the specified object.
 - `"versionId"`: The version ID of the object that you want to place a legal hold on.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_object_legal_hold(
     Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()
@@ -5969,13 +7018,13 @@ end
     put_object_lock_configuration(bucket)
     put_object_lock_configuration(bucket, params::Dict{String,<:Any})
 
-Places an Object Lock configuration on the specified bucket. The rule specified in the
-Object Lock configuration will be applied by default to every new object placed in the
-specified bucket. For more information, see Locking Objects.     The DefaultRetention
-settings require both a mode and a period.   The DefaultRetention period can be either Days
-or Years but you must select one. You cannot specify Days and Years at the same time.   You
-can only enable Object Lock for new buckets. If you want to turn on Object Lock for an
-existing bucket, contact Amazon Web Services Support.
+ This operation is not supported by directory buckets.  Places an Object Lock configuration
+on the specified bucket. The rule specified in the Object Lock configuration will be
+applied by default to every new object placed in the specified bucket. For more
+information, see Locking Objects.     The DefaultRetention settings require both a mode and
+a period.   The DefaultRetention period can be either Days or Years but you must select
+one. You cannot specify Days and Years at the same time.   You can enable Object Lock for
+new or existing buckets. For more information, see Configuring Object Lock.
 
 # Arguments
 - `bucket`: The bucket whose Object Lock configuration you want to create or replace.
@@ -5990,16 +7039,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-bucket-object-lock-token"`: A token to allow Object Lock to be enabled for an
   existing bucket.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_object_lock_configuration(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6027,16 +7076,19 @@ end
     put_object_retention(bucket, key)
     put_object_retention(bucket, key, params::Dict{String,<:Any})
 
-Places an Object Retention configuration on an object. For more information, see Locking
-Objects. Users or accounts require the s3:PutObjectRetention permission in order to place
-an Object Retention configuration on objects. Bypassing a Governance Retention
-configuration requires the s3:BypassGovernanceRetention permission.  This action is not
-supported by Amazon S3 on Outposts.
+ This operation is not supported by directory buckets.  Places an Object Retention
+configuration on an object. For more information, see Locking Objects. Users or accounts
+require the s3:PutObjectRetention permission in order to place an Object Retention
+configuration on objects. Bypassing a Governance Retention configuration requires the
+s3:BypassGovernanceRetention permission.  This functionality is not supported for Amazon S3
+on Outposts.
 
 # Arguments
 - `bucket`: The bucket name that contains the object you want to apply this Object
-  Retention configuration to.  When using this action with an access point, you must direct
-  requests to the access point hostname. The access point hostname takes the form
+  Retention configuration to.   Access points - When you use this action with an access
+  point, you must provide the alias of the access point in place of the bucket name or
+  specify the access point ARN. When using the access point ARN, you must direct requests to
+  the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
@@ -6055,16 +7107,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-bypass-governance-retention"`: Indicates whether this action should bypass
   Governance-mode restrictions.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_object_retention(
     Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6095,38 +7147,40 @@ end
     put_object_tagging(bucket, key, tagging)
     put_object_tagging(bucket, key, tagging, params::Dict{String,<:Any})
 
-Sets the supplied tag-set to an object that already exists in a bucket. A tag is a
-key-value pair. You can associate tags with an object by sending a PUT request against the
-tagging subresource that is associated with the object. You can retrieve tags by sending a
-GET request. For more information, see GetObjectTagging. For tagging-related restrictions
-related to characters and encodings, see Tag Restrictions. Note that Amazon S3 limits the
-maximum number of tags to 10 tags per object. To use this operation, you must have
-permission to perform the s3:PutObjectTagging action. By default, the bucket owner has this
-permission and can grant this permission to others. To put tags of any other version, use
-the versionId query parameter. You also need permission for the s3:PutObjectVersionTagging
-action. For information about the Amazon S3 object tagging feature, see Object Tagging.
-PutObjectTagging has the following special errors:      Code: InvalidTagError      Cause:
-The tag provided was not a valid tag. This error can occur if the tag did not pass input
-validation. For more information, see Object Tagging.         Code: MalformedXMLError
-Cause: The XML provided does not match the schema.         Code: OperationAbortedError
-Cause: A conflicting conditional action is currently in progress against this resource.
-Please try again.         Code: InternalError     Cause: The service was unable to apply
-the provided tag to the object.      The following operations are related to
-PutObjectTagging:    GetObjectTagging     DeleteObjectTagging
+ This operation is not supported by directory buckets.  Sets the supplied tag-set to an
+object that already exists in a bucket. A tag is a key-value pair. For more information,
+see Object Tagging. You can associate tags with an object by sending a PUT request against
+the tagging subresource that is associated with the object. You can retrieve tags by
+sending a GET request. For more information, see GetObjectTagging. For tagging-related
+restrictions related to characters and encodings, see Tag Restrictions. Note that Amazon S3
+limits the maximum number of tags to 10 tags per object. To use this operation, you must
+have permission to perform the s3:PutObjectTagging action. By default, the bucket owner has
+this permission and can grant this permission to others. To put tags of any other version,
+use the versionId query parameter. You also need permission for the
+s3:PutObjectVersionTagging action.  PutObjectTagging has the following special errors. For
+more Amazon S3 errors see, Error Responses.    InvalidTag - The tag provided was not a
+valid tag. This error can occur if the tag did not pass input validation. For more
+information, see Object Tagging.    MalformedXML - The XML provided does not match the
+schema.    OperationAborted - A conflicting conditional action is currently in progress
+against this resource. Please try again.    InternalError - The service was unable to apply
+the provided tag to the object.   The following operations are related to PutObjectTagging:
+   GetObjectTagging     DeleteObjectTagging
 
 # Arguments
-- `bucket`: The bucket name containing the object.  When using this action with an access
-  point, you must direct requests to the access point hostname. The access point hostname
-  takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using
-  this action with an access point through the Amazon Web Services SDKs, you provide the
-  access point ARN in place of the bucket name. For more information about access point ARNs,
-  see Using access points in the Amazon S3 User Guide. When you use this action with Amazon
+- `bucket`: The bucket name containing the object.   Access points - When you use this
+  action with an access point, you must provide the alias of the access point in place of the
+  bucket name or specify the access point ARN. When using the access point ARN, you must
+  direct requests to the access point hostname. The access point hostname takes the form
+  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
+  an access point through the Amazon Web Services SDKs, you provide the access point ARN in
+  place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with Amazon
   S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
   hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
   action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   access point ARN in place of the bucket name. For more information about S3 on Outposts
-  ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Name of the object key.
 - `tagging`: Container for the TagSet and Tag elements
 
@@ -6137,16 +7191,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   calculated automatically.
 - `"versionId"`: The versionId of the object that the tag-set will be added to.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_object_tagging(
     Bucket, Key, Tagging; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6179,17 +7233,18 @@ end
     put_public_access_block(bucket, public_access_block_configuration)
     put_public_access_block(bucket, public_access_block_configuration, params::Dict{String,<:Any})
 
-Creates or modifies the PublicAccessBlock configuration for an Amazon S3 bucket. To use
-this operation, you must have the s3:PutBucketPublicAccessBlock permission. For more
-information about Amazon S3 permissions, see Specifying Permissions in a Policy.  When
-Amazon S3 evaluates the PublicAccessBlock configuration for a bucket or an object, it
-checks the PublicAccessBlock configuration for both the bucket (or the bucket that contains
-the object) and the bucket owner's account. If the PublicAccessBlock configurations are
-different between the bucket and the account, Amazon S3 uses the most restrictive
-combination of the bucket-level and account-level settings.  For more information about
-when Amazon S3 considers a bucket or an object public, see The Meaning of \"Public\". The
-following operations are related to PutPublicAccessBlock:    GetPublicAccessBlock
-DeletePublicAccessBlock     GetBucketPolicyStatus     Using Amazon S3 Block Public Access
+ This operation is not supported by directory buckets.  Creates or modifies the
+PublicAccessBlock configuration for an Amazon S3 bucket. To use this operation, you must
+have the s3:PutBucketPublicAccessBlock permission. For more information about Amazon S3
+permissions, see Specifying Permissions in a Policy.  When Amazon S3 evaluates the
+PublicAccessBlock configuration for a bucket or an object, it checks the PublicAccessBlock
+configuration for both the bucket (or the bucket that contains the object) and the bucket
+owner's account. If the PublicAccessBlock configurations are different between the bucket
+and the account, Amazon S3 uses the most restrictive combination of the bucket-level and
+account-level settings.  For more information about when Amazon S3 considers a bucket or an
+object public, see The Meaning of \"Public\". The following operations are related to
+PutPublicAccessBlock:    GetPublicAccessBlock     DeletePublicAccessBlock
+GetBucketPolicyStatus     Using Amazon S3 Block Public Access
 
 # Arguments
 - `bucket`: The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want
@@ -6205,15 +7260,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services
   SDKs, this field is calculated automatically.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function put_public_access_block(
     Bucket,
@@ -6257,114 +7312,97 @@ end
     restore_object(bucket, key)
     restore_object(bucket, key, params::Dict{String,<:Any})
 
-Restores an archived copy of an object back into Amazon S3 This action is not supported by
-Amazon S3 on Outposts. This action performs the following types of requests:     select -
-Perform a select query on an archived object    restore an archive - Restore an archived
-object   For more information about the S3 structure in the request body, see the
+ This operation is not supported by directory buckets.  Restores an archived copy of an
+object back into Amazon S3 This functionality is not supported for Amazon S3 on Outposts.
+This action performs the following types of requests:     restore an archive - Restore an
+archived object   For more information about the S3 structure in the request body, see the
 following:    PutObject     Managing Access with ACLs in the Amazon S3 User Guide
-Protecting Data Using Server-Side Encryption in the Amazon S3 User Guide    Define the SQL
-expression for the SELECT type of restoration for your query in the request body's
-SelectParameters structure. You can use expressions like the following examples.   The
-following expression returns all records from the specified object.  SELECT * FROM Object
- Assuming that you are not using any headers for data stored in the object, you can specify
-columns with positional headers.  SELECT s._1, s._2 FROM Object s WHERE s._3 &gt; 100    If
-you have headers and you set the fileHeaderInfo in the CSV structure in the request body to
-USE, you can specify headers in the query. (If you set the fileHeaderInfo field to IGNORE,
-the first row is skipped for the query.) You cannot mix ordinal positions with header
-column names.   SELECT s.Id, s.FirstName, s.SSN FROM S3Object s    When making a select
-request, you can also do the following:   To expedite your queries, specify the Expedited
-tier. For more information about tiers, see \"Restoring Archives,\" later in this topic.
-Specify details about the data serialization format of both the input object that is being
-queried and the serialization of the CSV-encoded query results.   The following are
-additional important facts about the select feature:   The output results are new Amazon S3
-objects. Unlike archive retrievals, they are stored until explicitly deleted-manually or
-through a lifecycle configuration.   You can issue more than one select request on the same
-Amazon S3 object. Amazon S3 doesn't duplicate requests, so avoid issuing duplicate
-requests.    Amazon S3 accepts a select request even if the object has already been
-restored. A select request doesn’t return error response 409.    Permissions  To use this
-operation, you must have permissions to perform the s3:RestoreObject action. The bucket
-owner has this permission by default and can grant this permission to others. For more
-information about permissions, see Permissions Related to Bucket Subresource Operations and
-Managing Access Permissions to Your Amazon S3 Resources in the Amazon S3 User Guide.
-Restoring objects  Objects that you archive to the S3 Glacier Flexible Retrieval or S3
-Glacier Deep Archive storage class, and S3 Intelligent-Tiering Archive or S3
-Intelligent-Tiering Deep Archive tiers, are not accessible in real time. For objects in the
-S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes, you must first
-initiate a restore request, and then wait until a temporary copy of the object is
-available. If you want a permanent copy of the object, create a copy of it in the Amazon S3
-Standard storage class in your S3 bucket. To access an archived object, you must restore
-the object for the duration (number of days) that you specify. For objects in the Archive
-Access or Deep Archive Access tiers of S3 Intelligent-Tiering, you must first initiate a
-restore request, and then wait until the object is moved into the Frequent Access tier. To
-restore a specific object version, you can provide a version ID. If you don't provide a
-version ID, Amazon S3 restores the current version. When restoring an archived object, you
-can specify one of the following data access tier options in the Tier element of the
-request body:     Expedited - Expedited retrievals allow you to quickly access your data
-stored in the S3 Glacier Flexible Retrieval storage class or S3 Intelligent-Tiering Archive
-tier when occasional urgent requests for restoring archives are required. For all but the
-largest archived objects (250 MB+), data accessed using Expedited retrievals is typically
-made available within 1–5 minutes. Provisioned capacity ensures that retrieval capacity
-for Expedited retrievals is available when you need it. Expedited retrievals and
+Protecting Data Using Server-Side Encryption in the Amazon S3 User Guide     Permissions
+To use this operation, you must have permissions to perform the s3:RestoreObject action.
+The bucket owner has this permission by default and can grant this permission to others.
+For more information about permissions, see Permissions Related to Bucket Subresource
+Operations and Managing Access Permissions to Your Amazon S3 Resources in the Amazon S3
+User Guide.  Restoring objects  Objects that you archive to the S3 Glacier Flexible
+Retrieval Flexible Retrieval or S3 Glacier Deep Archive storage class, and S3
+Intelligent-Tiering Archive or S3 Intelligent-Tiering Deep Archive tiers, are not
+accessible in real time. For objects in the S3 Glacier Flexible Retrieval Flexible
+Retrieval or S3 Glacier Deep Archive storage classes, you must first initiate a restore
+request, and then wait until a temporary copy of the object is available. If you want a
+permanent copy of the object, create a copy of it in the Amazon S3 Standard storage class
+in your S3 bucket. To access an archived object, you must restore the object for the
+duration (number of days) that you specify. For objects in the Archive Access or Deep
+Archive Access tiers of S3 Intelligent-Tiering, you must first initiate a restore request,
+and then wait until the object is moved into the Frequent Access tier. To restore a
+specific object version, you can provide a version ID. If you don't provide a version ID,
+Amazon S3 restores the current version. When restoring an archived object, you can specify
+one of the following data access tier options in the Tier element of the request body:
+Expedited - Expedited retrievals allow you to quickly access your data stored in the S3
+Glacier Flexible Retrieval Flexible Retrieval storage class or S3 Intelligent-Tiering
+Archive tier when occasional urgent requests for restoring archives are required. For all
+but the largest archived objects (250 MB+), data accessed using Expedited retrievals is
+typically made available within 1–5 minutes. Provisioned capacity ensures that retrieval
+capacity for Expedited retrievals is available when you need it. Expedited retrievals and
 provisioned capacity are not available for objects stored in the S3 Glacier Deep Archive
 storage class or S3 Intelligent-Tiering Deep Archive tier.    Standard - Standard
 retrievals allow you to access any of your archived objects within several hours. This is
 the default option for retrieval requests that do not specify the retrieval option.
 Standard retrievals typically finish within 3–5 hours for objects stored in the S3
-Glacier Flexible Retrieval storage class or S3 Intelligent-Tiering Archive tier. They
-typically finish within 12 hours for objects stored in the S3 Glacier Deep Archive storage
-class or S3 Intelligent-Tiering Deep Archive tier. Standard retrievals are free for objects
-stored in S3 Intelligent-Tiering.    Bulk - Bulk retrievals free for objects stored in the
-S3 Glacier Flexible Retrieval and S3 Intelligent-Tiering storage classes, enabling you to
-retrieve large amounts, even petabytes, of data at no cost. Bulk retrievals typically
-finish within 5–12 hours for objects stored in the S3 Glacier Flexible Retrieval storage
-class or S3 Intelligent-Tiering Archive tier. Bulk retrievals are also the lowest-cost
-retrieval option when restoring objects from S3 Glacier Deep Archive. They typically finish
-within 48 hours for objects stored in the S3 Glacier Deep Archive storage class or S3
-Intelligent-Tiering Deep Archive tier.    For more information about archive retrieval
-options and provisioned capacity for Expedited data access, see Restoring Archived Objects
-in the Amazon S3 User Guide.  You can use Amazon S3 restore speed upgrade to change the
-restore speed to a faster speed while it is in progress. For more information, see
-Upgrading the speed of an in-progress restore in the Amazon S3 User Guide.  To get the
-status of object restoration, you can send a HEAD request. Operations return the
-x-amz-restore header, which provides information about the restoration status, in the
-response. You can use Amazon S3 event notifications to notify you when a restore is
-initiated or completed. For more information, see Configuring Amazon S3 Event Notifications
-in the Amazon S3 User Guide. After restoring an archived object, you can update the
-restoration period by reissuing the request with a new period. Amazon S3 updates the
-restoration period relative to the current time and charges only for the request-there are
-no data transfer charges. You cannot update the restoration period when Amazon S3 is
-actively processing your current restore request for the object. If your bucket has a
-lifecycle configuration with a rule that includes an expiration action, the object
-expiration overrides the life span that you specify in a restore request. For example, if
-you restore an object copy for 10 days, but the object is scheduled to expire in 3 days,
-Amazon S3 deletes the object in 3 days. For more information about lifecycle configuration,
-see PutBucketLifecycleConfiguration and Object Lifecycle Management in Amazon S3 User
-Guide.  Responses  A successful action returns either the 200 OK or 202 Accepted status
-code.    If the object is not previously restored, then Amazon S3 returns 202 Accepted in
-the response.    If the object is previously restored, Amazon S3 returns 200 OK in the
-response.      Special errors:    Code: RestoreAlreadyInProgress     Cause: Object restore
-is already in progress. (This error does not apply to SELECT type requests.)     HTTP
-Status Code: 409 Conflict     SOAP Fault Code Prefix: Client         Code:
-GlacierExpeditedRetrievalNotAvailable     Cause: expedited retrievals are currently not
-available. Try again later. (Returned if there is insufficient capacity to process the
-Expedited request. This error applies only to Expedited retrievals and not to S3 Standard
-or Bulk retrievals.)     HTTP Status Code: 503     SOAP Fault Code Prefix: N/A        The
-following operations are related to RestoreObject:    PutBucketLifecycleConfiguration
-GetBucketNotificationConfiguration
+Glacier Flexible Retrieval Flexible Retrieval storage class or S3 Intelligent-Tiering
+Archive tier. They typically finish within 12 hours for objects stored in the S3 Glacier
+Deep Archive storage class or S3 Intelligent-Tiering Deep Archive tier. Standard retrievals
+are free for objects stored in S3 Intelligent-Tiering.    Bulk - Bulk retrievals free for
+objects stored in the S3 Glacier Flexible Retrieval and S3 Intelligent-Tiering storage
+classes, enabling you to retrieve large amounts, even petabytes, of data at no cost. Bulk
+retrievals typically finish within 5–12 hours for objects stored in the S3 Glacier
+Flexible Retrieval Flexible Retrieval storage class or S3 Intelligent-Tiering Archive tier.
+Bulk retrievals are also the lowest-cost retrieval option when restoring objects from S3
+Glacier Deep Archive. They typically finish within 48 hours for objects stored in the S3
+Glacier Deep Archive storage class or S3 Intelligent-Tiering Deep Archive tier.    For more
+information about archive retrieval options and provisioned capacity for Expedited data
+access, see Restoring Archived Objects in the Amazon S3 User Guide.  You can use Amazon S3
+restore speed upgrade to change the restore speed to a faster speed while it is in
+progress. For more information, see  Upgrading the speed of an in-progress restore in the
+Amazon S3 User Guide.  To get the status of object restoration, you can send a HEAD
+request. Operations return the x-amz-restore header, which provides information about the
+restoration status, in the response. You can use Amazon S3 event notifications to notify
+you when a restore is initiated or completed. For more information, see Configuring Amazon
+S3 Event Notifications in the Amazon S3 User Guide. After restoring an archived object, you
+can update the restoration period by reissuing the request with a new period. Amazon S3
+updates the restoration period relative to the current time and charges only for the
+request-there are no data transfer charges. You cannot update the restoration period when
+Amazon S3 is actively processing your current restore request for the object. If your
+bucket has a lifecycle configuration with a rule that includes an expiration action, the
+object expiration overrides the life span that you specify in a restore request. For
+example, if you restore an object copy for 10 days, but the object is scheduled to expire
+in 3 days, Amazon S3 deletes the object in 3 days. For more information about lifecycle
+configuration, see PutBucketLifecycleConfiguration and Object Lifecycle Management in
+Amazon S3 User Guide.  Responses  A successful action returns either the 200 OK or 202
+Accepted status code.    If the object is not previously restored, then Amazon S3 returns
+202 Accepted in the response.    If the object is previously restored, Amazon S3 returns
+200 OK in the response.      Special errors:    Code: RestoreAlreadyInProgress     Cause:
+Object restore is already in progress.     HTTP Status Code: 409 Conflict     SOAP Fault
+Code Prefix: Client         Code: GlacierExpeditedRetrievalNotAvailable     Cause:
+expedited retrievals are currently not available. Try again later. (Returned if there is
+insufficient capacity to process the Expedited request. This error applies only to
+Expedited retrievals and not to S3 Standard or Bulk retrievals.)     HTTP Status Code: 503
+   SOAP Fault Code Prefix: N/A        The following operations are related to
+RestoreObject:    PutBucketLifecycleConfiguration     GetBucketNotificationConfiguration
 
 # Arguments
-- `bucket`: The bucket name containing the object to restore.  When using this action with
-  an access point, you must direct requests to the access point hostname. The access point
-  hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When
-  using this action with an access point through the Amazon Web Services SDKs, you provide
-  the access point ARN in place of the bucket name. For more information about access point
-  ARNs, see Using access points in the Amazon S3 User Guide. When you use this action with
-  Amazon S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on
-  Outposts hostname takes the form
+- `bucket`: The bucket name containing the object to restore.   Access points - When you
+  use this action with an access point, you must provide the alias of the access point in
+  place of the bucket name or specify the access point ARN. When using the access point ARN,
+  you must direct requests to the access point hostname. The access point hostname takes the
+  form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action
+  with an access point through the Amazon Web Services SDKs, you provide the access point ARN
+  in place of the bucket name. For more information about access point ARNs, see Using access
+  points in the Amazon S3 User Guide.  S3 on Outposts - When you use this action with Amazon
+  S3 on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
   AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
   action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
   access point ARN in place of the bucket name. For more information about S3 on Outposts
-  ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Object key for which the action was initiated.
 
 # Optional Parameters
@@ -6372,16 +7410,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RestoreRequest"`:
 - `"versionId"`: VersionId used to reference a specific version of the object.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter.
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter.
 """
 function restore_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
     return s3(
@@ -6410,44 +7448,48 @@ end
     select_object_content(bucket, expression, expression_type, input_serialization, key, output_serialization)
     select_object_content(bucket, expression, expression_type, input_serialization, key, output_serialization, params::Dict{String,<:Any})
 
-This action filters the contents of an Amazon S3 object based on a simple structured query
-language (SQL) statement. In the request, along with the SQL expression, you must also
-specify a data serialization format (JSON, CSV, or Apache Parquet) of the object. Amazon S3
-uses this format to parse object data into records, and returns only records that match the
-specified SQL expression. You must also specify the data serialization format for the
-response. This action is not supported by Amazon S3 on Outposts. For more information about
-Amazon S3 Select, see Selecting Content from Objects and SELECT Command in the Amazon S3
-User Guide.   Permissions  You must have s3:GetObject permission for this
-operation. Amazon S3 Select does not support anonymous access. For more information about
-permissions, see Specifying Permissions in a Policy in the Amazon S3 User Guide.  Object
-Data Formats  You can use Amazon S3 Select to query objects that have the following format
-properties:    CSV, JSON, and Parquet - Objects must be in CSV, JSON, or Parquet format.
-UTF-8 - UTF-8 is the only encoding type Amazon S3 Select supports.    GZIP or BZIP2 - CSV
-and JSON files can be compressed using GZIP or BZIP2. GZIP and BZIP2 are the only
-compression formats that Amazon S3 Select supports for CSV and JSON files. Amazon S3 Select
-supports columnar compression for Parquet using GZIP or Snappy. Amazon S3 Select does not
-support whole-object compression for Parquet objects.    Server-side encryption - Amazon S3
-Select supports querying objects that are protected with server-side encryption. For
-objects that are encrypted with customer-provided encryption keys (SSE-C), you must use
-HTTPS, and you must use the headers that are documented in the GetObject. For more
-information about SSE-C, see Server-Side Encryption (Using Customer-Provided Encryption
-Keys) in the Amazon S3 User Guide. For objects that are encrypted with Amazon S3 managed
-keys (SSE-S3) and Amazon Web Services KMS keys (SSE-KMS), server-side encryption is handled
-transparently, so you don't need to specify anything. For more information about
-server-side encryption, including SSE-S3 and SSE-KMS, see Protecting Data Using Server-Side
-Encryption in the Amazon S3 User Guide.    Working with the Response Body  Given the
-response size is unknown, Amazon S3 Select streams the response as a series of messages and
-includes a Transfer-Encoding header with chunked as its value in the response. For more
-information, see Appendix: SelectObjectContent Response.  GetObject Support  The
-SelectObjectContent action does not support the following GetObject functionality. For more
-information, see GetObject.    Range: Although you can specify a scan range for an Amazon
-S3 Select request (see SelectObjectContentRequest - ScanRange in the request parameters),
-you cannot specify the range of bytes of an object to return.    GLACIER, DEEP_ARCHIVE and
-REDUCED_REDUNDANCY storage classes: You cannot specify the GLACIER, DEEP_ARCHIVE, or
-REDUCED_REDUNDANCY storage classes. For more information, about storage classes see Storage
-Classes in the Amazon S3 User Guide.    Special Errors  For a list of special errors for
-this operation, see List of SELECT Object Content Error Codes    The following operations
-are related to SelectObjectContent:    GetObject     GetBucketLifecycleConfiguration
+ This operation is not supported by directory buckets.  This action filters the contents of
+an Amazon S3 object based on a simple structured query language (SQL) statement. In the
+request, along with the SQL expression, you must also specify a data serialization format
+(JSON, CSV, or Apache Parquet) of the object. Amazon S3 uses this format to parse object
+data into records, and returns only records that match the specified SQL expression. You
+must also specify the data serialization format for the response. This functionality is not
+supported for Amazon S3 on Outposts. For more information about Amazon S3 Select, see
+Selecting Content from Objects and SELECT Command in the Amazon S3 User Guide.
+Permissions  You must have the s3:GetObject permission for this operation. Amazon S3
+Select does not support anonymous access. For more information about permissions, see
+Specifying Permissions in a Policy in the Amazon S3 User Guide.  Object Data Formats  You
+can use Amazon S3 Select to query objects that have the following format properties:
+CSV, JSON, and Parquet - Objects must be in CSV, JSON, or Parquet format.    UTF-8 - UTF-8
+is the only encoding type Amazon S3 Select supports.    GZIP or BZIP2 - CSV and JSON files
+can be compressed using GZIP or BZIP2. GZIP and BZIP2 are the only compression formats that
+Amazon S3 Select supports for CSV and JSON files. Amazon S3 Select supports columnar
+compression for Parquet using GZIP or Snappy. Amazon S3 Select does not support
+whole-object compression for Parquet objects.    Server-side encryption - Amazon S3 Select
+supports querying objects that are protected with server-side encryption. For objects that
+are encrypted with customer-provided encryption keys (SSE-C), you must use HTTPS, and you
+must use the headers that are documented in the GetObject. For more information about
+SSE-C, see Server-Side Encryption (Using Customer-Provided Encryption Keys) in the Amazon
+S3 User Guide. For objects that are encrypted with Amazon S3 managed keys (SSE-S3) and
+Amazon Web Services KMS keys (SSE-KMS), server-side encryption is handled transparently, so
+you don't need to specify anything. For more information about server-side encryption,
+including SSE-S3 and SSE-KMS, see Protecting Data Using Server-Side Encryption in the
+Amazon S3 User Guide.    Working with the Response Body  Given the response size is
+unknown, Amazon S3 Select streams the response as a series of messages and includes a
+Transfer-Encoding header with chunked as its value in the response. For more information,
+see Appendix: SelectObjectContent Response.  GetObject Support  The SelectObjectContent
+action does not support the following GetObject functionality. For more information, see
+GetObject.    Range: Although you can specify a scan range for an Amazon S3 Select request
+(see SelectObjectContentRequest - ScanRange in the request parameters), you cannot specify
+the range of bytes of an object to return.    The GLACIER, DEEP_ARCHIVE, and
+REDUCED_REDUNDANCY storage classes, or the ARCHIVE_ACCESS and DEEP_ARCHIVE_ACCESS access
+tiers of the INTELLIGENT_TIERING storage class: You cannot query objects in the GLACIER,
+DEEP_ARCHIVE, or REDUCED_REDUNDANCY storage classes, nor objects in the ARCHIVE_ACCESS or
+DEEP_ARCHIVE_ACCESS access tiers of the INTELLIGENT_TIERING storage class. For more
+information about storage classes, see Using Amazon S3 storage classes in the Amazon S3
+User Guide.    Special Errors  For a list of special errors for this operation, see List of
+SELECT Object Content Error Codes    The following operations are related to
+SelectObjectContent:    GetObject     GetBucketLifecycleConfiguration
 PutBucketLifecycleConfiguration
 
 # Arguments
@@ -6474,8 +7516,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; - process only the records
   within the last 50 bytes of the file.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-server-side-encryption-customer-algorithm"`: The server-side encryption (SSE)
   algorithm used to encrypt the object. This parameter is needed only when the object was
   created using a checksum algorithm. For more information, see Protecting data using SSE-C
@@ -6545,70 +7587,98 @@ end
     upload_part(bucket, key, part_number, upload_id)
     upload_part(bucket, key, part_number, upload_id, params::Dict{String,<:Any})
 
-Uploads a part in a multipart upload.  In this operation, you provide part data in your
-request. However, you have an option to specify your existing Amazon S3 object as a data
-source for the part you are uploading. To upload a part from an existing object, you use
-the UploadPartCopy operation.   You must initiate a multipart upload (see
+Uploads a part in a multipart upload.  In this operation, you provide new data as a part of
+an object in your request. However, you have an option to specify your existing Amazon S3
+object as a data source for the part you are uploading. To upload a part from an existing
+object, you use the UploadPartCopy operation.   You must initiate a multipart upload (see
 CreateMultipartUpload) before you can upload any part. In response to your initiate
-request, Amazon S3 returns an upload ID, a unique identifier, that you must include in your
+request, Amazon S3 returns an upload ID, a unique identifier that you must include in your
 upload part request. Part numbers can be any number from 1 to 10,000, inclusive. A part
 number uniquely identifies a part and also defines its position within the object being
 created. If you upload a new part using the same part number that was used with a previous
 part, the previously uploaded part is overwritten. For information about maximum and
 minimum part sizes and other multipart upload specifications, see Multipart upload limits
-in the Amazon S3 User Guide. To ensure that data is not corrupted when traversing the
-network, specify the Content-MD5 header in the upload part request. Amazon S3 checks the
-part data against the provided MD5 value. If they do not match, Amazon S3 returns an error.
- If the upload request is signed with Signature Version 4, then Amazon Web Services S3 uses
-the x-amz-content-sha256 header as a checksum instead of Content-MD5. For more information
-see Authenticating Requests: Using the Authorization Header (Amazon Web Services Signature
-Version 4).   Note: After you initiate multipart upload and upload one or more parts, you
-must either complete or abort multipart upload in order to stop getting charged for storage
-of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3
-frees up the parts storage and stops charging you for the parts storage. For more
-information on multipart uploads, go to Multipart Upload Overview in the Amazon S3 User
-Guide . For information on the permissions required to use the multipart upload API, go to
-Multipart Upload and Permissions in the Amazon S3 User Guide. Server-side encryption is for
-data encryption at rest. Amazon S3 encrypts your data as it writes it to disks in its data
-centers and decrypts it when you access it. You have three mutually exclusive options to
-protect data using server-side encryption in Amazon S3, depending on how you choose to
-manage the encryption keys. Specifically, the encryption key options are Amazon S3 managed
-keys (SSE-S3), Amazon Web Services KMS keys (SSE-KMS), and Customer-Provided Keys (SSE-C).
-Amazon S3 encrypts data with server-side encryption using Amazon S3 managed keys (SSE-S3)
-by default. You can optionally tell Amazon S3 to encrypt data at rest using server-side
-encryption with other key options. The option you use depends on whether you want to use
-KMS keys (SSE-KMS) or provide your own encryption key (SSE-C). If you choose to provide
-your own encryption key, the request headers you provide in the request must match the
-headers you used in the request to initiate the upload by using CreateMultipartUpload. For
-more information, go to Using Server-Side Encryption in the Amazon S3 User Guide.
-Server-side encryption is supported by the S3 Multipart Upload actions. Unless you are
-using a customer-provided encryption key (SSE-C), you don't need to specify the encryption
-parameters in each UploadPart request. Instead, you only need to specify the server-side
-encryption parameters in the initial Initiate Multipart request. For more information, see
-CreateMultipartUpload. If you requested server-side encryption using a customer-provided
-encryption key (SSE-C) in your initiate multipart upload request, you must provide
-identical encryption information in each part upload using the following headers.
+in the Amazon S3 User Guide.  After you initiate multipart upload and upload one or more
+parts, you must either complete or abort multipart upload in order to stop getting charged
+for storage of the uploaded parts. Only after you either complete or abort multipart
+upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage.
+For more information on multipart uploads, go to Multipart Upload Overview in the Amazon S3
+User Guide .   Directory buckets - For directory buckets, you must make requests for this
+API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests
+in the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name .
+Path-style requests are not supported. For more information, see Regional and Zonal
+endpoints in the Amazon S3 User Guide.   Permissions     General purpose bucket permissions
+- For information on the permissions required to use the multipart upload API, see
+Multipart Upload and Permissions in the Amazon S3 User Guide.    Directory bucket
+permissions - To grant access to this API operation on a directory bucket, we recommend
+that you use the  CreateSession  API operation for session-based authorization.
+Specifically, you grant the s3express:CreateSession permission to the directory bucket in a
+bucket policy or an IAM identity-based policy. Then, you make the CreateSession API call on
+the bucket to obtain a session token. With the session token in your request header, you
+can make API requests to this operation. After the session token expires, you make another
+CreateSession API call to generate a new session token for use. Amazon Web Services CLI or
+SDKs create session and refresh the session token automatically to avoid service
+interruptions when a session expires. For more information about authorization, see
+CreateSession .    Data integrity   General purpose bucket - To ensure that data is not
+corrupted traversing the network, specify the Content-MD5 header in the upload part
+request. Amazon S3 checks the part data against the provided MD5 value. If they do not
+match, Amazon S3 returns an error. If the upload request is signed with Signature Version
+4, then Amazon Web Services S3 uses the x-amz-content-sha256 header as a checksum instead
+of Content-MD5. For more information see Authenticating Requests: Using the Authorization
+Header (Amazon Web Services Signature Version 4).    Directory buckets - MD5 is not
+supported by directory buckets. You can use checksum algorithms to check object integrity.
+ Encryption     General purpose bucket - Server-side encryption is for data encryption at
+rest. Amazon S3 encrypts your data as it writes it to disks in its data centers and
+decrypts it when you access it. You have mutually exclusive options to protect data using
+server-side encryption in Amazon S3, depending on how you choose to manage the encryption
+keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon
+Web Services KMS keys (SSE-KMS), and Customer-Provided Keys (SSE-C). Amazon S3 encrypts
+data with server-side encryption using Amazon S3 managed keys (SSE-S3) by default. You can
+optionally tell Amazon S3 to encrypt data at rest using server-side encryption with other
+key options. The option you use depends on whether you want to use KMS keys (SSE-KMS) or
+provide your own encryption key (SSE-C). Server-side encryption is supported by the S3
+Multipart Upload operations. Unless you are using a customer-provided encryption key
+(SSE-C), you don't need to specify the encryption parameters in each UploadPart request.
+Instead, you only need to specify the server-side encryption parameters in the initial
+Initiate Multipart request. For more information, see CreateMultipartUpload. If you request
+server-side encryption using a customer-provided encryption key (SSE-C) in your initiate
+multipart upload request, you must provide identical encryption information in each part
+upload using the following request headers.
 x-amz-server-side-encryption-customer-algorithm   x-amz-server-side-encryption-customer-key
-  x-amz-server-side-encryption-customer-key-MD5    UploadPart has the following special
-errors:      Code: NoSuchUpload     Cause: The specified multipart upload does not exist.
-The upload ID might be invalid, or the multipart upload might have been aborted or
-completed.      HTTP Status Code: 404 Not Found      SOAP Fault Code Prefix: Client
-The following operations are related to UploadPart:    CreateMultipartUpload
-CompleteMultipartUpload     AbortMultipartUpload     ListParts     ListMultipartUploads
+  x-amz-server-side-encryption-customer-key-MD5      Directory bucket - For directory
+buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) is
+supported.     For more information, see Using Server-Side Encryption in the Amazon S3 User
+Guide.  Special errors    Error Code: NoSuchUpload    Description: The specified multipart
+upload does not exist. The upload ID might be invalid, or the multipart upload might have
+been aborted or completed.   HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix:
+Client      HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
+UploadPart:    CreateMultipartUpload     CompleteMultipartUpload     AbortMultipartUpload
+  ListParts     ListMultipartUploads
 
 # Arguments
-- `bucket`: The name of the bucket to which the multipart upload was initiated. When using
-  this action with an access point, you must direct requests to the access point hostname.
-  The access point hostname takes the form
+- `bucket`: The name of the bucket to which the multipart upload was initiated.  Directory
+  buckets - When you use this operation with a directory bucket, you must use
+  virtual-hosted-style requests in the format
+  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.
+  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must
+  follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Object key for which the multipart upload was initiated.
 - `part_number`: Part number of part being uploaded. This is a positive integer between 1
   and 10,000.
@@ -6621,7 +7691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the body cannot be determined automatically.
 - `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the part data. This parameter
   is auto-populated when using the command from the CLI. This parameter is required if object
-  lock parameters are specified.
+  lock parameters are specified.  This functionality is not supported for directory buckets.
 - `"x-amz-checksum-crc32"`: This header can be used as a data integrity check to verify
   that the data received is the same data that was originally sent. This header specifies the
   base64-encoded, 32-bit CRC32 checksum of the object. For more information, see Checking
@@ -6639,28 +7709,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   base64-encoded, 256-bit SHA-256 digest of the object. For more information, see Checking
   object integrity in the Amazon S3 User Guide.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
-  bucket is owned by a different account, the request fails with the HTTP status code 403
-  Forbidden (access denied).
+  account ID that you provide does not match the actual owner of the bucket, the request
+  fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
-  the object when using the SDK. This header will not provide any additional functionality if
-  not using the SDK. When sending this header, there must be a corresponding x-amz-checksum
-  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status
-  code 400 Bad Request. For more information, see Checking object integrity in the Amazon S3
-  User Guide. If you provide an individual checksum, Amazon S3 ignores any provided
-  ChecksumAlgorithm parameter. This checksum algorithm must be the same for all parts and it
-  match the checksum value supplied in the CreateMultipartUpload request.
-- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
-  when encrypting the object (for example, AES256).
+  the object when you use the SDK. This header will not provide any additional functionality
+  if you don't use the SDK. When you send this header, there must be a corresponding
+  x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
+  the HTTP status code 400 Bad Request. For more information, see Checking object integrity
+  in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
+  provided ChecksumAlgorithm parameter. This checksum algorithm must be the same for all
+  parts and it match the checksum value supplied in the CreateMultipartUpload request.
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
+  encrypting the object (for example, AES256).  This functionality is not supported for
+  directory buckets.
 - `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
   x-amz-server-side-encryption-customer-algorithm header. This must be the same encryption
-  key specified in the initiate multipart upload request.
+  key specified in the initiate multipart upload request.  This functionality is not
+  supported for directory buckets.
 - `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
   the encryption key according to RFC 1321. Amazon S3 uses this header for a message
-  integrity check to ensure that the encryption key was transmitted without error.
+  integrity check to ensure that the encryption key was transmitted without error.  This
+  functionality is not supported for directory buckets.
 """
 function upload_part(
     Bucket, Key, partNumber, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6700,61 +7773,85 @@ end
     upload_part_copy(bucket, key, part_number, upload_id, x-amz-copy-source)
     upload_part_copy(bucket, key, part_number, upload_id, x-amz-copy-source, params::Dict{String,<:Any})
 
-Uploads a part by copying data from an existing object as data source. You specify the data
-source by adding the request header x-amz-copy-source in your request and a byte range by
-adding the request header x-amz-copy-source-range in your request.  For information about
-maximum and minimum part sizes and other multipart upload specifications, see Multipart
-upload limits in the Amazon S3 User Guide.   Instead of using an existing object as part
-data, you might use the UploadPart action and provide data in your request.  You must
-initiate a multipart upload before you can upload any part. In response to your initiate
-request. Amazon S3 returns a unique identifier, the upload ID, that you must include in
-your upload part request. For more information about using the UploadPartCopy operation,
-see the following:   For conceptual information about multipart uploads, see Uploading
-Objects Using Multipart Upload in the Amazon S3 User Guide.   For information about
-permissions required to use the multipart upload API, see Multipart Upload and Permissions
-in the Amazon S3 User Guide.   For information about copying objects using a single atomic
-action vs. a multipart upload, see Operations on Objects in the Amazon S3 User Guide.   For
+Uploads a part by copying data from an existing object as data source. To specify the data
+source, you add the request header x-amz-copy-source in your request. To specify a byte
+range, you add the request header x-amz-copy-source-range in your request.  For information
+about maximum and minimum part sizes and other multipart upload specifications, see
+Multipart upload limits in the Amazon S3 User Guide.   Instead of copying data from an
+existing object as part data, you might use the UploadPart action to upload new data as a
+part of an object in your request.  You must initiate a multipart upload before you can
+upload any part. In response to your initiate request, Amazon S3 returns the upload ID, a
+unique identifier that you must include in your upload part request. For conceptual
+information about multipart uploads, see Uploading Objects Using Multipart Upload in the
+Amazon S3 User Guide. For information about copying objects using a single atomic action
+vs. a multipart upload, see Operations on Objects in the Amazon S3 User Guide.   Directory
+buckets - For directory buckets, you must make requests for this API operation to the Zonal
+endpoint. These endpoints support virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
+not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.   Authentication and authorization  All UploadPartCopy requests must be
+authenticated and signed by using IAM credentials (access key ID and secret access key for
+the IAM identities). All headers with the x-amz- prefix, including x-amz-copy-source, must
+be signed. For more information, see REST Authentication.  Directory buckets - You must use
+IAM credentials to authenticate and authorize your access to the UploadPartCopy API
+operation, instead of using the temporary security credentials through the CreateSession
+API operation. Amazon Web Services CLI or SDKs handles authentication and authorization on
+your behalf.  Permissions  You must have READ access to the source object and WRITE access
+to the destination bucket.    General purpose bucket permissions - You must have the
+permissions in a policy based on the bucket types of your source bucket and destination
+bucket in an UploadPartCopy operation.   If the source object is in a general purpose
+bucket, you must have the  s3:GetObject  permission to read the source object that is being
+copied.    If the destination bucket is a general purpose bucket, you must have the
+s3:PutObject  permission to write the object copy to the destination bucket.    For
+information about permissions required to use the multipart upload API, see Multipart
+Upload and Permissions in the Amazon S3 User Guide.    Directory bucket permissions - You
+must have permissions in a bucket policy or an IAM identity-based policy based on the
+source and destination bucket types in an UploadPartCopy operation.   If the source object
+that you want to copy is in a directory bucket, you must have the  s3express:CreateSession
+permission in the Action element of a policy to read the object . By default, the session
+is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the
+s3express:SessionMode condition key to ReadOnly on the copy source bucket.   If the copy
+destination is a directory bucket, you must have the  s3express:CreateSession  permission
+in the Action element of a policy to write the object to the destination. The
+s3express:SessionMode condition key cannot be set to ReadOnly on the copy destination.
+For example policies, see Example bucket policies for S3 Express One Zone and Amazon Web
+Services Identity and Access Management (IAM) identity-based policies for S3 Express One
+Zone in the Amazon S3 User Guide.    Encryption     General purpose buckets  - For
 information about using server-side encryption with customer-provided encryption keys with
-the UploadPartCopy operation, see CopyObject and UploadPart.   Note the following
-additional considerations about the request headers x-amz-copy-source-if-match,
-x-amz-copy-source-if-none-match, x-amz-copy-source-if-unmodified-since, and
-x-amz-copy-source-if-modified-since:      Consideration 1 - If both of the
-x-amz-copy-source-if-match and x-amz-copy-source-if-unmodified-since headers are present in
-the request as follows:  x-amz-copy-source-if-match condition evaluates to true, and;
-x-amz-copy-source-if-unmodified-since condition evaluates to false; Amazon S3 returns 200
-OK and copies the data.     Consideration 2 - If both of the
-x-amz-copy-source-if-none-match and x-amz-copy-source-if-modified-since headers are present
-in the request as follows:  x-amz-copy-source-if-none-match condition evaluates to false,
-and;  x-amz-copy-source-if-modified-since condition evaluates to true; Amazon S3 returns
-412 Precondition Failed response code.     Versioning  If your bucket has versioning
-enabled, you could have multiple versions of the same object. By default, x-amz-copy-source
-identifies the current version of the object to copy. If the current version is a delete
-marker and you don't specify a versionId in the x-amz-copy-source, Amazon S3 returns a 404
-error, because the object does not exist. If you specify versionId in the x-amz-copy-source
-and the versionId is a delete marker, Amazon S3 returns an HTTP 400 error, because you are
-not allowed to specify a delete marker as a version for the x-amz-copy-source.  You can
-optionally specify a specific version of the source object to copy by adding the versionId
-subresource as shown in the following example:  x-amz-copy-source:
-/bucket/object?versionId=version id   Special errors       Code: NoSuchUpload     Cause:
-The specified multipart upload does not exist. The upload ID might be invalid, or the
-multipart upload might have been aborted or completed.     HTTP Status Code: 404 Not Found
-       Code: InvalidRequest     Cause: The specified copy source is not supported as a
-byte-range copy source.     HTTP Status Code: 400 Bad Request        The following
-operations are related to UploadPartCopy:    CreateMultipartUpload     UploadPart
-CompleteMultipartUpload     AbortMultipartUpload     ListParts     ListMultipartUploads
+the UploadPartCopy operation, see CopyObject and UploadPart.     Directory buckets  - For
+directory buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3)
+(AES256) is supported.    Special errors    Error Code: NoSuchUpload    Description: The
+specified multipart upload does not exist. The upload ID might be invalid, or the multipart
+upload might have been aborted or completed.   HTTP Status Code: 404 Not Found     Error
+Code: InvalidRequest    Description: The specified copy source is not supported as a
+byte-range copy source.   HTTP Status Code: 400 Bad Request      HTTP Host header syntax
+Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
+UploadPartCopy:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload
+AbortMultipartUpload     ListParts     ListMultipartUploads
 
 # Arguments
-- `bucket`: The bucket name. When using this action with an access point, you must direct
-  requests to the access point hostname. The access point hostname takes the form
+- `bucket`: The bucket name.  Directory buckets - When you use this operation with a
+  directory bucket, you must use virtual-hosted-style requests in the format
+  Bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not supported.
+  Directory bucket names must be unique in the chosen Availability Zone. Bucket names must
+  follow the format  bucket_base_name--az-id--x-s3 (for example,
+  DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide.  Access points - When you use
+  this action with an access point, you must provide the alias of the access point in place
+  of the bucket name or specify the access point ARN. When using the access point ARN, you
+  must direct requests to the access point hostname. The access point hostname takes the form
   AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this action with
   an access point through the Amazon Web Services SDKs, you provide the access point ARN in
   place of the bucket name. For more information about access point ARNs, see Using access
-  points in the Amazon S3 User Guide. When you use this action with Amazon S3 on Outposts,
-  you must direct requests to the S3 on Outposts hostname. The S3 on Outposts hostname takes
-  the form  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you
-  use this action with S3 on Outposts through the Amazon Web Services SDKs, you provide the
-  Outposts access point ARN in place of the bucket name. For more information about S3 on
-  Outposts ARNs, see What is S3 on Outposts in the Amazon S3 User Guide.
+  points in the Amazon S3 User Guide.  Access points and Object Lambda access points are not
+  supported by directory buckets.   S3 on Outposts - When you use this action with Amazon S3
+  on Outposts, you must direct requests to the S3 on Outposts hostname. The S3 on Outposts
+  hostname takes the form
+  AccessPointName-AccountId.outpostID.s3-outposts.Region.amazonaws.com. When you use this
+  action with S3 on Outposts through the Amazon Web Services SDKs, you provide the Outposts
+  access point ARN in place of the bucket name. For more information about S3 on Outposts
+  ARNs, see What is S3 on Outposts? in the Amazon S3 User Guide.
 - `key`: Object key for which the multipart upload was initiated.
 - `part_number`: Part number of part being copied. This is a positive integer between 1 and
   10,000.
@@ -6771,60 +7868,91 @@ CompleteMultipartUpload     AbortMultipartUpload     ListParts     ListMultipart
   t;key&gt;. For example, to copy the object reports/january.pdf through access point
   my-access-point owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3:us-west-2:123456789012:accesspoint/my-access-point/object/reports/january.pdf.
-  The value must be URL encoded.  Amazon S3 supports copy operations using access points only
-  when the source and destination buckets are in the same Amazon Web Services Region.
-  Alternatively, for objects accessed through Amazon S3 on Outposts, specify the ARN of the
-  object as accessed in the format
+  The value must be URL encoded.    Amazon S3 supports copy operations using Access points
+  only when the source and destination buckets are in the same Amazon Web Services Region.
+  Access points are not supported by directory buckets.    Alternatively, for objects
+  accessed through Amazon S3 on Outposts, specify the ARN of the object as accessed in the
+  format
   arn:aws:s3-outposts:&lt;Region&gt;:&lt;account-id&gt;:outpost/&lt;outpost-id&gt;/object/&lt
   ;key&gt;. For example, to copy the object reports/january.pdf through outpost my-outpost
   owned by account 123456789012 in Region us-west-2, use the URL encoding of
   arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/object/reports/january.pdf.
-  The value must be URL-encoded.    To copy a specific version of an object, append
-  ?versionId=&lt;version-id&gt; to the value (for example,
-  awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893). If you
-  don't specify a version ID, Amazon S3 copies the latest version of the source object.
+  The value must be URL-encoded.    If your bucket has versioning enabled, you could have
+  multiple versions of the same object. By default, x-amz-copy-source identifies the current
+  version of the source object to copy. To copy a specific version of the source object to
+  copy, append ?versionId=&lt;version-id&gt; to the x-amz-copy-source request header (for
+  example, x-amz-copy-source:
+  /awsexamplebucket/reports/january.pdf?versionId=QUpfdndhfd8438MNFDN93jdnJFkdmqnh893).  If
+  the current version is a delete marker and you don't specify a versionId in the
+  x-amz-copy-source request header, Amazon S3 returns a 404 Not Found error, because the
+  object does not exist. If you specify versionId in the x-amz-copy-source and the versionId
+  is a delete marker, Amazon S3 returns an HTTP 400 Bad Request error, because you are not
+  allowed to specify a delete marker as a version for the x-amz-copy-source.    Directory
+  buckets - S3 Versioning isn't enabled and supported for directory buckets.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-copy-source-if-match"`: Copies the object if its entity tag (ETag) matches the
-  specified tag.
+  specified tag. If both of the x-amz-copy-source-if-match and
+  x-amz-copy-source-if-unmodified-since headers are present in the request as follows:
+  x-amz-copy-source-if-match condition evaluates to true, and;
+  x-amz-copy-source-if-unmodified-since condition evaluates to false; Amazon S3 returns 200
+  OK and copies the data.
 - `"x-amz-copy-source-if-modified-since"`: Copies the object if it has been modified since
-  the specified time.
+  the specified time. If both of the x-amz-copy-source-if-none-match and
+  x-amz-copy-source-if-modified-since headers are present in the request as follows:
+  x-amz-copy-source-if-none-match condition evaluates to false, and;
+  x-amz-copy-source-if-modified-since condition evaluates to true; Amazon S3 returns 412
+  Precondition Failed response code.
 - `"x-amz-copy-source-if-none-match"`: Copies the object if its entity tag (ETag) is
-  different than the specified ETag.
+  different than the specified ETag. If both of the x-amz-copy-source-if-none-match and
+  x-amz-copy-source-if-modified-since headers are present in the request as follows:
+  x-amz-copy-source-if-none-match condition evaluates to false, and;
+  x-amz-copy-source-if-modified-since condition evaluates to true; Amazon S3 returns 412
+  Precondition Failed response code.
 - `"x-amz-copy-source-if-unmodified-since"`: Copies the object if it hasn't been modified
-  since the specified time.
+  since the specified time. If both of the x-amz-copy-source-if-match and
+  x-amz-copy-source-if-unmodified-since headers are present in the request as follows:
+  x-amz-copy-source-if-match condition evaluates to true, and;
+  x-amz-copy-source-if-unmodified-since condition evaluates to false; Amazon S3 returns 200
+  OK and copies the data.
 - `"x-amz-copy-source-range"`: The range of bytes to copy from the source object. The range
   value must use the form bytes=first-last, where the first and last are the zero-based byte
   offsets to copy. For example, bytes=0-9 indicates that you want to copy the first 10 bytes
   of the source. You can copy a range only if the source object is greater than 5 MB.
 - `"x-amz-copy-source-server-side-encryption-customer-algorithm"`: Specifies the algorithm
-  to use when decrypting the source object (for example, AES256).
+  to use when decrypting the source object (for example, AES256).  This functionality is not
+  supported when the source object is in a directory bucket.
 - `"x-amz-copy-source-server-side-encryption-customer-key"`: Specifies the
   customer-provided encryption key for Amazon S3 to use to decrypt the source object. The
   encryption key provided in this header must be one that was used when the source object was
-  created.
+  created.  This functionality is not supported when the source object is in a directory
+  bucket.
 - `"x-amz-copy-source-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5
   digest of the encryption key according to RFC 1321. Amazon S3 uses this header for a
   message integrity check to ensure that the encryption key was transmitted without error.
+  This functionality is not supported when the source object is in a directory bucket.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected destination bucket owner.
-  If the destination bucket is owned by a different account, the request fails with the HTTP
-  status code 403 Forbidden (access denied).
+  If the account ID that you provide does not match the actual owner of the destination
+  bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
-- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use to
-  when encrypting the object (for example, AES256).
+- `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
+  encrypting the object (for example, AES256).  This functionality is not supported when the
+  destination bucket is a directory bucket.
 - `"x-amz-server-side-encryption-customer-key"`: Specifies the customer-provided encryption
   key for Amazon S3 to use in encrypting data. This value is used to store the object and
   then it is discarded; Amazon S3 does not store the encryption key. The key must be
   appropriate for use with the algorithm specified in the
   x-amz-server-side-encryption-customer-algorithm header. This must be the same encryption
-  key specified in the initiate multipart upload request.
+  key specified in the initiate multipart upload request.  This functionality is not
+  supported when the destination bucket is a directory bucket.
 - `"x-amz-server-side-encryption-customer-key-MD5"`: Specifies the 128-bit MD5 digest of
   the encryption key according to RFC 1321. Amazon S3 uses this header for a message
-  integrity check to ensure that the encryption key was transmitted without error.
+  integrity check to ensure that the encryption key was transmitted without error.  This
+  functionality is not supported when the destination bucket is a directory bucket.
 - `"x-amz-source-expected-bucket-owner"`: The account ID of the expected source bucket
-  owner. If the source bucket is owned by a different account, the request fails with the
-  HTTP status code 403 Forbidden (access denied).
+  owner. If the account ID that you provide does not match the actual owner of the source
+  bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
 """
 function upload_part_copy(
     Bucket,
@@ -6878,35 +8006,35 @@ end
     write_get_object_response(x-amz-request-route, x-amz-request-token)
     write_get_object_response(x-amz-request-route, x-amz-request-token, params::Dict{String,<:Any})
 
-Passes transformed objects to a GetObject operation when using Object Lambda access points.
-For information about Object Lambda access points, see Transforming objects with Object
-Lambda access points in the Amazon S3 User Guide. This operation supports metadata that can
-be returned by GetObject, in addition to RequestRoute, RequestToken, StatusCode, ErrorCode,
-and ErrorMessage. The GetObject response metadata is supported so that the
-WriteGetObjectResponse caller, typically an Lambda function, can provide the same metadata
-when it internally invokes GetObject. When WriteGetObjectResponse is called by a
-customer-owned Lambda function, the metadata returned to the end user GetObject call might
-differ from what Amazon S3 would normally return. You can include any number of metadata
-headers. When including a metadata header, it should be prefaced with x-amz-meta. For
-example, x-amz-meta-my-custom-header: MyCustomValue. The primary use case for this is to
-forward GetObject metadata. Amazon Web Services provides some prebuilt Lambda functions
-that you can use with S3 Object Lambda to detect and redact personally identifiable
-information (PII) and decompress S3 objects. These Lambda functions are available in the
-Amazon Web Services Serverless Application Repository, and can be selected through the
-Amazon Web Services Management Console when you create your Object Lambda access point.
-Example 1: PII Access Control - This Lambda function uses Amazon Comprehend, a natural
-language processing (NLP) service using machine learning to find insights and relationships
-in text. It automatically detects personally identifiable information (PII) such as names,
-addresses, dates, credit card numbers, and social security numbers from documents in your
-Amazon S3 bucket.  Example 2: PII Redaction - This Lambda function uses Amazon Comprehend,
-a natural language processing (NLP) service using machine learning to find insights and
-relationships in text. It automatically redacts personally identifiable information (PII)
-such as names, addresses, dates, credit card numbers, and social security numbers from
-documents in your Amazon S3 bucket.  Example 3: Decompression - The Lambda function
-S3ObjectLambdaDecompression, is equipped to decompress objects stored in S3 in one of six
-compressed file formats including bzip2, gzip, snappy, zlib, zstandard and ZIP.  For
-information on how to view and use these functions, see Using Amazon Web Services built
-Lambda functions in the Amazon S3 User Guide.
+ This operation is not supported by directory buckets.  Passes transformed objects to a
+GetObject operation when using Object Lambda access points. For information about Object
+Lambda access points, see Transforming objects with Object Lambda access points in the
+Amazon S3 User Guide. This operation supports metadata that can be returned by GetObject,
+in addition to RequestRoute, RequestToken, StatusCode, ErrorCode, and ErrorMessage. The
+GetObject response metadata is supported so that the WriteGetObjectResponse caller,
+typically an Lambda function, can provide the same metadata when it internally invokes
+GetObject. When WriteGetObjectResponse is called by a customer-owned Lambda function, the
+metadata returned to the end user GetObject call might differ from what Amazon S3 would
+normally return. You can include any number of metadata headers. When including a metadata
+header, it should be prefaced with x-amz-meta. For example, x-amz-meta-my-custom-header:
+MyCustomValue. The primary use case for this is to forward GetObject metadata. Amazon Web
+Services provides some prebuilt Lambda functions that you can use with S3 Object Lambda to
+detect and redact personally identifiable information (PII) and decompress S3 objects.
+These Lambda functions are available in the Amazon Web Services Serverless Application
+Repository, and can be selected through the Amazon Web Services Management Console when you
+create your Object Lambda access point. Example 1: PII Access Control - This Lambda
+function uses Amazon Comprehend, a natural language processing (NLP) service using machine
+learning to find insights and relationships in text. It automatically detects personally
+identifiable information (PII) such as names, addresses, dates, credit card numbers, and
+social security numbers from documents in your Amazon S3 bucket.  Example 2: PII Redaction
+- This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service
+using machine learning to find insights and relationships in text. It automatically redacts
+personally identifiable information (PII) such as names, addresses, dates, credit card
+numbers, and social security numbers from documents in your Amazon S3 bucket.  Example 3:
+Decompression - The Lambda function S3ObjectLambdaDecompression, is equipped to decompress
+objects stored in S3 in one of six compressed file formats including bzip2, gzip, snappy,
+zlib, zstandard and ZIP.  For information on how to view and use these functions, see Using
+Amazon Web Services built Lambda functions in the Amazon S3 User Guide.
 
 # Arguments
 - `x-amz-request-route`: Route prefix to the HTTP URL generated.
@@ -7001,8 +8129,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-fwd-header-x-amz-server-side-encryption"`:  The server-side encryption algorithm
   used when storing requested object in Amazon S3 (for example, AES256, aws:kms).
 - `"x-amz-fwd-header-x-amz-server-side-encryption-aws-kms-key-id"`:  If present, specifies
-  the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS)
-  symmetric encryption customer managed key that was used for stored in Amazon S3 object.
+  the ID (Key ID, Key ARN, or Key Alias) of the Amazon Web Services Key Management Service
+  (Amazon Web Services KMS) symmetric encryption customer managed key that was used for
+  stored in Amazon S3 object.
 - `"x-amz-fwd-header-x-amz-server-side-encryption-bucket-key-enabled"`:  Indicates whether
   the object stored in Amazon S3 uses an S3 bucket key for server-side encryption with Amazon
   Web Services KMS (SSE-KMS).

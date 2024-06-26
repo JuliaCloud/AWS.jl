@@ -56,6 +56,43 @@ function associate_configuration_items_to_application(
 end
 
 """
+    batch_delete_agents(delete_agents)
+    batch_delete_agents(delete_agents, params::Dict{String,<:Any})
+
+ Deletes one or more agents or collectors as specified by ID. Deleting an agent or
+collector does not delete the previously discovered data. To delete the data collected, use
+StartBatchDeleteConfigurationTask.
+
+# Arguments
+- `delete_agents`:  The list of agents to delete.
+
+"""
+function batch_delete_agents(
+    deleteAgents; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return application_discovery_service(
+        "BatchDeleteAgents",
+        Dict{String,Any}("deleteAgents" => deleteAgents);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_delete_agents(
+    deleteAgents,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return application_discovery_service(
+        "BatchDeleteAgents",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("deleteAgents" => deleteAgents), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_delete_import_data(import_task_ids)
     batch_delete_import_data(import_task_ids, params::Dict{String,<:Any})
 
@@ -70,6 +107,10 @@ records that comes from the deleted records will also be deleted.
 # Arguments
 - `import_task_ids`: The IDs for the import tasks that you want to delete.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"deleteHistory"`:  Set to true to remove the deleted import task from
+  DescribeImportTasks.
 """
 function batch_delete_import_data(
     importTaskIds; aws_config::AbstractAWSConfig=global_aws_config()
@@ -255,18 +296,18 @@ end
     describe_agents()
     describe_agents(params::Dict{String,<:Any})
 
-Lists agents or connectors as specified by ID or other filters. All agents/connectors
-associated with your user account can be listed if you call DescribeAgents as is without
-passing any parameters.
+Lists agents or collectors as specified by ID or other filters. All agents/collectors
+associated with your user can be listed if you call DescribeAgents as is without passing
+any parameters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"agentIds"`: The agent or the Connector IDs for which you want information. If you
-  specify no IDs, the system returns information about all agents/Connectors associated with
-  your Amazon Web Services user account.
+- `"agentIds"`: The agent or the collector IDs for which you want information. If you
+  specify no IDs, the system returns information about all agents/collectors associated with
+  your user.
 - `"filters"`: You can filter the request using various logical operators and a key-value
   format. For example:   {\"key\": \"collectionStatus\", \"value\": \"STARTED\"}
-- `"maxResults"`: The total number of agents/Connectors to return in a single page of
+- `"maxResults"`: The total number of agents/collectors to return in a single page of
   output. The maximum value is 100.
 - `"nextToken"`: Token to retrieve the next set of results. For example, if you previously
   specified 100 IDs for DescribeAgentsRequestagentIds but set DescribeAgentsRequestmaxResults
@@ -283,6 +324,38 @@ function describe_agents(
 )
     return application_discovery_service(
         "DescribeAgents", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_batch_delete_configuration_task(task_id)
+    describe_batch_delete_configuration_task(task_id, params::Dict{String,<:Any})
+
+ Takes a unique deletion task identifier as input and returns metadata about a
+configuration deletion task.
+
+# Arguments
+- `task_id`:  The ID of the task to delete.
+
+"""
+function describe_batch_delete_configuration_task(
+    taskId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return application_discovery_service(
+        "DescribeBatchDeleteConfigurationTask",
+        Dict{String,Any}("taskId" => taskId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_batch_delete_configuration_task(
+    taskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return application_discovery_service(
+        "DescribeBatchDeleteConfigurationTask",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("taskId" => taskId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -333,8 +406,8 @@ end
     describe_continuous_exports()
     describe_continuous_exports(params::Dict{String,<:Any})
 
-Lists exports as specified by ID. All continuous exports associated with your user account
-can be listed if you call DescribeContinuousExports as is without passing any parameters.
+Lists exports as specified by ID. All continuous exports associated with your user can be
+listed if you call DescribeContinuousExports as is without passing any parameters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -466,8 +539,8 @@ end
 Retrieves a list of configuration items that have tags as specified by the key-value pairs,
 name and value, passed to the optional parameter filters. There are three valid tag filter
 names:   tagKey   tagValue   configurationId   Also, all configuration items associated
-with your user account that have tags can be listed if you call DescribeTags as is without
-passing any parameters.
+with your user that have tags can be listed if you call DescribeTags as is without passing
+any parameters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -696,6 +769,54 @@ function list_server_neighbors(
 end
 
 """
+    start_batch_delete_configuration_task(configuration_ids, configuration_type)
+    start_batch_delete_configuration_task(configuration_ids, configuration_type, params::Dict{String,<:Any})
+
+ Takes a list of configurationId as input and starts an asynchronous deletion task to
+remove the configurationItems. Returns a unique deletion task identifier.
+
+# Arguments
+- `configuration_ids`:  The list of configuration IDs that will be deleted by the task.
+- `configuration_type`:  The type of configuration item to delete. Supported types are:
+  SERVER.
+
+"""
+function start_batch_delete_configuration_task(
+    configurationIds, configurationType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return application_discovery_service(
+        "StartBatchDeleteConfigurationTask",
+        Dict{String,Any}(
+            "configurationIds" => configurationIds, "configurationType" => configurationType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_batch_delete_configuration_task(
+    configurationIds,
+    configurationType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return application_discovery_service(
+        "StartBatchDeleteConfigurationTask",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configurationIds" => configurationIds,
+                    "configurationType" => configurationType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_continuous_export()
     start_continuous_export(params::Dict{String,<:Any})
 
@@ -722,16 +843,15 @@ end
     start_data_collection_by_agent_ids(agent_ids)
     start_data_collection_by_agent_ids(agent_ids, params::Dict{String,<:Any})
 
-Instructs the specified agents or connectors to start collecting data.
+Instructs the specified agents to start collecting data.
 
 # Arguments
-- `agent_ids`: The IDs of the agents or connectors from which to start collecting data. If
-  you send a request to an agent/connector ID that you do not have permission to contact,
-  according to your Amazon Web Services account, the service does not throw an exception.
-  Instead, it returns the error in the Description field. If you send a request to multiple
-  agents/connectors and you do not have permission to contact some of those
-  agents/connectors, the system does not throw an exception. Instead, the system shows Failed
-  in the Description field.
+- `agent_ids`: The IDs of the agents from which to start collecting data. If you send a
+  request to an agent ID that you do not have permission to contact, according to your Amazon
+  Web Services account, the service does not throw an exception. Instead, it returns the
+  error in the Description field. If you send a request to multiple agents and you do not
+  have permission to contact some of those agents, the system does not throw an exception.
+  Instead, the system shows Failed in the Description field.
 
 """
 function start_data_collection_by_agent_ids(
@@ -763,14 +883,22 @@ end
     start_export_task()
     start_export_task(params::Dict{String,<:Any})
 
- Begins the export of discovered data to an S3 bucket.  If you specify agentIds in a
-filter, the task exports up to 72 hours of detailed data collected by the identified
-Application Discovery Agent, including network, process, and performance details. A time
-range for exported agent data may be set by using startTime and endTime. Export of detailed
-agent data is limited to five concurrently running exports.   If you do not include an
-agentIds filter, summary data is exported that includes both Amazon Web Services Agentless
-Discovery Connector data and summary data from Amazon Web Services Discovery Agents. Export
-of summary data is limited to two exports per day.
+Begins the export of a discovered data report to an Amazon S3 bucket managed by Amazon Web
+Services.  Exports might provide an estimate of fees and savings based on certain
+information that you provide. Fee estimates do not include any taxes that might apply. Your
+actual fees and savings depend on a variety of factors, including your actual usage of
+Amazon Web Services services, which might vary from the estimates provided in this report.
+If you do not specify preferences or agentIds in the filter, a summary of all servers,
+applications, tags, and performance is generated. This data is an aggregation of all server
+data collected through on-premises tooling, file import, application grouping and applying
+tags. If you specify agentIds in a filter, the task exports up to 72 hours of detailed data
+collected by the identified Application Discovery Agent, including network, process, and
+performance details. A time range for exported agent data may be set by using startTime and
+endTime. Export of detailed agent data is limited to five concurrently running exports.
+Export of detailed agent data is limited to two exports per day. If you enable
+ec2RecommendationsPreferences in preferences , an Amazon EC2 instance matching the
+characteristics of each server in Application Discovery Service is generated. Changing the
+attributes of the ec2RecommendationsPreferences changes the criteria of the recommendation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -782,8 +910,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: If a filter is present, it selects the single agentId of the Application
   Discovery Agent for which data is exported. The agentId can be found in the results of the
   DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and
-  exported data includes both Agentless Discovery Connector data and summary data from
-  Application Discovery agents.
+  exported data includes both Amazon Web Services Application Discovery Service Agentless
+  Collector collectors data and summary data from Application Discovery Agent agents.
+- `"preferences"`:  Indicates the type of data that needs to be exported. Only one
+  ExportPreferences can be enabled at any time.
 - `"startTime"`: The start timestamp for exported data from the single Application
   Discovery Agent selected in the filters. If no value is specified, data is exported
   starting from the first data collected by the agent.
@@ -806,12 +936,14 @@ end
     start_import_task(import_url, name, params::Dict{String,<:Any})
 
 Starts an import task, which allows you to import details of your on-premises environment
-directly into Amazon Web Services Migration Hub without having to use the Application
-Discovery Service (ADS) tools such as the Discovery Connector or Discovery Agent. This
-gives you the option to perform migration assessment and planning directly from your
-imported data, including the ability to group your devices as applications and track their
-migration status. To start an import request, do this:   Download the specially formatted
-comma separated value (CSV) import template, which you can find here:
+directly into Amazon Web Services Migration Hub without having to use the Amazon Web
+Services Application Discovery Service (Application Discovery Service) tools such as the
+Amazon Web Services Application Discovery Service Agentless Collector or Application
+Discovery Agent. This gives you the option to perform migration assessment and planning
+directly from your imported data, including the ability to group your devices as
+applications and track their migration status. To start an import request, do this:
+Download the specially formatted comma separated value (CSV) import template, which you can
+find here:
 https://s3.us-west-2.amazonaws.com/templates-7cffcf56-bd96-4b1c-b45b-a5b42f282e46/import_tem
 plate.csv.   Fill out the template with your server and application data.   Upload your
 import file to an Amazon S3 bucket, and make a note of it's Object URL. Your import file
@@ -915,10 +1047,10 @@ end
     stop_data_collection_by_agent_ids(agent_ids)
     stop_data_collection_by_agent_ids(agent_ids, params::Dict{String,<:Any})
 
-Instructs the specified agents or connectors to stop collecting data.
+Instructs the specified agents to stop collecting data.
 
 # Arguments
-- `agent_ids`: The IDs of the agents or connectors from which to stop collecting data.
+- `agent_ids`: The IDs of the agents from which to stop collecting data.
 
 """
 function stop_data_collection_by_agent_ids(

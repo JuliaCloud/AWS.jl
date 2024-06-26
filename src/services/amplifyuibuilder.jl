@@ -64,7 +64,7 @@ end
     create_form(app_id, environment_name, form_to_create)
     create_form(app_id, environment_name, form_to_create, params::Dict{String,<:Any})
 
-Creates a new form for an Amplify.
+Creates a new form for an Amplify app.
 
 # Arguments
 - `app_id`: The unique ID of the Amplify app to associate with the form.
@@ -280,7 +280,7 @@ end
     exchange_code_for_token(provider, request)
     exchange_code_for_token(provider, request, params::Dict{String,<:Any})
 
-Exchanges an access code for a token.
+ This is for internal use.  Amplify uses this action to exchange an access code for a token.
 
 # Arguments
 - `provider`: The third-party provider for the token. The only valid value is figma.
@@ -741,6 +741,40 @@ function list_forms(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Returns a list of tags for a specified Amazon Resource Name (ARN).
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) to use to list tags.
+
+"""
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifyuibuilder(
+        "GET",
+        "/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "GET",
+        "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_themes(app_id, environment_name)
     list_themes(app_id, environment_name, params::Dict{String,<:Any})
 
@@ -829,7 +863,8 @@ end
     refresh_token(provider, refresh_token_body)
     refresh_token(provider, refresh_token_body, params::Dict{String,<:Any})
 
-Refreshes a previously issued access token that might have expired.
+ This is for internal use.  Amplify uses this action to refresh a previously issued access
+token that might have expired.
 
 # Arguments
 - `provider`: The third-party provider for the token. The only valid value is figma.
@@ -870,7 +905,7 @@ end
     start_codegen_job(app_id, codegen_job_to_create, environment_name)
     start_codegen_job(app_id, codegen_job_to_create, environment_name, params::Dict{String,<:Any})
 
-Starts a code generation job for for a specified Amplify app and backend environment.
+Starts a code generation job for a specified Amplify app and backend environment.
 
 # Arguments
 - `app_id`: The unique ID for the Amplify app.
@@ -918,6 +953,78 @@ function start_codegen_job(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Tags the resource with a tag key and value.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) to use to tag a resource.
+- `tags`: A list of tag key value pairs for a specified Amazon Resource Name (ARN).
+
+"""
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return amplifyuibuilder(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "POST",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Untags a resource with a specified Amazon Resource Name (ARN).
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) to use to untag a resource.
+- `tag_keys`: The tag keys to use to untag a resource.
+
+"""
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return amplifyuibuilder(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return amplifyuibuilder(
+        "DELETE",
+        "/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

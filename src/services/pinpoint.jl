@@ -917,7 +917,8 @@ Deletes an endpoint from an application.
 # Arguments
 - `application-id`: The unique identifier for the application. This identifier is displayed
   as the Project ID on the Amazon Pinpoint console.
-- `endpoint-id`: The unique identifier for the endpoint.
+- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
+  can't contain , { or }.
 
 """
 function delete_endpoint(
@@ -2179,7 +2180,8 @@ application.
 # Arguments
 - `application-id`: The unique identifier for the application. This identifier is displayed
   as the Project ID on the Amazon Pinpoint console.
-- `endpoint-id`: The unique identifier for the endpoint.
+- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
+  can't contain , { or }.
 
 """
 function get_endpoint(
@@ -3696,8 +3698,9 @@ end
     remove_attributes(update_attributes_request, application-id, attribute-type)
     remove_attributes(update_attributes_request, application-id, attribute-type, params::Dict{String,<:Any})
 
-Removes one or more attributes, of the same attribute type, from all the endpoints that are
-associated with an application.
+Removes one or more custom attributes, of the same attribute type, from the application.
+Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or
+changed values for these attributes.
 
 # Arguments
 - `update_attributes_request`:
@@ -4458,7 +4461,8 @@ attribute, Amazon Pinpoint replaces (overwrites) any existing values with the ne
 - `endpoint_request`:
 - `application-id`: The unique identifier for the application. This identifier is displayed
   as the Project ID on the Amazon Pinpoint console.
-- `endpoint-id`: The unique identifier for the endpoint.
+- `endpoint-id`: The case insensitive unique identifier for the endpoint. The identifier
+  can't contain , { or }.
 
 """
 function update_endpoint(

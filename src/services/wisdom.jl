@@ -20,7 +20,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request. If not provided, the Amazon Web Services SDK populates this
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"description"`: The description of the assistant.
-- `"serverSideEncryptionConfiguration"`: The KMS key used for encryption.
+- `"serverSideEncryptionConfiguration"`: The configuration information for the customer
+  managed key used for encryption.  The customer managed key must have a policy that allows
+  kms:CreateGrant,  kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the
+  IAM identity using the key to invoke Wisdom. To use Wisdom with chat, the key policy must
+  also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the
+  connect.amazonaws.com service principal.  For more information about setting up a customer
+  managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
 """
 function create_assistant(name, type; aws_config::AbstractAWSConfig=global_aws_config())
@@ -128,8 +134,9 @@ Creates Wisdom content. Before to calling this API, use StartContentUpload to up
 asset.
 
 # Arguments
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
 - `name`: The name of the content. Each piece of content in a knowledge base must have a
   unique name. You can retrieve a piece of content using only its knowledge base and its name
   with the SearchContent API.
@@ -212,7 +219,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 - `"description"`: The description.
 - `"renderingConfiguration"`: Information about how to render the content.
-- `"serverSideEncryptionConfiguration"`: The KMS key used for encryption.
+- `"serverSideEncryptionConfiguration"`: The configuration information for the customer
+  managed key used for encryption.  This KMS key must have a policy that allows
+  kms:CreateGrant, kms:DescribeKey, and kms:Decrypt/kms:GenerateDataKey permissions to the
+  IAM identity using the key to invoke Wisdom. For more information about setting up a
+  customer managed key for Wisdom, see Enable Amazon Connect Wisdom for your instance.
 - `"sourceConfiguration"`: The source of the knowledge base content. Only set this argument
   for EXTERNAL knowledge bases.
 - `"tags"`: The tags used to organize, track, or control access for this resource.
@@ -248,6 +259,76 @@ function create_knowledge_base(
                     "knowledgeBaseType" => knowledgeBaseType,
                     "name" => name,
                     "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_quick_response(content, knowledge_base_id, name)
+    create_quick_response(content, knowledge_base_id, name, params::Dict{String,<:Any})
+
+Creates a Wisdom quick response.
+
+# Arguments
+- `content`: The content of the quick response.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
+- `name`: The name of the quick response.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"channels"`: The Amazon Connect channels this quick response applies to.
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+- `"contentType"`: The media type of the quick response content.   Use
+  application/x.quickresponse;format=plain for a quick response written in plain text.   Use
+  application/x.quickresponse;format=markdown for a quick response written in richtext.
+- `"description"`: The description of the quick response.
+- `"groupingConfiguration"`: The configuration information of the user groups that the
+  quick response is accessible to.
+- `"isActive"`: Whether the quick response is active.
+- `"language"`: The language code value for the language in which the quick response is
+  written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT,
+  ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
+- `"shortcutKey"`: The shortcut key of the quick response. The value should be unique
+  across the knowledge base.
+- `"tags"`: The tags used to organize, track, or control access for this resource.
+"""
+function create_quick_response(
+    content, knowledgeBaseId, name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wisdom(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
+        Dict{String,Any}(
+            "content" => content, "name" => name, "clientToken" => string(uuid4())
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_quick_response(
+    content,
+    knowledgeBaseId,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "content" => content, "name" => name, "clientToken" => string(uuid4())
                 ),
                 params,
             ),
@@ -389,8 +470,9 @@ Deletes the content.
 # Arguments
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
 
 """
 function delete_content(
@@ -412,6 +494,43 @@ function delete_content(
     return wisdom(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)/contents/$(contentId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_import_job(import_job_id, knowledge_base_id)
+    delete_import_job(import_job_id, knowledge_base_id, params::Dict{String,<:Any})
+
+Deletes the quick response import job.
+
+# Arguments
+- `import_job_id`: The identifier of the import job to be deleted.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
+
+"""
+function delete_import_job(
+    importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wisdom(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_import_job(
+    importJobId,
+    knowledgeBaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -452,6 +571,44 @@ function delete_knowledge_base(
     return wisdom(
         "DELETE",
         "/knowledgeBases/$(knowledgeBaseId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_quick_response(knowledge_base_id, quick_response_id)
+    delete_quick_response(knowledge_base_id, quick_response_id, params::Dict{String,<:Any})
+
+Deletes a quick response.
+
+# Arguments
+- `knowledge_base_id`: The knowledge base from which the quick response is deleted. The
+  identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base
+  if you're storing Wisdom Content resource to it.
+- `quick_response_id`: The identifier of the quick response to delete.
+
+"""
+function delete_quick_response(
+    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wisdom(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_quick_response(
+    knowledgeBaseId,
+    quickResponseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "DELETE",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -538,8 +695,9 @@ Retrieves content, including a pre-signed URL to download the content.
 # Arguments
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
 
 """
 function get_content(
@@ -576,8 +734,9 @@ Retrieves summary information about the content.
 # Arguments
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
 
 """
 function get_content_summary(
@@ -606,14 +765,51 @@ function get_content_summary(
 end
 
 """
+    get_import_job(import_job_id, knowledge_base_id)
+    get_import_job(import_job_id, knowledge_base_id, params::Dict{String,<:Any})
+
+Retrieves the started import job.
+
+# Arguments
+- `import_job_id`: The identifier of the import job to retrieve.
+- `knowledge_base_id`: The identifier of the knowledge base that the import job belongs to.
+
+"""
+function get_import_job(
+    importJobId, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wisdom(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_import_job(
+    importJobId,
+    knowledgeBaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs/$(importJobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_knowledge_base(knowledge_base_id)
     get_knowledge_base(knowledge_base_id, params::Dict{String,<:Any})
 
 Retrieves information about the knowledge base.
 
 # Arguments
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
 
 """
 function get_knowledge_base(
@@ -634,6 +830,43 @@ function get_knowledge_base(
     return wisdom(
         "GET",
         "/knowledgeBases/$(knowledgeBaseId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_quick_response(knowledge_base_id, quick_response_id)
+    get_quick_response(knowledge_base_id, quick_response_id, params::Dict{String,<:Any})
+
+Retrieves the quick response.
+
+# Arguments
+- `knowledge_base_id`: The identifier of the knowledge base. This should be a
+  QUICK_RESPONSES type knowledge base.
+- `quick_response_id`: The identifier of the quick response.
+
+"""
+function get_quick_response(
+    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wisdom(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_quick_response(
+    knowledgeBaseId,
+    quickResponseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -799,8 +1032,9 @@ end
 Lists the content.
 
 # Arguments
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -831,6 +1065,47 @@ function list_contents(
 end
 
 """
+    list_import_jobs(knowledge_base_id)
+    list_import_jobs(knowledge_base_id, params::Dict{String,<:Any})
+
+Lists information about import jobs.
+
+# Arguments
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_import_jobs(
+    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wisdom(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_import_jobs(
+    knowledgeBaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_knowledge_bases()
     list_knowledge_bases(params::Dict{String,<:Any})
 
@@ -853,6 +1128,47 @@ function list_knowledge_bases(
     return wisdom(
         "GET",
         "/knowledgeBases",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_quick_responses(knowledge_base_id)
+    list_quick_responses(knowledge_base_id, params::Dict{String,<:Any})
+
+Lists information about quick response.
+
+# Arguments
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_quick_responses(
+    knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wisdom(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_quick_responses(
+    knowledgeBaseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "GET",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -996,8 +1312,9 @@ end
 Removes a URI template from a knowledge base.
 
 # Arguments
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
 
 """
 function remove_knowledge_base_template_uri(
@@ -1032,8 +1349,9 @@ Searches for content in a specified knowledge base. Can be used to get a specifi
 resource by its name.
 
 # Arguments
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
 - `search_expression`: The search expression to filter results.
 
 # Optional Parameters
@@ -1062,6 +1380,56 @@ function search_content(
     return wisdom(
         "POST",
         "/knowledgeBases/$(knowledgeBaseId)/search",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("searchExpression" => searchExpression), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_quick_responses(knowledge_base_id, search_expression)
+    search_quick_responses(knowledge_base_id, search_expression, params::Dict{String,<:Any})
+
+Searches existing Wisdom quick responses in a Wisdom knowledge base.
+
+# Arguments
+- `knowledge_base_id`: The identifier of the knowledge base. This should be a
+  QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain
+  the ARN.
+- `search_expression`: The search expression for querying the quick response.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"attributes"`: The user-defined Amazon Connect contact attributes to be resolved when
+  search results are returned.
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function search_quick_responses(
+    knowledgeBaseId, searchExpression; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wisdom(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/search/quickResponses",
+        Dict{String,Any}("searchExpression" => searchExpression);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_quick_responses(
+    knowledgeBaseId,
+    searchExpression,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/search/quickResponses",
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("searchExpression" => searchExpression), params
@@ -1130,9 +1498,14 @@ an existing resource. You can only upload content to a knowledge base of type CU
 
 # Arguments
 - `content_type`: The type of content to upload.
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"presignedUrlTimeToLive"`: The expected expiration time of the generated presigned URL,
+  specified in minutes.
 """
 function start_content_upload(
     contentType, knowledgeBaseId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1156,6 +1529,77 @@ function start_content_upload(
         "/knowledgeBases/$(knowledgeBaseId)/upload",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("contentType" => contentType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_import_job(import_job_type, knowledge_base_id, upload_id)
+    start_import_job(import_job_type, knowledge_base_id, upload_id, params::Dict{String,<:Any})
+
+Start an asynchronous job to import Wisdom resources from an uploaded source file. Before
+calling this API, use StartContentUpload to upload an asset that contains the resource
+data.   For importing Wisdom quick responses, you need to upload a csv file including the
+quick responses. For information about how to format the csv file for importing quick
+responses, see Import quick responses.
+
+# Arguments
+- `import_job_type`: The type of the import job.   For importing quick response resource,
+  set the value to QUICK_RESPONSES.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.   For importing Wisdom quick
+  responses, this should be a QUICK_RESPONSES type knowledge base.
+- `upload_id`: A pointer to the uploaded asset. This value is returned by
+  StartContentUpload.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: The tags used to organize, track, or control access for this resource.
+- `"externalSourceConfiguration"`: The configuration information of the external source
+  that the resource data are imported from.
+- `"metadata"`: The metadata fields of the imported Wisdom resources.
+"""
+function start_import_job(
+    importJobType,
+    knowledgeBaseId,
+    uploadId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs",
+        Dict{String,Any}(
+            "importJobType" => importJobType,
+            "uploadId" => uploadId,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_import_job(
+    importJobType,
+    knowledgeBaseId,
+    uploadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/importJobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "importJobType" => importJobType,
+                    "uploadId" => uploadId,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1243,7 +1687,9 @@ Updates information about the content.
 # Arguments
 - `content_id`: The identifier of the content. Can be either the ID or the ARN. URLs cannot
   contain the ARN.
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the ARN
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1299,8 +1745,9 @@ value, and you can set the template URI to
 https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*{Id}*/view.
 
 # Arguments
-- `knowledge_base_id`: The identifier of the knowledge base. Can be either the ID or the
-  ARN. URLs cannot contain the ARN.
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
 - `template_uri`: The template URI to update.
 
 """
@@ -1327,6 +1774,65 @@ function update_knowledge_base_template_uri(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("templateUri" => templateUri), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_quick_response(knowledge_base_id, quick_response_id)
+    update_quick_response(knowledge_base_id, quick_response_id, params::Dict{String,<:Any})
+
+Updates an existing Wisdom quick response.
+
+# Arguments
+- `knowledge_base_id`: The identifier of the knowledge base. This should not be a
+  QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be
+  either the ID or the ARN. URLs cannot contain the ARN.
+- `quick_response_id`: The identifier of the quick response.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"channels"`: The Amazon Connect contact channels this quick response applies to. The
+  supported contact channel types include Chat.
+- `"content"`: The updated content of the quick response.
+- `"contentType"`: The media type of the quick response content.   Use
+  application/x.quickresponse;format=plain for quick response written in plain text.   Use
+  application/x.quickresponse;format=markdown for quick response written in richtext.
+- `"description"`: The updated description of the quick response.
+- `"groupingConfiguration"`: The updated grouping configuration of the quick response.
+- `"isActive"`: Whether the quick response is active.
+- `"language"`: The language code value for the language in which the quick response is
+  written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT,
+  ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
+- `"name"`: The name of the quick response.
+- `"removeDescription"`: Whether to remove the description from the quick response.
+- `"removeGroupingConfiguration"`: Whether to remove the grouping configuration of the
+  quick response.
+- `"removeShortcutKey"`: Whether to remove the shortcut key of the quick response.
+- `"shortcutKey"`: The shortcut key of the quick response. The value should be unique
+  across the knowledge base.
+"""
+function update_quick_response(
+    knowledgeBaseId, quickResponseId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wisdom(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_quick_response(
+    knowledgeBaseId,
+    quickResponseId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wisdom(
+        "POST",
+        "/knowledgeBases/$(knowledgeBaseId)/quickResponses/$(quickResponseId)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

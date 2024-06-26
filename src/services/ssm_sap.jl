@@ -271,6 +271,7 @@ Lists all the applications registered with AWS Systems Manager for SAP.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: The filter of name, value, and operator.
 - `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
   the remaining results, make another call with the returned nextToken value.
 - `"NextToken"`: The token for the next page of results.
@@ -350,6 +351,54 @@ function list_databases(
         "POST",
         "/list-databases",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_operation_events(operation_id)
+    list_operation_events(operation_id, params::Dict{String,<:Any})
+
+Returns a list of operations events. Available parameters include OperationID, as well as
+optional parameters MaxResults, NextToken, and Filters.
+
+# Arguments
+- `operation_id`: The ID of the operation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Optionally specify filters to narrow the returned operation event items.
+  Valid filter names include status, resourceID, and resourceType. The valid operator for all
+  three filters is Equals.
+- `"MaxResults"`: The maximum number of results to return with a single call. To retrieve
+  the remaining results, make another call with the returned nextToken value. If you do not
+  specify a value for MaxResults, the request returns 50 items per page by default.
+- `"NextToken"`: The token to use to retrieve the next page of results. This value is null
+  when there are no more results to return.
+"""
+function list_operation_events(
+    OperationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/list-operation-events",
+        Dict{String,Any}("OperationId" => OperationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_operation_events(
+    OperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/list-operation-events",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OperationId" => OperationId), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -489,8 +538,8 @@ function put_resource_permission(
 end
 
 """
-    register_application(application_id, application_type, credentials, instances)
-    register_application(application_id, application_type, credentials, instances, params::Dict{String,<:Any})
+    register_application(application_id, application_type, instances)
+    register_application(application_id, application_type, instances, params::Dict{String,<:Any})
 
 Register an SAP application with AWS Systems Manager for SAP. You must meet the following
 requirements before registering.  The SAP application you want to register with AWS Systems
@@ -502,11 +551,12 @@ components.
 # Arguments
 - `application_id`: The ID of the application.
 - `application_type`: The type of the application.
-- `credentials`: The credentials of the SAP application.
 - `instances`: The Amazon EC2 instances on which your SAP application is running.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Credentials"`: The credentials of the SAP application.
+- `"DatabaseArn"`: The Amazon Resource Name of the SAP HANA database.
 - `"SapInstanceNumber"`: The SAP instance number of the application.
 - `"Sid"`: The System ID of the application.
 - `"Tags"`: The tags to be attached to the SAP application.
@@ -514,7 +564,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function register_application(
     ApplicationId,
     ApplicationType,
-    Credentials,
     Instances;
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -524,7 +573,6 @@ function register_application(
         Dict{String,Any}(
             "ApplicationId" => ApplicationId,
             "ApplicationType" => ApplicationType,
-            "Credentials" => Credentials,
             "Instances" => Instances,
         );
         aws_config=aws_config,
@@ -534,7 +582,6 @@ end
 function register_application(
     ApplicationId,
     ApplicationType,
-    Credentials,
     Instances,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -548,11 +595,125 @@ function register_application(
                 Dict{String,Any}(
                     "ApplicationId" => ApplicationId,
                     "ApplicationType" => ApplicationType,
-                    "Credentials" => Credentials,
                     "Instances" => Instances,
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_application(application_id)
+    start_application(application_id, params::Dict{String,<:Any})
+
+Request is an operation which starts an application. Parameter ApplicationId is required.
+
+# Arguments
+- `application_id`: The ID of the application.
+
+"""
+function start_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_sap(
+        "POST",
+        "/start-application",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/start-application",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_application_refresh(application_id)
+    start_application_refresh(application_id, params::Dict{String,<:Any})
+
+Refreshes a registered application.
+
+# Arguments
+- `application_id`: The ID of the application.
+
+"""
+function start_application_refresh(
+    ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_sap(
+        "POST",
+        "/start-application-refresh",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_application_refresh(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/start-application-refresh",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_application(application_id)
+    stop_application(application_id, params::Dict{String,<:Any})
+
+Request is an operation to stop an application. Parameter ApplicationId is required.
+Parameters StopConnectedEntity and IncludeEc2InstanceShutdown are optional.
+
+# Arguments
+- `application_id`: The ID of the application.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IncludeEc2InstanceShutdown"`: Boolean. If included and if set to True, the
+  StopApplication operation will shut down the associated Amazon EC2 instance in addition to
+  the application.
+- `"StopConnectedEntity"`: Specify the ConnectedEntityType. Accepted type is DBMS. If this
+  parameter is included, the connected DBMS (Database Management System) will be stopped.
+"""
+function stop_application(ApplicationId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm_sap(
+        "POST",
+        "/stop-application",
+        Dict{String,Any}("ApplicationId" => ApplicationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_application(
+    ApplicationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_sap(
+        "POST",
+        "/stop-application",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ApplicationId" => ApplicationId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -643,8 +804,11 @@ Updates the settings of an application registered with AWS Systems Manager for S
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Backint"`: Installation of AWS Backint Agent for SAP HANA.
 - `"CredentialsToAddOrUpdate"`: The credentials to be added or updated.
 - `"CredentialsToRemove"`: The credentials to be removed.
+- `"DatabaseArn"`: The Amazon Resource Name of the SAP HANA database that replaces the
+  current SAP HANA connection with the SAP_ABAP application.
 """
 function update_application_settings(
     ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()

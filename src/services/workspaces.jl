@@ -5,6 +5,42 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    accept_account_link_invitation(link_id)
+    accept_account_link_invitation(link_id, params::Dict{String,<:Any})
+
+Accepts the account link invitation.  There's currently no unlinking capability after you
+accept the account linking invitation.
+
+# Arguments
+- `link_id`: The identifier of the account link.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A string of up to 64 ASCII characters that Amazon EFS uses to ensure
+  idempotent creation.
+"""
+function accept_account_link_invitation(
+    LinkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "AcceptAccountLinkInvitation",
+        Dict{String,Any}("LinkId" => LinkId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function accept_account_link_invitation(
+    LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "AcceptAccountLinkInvitation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LinkId" => LinkId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     associate_connection_alias(alias_id, resource_id)
     associate_connection_alias(alias_id, resource_id, params::Dict{String,<:Any})
 
@@ -81,6 +117,49 @@ function associate_ip_groups(
             mergewith(
                 _merge,
                 Dict{String,Any}("DirectoryId" => DirectoryId, "GroupIds" => GroupIds),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    associate_workspace_application(application_id, workspace_id)
+    associate_workspace_application(application_id, workspace_id, params::Dict{String,<:Any})
+
+Associates the specified application to the specified WorkSpace.
+
+# Arguments
+- `application_id`: The identifier of the application.
+- `workspace_id`: The identifier of the WorkSpace.
+
+"""
+function associate_workspace_application(
+    ApplicationId, WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "AssociateWorkspaceApplication",
+        Dict{String,Any}("ApplicationId" => ApplicationId, "WorkspaceId" => WorkspaceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_workspace_application(
+    ApplicationId,
+    WorkspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "AssociateWorkspaceApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationId" => ApplicationId, "WorkspaceId" => WorkspaceId
+                ),
                 params,
             ),
         );
@@ -184,6 +263,47 @@ function copy_workspace_image(
                     "SourceRegion" => SourceRegion,
                 ),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_account_link_invitation(target_account_id)
+    create_account_link_invitation(target_account_id, params::Dict{String,<:Any})
+
+Creates the account link invitation.
+
+# Arguments
+- `target_account_id`: The identifier of the target account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A string of up to 64 ASCII characters that Amazon EFS uses to ensure
+  idempotent creation.
+"""
+function create_account_link_invitation(
+    TargetAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "CreateAccountLinkInvitation",
+        Dict{String,Any}("TargetAccountId" => TargetAccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_account_link_invitation(
+    TargetAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateAccountLinkInvitation",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("TargetAccountId" => TargetAccountId), params
             ),
         );
         aws_config=aws_config,
@@ -603,9 +723,11 @@ end
     create_workspaces(workspaces, params::Dict{String,<:Any})
 
 Creates one or more WorkSpaces. This operation is asynchronous and returns before the
-WorkSpaces are created.  The MANUAL running mode value is only supported by Amazon
+WorkSpaces are created.    The MANUAL running mode value is only supported by Amazon
 WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more
-information, see Amazon WorkSpaces Core.
+information, see Amazon WorkSpaces Core.   You don't need to specify the PCOIP protocol for
+Linux bundles because WSP is the default protocol for those bundles.   User-decoupled
+WorkSpaces are only supported by Amazon WorkSpaces Core.
 
 # Arguments
 - `workspaces`: The WorkSpaces to create. You can specify up to 25 WorkSpaces.
@@ -629,6 +751,41 @@ function create_workspaces(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Workspaces" => Workspaces), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_account_link_invitation(link_id)
+    delete_account_link_invitation(link_id, params::Dict{String,<:Any})
+
+Deletes the account link invitation.
+
+# Arguments
+- `link_id`: The identifier of the account link.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A string of up to 64 ASCII characters that Amazon EFS uses to ensure
+  idempotent creation.
+"""
+function delete_account_link_invitation(
+    LinkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DeleteAccountLinkInvitation",
+        Dict{String,Any}("LinkId" => LinkId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_account_link_invitation(
+    LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DeleteAccountLinkInvitation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LinkId" => LinkId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -888,6 +1045,45 @@ function delete_workspace_image(
 end
 
 """
+    deploy_workspace_applications(workspace_id)
+    deploy_workspace_applications(workspace_id, params::Dict{String,<:Any})
+
+Deploys associated applications to the specified WorkSpace
+
+# Arguments
+- `workspace_id`: The identifier of the WorkSpace.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Force"`: Indicates whether the force flag is applied for the specified WorkSpace. When
+  the force flag is enabled, it allows previously failed deployments to be retried.
+"""
+function deploy_workspace_applications(
+    WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DeployWorkspaceApplications",
+        Dict{String,Any}("WorkspaceId" => WorkspaceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function deploy_workspace_applications(
+    WorkspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DeployWorkspaceApplications",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("WorkspaceId" => WorkspaceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     deregister_workspace_directory(directory_id)
     deregister_workspace_directory(directory_id, params::Dict{String,<:Any})
 
@@ -979,6 +1175,140 @@ function describe_account_modifications(
     return workspaces(
         "DescribeAccountModifications",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_application_associations(application_id, associated_resource_types)
+    describe_application_associations(application_id, associated_resource_types, params::Dict{String,<:Any})
+
+Describes the associations between the application and the specified associated resources.
+
+# Arguments
+- `application_id`: The identifier of the specified application.
+- `associated_resource_types`: The resource type of the associated resources.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of associations to return.
+- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+  provide this token to receive the next set of results.
+"""
+function describe_application_associations(
+    ApplicationId,
+    AssociatedResourceTypes;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DescribeApplicationAssociations",
+        Dict{String,Any}(
+            "ApplicationId" => ApplicationId,
+            "AssociatedResourceTypes" => AssociatedResourceTypes,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_application_associations(
+    ApplicationId,
+    AssociatedResourceTypes,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DescribeApplicationAssociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationId" => ApplicationId,
+                    "AssociatedResourceTypes" => AssociatedResourceTypes,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_applications()
+    describe_applications(params::Dict{String,<:Any})
+
+Describes the specified applications by filtering based on their compute types, license
+availability, operating systems, and owners.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationIds"`: The identifiers of one or more applications.
+- `"ComputeTypeNames"`: The compute types supported by the applications.
+- `"LicenseType"`: The license availability for the applications.
+- `"MaxResults"`: The maximum number of applications to return.
+- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+  provide this token to receive the next set of results.
+- `"OperatingSystemNames"`: The operating systems supported by the applications.
+- `"Owner"`: The owner of the applications.
+"""
+function describe_applications(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeApplications",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_bundle_associations(associated_resource_types, bundle_id)
+    describe_bundle_associations(associated_resource_types, bundle_id, params::Dict{String,<:Any})
+
+Describes the associations between the applications and the specified bundle.
+
+# Arguments
+- `associated_resource_types`: The resource types of the associated resource.
+- `bundle_id`: The identifier of the bundle.
+
+"""
+function describe_bundle_associations(
+    AssociatedResourceTypes, BundleId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeBundleAssociations",
+        Dict{String,Any}(
+            "AssociatedResourceTypes" => AssociatedResourceTypes, "BundleId" => BundleId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_bundle_associations(
+    AssociatedResourceTypes,
+    BundleId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DescribeBundleAssociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociatedResourceTypes" => AssociatedResourceTypes,
+                    "BundleId" => BundleId,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1169,6 +1499,52 @@ function describe_connection_aliases(
 end
 
 """
+    describe_image_associations(associated_resource_types, image_id)
+    describe_image_associations(associated_resource_types, image_id, params::Dict{String,<:Any})
+
+Describes the associations between the applications and the specified image.
+
+# Arguments
+- `associated_resource_types`: The resource types of the associated resource.
+- `image_id`: The identifier of the image.
+
+"""
+function describe_image_associations(
+    AssociatedResourceTypes, ImageId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeImageAssociations",
+        Dict{String,Any}(
+            "AssociatedResourceTypes" => AssociatedResourceTypes, "ImageId" => ImageId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_image_associations(
+    AssociatedResourceTypes,
+    ImageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DescribeImageAssociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociatedResourceTypes" => AssociatedResourceTypes,
+                    "ImageId" => ImageId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_ip_groups()
     describe_ip_groups(params::Dict{String,<:Any})
 
@@ -1223,6 +1599,53 @@ function describe_tags(
         "DescribeTags",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_workspace_associations(associated_resource_types, workspace_id)
+    describe_workspace_associations(associated_resource_types, workspace_id, params::Dict{String,<:Any})
+
+Describes the associations betweens applications and the specified WorkSpace.
+
+# Arguments
+- `associated_resource_types`: The resource types of the associated resources.
+- `workspace_id`: The identifier of the WorkSpace.
+
+"""
+function describe_workspace_associations(
+    AssociatedResourceTypes, WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeWorkspaceAssociations",
+        Dict{String,Any}(
+            "AssociatedResourceTypes" => AssociatedResourceTypes,
+            "WorkspaceId" => WorkspaceId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_workspace_associations(
+    AssociatedResourceTypes,
+    WorkspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DescribeWorkspaceAssociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AssociatedResourceTypes" => AssociatedResourceTypes,
+                    "WorkspaceId" => WorkspaceId,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1420,6 +1843,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with any other filter. Because the CreateWorkspaces operation is asynchronous, the
   identifier it returns is not immediately available. If you immediately call
   DescribeWorkspaces with this identifier, no information is returned.
+- `"WorkspaceName"`: The name of the user-decoupled WorkSpace.
 """
 function describe_workspaces(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces(
@@ -1539,6 +1963,73 @@ function disassociate_ip_groups(
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_workspace_application(application_id, workspace_id)
+    disassociate_workspace_application(application_id, workspace_id, params::Dict{String,<:Any})
+
+Disassociates the specified application from a WorkSpace.
+
+# Arguments
+- `application_id`: The identifier of the application.
+- `workspace_id`: The identifier of the WorkSpace.
+
+"""
+function disassociate_workspace_application(
+    ApplicationId, WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DisassociateWorkspaceApplication",
+        Dict{String,Any}("ApplicationId" => ApplicationId, "WorkspaceId" => WorkspaceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_workspace_application(
+    ApplicationId,
+    WorkspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "DisassociateWorkspaceApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationId" => ApplicationId, "WorkspaceId" => WorkspaceId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_account_link()
+    get_account_link(params::Dict{String,<:Any})
+
+Retrieves account link information.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LinkId"`: The identifier of the account to link.
+- `"LinkedAccountId"`: The identifier of the account link
+"""
+function get_account_link(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "GetAccountLink"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_account_link(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "GetAccountLink", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1671,6 +2162,32 @@ function import_workspace_image(
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_account_links()
+    list_account_links(params::Dict{String,<:Any})
+
+Lists all account links.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LinkStatusFilter"`: Filters the account based on their link status.
+- `"MaxResults"`: The maximum number of accounts to return.
+- `"NextToken"`: The token to use to retrieve the next page of results. This value is null
+  when there are no more results to return.
+"""
+function list_account_links(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "ListAccountLinks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_account_links(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ListAccountLinks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -2083,8 +2600,8 @@ function modify_workspace_creation_properties(
 end
 
 """
-    modify_workspace_properties(workspace_id, workspace_properties)
-    modify_workspace_properties(workspace_id, workspace_properties, params::Dict{String,<:Any})
+    modify_workspace_properties(workspace_id)
+    modify_workspace_properties(workspace_id, params::Dict{String,<:Any})
 
 Modifies the specified WorkSpace properties. For important information about how to modify
 the size of the root and user volumes, see  Modify a WorkSpace.   The MANUAL running mode
@@ -2093,38 +2610,31 @@ allow-listed to use this value. For more information, see Amazon WorkSpaces Core
 
 # Arguments
 - `workspace_id`: The identifier of the WorkSpace.
-- `workspace_properties`: The properties of the WorkSpace.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataReplication"`: Indicates the data replication status.
+- `"WorkspaceProperties"`: The properties of the WorkSpace.
 """
 function modify_workspace_properties(
-    WorkspaceId, WorkspaceProperties; aws_config::AbstractAWSConfig=global_aws_config()
+    WorkspaceId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return workspaces(
         "ModifyWorkspaceProperties",
-        Dict{String,Any}(
-            "WorkspaceId" => WorkspaceId, "WorkspaceProperties" => WorkspaceProperties
-        );
+        Dict{String,Any}("WorkspaceId" => WorkspaceId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function modify_workspace_properties(
     WorkspaceId,
-    WorkspaceProperties,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return workspaces(
         "ModifyWorkspaceProperties",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "WorkspaceId" => WorkspaceId,
-                    "WorkspaceProperties" => WorkspaceProperties,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("WorkspaceId" => WorkspaceId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2182,8 +2692,9 @@ end
     reboot_workspaces(reboot_workspace_requests, params::Dict{String,<:Any})
 
 Reboots the specified WorkSpaces. You cannot reboot a WorkSpace unless its state is
-AVAILABLE or UNHEALTHY. This operation is asynchronous and returns before the WorkSpaces
-have rebooted.
+AVAILABLE, UNHEALTHY, or REBOOTING. Reboot a WorkSpace in the REBOOTING state only if your
+WorkSpace has been stuck in the REBOOTING state for over 20 minutes. This operation is
+asynchronous and returns before the WorkSpaces have rebooted.
 
 # Arguments
 - `reboot_workspace_requests`: The WorkSpaces to reboot. You can specify up to 25
@@ -2325,6 +2836,40 @@ function register_workspace_directory(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    reject_account_link_invitation(link_id)
+    reject_account_link_invitation(link_id, params::Dict{String,<:Any})
+
+Rejects the account link invitation.
+
+# Arguments
+- `link_id`: The identifier of the account link
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: The client token of the account link invitation to reject.
+"""
+function reject_account_link_invitation(
+    LinkId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "RejectAccountLinkInvitation",
+        Dict{String,Any}("LinkId" => LinkId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function reject_account_link_invitation(
+    LinkId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "RejectAccountLinkInvitation",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("LinkId" => LinkId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

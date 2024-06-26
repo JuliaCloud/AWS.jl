@@ -16,7 +16,7 @@ Creates the specified schedule.
 - `name`: The name of the schedule that you are creating.
 - `schedule_expression`:  The expression that defines when the schedule runs. The following
   formats are supported.     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression -
-  rate(unit value)     cron expression - cron(fields)     You can use at expressions to
+  rate(value unit)     cron expression - cron(fields)     You can use at expressions to
   create one-time schedules that invoke a target once, at the time and in the time zone, that
   you specify. You can use rate and cron expressions to create recurring schedules.
   Rate-based schedules are useful when you want to invoke a target at regular intervals, such
@@ -31,6 +31,8 @@ Creates the specified schedule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ActionAfterCompletion"`: Specifies the action that EventBridge Scheduler applies to the
+  schedule after the schedule completes invoking the target.
 - `"ClientToken"`:  Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly
   generated token for the request to ensure idempotency.
@@ -470,7 +472,7 @@ note of all optional parameters for your UpdateSchedule call.
 - `name`: The name of the schedule that you are updating.
 - `schedule_expression`:  The expression that defines when the schedule runs. The following
   formats are supported.     at expression - at(yyyy-mm-ddThh:mm:ss)     rate expression -
-  rate(unit value)     cron expression - cron(fields)     You can use at expressions to
+  rate(value unit)     cron expression - cron(fields)     You can use at expressions to
   create one-time schedules that invoke a target once, at the time and in the time zone, that
   you specify. You can use rate and cron expressions to create recurring schedules.
   Rate-based schedules are useful when you want to invoke a target at regular intervals, such
@@ -486,6 +488,8 @@ note of all optional parameters for your UpdateSchedule call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ActionAfterCompletion"`: Specifies the action that EventBridge Scheduler applies to the
+  schedule after the schedule completes invoking the target.
 - `"ClientToken"`:  Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, EventBridge Scheduler uses a randomly
   generated token for the request to ensure idempotency.

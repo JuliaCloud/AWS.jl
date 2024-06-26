@@ -120,10 +120,13 @@ the MediaTailor User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Audiences"`: The list of audiences defined in channel.
 - `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
   configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't
   support filler slate for channels using the LOOP PlaybackMode.
 - `"Tier"`: The tier of the channel.
+- `"TimeShiftConfiguration"`:  The time-shifted viewing configuration you want to associate
+  to the channel.
 - `"tags"`: The tags to assign to the channel. Tags are key-value pairs that you can
   associate with Amazon resources to help with organization, access control, and cost
   tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
@@ -296,6 +299,7 @@ programs in the MediaTailor User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AdBreaks"`: The ad break configuration settings.
+- `"AudienceMedia"`: The list of AudienceMedia defined in program.
 - `"LiveSourceName"`: The name of the LiveSource for this Program.
 - `"VodSourceName"`: The name that's used to refer to a VOD source.
 """
@@ -959,6 +963,7 @@ Retrieves information about your channel's schedule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"audience"`: The single audience for GetChannelScheduleRequest.
 - `"durationMinutes"`: The duration in minutes of the channel schedule.
 - `"maxResults"`: The maximum number of channel schedules that you want MediaTailor to
   return in response to the current request. If there are more than MaxResults channel
@@ -1437,6 +1442,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationAliases"`: The player parameters and aliases used as dynamic variables
   during session initialization. For more information, see Domain Variables.
 - `"DashConfiguration"`: The configuration for DASH content.
+- `"InsertionMode"`: The setting that controls whether players can use stitched or guided
+  ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched
+  (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched
+  or guided ad insertion at session-initialization time. The default for players that do not
+  specify an insertion mode is stitched.
 - `"LivePreRollConfiguration"`: The configuration for pre-roll ad insertion.
 - `"ManifestProcessingRules"`: The configuration for manifest processing rules. Manifest
   processing rules enable customization of the personalized manifests created by MediaTailor.
@@ -1639,9 +1649,12 @@ the MediaTailor User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Audiences"`: The list of audiences defined in channel.
 - `"FillerSlate"`: The slate used to fill gaps between programs in the schedule. You must
   configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't
   support filler slate for channels using the LOOP PlaybackMode.
+- `"TimeShiftConfiguration"`:  The time-shifted viewing configuration you want to associate
+  to the channel.
 """
 function update_channel(
     ChannelName, Outputs; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1732,6 +1745,7 @@ Updates a program within a channel.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AdBreaks"`: The ad break configuration settings.
+- `"AudienceMedia"`: The list of AudienceMedia defined in program.
 """
 function update_program(
     ChannelName,

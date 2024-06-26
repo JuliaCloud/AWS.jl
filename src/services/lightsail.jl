@@ -108,8 +108,8 @@ access control via resource tags applied to the resource identified by disk name
 information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
-- `disk_name`: The unique Lightsail disk name (e.g., my-disk).
-- `disk_path`: The disk path to expose to the instance (e.g., /dev/xvdf).
+- `disk_name`: The unique Lightsail disk name (my-disk).
+- `disk_path`: The disk path to expose to the instance (/dev/xvdf).
 - `instance_name`: The name of the Lightsail instance where you want to utilize the storage
   disk.
 
@@ -540,14 +540,14 @@ Region.
 
 # Arguments
 - `certificate_name`: The name for the certificate.
-- `domain_name`: The domain name (e.g., example.com) for the certificate.
+- `domain_name`: The domain name (example.com) for the certificate.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"subjectAlternativeNames"`: An array of strings that specify the alternate domains
-  (e.g., example2.com) and subdomains (e.g., blog.example.com) for the certificate. You can
-  specify a maximum of nine alternate domains (in addition to the primary domain name).
-  Wildcard domain entries (e.g., *.example.com) are not supported.
+  (example2.com) and subdomains (blog.example.com) for the certificate. You can specify a
+  maximum of nine alternate domains (in addition to the primary domain name). Wildcard domain
+  entries (*.example.com) are not supported.
 - `"tags"`: The tag keys and optional values to add to the certificate during create. Use
   the TagResource action to tag a resource after it's created.
 """
@@ -872,17 +872,16 @@ end
     create_disk(availability_zone, disk_name, size_in_gb, params::Dict{String,<:Any})
 
 Creates a block storage disk that can be attached to an Amazon Lightsail instance in the
-same Availability Zone (e.g., us-east-2a). The create disk operation supports tag-based
-access control via request tags. For more information, see the Amazon Lightsail Developer
-Guide.
+same Availability Zone (us-east-2a). The create disk operation supports tag-based access
+control via request tags. For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
-- `availability_zone`: The Availability Zone where you want to create the disk (e.g.,
-  us-east-2a). Use the same Availability Zone as the Lightsail instance to which you want to
+- `availability_zone`: The Availability Zone where you want to create the disk
+  (us-east-2a). Use the same Availability Zone as the Lightsail instance to which you want to
   attach the disk. Use the get regions operation to list the Availability Zones where
   Lightsail is currently available.
-- `disk_name`: The unique Lightsail disk name (e.g., my-disk).
-- `size_in_gb`: The size of the disk in GB (e.g., 32).
+- `disk_name`: The unique Lightsail disk name (my-disk).
+- `size_in_gb`: The size of the disk in GB (32).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -934,25 +933,25 @@ end
     create_disk_from_snapshot(availability_zone, disk_name, size_in_gb, params::Dict{String,<:Any})
 
 Creates a block storage disk from a manual or automatic snapshot of a disk. The resulting
-disk can be attached to an Amazon Lightsail instance in the same Availability Zone (e.g.,
-us-east-2a). The create disk from snapshot operation supports tag-based access control via
+disk can be attached to an Amazon Lightsail instance in the same Availability Zone
+(us-east-2a). The create disk from snapshot operation supports tag-based access control via
 request tags and resource tags applied to the resource identified by disk snapshot name.
 For more information, see the Amazon Lightsail Developer Guide.
 
 # Arguments
-- `availability_zone`: The Availability Zone where you want to create the disk (e.g.,
-  us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to
+- `availability_zone`: The Availability Zone where you want to create the disk
+  (us-east-2a). Choose the same Availability Zone as the Lightsail instance where you want to
   create the disk. Use the GetRegions operation to list the Availability Zones where
   Lightsail is currently available.
-- `disk_name`: The unique Lightsail disk name (e.g., my-disk).
-- `size_in_gb`: The size of the disk in GB (e.g., 32).
+- `disk_name`: The unique Lightsail disk name (my-disk).
+- `size_in_gb`: The size of the disk in GB (32).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"addOns"`: An array of objects that represent the add-ons to enable for the new disk.
-- `"diskSnapshotName"`: The name of the disk snapshot (e.g., my-snapshot) from which to
-  create the new storage disk. Constraint:   This parameter cannot be defined together with
-  the source disk name parameter. The disk snapshot name and source disk name parameters are
+- `"diskSnapshotName"`: The name of the disk snapshot (my-snapshot) from which to create
+  the new storage disk. Constraint:   This parameter cannot be defined together with the
+  source disk name parameter. The disk snapshot name and source disk name parameters are
   mutually exclusive.
 - `"restoreDate"`: The date of the automatic snapshot to use for the new disk. Use the get
   auto snapshots operation to identify the dates of the available automatic snapshots.
@@ -1039,18 +1038,18 @@ access control via request tags. For more information, see the Amazon Lightsail 
 Guide.
 
 # Arguments
-- `disk_snapshot_name`: The name of the destination disk snapshot (e.g., my-disk-snapshot)
-  based on the source disk.
+- `disk_snapshot_name`: The name of the destination disk snapshot (my-disk-snapshot) based
+  on the source disk.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"diskName"`: The unique name of the source disk (e.g., Disk-Virginia-1).  This parameter
+- `"diskName"`: The unique name of the source disk (Disk-Virginia-1).  This parameter
   cannot be defined together with the instance name parameter. The disk name and instance
   name parameters are mutually exclusive.
-- `"instanceName"`: The unique name of the source instance (e.g.,
-  Amazon_Linux-512MB-Virginia-1). When this is defined, a snapshot of the instance's system
-  volume is created.  This parameter cannot be defined together with the disk name parameter.
-  The instance name and disk name parameters are mutually exclusive.
+- `"instanceName"`: The unique name of the source instance (Amazon_Linux-512MB-Virginia-1).
+  When this is defined, a snapshot of the instance's system volume is created.  This
+  parameter cannot be defined together with the disk name parameter. The instance name and
+  disk name parameters are mutually exclusive.
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
@@ -1108,10 +1107,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distribution.
 - `"cacheBehaviors"`: An array of objects that describe the per-path cache behavior for the
   distribution.
+- `"certificateName"`: The name of the SSL/TLS certificate that you want to attach to the
+  distribution. Use the GetCertificates action to get a list of certificate names that you
+  can specify.
 - `"ipAddressType"`: The IP address type for the distribution. The possible values are ipv4
   for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
 - `"tags"`: The tag keys and optional values to add to the distribution during create. Use
   the TagResource action to tag a resource after it's created.
+- `"viewerMinimumTlsProtocolVersion"`: The minimum TLS protocol version for the SSL/TLS
+  certificate.
 """
 function create_distribution(
     bundleId,
@@ -1163,12 +1167,12 @@ end
     create_domain(domain_name)
     create_domain(domain_name, params::Dict{String,<:Any})
 
-Creates a domain resource for the specified domain (e.g., example.com). The create domain
+Creates a domain resource for the specified domain (example.com). The create domain
 operation supports tag-based access control via request tags. For more information, see the
 Amazon Lightsail Developer Guide.
 
 # Arguments
-- `domain_name`: The domain name to manage (e.g., example.com).
+- `domain_name`: The domain name to manage (example.com).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1211,8 +1215,8 @@ name. For more information, see the Amazon Lightsail Developer Guide.
 # Arguments
 - `domain_entry`: An array of key-value pairs containing information about the domain entry
   request.
-- `domain_name`: The domain name (e.g., example.com) for which you want to create the
-  domain entry.
+- `domain_name`: The domain name (example.com) for which you want to create the domain
+  entry.
 
 """
 function create_domain_entry(
@@ -1349,14 +1353,14 @@ Developer Guide.
   following format: us-east-2a (case sensitive). You can get a list of Availability Zones by
   using the get regions operation. Be sure to add the include Availability Zones parameter to
   your request.
-- `blueprint_id`: The ID for a virtual private server image (e.g., app_wordpress_4_4 or
-  app_lamp_7_0). Use the get blueprints operation to return a list of available images (or
+- `blueprint_id`: The ID for a virtual private server image (app_wordpress_x_x or
+  app_lamp_x_x). Use the get blueprints operation to return a list of available images (or
   blueprints).  Use active blueprints when creating new instances. Inactive blueprints are
   listed to support customers with existing instances and are not necessarily available to
   create new instances. Blueprints are marked inactive when they become outdated due to
   operating system updates or new application releases.
 - `bundle_id`: The bundle of specification information for your virtual private server (or
-  instance), including the pricing plan (e.g., micro_1_0).
+  instance), including the pricing plan (medium_x_x).
 - `instance_names`: The names to use for your new Lightsail instances. Separate multiple
   values using quotation marks and commas, for example:
   [\"MyFirstInstance\",\"MySecondInstance\"]
@@ -1364,10 +1368,11 @@ Developer Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"addOns"`: An array of objects representing the add-ons to enable for the new instance.
-- `"customImageName"`: (Deprecated) The name for your custom image.  In releases prior to
-  June 12, 2017, this parameter was ignored by the API. It is now deprecated.
+- `"customImageName"`: (Discontinued) The name for your custom image.  In releases prior to
+  June 12, 2017, this parameter was ignored by the API. It is now discontinued.
 - `"ipAddressType"`: The IP address type for the instance. The possible values are ipv4 for
-  IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+  IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is
+  dualstack.
 - `"keyPairName"`: The name of your key pair.
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
@@ -1438,7 +1443,7 @@ information, see the Amazon Lightsail Developer Guide.
   Zones by using the get regions operation. Be sure to add the include Availability Zones
   parameter to your request.
 - `bundle_id`: The bundle of specification information for your virtual private server (or
-  instance), including the pricing plan (e.g., micro_1_0).
+  instance), including the pricing plan (micro_x_x).
 - `instance_names`: The names for your new instances.
 
 # Optional Parameters
@@ -1451,7 +1456,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance name parameter. The instance snapshot name and source instance name parameters are
   mutually exclusive.
 - `"ipAddressType"`: The IP address type for the instance. The possible values are ipv4 for
-  IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+  IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value is
+  dualstack.
 - `"keyPairName"`: The name for your key pair.
 - `"restoreDate"`: The date of the automatic snapshot to use for the new instance. Use the
   get auto snapshots operation to identify the dates of the available automatic snapshots.
@@ -1582,19 +1588,20 @@ Developer Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"certificateAlternativeNames"`: The optional alternative domains and subdomains to use
-  with your SSL/TLS certificate (e.g., www.example.com, example.com, m.example.com,
+  with your SSL/TLS certificate (www.example.com, example.com, m.example.com,
   blog.example.com).
 - `"certificateDomainName"`: The domain name with which your certificate is associated
-  (e.g., example.com). If you specify certificateDomainName, then certificateName is required
-  (and vice-versa).
+  (example.com). If you specify certificateDomainName, then certificateName is required (and
+  vice-versa).
 - `"certificateName"`: The name of the SSL/TLS certificate. If you specify certificateName,
   then certificateDomainName is required (and vice-versa).
 - `"healthCheckPath"`: The path you provided to perform the load balancer health check. If
-  you didn't specify a health check path, Lightsail uses the root path of your website (e.g.,
-  \"/\"). You may want to specify a custom health check path other than the root of your
+  you didn't specify a health check path, Lightsail uses the root path of your website
+  (\"/\"). You may want to specify a custom health check path other than the root of your
   application if your home page loads slowly or has a lot of media or scripting on it.
 - `"ipAddressType"`: The IP address type for the load balancer. The possible values are
-  ipv4 for IPv4 only, and dualstack for IPv4 and IPv6. The default value is dualstack.
+  ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6. The default value
+  is dualstack.
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 - `"tlsPolicyName"`: The name of the TLS policy to apply to the load balancer. Use the
@@ -1647,8 +1654,7 @@ tags applied to the resource identified by load balancer name. For more informat
 the Amazon Lightsail Developer Guide.
 
 # Arguments
-- `certificate_domain_name`: The domain name (e.g., example.com) for your SSL/TLS
-  certificate.
+- `certificate_domain_name`: The domain name (example.com) for your SSL/TLS certificate.
 - `certificate_name`: The SSL/TLS certificate name. You can have up to 10 certificates in
   your account at one time. Each Lightsail load balancer can have up to 2 certificates
   associated with it at one time. There is also an overall limit to the number of
@@ -1661,7 +1667,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"certificateAlternativeNames"`: An array of strings listing alternative domains and
   subdomains for your SSL/TLS certificate. Lightsail will de-dupe the names for you. You can
   have a maximum of 9 alternative names (in addition to the 1 primary domain). We do not
-  support wildcards (e.g., *.example.com).
+  support wildcards (*.example.com).
 - `"tags"`: The tag keys and optional values to add to the resource during create. Use the
   TagResource action to tag a resource after it's created.
 """
@@ -2304,7 +2310,7 @@ applied to the resource identified by disk name. For more information, see the A
 Lightsail Developer Guide.
 
 # Arguments
-- `disk_name`: The unique name of the disk you want to delete (e.g., my-disk).
+- `disk_name`: The unique name of the disk you want to delete (my-disk).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2348,8 +2354,7 @@ tags applied to the resource identified by disk snapshot name. For more informat
 the Amazon Lightsail Developer Guide.
 
 # Arguments
-- `disk_snapshot_name`: The name of the disk snapshot you want to delete (e.g.,
-  my-disk-snapshot).
+- `disk_snapshot_name`: The name of the disk snapshot you want to delete (my-disk-snapshot).
 
 """
 function delete_disk_snapshot(
@@ -2896,8 +2901,7 @@ resource tags applied to the resource identified by disk name. For more informat
 the Amazon Lightsail Developer Guide.
 
 # Arguments
-- `disk_name`: The unique name of the disk you want to detach from your instance (e.g.,
-  my-disk).
+- `disk_name`: The unique name of the disk you want to detach from your instance (my-disk).
 
 """
 function detach_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -4014,7 +4018,7 @@ end
 Returns information about a specific block storage disk.
 
 # Arguments
-- `disk_name`: The name of the disk (e.g., my-disk).
+- `disk_name`: The name of the disk (my-disk).
 
 """
 function get_disk(diskName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -4047,7 +4051,7 @@ end
 Returns information about a specific block storage disk snapshot.
 
 # Arguments
-- `disk_snapshot_name`: The name of the disk snapshot (e.g., my-disk-snapshot).
+- `disk_snapshot_name`: The name of the disk snapshot (my-disk-snapshot).
 
 """
 function get_disk_snapshot(
@@ -5189,7 +5193,7 @@ end
     get_operations_for_resource(resource_name)
     get_operations_for_resource(resource_name, params::Dict{String,<:Any})
 
-Gets operations for a specific resource (e.g., an instance or a static IP).
+Gets operations for a specific resource (an instance or a static IP).
 
 # Arguments
 - `resource_name`: The name of the resource for which you are requesting information.
@@ -5237,10 +5241,10 @@ zones parameter to also return the Availability Zones in a region.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"includeAvailabilityZones"`: A Boolean value indicating whether to also include
   Availability Zones in your get regions request. Availability Zones are indicated with a
-  letter: e.g., us-east-2a.
+  letter: us-east-2a.
 - `"includeRelationalDatabaseAvailabilityZones"`: A Boolean value indicating whether to
   also include Availability Zones for databases in your get regions request. Availability
-  Zones are indicated with a letter (e.g., us-east-2a).
+  Zones are indicated with a letter (us-east-2a).
 """
 function get_regions(; aws_config::AbstractAWSConfig=global_aws_config())
     return lightsail("GetRegions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -5828,6 +5832,46 @@ function get_relational_databases(
     return lightsail(
         "GetRelationalDatabases",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_setup_history(resource_name)
+    get_setup_history(resource_name, params::Dict{String,<:Any})
+
+Returns detailed information for five of the most recent SetupInstanceHttps requests that
+were ran on the target instance.
+
+# Arguments
+- `resource_name`: The name of the resource for which you are requesting information.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"pageToken"`: The token to advance to the next page of results from your request. To get
+  a page token, perform an initial GetSetupHistory request. If your results are paginated,
+  the response will return a next page token that you can specify as the page token in a
+  subsequent request.
+"""
+function get_setup_history(resourceName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lightsail(
+        "GetSetupHistory",
+        Dict{String,Any}("resourceName" => resourceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_setup_history(
+    resourceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "GetSetupHistory",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceName" => resourceName), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -6451,13 +6495,21 @@ Alternately, you can use this action to disable dual-stack, and enable IPv4 only
 
 # Arguments
 - `ip_address_type`: The IP address type to set for the specified resource. The possible
-  values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
+  values are ipv4 for IPv4 only, ipv6 for IPv6 only, and dualstack for IPv4 and IPv6.
 - `resource_name`: The name of the resource for which to set the IP address type.
-- `resource_type`: The resource type. The possible values are Distribution, Instance, and
+- `resource_type`: The resource type. The resource values are Distribution, Instance, and
   LoadBalancer.  Distribution-related APIs are available only in the N. Virginia (us-east-1)
   Amazon Web Services Region. Set your Amazon Web Services Region configuration to us-east-1
   to create, view, or edit distributions.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"acceptBundleUpdate"`: Required parameter to accept the instance bundle update when
+  changing to, and from, IPv6-only.  An instance bundle will change when switching from
+  dual-stack or ipv4, to ipv6. It also changes when switching from ipv6, to dual-stack or
+  ipv4. You must include this parameter in the command to update the bundle. For example, if
+  you switch from dual-stack to ipv6, the bundle will be updated, and billing for the
+  IPv6-only instance bundle begins immediately.
 """
 function set_ip_address_type(
     ipAddressType,
@@ -6547,6 +6599,70 @@ function set_resource_access_for_bucket(
                     "access" => access,
                     "bucketName" => bucketName,
                     "resourceName" => resourceName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    setup_instance_https(certificate_provider, domain_names, email_address, instance_name)
+    setup_instance_https(certificate_provider, domain_names, email_address, instance_name, params::Dict{String,<:Any})
+
+Creates an SSL/TLS certificate that secures traffic for your website. After the certificate
+is created, it is installed on the specified Lightsail instance. If you provide more than
+one domain name in the request, at least one name must be less than or equal to 63
+characters in length.
+
+# Arguments
+- `certificate_provider`: The certificate authority that issues the SSL/TLS certificate.
+- `domain_names`: The name of the domain and subdomains that were specified for the SSL/TLS
+  certificate.
+- `email_address`: The contact method for SSL/TLS certificate renewal alerts. You can enter
+  one email address.
+- `instance_name`: The name of the Lightsail instance.
+
+"""
+function setup_instance_https(
+    certificateProvider,
+    domainNames,
+    emailAddress,
+    instanceName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "SetupInstanceHttps",
+        Dict{String,Any}(
+            "certificateProvider" => certificateProvider,
+            "domainNames" => domainNames,
+            "emailAddress" => emailAddress,
+            "instanceName" => instanceName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function setup_instance_https(
+    certificateProvider,
+    domainNames,
+    emailAddress,
+    instanceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lightsail(
+        "SetupInstanceHttps",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "certificateProvider" => certificateProvider,
+                    "domainNames" => domainNames,
+                    "emailAddress" => emailAddress,
+                    "instanceName" => instanceName,
                 ),
                 params,
             ),
@@ -7138,12 +7254,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replace your distribution's existing settings.
 - `"cacheBehaviors"`: An array of objects that describe the per-path cache behavior for the
   distribution.
+- `"certificateName"`: The name of the SSL/TLS certificate that you want to attach to the
+  distribution. Only certificates with a status of ISSUED can be attached to a distribution.
+  Use the GetCertificates action to get a list of certificate names that you can specify.
 - `"defaultCacheBehavior"`: An object that describes the default cache behavior for the
   distribution.
 - `"isEnabled"`: Indicates whether to enable the distribution.
 - `"origin"`: An object that describes the origin resource for the distribution, such as a
   Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves
   content from the origin.
+- `"useDefaultCertificate"`: Indicates whether the default SSL/TLS certificate is attached
+  to the distribution. The default value is true. When true, the distribution uses the
+  default domain name such as d111111abcdef8.cloudfront.net.  Set this value to false to
+  attach a new certificate to the distribution.
+- `"viewerMinimumTlsProtocolVersion"`: Use this parameter to update the minimum TLS
+  protocol version for the SSL/TLS certificate that's attached to the distribution.
 """
 function update_distribution(
     distributionName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -7338,8 +7463,8 @@ information, see the Amazon Lightsail Developer Guide.
   TlsPolicyName for the attributeName request parameter, then the attributeValue request
   parameter must be the name of the TLS policy. Use the GetLoadBalancerTlsPolicies action to
   get a list of TLS policy names that you can specify.
-- `load_balancer_name`: The name of the load balancer that you want to modify (e.g.,
-  my-load-balancer.
+- `load_balancer_name`: The name of the load balancer that you want to modify
+  (my-load-balancer.
 
 """
 function update_load_balancer_attribute(
@@ -7430,6 +7555,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   true specifies a database that is available to resources outside of your Lightsail account.
   A value of false specifies a database that is available only to your Lightsail resources in
   the same region as your database.
+- `"relationalDatabaseBlueprintId"`: This parameter is used to update the major version of
+  the database. Enter the blueprintId for the major version that you want to update to. Use
+  the GetRelationalDatabaseBlueprints action to get a list of available blueprint IDs.
 - `"rotateMasterUserPassword"`: When true, the master user password is changed to a new
   strong password generated by Lightsail. Use the get relational database master user
   password operation to get the new password.

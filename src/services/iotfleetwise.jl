@@ -132,8 +132,8 @@ Web Services IoT FleetWise Developer Guide.
 - `collection_scheme`:  The data collection scheme associated with the campaign. You can
   specify a scheme that collects data based on time or an event.
 - `name`:  The name of the campaign to create.
-- `signal_catalog_arn`: (Optional) The Amazon Resource Name (ARN) of the signal catalog to
-  associate with the campaign.
+- `signal_catalog_arn`: The Amazon Resource Name (ARN) of the signal catalog to associate
+  with the campaign.
 - `target_arn`:  The ARN of the vehicle or fleet to deploy a campaign to.
 
 # Optional Parameters
@@ -144,9 +144,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dataDestinationConfigs"`: The destination where the campaign sends data. You can choose
   to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost
   of data storage and provides additional mechanisms to use vehicle data, such as data lakes,
-  centralized data storage, data processing pipelines, and analytics.  You can use Amazon
-  Timestream to access and analyze time series data, and Timestream to query vehicle data so
-  that you can identify trends and patterns.
+  centralized data storage, data processing pipelines, and analytics. Amazon Web Services IoT
+  FleetWise supports at-least-once file delivery to S3. Your vehicle data is stored on
+  multiple Amazon Web Services IoT FleetWise servers for redundancy and high availability.
+  You can use Amazon Timestream to access and analyze time series data, and Timestream to
+  query vehicle data so that you can identify trends and patterns.
 - `"dataExtraDimensions"`:  (Optional) A list of vehicle attributes to associate with a
   campaign.  Enrich the data with specified vehicle attributes. For example, add make and
   model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with
@@ -767,6 +769,30 @@ function get_decoder_manifest(
 end
 
 """
+    get_encryption_configuration()
+    get_encryption_configuration(params::Dict{String,<:Any})
+
+Retrieves the encryption configuration for resources and data in Amazon Web Services IoT
+FleetWise.
+
+"""
+function get_encryption_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return iotfleetwise(
+        "GetEncryptionConfiguration"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_encryption_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotfleetwise(
+        "GetEncryptionConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_fleet(fleet_id)
     get_fleet(fleet_id, params::Dict{String,<:Any})
 
@@ -1365,6 +1391,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned in the response. To retrieve the next set of results, reissue the search request
   and include the returned token. When all results have been returned, the response does not
   contain a pagination token value.
+- `"signalNodeType"`: The type of node in the signal catalog.
 """
 function list_signal_catalog_nodes(name; aws_config::AbstractAWSConfig=global_aws_config())
     return iotfleetwise(
@@ -1460,6 +1487,10 @@ Specify the nextToken parameter in the request to return more results.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"attributeNames"`: The fully qualified names of the attributes. For example, the fully
+  qualified name of an attribute might be Vehicle.Body.Engine.Type.
+- `"attributeValues"`: Static information about a vehicle attribute value in string format.
+  For example:  \"1.3 L R2\"
 - `"maxResults"`:  The maximum number of items to return, between 1 and 100, inclusive.
 - `"modelManifestArn"`:  The Amazon Resource Name (ARN) of a vehicle model (model
   manifest). You can use this optional parameter to list only the vehicles created from a
@@ -1523,6 +1554,48 @@ function list_vehicles_in_fleet(
 end
 
 """
+    put_encryption_configuration(encryption_type)
+    put_encryption_configuration(encryption_type, params::Dict{String,<:Any})
+
+Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can
+encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a
+KMS key that you own and manage. For more information, see Data encryption in the Amazon
+Web Services IoT FleetWise Developer Guide.
+
+# Arguments
+- `encryption_type`: The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key
+  or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"kmsKeyId"`: The ID of the KMS key that is used for encryption.
+"""
+function put_encryption_configuration(
+    encryptionType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iotfleetwise(
+        "PutEncryptionConfiguration",
+        Dict{String,Any}("encryptionType" => encryptionType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_encryption_configuration(
+    encryptionType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iotfleetwise(
+        "PutEncryptionConfiguration",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("encryptionType" => encryptionType), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_logging_options(cloud_watch_log_delivery)
     put_logging_options(cloud_watch_log_delivery, params::Dict{String,<:Any})
 
@@ -1575,22 +1648,14 @@ DeleteCampaign API operation. If you want to delete the Timestream inline policy
 service-linked role, such as to mitigate an overly permissive policy, you must first delete
 any existing campaigns. Then delete the service-linked role and register your account again
 to enable CloudWatch metrics. For more information, see DeleteServiceLinkedRole in the
-Identity and Access Management API Reference.   &lt;p&gt;Registers your Amazon Web Services
-account, IAM, and Amazon Timestream resources so Amazon Web Services IoT FleetWise can
-transfer your vehicle data to the Amazon Web Services Cloud. For more information,
-including step-by-step procedures, see &lt;a
-href=&quot;https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html&q
-uot;&gt;Setting up Amazon Web Services IoT FleetWise&lt;/a&gt;. &lt;/p&gt; &lt;note&gt;
-&lt;p&gt;An Amazon Web Services account is &lt;b&gt;not&lt;/b&gt; the same thing as a
-&quot;user.&quot; An &lt;a
-href=&quot;https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_identity-management
-.html#intro-identity-users&quot;&gt;Amazon Web Services user&lt;/a&gt; is an identity that
-you create using Identity and Access Management (IAM) and takes the form of either an &lt;a
-href=&quot;https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html&quot;&gt;IAM
-user&lt;/a&gt; or an &lt;a
-href=&quot;https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html&quot;&gt;IAM
-role, both with credentials&lt;/a&gt;. A single Amazon Web Services account can, and
-typically does, contain many users and roles.&lt;/p&gt; &lt;/note&gt;
+Identity and Access Management API Reference.  Registers your Amazon Web Services account,
+IAM, and Amazon Timestream resources so Amazon Web Services IoT FleetWise can transfer your
+vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step
+procedures, see Setting up Amazon Web Services IoT FleetWise.   An Amazon Web Services
+account is not the same thing as a \"user.\" An Amazon Web Services user is an identity
+that you create using Identity and Access Management (IAM) and takes the form of either an
+IAM user or an IAM role, both with credentials. A single Amazon Web Services account can,
+and typically does, contain many users and roles.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

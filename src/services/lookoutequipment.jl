@@ -10,7 +10,7 @@ using AWS.UUIDs
 
 Creates a container for a collection of data being ingested for analysis. The dataset
 contains the metadata describing where the data is and what the data actually looks like.
-In other words, it contains the location of the data source, the data schema, and other
+For example, it contains the location of the data source, the data schema, and other
 information. A dataset also contains any tags associated with the ingested data.
 
 # Arguments
@@ -82,8 +82,8 @@ You must also provide an S3 bucket location for the output data.
   for Equipment runs inference on your data. For more information, see Understanding the
   inference process.
 - `inference_scheduler_name`: The name of the inference scheduler being created.
-- `model_name`: The name of the previously trained ML model being used to create the
-  inference scheduler.
+- `model_name`: The name of the previously trained machine learning model being used to
+  create the inference scheduler.
 - `role_arn`: The Amazon Resource Name (ARN) of a role with permission to access the data
   source being used for the inference.
 
@@ -293,20 +293,20 @@ end
     create_model(client_token, dataset_name, model_name)
     create_model(client_token, dataset_name, model_name, params::Dict{String,<:Any})
 
-Creates an ML model for data inference.  A machine-learning (ML) model is a mathematical
-model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns
-the patterns of normal behavior and detects abnormal behavior that could be potential
-equipment failure (or maintenance events). The models are made by analyzing normal data and
-abnormalities in machine behavior that have already occurred. Your model is trained using a
-portion of the data from your dataset and uses that data to learn patterns of normal
-behavior and abnormal patterns that lead to equipment failure. Another portion of the data
-is used to evaluate the model's accuracy.
+Creates a machine learning model for data inference.  A machine-learning (ML) model is a
+mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the
+model learns the patterns of normal behavior and detects abnormal behavior that could be
+potential equipment failure (or maintenance events). The models are made by analyzing
+normal data and abnormalities in machine behavior that have already occurred. Your model is
+trained using a portion of the data from your dataset and uses that data to learn patterns
+of normal behavior and abnormal patterns that lead to equipment failure. Another portion of
+the data is used to evaluate the model's accuracy.
 
 # Arguments
 - `client_token`: A unique identifier for the request. If you do not set the client request
   token, Amazon Lookout for Equipment generates one.
-- `dataset_name`: The name of the dataset for the ML model being created.
-- `model_name`: The name for the ML model to be created.
+- `dataset_name`: The name of the dataset for the machine learning model being created.
+- `model_name`: The name for the machine learning model to be created.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -317,25 +317,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   minute. When providing a value for the TargetSamplingRate, you must attach the prefix
   \"PT\" to the rate you want. The value for a 1 second rate is therefore PT1S, the value for
   a 15 minute rate is PT15M, and the value for a 1 hour rate is PT1H
-- `"DatasetSchema"`: The data schema for the ML model being created.
+- `"DatasetSchema"`: The data schema for the machine learning model being created.
 - `"EvaluationDataEndTime"`:  Indicates the time reference in the dataset that should be
-  used to end the subset of evaluation data for the ML model.
+  used to end the subset of evaluation data for the machine learning model.
 - `"EvaluationDataStartTime"`: Indicates the time reference in the dataset that should be
-  used to begin the subset of evaluation data for the ML model.
+  used to begin the subset of evaluation data for the machine learning model.
 - `"LabelsInputConfiguration"`: The input configuration for the labels being used for the
-  ML model that's being created.
+  machine learning model that's being created.
+- `"ModelDiagnosticsOutputConfiguration"`: The Amazon S3 location where you want Amazon
+  Lookout for Equipment to save the pointwise model diagnostics. You must also specify the
+  RoleArn request parameter.
 - `"OffCondition"`: Indicates that the asset associated with this sensor has been shut off.
   As long as this condition is met, Lookout for Equipment will not use data from this asset
   for training, evaluation, or inference.
 - `"RoleArn"`:  The Amazon Resource Name (ARN) of a role with permission to access the data
-  source being used to create the ML model.
+  source being used to create the machine learning model.
 - `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key used to encrypt model data
   by Amazon Lookout for Equipment.
-- `"Tags"`:  Any tags associated with the ML model being created.
+- `"Tags"`:  Any tags associated with the machine learning model being created.
 - `"TrainingDataEndTime"`: Indicates the time reference in the dataset that should be used
-  to end the subset of training data for the ML model.
+  to end the subset of training data for the machine learning model.
 - `"TrainingDataStartTime"`: Indicates the time reference in the dataset that should be
-  used to begin the subset of training data for the ML model.
+  used to begin the subset of training data for the machine learning model.
 """
 function create_model(
     ClientToken, DatasetName, ModelName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -367,6 +370,78 @@ function create_model(
                     "ClientToken" => ClientToken,
                     "DatasetName" => DatasetName,
                     "ModelName" => ModelName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_retraining_scheduler(client_token, lookback_window, model_name, retraining_frequency)
+    create_retraining_scheduler(client_token, lookback_window, model_name, retraining_frequency, params::Dict{String,<:Any})
+
+Creates a retraining scheduler on the specified model.
+
+# Arguments
+- `client_token`: A unique identifier for the request. If you do not set the client request
+  token, Amazon Lookout for Equipment generates one.
+- `lookback_window`: The number of past days of data that will be used for retraining.
+- `model_name`: The name of the model to add the retraining scheduler to.
+- `retraining_frequency`: This parameter uses the ISO 8601 standard to set the frequency at
+  which you want retraining to occur in terms of Years, Months, and/or Days (note: other
+  parameters like Time are not currently supported). The minimum value is 30 days (P30D) and
+  the maximum value is 1 year (P1Y). For example, the following values are valid:   P3M15D
+  – Every 3 months and 15 days   P2M – Every 2 months   P150D – Every 150 days
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PromoteMode"`: Indicates how the service will use new models. In MANAGED mode, new
+  models will automatically be used for inference if they have better performance than the
+  current model. In MANUAL mode, the new models will not be used until they are manually
+  activated.
+- `"RetrainingStartDate"`: The start date for the retraining scheduler. Lookout for
+  Equipment truncates the time you provide to the nearest UTC day.
+"""
+function create_retraining_scheduler(
+    ClientToken,
+    LookbackWindow,
+    ModelName,
+    RetrainingFrequency;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "CreateRetrainingScheduler",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "LookbackWindow" => LookbackWindow,
+            "ModelName" => ModelName,
+            "RetrainingFrequency" => RetrainingFrequency,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_retraining_scheduler(
+    ClientToken,
+    LookbackWindow,
+    ModelName,
+    RetrainingFrequency,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "CreateRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "LookbackWindow" => LookbackWindow,
+                    "ModelName" => ModelName,
+                    "RetrainingFrequency" => RetrainingFrequency,
                 ),
                 params,
             ),
@@ -417,8 +492,8 @@ end
     delete_inference_scheduler(inference_scheduler_name)
     delete_inference_scheduler(inference_scheduler_name, params::Dict{String,<:Any})
 
-Deletes an inference scheduler that has been set up. Already processed output results are
-not affected.
+Deletes an inference scheduler that has been set up. Prior inference results will not be
+deleted.
 
 # Arguments
 - `inference_scheduler_name`: The name of the inference scheduler to be deleted.
@@ -537,11 +612,12 @@ end
     delete_model(model_name)
     delete_model(model_name, params::Dict{String,<:Any})
 
-Deletes an ML model currently available for Amazon Lookout for Equipment. This will prevent
-it from being used with an inference scheduler, even one that is already set up.
+Deletes a machine learning model currently available for Amazon Lookout for Equipment. This
+will prevent it from being used with an inference scheduler, even one that is already set
+up.
 
 # Arguments
-- `model_name`: The name of the ML model to be deleted.
+- `model_name`: The name of the machine learning model to be deleted.
 
 """
 function delete_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -559,6 +635,78 @@ function delete_model(
 )
     return lookoutequipment(
         "DeleteModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Deletes the resource policy attached to the resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which the resource
+  policy should be deleted.
+
+"""
+function delete_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DeleteResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_retraining_scheduler(model_name)
+    delete_retraining_scheduler(model_name, params::Dict{String,<:Any})
+
+Deletes a retraining scheduler from a model. The retraining scheduler must be in the
+STOPPED status.
+
+# Arguments
+- `model_name`: The name of the model whose retraining scheduler you want to delete.
+
+"""
+function delete_retraining_scheduler(
+    ModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DeleteRetrainingScheduler",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_retraining_scheduler(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DeleteRetrainingScheduler",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
@@ -753,11 +901,12 @@ end
     describe_model(model_name)
     describe_model(model_name, params::Dict{String,<:Any})
 
-Provides a JSON containing the overall information about a specific ML model, including
-model name and ARN, dataset, training and evaluation information, status, and so on.
+Provides a JSON containing the overall information about a specific machine learning model,
+including model name and ARN, dataset, training and evaluation information, status, and so
+on.
 
 # Arguments
-- `model_name`: The name of the ML model to be described.
+- `model_name`: The name of the machine learning model to be described.
 
 """
 function describe_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -777,6 +926,244 @@ function describe_model(
         "DescribeModel",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_model_version(model_name, model_version)
+    describe_model_version(model_name, model_version, params::Dict{String,<:Any})
+
+Retrieves information about a specific machine learning model version.
+
+# Arguments
+- `model_name`: The name of the machine learning model that this version belongs to.
+- `model_version`: The version of the machine learning model.
+
+"""
+function describe_model_version(
+    ModelName, ModelVersion; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DescribeModelVersion",
+        Dict{String,Any}("ModelName" => ModelName, "ModelVersion" => ModelVersion);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_model_version(
+    ModelName,
+    ModelVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeModelVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ModelName" => ModelName, "ModelVersion" => ModelVersion),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_resource_policy(resource_arn)
+    describe_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Provides the details of a resource policy attached to a resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource that is associated with
+  the resource policy.
+
+"""
+function describe_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DescribeResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_retraining_scheduler(model_name)
+    describe_retraining_scheduler(model_name, params::Dict{String,<:Any})
+
+Provides a description of the retraining scheduler, including information such as the model
+name and retraining parameters.
+
+# Arguments
+- `model_name`: The name of the model that the retraining scheduler is attached to.
+
+"""
+function describe_retraining_scheduler(
+    ModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "DescribeRetrainingScheduler",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_retraining_scheduler(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "DescribeRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    import_dataset(client_token, source_dataset_arn)
+    import_dataset(client_token, source_dataset_arn, params::Dict{String,<:Any})
+
+Imports a dataset.
+
+# Arguments
+- `client_token`: A unique identifier for the request. If you do not set the client request
+  token, Amazon Lookout for Equipment generates one.
+- `source_dataset_arn`: The Amazon Resource Name (ARN) of the dataset to import.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DatasetName"`: The name of the machine learning dataset to be created. If the dataset
+  already exists, Amazon Lookout for Equipment overwrites the existing dataset. If you don't
+  specify this field, it is filled with the name of the source dataset.
+- `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key key used to encrypt model
+  data by Amazon Lookout for Equipment.
+- `"Tags"`: Any tags associated with the dataset to be created.
+"""
+function import_dataset(
+    ClientToken, SourceDatasetArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "ImportDataset",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken, "SourceDatasetArn" => SourceDatasetArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function import_dataset(
+    ClientToken,
+    SourceDatasetArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "ImportDataset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken, "SourceDatasetArn" => SourceDatasetArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    import_model_version(client_token, dataset_name, source_model_version_arn)
+    import_model_version(client_token, dataset_name, source_model_version_arn, params::Dict{String,<:Any})
+
+Imports a model that has been trained successfully.
+
+# Arguments
+- `client_token`: A unique identifier for the request. If you do not set the client request
+  token, Amazon Lookout for Equipment generates one.
+- `dataset_name`: The name of the dataset for the machine learning model being imported.
+- `source_model_version_arn`: The Amazon Resource Name (ARN) of the model version to import.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InferenceDataImportStrategy"`: Indicates how to import the accumulated inference data
+  when a model version is imported. The possible values are as follows:   NO_IMPORT – Don't
+  import the data.   ADD_WHEN_EMPTY – Only import the data from the source model if there
+  is no existing data in the target model.   OVERWRITE – Import the data from the source
+  model and overwrite the existing data in the target model.
+- `"LabelsInputConfiguration"`:
+- `"ModelName"`: The name for the machine learning model to be created. If the model
+  already exists, Amazon Lookout for Equipment creates a new version. If you do not specify
+  this field, it is filled with the name of the source model.
+- `"RoleArn"`: The Amazon Resource Name (ARN) of a role with permission to access the data
+  source being used to create the machine learning model.
+- `"ServerSideKmsKeyId"`: Provides the identifier of the KMS key key used to encrypt model
+  data by Amazon Lookout for Equipment.
+- `"Tags"`: The tags associated with the machine learning model to be created.
+"""
+function import_model_version(
+    ClientToken,
+    DatasetName,
+    SourceModelVersionArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "ImportModelVersion",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "DatasetName" => DatasetName,
+            "SourceModelVersionArn" => SourceModelVersionArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function import_model_version(
+    ClientToken,
+    DatasetName,
+    SourceModelVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "ImportModelVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "DatasetName" => DatasetName,
+                    "SourceModelVersionArn" => SourceModelVersionArn,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -850,7 +1237,7 @@ end
 - `inference_scheduler_name`: The name of the inference scheduler for the inference events
   listed.
 - `interval_end_time`: Returns all the inference events with an end start time equal to or
-  greater than less than the end time given
+  greater than less than the end time given.
 - `interval_start_time`:  Lookout for Equipment will return all the inference events with
   an end time equal to or greater than the start time given.
 
@@ -964,10 +1351,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InferenceSchedulerNameBeginsWith"`: The beginning of the name of the inference
   schedulers to be listed.
 - `"MaxResults"`:  Specifies the maximum number of inference schedulers to list.
-- `"ModelName"`: The name of the ML model used by the inference scheduler to be listed.
+- `"ModelName"`: The name of the machine learning model used by the inference scheduler to
+  be listed.
 - `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
   inference schedulers.
-- `"Status"`: Specifies the current status of the inference schedulers to list.
+- `"Status"`: Specifies the current status of the inference schedulers.
 """
 function list_inference_schedulers(; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(
@@ -1019,7 +1407,7 @@ end
  Provides a list of labels.
 
 # Arguments
-- `label_group_name`:  Retruns the name of the label group.
+- `label_group_name`:  Returns the name of the label group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1057,6 +1445,57 @@ function list_labels(
 end
 
 """
+    list_model_versions(model_name)
+    list_model_versions(model_name, params::Dict{String,<:Any})
+
+Generates a list of all model versions for a given model, including the model version,
+model version ARN, and status. To list a subset of versions, use the MaxModelVersion and
+MinModelVersion fields.
+
+# Arguments
+- `model_name`: Then name of the machine learning model for which the model versions are to
+  be listed.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreatedAtEndTime"`: Filter results to return all the model versions created before this
+  time.
+- `"CreatedAtStartTime"`: Filter results to return all the model versions created after
+  this time.
+- `"MaxModelVersion"`: Specifies the highest version of the model to return in the list.
+- `"MaxResults"`: Specifies the maximum number of machine learning model versions to list.
+- `"MinModelVersion"`: Specifies the lowest version of the model to return in the list.
+- `"NextToken"`: If the total number of results exceeds the limit that the response can
+  display, the response returns an opaque pagination token indicating where to continue the
+  listing of machine learning model versions. Use this token in the NextToken field in the
+  request to list the next page of results.
+- `"SourceType"`: Filter the results based on the way the model version was generated.
+- `"Status"`: Filter the results based on the current status of the model version.
+"""
+function list_model_versions(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment(
+        "ListModelVersions",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_model_versions(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "ListModelVersions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_models()
     list_models(params::Dict{String,<:Any})
 
@@ -1065,13 +1504,14 @@ status.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DatasetNameBeginsWith"`: The beginning of the name of the dataset of the ML models to
-  be listed.
-- `"MaxResults"`:  Specifies the maximum number of ML models to list.
-- `"ModelNameBeginsWith"`: The beginning of the name of the ML models being listed.
-- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of ML
-  models.
-- `"Status"`: The status of the ML model.
+- `"DatasetNameBeginsWith"`: The beginning of the name of the dataset of the machine
+  learning models to be listed.
+- `"MaxResults"`:  Specifies the maximum number of machine learning models to list.
+- `"ModelNameBeginsWith"`: The beginning of the name of the machine learning models being
+  listed.
+- `"NextToken"`:  An opaque pagination token indicating where to continue the listing of
+  machine learning models.
+- `"Status"`: The status of the machine learning model.
 """
 function list_models(; aws_config::AbstractAWSConfig=global_aws_config())
     return lookoutequipment(
@@ -1083,6 +1523,38 @@ function list_models(
 )
     return lookoutequipment(
         "ListModels", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_retraining_schedulers()
+    list_retraining_schedulers(params::Dict{String,<:Any})
+
+Lists all retraining schedulers in your account, filtering by model name prefix and status.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: Specifies the maximum number of retraining schedulers to list.
+- `"ModelNameBeginsWith"`: Specify this field to only list retraining schedulers whose
+  machine learning models begin with the value you specify.
+- `"NextToken"`: If the number of results exceeds the maximum, a pagination token is
+  returned. Use the token in the request to show the next page of retraining schedulers.
+- `"Status"`: Specify this field to only list retraining schedulers whose status matches
+  the value you specify.
+"""
+function list_retraining_schedulers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment(
+        "ListRetrainingSchedulers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_retraining_schedulers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "ListRetrainingSchedulers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1161,6 +1633,65 @@ function list_tags_for_resource(
         "ListTagsForResource",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_policy(client_token, resource_arn, resource_policy)
+    put_resource_policy(client_token, resource_arn, resource_policy, params::Dict{String,<:Any})
+
+Creates a resource control policy for a given resource.
+
+# Arguments
+- `client_token`: A unique identifier for the request. If you do not set the client request
+  token, Amazon Lookout for Equipment generates one.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which the policy is
+  being created.
+- `resource_policy`: The JSON-formatted resource policy to create.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"PolicyRevisionId"`: A unique identifier for a revision of the resource policy.
+"""
+function put_resource_policy(
+    ClientToken,
+    ResourceArn,
+    ResourcePolicy;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            "ClientToken" => ClientToken,
+            "ResourceArn" => ResourceArn,
+            "ResourcePolicy" => ResourcePolicy,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    ClientToken,
+    ResourceArn,
+    ResourcePolicy,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientToken" => ClientToken,
+                    "ResourceArn" => ResourceArn,
+                    "ResourcePolicy" => ResourcePolicy,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1269,6 +1800,41 @@ function start_inference_scheduler(
 end
 
 """
+    start_retraining_scheduler(model_name)
+    start_retraining_scheduler(model_name, params::Dict{String,<:Any})
+
+Starts a retraining scheduler.
+
+# Arguments
+- `model_name`: The name of the model whose retraining scheduler you want to start.
+
+"""
+function start_retraining_scheduler(
+    ModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "StartRetrainingScheduler",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_retraining_scheduler(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "StartRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_inference_scheduler(inference_scheduler_name)
     stop_inference_scheduler(inference_scheduler_name, params::Dict{String,<:Any})
 
@@ -1301,6 +1867,41 @@ function stop_inference_scheduler(
                 Dict{String,Any}("InferenceSchedulerName" => InferenceSchedulerName),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_retraining_scheduler(model_name)
+    stop_retraining_scheduler(model_name, params::Dict{String,<:Any})
+
+Stops a retraining scheduler.
+
+# Arguments
+- `model_name`: The name of the model whose retraining scheduler you want to stop.
+
+"""
+function stop_retraining_scheduler(
+    ModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "StopRetrainingScheduler",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_retraining_scheduler(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "StopRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1386,6 +1987,49 @@ function untag_resource(
             mergewith(
                 _merge,
                 Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_active_model_version(model_name, model_version)
+    update_active_model_version(model_name, model_version, params::Dict{String,<:Any})
+
+Sets the active model version for a given machine learning model.
+
+# Arguments
+- `model_name`: The name of the machine learning model for which the active model version
+  is being set.
+- `model_version`: The version of the machine learning model for which the active model
+  version is being set.
+
+"""
+function update_active_model_version(
+    ModelName, ModelVersion; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "UpdateActiveModelVersion",
+        Dict{String,Any}("ModelName" => ModelName, "ModelVersion" => ModelVersion);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_active_model_version(
+    ModelName,
+    ModelVersion,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "UpdateActiveModelVersion",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ModelName" => ModelName, "ModelVersion" => ModelVersion),
                 params,
             ),
         );
@@ -1488,6 +2132,95 @@ function update_label_group(
         "UpdateLabelGroup",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("LabelGroupName" => LabelGroupName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_model(model_name)
+    update_model(model_name, params::Dict{String,<:Any})
+
+Updates a model in the account.
+
+# Arguments
+- `model_name`: The name of the model to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LabelsInputConfiguration"`:
+- `"ModelDiagnosticsOutputConfiguration"`: The Amazon S3 location where you want Amazon
+  Lookout for Equipment to save the pointwise model diagnostics for the model. You must also
+  specify the RoleArn request parameter.
+- `"RoleArn"`: The ARN of the model to update.
+"""
+function update_model(ModelName; aws_config::AbstractAWSConfig=global_aws_config())
+    return lookoutequipment(
+        "UpdateModel",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_model(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "UpdateModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_retraining_scheduler(model_name)
+    update_retraining_scheduler(model_name, params::Dict{String,<:Any})
+
+Updates a retraining scheduler.
+
+# Arguments
+- `model_name`: The name of the model whose retraining scheduler you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LookbackWindow"`: The number of past days of data that will be used for retraining.
+- `"PromoteMode"`: Indicates how the service will use new models. In MANAGED mode, new
+  models will automatically be used for inference if they have better performance than the
+  current model. In MANUAL mode, the new models will not be used until they are manually
+  activated.
+- `"RetrainingFrequency"`: This parameter uses the ISO 8601 standard to set the frequency
+  at which you want retraining to occur in terms of Years, Months, and/or Days (note: other
+  parameters like Time are not currently supported). The minimum value is 30 days (P30D) and
+  the maximum value is 1 year (P1Y). For example, the following values are valid:   P3M15D
+  – Every 3 months and 15 days   P2M – Every 2 months   P150D – Every 150 days
+- `"RetrainingStartDate"`: The start date for the retraining scheduler. Lookout for
+  Equipment truncates the time you provide to the nearest UTC day.
+"""
+function update_retraining_scheduler(
+    ModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lookoutequipment(
+        "UpdateRetrainingScheduler",
+        Dict{String,Any}("ModelName" => ModelName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_retraining_scheduler(
+    ModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lookoutequipment(
+        "UpdateRetrainingScheduler",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ModelName" => ModelName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

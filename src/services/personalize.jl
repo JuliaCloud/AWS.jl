@@ -8,9 +8,18 @@ using AWS.UUIDs
     create_batch_inference_job(job_input, job_name, job_output, role_arn, solution_version_arn)
     create_batch_inference_job(job_input, job_name, job_output, role_arn, solution_version_arn, params::Dict{String,<:Any})
 
-Creates a batch inference job. The operation can handle up to 50 million records and the
-input file must be in JSON format. For more information, see Creating a batch inference
-job.
+Generates batch recommendations based on a list of items or users stored in Amazon S3 and
+exports the recommendations to an Amazon S3 bucket. To generate batch recommendations,
+specify the ARN of a solution version and an Amazon S3 URI for the input and output data.
+For user personalization, popular items, and personalized ranking solutions, the batch
+inference job generates a list of recommended items for each user ID in the input file. For
+related items solutions, the job generates a list of recommended items for each item ID in
+the input file. For more information, see Creating a batch inference job .  If you use the
+Similar-Items recipe, Amazon Personalize can add descriptive themes to batch
+recommendations. To generate themes, set the job's mode to THEME_GENERATION and specify the
+name of the field that contains item names in the input data.  For more information about
+generating themes, see Batch recommendations with themes from Content Generator .  You
+can't get batch recommendations with the Trending-Now or Next-Best-Action recipes.
 
 # Arguments
 - `job_input`: The Amazon S3 path that leads to the input file to base your recommendations
@@ -25,10 +34,17 @@ job.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"batchInferenceJobConfig"`: The configuration details of a batch inference job.
+- `"batchInferenceJobMode"`: The mode of the batch inference job. To generate descriptive
+  themes for groups of similar items, set the job mode to THEME_GENERATION. If you don't want
+  to generate themes, use the default BATCH_INFERENCE.  When you get batch recommendations
+  with themes, you will incur additional costs. For more information, see Amazon Personalize
+  pricing.
 - `"filterArn"`: The ARN of the filter to apply to the batch inference job. For more
   information on using filters, see Filtering batch recommendations.
 - `"numResults"`: The number of recommendations to retrieve.
 - `"tags"`: A list of tags to apply to the batch inference job.
+- `"themeGenerationConfig"`: For theme generation jobs, specify the name of the column in
+  your Items dataset that contains each item's name.
 """
 function create_batch_inference_job(
     jobInput,
@@ -159,30 +175,42 @@ end
     create_campaign(name, solution_version_arn)
     create_campaign(name, solution_version_arn, params::Dict{String,<:Any})
 
-Creates a campaign that deploys a solution version. When a client calls the
-GetRecommendations and GetPersonalizedRanking APIs, a campaign is specified in the request.
- Minimum Provisioned TPS and Auto-Scaling    A high minProvisionedTPS will increase your
-bill. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage
-using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary.  A
-transaction is a single GetRecommendations or GetPersonalizedRanking call. Transactions per
-second (TPS) is the throughput and unit of billing for Amazon Personalize. The minimum
-provisioned TPS (minProvisionedTPS) specifies the baseline throughput provisioned by Amazon
-Personalize, and thus, the minimum billing charge.   If your TPS increases beyond
-minProvisionedTPS, Amazon Personalize auto-scales the provisioned capacity up and down, but
-never below minProvisionedTPS. There's a short time delay while the capacity is increased
-that might cause loss of transactions. The actual TPS used is calculated as the average
-requests/second within a 5-minute window. You pay for maximum of either the minimum
-provisioned TPS or the actual TPS. We recommend starting with a low minProvisionedTPS,
-track your usage using Amazon CloudWatch metrics, and then increase the minProvisionedTPS
-as necessary.  Status  A campaign can be in one of the following states:   CREATE PENDING
-&gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE
-IN_PROGRESS   To get the campaign status, call DescribeCampaign.  Wait until the status of
-the campaign is ACTIVE before asking the campaign for recommendations.   Related APIs
-ListCampaigns     DescribeCampaign     UpdateCampaign     DeleteCampaign
+  You incur campaign costs while it is active. To avoid unnecessary costs, make sure to
+delete the campaign when you are finished. For information about campaign costs, see Amazon
+Personalize pricing.  Creates a campaign that deploys a solution version. When a client
+calls the GetRecommendations and GetPersonalizedRanking APIs, a campaign is specified in
+the request.  Minimum Provisioned TPS and Auto-Scaling    A high minProvisionedTPS will
+increase your cost. We recommend starting with 1 for minProvisionedTPS (the default). Track
+your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as
+necessary.   When you create an Amazon Personalize campaign, you can specify the minimum
+provisioned transactions per second (minProvisionedTPS) for the campaign. This is the
+baseline transaction throughput for the campaign provisioned by Amazon Personalize. It sets
+the minimum billing charge for the campaign while it is active. A transaction is a single
+GetRecommendations or GetPersonalizedRanking request. The default minProvisionedTPS is 1.
+If your TPS increases beyond the minProvisionedTPS, Amazon Personalize auto-scales the
+provisioned capacity up and down, but never below minProvisionedTPS. There's a short time
+delay while the capacity is increased that might cause loss of transactions. When your
+traffic reduces, capacity returns to the minProvisionedTPS.  You are charged for the the
+minimum provisioned TPS or, if your requests exceed the minProvisionedTPS, the actual TPS.
+The actual TPS is the total number of recommendation requests you make. We recommend
+starting with a low minProvisionedTPS, track your usage using Amazon CloudWatch metrics,
+and then increase the minProvisionedTPS as necessary. For more information about campaign
+costs, see Amazon Personalize pricing.  Status  A campaign can be in one of the following
+states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE
+PENDING &gt; DELETE IN_PROGRESS   To get the campaign status, call DescribeCampaign.  Wait
+until the status of the campaign is ACTIVE before asking the campaign for recommendations.
+ Related APIs     ListCampaigns     DescribeCampaign     UpdateCampaign     DeleteCampaign
+
 
 # Arguments
 - `name`: A name for the new campaign. The campaign name must be unique within your account.
-- `solution_version_arn`: The Amazon Resource Name (ARN) of the solution version to deploy.
+- `solution_version_arn`: The Amazon Resource Name (ARN) of the trained model to deploy
+  with the campaign. To specify the latest solution version of your solution, specify the ARN
+  of your solution in SolutionArn/LATEST format. You must use this format if you set
+  syncWithLatestSolutionVersion to True in the CampaignConfig.   To deploy a model that isn't
+  the latest solution version of your solution, specify the ARN of the solution version.
+  For more information about automatic campaign updates, see Enabling automatic campaign
+  updates.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -227,23 +255,109 @@ function create_campaign(
 end
 
 """
+    create_data_deletion_job(data_source, dataset_group_arn, job_name, role_arn)
+    create_data_deletion_job(data_source, dataset_group_arn, job_name, role_arn, params::Dict{String,<:Any})
+
+Creates a batch job that deletes all references to specific users from an Amazon
+Personalize dataset group in batches. You specify the users to delete in a CSV file of
+userIds in an Amazon S3 bucket. After a job completes, Amazon Personalize no longer trains
+on the users’ data and no longer considers the users when generating user segments. For
+more information about creating a data deletion job, see Deleting users.   Your input file
+must be a CSV file with a single USER_ID column that lists the users IDs. For more
+information about preparing the CSV file, see Preparing your data deletion file and
+uploading it to Amazon S3.   To give Amazon Personalize permission to access your input CSV
+file of userIds, you must specify an IAM service role that has permission to read from the
+data source. This role needs GetObject and ListBucket permissions for the bucket and its
+content. These permissions are the same as importing data. For information on granting
+access to your Amazon S3 bucket, see Giving Amazon Personalize Access to Amazon S3
+Resources.     After you create a job, it can take up to a day to delete all references to
+the users from datasets and models. Until the job completes, Amazon Personalize continues
+to use the data when training. And if you use a User Segmentation recipe, the users might
+appear in user segments.   Status  A data deletion job can have one of the following
+statuses:   PENDING &gt; IN_PROGRESS &gt; COMPLETED -or- FAILED   To get the status of the
+data deletion job, call DescribeDataDeletionJob API operation and specify the Amazon
+Resource Name (ARN) of the job. If the status is FAILED, the response includes a
+failureReason key, which describes why the job failed.  Related APIs
+ListDataDeletionJobs     DescribeDataDeletionJob
+
+# Arguments
+- `data_source`: The Amazon S3 bucket that contains the list of userIds of the users to
+  delete.
+- `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group that has the
+  datasets you want to delete records from.
+- `job_name`: The name for the data deletion job.
+- `role_arn`: The Amazon Resource Name (ARN) of the IAM role that has permissions to read
+  from the Amazon S3 data source.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: A list of tags to apply to the data deletion job.
+"""
+function create_data_deletion_job(
+    dataSource,
+    datasetGroupArn,
+    jobName,
+    roleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return personalize(
+        "CreateDataDeletionJob",
+        Dict{String,Any}(
+            "dataSource" => dataSource,
+            "datasetGroupArn" => datasetGroupArn,
+            "jobName" => jobName,
+            "roleArn" => roleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_data_deletion_job(
+    dataSource,
+    datasetGroupArn,
+    jobName,
+    roleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return personalize(
+        "CreateDataDeletionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "dataSource" => dataSource,
+                    "datasetGroupArn" => datasetGroupArn,
+                    "jobName" => jobName,
+                    "roleArn" => roleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_dataset(dataset_group_arn, dataset_type, name, schema_arn)
     create_dataset(dataset_group_arn, dataset_type, name, schema_arn, params::Dict{String,<:Any})
 
 Creates an empty dataset and adds it to the specified dataset group. Use
-CreateDatasetImportJob to import your training data to a dataset. There are three types of
-datasets:   Interactions   Items   Users   Each dataset type has an associated schema with
-required field types. Only the Interactions dataset is required in order to train a model
-(also referred to as creating a solution). A dataset can be in one of the following states:
-  CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING
-&gt; DELETE IN_PROGRESS   To get the status of the dataset, call DescribeDataset.  Related
-APIs     CreateDatasetGroup     ListDatasets     DescribeDataset     DeleteDataset
+CreateDatasetImportJob to import your training data to a dataset. There are 5 types of
+datasets:   Item interactions   Items   Users   Action interactions   Actions   Each
+dataset type has an associated schema with required field types. Only the Item interactions
+dataset is required in order to train a model (also referred to as creating a solution). A
+dataset can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS
+&gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS   To get the status
+of the dataset, call DescribeDataset.  Related APIs     CreateDatasetGroup     ListDatasets
+    DescribeDataset     DeleteDataset
 
 # Arguments
 - `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group to add the
   dataset to.
 - `dataset_type`: The type of dataset. One of the following (case insensitive) values:
-  Interactions   Items   Users
+  Interactions   Items   Users   Actions   Action_Interactions
 - `name`: The name for the dataset.
 - `schema_arn`: The ARN of the schema to associate with the dataset. The schema defines the
   dataset fields.
@@ -381,22 +495,22 @@ end
 
 Creates an empty dataset group. A dataset group is a container for Amazon Personalize
 resources. A dataset group can contain at most three datasets, one for each type of
-dataset:   Interactions   Items   Users    A dataset group can be a Domain dataset group,
-where you specify a domain and use pre-configured resources like recommenders, or a Custom
-dataset group, where you use custom resources, such as a solution with a solution version,
-that you deploy with a campaign. If you start with a Domain dataset group, you can still
-add custom resources such as solutions and solution versions trained with recipes for
-custom use cases and deployed with campaigns.  A dataset group can be in one of the
-following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
-DELETE PENDING   To get the status of the dataset group, call DescribeDatasetGroup. If the
-status shows as CREATE FAILED, the response includes a failureReason key, which describes
-why the creation failed.  You must wait until the status of the dataset group is ACTIVE
-before adding a dataset to the group.  You can specify an Key Management Service (KMS) key
-to encrypt the datasets in the group. If you specify a KMS key, you must also include an
-Identity and Access Management (IAM) role that has permission to access the key.  APIs that
-require a dataset group ARN in the request     CreateDataset     CreateEventTracker
-CreateSolution     Related APIs     ListDatasetGroups     DescribeDatasetGroup
-DeleteDatasetGroup
+dataset:   Item interactions   Items   Users   Actions   Action interactions    A dataset
+group can be a Domain dataset group, where you specify a domain and use pre-configured
+resources like recommenders, or a Custom dataset group, where you use custom resources,
+such as a solution with a solution version, that you deploy with a campaign. If you start
+with a Domain dataset group, you can still add custom resources such as solutions and
+solution versions trained with recipes for custom use cases and deployed with campaigns.  A
+dataset group can be in one of the following states:   CREATE PENDING &gt; CREATE
+IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING   To get the status of the
+dataset group, call DescribeDatasetGroup. If the status shows as CREATE FAILED, the
+response includes a failureReason key, which describes why the creation failed.  You must
+wait until the status of the dataset group is ACTIVE before adding a dataset to the group.
+You can specify an Key Management Service (KMS) key to encrypt the datasets in the group.
+If you specify a KMS key, you must also include an Identity and Access Management (IAM)
+role that has permission to access the key.  APIs that require a dataset group ARN in the
+request     CreateDataset     CreateEventTracker     CreateSolution     Related APIs
+ListDatasetGroups     DescribeDatasetGroup     DeleteDatasetGroup
 
 # Arguments
 - `name`: The name for the new dataset group.
@@ -442,10 +556,13 @@ Amazon Personalize dataset. To allow Amazon Personalize to import the training d
 must specify an IAM service role that has permission to read from the data source, as
 Amazon Personalize makes a copy of your data and processes it internally. For information
 on granting access to your Amazon S3 bucket, see Giving Amazon Personalize Access to Amazon
-S3 Resources.   By default, a dataset import job replaces any existing data in the dataset
-that you imported in bulk. To add new records without replacing existing data, specify
-INCREMENTAL for the import mode in the CreateDatasetImportJob operation.   Status  A
-dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE
+S3 Resources.  If you already created a recommender or deployed a custom solution version
+with a campaign, how new bulk records influence recommendations depends on the domain use
+case or recipe that you use. For more information, see How new data influences real-time
+recommendations.  By default, a dataset import job replaces any existing data in the
+dataset that you imported in bulk. To add new records without replacing existing data,
+specify INCREMENTAL for the import mode in the CreateDatasetImportJob operation.   Status
+A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE
 IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   To get the status of the import job, call
 DescribeDatasetImportJob, providing the Amazon Resource Name (ARN) of the dataset import
 job. The dataset import is complete when the status shows as ACTIVE. If the status shows as
@@ -528,12 +645,12 @@ using the PutEvents API.  Only one event tracker can be associated with a datase
 You will get an error if you call CreateEventTracker using the same dataset group as an
 existing event tracker.  When you create an event tracker, the response includes a tracking
 ID, which you pass as a parameter when you use the PutEvents operation. Amazon Personalize
-then appends the event data to the Interactions dataset of the dataset group you specify in
-your event tracker.  The event tracker can be in one of the following states:   CREATE
-PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE
-IN_PROGRESS   To get the status of the event tracker, call DescribeEventTracker.  The event
-tracker must be in the ACTIVE state before using the tracking ID.   Related APIs
-ListEventTrackers     DescribeEventTracker     DeleteEventTracker
+then appends the event data to the Item interactions dataset of the dataset group you
+specify in your event tracker.  The event tracker can be in one of the following states:
+CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt;
+DELETE IN_PROGRESS   To get the status of the event tracker, call DescribeEventTracker.
+The event tracker must be in the ACTIVE state before using the tracking ID.   Related APIs
+   ListEventTrackers     DescribeEventTracker     DeleteEventTracker
 
 # Arguments
 - `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group that receives
@@ -834,23 +951,34 @@ end
     create_solution(dataset_group_arn, name)
     create_solution(dataset_group_arn, name, params::Dict{String,<:Any})
 
-Creates the configuration for training a model. A trained model is known as a solution
-version. After the configuration is created, you train the model (create a solution
-version) by calling the CreateSolutionVersion operation. Every time you call
-CreateSolutionVersion, a new version of the solution is created. After creating a solution
-version, you check its accuracy by calling GetSolutionMetrics. When you are satisfied with
-the version, you deploy it using CreateCampaign. The campaign provides recommendations to a
-client through the GetRecommendations API. To train a model, Amazon Personalize requires
-training data and a recipe. The training data comes from the dataset group that you provide
-in the request. A recipe specifies the training algorithm and a feature transformation. You
-can specify one of the predefined recipes provided by Amazon Personalize.   Amazon
-Personalize doesn't support configuring the hpoObjective for solution hyperparameter
-optimization at this time.   Status  A solution can be in one of the following states:
-CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt;
-DELETE IN_PROGRESS   To get the status of the solution, call DescribeSolution. Wait until
-the status shows as ACTIVE before calling CreateSolutionVersion.  Related APIs
-ListSolutions     CreateSolutionVersion     DescribeSolution     DeleteSolution
-ListSolutionVersions     DescribeSolutionVersion
+ After you create a solution, you can’t change its configuration. By default, all new
+solutions use automatic training. With automatic training, you incur training costs while
+your solution is active. You can't stop automatic training for a solution. To avoid
+unnecessary costs, make sure to delete the solution when you are finished. For information
+about training costs, see Amazon Personalize pricing.  Creates the configuration for
+training a model (creating a solution version). This configuration includes the recipe to
+use for model training and optional training configuration, such as columns to use in
+training and feature transformation parameters. For more information about configuring a
+solution, see Creating and configuring a solution.   By default, new solutions use
+automatic training to create solution versions every 7 days. You can change the training
+frequency. Automatic solution version creation starts one hour after the solution is
+ACTIVE. If you manually create a solution version within the hour, the solution skips the
+first automatic training. For more information, see Configuring automatic training.  To
+turn off automatic training, set performAutoTraining to false. If you turn off automatic
+training, you must manually create a solution version by calling the CreateSolutionVersion
+operation. After training starts, you can get the solution version's Amazon Resource Name
+(ARN) with the ListSolutionVersions API operation. To get its status, use the
+DescribeSolutionVersion.  After training completes you can evaluate model accuracy by
+calling GetSolutionMetrics. When you are satisfied with the solution version, you deploy it
+using CreateCampaign. The campaign provides recommendations to a client through the
+GetRecommendations API.  Amazon Personalize doesn't support configuring the hpoObjective
+for solution hyperparameter optimization at this time.   Status  A solution can be in one
+of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE
+FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS   To get the status of the solution, call
+DescribeSolution. If you use manual training, the status must be ACTIVE before you call
+CreateSolutionVersion.  Related APIs     ListSolutions     CreateSolutionVersion
+DescribeSolution     DeleteSolution       ListSolutionVersions     DescribeSolutionVersion
+
 
 # Arguments
 - `dataset_group_arn`: The Amazon Resource Name (ARN) of the dataset group that provides
@@ -865,17 +993,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   interactions for training with equal weight regardless of type.
 - `"performAutoML"`:  We don't recommend enabling automated machine learning. Instead,
   match your use case to the available Amazon Personalize recipes. For more information, see
-  Determining your use case.   Whether to perform automated machine learning (AutoML). The
-  default is false. For this case, you must specify recipeArn. When set to true, Amazon
-  Personalize analyzes your training data and selects the optimal USER_PERSONALIZATION recipe
-  and hyperparameters. In this case, you must omit recipeArn. Amazon Personalize determines
-  the optimal recipe by running tests with different values for the hyperparameters. AutoML
+  Choosing a recipe.  Whether to perform automated machine learning (AutoML). The default is
+  false. For this case, you must specify recipeArn. When set to true, Amazon Personalize
+  analyzes your training data and selects the optimal USER_PERSONALIZATION recipe and
+  hyperparameters. In this case, you must omit recipeArn. Amazon Personalize determines the
+  optimal recipe by running tests with different values for the hyperparameters. AutoML
   lengthens the training process as compared to selecting a specific recipe.
+- `"performAutoTraining"`: Whether the solution uses automatic training to create new
+  solution versions (trained models). The default is True and the solution automatically
+  creates new solution versions every 7 days. You can change the training frequency by
+  specifying a schedulingExpression in the AutoTrainingConfig as part of solution
+  configuration. For more information about automatic training, see Configuring automatic
+  training.  Automatic solution version creation starts one hour after the solution is
+  ACTIVE. If you manually create a solution version within the hour, the solution skips the
+  first automatic training.   After training starts, you can get the solution version's
+  Amazon Resource Name (ARN) with the ListSolutionVersions API operation. To get its status,
+  use the DescribeSolutionVersion.
 - `"performHPO"`: Whether to perform hyperparameter optimization (HPO) on the specified or
   selected recipe. The default is false. When performing AutoML, this parameter is always
   true and you should not set it to false.
-- `"recipeArn"`: The ARN of the recipe to use for model training. Only specified when
-  performAutoML is false.
+- `"recipeArn"`: The Amazon Resource Name (ARN) of the recipe to use for model training.
+  This is required when performAutoML is false. For information about different Amazon
+  Personalize recipes and their ARNs, see Choosing a recipe.
 - `"solutionConfig"`: The configuration to use with the solution. When performAutoML is set
   to true, Amazon Personalize only evaluates the autoMLConfig section of the solution
   configuration.  Amazon Personalize doesn't support configuring the hpoObjective at this
@@ -936,13 +1075,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name of the solution version.
 - `"tags"`: A list of tags to apply to the solution version.
 - `"trainingMode"`: The scope of training to be performed when creating the solution
-  version. The FULL option trains the solution version based on the entirety of the input
-  solution's training data, while the UPDATE option processes only the data that has changed
-  in comparison to the input solution. Choose UPDATE when you want to incrementally update
-  your solution version instead of creating an entirely new one.  The UPDATE option can only
-  be used when you already have an active solution version created from the input solution
-  using the FULL option and the input solution was trained with the User-Personalization
-  recipe or the HRNN-Coldstart recipe.
+  version. The default is FULL. This creates a completely new model based on the entirety of
+  the training data from the datasets in your dataset group.  If you use
+  User-Personalization, you can specify a training mode of UPDATE. This updates the model to
+  consider new items for recommendations. It is not a full retraining. You should still
+  complete a full retraining weekly. If you specify UPDATE, Amazon Personalize will stop
+  automatic updates for the solution version. To resume updates, create a new solution with
+  training mode set to FULL and deploy it in a campaign. For more information about automatic
+  updates, see Automatic updates.  The UPDATE option can only be used when you already have
+  an active solution version created from the input solution using the FULL option and the
+  input solution was trained with the User-Personalization recipe or the legacy
+  HRNN-Coldstart recipe.
 """
 function create_solution_version(
     solutionArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1083,8 +1226,8 @@ end
     delete_event_tracker(event_tracker_arn)
     delete_event_tracker(event_tracker_arn, params::Dict{String,<:Any})
 
-Deletes the event tracker. Does not delete the event-interactions dataset from the
-associated dataset group. For more information on event trackers, see CreateEventTracker.
+Deletes the event tracker. Does not delete the dataset from the dataset group. For more
+information on event trackers, see CreateEventTracker.
 
 # Arguments
 - `event_tracker_arn`: The Amazon Resource Name (ARN) of the event tracker to delete.
@@ -1440,6 +1583,43 @@ function describe_campaign(
         "DescribeCampaign",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_data_deletion_job(data_deletion_job_arn)
+    describe_data_deletion_job(data_deletion_job_arn, params::Dict{String,<:Any})
+
+Describes the data deletion job created by CreateDataDeletionJob, including the job status.
+
+# Arguments
+- `data_deletion_job_arn`: The Amazon Resource Name (ARN) of the data deletion job.
+
+"""
+function describe_data_deletion_job(
+    dataDeletionJobArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize(
+        "DescribeDataDeletionJob",
+        Dict{String,Any}("dataDeletionJobArn" => dataDeletionJobArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_data_deletion_job(
+    dataDeletionJobArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return personalize(
+        "DescribeDataDeletionJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("dataDeletionJobArn" => dataDeletionJobArn), params
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2064,6 +2244,40 @@ function list_campaigns(
 end
 
 """
+    list_data_deletion_jobs()
+    list_data_deletion_jobs(params::Dict{String,<:Any})
+
+Returns a list of data deletion jobs for a dataset group ordered by creation time, with the
+most recent first. When a dataset group is not specified, all the data deletion jobs
+associated with the account are listed. The response provides the properties for each job,
+including the Amazon Resource Name (ARN). For more information on data deletion jobs, see
+Deleting users.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"datasetGroupArn"`: The Amazon Resource Name (ARN) of the dataset group to list data
+  deletion jobs for.
+- `"maxResults"`: The maximum number of data deletion jobs to return.
+- `"nextToken"`: A token returned from the previous call to ListDataDeletionJobs for
+  getting the next set of jobs (if they exist).
+"""
+function list_data_deletion_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return personalize(
+        "ListDataDeletionJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_data_deletion_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize(
+        "ListDataDeletionJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_dataset_export_jobs()
     list_dataset_export_jobs(params::Dict{String,<:Any})
 
@@ -2171,8 +2385,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"datasetGroupArn"`: The Amazon Resource Name (ARN) of the dataset group that contains
   the datasets to list.
 - `"maxResults"`: The maximum number of datasets to return.
-- `"nextToken"`: A token returned from the previous call to ListDatasetImportJobs for
-  getting the next set of dataset import jobs (if they exist).
+- `"nextToken"`: A token returned from the previous call to ListDatasets for getting the
+  next set of dataset import jobs (if they exist).
 """
 function list_datasets(; aws_config::AbstractAWSConfig=global_aws_config())
     return personalize(
@@ -2428,7 +2642,7 @@ end
     list_solutions()
     list_solutions(params::Dict{String,<:Any})
 
-Returns a list of solutions that use the given dataset group. When a dataset group is not
+Returns a list of solutions in a given dataset group. When a dataset group is not
 specified, all the solutions associated with the account are listed. The response provides
 the properties for each solution, including the Amazon Resource Name (ARN). For more
 information on solutions, see CreateSolution.
@@ -2460,7 +2674,7 @@ end
 Get a list of tags attached to a resource.
 
 # Arguments
-- `resource_arn`: The resource's Amazon Resource Name.
+- `resource_arn`: The resource's Amazon Resource Name (ARN).
 
 """
 function list_tags_for_resource(
@@ -2610,7 +2824,7 @@ Add a list of tags to a resource.
 # Arguments
 - `resource_arn`: The resource's Amazon Resource Name (ARN).
 - `tags`: Tags to apply to the resource. For more information see Tagging Amazon
-  Personalize recources.
+  Personalize resources.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2645,11 +2859,12 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Remove tags that are attached to a resource.
+Removes the specified tags that are attached to a resource. For more information, see
+Removing tags from Amazon Personalize resources.
 
 # Arguments
 - `resource_arn`: The resource's Amazon Resource Name (ARN).
-- `tag_keys`: Keys to remove from the resource's tags.
+- `tag_keys`: The keys of the tags to be removed.
 
 """
 function untag_resource(
@@ -2686,13 +2901,19 @@ end
     update_campaign(campaign_arn)
     update_campaign(campaign_arn, params::Dict{String,<:Any})
 
-Updates a campaign by either deploying a new solution or changing the value of the
-campaign's minProvisionedTPS parameter. To update a campaign, the campaign status must be
+ Updates a campaign to deploy a retrained solution version with an existing campaign,
+change your campaign's minProvisionedTPS, or modify your campaign's configuration. For
+example, you can set enableMetadataWithRecommendations to true for an existing campaign.
+To update a campaign to start automatically using the latest solution version, specify the
+following:   For the SolutionVersionArn parameter, specify the Amazon Resource Name (ARN)
+of your solution in SolutionArn/LATEST format.     In the campaignConfig, set
+syncWithLatestSolutionVersion to true.    To update a campaign, the campaign status must be
 ACTIVE or CREATE FAILED. Check the campaign status using the DescribeCampaign operation.
 You can still get recommendations from a campaign while an update is in progress. The
 campaign will use the previous solution version and campaign configuration to generate
 recommendations until the latest campaign update status is Active.   For more information
-on campaigns, see CreateCampaign.
+about updating a campaign, including code samples, see Updating a campaign. For more
+information about campaigns, see Creating a campaign.
 
 # Arguments
 - `campaign_arn`: The Amazon Resource Name (ARN) of the campaign.
@@ -2705,7 +2926,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will increase your bill. We recommend starting with 1 for minProvisionedTPS (the default).
   Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as
   necessary.
-- `"solutionVersionArn"`: The ARN of a new solution version to deploy.
+- `"solutionVersionArn"`: The Amazon Resource Name (ARN) of a new model to deploy. To
+  specify the latest solution version of your solution, specify the ARN of your solution in
+  SolutionArn/LATEST format. You must use this format if you set
+  syncWithLatestSolutionVersion to True in the CampaignConfig.   To deploy a model that isn't
+  the latest solution version of your solution, specify the ARN of the solution version.
+  For more information about automatic campaign updates, see Enabling automatic campaign
+  updates.
 """
 function update_campaign(campaignArn; aws_config::AbstractAWSConfig=global_aws_config())
     return personalize(
@@ -2724,6 +2951,48 @@ function update_campaign(
         "UpdateCampaign",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("campaignArn" => campaignArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_dataset(dataset_arn, schema_arn)
+    update_dataset(dataset_arn, schema_arn, params::Dict{String,<:Any})
+
+Update a dataset to replace its schema with a new or existing one. For more information,
+see Replacing a dataset's schema.
+
+# Arguments
+- `dataset_arn`: The Amazon Resource Name (ARN) of the dataset that you want to update.
+- `schema_arn`: The Amazon Resource Name (ARN) of the new schema you want use.
+
+"""
+function update_dataset(
+    datasetArn, schemaArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return personalize(
+        "UpdateDataset",
+        Dict{String,Any}("datasetArn" => datasetArn, "schemaArn" => schemaArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_dataset(
+    datasetArn,
+    schemaArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return personalize(
+        "UpdateDataset",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("datasetArn" => datasetArn, "schemaArn" => schemaArn),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

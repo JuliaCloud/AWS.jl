@@ -75,7 +75,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   implementation, Kinesis Video Streams does not use this name.
 - `"KmsKeyId"`: The ID of the Key Management Service (KMS) key that you want Kinesis Video
   Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis
-  Video-managed key (aws/kinesisvideo) is used.  For more information, see DescribeKey.
+  Video-managed key (Amazon Web Services/kinesisvideo) is used.  For more information, see
+  DescribeKey.
 - `"MediaType"`: The media type of the stream. Consumers of the stream can use this
   information when processing the stream. For more information about media types, see Media
   Types. If you choose to specify the MediaType, see Naming Requirements for guidelines.
@@ -104,6 +105,45 @@ function create_stream(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("StreamName" => StreamName), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_edge_configuration()
+    delete_edge_configuration(params::Dict{String,<:Any})
+
+An asynchronous API that deletes a stream’s existing edge configuration, as well as the
+corresponding media from the Edge Agent. When you invoke this API, the sync status is set
+to DELETING. A deletion process starts, in which active edge jobs are stopped and all media
+is deleted from the edge device. The time to delete varies, depending on the total amount
+of stored media. If the deletion process fails, the sync status changes to DELETE_FAILED.
+You will need to re-try the deletion. When the deletion process has completed successfully,
+the edge configuration is no longer accessible.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamARN"`: The Amazon Resource Name (ARN) of the stream. Specify either the
+  StreamName or the StreamARN.
+- `"StreamName"`: The name of the stream from which to delete the edge configuration.
+  Specify either the StreamName or the StreamARN.
+"""
+function delete_edge_configuration(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kinesis_video(
+        "POST",
+        "/deleteEdgeConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_edge_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/deleteEdgeConfiguration",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -205,8 +245,10 @@ end
     describe_edge_configuration(params::Dict{String,<:Any})
 
 Describes a stream’s edge configuration that was set using the
-StartEdgeConfigurationUpdate API. Use this API to get the status of the configuration if
-the configuration is in sync with the Edge Agent.
+StartEdgeConfigurationUpdate API and the latest status of the edge agent's recorder and
+uploader jobs. Use this API to get the status of the configuration to determine if the
+configuration is in sync with the Edge Agent. Use this API to evaluate the health of the
+Edge Agent.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -275,9 +317,8 @@ end
     describe_mapped_resource_configuration()
     describe_mapped_resource_configuration(params::Dict{String,<:Any})
 
-Returns the most current information about the stream. Either streamName or streamARN
-should be provided in the input. Returns the most current information about the stream. The
-streamName or streamARN should be provided in the input.
+Returns the most current information about the stream. The streamName or streamARN should
+be provided in the input.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -532,6 +573,52 @@ function get_signaling_channel_endpoint(
 end
 
 """
+    list_edge_agent_configurations(hub_device_arn)
+    list_edge_agent_configurations(hub_device_arn, params::Dict{String,<:Any})
+
+Returns an array of edge configurations associated with the specified Edge Agent. In the
+request, you must specify the Edge Agent HubDeviceArn.
+
+# Arguments
+- `hub_device_arn`: The \"Internet of Things (IoT) Thing\" Arn of the edge agent.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of edge configurations to return in the response. The
+  default is 5.
+- `"NextToken"`: If you specify this parameter, when the result of a
+  ListEdgeAgentConfigurations operation is truncated, the call returns the NextToken in the
+  response. To get another batch of edge configurations, provide this token in your next
+  request.
+"""
+function list_edge_agent_configurations(
+    HubDeviceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_video(
+        "POST",
+        "/listEdgeAgentConfigurations",
+        Dict{String,Any}("HubDeviceArn" => HubDeviceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_edge_agent_configurations(
+    HubDeviceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_video(
+        "POST",
+        "/listEdgeAgentConfigurations",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("HubDeviceArn" => HubDeviceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_signaling_channels()
     list_signaling_channels(params::Dict{String,<:Any})
 
@@ -693,7 +780,10 @@ status will be set to SYNCING. You will have to wait for the sync status to reac
 terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again. If you invoke
 this API during the syncing process, a ResourceInUseException will be thrown. The
 connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15
-minutes. After 15 minutes, the status will transition into the SYNC_FAILED state.
+minutes. After 15 minutes, the status will transition into the SYNC_FAILED state. To move
+an edge configuration from one device to another, use DeleteEdgeConfiguration to delete the
+current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an
+updated Hub Device ARN.
 
 # Arguments
 - `edge_config`: The edge configuration details required to invoke the update process.
@@ -914,24 +1004,26 @@ end
     update_data_retention(current_version, data_retention_change_in_hours, operation)
     update_data_retention(current_version, data_retention_change_in_hours, operation, params::Dict{String,<:Any})
 
- Increases or decreases the stream's data retention period by the value that you specify.
-To indicate whether you want to increase or decrease the data retention period, specify the
+Increases or decreases the stream's data retention period by the value that you specify. To
+indicate whether you want to increase or decrease the data retention period, specify the
 Operation parameter in the request body. In the request, you must specify either the
-StreamName or the StreamARN.   The retention period that you specify replaces the current
-value.  This operation requires permission for the KinesisVideo:UpdateDataRetention action.
-Changing the data retention period affects the data in the stream as follows:   If the data
-retention period is increased, existing data is retained for the new retention period. For
-example, if the data retention period is increased from one hour to seven hours, all
-existing data is retained for seven hours.   If the data retention period is decreased,
-existing data is retained for the new retention period. For example, if the data retention
-period is decreased from seven hours to one hour, all existing data is retained for one
-hour, and any data older than one hour is deleted immediately.
+StreamName or the StreamARN.  This operation requires permission for the
+KinesisVideo:UpdateDataRetention action. Changing the data retention period affects the
+data in the stream as follows:   If the data retention period is increased, existing data
+is retained for the new retention period. For example, if the data retention period is
+increased from one hour to seven hours, all existing data is retained for seven hours.   If
+the data retention period is decreased, existing data is retained for the new retention
+period. For example, if the data retention period is decreased from seven hours to one
+hour, all existing data is retained for one hour, and any data older than one hour is
+deleted immediately.
 
 # Arguments
 - `current_version`: The version of the stream whose retention period you want to change.
   To get the version, call either the DescribeStream or the ListStreams API.
-- `data_retention_change_in_hours`: The retention period, in hours. The value you specify
-  replaces the current value. The maximum value for this parameter is 87600 (ten years).
+- `data_retention_change_in_hours`: The number of hours to adjust the current retention by.
+  The value you specify is added to or subtracted from the current value, depending on the
+  operation. The minimum value for data retention is 0 and the maximum value is 87600 (ten
+  years).
 - `operation`: Indicates whether you want to increase or decrease the retention period.
 
 # Optional Parameters
@@ -1028,9 +1120,13 @@ end
     update_media_storage_configuration(channel_arn, media_storage_configuration, params::Dict{String,<:Any})
 
 Associates a SignalingChannel to a stream to store the media. There are two signaling modes
-that can specified :   If the StorageStatus is disabled, no data will be stored, and the
-StreamARN parameter will not be needed.    If the StorageStatus is enabled, the data will
-be stored in the StreamARN provided.
+that you can specify :   If StorageStatus is enabled, the data will be stored in the
+StreamARN provided. In order for WebRTC Ingestion to work, the stream must have data
+retention enabled.   If StorageStatus is disabled, no data will be stored, and the
+StreamARN parameter will not be needed.     If StorageStatus is enabled, direct
+peer-to-peer (master-viewer) connections no longer occur. Peers connect directly to the
+storage session. You must call the JoinStorageSession API to trigger an SDP offer send and
+establish a connection between a peer and the storage session.
 
 # Arguments
 - `channel_arn`: The Amazon Resource Name (ARN) of the channel.

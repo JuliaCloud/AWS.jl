@@ -177,6 +177,31 @@ function delete_scheduled_query(
 end
 
 """
+    describe_account_settings()
+    describe_account_settings(params::Dict{String,<:Any})
+
+Describes the settings for your account that include the query pricing model and the
+configured maximum TCUs the service can use for your query workload. You're charged only
+for the duration of compute units used for your workloads.
+
+"""
+function describe_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return timestream_query(
+        "DescribeAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_query(
+        "DescribeAccountSettings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_endpoints()
     describe_endpoints(params::Dict{String,<:Any})
 
@@ -369,8 +394,8 @@ end
     prepare_query(query_string, params::Dict{String,<:Any})
 
 A synchronous operation that allows you to submit a query with parameters to be stored by
-Timestream for later running. Timestream only supports using this operation with the
-PrepareQueryRequestValidateOnly set to true.
+Timestream for later running. Timestream only supports using this operation with
+ValidateOnly set to true.
 
 # Arguments
 - `query_string`: The Timestream query string that you want to use as a prepared statement.
@@ -572,6 +597,42 @@ function untag_resource(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_account_settings()
+    update_account_settings(params::Dict{String,<:Any})
+
+Transitions your account to use TCUs for query pricing and modifies the maximum query
+compute units that you've configured. If you reduce the value of MaxQueryTCU to a desired
+configuration, the new value can take up to 24 hours to be effective.  After you've
+transitioned your account to use TCUs for query pricing, you can't transition to using
+bytes scanned for query pricing.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxQueryTCU"`: The maximum number of compute units the service will use at any point in
+  time to serve your queries. To run queries, you must set a minimum capacity of 4 TCU. You
+  can set the maximum number of TCU in multiples of 4, for example, 4, 8, 16, 32, and so on.
+  The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft
+  limit, contact Amazon Web Services Support. For information about the default quota for
+  maxQueryTCU, see Default quotas.
+- `"QueryPricingModel"`: The pricing model for queries in an account.
+"""
+function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return timestream_query(
+        "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function update_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return timestream_query(
+        "UpdateAccountSettings",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

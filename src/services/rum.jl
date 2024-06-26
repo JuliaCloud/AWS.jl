@@ -12,15 +12,15 @@ Specifies the extended metrics and custom metrics that you want a CloudWatch RUM
 monitor to send to a destination. Valid destinations include CloudWatch and Evidently. By
 default, RUM app monitors send some metrics to CloudWatch. These default metrics are listed
 in CloudWatch metrics that you can collect with CloudWatch RUM. In addition to these
-default metrics, you can choose to send extended metrics or custom metrics or both.
-Extended metrics enable you to send metrics with additional dimensions not included in the
-default metrics. You can also send extended metrics to Evidently as well as CloudWatch. The
-valid dimension names for the additional dimensions for extended metrics are BrowserName,
-CountryCode, DeviceType, FileType, OSName, and PageId. For more information, see  Extended
-metrics that you can send to CloudWatch and CloudWatch Evidently.   Custom metrics are
-metrics that you define. You can send custom metrics to CloudWatch or to CloudWatch
-Evidently or to both. With custom metrics, you can use any metric name and namespace, and
-to derive the metrics you can use any custom events, built-in events, custom attributes, or
+default metrics, you can choose to send extended metrics, custom metrics, or both.
+Extended metrics let you send metrics with additional dimensions that aren't included in
+the default metrics. You can also send extended metrics to both Evidently and CloudWatch.
+The valid dimension names for the additional dimensions for extended metrics are
+BrowserName, CountryCode, DeviceType, FileType, OSName, and PageId. For more information,
+see  Extended metrics that you can send to CloudWatch and CloudWatch Evidently.   Custom
+metrics are metrics that you define. You can send custom metrics to CloudWatch. CloudWatch
+Evidently, or both. With custom metrics, you can use any metric name and namespace. To
+derive the metrics, you can use any custom events, built-in events, custom attributes, or
 default attributes.  You can't send custom metrics to the AWS/RUM namespace. You must send
 custom metrics to a custom namespace that you define. The namespace that you use can't
 start with AWS/. CloudWatch RUM prepends RUM/CustomMetrics/ to the custom namespace that
@@ -40,9 +40,9 @@ return errors, but all valid metric definitions in the same operation still succ
 - `app_monitor_name`: The name of the CloudWatch RUM app monitor that is to send the
   metrics.
 - `destination`: The destination to send the metrics to. Valid values are CloudWatch and
-  Evidently. If you specify Evidently, you must also specify the ARN of the
-  CloudWatchEvidently experiment that will receive the metrics and an IAM role that has
-  permission to write to the experiment.
+  Evidently. If you specify Evidently, you must also specify the Amazon Resource Name (ARN)
+  of the CloudWatchEvidently experiment that will receive the metrics and an IAM role that
+  has permission to write to the experiment.
 - `metric_definitions`: An array of structures which define the metrics that you want to
   send.
 
@@ -627,9 +627,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DestinationArn"`: Use this parameter only if Destination is Evidently. This parameter
   specifies the ARN of the Evidently experiment that will receive the extended metrics.
 - `"IamRoleArn"`: This parameter is required if Destination is Evidently. If Destination is
-  CloudWatch, do not use this parameter. This parameter specifies the ARN of an IAM role that
+  CloudWatch, don't use this parameter. This parameter specifies the ARN of an IAM role that
   RUM will assume to write to the Evidently experiment that you are sending metrics to. This
-  role must have permission to write to that experiment.
+  role must have permission to write to that experiment. If you specify this parameter, you
+  must be signed on to a role that has PassRole permissions attached to it, to allow the role
+  to be passed. The  CloudWatchAmazonCloudWatchRUMFullAccess policy doesn't include PassRole
+  permissions.
 """
 function put_rum_metrics_destination(
     AppMonitorName, Destination; aws_config::AbstractAWSConfig=global_aws_config()

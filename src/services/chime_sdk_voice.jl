@@ -141,7 +141,10 @@ end
     batch_update_phone_number(update_phone_number_request_items)
     batch_update_phone_number(update_phone_number_request_items, params::Dict{String,<:Any})
 
-Updates one or more phone numbers.
+Updates phone number product types, calling names, or phone number names. You can update
+one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update
+the product type, the calling name, or phone name.   You cannot have a duplicate
+phoneNumberId in a request.
 
 # Arguments
 - `update_phone_number_request_items`: Lists the phone numbers in the update request.
@@ -191,6 +194,9 @@ must use the Amazon Chime SDK SIP media application dial-in product type.
 - `e164_phone_numbers`: List of phone numbers, in E.164 format.
 - `product_type`: The phone number product type.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Name"`: Specifies the name assigned to one or more phone numbers.
 """
 function create_phone_number_order(
     E164PhoneNumbers, ProductType; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1440,7 +1446,9 @@ end
     get_sip_media_application_alexa_skill_configuration(sip_media_application_id)
     get_sip_media_application_alexa_skill_configuration(sip_media_application_id, params::Dict{String,<:Any})
 
-Gets the Alexa Skill configuration for the SIP media application.
+Gets the Alexa Skill configuration for the SIP media application.  Due to changes made by
+the Amazon Alexa service, this API is no longer available for use. For more information,
+refer to the Alexa Smart Properties page.
 
 # Arguments
 - `sip_media_application_id`: The SIP media application ID.
@@ -2430,7 +2438,9 @@ end
     put_sip_media_application_alexa_skill_configuration(sip_media_application_id)
     put_sip_media_application_alexa_skill_configuration(sip_media_application_id, params::Dict{String,<:Any})
 
-Updates the Alexa Skill configuration for the SIP media application.
+Updates the Alexa Skill configuration for the SIP media application.  Due to changes made
+by the Amazon Alexa service, this API is no longer available for use. For more information,
+refer to the Alexa Smart Properties page.
 
 # Arguments
 - `sip_media_application_id`: The SIP media application ID.
@@ -3192,12 +3202,13 @@ end
     update_phone_number(phone_number_id)
     update_phone_number(phone_number_id, params::Dict{String,<:Any})
 
-Updates phone number details, such as product type or calling name, for the specified phone
-number ID. You can update one phone number detail at a time. For example, you can update
-either the product type or the calling name in one action. For numbers outside the U.S.,
-you must use the Amazon Chime SDK SIP Media Application Dial-In product type. Updates to
-outbound calling names can take 72 hours to complete. Pending updates to outbound calling
-names must be complete before you can request another update.
+Updates phone number details, such as product type, calling name, or phone number name for
+the specified phone number ID. You can update one phone number detail at a time. For
+example, you can update either the product type, calling name, or phone number name in one
+action. For numbers outside the U.S., you must use the Amazon Chime SDK SIP Media
+Application Dial-In product type. Updates to outbound calling names can take 72 hours to
+complete. Pending updates to outbound calling names must be complete before you can request
+another update.
 
 # Arguments
 - `phone_number_id`: The phone number ID.
@@ -3205,6 +3216,7 @@ names must be complete before you can request another update.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CallingName"`: The outbound calling name associated with the phone number.
+- `"Name"`: Specifies the updated name assigned to one or more phone numbers.
 - `"ProductType"`: The product type.
 """
 function update_phone_number(

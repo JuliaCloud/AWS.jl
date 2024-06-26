@@ -8,8 +8,8 @@ using AWS.UUIDs
     create_accessor(accessor_type, client_request_token)
     create_accessor(accessor_type, client_request_token, params::Dict{String,<:Any})
 
-Creates a new accessor for use with Managed Blockchain Ethereum nodes. An accessor contains
-information required for token based access to your Ethereum nodes.
+Creates a new accessor for use with Amazon Managed Blockchain service that supports token
+based access. The accessor contains information required for token based access.
 
 # Arguments
 - `accessor_type`: The type of accessor.  Currently, accessor type is restricted to
@@ -22,6 +22,12 @@ information required for token based access to your Ethereum nodes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"NetworkType"`: The blockchain network that the Accessor token is created for.    Use
+  the actual networkType value for the blockchain network that you are creating the Accessor
+  token for.   With the shut down of the Ethereum Goerli and Polygon Mumbai Testnet networks
+  the following networkType values are no longer available for selection and use.
+  ETHEREUM_MAINNET_AND_GOERLI     ETHEREUM_GOERLI     POLYGON_MUMBAI    However, your
+  existing Accessor tokens with these networkType values will remain unchanged.
 - `"Tags"`: Tags to assign to the Accessor.  Each tag consists of a key and an optional
   value. You can specify multiple key-value pairs in a single request with an overall maximum
   of 50 tags allowed per resource. For more information about tags, see Tagging Resources in
@@ -229,8 +235,7 @@ Ethereum.
   client. It is generated automatically if you use an Amazon Web Services SDK or the CLI.
 - `node_configuration`: The properties of a node configuration.
 - `network_id`: The unique identifier of the network for the node. Ethereum public networks
-  have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli
-  n-ethereum-rinkeby
+  have the following NetworkIds:    n-ethereum-mainnet
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -450,8 +455,7 @@ cannot be recovered. Applies to Hyperledger Fabric and Ethereum.
 
 # Arguments
 - `network_id`: The unique identifier of the network that the node is on. Ethereum public
-  networks have the following NetworkIds:    n-ethereum-mainnet     n-ethereum-goerli
-  n-ethereum-rinkeby
+  networks have the following NetworkIds:    n-ethereum-mainnet
 - `node_id`: The unique identifier of the node.
 
 # Optional Parameters
@@ -665,6 +669,9 @@ have the information required for token based access to your Ethereum nodes.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`:  The maximum number of accessors to list.
+- `"networkType"`: The blockchain network that the Accessor token is created for.  Use the
+  value ETHEREUM_MAINNET_AND_GOERLI for all existing Accessors tokens that were created
+  before the networkType property was introduced.
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
 function list_accessors(; aws_config::AbstractAWSConfig=global_aws_config())

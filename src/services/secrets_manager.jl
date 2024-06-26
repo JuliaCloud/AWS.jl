@@ -5,6 +5,55 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_get_secret_value()
+    batch_get_secret_value(params::Dict{String,<:Any})
+
+Retrieves the contents of the encrypted fields SecretString or SecretBinary for up to 20
+secrets. To retrieve a single secret, call GetSecretValue.  To choose which secrets to
+retrieve, you can specify a list of secrets by name or ARN, or you can use filters. If
+Secrets Manager encounters errors such as AccessDeniedException while attempting to
+retrieve any of the secrets, you can see the errors in Errors in the response. Secrets
+Manager generates CloudTrail GetSecretValue log entries for each secret you request when
+you call this action. Do not include sensitive information in request parameters because it
+might be logged. For more information, see Logging Secrets Manager events with CloudTrail.
+Required permissions:  secretsmanager:BatchGetSecretValue, and you must have
+secretsmanager:GetSecretValue for each secret. If you use filters, you must also have
+secretsmanager:ListSecrets. If the secrets are encrypted using customer-managed keys
+instead of the Amazon Web Services managed key aws/secretsmanager, then you also need
+kms:Decrypt permissions for the keys. For more information, see  IAM policy actions for
+Secrets Manager and Authentication and access control in Secrets Manager.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: The filters to choose which secrets to retrieve. You must include Filters or
+  SecretIdList, but not both.
+- `"MaxResults"`: The number of results to include in the response. If there are more
+  results available, in the response, Secrets Manager includes NextToken. To get the next
+  results, call BatchGetSecretValue again with the value from NextToken. To use this
+  parameter, you must also use the Filters parameter.
+- `"NextToken"`: A token that indicates where the output should continue from, if a
+  previous call did not show all results. To get the next results, call BatchGetSecretValue
+  again with this value.
+- `"SecretIdList"`: The ARN or names of the secrets to retrieve. You must include Filters
+  or SecretIdList, but not both.
+"""
+function batch_get_secret_value(; aws_config::AbstractAWSConfig=global_aws_config())
+    return secrets_manager(
+        "BatchGetSecretValue"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function batch_get_secret_value(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return secrets_manager(
+        "BatchGetSecretValue",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_rotate_secret(secret_id)
     cancel_rotate_secret(secret_id, params::Dict{String,<:Any})
 
@@ -80,10 +129,11 @@ entry when you call this action. Do not include sensitive information in request
 except SecretBinary or SecretString because it might be logged. For more information, see
 Logging Secrets Manager events with CloudTrail.  Required permissions:
 secretsmanager:CreateSecret. If you include tags in the secret, you also need
-secretsmanager:TagResource. For more information, see  IAM policy actions for Secrets
-Manager and Authentication and access control in Secrets Manager.  To encrypt the secret
-with a KMS key other than aws/secretsmanager, you need kms:GenerateDataKey and kms:Decrypt
-permission to the key.
+secretsmanager:TagResource. To add replica Regions, you must also have
+secretsmanager:ReplicateSecretToRegions. For more information, see  IAM policy actions for
+Secrets Manager and Authentication and access control in Secrets Manager.  To encrypt the
+secret with a KMS key other than aws/secretsmanager, you need kms:GenerateDataKey and
+kms:Decrypt permission to the key.
 
 # Arguments
 - `name`: The name of the new secret. The secret name can contain ASCII letters, numbers,
@@ -100,20 +150,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identifier for the new version.   If you use the Amazon Web Services CLI or one of the
   Amazon Web Services SDKs to call this operation, then you can leave this parameter empty.
   The CLI or SDK generates a random UUID for you and includes it as the value for this
-  parameter in the request. If you don't use the SDK and instead generate a raw HTTP request
-  to the Secrets Manager service endpoint, then you must generate a ClientRequestToken
-  yourself for the new version and include the value in the request.  This value helps ensure
-  idempotency. Secrets Manager uses this value to prevent the accidental creation of
-  duplicate versions if there are failures and retries during a rotation. We recommend that
-  you generate a UUID-type value to ensure uniqueness of your versions within the specified
-  secret.    If the ClientRequestToken value isn't already associated with a version of the
-  secret then a new version of the secret is created.    If a version with this value already
-  exists and the version SecretString and SecretBinary values are the same as those in the
-  request, then the request is ignored.   If a version with this value already exists and
-  that version's SecretString and SecretBinary values are different from those in the
-  request, then the request fails because you cannot modify an existing version. Instead, use
-  PutSecretValue to create a new version.   This value becomes the VersionId of the new
-  version.
+  parameter in the request.   If you generate a raw HTTP request to the Secrets Manager
+  service endpoint, then you must generate a ClientRequestToken and include it in the
+  request. This value helps ensure idempotency. Secrets Manager uses this value to prevent
+  the accidental creation of duplicate versions if there are failures and retries during a
+  rotation. We recommend that you generate a UUID-type value to ensure uniqueness of your
+  versions within the specified secret.    If the ClientRequestToken value isn't already
+  associated with a version of the secret then a new version of the secret is created.    If
+  a version with this value already exists and the version SecretString and SecretBinary
+  values are the same as those in the request, then the request is ignored.   If a version
+  with this value already exists and that version's SecretString and SecretBinary values are
+  different from those in the request, then the request fails because you cannot modify an
+  existing version. Instead, use PutSecretValue to create a new version.   This value becomes
+  the VersionId of the new version.
 - `"Description"`: The description of the secret.
 - `"ForceOverwriteReplicaSecret"`: Specifies whether to overwrite a secret with the same
   name in the destination Region. By default, secrets aren't overwritten.
@@ -129,13 +178,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecretBinary"`: The binary data to encrypt and store in the new version of the secret.
   We recommend that you store your binary data in a file and then pass the contents of the
   file as a parameter. Either SecretString or SecretBinary must have a value, but not both.
-  This parameter is not available in the Secrets Manager console.
+  This parameter is not available in the Secrets Manager console. Sensitive: This field
+  contains sensitive information, so the service does not include it in CloudTrail log
+  entries. If you create your own log entries, you must also avoid logging the information in
+  this field.
 - `"SecretString"`: The text data to encrypt and store in this new version of the secret.
   We recommend you use a JSON structure of key/value pairs for your secret value. Either
   SecretString or SecretBinary must have a value, but not both. If you create a secret by
   using the Secrets Manager console then Secrets Manager puts the protected secret text in
   only the SecretString parameter. The Secrets Manager console stores the information as a
-  JSON structure of key/value pairs that a Lambda rotation function can parse.
+  JSON structure of key/value pairs that a Lambda rotation function can parse. Sensitive:
+  This field contains sensitive information, so the service does not include it in CloudTrail
+  log entries. If you create your own log entries, you must also avoid logging the
+  information in this field.
 - `"Tags"`: A list of tags to attach to the secret. Each tag is a key and value pair of
   strings in a JSON text string, for example:
   [{\"Key\":\"CostCenter\",\"Value\":\"12345\"},{\"Key\":\"environment\",\"Value\":\"productio
@@ -148,16 +203,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags that match secrets' tags. For information about how to format a JSON parameter for the
   various command line tool environments, see Using JSON for Parameters. If your command-line
   tool or SDK requires quotation marks around the parameter, you should use single quotes to
-  avoid confusion with the double quotes required in the JSON text. The following
-  restrictions apply to tags:   Maximum number of tags per secret: 50   Maximum key length:
-  127 Unicode characters in UTF-8   Maximum value length: 255 Unicode characters in UTF-8
-  Tag keys and values are case sensitive.   Do not use the aws: prefix in your tag names or
-  values because Amazon Web Services reserves it for Amazon Web Services use. You can't edit
-  or delete tag names or values with this prefix. Tags with this prefix do not count against
-  your tags per secret limit.   If you use your tagging schema across multiple services and
-  resources, other services might have restrictions on allowed characters. Generally allowed
-  characters: letters, spaces, and numbers representable in UTF-8, plus the following special
-  characters: + - = . _ : / @.
+  avoid confusion with the double quotes required in the JSON text. For tag quotas and naming
+  restrictions, see Service quotas for Tagging in the Amazon Web Services General Reference
+  guide.
 """
 function create_secret(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return secrets_manager(
@@ -345,10 +393,10 @@ end
     get_random_password(params::Dict{String,<:Any})
 
 Generates a random password. We recommend that you specify the maximum length and include
-every character type that the system you are generating a password for can support. Secrets
-Manager generates a CloudTrail log entry when you call this action. Do not include
-sensitive information in request parameters because it might be logged. For more
-information, see Logging Secrets Manager events with CloudTrail.  Required permissions:
+every character type that the system you are generating a password for can support. By
+default, Secrets Manager uses uppercase and lowercase letters, numbers, and the following
+characters in passwords: !\"#%&amp;'()*+,-./:;&lt;=&gt;?@[]^_`{|}~  Secrets Manager
+generates a CloudTrail log entry when you call this action.  Required permissions:
 secretsmanager:GetRandomPassword. For more information, see  IAM policy actions for Secrets
 Manager and Authentication and access control in Secrets Manager.
 
@@ -431,22 +479,24 @@ end
     get_secret_value(secret_id, params::Dict{String,<:Any})
 
 Retrieves the contents of the encrypted fields SecretString or SecretBinary from the
-specified version of a secret, whichever contains content. We recommend that you cache your
-secret values by using client-side caching. Caching secrets improves speed and reduces your
-costs. For more information, see Cache secrets for your applications. To retrieve the
-previous version of a secret, use VersionStage and specify AWSPREVIOUS. To revert to the
-previous version of a secret, call UpdateSecretVersionStage. Secrets Manager generates a
-CloudTrail log entry when you call this action. Do not include sensitive information in
-request parameters because it might be logged. For more information, see Logging Secrets
-Manager events with CloudTrail.  Required permissions:  secretsmanager:GetSecretValue. If
-the secret is encrypted using a customer-managed key instead of the Amazon Web Services
-managed key aws/secretsmanager, then you also need kms:Decrypt permissions for that key.
-For more information, see  IAM policy actions for Secrets Manager and Authentication and
-access control in Secrets Manager.
+specified version of a secret, whichever contains content. To retrieve the values for a
+group of secrets, call BatchGetSecretValue. We recommend that you cache your secret values
+by using client-side caching. Caching secrets improves speed and reduces your costs. For
+more information, see Cache secrets for your applications. To retrieve the previous version
+of a secret, use VersionStage and specify AWSPREVIOUS. To revert to the previous version of
+a secret, call UpdateSecretVersionStage. Secrets Manager generates a CloudTrail log entry
+when you call this action. Do not include sensitive information in request parameters
+because it might be logged. For more information, see Logging Secrets Manager events with
+CloudTrail.  Required permissions:  secretsmanager:GetSecretValue. If the secret is
+encrypted using a customer-managed key instead of the Amazon Web Services managed key
+aws/secretsmanager, then you also need kms:Decrypt permissions for that key. For more
+information, see  IAM policy actions for Secrets Manager and Authentication and access
+control in Secrets Manager.
 
 # Arguments
-- `secret_id`: The ARN or name of the secret to retrieve. For an ARN, we recommend that you
-  specify a complete ARN rather than a partial ARN. See Finding a secret from a partial ARN.
+- `secret_id`: The ARN or name of the secret to retrieve. To retrieve a secret from another
+  account, you must use an ARN. For an ARN, we recommend that you specify a complete ARN
+  rather than a partial ARN. See Finding a secret from a partial ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -546,16 +596,17 @@ end
 
 Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account,
 not including secrets that are marked for deletion. To see secrets marked for deletion, use
-the Secrets Manager console. ListSecrets is eventually consistent, however it might not
-reflect changes from the last five minutes. To get the latest information for a specific
-secret, use DescribeSecret. To list the versions of a secret, use ListSecretVersionIds. To
-get the secret value from SecretString or SecretBinary, call GetSecretValue. For
-information about finding secrets in the console, see Find secrets in Secrets Manager.
-Secrets Manager generates a CloudTrail log entry when you call this action. Do not include
-sensitive information in request parameters because it might be logged. For more
-information, see Logging Secrets Manager events with CloudTrail.  Required permissions:
-secretsmanager:ListSecrets. For more information, see  IAM policy actions for Secrets
-Manager and Authentication and access control in Secrets Manager.
+the Secrets Manager console. All Secrets Manager operations are eventually consistent.
+ListSecrets might not reflect changes from the last five minutes. You can get more recent
+information for a specific secret by calling DescribeSecret. To list the versions of a
+secret, use ListSecretVersionIds. To retrieve the values for the secrets, call
+BatchGetSecretValue or GetSecretValue. For information about finding secrets in the
+console, see Find secrets in Secrets Manager. Secrets Manager generates a CloudTrail log
+entry when you call this action. Do not include sensitive information in request parameters
+because it might be logged. For more information, see Logging Secrets Manager events with
+CloudTrail.  Required permissions:  secretsmanager:ListSecrets. For more information, see
+IAM policy actions for Secrets Manager and Authentication and access control in Secrets
+Manager.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -607,7 +658,14 @@ actions for Secrets Manager and Authentication and access control in Secrets Man
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BlockPublicPolicy"`: Specifies whether to block resource-based policies that allow
   broad access to the secret, for example those that use a wildcard for the principal. By
-  default, public policies aren't blocked.
+  default, public policies aren't blocked.  Resource policy validation and the
+  BlockPublicPolicy parameter help protect your resources by preventing public access from
+  being granted through the resource policies that are directly attached to your secrets. In
+  addition to using these features, carefully inspect the following policies to confirm that
+  they do not grant public access:   Identity-based policies attached to associated Amazon
+  Web Services principals (for example, IAM roles)   Resource-based policies attached to
+  associated Amazon Web Services resources (for example, Key Management Service (KMS) keys)
+  To review permissions to your secrets, see Determine who has permissions to your secrets.
 """
 function put_resource_policy(
     ResourcePolicy, SecretId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -664,10 +722,10 @@ VersionId, and you specify the same secret data, the operation succeeds but does
 However, if the secret data is different, then the operation fails because you can't modify
 an existing version; you can only create new ones. Secrets Manager generates a CloudTrail
 log entry when you call this action. Do not include sensitive information in request
-parameters except SecretBinary or SecretString because it might be logged. For more
-information, see Logging Secrets Manager events with CloudTrail.  Required permissions:
-secretsmanager:PutSecretValue. For more information, see  IAM policy actions for Secrets
-Manager and Authentication and access control in Secrets Manager.
+parameters except SecretBinary, SecretString, or RotationToken because it might be logged.
+For more information, see Logging Secrets Manager events with CloudTrail.  Required
+permissions:  secretsmanager:PutSecretValue. For more information, see  IAM policy actions
+for Secrets Manager and Authentication and access control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret to add a new version to. For an ARN, we
@@ -678,13 +736,13 @@ Manager and Authentication and access control in Secrets Manager.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: A unique identifier for the new version of the secret.   If you
   use the Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this
-  operation, then you can leave this parameter empty because they generate a random UUID for
-  you. If you don't use the SDK and instead generate a raw HTTP request to the Secrets
-  Manager service endpoint, then you must generate a ClientRequestToken yourself for new
-  versions and include that value in the request.   This value helps ensure idempotency.
+  operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID
+  for you and includes it as the value for this parameter in the request.   If you generate a
+  raw HTTP request to the Secrets Manager service endpoint, then you must generate a
+  ClientRequestToken and include it in the request. This value helps ensure idempotency.
   Secrets Manager uses this value to prevent the accidental creation of duplicate versions if
-  there are failures and retries during the Lambda rotation function processing. We recommend
-  that you generate a UUID-type value to ensure uniqueness within the specified secret.    If
+  there are failures and retries during a rotation. We recommend that you generate a
+  UUID-type value to ensure uniqueness of your versions within the specified secret.    If
   the ClientRequestToken value isn't already associated with a version of the secret then a
   new version of the secret is created.    If a version with this value already exists and
   that version's SecretString or SecretBinary values are the same as those in the request
@@ -693,14 +751,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from those in the request, then the request fails because you can't modify a secret
   version. You can only create new versions to store new secret values.   This value becomes
   the VersionId of the new version.
+- `"RotationToken"`: A unique identifier that indicates the source of the request. For
+  cross-account rotation (when you rotate a secret in one account by using a Lambda rotation
+  function in another account) and the Lambda rotation function assumes an IAM role to call
+  Secrets Manager, Secrets Manager validates the identity with the rotation token. For more
+  information, see How rotation works. Sensitive: This field contains sensitive information,
+  so the service does not include it in CloudTrail log entries. If you create your own log
+  entries, you must also avoid logging the information in this field.
 - `"SecretBinary"`: The binary data to encrypt and store in the new version of the secret.
   To use this parameter in the command-line tools, we recommend that you store your binary
   data in a file and then pass the contents of the file as a parameter.  You must include
   SecretBinary or SecretString, but not both. You can't access this value from the Secrets
-  Manager console.
+  Manager console. Sensitive: This field contains sensitive information, so the service does
+  not include it in CloudTrail log entries. If you create your own log entries, you must also
+  avoid logging the information in this field.
 - `"SecretString"`: The text to encrypt and store in the new version of the secret.  You
   must include SecretBinary or SecretString, but not both. We recommend you create the secret
-  string as JSON key/value pairs, as shown in the example.
+  string as JSON key/value pairs, as shown in the example. Sensitive: This field contains
+  sensitive information, so the service does not include it in CloudTrail log entries. If you
+  create your own log entries, you must also avoid logging the information in this field.
 - `"VersionStages"`: A list of staging labels to attach to this version of the secret.
   Secrets Manager uses staging labels to track versions of a secret through the rotation
   process. If you specify a staging label that's already associated with a different version
@@ -798,8 +867,11 @@ Replicates the secret to a new Regions. See Multi-Region secrets. Secrets Manage
 a CloudTrail log entry when you call this action. Do not include sensitive information in
 request parameters because it might be logged. For more information, see Logging Secrets
 Manager events with CloudTrail.  Required permissions:
-secretsmanager:ReplicateSecretToRegions. For more information, see  IAM policy actions for
-Secrets Manager and Authentication and access control in Secrets Manager.
+secretsmanager:ReplicateSecretToRegions. If the primary secret is encrypted with a KMS key
+other than aws/secretsmanager, you also need kms:Decrypt permission to the key. To encrypt
+the replicated secret with a KMS key other than aws/secretsmanager, you need
+kms:GenerateDataKey and kms:Encrypt to the key. For more information, see  IAM policy
+actions for Secrets Manager and Authentication and access control in Secrets Manager.
 
 # Arguments
 - `add_replica_regions`: A list of Regions in which to replicate the secret.
@@ -911,18 +983,17 @@ Permissions for rotation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ClientRequestToken"`: A unique identifier for the new version of the secret that helps
-  ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of
-  duplicate versions if there are failures and retries during rotation. This value becomes
-  the VersionId of the new version. If you use the Amazon Web Services CLI or one of the
-  Amazon Web Services SDK to call this operation, then you can leave this parameter empty.
-  The CLI or SDK generates a random UUID for you and includes that in the request for this
-  parameter. If you don't use the SDK and instead generate a raw HTTP request to the Secrets
-  Manager service endpoint, then you must generate a ClientRequestToken yourself for new
-  versions and include that value in the request. You only need to specify this value if you
-  implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt
-  to create a secret version twice. We recommend that you generate a UUID-type value to
-  ensure uniqueness within the specified secret.
+- `"ClientRequestToken"`: A unique identifier for the new version of the secret. You only
+  need to specify this value if you implement your own retry logic and you want to ensure
+  that Secrets Manager doesn't attempt to create a secret version twice.  If you use the
+  Amazon Web Services CLI or one of the Amazon Web Services SDKs to call this operation, then
+  you can leave this parameter empty. The CLI or SDK generates a random UUID for you and
+  includes it as the value for this parameter in the request.   If you generate a raw HTTP
+  request to the Secrets Manager service endpoint, then you must generate a
+  ClientRequestToken and include it in the request. This value helps ensure idempotency.
+  Secrets Manager uses this value to prevent the accidental creation of duplicate versions if
+  there are failures and retries during a rotation. We recommend that you generate a
+  UUID-type value to ensure uniqueness of your versions within the specified secret.
 - `"RotateImmediately"`: Specifies whether to rotate the secret immediately or wait until
   the next scheduled rotation window. The rotation schedule is defined in
   RotateSecretRequestRotationRules. For secrets that use a Lambda rotation function to
@@ -1012,23 +1083,16 @@ end
 
 Attaches tags to a secret. Tags consist of a key name and a value. Tags are part of the
 secret's metadata. They are not associated with specific versions of the secret. This
-operation appends tags to the existing list of tags. The following restrictions apply to
-tags:   Maximum number of tags per secret: 50   Maximum key length: 127 Unicode characters
-in UTF-8   Maximum value length: 255 Unicode characters in UTF-8   Tag keys and values are
-case sensitive.   Do not use the aws: prefix in your tag names or values because Amazon Web
-Services reserves it for Amazon Web Services use. You can't edit or delete tag names or
-values with this prefix. Tags with this prefix do not count against your tags per secret
-limit.   If you use your tagging schema across multiple services and resources, other
-services might have restrictions on allowed characters. Generally allowed characters:
-letters, spaces, and numbers representable in UTF-8, plus the following special characters:
-+ - = . _ : / @.    If you use tags as part of your security strategy, then adding or
-removing a tag can change permissions. If successfully completing this operation would
-result in you losing your permissions for this secret, then the operation is blocked and
-returns an Access Denied error.  Secrets Manager generates a CloudTrail log entry when you
-call this action. Do not include sensitive information in request parameters because it
-might be logged. For more information, see Logging Secrets Manager events with CloudTrail.
-Required permissions:  secretsmanager:TagResource. For more information, see  IAM policy
-actions for Secrets Manager and Authentication and access control in Secrets Manager.
+operation appends tags to the existing list of tags. For tag quotas and naming
+restrictions, see Service quotas for Tagging in the Amazon Web Services General Reference
+guide.  If you use tags as part of your security strategy, then adding or removing a tag
+can change permissions. If successfully completing this operation would result in you
+losing your permissions for this secret, then the operation is blocked and returns an
+Access Denied error.  Secrets Manager generates a CloudTrail log entry when you call this
+action. Do not include sensitive information in request parameters because it might be
+logged. For more information, see Logging Secrets Manager events with CloudTrail.  Required
+permissions:  secretsmanager:TagResource. For more information, see  IAM policy actions for
+Secrets Manager and Authentication and access control in Secrets Manager.
 
 # Arguments
 - `secret_id`: The identifier for the secret to attach tags to. You can specify either the
@@ -1149,8 +1213,10 @@ except SecretBinary or SecretString because it might be logged. For more informa
 Logging Secrets Manager events with CloudTrail.  Required permissions:
 secretsmanager:UpdateSecret. For more information, see  IAM policy actions for Secrets
 Manager and Authentication and access control in Secrets Manager. If you use a customer
-managed key, you must also have kms:GenerateDataKey and kms:Decrypt permissions on the key.
-For more information, see  Secret encryption and decryption.
+managed key, you must also have kms:GenerateDataKey, kms:Encrypt, and kms:Decrypt
+permissions on the key. If you change the KMS key and you don't have kms:Encrypt permission
+to the new key, Secrets Manager does not re-ecrypt existing secret versions with the new
+key. For more information, see  Secret encryption and decryption.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret. For an ARN, we recommend that you specify a
@@ -1163,33 +1229,42 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the new version.  If you use the Amazon Web Services CLI or one of the Amazon Web
   Services SDKs to call this operation, then you can leave this parameter empty. The CLI or
   SDK generates a random UUID for you and includes it as the value for this parameter in the
-  request. If you don't use the SDK and instead generate a raw HTTP request to the Secrets
-  Manager service endpoint, then you must generate a ClientRequestToken yourself for the new
-  version and include the value in the request.  This value becomes the VersionId of the new
-  version.
+  request.   If you generate a raw HTTP request to the Secrets Manager service endpoint, then
+  you must generate a ClientRequestToken and include it in the request. This value helps
+  ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of
+  duplicate versions if there are failures and retries during a rotation. We recommend that
+  you generate a UUID-type value to ensure uniqueness of your versions within the specified
+  secret.
 - `"Description"`: The description of the secret.
 - `"KmsKeyId"`: The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
   encrypt new secret versions as well as any existing versions with the staging labels
-  AWSCURRENT, AWSPENDING, or AWSPREVIOUS. For more information about versions and staging
-  labels, see Concepts: Version. A key alias is always prefixed by alias/, for example
-  alias/aws/secretsmanager. For more information, see About aliases. If you set this to an
-  empty string, Secrets Manager uses the Amazon Web Services managed key aws/secretsmanager.
-  If this key doesn't already exist in your account, then Secrets Manager creates it for you
-  automatically. All users and roles in the Amazon Web Services account automatically have
-  access to use aws/secretsmanager. Creating aws/secretsmanager can result in a one-time
-  significant delay in returning the result.   You can only use the Amazon Web Services
-  managed key aws/secretsmanager if you call this operation using credentials from the same
-  Amazon Web Services account that owns the secret. If the secret is in a different account,
-  then you must use a customer managed key and provide the ARN of that KMS key in this field.
-  The user making the call must have permissions to both the secret and the KMS key in their
-  respective accounts.
+  AWSCURRENT, AWSPENDING, or AWSPREVIOUS. If you don't have kms:Encrypt permission to the new
+  key, Secrets Manager does not re-ecrypt existing secret versions with the new key. For more
+  information about versions and staging labels, see Concepts: Version. A key alias is always
+  prefixed by alias/, for example alias/aws/secretsmanager. For more information, see About
+  aliases. If you set this to an empty string, Secrets Manager uses the Amazon Web Services
+  managed key aws/secretsmanager. If this key doesn't already exist in your account, then
+  Secrets Manager creates it for you automatically. All users and roles in the Amazon Web
+  Services account automatically have access to use aws/secretsmanager. Creating
+  aws/secretsmanager can result in a one-time significant delay in returning the result.
+  You can only use the Amazon Web Services managed key aws/secretsmanager if you call this
+  operation using credentials from the same Amazon Web Services account that owns the secret.
+  If the secret is in a different account, then you must use a customer managed key and
+  provide the ARN of that KMS key in this field. The user making the call must have
+  permissions to both the secret and the KMS key in their respective accounts.
 - `"SecretBinary"`: The binary data to encrypt and store in the new version of the secret.
   We recommend that you store your binary data in a file and then pass the contents of the
   file as a parameter.  Either SecretBinary or SecretString must have a value, but not both.
-  You can't access this parameter in the Secrets Manager console.
+  You can't access this parameter in the Secrets Manager console. Sensitive: This field
+  contains sensitive information, so the service does not include it in CloudTrail log
+  entries. If you create your own log entries, you must also avoid logging the information in
+  this field.
 - `"SecretString"`: The text data to encrypt and store in the new version of the secret. We
   recommend you use a JSON structure of key/value pairs for your secret value.  Either
-  SecretBinary or SecretString must have a value, but not both.
+  SecretBinary or SecretString must have a value, but not both.  Sensitive: This field
+  contains sensitive information, so the service does not include it in CloudTrail log
+  entries. If you create your own log entries, you must also avoid logging the information in
+  this field.
 """
 function update_secret(SecretId; aws_config::AbstractAWSConfig=global_aws_config())
     return secrets_manager(
@@ -1313,7 +1388,8 @@ Manager and Authentication and access control in Secrets Manager.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"SecretId"`: This field is reserved for internal use.
+- `"SecretId"`: The ARN or name of the secret with the resource-based policy you want to
+  validate.
 """
 function validate_resource_policy(
     ResourcePolicy; aws_config::AbstractAWSConfig=global_aws_config()

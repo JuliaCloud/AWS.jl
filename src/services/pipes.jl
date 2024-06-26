@@ -23,9 +23,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DesiredState"`: The state the pipe should be in.
 - `"Enrichment"`: The ARN of the enrichment resource.
 - `"EnrichmentParameters"`: The parameters required to set up enrichment on your pipe.
+- `"LogConfiguration"`: The logging configuration settings for the pipe.
 - `"SourceParameters"`: The parameters required to set up a source for your pipe.
 - `"Tags"`: The list of key-value pairs to associate with the pipe.
-- `"TargetParameters"`: The parameters required to set up a target for your pipe.
+- `"TargetParameters"`: The parameters required to set up a target for your pipe. For more
+  information about pipe target parameters, including how to use dynamic path parameters, see
+  Target parameters in the Amazon EventBridge User Guide.
 """
 function create_pipe(
     Name, RoleArn, Source, Target; aws_config::AbstractAWSConfig=global_aws_config()
@@ -334,14 +337,15 @@ end
     update_pipe(name, role_arn)
     update_pipe(name, role_arn, params::Dict{String,<:Any})
 
-Update an existing pipe. When you call UpdatePipe, only the fields that are included in the
-request are changed, the rest are unchanged. The exception to this is if you modify any
-Amazon Web Services-service specific fields in the SourceParameters, EnrichmentParameters,
-or TargetParameters objects. The fields in these objects are updated atomically as one and
-override existing values. This is by design and means that if you don't specify an optional
-field in one of these Parameters objects, that field will be set to its system-default
-value after the update. For more information about pipes, see  Amazon EventBridge Pipes in
-the Amazon EventBridge User Guide.
+Update an existing pipe. When you call UpdatePipe, EventBridge only the updates fields you
+have specified in the request; the rest remain unchanged. The exception to this is if you
+modify any Amazon Web Services-service specific fields in the SourceParameters,
+EnrichmentParameters, or TargetParameters objects. For example, DynamoDBStreamParameters or
+EventBridgeEventBusParameters. EventBridge updates the fields in these objects atomically
+as one and overrides existing values. This is by design, and means that if you don't
+specify an optional field in one of these Parameters objects, EventBridge sets that field
+to its system-default value during the update. For more information about pipes, see
+Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
 
 # Arguments
 - `name`: The name of the pipe.
@@ -353,9 +357,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DesiredState"`: The state the pipe should be in.
 - `"Enrichment"`: The ARN of the enrichment resource.
 - `"EnrichmentParameters"`: The parameters required to set up enrichment on your pipe.
+- `"LogConfiguration"`: The logging configuration settings for the pipe.
 - `"SourceParameters"`: The parameters required to set up a source for your pipe.
 - `"Target"`: The ARN of the target resource.
-- `"TargetParameters"`: The parameters required to set up a target for your pipe.
+- `"TargetParameters"`: The parameters required to set up a target for your pipe. For more
+  information about pipe target parameters, including how to use dynamic path parameters, see
+  Target parameters in the Amazon EventBridge User Guide.
 """
 function update_pipe(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
     return pipes(
