@@ -181,21 +181,22 @@ For more information, see Using Traffic Flow to Route DNS Traffic in the Amazon 
 Developer Guide.  Create, Delete, and Upsert  Use ChangeResourceRecordsSetsRequest to
 perform the following actions:    CREATE: Creates a resource record set that has the
 specified values.    DELETE: Deletes an existing resource record set that has the specified
-values.    UPSERT: If a resource set exists Route 53 updates it with the values in the
-request.     Syntaxes for Creating, Updating, and Deleting Resource Record Sets  The syntax
-for a request depends on the type of resource record set that you want to create, delete,
-or update, such as weighted, alias, or failover. The XML elements in your request must
-appear in the order listed in the syntax.  For an example for each type of resource record
-set, see \"Examples.\" Don't refer to the syntax in the \"Parameter Syntax\" section, which
-includes all of the elements for every kind of resource record set that you can create,
-delete, or update by using ChangeResourceRecordSets.   Change Propagation to Route 53 DNS
-Servers  When you submit a ChangeResourceRecordSets request, Route 53 propagates your
-changes to all of the Route 53 authoritative DNS servers. While your changes are
-propagating, GetChange returns a status of PENDING. When propagation is complete, GetChange
-returns a status of INSYNC. Changes generally propagate to all Route 53 name servers within
-60 seconds. For more information, see GetChange.  Limits on ChangeResourceRecordSets
-Requests  For information about the limits on a ChangeResourceRecordSets request, see
-Limits in the Amazon Route 53 Developer Guide.
+values.    UPSERT: If a resource set doesn't exist, Route 53 creates it. If a resource set
+exists Route 53 updates it with the values in the request.     Syntaxes for Creating,
+Updating, and Deleting Resource Record Sets  The syntax for a request depends on the type
+of resource record set that you want to create, delete, or update, such as weighted, alias,
+or failover. The XML elements in your request must appear in the order listed in the
+syntax.  For an example for each type of resource record set, see \"Examples.\" Don't refer
+to the syntax in the \"Parameter Syntax\" section, which includes all of the elements for
+every kind of resource record set that you can create, delete, or update by using
+ChangeResourceRecordSets.   Change Propagation to Route 53 DNS Servers  When you submit a
+ChangeResourceRecordSets request, Route 53 propagates your changes to all of the Route 53
+authoritative DNS servers managing the hosted zone. While your changes are propagating,
+GetChange returns a status of PENDING. When propagation is complete, GetChange returns a
+status of INSYNC. Changes generally propagate to all Route 53 name servers managing the
+hosted zone within 60 seconds. For more information, see GetChange.  Limits on
+ChangeResourceRecordSets Requests  For information about the limits on a
+ChangeResourceRecordSets request, see Limits in the Amazon Route 53 Developer Guide.
 
 # Arguments
 - `change_batch`: A complex type that contains an optional comment and the Changes element.
@@ -356,7 +357,9 @@ metrics and alarms by using the CloudWatch console, see the Amazon CloudWatch Us
   CallerReference as an existing health check but with different settings, Route 53 returns a
   HealthCheckAlreadyExists error.   If you send a CreateHealthCheck request with a unique
   CallerReference but settings identical to an existing health check, Route 53 creates the
-  health check.
+  health check.    Route 53 does not store the CallerReference for a deleted health check
+  indefinitely. The CallerReference for a deleted health check will be deleted after a number
+  of days.
 - `health_check_config`: A complex type that contains settings for a new health check.
 
 """
@@ -447,6 +450,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DelegationSetId"`: If you want to associate a reusable delegation set with this hosted
   zone, the ID that Amazon Route 53 assigned to the reusable delegation set when you created
   it. For more information about reusable delegation sets, see CreateReusableDelegationSet.
+  If you are using a reusable delegation set to create a public hosted zone for a subdomain,
+  make sure that the parent hosted zone doesn't use one or more of the same name servers. If
+  you have overlapping nameservers, the operation will cause a ConflictingDomainsExist error.
 - `"HostedZoneConfig"`: (Optional) A complex type that contains the following optional
   values:   For public and private hosted zones, an optional comment   For private hosted
   zones, an optional PrivateZone element   If you don't specify a comment or the PrivateZone
@@ -808,6 +814,11 @@ specified traffic policy version. In addition, CreateTrafficPolicyInstance assoc
 resource record sets with a specified domain name (such as example.com) or subdomain name
 (such as www.example.com). Amazon Route 53 responds to DNS queries for the domain or
 subdomain name by using the resource record sets that CreateTrafficPolicyInstance created.
+After you submit an CreateTrafficPolicyInstance request, there's a brief delay while Amazon
+Route 53 creates the resource record sets that are specified in the traffic policy
+definition. Use GetTrafficPolicyInstance with the id of new traffic policy instance to
+confirm that the CreateTrafficPolicyInstance request completed successfully. For more
+information, see the State response element.
 
 # Arguments
 - `hosted_zone_id`: The ID of the hosted zone that you want Amazon Route 53 to create
@@ -1534,8 +1545,9 @@ end
 
 Returns the current status of a change batch request. The status is one of the following
 values:    PENDING indicates that the changes in this request have not propagated to all
-Amazon Route 53 DNS servers. This is the initial status of all change batch requests.
-INSYNC indicates that the changes have propagated to all Route 53 DNS servers.
+Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all
+change batch requests.    INSYNC indicates that the changes have propagated to all Route 53
+DNS servers managing the hosted zone.
 
 # Arguments
 - `id`: The ID of the change batch request. The value that you specify here is the value
@@ -1646,7 +1658,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Africa    AN: Antarctica    AS: Asia    EU: Europe    OC: Oceania    NA: North America
   SA: South America
 - `"countrycode"`: Amazon Route 53 uses the two-letter country codes that are specified in
-  ISO standard 3166-1 alpha-2.
+  ISO standard 3166-1 alpha-2. Route 53 also supports the country code UA for Ukraine.
 - `"subdivisioncode"`: The code for the subdivision, such as a particular state within the
   United States. For a list of US state abbreviations, see Appendix B: Two–Letter State and
   Possession Abbreviations on the United States Postal Service website. For a list of all
@@ -2054,11 +2066,11 @@ end
     get_traffic_policy_instance(id)
     get_traffic_policy_instance(id, params::Dict{String,<:Any})
 
-Gets information about a specified traffic policy instance.  After you submit a
-CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief
-delay while Amazon Route 53 creates the resource record sets that are specified in the
-traffic policy definition. For more information, see the State response element.   In the
-Route 53 console, traffic policy instances are known as policy records.
+Gets information about a specified traffic policy instance.   Use GetTrafficPolicyInstance
+with the id of new traffic policy instance to confirm that the CreateTrafficPolicyInstance
+or an UpdateTrafficPolicyInstance request completed successfully. For more information, see
+the State response element.   In the Route 53 console, traffic policy instances are known
+as policy records.
 
 # Arguments
 - `id`: The ID of the traffic policy instance that you want to get information about.
@@ -2299,9 +2311,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. If the value of IsTruncated in the previous response was false, there are no more
   health checks to get.
 - `"maxitems"`: The maximum number of health checks that you want ListHealthChecks to
-  return in response to the current request. Amazon Route 53 returns a maximum of 100 items.
-  If you set MaxItems to a value greater than 100, Route 53 returns only the first 100 health
-  checks.
+  return in response to the current request. Amazon Route 53 returns a maximum of 1000 items.
+  If you set MaxItems to a value greater than 1000, Route 53 returns only the first 1000
+  health checks.
 """
 function list_health_checks(; aws_config::AbstractAWSConfig=global_aws_config())
     return route_53(
@@ -2338,6 +2350,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"delegationsetid"`: If you're using reusable delegation sets and you want to list all of
   the hosted zones that are associated with a reusable delegation set, specify the ID of that
   reusable delegation set.
+- `"hostedzonetype"`:  (Optional) Specifies if the hosted zone is private.
 - `"marker"`: If the value of IsTruncated in the previous response was true, you have more
   hosted zones. To get more hosted zones, submit another ListHostedZones request.  For the
   value of marker, specify the value of NextMarker from the previous response, which is the
@@ -3098,7 +3111,9 @@ end
 Gets the value that Amazon Route 53 returns in response to a DNS request for a specified
 record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0
 client subnet IP address, and a subnet mask.  This call only supports querying public
-hosted zones.
+hosted zones.  The TestDnsAnswer  returns information similar to what you would expect from
+the answer section of the dig command. Therefore, if you query for the name servers of a
+subdomain that point to the parent name servers, those will not be returned.
 
 # Arguments
 - `hostedzoneid`: The ID of the hosted zone that you want Amazon Route 53 to simulate a
@@ -3233,22 +3248,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   each of the above cases.  If you don't specify a value for IPAddress: If you don't specify
   a value for IPAddress, Route 53 sends a DNS request to the domain that you specify in
   FullyQualifiedDomainName at the interval you specify in RequestInterval. Using an IPv4
-  address that is returned by DNS, Route 53 then checks the health of the endpoint.  If you
-  don't specify a value for IPAddress, Route 53 uses only IPv4 to send health checks to the
-  endpoint. If there's no resource record set with a type of A for the name that you specify
-  for FullyQualifiedDomainName, the health check fails with a \"DNS resolution failed\"
-  error.  If you want to check the health of weighted, latency, or failover resource record
-  sets and you choose to specify the endpoint only by FullyQualifiedDomainName, we recommend
-  that you create a separate health check for each endpoint. For example, create a health
-  check for each HTTP server that is serving content for www.example.com. For the value of
-  FullyQualifiedDomainName, specify the domain name of the server (such as
-  us-east-2-www.example.com), not the name of the resource record sets (www.example.com).  In
-  this configuration, if the value of FullyQualifiedDomainName matches the name of the
-  resource record sets and you then associate the health check with those resource record
-  sets, health check results will be unpredictable.  In addition, if the value of Type is
-  HTTP, HTTPS, HTTP_STR_MATCH, or HTTPS_STR_MATCH, Route 53 passes the value of
-  FullyQualifiedDomainName in the Host header, as it does when you specify a value for
-  IPAddress. If the value of Type is TCP, Route 53 doesn't pass a Host header.
+  address that is returned by DNS, Route 53 then checks the health of the endpoint. If you
+  don't specify a value for IPAddress, you can’t update the health check to remove the
+  FullyQualifiedDomainName; if you don’t specify a value for IPAddress on creation, a
+  FullyQualifiedDomainName is required.  If you don't specify a value for IPAddress, Route 53
+  uses only IPv4 to send health checks to the endpoint. If there's no resource record set
+  with a type of A for the name that you specify for FullyQualifiedDomainName, the health
+  check fails with a \"DNS resolution failed\" error.  If you want to check the health of
+  weighted, latency, or failover resource record sets and you choose to specify the endpoint
+  only by FullyQualifiedDomainName, we recommend that you create a separate health check for
+  each endpoint. For example, create a health check for each HTTP server that is serving
+  content for www.example.com. For the value of FullyQualifiedDomainName, specify the domain
+  name of the server (such as us-east-2-www.example.com), not the name of the resource record
+  sets (www.example.com).  In this configuration, if the value of FullyQualifiedDomainName
+  matches the name of the resource record sets and you then associate the health check with
+  those resource record sets, health check results will be unpredictable.  In addition, if
+  the value of Type is HTTP, HTTPS, HTTP_STR_MATCH, or HTTPS_STR_MATCH, Route 53 passes the
+  value of FullyQualifiedDomainName in the Host header, as it does when you specify a value
+  for IPAddress. If the value of Type is TCP, Route 53 doesn't pass a Host header.
 - `"HealthCheckVersion"`: A sequential counter that Amazon Route 53 sets to 1 when you
   create a health check and increments by 1 each time you update settings for the health
   check. We recommend that you use GetHealthCheck or ListHealthChecks to get the current
@@ -3421,17 +3438,22 @@ end
     update_traffic_policy_instance(id, ttl, traffic_policy_id, traffic_policy_version)
     update_traffic_policy_instance(id, ttl, traffic_policy_id, traffic_policy_version, params::Dict{String,<:Any})
 
-Updates the resource record sets in a specified hosted zone that were created based on the
-settings in a specified traffic policy version. When you update a traffic policy instance,
-Amazon Route 53 continues to respond to DNS queries for the root resource record set name
-(such as example.com) while it replaces one group of resource record sets with another.
-Route 53 performs the following operations:   Route 53 creates a new group of resource
-record sets based on the specified traffic policy. This is true regardless of how
-significant the differences are between the existing resource record sets and the new
-resource record sets.    When all of the new resource record sets have been created, Route
-53 starts to respond to DNS queries for the root resource record set name (such as
-example.com) by using the new resource record sets.   Route 53 deletes the old group of
-resource record sets that are associated with the root resource record set name.
+ After you submit a UpdateTrafficPolicyInstance request, there's a brief delay while
+Route 53 creates the resource record sets that are specified in the traffic policy
+definition. Use GetTrafficPolicyInstance with the id of updated traffic policy instance
+confirm that the UpdateTrafficPolicyInstance request completed successfully. For more
+information, see the State response element.  Updates the resource record sets in a
+specified hosted zone that were created based on the settings in a specified traffic policy
+version. When you update a traffic policy instance, Amazon Route 53 continues to respond to
+DNS queries for the root resource record set name (such as example.com) while it replaces
+one group of resource record sets with another. Route 53 performs the following operations:
+  Route 53 creates a new group of resource record sets based on the specified traffic
+policy. This is true regardless of how significant the differences are between the existing
+resource record sets and the new resource record sets.    When all of the new resource
+record sets have been created, Route 53 starts to respond to DNS queries for the root
+resource record set name (such as example.com) by using the new resource record sets.
+Route 53 deletes the old group of resource record sets that are associated with the root
+resource record set name.
 
 # Arguments
 - `id`: The ID of the traffic policy instance that you want to update.

@@ -190,8 +190,9 @@ end
     execute_sql(aws_secret_store_arn, db_cluster_or_instance_arn, sql_statements)
     execute_sql(aws_secret_store_arn, db_cluster_or_instance_arn, sql_statements, params::Dict{String,<:Any})
 
-Runs one or more SQL statements.  This operation is deprecated. Use the
-BatchExecuteStatement or ExecuteStatement operation.
+Runs one or more SQL statements.  This operation isn't supported for Aurora PostgreSQL
+Serverless v2 and provisioned DB clusters, and for Aurora Serverless v1 DB clusters, the
+operation is deprecated. Use the BatchExecuteStatement or ExecuteStatement operation.
 
 # Arguments
 - `aws_secret_store_arn`: The Amazon Resource Name (ARN) of the secret that enables access

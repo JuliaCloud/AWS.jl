@@ -207,9 +207,9 @@ list of strings has two elements: a from ARN and a to ARN.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a CloudWatch event indicating the pass has finished.
+  to receive a Ground Station Contact State Change event indicating the pass has finished.
 - `"contactPrePassDurationSeconds"`: Amount of time prior to contact start you’d like to
-  receive a CloudWatch event indicating an upcoming pass.
+  receive a Ground Station Contact State Change event indicating an upcoming pass.
 - `"streamsKmsKey"`: KMS key to use for encrypting streams.
 - `"streamsKmsRole"`: Role to use for encrypting streams with KMS key.
 - `"tags"`: Tags assigned to a mission profile.
@@ -1313,9 +1313,9 @@ parameters for existing future contacts.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"contactPostPassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a CloudWatch event indicating the pass has finished.
+  to receive a Ground Station Contact State Change event indicating the pass has finished.
 - `"contactPrePassDurationSeconds"`: Amount of time after a contact ends that you’d like
-  to receive a CloudWatch event indicating the pass has finished.
+  to receive a Ground Station Contact State Change event indicating the pass has finished.
 - `"dataflowEdges"`: A list of lists of ARNs. Each list of ARNs is an edge, with a from
   Config and a to Config.
 - `"minimumViableContactDurationSeconds"`: Smallest amount of time in seconds that you’d

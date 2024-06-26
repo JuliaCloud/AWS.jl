@@ -11,9 +11,15 @@ using AWS.UUIDs
 Retrieves a batch of Records from a FeatureGroup.
 
 # Arguments
-- `identifiers`: A list of FeatureGroup names, with their corresponding RecordIdentifier
-  value, and Feature name that have been requested to be retrieved in batch.
+- `identifiers`: A list containing the name or Amazon Resource Name (ARN) of the
+  FeatureGroup, the list of names of Features to be retrieved, and the corresponding
+  RecordIdentifier values as strings.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExpirationTimeResponse"`: Parameter to request ExpiresAt in response. If Enabled,
+  BatchGetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null,
+  BatchGetRecord will return null.
 """
 function batch_get_record(Identifiers; aws_config::AbstractAWSConfig=global_aws_config())
     return sagemaker_featurestore_runtime(
@@ -45,22 +51,29 @@ end
     delete_record(event_time, feature_group_name, record_identifier_value_as_string, params::Dict{String,<:Any})
 
 Deletes a Record from a FeatureGroup in the OnlineStore. Feature Store supports both
-SOFT_DELETE and HARD_DELETE. For SOFT_DELETE (default), feature columns are set to null and
-the record is no longer retrievable by GetRecord or BatchGetRecord. For HARD_DELETE, the
+SoftDelete and HardDelete. For SoftDelete (default), feature columns are set to null and
+the record is no longer retrievable by GetRecord or BatchGetRecord. For HardDelete, the
 complete Record is removed from the OnlineStore. In both cases, Feature Store appends the
-deleted record marker to the OfflineStore with feature values set to null, is_deleted value
-set to True, and EventTime set to the delete input EventTime. Note that the EventTime
-specified in DeleteRecord should be set later than the EventTime of the existing record in
-the OnlineStore for that RecordIdentifer. If it is not, the deletion does not occur:   For
-SOFT_DELETE, the existing (undeleted) record remains in the OnlineStore, though the delete
-record marker is still written to the OfflineStore.    HARD_DELETE returns EventTime: 400
-ValidationException to indicate that the delete operation failed. No delete record marker
-is written to the OfflineStore.
+deleted record marker to the OfflineStore. The deleted record marker is a record with the
+same RecordIdentifer as the original, but with is_deleted value set to True, EventTime set
+to the delete input EventTime, and other feature values set to null. Note that the
+EventTime specified in DeleteRecord should be set later than the EventTime of the existing
+record in the OnlineStore for that RecordIdentifer. If it is not, the deletion does not
+occur:   For SoftDelete, the existing (not deleted) record remains in the OnlineStore,
+though the delete record marker is still written to the OfflineStore.    HardDelete returns
+EventTime: 400 ValidationException to indicate that the delete operation failed. No delete
+record marker is written to the OfflineStore.   When a record is deleted from the
+OnlineStore, the deleted record marker is appended to the OfflineStore. If you have the
+Iceberg table format enabled for your OfflineStore, you can remove all history of a record
+from the OfflineStore using Amazon Athena or Apache Spark. For information on how to hard
+delete a record from the OfflineStore with the Iceberg table format enabled, see Delete
+records from the offline store.
 
 # Arguments
 - `event_time`: Timestamp indicating when the deletion event occurred. EventTime can be
   used to query data at a certain point in time.
-- `feature_group_name`: The name of the feature group to delete the record from.
+- `feature_group_name`: The name or Amazon Resource Name (ARN) of the feature group to
+  delete the record from.
 - `record_identifier_value_as_string`: The value for the RecordIdentifier that uniquely
   identifies the record, in string format.
 
@@ -123,13 +136,16 @@ OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, 
 empty result is returned.
 
 # Arguments
-- `feature_group_name`: The name of the feature group from which you want to retrieve a
-  record.
+- `feature_group_name`: The name or Amazon Resource Name (ARN) of the feature group from
+  which you want to retrieve a record.
 - `record_identifier_value_as_string`: The value that corresponds to RecordIdentifier type
   and uniquely identifies the record in the FeatureGroup.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExpirationTimeResponse"`: Parameter to request ExpiresAt in response. If Enabled,
+  GetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null,
+  GetRecord will return null.
 - `"FeatureName"`: List of names of Features to be retrieved. If not specified, the latest
   value for all the Features are returned.
 """
@@ -173,14 +189,21 @@ end
     put_record(feature_group_name, record)
     put_record(feature_group_name, record, params::Dict{String,<:Any})
 
-Used for data ingestion into the FeatureStore. The PutRecord API writes to both the
-OnlineStore and OfflineStore. If the record is the latest record for the recordIdentifier,
-the record is written to both the OnlineStore and OfflineStore. If the record is a historic
-record, it is written only to the OfflineStore.
+The PutRecord API is used to ingest a list of Records into your feature group.  If a new
+record’s EventTime is greater, the new record is written to both the OnlineStore and
+OfflineStore. Otherwise, the record is a historic record and it is written only to the
+OfflineStore.  You can specify the ingestion to be applied to the OnlineStore,
+OfflineStore, or both by using the TargetStores request parameter.  You can set the
+ingested record to expire at a given time to live (TTL) duration after the record’s event
+time, ExpiresAt = EventTime + TtlDuration, by specifying the TtlDuration parameter. A
+record level TtlDuration is set when specifying the TtlDuration parameter using the
+PutRecord API call. If the input TtlDuration is null or unspecified, TtlDuration is set to
+the default feature group level TtlDuration. A record level TtlDuration supersedes the
+group level TtlDuration.
 
 # Arguments
-- `feature_group_name`: The name of the feature group that you want to insert the record
-  into.
+- `feature_group_name`: The name or Amazon Resource Name (ARN) of the feature group that
+  you want to insert the record into.
 - `record`: List of FeatureValues to be inserted. This will be a full over-write. If you
   only want to update few of the feature values, do the following:   Use GetRecord to
   retrieve the latest record.   Update the record returned from GetRecord.    Use PutRecord
@@ -190,6 +213,9 @@ record, it is written only to the OfflineStore.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"TargetStores"`: A list of stores to which you're adding the record. By default, Feature
   Store adds the record to all of the stores that you're using for the FeatureGroup.
+- `"TtlDuration"`: Time to live duration, where the record is hard deleted after the
+  expiration time is reached; ExpiresAt = EventTime + TtlDuration. For information on
+  HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
 """
 function put_record(
     FeatureGroupName, Record; aws_config::AbstractAWSConfig=global_aws_config()

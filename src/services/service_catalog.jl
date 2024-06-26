@@ -97,7 +97,7 @@ Associates the specified principal ARN with the specified portfolio. If you shar
 portfolio with principal name sharing enabled, the PrincipalARN association is included in
 the share.  The PortfolioID, PrincipalARN, and PrincipalType parameters are required.  You
 can associate a maximum of 10 Principals with a portfolio using PrincipalType as
-IAM_PATTERN   When you associate a principal with portfolio, a potential privilege
+IAM_PATTERN.   When you associate a principal with portfolio, a potential privilege
 escalation path may occur when that portfolio is then shared with other accounts. For a
 user in a recipient account who is not an Service Catalog Admin, but still has the ability
 to create Principals (Users/Groups/Roles), that user could create a role that matches a
@@ -244,6 +244,9 @@ Associates a self-service action with a provisioning artifact.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
+- `"IdempotencyToken"`: A unique identifier that you provide to ensure idempotency. If
+  multiple requests from the same Amazon Web Services account use the same idempotency token,
+  the same response is returned for each repeated request.
 """
 function associate_service_action_with_provisioning_artifact(
     ProductId,
@@ -257,6 +260,7 @@ function associate_service_action_with_provisioning_artifact(
             "ProductId" => ProductId,
             "ProvisioningArtifactId" => ProvisioningArtifactId,
             "ServiceActionId" => ServiceActionId,
+            "IdempotencyToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -278,6 +282,7 @@ function associate_service_action_with_provisioning_artifact(
                     "ProductId" => ProductId,
                     "ProvisioningArtifactId" => ProvisioningArtifactId,
                     "ServiceActionId" => ServiceActionId,
+                    "IdempotencyToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -667,13 +672,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that are associated to the OrganizationNode. The output returns a PortfolioShareToken,
   which enables the administrator to monitor the status of the PortfolioShare creation
   process.
-- `"SharePrincipals"`: Enables or disables Principal sharing when creating the portfolio
-  share. If this flag is not provided, principal sharing is disabled.  When you enable
-  Principal Name Sharing for a portfolio share, the share recipient account end users with a
-  principal that matches any of the associated IAM patterns can provision products from the
-  portfolio. Once shared, the share recipient can view associations of PrincipalType:
-  IAM_PATTERN on their portfolio. You can create the principals in the recipient account
-  before or after creating the share.
+- `"SharePrincipals"`: This parameter is only supported for portfolios with an
+  OrganizationalNode Type of ORGANIZATION or ORGANIZATIONAL_UNIT.  Enables or disables
+  Principal sharing when creating the portfolio share. If you do not provide this flag,
+  principal sharing is disabled.  When you enable Principal Name Sharing for a portfolio
+  share, the share recipient account end users with a principal that matches any of the
+  associated IAM patterns can provision products from the portfolio. Once shared, the share
+  recipient can view associations of PrincipalType: IAM_PATTERN on their portfolio. You can
+  create the principals in the recipient account before or after creating the share.
 - `"ShareTagOptions"`: Enables or disables TagOptions  sharing when creating the portfolio
   share. If this flag is not provided, TagOptions sharing is disabled.
 """
@@ -1286,11 +1292,14 @@ Deletes a self-service action.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
+- `"IdempotencyToken"`: A unique identifier that you provide to ensure idempotency. If
+  multiple requests from the same Amazon Web Services account use the same idempotency token,
+  the same response is returned for each repeated request.
 """
 function delete_service_action(Id; aws_config::AbstractAWSConfig=global_aws_config())
     return service_catalog(
         "DeleteServiceAction",
-        Dict{String,Any}("Id" => Id);
+        Dict{String,Any}("Id" => Id, "IdempotencyToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1300,7 +1309,13 @@ function delete_service_action(
 )
     return service_catalog(
         "DeleteServiceAction",
-        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Id" => Id, "IdempotencyToken" => string(uuid4())),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2139,6 +2154,9 @@ artifact.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AcceptLanguage"`: The language code.    jp - Japanese    zh - Chinese
+- `"IdempotencyToken"`: A unique identifier that you provide to ensure idempotency. If
+  multiple requests from the same Amazon Web Services account use the same idempotency token,
+  the same response is returned for each repeated request.
 """
 function disassociate_service_action_from_provisioning_artifact(
     ProductId,
@@ -2152,6 +2170,7 @@ function disassociate_service_action_from_provisioning_artifact(
             "ProductId" => ProductId,
             "ProvisioningArtifactId" => ProvisioningArtifactId,
             "ServiceActionId" => ServiceActionId,
+            "IdempotencyToken" => string(uuid4()),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2173,6 +2192,7 @@ function disassociate_service_action_from_provisioning_artifact(
                     "ProductId" => ProductId,
                     "ProvisioningArtifactId" => ProvisioningArtifactId,
                     "ServiceActionId" => ServiceActionId,
+                    "IdempotencyToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -2447,15 +2467,17 @@ end
 associated to an Service Catalog product and provisioning artifact. Once imported, all
 supported governance actions are supported on the provisioned product.   Resource import
 only supports CloudFormation stack ARNs. CloudFormation StackSets, and non-root nested
-stacks are not supported.   The CloudFormation stack must have one of the following
+stacks, are not supported.   The CloudFormation stack must have one of the following
 statuses to be imported: CREATE_COMPLETE, UPDATE_COMPLETE, UPDATE_ROLLBACK_COMPLETE,
 IMPORT_COMPLETE, and IMPORT_ROLLBACK_COMPLETE.   Import of the resource requires that the
 CloudFormation stack template matches the associated Service Catalog product provisioning
-artifact.    When you import an existing CloudFormation stack into a portfolio, constraints
-that are associated with the product aren't applied during the import process. The
-constraints are applied after you call UpdateProvisionedProduct for the provisioned
-product.    The user or role that performs this operation must have the
-cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.
+artifact.    When you import an existing CloudFormation stack into a portfolio, Service
+Catalog does not apply the product's associated constraints during the import process.
+Service Catalog applies the constraints after you call UpdateProvisionedProduct for the
+provisioned product.    The user or role that performs this operation must have the
+cloudformation:GetTemplate and cloudformation:DescribeStacks IAM policy permissions.  You
+can only import one provisioned product at a time. The product's CloudFormation stack must
+have the IMPORT_COMPLETE status before you import another.
 
 # Arguments
 - `idempotency_token`: A unique identifier that you provide to ensure idempotency. If
@@ -3664,7 +3686,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AccessLevelFilter"`: The access level to use to obtain results. The default is User.
 - `"Filters"`: The search filters. When the key is SearchQuery, the searchable fields are
   arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId,
-  provisioningArtifact, type, status, tags, userArn, userArnSession,
+  provisioningArtifactId, type, status, tags, userArn, userArnSession,
   lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and
   provisioningArtifactName. Example: \"SearchQuery\":[\"status:AVAILABLE\"]
 - `"PageSize"`: The maximum number of items to return with this call.
@@ -3844,7 +3866,7 @@ Updates the specified portfolio share. You can use this API to enable or disable
 sharing or Principal sharing for an existing portfolio share.  The portfolio share cannot
 be updated if the CreatePortfolioShare operation is IN_PROGRESS, as the share is not
 available to recipient entities. In this case, you must wait for the portfolio share to be
-COMPLETED. You must provide the accountId or organization node in the input, but not both.
+completed. You must provide the accountId or organization node in the input, but not both.
 If the portfolio is shared to both an external account and an organization node, and both
 shares need to be updated, you must invoke UpdatePortfolioShare separately for each share
 type.  This API cannot be used for removing the portfolio share. You must use

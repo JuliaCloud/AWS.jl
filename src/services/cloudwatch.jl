@@ -260,7 +260,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AlarmNames"`: The names of the alarms to retrieve information about.
 - `"AlarmTypes"`: Use this parameter to specify whether you want the operation to return
   metric alarms or composite alarms. If you omit this parameter, only metric alarms are
-  returned.
+  returned, even if composite alarms exist in the account. For example, if you omit this
+  parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It
+  does not return any composite alarms, even if composite alarms exist in the account. If you
+  specify CompositeAlarms, the operation returns only a list of composite alarms, and does
+  not return any metric alarms.
 - `"ChildrenOfAlarmName"`: If you use this parameter and specify the name of a composite
   alarm, the operation returns information about the \"children\" alarms of the alarm you
   specify. These are the metric alarms and composite alarms referenced in the AlarmRule field
@@ -653,7 +657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   point.    Average -- the average value from all contributors during the time period
   represented by that data point.
 - `"OrderBy"`: Determines what statistic to use to rank the contributors. Valid values are
-  SUM and MAXIMUM.
+  Sum and Maximum.
 """
 function get_insight_rule_report(
     EndTime, Period, RuleName, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
@@ -780,7 +784,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScanBy"`: The order in which data points should be returned. TimestampDescending
   returns the newest data first and paginates when the MaxDatapoints limit is reached.
   TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit
-  is reached.
+  is reached. If you omit this parameter, the default of TimestampDescending is used.
 """
 function get_metric_data(
     EndTime, MetricDataQueries, StartTime; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1210,7 +1214,7 @@ Insights rules support tagging.
 - `resource_arn`: The ARN of the CloudWatch resource that you want to view tags for. The
   ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN
   format of a Contributor Insights rule is
-  arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information
+  arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   For more information
   about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web
   Services General Reference.
 
@@ -1245,8 +1249,11 @@ end
     put_anomaly_detector(params::Dict{String,<:Any})
 
 Creates an anomaly detection model for a CloudWatch metric. You can use the model to
-display a band of expected normal values when the metric is graphed. For more information,
-see CloudWatch Anomaly Detection.
+display a band of expected normal values when the metric is graphed. If you have enabled
+unified cross-account observability, and this account is a monitoring account, the metric
+can be in the same account or a source account. You can specify the account ID in the
+object you specify in the SingleMetricAnomalyDetector parameter. For more information, see
+CloudWatch Anomaly Detection.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1255,6 +1262,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   model. You can specify as many as 10 time ranges. The configuration can also include the
   time zone to use for the metric.
 - `"Dimensions"`: The metric dimensions to create the anomaly detection model for.
+- `"MetricCharacteristics"`: Use this object to include parameters to provide information
+  about your metric to CloudWatch to help it build more accurate anomaly detection models.
+  Currently, it includes the PeriodicSpikes parameter.
 - `"MetricMathAnomalyDetector"`: The metric math anomaly detector to be created. When using
   MetricMathAnomalyDetector, you cannot include the following parameters in the same
   operation:    Dimensions     MetricName     Namespace     Stat    the
@@ -1265,7 +1275,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SingleMetricAnomalyDetector"`: A single metric anomaly detector to be created. When
   using SingleMetricAnomalyDetector, you cannot include the following parameters in the same
   operation:    Dimensions     MetricName     Namespace     Stat    the
-  MetricMatchAnomalyDetector parameters of PutAnomalyDetectorInput    Instead, specify the
+  MetricMathAnomalyDetector parameters of PutAnomalyDetectorInput    Instead, specify the
   single metric anomaly detector attributes as part of the property
   SingleMetricAnomalyDetector.
 - `"Stat"`: The statistic to use for the metric and the anomaly detection model.
@@ -1296,26 +1306,28 @@ many as 100 underlying alarms. Any single alarm can be included in the rule expr
 as many as 150 composite alarms. Using composite alarms can reduce alarm noise. You can
 create multiple metric alarms, and also create a composite alarm and set up alerts only for
 the composite alarm. For example, you could create a composite alarm that goes into ALARM
-state only when more than one of the underlying metric alarms are in ALARM state.
-Currently, the only alarm actions that can be taken by composite alarms are notifying SNS
-topics.  It is possible to create a loop or cycle of composite alarms, where composite
-alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm
-A. In this scenario, you can't delete any composite alarm that is part of the cycle because
-there is always still a composite alarm that depends on that alarm that you want to delete.
-To get out of such a situation, you must break the cycle by changing the rule of one of the
-composite alarms in the cycle to remove a dependency that creates the cycle. The simplest
-change to make to break a cycle is to change the AlarmRule of one of the alarms to false.
-Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the
-evaluation path.   When this operation creates an alarm, the alarm state is immediately set
-to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any
-actions associated with the new state are then executed. For a composite alarm, this
-initial time after creation is the only time that the alarm can be in INSUFFICIENT_DATA
-state. When you update an existing alarm, its state is left unchanged, but the update
-completely overwrites the previous configuration of the alarm. To use this operation, you
-must be signed on with the cloudwatch:PutCompositeAlarm permission that is scoped to *. You
-can't create a composite alarms if your cloudwatch:PutCompositeAlarm permission has a
-narrower scope. If you are an IAM user, you must have iam:CreateServiceLinkedRole to create
-a composite alarm that has Systems Manager OpsItem actions.
+state only when more than one of the underlying metric alarms are in ALARM state. Composite
+alarms can take the following actions:   Notify Amazon SNS topics.   Invoke Lambda
+functions.   Create OpsItems in Systems Manager Ops Center.   Create incidents in Systems
+Manager Incident Manager.    It is possible to create a loop or cycle of composite alarms,
+where composite alarm A depends on composite alarm B, and composite alarm B also depends on
+composite alarm A. In this scenario, you can't delete any composite alarm that is part of
+the cycle because there is always still a composite alarm that depends on that alarm that
+you want to delete. To get out of such a situation, you must break the cycle by changing
+the rule of one of the composite alarms in the cycle to remove a dependency that creates
+the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one
+of the alarms to false.  Additionally, the evaluation of composite alarms stops if
+CloudWatch detects a cycle in the evaluation path.   When this operation creates an alarm,
+the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and
+its state is set appropriately. Any actions associated with the new state are then
+executed. For a composite alarm, this initial time after creation is the only time that the
+alarm can be in INSUFFICIENT_DATA state. When you update an existing alarm, its state is
+left unchanged, but the update completely overwrites the previous configuration of the
+alarm. To use this operation, you must be signed on with the cloudwatch:PutCompositeAlarm
+permission that is scoped to *. You can't create a composite alarms if your
+cloudwatch:PutCompositeAlarm permission has a narrower scope. If you are an IAM user, you
+must have iam:CreateServiceLinkedRole to create a composite alarm that has Systems Manager
+OpsItem actions.
 
 # Arguments
 - `alarm_name`: The name for the composite alarm. This name must be unique within the
@@ -1364,19 +1376,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified.
 - `"AlarmActions"`: The actions to execute when this alarm transitions to the ALARM state
   from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid
-  Values: arn:aws:sns:region:account-id:sns-topic-name  |
-  arn:aws:ssm:region:account-id:opsitem:severity
+  Values: ]  Amazon SNS actions:   arn:aws:sns:region:account-id:sns-topic-name    Lambda
+  actions:    Invoke the latest version of a Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a
+  Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+  Invoke a function by using an alias Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name:alias-name      Systems Manager
+  actions:   arn:aws:ssm:region:account-id:opsitem:severity
 - `"AlarmDescription"`: The description for the composite alarm.
 - `"InsufficientDataActions"`: The actions to execute when this alarm transitions to the
   INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon
-  Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name
+  Resource Name (ARN). Valid Values: ]  Amazon SNS actions:
+  arn:aws:sns:region:account-id:sns-topic-name    Lambda actions:    Invoke the latest
+  version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+  Invoke a specific version of a Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a
+  function by using an alias Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name:alias-name
 - `"OKActions"`: The actions to execute when this alarm transitions to an OK state from any
-  other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values:
-  arn:aws:sns:region:account-id:sns-topic-name
-- `"Tags"`: A list of key-value pairs to associate with the composite alarm. You can
-  associate as many as 50 tags with an alarm. Tags can help you organize and categorize your
-  resources. You can also use them to scope user permissions, by granting a user permission
-  to access or change only resources with certain tag values.
+  other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: ]
+  Amazon SNS actions:   arn:aws:sns:region:account-id:sns-topic-name    Lambda actions:
+  Invoke the latest version of a Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name     Invoke a specific version of a
+  Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+  Invoke a function by using an alias Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name:alias-name
+- `"Tags"`: A list of key-value pairs to associate with the alarm. You can associate as
+  many as 50 tags with an alarm. To be able to associate tags with the alarm when you create
+  the alarm, you must have the cloudwatch:TagResource permission. Tags can help you organize
+  and categorize your resources. You can also use them to scope user permissions by granting
+  a user permission to access or change only resources with certain tag values. If you are
+  using this operation to update an existing alarm, any tags you specify in this parameter
+  are ignored. To change the tags of an existing alarm, use TagResource or UntagResource.
 """
 function put_composite_alarm(
     AlarmName, AlarmRule; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1632,9 +1663,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling
   action:
   arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-fri
-  endly-name:policyName/policy-friendly-name      SNS notification action:
-  arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policy
-  Name/policy-friendly-name      SSM integration actions:
+  endly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest
+  version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+  Invoke a specific version of a Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a
+  function by using an alias Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification
+  action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:
   arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
   arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
 - `"AlarmDescription"`: The description for the alarm.
@@ -1649,9 +1684,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   always evaluated and possibly changes state no matter how many data points are available.
   For more information, see Percentile-Based CloudWatch Alarms and Low Data Samples. Valid
   Values: evaluate | ignore
-- `"ExtendedStatistic"`: The percentile statistic for the metric specified in MetricName.
-  Specify a value between p0.0 and p100. When you call PutMetricAlarm and specify a
-  MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
+- `"ExtendedStatistic"`: The extended statistic for the metric specified in MetricName.
+  When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or
+  ExtendedStatistic but not both. If you specify ExtendedStatistic, the following are valid
+  values:    p90     tm90     tc90     ts90     wm90     IQM     PR(n:m) where n and m are
+  values of the metric    TC(X%:X%) where X is between 10 and 90 inclusive.    TM(X%:X%)
+  where X is between 10 and 90 inclusive.    TS(X%:X%) where X is between 10 and 90
+  inclusive.    WM(X%:X%) where X is between 10 and 90 inclusive.   For more information
+  about these extended statistics, see CloudWatch statistics definitions.
 - `"InsufficientDataActions"`: The actions to execute when this alarm transitions to the
   INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon
   Resource Name (ARN). Valid values:  EC2 actions:     arn:aws:automate:region:ec2:stop
@@ -1663,24 +1703,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling
   action:
   arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-fri
-  endly-name:policyName/policy-friendly-name      SNS notification action:
-  arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policy
-  Name/policy-friendly-name      SSM integration actions:
+  endly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest
+  version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+  Invoke a specific version of a Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a
+  function by using an alias Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification
+  action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:
   arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
   arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
 - `"MetricName"`: The name for the metric associated with the alarm. For each
   PutMetricAlarm operation, you must specify either MetricName or a Metrics array. If you are
   creating an alarm based on a math expression, you cannot specify this parameter, or any of
-  the Dimensions, Period, Namespace, Statistic, or ExtendedStatistic parameters. Instead, you
-  specify all this information in the Metrics array.
+  the Namespace, Dimensions, Period, Unit, Statistic, or ExtendedStatistic parameters.
+  Instead, you specify all this information in the Metrics array.
 - `"Metrics"`: An array of MetricDataQuery structures that enable you to create an alarm
   based on the result of a metric math expression. For each PutMetricAlarm operation, you
   must specify either MetricName or a Metrics array. Each item in the Metrics array either
   retrieves a metric or performs a math expression. One item in the Metrics array is the
   expression that the alarm watches. You designate this expression by setting ReturnData to
   true for this object in the array. For more information, see MetricDataQuery. If you use
-  the Metrics parameter, you cannot include the MetricName, Dimensions, Period, Namespace,
-  Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation.
+  the Metrics parameter, you cannot include the Namespace, MetricName, Dimensions, Period,
+  Unit, Statistic, or ExtendedStatistic parameters of PutMetricAlarm in the same operation.
   Instead, you retrieve the metrics you are using in your math expression as part of the
   Metrics array.
 - `"Namespace"`: The namespace for the metric associated specified in MetricName.
@@ -1694,9 +1738,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:swf:region:account-id:action/actions/AWS_EC2.InstanceId.Recover/1.0     Autoscaling
   action:
   arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-fri
-  endly-name:policyName/policy-friendly-name      SNS notification action:
-  arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policy
-  Name/policy-friendly-name      SSM integration actions:
+  endly-name:policyName/policy-friendly-name      Lambda actions:    Invoke the latest
+  version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+  Invoke a specific version of a Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name:version-number     Invoke a
+  function by using an alias Lambda function:
+  arn:aws:lambda:region:account-id:function:function-name:alias-name      SNS notification
+  action:     arn:aws:sns:region:account-id:sns-topic-name      SSM integration actions:
   arn:aws:ssm:region:account-id:opsitem:severity#CATEGORY=category-name
   arn:aws:ssm-incidents::account-id:responseplan/response-plan-name
 - `"Period"`: The length, in seconds, used each time the metric specified in MetricName is
@@ -1717,11 +1765,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not
   both.
 - `"Tags"`: A list of key-value pairs to associate with the alarm. You can associate as
-  many as 50 tags with an alarm. Tags can help you organize and categorize your resources.
-  You can also use them to scope user permissions by granting a user permission to access or
-  change only resources with certain tag values. If you are using this operation to update an
-  existing alarm, any tags you specify in this parameter are ignored. To change the tags of
-  an existing alarm, use TagResource or UntagResource.
+  many as 50 tags with an alarm. To be able to associate tags with the alarm when you create
+  the alarm, you must have the cloudwatch:TagResource permission. Tags can help you organize
+  and categorize your resources. You can also use them to scope user permissions by granting
+  a user permission to access or change only resources with certain tag values. If you are
+  using this operation to update an existing alarm, any tags you specify in this parameter
+  are ignored. To change the tags of an existing alarm, use TagResource or UntagResource.
 - `"Threshold"`: The value against which the specified statistic is compared. This
   parameter is required for alarms based on static thresholds, but should not be used for
   alarms based on anomaly detection models.
@@ -1740,14 +1789,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an
   instance receives on all network interfaces. You can also specify a unit when you create a
   custom metric. Units help provide conceptual meaning to your data. Metric data points that
-  specify a unit of measure, such as Percent, are aggregated separately. If you don't specify
-  Unit, CloudWatch retrieves all unit types that have been published for the metric and
-  attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the
-  alarm works as intended. However, if the metric is published with multiple types of units
-  and you don't specify a unit, the alarm's behavior is not defined and it behaves
-  unpredictably. We recommend omitting Unit so that you don't inadvertently specify an
-  incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck
-  in the INSUFFICIENT DATA state.
+  specify a unit of measure, such as Percent, are aggregated separately. If you are creating
+  an alarm based on a metric math expression, you can specify the unit for each metric (if
+  needed) within the objects in the Metrics array. If you don't specify Unit, CloudWatch
+  retrieves all unit types that have been published for the metric and attempts to evaluate
+  the alarm. Usually, metrics are published with only one unit, so the alarm works as
+  intended. However, if the metric is published with multiple types of units and you don't
+  specify a unit, the alarm's behavior is not defined and it behaves unpredictably. We
+  recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is
+  not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT
+  DATA state.
 """
 function put_metric_alarm(
     AlarmName,
@@ -1800,7 +1851,7 @@ with the specified metric. If the specified metric does not exist, CloudWatch cr
 metric. When CloudWatch creates a metric, it can take up to fifteen minutes for the metric
 to appear in calls to ListMetrics. You can publish either individual data points in the
 Value field, or arrays of values and the number of times each value occurred during the
-period by using the Values and Counts fields in the MetricDatum structure. Using the Values
+period by using the Values and Counts fields in the MetricData structure. Using the Values
 and Counts method enables you to publish up to 150 values per metric with one PutMetricData
 request, and supports retrieving percentile statistics on this data. Each PutMetricData
 request is limited to 1 MB in size for HTTP POST requests. You can send a payload
@@ -1893,9 +1944,9 @@ more information, see CloudWatch cross-account observability.
   name must be different than the names of other metric streams in this account and Region.
   If you are updating a metric stream, specify the name of that stream here. Valid characters
   are A-Z, a-z, 0-9, \"-\" and \"_\".
-- `output_format`: The output format for the stream. Valid values are json and
-  opentelemetry0.7. For more information about metric stream output formats, see  Metric
-  streams output formats.
+- `output_format`: The output format for the stream. Valid values are json,
+  opentelemetry1.0, and opentelemetry0.7. For more information about metric stream output
+  formats, see  Metric streams output formats.
 - `role_arn`: The ARN of an IAM role that this metric stream will use to access Amazon
   Kinesis Data Firehose resources. This IAM role must already exist and must be in the same
   account as the metric stream. This IAM role must include the following permissions:
@@ -1918,8 +1969,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list of additional statistics to stream for those metrics. The additional statistics that
   you can stream depend on the stream's OutputFormat. If the OutputFormat is json, you can
   stream any additional statistic that is supported by CloudWatch, listed in  CloudWatch
-  statistics definitions. If the OutputFormat is opentelemetry0.7, you can stream percentile
-  statistics such as p95, p99.9, and so on.
+  statistics definitions. If the OutputFormat is opentelemetry1.0 or opentelemetry0.7, you
+  can stream percentile statistics such as p95, p99.9, and so on.
 - `"Tags"`: A list of key-value pairs to associate with the metric stream. You can
   associate as many as 50 tags with a metric stream. Tags can help you organize and
   categorize your resources. You can also use them to scope user permissions by granting a
@@ -2123,7 +2174,7 @@ value for that tag. You can associate as many as 50 tags with a CloudWatch resou
 - `resource_arn`: The ARN of the CloudWatch resource that you're adding tags to. The ARN
   format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN
   format of a Contributor Insights rule is
-  arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information
+  arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   For more information
   about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web
   Services General Reference.
 - `tags`: The list of key-value pairs to associate with the alarm.
@@ -2167,7 +2218,7 @@ Removes one or more tags from the specified resource.
 - `resource_arn`: The ARN of the CloudWatch resource that you're removing tags from. The
   ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name   The ARN
   format of a Contributor Insights rule is
-  arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name   For more information
+  arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name   For more information
   about ARN format, see  Resource Types Defined by Amazon CloudWatch in the Amazon Web
   Services General Reference.
 - `tag_keys`: The list of tag keys to remove from the resource.

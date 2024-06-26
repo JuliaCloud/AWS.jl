@@ -355,12 +355,16 @@ end
     discover_instances(namespace_name, service_name, params::Dict{String,<:Any})
 
 Discovers registered instances for a specified namespace and service. You can use
-DiscoverInstances to discover instances for any type of namespace. For public and private
-DNS namespaces, you can also use DNS queries to discover instances.
+DiscoverInstances to discover instances for any type of namespace. DiscoverInstances
+returns a randomized list of instances allowing customers to distribute traffic evenly
+across instances. For public and private DNS namespaces, you can also use DNS queries to
+discover instances.
 
 # Arguments
 - `namespace_name`: The HttpName name of the namespace. It's found in the HttpProperties
-  member of the Properties member of the namespace.
+  member of the Properties member of the namespace. In most cases, Name and HttpName match.
+  However, if you reuse Name for namespace creation, a generated hash is added to HttpName to
+  distinguish the two.
 - `service_name`: The name of the service that you specified when you registered the
   instance.
 
@@ -402,6 +406,51 @@ function discover_instances(
 )
     return servicediscovery(
         "DiscoverInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "NamespaceName" => NamespaceName, "ServiceName" => ServiceName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    discover_instances_revision(namespace_name, service_name)
+    discover_instances_revision(namespace_name, service_name, params::Dict{String,<:Any})
+
+Discovers the increasing revision associated with an instance.
+
+# Arguments
+- `namespace_name`: The HttpName name of the namespace. It's found in the HttpProperties
+  member of the Properties member of the namespace.
+- `service_name`: The name of the service that you specified when you registered the
+  instance.
+
+"""
+function discover_instances_revision(
+    NamespaceName, ServiceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return servicediscovery(
+        "DiscoverInstancesRevision",
+        Dict{String,Any}("NamespaceName" => NamespaceName, "ServiceName" => ServiceName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function discover_instances_revision(
+    NamespaceName,
+    ServiceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return servicediscovery(
+        "DiscoverInstancesRevision",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -542,8 +591,8 @@ end
     get_operation(operation_id, params::Dict{String,<:Any})
 
 Gets information about any operation that returns an operation ID in the response, such as
-a CreateService request.  To get a list of operations that match specified criteria, see
-ListOperations.
+a CreateHttpNamespace request.  To get a list of operations that match specified criteria,
+see ListOperations.
 
 # Arguments
 - `operation_id`: The ID of the operation that you want to get more information about.
@@ -721,7 +770,7 @@ end
     list_services(params::Dict{String,<:Any})
 
 Lists summary information for all the services that are associated with one or more
-specified namespaces.
+namespaces.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -812,9 +861,9 @@ Guide.
 - `attributes`: A string map that contains the following information for the service that
   you specify in ServiceId:   The attributes that apply to the records that are defined in
   the service.    For each attribute, the applicable value.    Do not include sensitive
-  information in the attributes if the namespace is discoverable by public DNS queries.
-  Supported attribute keys include the following:  AWS_ALIAS_DNS_NAME  If you want Cloud Map
-  to create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing
+  information in the attributes if the namespace is discoverable by public DNS queries.  The
+  following are the supported attribute keys.  AWS_ALIAS_DNS_NAME  If you want Cloud Map to
+  create an Amazon Route 53 alias record that routes traffic to an Elastic Load Balancing
   load balancer, specify the DNS name that's associated with the load balancer. For
   information about how to get the DNS name, see \"DNSName\" in the topic AliasTarget in the
   Route 53 API Reference. Note the following:   The configuration for the service that's
@@ -822,38 +871,39 @@ Guide.
   the service that's specified by ServiceId, the value of RoutingPolicy must be WEIGHTED.
   If the service that's specified by ServiceId includes HealthCheckConfig settings, Cloud Map
   will create the Route 53 health check, but it doesn't associate the health check with the
-  alias record.   Auto naming currently doesn't support creating alias records that route
+  alias record.   Cloud Map currently doesn't support creating alias records that route
   traffic to Amazon Web Services resources other than Elastic Load Balancing load balancers.
    If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the
-  AWS_INSTANCE attributes.    AWS_EC2_INSTANCE_ID   HTTP namespaces only. The Amazon EC2
-  instance ID for the instance. If the AWS_EC2_INSTANCE_ID attribute is specified, then the
-  only other attribute that can be specified is AWS_INIT_HEALTH_STATUS. When the
-  AWS_EC2_INSTANCE_ID attribute is specified, then the AWS_INSTANCE_IPV4 attribute will be
-  filled out with the primary private IPv4 address.  AWS_INIT_HEALTH_STATUS  If the service
-  configuration includes HealthCheckCustomConfig, you can optionally use
-  AWS_INIT_HEALTH_STATUS to specify the initial status of the custom health check, HEALTHY or
-  UNHEALTHY. If you don't specify a value for AWS_INIT_HEALTH_STATUS, the initial status is
-  HEALTHY.  AWS_INSTANCE_CNAME  If the service configuration includes a CNAME record, the
-  domain name that you want Route 53 to return in response to DNS queries (for example,
-  example.com). This value is required if the service specified by ServiceId includes
-  settings for an CNAME record.  AWS_INSTANCE_IPV4  If the service configuration includes an
-  A record, the IPv4 address that you want Route 53 to return in response to DNS queries
-  (for example, 192.0.2.44). This value is required if the service specified by ServiceId
-  includes settings for an A record. If the service includes settings for an SRV record, you
-  must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6
-  If the service configuration includes an AAAA record, the IPv6 address that you want
-  Route 53 to return in response to DNS queries (for example,
-  2001:0db8:85a3:0000:0000:abcd:0001:2345). This value is required if the service specified
-  by ServiceId includes settings for an AAAA record. If the service includes settings for an
-  SRV record, you must specify a value for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.
-  AWS_INSTANCE_PORT  If the service includes an SRV record, the value that you want Route 53
-  to return for the port. If the service includes HealthCheckConfig, the port on the endpoint
-  that you want Route 53 to send requests to.  This value is required if you specified
-  settings for an SRV record or a Route 53 health check when you created the service.
-  Custom attributes  You can add up to 30 custom attributes. For each key-value pair, the
-  maximum length of the attribute name is 255 characters, and the maximum length of the
-  attribute value is 1,024 characters. The total size of all provided attributes (sum of all
-  keys and values) must not exceed 5,000 characters.
+  AWS_INSTANCE attributes.   The AWS_ALIAS_DNS_NAME is not supported in the GovCloud (US)
+  Regions.    AWS_EC2_INSTANCE_ID   HTTP namespaces only. The Amazon EC2 instance ID for the
+  instance. If the AWS_EC2_INSTANCE_ID attribute is specified, then the only other attribute
+  that can be specified is AWS_INIT_HEALTH_STATUS. When the AWS_EC2_INSTANCE_ID attribute is
+  specified, then the AWS_INSTANCE_IPV4 attribute will be filled out with the primary private
+  IPv4 address.  AWS_INIT_HEALTH_STATUS  If the service configuration includes
+  HealthCheckCustomConfig, you can optionally use AWS_INIT_HEALTH_STATUS to specify the
+  initial status of the custom health check, HEALTHY or UNHEALTHY. If you don't specify a
+  value for AWS_INIT_HEALTH_STATUS, the initial status is HEALTHY.  AWS_INSTANCE_CNAME  If
+  the service configuration includes a CNAME record, the domain name that you want Route 53
+  to return in response to DNS queries (for example, example.com). This value is required if
+  the service specified by ServiceId includes settings for an CNAME record.
+  AWS_INSTANCE_IPV4  If the service configuration includes an A record, the IPv4 address that
+  you want Route 53 to return in response to DNS queries (for example, 192.0.2.44). This
+  value is required if the service specified by ServiceId includes settings for an A record.
+  If the service includes settings for an SRV record, you must specify a value for
+  AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_IPV6  If the service
+  configuration includes an AAAA record, the IPv6 address that you want Route 53 to return
+  in response to DNS queries (for example, 2001:0db8:85a3:0000:0000:abcd:0001:2345). This
+  value is required if the service specified by ServiceId includes settings for an AAAA
+  record. If the service includes settings for an SRV record, you must specify a value for
+  AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both.  AWS_INSTANCE_PORT  If the service includes
+  an SRV record, the value that you want Route 53 to return for the port. If the service
+  includes HealthCheckConfig, the port on the endpoint that you want Route 53 to send
+  requests to.  This value is required if you specified settings for an SRV record or a
+  Route 53 health check when you created the service.  Custom attributes  You can add up to
+  30 custom attributes. For each key-value pair, the maximum length of the attribute name is
+  255 characters, and the maximum length of the attribute value is 1,024 characters. The
+  total size of all provided attributes (sum of all keys and values) must not exceed 5,000
+  characters.
 - `instance_id`: An identifier that you want to associate with the instance. Note the
   following:   If the service that's specified by ServiceId includes settings for an SRV
   record, the value of InstanceId is automatically included as part of the value for the SRV

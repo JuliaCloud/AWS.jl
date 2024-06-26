@@ -22,7 +22,7 @@ for each resource type. Using a consistent set of tag keys makes it easier for y
 manage your resources. You can search and filter the resources based on the tags you add.
 Tags don't have any semantic meaning to and are interpreted strictly as a string of
 characters. For more information about using tags with Amazon Elastic Compute Cloud (Amazon
-EC2) instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User Guide.
+EC2) instances, see Tag your Amazon EC2 resources in the Amazon EC2 User Guide.
 
 # Arguments
 - `resource_id`: The resource ID you want to tag. Use the ID of the resource. Here are some
@@ -33,7 +33,8 @@ EC2) instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User Gui
   OpsMetadata object with an ARN of
   arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of
   either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and
-  Parameter values, use the name of the resource.  ManagedInstance: mi-012345abcde   The
+  Parameter values, use the name of the resource. If you're tagging a shared document, you
+  must use the full ARN of the document.  ManagedInstance: mi-012345abcde   The
   ManagedInstance type for this API operation is only for on-premises managed nodes. You must
   specify the name of the managed node in the following format: mi-ID_number . For example,
   mi-1a2b3c4d5e6f.
@@ -234,17 +235,18 @@ Registering these machines with Systems Manager makes it possible to manage them
 Systems Manager capabilities. You use the activation code and ID when installing SSM Agent
 on machines in your hybrid environment. For more information about requirements for
 managing on-premises machines using Systems Manager, see Setting up Amazon Web Services
-Systems Manager for hybrid environments in the Amazon Web Services Systems Manager User
-Guide.   Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises
-servers and VMs that are configured for Systems Manager are all called managed nodes.
+Systems Manager for hybrid and multicloud environments in the Amazon Web Services Systems
+Manager User Guide.   Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices,
+and on-premises servers and VMs that are configured for Systems Manager are all called
+managed nodes.
 
 # Arguments
 - `iam_role`: The name of the Identity and Access Management (IAM) role that you want to
   assign to the managed node. This IAM role must provide AssumeRole permissions for the
   Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more
-  information, see Create an IAM service role for a hybrid environment in the Amazon Web
-  Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this
-  parameter. You must create a unique role.
+  information, see Create an IAM service role for a hybrid and multicloud environment in the
+  Amazon Web Services Systems Manager User Guide.  You can't specify an IAM service-linked
+  role for this parameter. You must create a unique role.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -339,13 +341,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   change calendar is open. For more information, see Amazon Web Services Systems Manager
   Change Calendar.
 - `"ComplianceSeverity"`: The severity level to assign to the association.
-- `"DocumentVersion"`: The document version you want to associate with the target(s). Can
-  be a specific version or the default version.  State Manager doesn't support running
+- `"DocumentVersion"`: The document version you want to associate with the targets. Can be
+  a specific version or the default version.  State Manager doesn't support running
   associations that use a new version of a document if that document is shared from another
   account. State Manager always runs the default version of a document if shared from another
   account, even though the Systems Manager console shows that a new version was processed. If
   you want to run an association using a new version of a document shared form another
   account, you must set the document version to default.
+- `"Duration"`: The number of hours the association can run before it is canceled. Duration
+  applies to associations that are currently running, and any pending and in progress
+  commands on all targets. If a target was taken offline for the association to run, it is
+  made available again immediately, without a reboot.  The Duration parameter applies only
+  when both these conditions are true:   The association for which you specify a duration is
+  cancelable according to the parameters of the SSM command document or Automation runbook
+  associated with this execution.    The command specifies the  ApplyOnlyAtCronInterval
+  parameter, which means that the association doesn't run immediately after it is created,
+  but only according to the specified schedule.
 - `"InstanceId"`: The managed node ID.   InstanceId has been deprecated. To specify a
   managed node ID for an association, use the Targets parameter. Requests that include the
   parameter InstanceID with Systems Manager documents (SSM documents) that use schema version
@@ -374,7 +385,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   store the output details of the request.
 - `"Parameters"`: The parameters for the runtime configuration of the document.
 - `"ScheduleExpression"`: A cron expression when the association will be applied to the
-  target(s).
+  targets.
 - `"ScheduleOffset"`: Number of days to wait after the scheduled day to run an association.
   For example, if you specified a cron schedule of cron(0 0 ? * THU#2 *), you could specify
   an offset of 3 to run the association each Sunday after the second Thursday of the month.
@@ -403,7 +414,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account,
   or individual managed node IDs. You can target all managed nodes in an Amazon Web Services
   account by specifying the InstanceIds key with a value of *. For more information about
-  choosing targets for an association, see Using targets and rate controls with State Manager
+  choosing targets for an association, see About targets and rate controls in State Manager
   associations in the Amazon Web Services Systems Manager User Guide.
 """
 function create_association(Name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -477,11 +488,11 @@ Guide.
   parameters at runtime. We recommend storing the contents for your new document in an
   external JSON or YAML file and referencing the file in a command. For examples, see the
   following topics in the Amazon Web Services Systems Manager User Guide.    Create an SSM
-  document (Amazon Web Services API)     Create an SSM document (Amazon Web Services CLI)
-  Create an SSM document (API)
+  document (console)     Create an SSM document (command line)     Create an SSM document
+  (API)
 - `name`: A name for the SSM document.  You can't use the following strings as document
   name prefixes. These are reserved by Amazon Web Services for use as document name prefixes:
-     aws     amazon     amzn
+     aws     amazon     amzn     AWSEC2     AWSConfigRemediation     AWSSupport
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -585,7 +596,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Zone Database on the IANA website.
 - `"StartDate"`: The date and time, in ISO-8601 Extended format, for when you want the
   maintenance window to become active. StartDate allows you to delay activation of the
-  maintenance window until the specified future date.
+  maintenance window until the specified future date.  When using a rate schedule, if you
+  provide a start date that occurs in the past, the current date and time are used as the
+  start date.
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
   a resource in different ways, such as by purpose, owner, or environment. For example, you
   might want to tag a maintenance window to identify the type of tasks it will run, the types
@@ -651,15 +664,17 @@ end
     create_ops_item(description, source, title, params::Dict{String,<:Any})
 
 Creates a new OpsItem. You must have permission in Identity and Access Management (IAM) to
-create a new OpsItem. For more information, see Getting started with OpsCenter in the
-Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals
-use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate
-operational issues impacting the performance and health of their Amazon Web Services
-resources. For more information, see Amazon Web Services Systems Manager OpsCenter in the
-Amazon Web Services Systems Manager User Guide.
+create a new OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services
+Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web
+Services Systems Manager OpsCenter to view, investigate, and remediate operational issues
+impacting the performance and health of their Amazon Web Services resources. For more
+information, see Amazon Web Services Systems Manager OpsCenter in the Amazon Web Services
+Systems Manager User Guide.
 
 # Arguments
-- `description`: Information about the OpsItem.
+- `description`: User-defined text that contains information about the OpsItem, in Markdown
+  format.   Provide enough information so that users viewing this OpsItem for the first time
+  understand the issue.
 - `source`: The origin of the OpsItem, such as Amazon EC2 or Systems Manager.  The source
   name can't contain the following strings: aws, amazon, and amzn.
 - `title`: A short heading that describes the nature of the OpsItem and the impacted
@@ -669,8 +684,8 @@ Amazon Web Services Systems Manager User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AccountId"`: The target Amazon Web Services account where you want to create an
   OpsItem. To make this call, your account must be configured to work with OpsItems across
-  accounts. For more information, see Setting up OpsCenter to work with OpsItems across
-  accounts in the Amazon Web Services Systems Manager User Guide.
+  accounts. For more information, see Set up OpsCenter in the Amazon Web Services Systems
+  Manager User Guide.
 - `"ActualEndTime"`: The time a runbook workflow ended. Currently reported only for the
   OpsItem type /aws/changerequest.
 - `"ActualStartTime"`: The time a runbook workflow started. Currently reported only for the
@@ -690,12 +705,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   by users who have access to the OpsItem (as provided by the GetOpsItem API operation). Use
   the /aws/resources key in OperationalData to specify a related resource in the request. Use
   the /aws/automations key in OperationalData to associate an Automation runbook with the
-  OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Creating
+  OpsItem. To view Amazon Web Services CLI example commands that use these keys, see Create
   OpsItems manually in the Amazon Web Services Systems Manager User Guide.
 - `"OpsItemType"`: The type of OpsItem to create. Systems Manager supports the following
   types of OpsItems:    /aws/issue  This type of OpsItem is used for default OpsItems created
   by OpsCenter.     /aws/changerequest  This type of OpsItem is used by Change Manager for
-  reviewing and approving or rejecting change requests.     /aws/insights  This type of
+  reviewing and approving or rejecting change requests.     /aws/insight  This type of
   OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
 - `"PlannedEndTime"`: The time specified in a change request for a runbook workflow to end.
   Currently supported only for the OpsItem type /aws/changerequest.
@@ -706,13 +721,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   OpsItems. For example, related OpsItems can include OpsItems with similar error messages,
   impacted resources, or statuses for the impacted resource.
 - `"Severity"`: Specify a severity to assign to an OpsItem.
-- `"Tags"`: Optional metadata that you assign to a resource. You can restrict access to
-  OpsItems by using an inline IAM policy that specifies tags. For more information, see
-  Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide. Tags
-  use a key-value pair. For example:  Key=Department,Value=Finance   To add tags to a new
-  OpsItem, a user must have IAM permissions for both the ssm:CreateOpsItems operation and the
-  ssm:AddTagsToResource operation. To add tags to an existing OpsItem, use the
-  AddTagsToResource operation.
+- `"Tags"`: Optional metadata that you assign to a resource. Tags use a key-value pair. For
+  example:  Key=Department,Value=Finance   To add tags to a new OpsItem, a user must have IAM
+  permissions for both the ssm:CreateOpsItems operation and the ssm:AddTagsToResource
+  operation. To add tags to an existing OpsItem, use the AddTagsToResource operation.
 """
 function create_ops_item(
     Description, Source, Title; aws_config::AbstractAWSConfig=global_aws_config()
@@ -829,10 +841,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the RejectedPackages list.     ALLOW_AS_DEPENDENCY : A package in the Rejected patches list
   is installed only if it is a dependency of another package. It is considered compliant with
   the patch baseline, and its status is reported as InstalledOther. This is the default
-  action if no option is specified.     BLOCK : Packages in the RejectedPatches list, and
-  packages that include them as dependencies, aren't installed under any circumstances. If a
-  package was installed before it was added to the Rejected patches list, it is considered
-  non-compliant with the patch baseline, and its status is reported as InstalledRejected.
+  action if no option is specified.    BLOCK: Packages in the Rejected patches list, and
+  packages that include them as dependencies, aren't installed by Patch Manager under any
+  circumstances. If a package was installed before it was added to the Rejected patches list,
+  or is installed outside of Patch Manager afterward, it's considered noncompliant with the
+  patch baseline and its status is reported as InstalledRejected.
 - `"Sources"`: Information about the patches to use to update the managed nodes, including
   target operating systems and source repositories. Applies to Linux managed nodes only.
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
@@ -1132,6 +1145,51 @@ function delete_maintenance_window(
 end
 
 """
+    delete_ops_item(ops_item_id)
+    delete_ops_item(ops_item_id, params::Dict{String,<:Any})
+
+Delete an OpsItem. You must have permission in Identity and Access Management (IAM) to
+delete an OpsItem.   Note the following important information about this operation.
+Deleting an OpsItem is irreversible. You can't restore a deleted OpsItem.   This operation
+uses an eventual consistency model, which means the system can take a few minutes to
+complete this operation. If you delete an OpsItem and immediately call, for example,
+GetOpsItem, the deleted OpsItem might still appear in the response.    This operation is
+idempotent. The system doesn't throw an exception if you repeatedly call this operation for
+the same OpsItem. If the first call is successful, all additional calls return the same
+successful response as the first call.   This operation doesn't support cross-account
+calls. A delegated administrator or management account can't delete OpsItems in other
+accounts, even if OpsCenter has been set up for cross-account administration. For more
+information about cross-account administration, see Setting up OpsCenter to centrally
+manage OpsItems across accounts in the Systems Manager User Guide.
+
+# Arguments
+- `ops_item_id`: The ID of the OpsItem that you want to delete.
+
+"""
+function delete_ops_item(OpsItemId; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm(
+        "DeleteOpsItem",
+        Dict{String,Any}("OpsItemId" => OpsItemId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_ops_item(
+    OpsItemId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm(
+        "DeleteOpsItem",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("OpsItemId" => OpsItemId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_ops_metadata(ops_metadata_arn)
     delete_ops_metadata(ops_metadata_arn, params::Dict{String,<:Any})
 
@@ -1174,7 +1232,8 @@ Delete a parameter from the system. After deleting a parameter, wait for at leas
 seconds to create a parameter with the same name.
 
 # Arguments
-- `name`: The name of the parameter to delete.
+- `name`: The name of the parameter to delete.  You can't enter the Amazon Resource Name
+  (ARN) for a parameter, only the parameter name itself.
 
 """
 function delete_parameter(Name; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1205,7 +1264,8 @@ create a parameter with the same name.
 
 # Arguments
 - `names`: The names of the parameters to delete. After deleting a parameter, wait for at
-  least 30 seconds to create a parameter with the same name.
+  least 30 seconds to create a parameter with the same name.  You can't enter the Amazon
+  Resource Name (ARN) for a parameter, only the parameter name itself.
 
 """
 function delete_parameters(Names; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1308,9 +1368,12 @@ end
 
 Deletes a Systems Manager resource policy. A resource policy helps you to define the IAM
 entity (for example, an Amazon Web Services account) that can manage your Systems Manager
-resources. Currently, OpsItemGroup is the only resource that supports Systems Manager
-resource policies. The resource policy for OpsItemGroup enables Amazon Web Services
-accounts to view and interact with OpsCenter operational work items (OpsItems).
+resources. The following resources support Systems Manager resource policies.
+OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to
+view and interact with OpsCenter operational work items (OpsItems).    Parameter - The
+resource policy is used to share a parameter with other accounts using Resource Access
+Manager (RAM). For more information about cross-account sharing of parameters, see Working
+with shared parameters in the Amazon Web Services Systems Manager User Guide.
 
 # Arguments
 - `policy_hash`: ID of the current policy version. The hash helps to prevent multiple calls
@@ -1771,7 +1834,9 @@ end
     describe_available_patches()
     describe_available_patches(params::Dict{String,<:Any})
 
-Lists all patches eligible to be included in a patch baseline.
+Lists all patches eligible to be included in a patch baseline.  Currently,
+DescribeAvailablePatches supports only the Amazon Linux 1, Amazon Linux 2, and Windows
+Server operating systems.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1829,8 +1894,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DocumentVersion"`: The document version for which you want information. Can be a
   specific version or the default version.
 - `"VersionName"`: An optional field specifying the version of the artifact associated with
-  the document. For example, \"Release 12, Update 6\". This value is unique across all
-  versions of a document, and can't be changed.
+  the document. For example, 12.6. This value is unique across all versions of a document,
+  and can't be changed.
 """
 function describe_document(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -1905,7 +1970,7 @@ end
     describe_effective_instance_associations(instance_id)
     describe_effective_instance_associations(instance_id, params::Dict{String,<:Any})
 
-All associations for the managed node(s).
+All associations for the managed nodes.
 
 # Arguments
 - `instance_id`: The managed node ID for which you want to view all associations.
@@ -1987,7 +2052,7 @@ end
     describe_instance_associations_status(instance_id)
     describe_instance_associations_status(instance_id, params::Dict{String,<:Any})
 
-The status of the associations for the managed node(s).
+The status of the associations for the managed nodes.
 
 # Arguments
 - `instance_id`: The managed node IDs for which you want association status information.
@@ -2028,26 +2093,29 @@ end
     describe_instance_information()
     describe_instance_information(params::Dict{String,<:Any})
 
-Describes one or more of your managed nodes, including information about the operating
-system platform, the version of SSM Agent installed on the managed node, node status, and
-so on. If you specify one or more managed node IDs, it returns information for those
-managed nodes. If you don't specify node IDs, it returns information for all your managed
-nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive
-an error.  The IamRole field for this API operation is the Identity and Access Management
-(IAM) role assigned to on-premises managed nodes. This call doesn't return the IAM role for
-EC2 instances.
+Provides information about one or more of your managed nodes, including the operating
+system platform, SSM Agent version, association status, and IP address. This operation does
+not return information for nodes that are either Stopped or Terminated. If you specify one
+or more node IDs, the operation returns information for those managed nodes. If you don't
+specify node IDs, it returns information for all your managed nodes. If you specify a node
+ID that isn't valid or a node that you don't own, you receive an error.  The IamRole field
+returned for this API operation is the Identity and Access Management (IAM) role assigned
+to on-premises managed nodes. This operation does not return the IAM role for EC2
+instances.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Filters"`: One or more filters. Use a filter to return a more specific list of managed
-  nodes. You can filter based on tags applied to your managed nodes. Use this Filters data
-  type instead of InstanceInformationFilterList, which is deprecated.
+  nodes. You can filter based on tags applied to your managed nodes. Tag filters can't be
+  combined with other filter types. Use this Filters data type instead of
+  InstanceInformationFilterList, which is deprecated.
 - `"InstanceInformationFilterList"`: This is a legacy method. We recommend that you don't
   use this method. Instead, use the Filters data type. Filters enables you to return node
   information by filtering based on tags applied to managed nodes.  Attempting to use
   InstanceInformationFilterList and Filters leads to an exception error.
 - `"MaxResults"`: The maximum number of items to return for this call. The call also
   returns a token that you can specify in a subsequent call to get the next set of results.
+  The default value is 10 items.
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 """
@@ -2171,7 +2239,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Supported keys for DescribeInstancePatchesinclude the following:     Classification
   Sample values: Security | SecurityUpdates      KBId   Sample values: KB4480056 |
   java-1.7.0-openjdk.x86_64      Severity   Sample values: Important | Medium | Low
-  State   Sample values: Installed | InstalledOther | InstalledPendingReboot
+  State   Sample values: Installed | InstalledOther | InstalledPendingReboot  For lists of
+  all State values, see Understanding patch compliance state values in the Amazon Web
+  Services Systems Manager User Guide.
 - `"MaxResults"`: The maximum number of patches to return (per page).
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
@@ -2196,6 +2266,38 @@ function describe_instance_patches(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_instance_properties()
+    describe_instance_properties(params::Dict{String,<:Any})
+
+An API operation used by the Systems Manager console to display information about Systems
+Manager managed nodes.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FiltersWithOperator"`: The request filters to use with the operator.
+- `"InstancePropertyFilterList"`: An array of instance property filters.
+- `"MaxResults"`: The maximum number of items to return for the call. The call also returns
+  a token that you can specify in a subsequent call to get the next set of results.
+- `"NextToken"`: The token provided by a previous request to use to return the next set of
+  properties.
+"""
+function describe_instance_properties(; aws_config::AbstractAWSConfig=global_aws_config())
+    return ssm(
+        "DescribeInstanceProperties"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_instance_properties(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm(
+        "DescribeInstanceProperties",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2594,12 +2696,12 @@ end
     describe_ops_items(params::Dict{String,<:Any})
 
 Query a set of OpsItems. You must have permission in Identity and Access Management (IAM)
-to query a list of OpsItems. For more information, see Getting started with OpsCenter in
-the Amazon Web Services Systems Manager User Guide. Operations engineers and IT
-professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and
-remediate operational issues impacting the performance and health of their Amazon Web
-Services resources. For more information, see OpsCenter in the Amazon Web Services Systems
-Manager User Guide.
+to query a list of OpsItems. For more information, see Set up OpsCenter in the Amazon Web
+Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon
+Web Services Systems Manager OpsCenter to view, investigate, and remediate operational
+issues impacting the performance and health of their Amazon Web Services resources. For
+more information, see Amazon Web Services Systems Manager OpsCenter in the Amazon Web
+Services Systems Manager User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2613,11 +2715,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Operations: Equals,Contains   Key: OperationalData** Operations: Equals   Key:
   OperationalDataKey Operations: Equals   Key: OperationalDataValue Operations: Equals,
   Contains   Key: OpsItemId Operations: Equals   Key: ResourceId Operations: Contains   Key:
-  AutomationId Operations: Equals   *The Equals operator for Title matches the first 100
-  characters. If you specify more than 100 characters, they system returns an error that the
-  filter value exceeds the length limit. **If you filter the response by using the
-  OperationalData operator, specify a key-value pair by using the following JSON format:
-  {\"key\":\"key_name\",\"value\":\"a_value\"}
+  AutomationId Operations: Equals   Key: AccountId Operations: Equals   *The Equals operator
+  for Title matches the first 100 characters. If you specify more than 100 characters, they
+  system returns an error that the filter value exceeds the length limit. **If you filter the
+  response by using the OperationalData operator, specify a key-value pair by using the
+  following JSON format: {\"key\":\"key_name\",\"value\":\"a_value\"}
 """
 function describe_ops_items(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm("DescribeOpsItems"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -2634,7 +2736,8 @@ end
     describe_parameters()
     describe_parameters(params::Dict{String,<:Any})
 
-Get information about a parameter. Request results are returned on a best-effort basis. If
+Lists the parameters in your Amazon Web Services account or the parameters shared with you
+when you enable the Shared option. Request results are returned on a best-effort basis. If
 you specify MaxResults in the request, the response includes information up to the limit
 specified. The number of items returned, however, can be between zero and the value of
 MaxResults. If the service reaches an internal limit while processing the results, it stops
@@ -2652,6 +2755,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of items to return. (You received this token
   from a previous call.)
 - `"ParameterFilters"`: Filters to limit the request results.
+- `"Shared"`: Lists parameters that are shared with you.  By default when using this
+  option, the command returns parameters that have been shared using a standard Resource
+  Access Manager Resource Share. In order for a parameter that was shared using the
+  PutResourcePolicy command to be returned, the associated RAM Resource Share Created From
+  Policy must have been promoted to a standard Resource Share using the RAM
+  PromoteResourceShareCreatedFromPolicy API operation. For more information about sharing
+  parameters, see Working with shared parameters in the Amazon Web Services Systems Manager
+  User Guide.
 """
 function describe_parameters(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm("DescribeParameters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -3187,8 +3298,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   be either JSON or YAML. JSON is the default format.
 - `"DocumentVersion"`: The document version for which you want information.
 - `"VersionName"`: An optional field specifying the version of the artifact associated with
-  the document. For example, \"Release 12, Update 6\". This value is unique across all
-  versions of a document and can't be changed.
+  the document. For example, 12.6. This value is unique across all versions of a document and
+  can't be changed.
 """
 function get_document(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -3491,12 +3602,12 @@ end
     get_ops_item(ops_item_id, params::Dict{String,<:Any})
 
 Get information about an OpsItem by using the ID. You must have permission in Identity and
-Access Management (IAM) to view information about an OpsItem. For more information, see
-Getting started with OpsCenter in the Amazon Web Services Systems Manager User Guide.
-Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter
-to view, investigate, and remediate operational issues impacting the performance and health
-of their Amazon Web Services resources. For more information, see OpsCenter in the Amazon
-Web Services Systems Manager User Guide.
+Access Management (IAM) to view information about an OpsItem. For more information, see Set
+up OpsCenter in the Amazon Web Services Systems Manager User Guide. Operations engineers
+and IT professionals use Amazon Web Services Systems Manager OpsCenter to view,
+investigate, and remediate operational issues impacting the performance and health of their
+Amazon Web Services resources. For more information, see Amazon Web Services Systems
+Manager OpsCenter in the Amazon Web Services Systems Manager User Guide.
 
 # Arguments
 - `ops_item_id`: The ID of the OpsItem that you want to get.
@@ -3606,8 +3717,11 @@ Get information about a single parameter by specifying the parameter name.  To g
 information about more than one parameter at a time, use the GetParameters operation.
 
 # Arguments
-- `name`: The name of the parameter you want to query. To query by parameter label, use
-  \"Name\": \"name:label\". To query by parameter version, use \"Name\": \"name:version\".
+- `name`: The name or Amazon Resource Name (ARN) of the parameter that you want to query.
+  For parameters shared with you from another account, you must use the full ARN. To query by
+  parameter label, use \"Name\": \"name:label\". To query by parameter version, use \"Name\":
+  \"name:version\". For more information about shared parameters, see Working with shared
+  parameters in the Amazon Web Services Systems Manager User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3643,7 +3757,9 @@ parameter uses to reference KMS. Otherwise, GetParameterHistory retrieves whatev
 original key alias was referencing.
 
 # Arguments
-- `name`: The name of the parameter for which you want to review history.
+- `name`: The name or Amazon Resource Name (ARN) of the parameter for which you want to
+  review history. For parameters shared with you from another account, you must use the full
+  ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3681,9 +3797,12 @@ Get information about one or more parameters by specifying multiple parameter na
 get information about a single parameter, you can use the GetParameter operation instead.
 
 # Arguments
-- `names`: Names of the parameters for which you want to query information. To query by
-  parameter label, use \"Name\": \"name:label\". To query by parameter version, use \"Name\":
-  \"name:version\".
+- `names`: The names or Amazon Resource Names (ARNs) of the parameters that you want to
+  query. For parameters shared with you from another account, you must use the full ARNs. To
+  query by parameter label, use \"Name\": \"name:label\". To query by parameter version, use
+  \"Name\": \"name:version\".  The results for GetParameters requests are listed in
+  alphabetical order in query responses.  For information about shared parameters, see
+  Working with shared parameters in the Amazon Web Services Systems Manager User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3951,7 +4070,8 @@ isn't associated with a parameter and the system displays it in the list of Inva
 
 # Arguments
 - `labels`: One or more labels to attach to the specified parameter version.
-- `name`: The parameter name on which you want to attach one or more labels.
+- `name`: The parameter name on which you want to attach one or more labels.  You can't
+  enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4646,7 +4766,7 @@ the time by using the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
   State Manager association), Patch, or Custom:string.
 - `execution_summary`: A summary of the call execution that includes an execution ID, the
   type of execution (for example, Command), and the date/time of the execution using a
-  datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'.
+  datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
 - `items`: Information about the compliance as defined by the resource type. For example,
   for a patch compliance type, Items includes information about the PatchSeverity,
   Classification, and so on.
@@ -4764,22 +4884,23 @@ end
 Add a parameter to the system.
 
 # Arguments
-- `name`: The fully qualified name of the parameter that you want to add to the system. The
-  fully qualified name includes the complete hierarchy of the parameter path and name. For
-  parameters in a hierarchy, you must include a leading forward slash character (/) when you
-  create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming
-  Constraints:   Parameter names are case sensitive.   A parameter name must be unique within
-  an Amazon Web Services Region   A parameter name can't be prefixed with \"aws\" or \"ssm\"
-  (case-insensitive).   Parameter names can include only the following symbols and letters:
-  a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in
-  parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter
-  name can't include spaces.   Parameter hierarchies are limited to a maximum depth of
-  fifteen levels.   For additional information about valid values for parameter names, see
-  Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.
-  The maximum length constraint of 2048 characters listed below includes 1037 characters
-  reserved for internal use by Systems Manager. The maximum length for a parameter name that
-  you create is 1011 characters. This includes the characters in the ARN that precede the
-  name you specify, such as arn:aws:ssm:us-east-2:111122223333:parameter/.
+- `name`: The fully qualified name of the parameter that you want to add to the system.
+  You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name
+  itself.  The fully qualified name includes the complete hierarchy of the parameter path and
+  name. For parameters in a hierarchy, you must include a leading forward slash character (/)
+  when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13
+  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique
+  within an Amazon Web Services Region   A parameter name can't be prefixed with \"aws\" or
+  \"ssm\" (case-insensitive).   Parameter names can include only the following symbols and
+  letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate
+  hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter
+   A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum
+  depth of fifteen levels.   For additional information about valid values for parameter
+  names, see Creating Systems Manager parameters in the Amazon Web Services Systems Manager
+  User Guide.  The maximum length constraint of 2048 characters listed below includes 1037
+  characters reserved for internal use by Systems Manager. The maximum length for a parameter
+  name that you create is 1011 characters. This includes the characters in the ARN that
+  precede the name you specify, such as arn:aws:ssm:us-east-2:111122223333:parameter/.
 - `value`: The parameter value that you want to add to the system. Standard parameters have
   a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.  Parameters can't be
   referenced or nested in the values of other parameters. You can't include {{}} or
@@ -4805,7 +4926,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will fail and the parameter will not be created or updated. To monitor whether your
   aws:ec2:image parameters are created successfully, see Setting up notifications or trigger
   actions based on Parameter Store events. For more information about AMI format validation ,
-  see Native parameter support for Amazon Machine Image (AMI) IDs.
+  see Native parameter support for Amazon Machine Image IDs.
 - `"Description"`: Information about the parameter that you want to add to the system.
   Optional but recommended.  Don't enter personally identifiable information in this field.
 - `"KeyId"`: The Key Management Service (KMS) ID that you want to use to encrypt a
@@ -4843,34 +4964,34 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB
   and can be configured to use parameter policies. You can create a maximum of 100,000
   advanced parameters for each Region in an Amazon Web Services account. Advanced parameters
-  incur a charge. For more information, see Standard and advanced parameter tiers in the
-  Amazon Web Services Systems Manager User Guide. You can change a standard parameter to an
-  advanced parameter any time. But you can't revert an advanced parameter to a standard
-  parameter. Reverting an advanced parameter to a standard parameter would result in data
-  loss because the system would truncate the size of the parameter from 8 KB to 4 KB.
-  Reverting would also remove any policies attached to the parameter. Lastly, advanced
-  parameters use a different form of encryption than standard parameters.  If you no longer
-  need an advanced parameter, or if you no longer want to incur charges for an advanced
-  parameter, you must delete it and recreate it as a new standard parameter.   Using the
-  Default Tier Configuration  In PutParameter requests, you can specify the tier to create
-  the parameter in. Whenever you specify a tier in the request, Parameter Store creates or
-  updates the parameter according to that request. However, if you don't specify a tier in a
-  request, Parameter Store assigns the tier based on the current Parameter Store default tier
-  configuration. The default tier when you begin using Parameter Store is the
-  standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the
-  following as the default:    Advanced: With this option, Parameter Store evaluates all
-  requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store
-  evaluates each request to determine if the parameter is standard or advanced.  If the
-  request doesn't include any options that require an advanced parameter, the parameter is
-  created in the standard-parameter tier. If one or more options requiring an advanced
-  parameter are included in the request, Parameter Store create a parameter in the
-  advanced-parameter tier. This approach helps control your parameter-related costs by always
-  creating standard parameters unless an advanced parameter is necessary.    Options that
-  require an advanced parameter include the following:   The content size of the parameter is
-  more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters
-  already exist in your Amazon Web Services account in the current Amazon Web Services
-  Region.   For more information about configuring the default tier option, see Specifying a
-  default parameter tier in the Amazon Web Services Systems Manager User Guide.
+  incur a charge. For more information, see Managing parameter tiers in the Amazon Web
+  Services Systems Manager User Guide. You can change a standard parameter to an advanced
+  parameter any time. But you can't revert an advanced parameter to a standard parameter.
+  Reverting an advanced parameter to a standard parameter would result in data loss because
+  the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also
+  remove any policies attached to the parameter. Lastly, advanced parameters use a different
+  form of encryption than standard parameters.  If you no longer need an advanced parameter,
+  or if you no longer want to incur charges for an advanced parameter, you must delete it and
+  recreate it as a new standard parameter.   Using the Default Tier Configuration  In
+  PutParameter requests, you can specify the tier to create the parameter in. Whenever you
+  specify a tier in the request, Parameter Store creates or updates the parameter according
+  to that request. However, if you don't specify a tier in a request, Parameter Store assigns
+  the tier based on the current Parameter Store default tier configuration. The default tier
+  when you begin using Parameter Store is the standard-parameter tier. If you use the
+  advanced-parameter tier, you can specify one of the following as the default:    Advanced:
+  With this option, Parameter Store evaluates all requests as advanced parameters.
+  Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine
+  if the parameter is standard or advanced.  If the request doesn't include any options that
+  require an advanced parameter, the parameter is created in the standard-parameter tier. If
+  one or more options requiring an advanced parameter are included in the request, Parameter
+  Store create a parameter in the advanced-parameter tier. This approach helps control your
+  parameter-related costs by always creating standard parameters unless an advanced parameter
+  is necessary.    Options that require an advanced parameter include the following:   The
+  content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.
+  More than 10,000 parameters already exist in your Amazon Web Services account in the
+  current Amazon Web Services Region.   For more information about configuring the default
+  tier option, see Specifying a default parameter tier in the Amazon Web Services Systems
+  Manager User Guide.
 - `"Type"`: The type of parameter that you want to add to the system.   SecureString isn't
   currently supported for CloudFormation templates.  Items in a StringList must be separated
   by a comma (,). You can't use other punctuation or special character to escape items in the
@@ -4908,9 +5029,25 @@ end
 
 Creates or updates a Systems Manager resource policy. A resource policy helps you to define
 the IAM entity (for example, an Amazon Web Services account) that can manage your Systems
-Manager resources. Currently, OpsItemGroup is the only resource that supports Systems
-Manager resource policies. The resource policy for OpsItemGroup enables Amazon Web Services
-accounts to view and interact with OpsCenter operational work items (OpsItems).
+Manager resources. The following resources support Systems Manager resource policies.
+OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to
+view and interact with OpsCenter operational work items (OpsItems).    Parameter - The
+resource policy is used to share a parameter with other accounts using Resource Access
+Manager (RAM).  To share a parameter, it must be in the advanced parameter tier. For
+information about parameter tiers, see Managing parameter tiers. For information about
+changing an existing standard parameter to an advanced parameter, see Changing a standard
+parameter to an advanced parameter. To share a SecureString parameter, it must be encrypted
+with a customer managed key, and you must share the key separately through Key Management
+Service. Amazon Web Services managed keys cannot be shared. Parameters encrypted with the
+default Amazon Web Services managed key can be updated to use a customer managed key
+instead. For KMS key definitions, see KMS concepts in the Key Management Service Developer
+Guide.  While you can share a parameter using the Systems Manager PutResourcePolicy
+operation, we recommend using Resource Access Manager (RAM) instead. This is because using
+PutResourcePolicy requires the extra step of promoting the parameter to a standard RAM
+Resource Share using the RAM PromoteResourceShareCreatedFromPolicy API operation.
+Otherwise, the parameter won't be returned by the Systems Manager DescribeParameters API
+operation using the --shared option. For more information, see Sharing a parameter in the
+Amazon Web Services Systems Manager User Guide
 
 # Arguments
 - `policy`: A policy you want to associate with a resource.
@@ -5164,12 +5301,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tasks that have the same priority scheduled in parallel.
 - `"ServiceRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
   Services Systems Manager to assume when running a maintenance window task. If you do not
-  specify a service role ARN, Systems Manager uses your account's service-linked role. If no
-  service-linked role for Systems Manager exists in your account, it is created when you run
-  RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in
-  the Amazon Web Services Systems Manager User Guide:    Using service-linked roles for
-  Systems Manager     Should I use a service-linked role or a custom service role to run
-  maintenance window tasks?
+  specify a service role ARN, Systems Manager uses a service-linked role in your account. If
+  no appropriate service-linked role for Systems Manager exists in your account, it is
+  created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security
+  posture, we strongly recommend creating a custom policy and custom service role for running
+  your maintenance window tasks. The policy can be crafted to provide only the permissions
+  needed for your particular maintenance window tasks. For more information, see Setting up
+  maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
 - `"Targets"`: The targets (either managed nodes or maintenance window targets).  One or
   more targets must be specified for maintenance window Run Command-type tasks. Depending on
   the task, targets are optional for other maintenance window task types (Automation, Lambda,
@@ -5444,9 +5582,9 @@ Runs commands on one or more managed nodes.
 - `document_name`: The name of the Amazon Web Services Systems Manager document (SSM
   document) to run. This can be a public document or a custom document. To run a shared
   document belonging to another account, specify the document Amazon Resource Name (ARN). For
-  more information about how to use shared documents, see Using shared SSM documents in the
-  Amazon Web Services Systems Manager User Guide.  If you specify a document name or ARN that
-  hasn't been shared with your account, you receive an InvalidDocument error.
+  more information about how to use shared documents, see Sharing SSM documents in the Amazon
+  Web Services Systems Manager User Guide.  If you specify a document name or ARN that hasn't
+  been shared with your account, you receive an InvalidDocument error.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5471,8 +5609,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prefer not to list individual node IDs, we recommend using the Targets option instead.
   Using Targets, which accepts tag key-value pairs to identify the managed nodes to send
   commands to, you can a send command to tens, hundreds, or thousands of nodes at once. For
-  more information about how to use targets, see Using targets and rate controls to send
-  commands to a fleet in the Amazon Web Services Systems Manager User Guide.
+  more information about how to use targets, see Run commands at scale in the Amazon Web
+  Services Systems Manager User Guide.
 - `"MaxConcurrency"`: (Optional) The maximum number of managed nodes that are allowed to
   run the command at the same time. You can specify a number such as 10 or a percentage such
   as 10%. The default value is 50. For more information about how to use MaxConcurrency, see
@@ -5502,8 +5640,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   command to a large number of managed nodes at once. Using Targets, which accepts tag
   key-value pairs to identify managed nodes, you can send a command to tens, hundreds, or
   thousands of nodes at once. To send a command to a smaller number of managed nodes, you can
-  use the InstanceIds option instead. For more information about how to use targets, see
-  Sending commands to a fleet in the Amazon Web Services Systems Manager User Guide.
+  use the InstanceIds option instead. For more information about how to use targets, see Run
+  commands at scale in the Amazon Web Services Systems Manager User Guide.
 - `"TimeoutSeconds"`: If this time is reached and the command hasn't already started
   running, it won't run.
 """
@@ -5575,7 +5713,7 @@ Initiates execution of an Automation runbook.
 # Arguments
 - `document_name`: The name of the SSM document to run. This can be a public document or a
   custom document. To run a shared document belonging to another account, specify the
-  document ARN. For more information about how to use shared documents, see Using shared SSM
+  document ARN. For more information about how to use shared documents, see Sharing SSM
   documents in the Amazon Web Services Systems Manager User Guide.
 
 # Optional Parameters
@@ -5856,7 +5994,8 @@ Remove a label or labels from a parameter.
 
 # Arguments
 - `labels`: One or more labels to delete from the specified parameter version.
-- `name`: The name of the parameter from which you want to delete one or more labels.
+- `name`: The name of the parameter from which you want to delete one or more labels.  You
+  can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.
 - `parameter_version`: The specific version of the parameter which you want to delete one
   or more labels from. If it isn't present, the call will fail.
 
@@ -5958,6 +6097,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   document if shared from another account, even though the Systems Manager console shows that
   a new version was processed. If you want to run an association using a new version of a
   document shared form another account, you must set the document version to default.
+- `"Duration"`: The number of hours the association can run before it is canceled. Duration
+  applies to associations that are currently running, and any pending and in progress
+  commands on all targets. If a target was taken offline for the association to run, it is
+  made available again immediately, without a reboot.  The Duration parameter applies only
+  when both these conditions are true:   The association for which you specify a duration is
+  cancelable according to the parameters of the SSM command document or Automation runbook
+  associated with this execution.    The command specifies the  ApplyOnlyAtCronInterval
+  parameter, which means that the association doesn't run immediately after it is updated,
+  but only according to the specified schedule.
 - `"MaxConcurrency"`: The maximum number of targets allowed to run the association at the
   same time. You can specify a number, for example 10, or a percentage of the target set, for
   example 10%. The default value is 100%, which means all targets run the association at the
@@ -6120,8 +6268,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   association unless you previously specifed the apply-only-at-cron-interval parameter.
 - `"TargetType"`: Specify a new target type for the document.
 - `"VersionName"`: An optional field specifying the version of the artifact you are
-  updating with the document. For example, \"Release 12, Update 6\". This value is unique
-  across all versions of a document, and can't be changed.
+  updating with the document. For example, 12.6. This value is unique across all versions of
+  a document, and can't be changed.
 """
 function update_document(Content, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm(
@@ -6282,7 +6430,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Zone Database on the IANA website.
 - `"StartDate"`: The date and time, in ISO-8601 Extended format, for when you want the
   maintenance window to become active. StartDate allows you to delay activation of the
-  maintenance window until the specified future date.
+  maintenance window until the specified future date.  When using a rate schedule, if you
+  provide a start date that occurs in the past, the current date and time are used as the
+  start date.
 """
 function update_maintenance_window(
     WindowId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6435,12 +6585,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Optional fields that aren't specified are set to null.
 - `"ServiceRoleArn"`: The Amazon Resource Name (ARN) of the IAM service role for Amazon Web
   Services Systems Manager to assume when running a maintenance window task. If you do not
-  specify a service role ARN, Systems Manager uses your account's service-linked role. If no
-  service-linked role for Systems Manager exists in your account, it is created when you run
-  RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in
-  the Amazon Web Services Systems Manager User Guide:    Using service-linked roles for
-  Systems Manager     Should I use a service-linked role or a custom service role to run
-  maintenance window tasks?
+  specify a service role ARN, Systems Manager uses a service-linked role in your account. If
+  no appropriate service-linked role for Systems Manager exists in your account, it is
+  created when you run RegisterTaskWithMaintenanceWindow. However, for an improved security
+  posture, we strongly recommend creating a custom policy and custom service role for running
+  your maintenance window tasks. The policy can be crafted to provide only the permissions
+  needed for your particular maintenance window tasks. For more information, see Setting up
+  maintenance windows in the in the Amazon Web Services Systems Manager User Guide.
 - `"Targets"`: The targets (either managed nodes or tags) to modify. Managed nodes are
   specified using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are
   specified using the format  Key=tag_name,Values=tag_value.   One or more targets must be
@@ -6509,9 +6660,9 @@ nodes during the activation process. For more information, see CreateActivation.
 - `iam_role`: The name of the Identity and Access Management (IAM) role that you want to
   assign to the managed node. This IAM role must provide AssumeRole permissions for the
   Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more
-  information, see Create an IAM service role for a hybrid environment in the Amazon Web
-  Services Systems Manager User Guide.  You can't specify an IAM service-linked role for this
-  parameter. You must create a unique role.
+  information, see Create an IAM service role for a hybrid and multicloud environment in the
+  Amazon Web Services Systems Manager User Guide.  You can't specify an IAM service-linked
+  role for this parameter. You must create a unique role.
 - `instance_id`: The ID of the managed node where you want to update the role.
 
 """
@@ -6550,12 +6701,12 @@ end
     update_ops_item(ops_item_id, params::Dict{String,<:Any})
 
 Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM)
-to update an OpsItem. For more information, see Getting started with OpsCenter in the
-Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals
-use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate
-operational issues impacting the performance and health of their Amazon Web Services
-resources. For more information, see OpsCenter in the Amazon Web Services Systems Manager
-User Guide.
+to update an OpsItem. For more information, see Set up OpsCenter in the Amazon Web Services
+Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web
+Services Systems Manager OpsCenter to view, investigate, and remediate operational issues
+impacting the performance and health of their Amazon Web Services resources. For more
+information, see Amazon Web Services Systems Manager OpsCenter in the Amazon Web Services
+Systems Manager User Guide.
 
 # Arguments
 - `ops_item_id`: The ID of the OpsItem.
@@ -6567,8 +6718,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ActualStartTime"`: The time a runbook workflow started. Currently reported only for the
   OpsItem type /aws/changerequest.
 - `"Category"`: Specify a new category for an OpsItem.
-- `"Description"`: Update the information about the OpsItem. Provide enough information so
-  that users reading this OpsItem for the first time understand the issue.
+- `"Description"`: User-defined text that contains information about the OpsItem, in
+  Markdown format.
 - `"Notifications"`: The Amazon Resource Name (ARN) of an SNS topic where notifications are
   sent when this OpsItem is edited or changed.
 - `"OperationalData"`: Add new keys or edit existing key-value pairs of the OperationalData
@@ -6700,10 +6851,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the RejectedPackages list.     ALLOW_AS_DEPENDENCY : A package in the Rejected patches list
   is installed only if it is a dependency of another package. It is considered compliant with
   the patch baseline, and its status is reported as InstalledOther. This is the default
-  action if no option is specified.     BLOCK : Packages in the RejectedPatches list, and
-  packages that include them as dependencies, aren't installed under any circumstances. If a
-  package was installed before it was added to the Rejected patches list, it is considered
-  non-compliant with the patch baseline, and its status is reported as InstalledRejected.
+  action if no option is specified.    BLOCK: Packages in the Rejected patches list, and
+  packages that include them as dependencies, aren't installed by Patch Manager under any
+  circumstances. If a package was installed before it was added to the Rejected patches list,
+  or is installed outside of Patch Manager afterward, it's considered noncompliant with the
+  patch baseline and its status is reported as InstalledRejected.
 - `"Replace"`: If True, then all fields that are required by the CreatePatchBaseline
   operation are also required for this API request. Optional fields that aren't specified are
   set to null.
@@ -6822,14 +6974,16 @@ service setting for the account.
   to administrators. Implement least privilege access when allowing individuals to configure
   or modify the Default Host Management Configuration.
 - `setting_value`: The new value to specify for the service setting. The following list
-  specifies the available values for each setting.
-  /ssm/managed-instance/default-ec2-instance-management-role: The name of an IAM role
-  /ssm/automation/customer-script-log-destination: CloudWatch
-  /ssm/automation/customer-script-log-group-name: The name of an Amazon CloudWatch Logs log
-  group    /ssm/documents/console/public-sharing-permission: Enable or Disable
-  /ssm/managed-instance/activation-tier: standard or advanced     /ssm/opsinsights/opscenter:
-  Enabled or Disabled     /ssm/parameter-store/default-parameter-tier: Standard, Advanced,
-  Intelligent-Tiering     /ssm/parameter-store/high-throughput-enabled: true or false
+  specifies the available values for each setting.   For
+  /ssm/managed-instance/default-ec2-instance-management-role, enter the name of an IAM role.
+    For /ssm/automation/customer-script-log-destination, enter CloudWatch.   For
+  /ssm/automation/customer-script-log-group-name, enter the name of an Amazon CloudWatch Logs
+  log group.   For /ssm/documents/console/public-sharing-permission, enter Enable or Disable.
+    For /ssm/managed-instance/activation-tier, enter standard or advanced.    For
+  /ssm/opsinsights/opscenter, enter Enabled or Disabled.    For
+  /ssm/parameter-store/default-parameter-tier, enter Standard, Advanced, or
+  Intelligent-Tiering    For /ssm/parameter-store/high-throughput-enabled, enter true or
+  false.
 
 """
 function update_service_setting(

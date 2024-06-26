@@ -24,6 +24,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscriber and up to 10 email subscribers. If you include notifications and subscribers in
   your CreateBudget call, Amazon Web Services creates the notifications and subscribers for
   you.
+- `"ResourceTags"`: An optional list of tags to associate with the specified budget. Each
+  tag consists of a key and a value, and each key must be unique for the resource.
 """
 function create_budget(AccountId, Budget; aws_config::AbstractAWSConfig=global_aws_config())
     return budgets(
@@ -72,6 +74,10 @@ end
 - `notification_type`:
 - `subscribers`:
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ResourceTags"`: An optional list of tags to associate with the specified budget action.
+  Each tag consists of a key and a value, and each key must be unique for the resource.
 """
 function create_budget_action(
     AccountId,
@@ -710,8 +716,8 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`:  An integer that shows how many budget name entries a paginated response
-  contains.
+- `"MaxResults"`:  An integer that represents how many budgets a paginated response
+  contains. The default is 50.
 - `"NextToken"`:
 """
 function describe_budget_notifications_for_account(
@@ -795,13 +801,12 @@ Lists the budgets that are associated with an account.  The Request Syntax secti
 the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
 
 # Arguments
-- `account_id`: The accountId that is associated with the budgets that you want
-  descriptions of.
+- `account_id`: The accountId that is associated with the budgets that you want to describe.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"MaxResults"`: An optional integer that represents how many entries a paginated response
-  contains. The maximum is 100.
+- `"MaxResults"`: An integer that represents how many budgets a paginated response
+  contains. The default is 100.
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
@@ -842,7 +847,7 @@ Lists the notifications that are associated with a budget.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: An optional integer that represents how many entries a paginated response
-  contains. The maximum is 100.
+  contains.
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
@@ -891,7 +896,7 @@ Lists the subscribers that are associated with a notification.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: An optional integer that represents how many entries a paginated response
-  contains. The maximum is 100.
+  contains.
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
@@ -984,6 +989,129 @@ function execute_budget_action(
                     "ActionId" => ActionId,
                     "BudgetName" => BudgetName,
                     "ExecutionType" => ExecutionType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Lists tags associated with a budget or budget action resource.
+
+# Arguments
+- `resource_arn`: The unique identifier for the resource.
+
+"""
+function list_tags_for_resource(
+    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    ResourceARN,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceARN" => ResourceARN), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, resource_tags)
+    tag_resource(resource_arn, resource_tags, params::Dict{String,<:Any})
+
+Creates tags for a budget or budget action resource.
+
+# Arguments
+- `resource_arn`: The unique identifier for the resource.
+- `resource_tags`: The tags associated with the resource.
+
+"""
+function tag_resource(
+    ResourceARN, ResourceTags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "TagResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "ResourceTags" => ResourceTags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    ResourceTags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceARN" => ResourceARN, "ResourceTags" => ResourceTags
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, resource_tag_keys)
+    untag_resource(resource_arn, resource_tag_keys, params::Dict{String,<:Any})
+
+Deletes tags associated with a budget or budget action resource.
+
+# Arguments
+- `resource_arn`: The unique identifier for the resource.
+- `resource_tag_keys`: The key that's associated with the tag.
+
+"""
+function untag_resource(
+    ResourceARN, ResourceTagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return budgets(
+        "UntagResource",
+        Dict{String,Any}(
+            "ResourceARN" => ResourceARN, "ResourceTagKeys" => ResourceTagKeys
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    ResourceTagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return budgets(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceARN" => ResourceARN, "ResourceTagKeys" => ResourceTagKeys
                 ),
                 params,
             ),

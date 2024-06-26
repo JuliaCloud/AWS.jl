@@ -8,13 +8,20 @@ using AWS.UUIDs
     associate_license(license_type, workspace_id)
     associate_license(license_type, workspace_id, params::Dict{String,<:Any})
 
-Assigns a Grafana Enterprise license to a workspace. Upgrading to Grafana Enterprise incurs
-additional fees. For more information, see Upgrade a workspace to Grafana Enterprise.
+Assigns a Grafana Enterprise license to a workspace. To upgrade, you must use ENTERPRISE
+for the licenseType, and pass in a valid Grafana Labs token for the grafanaToken. Upgrading
+to Grafana Enterprise incurs additional fees. For more information, see Upgrade a workspace
+to Grafana Enterprise.
 
 # Arguments
-- `license_type`: The type of license to associate with the workspace.
+- `license_type`: The type of license to associate with the workspace.  Amazon Managed
+  Grafana workspaces no longer support Grafana Enterprise free trials.
 - `workspace_id`: The ID of the workspace to associate the license with.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Grafana-Token"`: A token from Grafana Labs that ties your Amazon Web Services account
+  with a Grafana Labs account. For more information, see Link your account with Grafana Labs.
 """
 function associate_license(
     licenseType, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -57,9 +64,8 @@ workspace. Instead, use UpdateWorkspace.
   ORGANIZATION, you must specify which organizational units the workspace can access in the
   workspaceOrganizationalUnits parameter.
 - `authentication_providers`: Specifies whether this workspace uses SAML 2.0, IAM Identity
-  Center (successor to Single Sign-On), or both to authenticate users for using the Grafana
-  console within a workspace. For more information, see User authentication in Amazon Managed
-  Grafana.
+  Center, or both to authenticate users for using the Grafana console within a workspace. For
+  more information, see User authentication in Amazon Managed Grafana.
 - `permission_type`: When creating a workspace through the Amazon Web Services API, CLI or
   Amazon Web Services CloudFormation, you must manage IAM roles and provision the permissions
   that the workspace needs to use Amazon Web Services data sources and notification channels.
@@ -78,8 +84,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"configuration"`: The configuration string for the workspace that you create. For more
   information about the format and configuration options available, see Working in your
   Grafana workspace.
-- `"grafanaVersion"`: Specifies the version of Grafana to support in the new workspace.
-  Supported values are 8.4 and 9.4.
+- `"grafanaVersion"`: Specifies the version of Grafana to support in the new workspace. If
+  not specified, defaults to the latest version (for example, 10.4). To get a list of
+  supported versions, use the ListVersions operation.
 - `"networkAccessControl"`: Configuration for network access to your workspace. When this
   is configured, only listed IP addresses and VPC endpoints will be able to access your
   workspace. Standard Grafana authentication and authorization will still be required. If
@@ -92,7 +99,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to be used for this workspace.
 - `"tags"`: The list of tags associated with the workspace.
 - `"vpcConfiguration"`: The configuration settings for an Amazon VPC that contains data
-  sources for your Grafana workspace to connect to.
+  sources for your Grafana workspace to connect to.  Connecting to a private VPC is not yet
+  available in the Asia Pacific (Seoul) Region (ap-northeast-2).
 - `"workspaceDataSources"`: This parameter is for internal use only, and should not be used.
 - `"workspaceDescription"`: A description for the workspace. This is used only to help you
   identify this workspace. Pattern: ^[p{L}p{Z}p{N}p{P}]{0,2048}
@@ -162,11 +170,13 @@ end
 Creates a Grafana API key for the workspace. This key can be used to authenticate requests
 sent to the workspace's HTTP API. See
 https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available
-APIs and example requests.
+APIs and example requests.  In workspaces compatible with Grafana version 9 or above, use
+workspace service accounts instead of API keys. API keys will be removed in a future
+release.
 
 # Arguments
 - `key_name`: Specifies the name of the key. Keynames must be unique to the workspace.
-- `key_role`: Specifies the permission level of the key.  Valid values: VIEWER|EDITOR|ADMIN
+- `key_role`: Specifies the permission level of the key.  Valid values: ADMIN|EDITOR|VIEWER
 - `seconds_to_live`: Specifies the time in seconds until the key expires. Keys can be valid
   for up to 30 days.
 - `workspace_id`: The ID of the workspace to create an API key.
@@ -217,6 +227,120 @@ function create_workspace_api_key(
 end
 
 """
+    create_workspace_service_account(grafana_role, name, workspace_id)
+    create_workspace_service_account(grafana_role, name, workspace_id, params::Dict{String,<:Any})
+
+Creates a service account for the workspace. A service account can be used to call Grafana
+HTTP APIs, and run automated workloads. After creating the service account with the correct
+GrafanaRole for your use case, use CreateWorkspaceServiceAccountToken to create a token
+that can be used to authenticate and authorize Grafana HTTP API calls. You can only create
+service accounts for workspaces that are compatible with Grafana version 9 and above.  For
+more information about service accounts, see Service accounts in the Amazon Managed Grafana
+User Guide. For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs
+in the Amazon Managed Grafana User Guide.
+
+# Arguments
+- `grafana_role`: The permission level to use for this service account.  For more
+  information about the roles and the permissions each has, see User roles in the Amazon
+  Managed Grafana User Guide.
+- `name`: A name for the service account. The name must be unique within the workspace, as
+  it determines the ID associated with the service account.
+- `workspace_id`: The ID of the workspace within which to create the service account.
+
+"""
+function create_workspace_service_account(
+    grafanaRole, name, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return grafana(
+        "POST",
+        "/workspaces/$(workspaceId)/serviceaccounts",
+        Dict{String,Any}("grafanaRole" => grafanaRole, "name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_workspace_service_account(
+    grafanaRole,
+    name,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "POST",
+        "/workspaces/$(workspaceId)/serviceaccounts",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("grafanaRole" => grafanaRole, "name" => name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_workspace_service_account_token(name, seconds_to_live, service_account_id, workspace_id)
+    create_workspace_service_account_token(name, seconds_to_live, service_account_id, workspace_id, params::Dict{String,<:Any})
+
+Creates a token that can be used to authenticate and authorize Grafana HTTP API operations
+for the given workspace service account. The service account acts as a user for the API
+operations, and defines the permissions that are used by the API.  When you create the
+service account token, you will receive a key that is used when calling Grafana APIs. Do
+not lose this key, as it will not be retrievable again. If you do lose the key, you can
+delete the token and recreate it to receive a new key. This will disable the initial key.
+Service accounts are only available for workspaces that are compatible with Grafana version
+9 and above.
+
+# Arguments
+- `name`: A name for the token to create.
+- `seconds_to_live`: Sets how long the token will be valid, in seconds. You can set the
+  time up to 30 days in the future.
+- `service_account_id`: The ID of the service account for which to create a token.
+- `workspace_id`: The ID of the workspace the service account resides within.
+
+"""
+function create_workspace_service_account_token(
+    name,
+    secondsToLive,
+    serviceAccountId,
+    workspaceId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "POST",
+        "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens",
+        Dict{String,Any}("name" => name, "secondsToLive" => secondsToLive);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_workspace_service_account_token(
+    name,
+    secondsToLive,
+    serviceAccountId,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "POST",
+        "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("name" => name, "secondsToLive" => secondsToLive),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_workspace(workspace_id)
     delete_workspace(workspace_id, params::Dict{String,<:Any})
 
@@ -252,7 +376,9 @@ end
     delete_workspace_api_key(key_name, workspace_id)
     delete_workspace_api_key(key_name, workspace_id, params::Dict{String,<:Any})
 
-Deletes a Grafana API key for the workspace.
+Deletes a Grafana API key for the workspace.  In workspaces compatible with Grafana version
+9 or above, use workspace service accounts instead of API keys. API keys will be removed in
+a future release.
 
 # Arguments
 - `key_name`: The name of the API key to delete.
@@ -278,6 +404,89 @@ function delete_workspace_api_key(
     return grafana(
         "DELETE",
         "/workspaces/$(workspaceId)/apikeys/$(keyName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_workspace_service_account(service_account_id, workspace_id)
+    delete_workspace_service_account(service_account_id, workspace_id, params::Dict{String,<:Any})
+
+Deletes a workspace service account from the workspace. This will delete any tokens created
+for the service account, as well. If the tokens are currently in use, the will fail to
+authenticate / authorize after they are deleted. Service accounts are only available for
+workspaces that are compatible with Grafana version 9 and above.
+
+# Arguments
+- `service_account_id`: The ID of the service account to delete.
+- `workspace_id`: The ID of the workspace where the service account resides.
+
+"""
+function delete_workspace_service_account(
+    serviceAccountId, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return grafana(
+        "DELETE",
+        "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_workspace_service_account(
+    serviceAccountId,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "DELETE",
+        "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_workspace_service_account_token(service_account_id, token_id, workspace_id)
+    delete_workspace_service_account_token(service_account_id, token_id, workspace_id, params::Dict{String,<:Any})
+
+Deletes a token for the workspace service account. This will disable the key associated
+with the token. If any automation is currently using the key, it will no longer be
+authenticated or authorized to perform actions with the Grafana HTTP APIs. Service accounts
+are only available for workspaces that are compatible with Grafana version 9 and above.
+
+# Arguments
+- `service_account_id`: The ID of the service account from which to delete the token.
+- `token_id`: The ID of the token to delete.
+- `workspace_id`: The ID of the workspace from which to delete the token.
+
+"""
+function delete_workspace_service_account_token(
+    serviceAccountId,
+    tokenId,
+    workspaceId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "DELETE",
+        "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens/$(tokenId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_workspace_service_account_token(
+    serviceAccountId,
+    tokenId,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "DELETE",
+        "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens/$(tokenId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -498,6 +707,118 @@ function list_tags_for_resource(
     return grafana(
         "GET",
         "/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_versions()
+    list_versions(params::Dict{String,<:Any})
+
+Lists available versions of Grafana. These are available when calling CreateWorkspace.
+Optionally, include a workspace to list the versions to which it can be upgraded.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to include in the response.
+- `"nextToken"`: The token to use when requesting the next set of results. You receive this
+  token from a previous ListVersions operation.
+- `"workspace-id"`: The ID of the workspace to list the available upgrade versions. If not
+  included, lists all versions of Grafana that are supported for CreateWorkspace.
+"""
+function list_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return grafana(
+        "GET", "/versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_versions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return grafana(
+        "GET", "/versions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_workspace_service_account_tokens(service_account_id, workspace_id)
+    list_workspace_service_account_tokens(service_account_id, workspace_id, params::Dict{String,<:Any})
+
+Returns a list of tokens for a workspace service account.  This does not return the key for
+each token. You cannot access keys after they are created. To create a new key, delete the
+token and recreate it.  Service accounts are only available for workspaces that are
+compatible with Grafana version 9 and above.
+
+# Arguments
+- `service_account_id`: The ID of the service account for which to return tokens.
+- `workspace_id`: The ID of the workspace for which to return tokens.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of tokens to include in the results.
+- `"nextToken"`: The token for the next set of service accounts to return. (You receive
+  this token from a previous ListWorkspaceServiceAccountTokens operation.)
+"""
+function list_workspace_service_account_tokens(
+    serviceAccountId, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return grafana(
+        "GET",
+        "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_workspace_service_account_tokens(
+    serviceAccountId,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "GET",
+        "/workspaces/$(workspaceId)/serviceaccounts/$(serviceAccountId)/tokens",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_workspace_service_accounts(workspace_id)
+    list_workspace_service_accounts(workspace_id, params::Dict{String,<:Any})
+
+Returns a list of service accounts for a workspace. Service accounts are only available for
+workspaces that are compatible with Grafana version 9 and above.
+
+# Arguments
+- `workspace_id`: The workspace for which to list service accounts.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of service accounts to include in the results.
+- `"nextToken"`: The token for the next set of service accounts to return. (You receive
+  this token from a previous ListWorkspaceServiceAccounts operation.)
+"""
+function list_workspace_service_accounts(
+    workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return grafana(
+        "GET",
+        "/workspaces/$(workspaceId)/serviceaccounts";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_workspace_service_accounts(
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return grafana(
+        "GET",
+        "/workspaces/$(workspaceId)/serviceaccounts",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -755,9 +1076,8 @@ take a few minutes to take effect.
 
 # Arguments
 - `authentication_providers`: Specifies whether this workspace uses SAML 2.0, IAM Identity
-  Center (successor to Single Sign-On), or both to authenticate users for using the Grafana
-  console within a workspace. For more information, see User authentication in Amazon Managed
-  Grafana.
+  Center, or both to authenticate users for using the Grafana console within a workspace. For
+  more information, see User authentication in Amazon Managed Grafana.
 - `workspace_id`: The ID of the workspace to update the authentication for.
 
 # Optional Parameters
@@ -809,6 +1129,13 @@ Updates the configuration string for the given workspace
   about the format and configuration options available, see Working in your Grafana workspace.
 - `workspace_id`: The ID of the workspace to update.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"grafanaVersion"`: Specifies the version of Grafana to support in the workspace. If not
+  specified, keeps the current version of the workspace. Can only be used to upgrade (for
+  example, from 8.4 to 9.4), not downgrade (for example, from 9.4 to 8.4). To know what
+  versions are available to upgrade to for a specific workspace, see the ListVersions
+  operation.
 """
 function update_workspace_configuration(
     configuration, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()

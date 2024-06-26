@@ -67,6 +67,44 @@ function batch_get_stream_key(
 end
 
 """
+    batch_start_viewer_session_revocation(viewer_sessions)
+    batch_start_viewer_session_revocation(viewer_sessions, params::Dict{String,<:Any})
+
+Performs StartViewerSessionRevocation on multiple channel ARN and viewer ID pairs
+simultaneously.
+
+# Arguments
+- `viewer_sessions`: Array of viewer sessions, one per channel-ARN and viewer-ID pair.
+
+"""
+function batch_start_viewer_session_revocation(
+    viewerSessions; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/BatchStartViewerSessionRevocation",
+        Dict{String,Any}("viewerSessions" => viewerSessions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_start_viewer_session_revocation(
+    viewerSessions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/BatchStartViewerSessionRevocation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("viewerSessions" => viewerSessions), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_channel()
     create_channel(params::Dict{String,<:Any})
 
@@ -76,52 +114,28 @@ Creates a new channel and an associated stream key to start streaming.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authorized"`: Whether the channel is private (enabled for playback authorization).
   Default: false.
-- `"insecureIngest"`: Whether the channel allows insecure RTMP ingest. Default: false.
+- `"insecureIngest"`: Whether the channel allows insecure RTMP and SRT ingest. Default:
+  false.
 - `"latencyMode"`: Channel latency mode. Use NORMAL to broadcast and deliver live video up
-  to Full HD. Use LOW for near-real-time interaction with viewers. (Note: In the Amazon IVS
-  console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.) Default: LOW.
+  to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
 - `"name"`: Channel name.
+- `"playbackRestrictionPolicyArn"`: Playback-restriction-policy ARN. A valid ARN value here
+  both specifies the ARN and enables playback restriction. Default: \"\" (empty string, no
+  playback restriction policy is applied).
 - `"preset"`: Optional transcode preset for the channel. This is selectable only for
   ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is
   HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the
   empty string (\"\").
-- `"recordingConfigurationArn"`: Recording-configuration ARN. Default: \"\" (empty string,
-  recording is disabled).
+- `"recordingConfigurationArn"`: Recording-configuration ARN. A valid ARN value here both
+  specifies the ARN and enables recording. Default: \"\" (empty string, recording is
+  disabled).
 - `"tags"`: Array of 1-50 maps, each of the form string:string (key:value). See Tagging
   Amazon Web Services Resources for more information, including restrictions that apply to
   tags and \"Tag naming limits and requirements\"; Amazon IVS has no service-specific
   constraints beyond what is documented there.
 - `"type"`: Channel type, which determines the allowable resolution and bitrate. If you
   exceed the allowable input resolution or bitrate, the stream probably will disconnect
-  immediately. Some types generate multiple qualities (renditions) from the original input;
-  this automatically gives viewers the best experience for their devices and network
-  conditions. Some types provide transcoded video; transcoding allows higher playback quality
-  across a range of download speeds. Default: STANDARD. Valid values:    BASIC: Video is
-  transmuxed: Amazon IVS delivers the original input quality to viewers. The viewer’s
-  video-quality choice is limited to the original input. Input resolution can be up to 1080p
-  and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p
-  and 1080p. Original audio is passed through.    STANDARD: Video is transcoded: multiple
-  qualities are generated from the original input, to automatically give viewers the best
-  experience for their devices and network conditions. Transcoding allows higher playback
-  quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be
-  up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio
-  is passed through. This is the default when you create a channel.    ADVANCED_SD: Video is
-  transcoded; multiple qualities are generated from the original input, to automatically give
-  viewers the best experience for their devices and network conditions. Input resolution can
-  be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at SD quality (480p).
-  You can select an optional transcode preset (see below). Audio for all renditions is
-  transcoded, and an audio-only rendition is available.    ADVANCED_HD: Video is transcoded;
-  multiple qualities are generated from the original input, to automatically give viewers the
-  best experience for their devices and network conditions. Input resolution can be up to
-  1080p and bitrate can be up to 8.5 Mbps; output is capped at HD quality (720p). You can
-  select an optional transcode preset (see below). Audio for all renditions is transcoded,
-  and an audio-only rendition is available.   Optional transcode presets (available for the
-  ADVANCED types) allow you to trade off available download bandwidth and video quality, to
-  optimize the viewing experience. There are two presets:    Constrained bandwidth delivery
-  uses a lower bitrate for each quality level. Use it if you have low download bandwidth
-  and/or simple video content (e.g., talking heads)    Higher bandwidth delivery uses a
-  higher bitrate for each quality level. Use it if you have high download bandwidth and/or
-  complex video content (e.g., flashes and quick scene changes).
+  immediately. Default: STANDARD. For details, see Channel Types.
 """
 function create_channel(; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs(
@@ -134,6 +148,52 @@ function create_channel(
     return ivs(
         "POST",
         "/CreateChannel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_playback_restriction_policy()
+    create_playback_restriction_policy(params::Dict{String,<:Any})
+
+Creates a new playback restriction policy, for constraining playback by countries and/or
+origins.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"allowedCountries"`: A list of country codes that control geoblocking restriction.
+  Allowed values are the officially assigned ISO 3166-1 alpha-2 codes. Default: All countries
+  (an empty array).
+- `"allowedOrigins"`: A list of origin sites that control CORS restriction. Allowed values
+  are the same as valid values of the Origin header defined at
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin. Default: All origins (an
+  empty array).
+- `"enableStrictOriginEnforcement"`: Whether channel playback is constrained by origin
+  site. Default: false.
+- `"name"`: Playback-restriction-policy name. The value does not need to be unique.
+- `"tags"`: Array of 1-50 maps, each of the form string:string (key:value). See Tagging
+  Amazon Web Services Resources for more information, including restrictions that apply to
+  tags and \"Tag naming limits and requirements\"; Amazon IVS has no service-specific
+  constraints beyond what is documented there.
+"""
+function create_playback_restriction_policy(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/CreatePlaybackRestrictionPolicy";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_playback_restriction_policy(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/CreatePlaybackRestrictionPolicy",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -164,6 +224,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"recordingReconnectWindowSeconds"`: If a broadcast disconnects and then reconnects
   within the specified interval, the multiple streams will be considered a single broadcast
   and merged together. Default: 0.
+- `"renditionConfiguration"`: Object that describes which renditions should be recorded for
+  a stream.
 - `"tags"`: Array of 1-50 maps, each of the form string:string (key:value). See Tagging
   Amazon Web Services Resources for more information, including restrictions that apply to
   tags and \"Tag naming limits and requirements\"; Amazon IVS has no service-specific
@@ -317,6 +379,39 @@ function delete_playback_key_pair(
 end
 
 """
+    delete_playback_restriction_policy(arn)
+    delete_playback_restriction_policy(arn, params::Dict{String,<:Any})
+
+Deletes the specified playback restriction policy.
+
+# Arguments
+- `arn`: ARN of the playback restriction policy to be deleted.
+
+"""
+function delete_playback_restriction_policy(
+    arn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/DeletePlaybackRestrictionPolicy",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_playback_restriction_policy(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/DeletePlaybackRestrictionPolicy",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_recording_configuration(arn)
     delete_recording_configuration(arn, params::Dict{String,<:Any})
 
@@ -443,6 +538,39 @@ function get_playback_key_pair(
     return ivs(
         "POST",
         "/GetPlaybackKeyPair",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_playback_restriction_policy(arn)
+    get_playback_restriction_policy(arn, params::Dict{String,<:Any})
+
+Gets the specified playback restriction policy.
+
+# Arguments
+- `arn`: ARN of the playback restriction policy to be returned.
+
+"""
+function get_playback_restriction_policy(
+    arn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/GetPlaybackRestrictionPolicy",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_playback_restriction_policy(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/GetPlaybackRestrictionPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -647,6 +775,8 @@ together. If you try to use both filters, you will get an error (409 ConflictExc
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filterByName"`: Filters the channel list to match the specified name.
+- `"filterByPlaybackRestrictionPolicyArn"`: Filters the channel list to match the specified
+  policy.
 - `"filterByRecordingConfigurationArn"`: Filters the channel list to match the specified
   recording-configuration ARN.
 - `"maxResults"`: Maximum number of channels to return. Default: 100.
@@ -698,6 +828,40 @@ function list_playback_key_pairs(
     return ivs(
         "POST",
         "/ListPlaybackKeyPairs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_playback_restriction_policies()
+    list_playback_restriction_policies(params::Dict{String,<:Any})
+
+Gets summary information about playback restriction policies.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: Maximum number of policies to return. Default: 1.
+- `"nextToken"`: The first policy to retrieve. This is used for pagination; see the
+  nextToken response field.
+"""
+function list_playback_restriction_policies(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/ListPlaybackRestrictionPolicies";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_playback_restriction_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/ListPlaybackRestrictionPolicies",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -933,6 +1097,58 @@ function put_metadata(
 end
 
 """
+    start_viewer_session_revocation(channel_arn, viewer_id)
+    start_viewer_session_revocation(channel_arn, viewer_id, params::Dict{String,<:Any})
+
+Starts the process of revoking the viewer session associated with a specified channel ARN
+and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than
+and including that version. For instructions on associating a viewer ID with a viewer
+session, see Setting Up Private Channels.
+
+# Arguments
+- `channel_arn`: The ARN of the channel associated with the viewer session to revoke.
+- `viewer_id`: The ID of the viewer associated with the viewer session to revoke. Do not
+  use this field for personally identifying, confidential, or sensitive information.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"viewerSessionVersionsLessThanOrEqualTo"`: An optional filter on which versions of the
+  viewer session to revoke. All versions less than or equal to the specified version will be
+  revoked. Default: 0.
+"""
+function start_viewer_session_revocation(
+    channelArn, viewerId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/StartViewerSessionRevocation",
+        Dict{String,Any}("channelArn" => channelArn, "viewerId" => viewerId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_viewer_session_revocation(
+    channelArn,
+    viewerId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ivs(
+        "POST",
+        "/StartViewerSessionRevocation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("channelArn" => channelArn, "viewerId" => viewerId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_stream(channel_arn)
     stop_stream(channel_arn, params::Dict{String,<:Any})
 
@@ -1063,49 +1279,24 @@ ongoing stream, update the channel, and restart the stream for the changes to ta
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authorized"`: Whether the channel is private (enabled for playback authorization).
-- `"insecureIngest"`: Whether the channel allows insecure RTMP ingest. Default: false.
+- `"insecureIngest"`: Whether the channel allows insecure RTMP and SRT ingest. Default:
+  false.
 - `"latencyMode"`: Channel latency mode. Use NORMAL to broadcast and deliver live video up
-  to Full HD. Use LOW for near-real-time interaction with viewers. (Note: In the Amazon IVS
-  console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.)
+  to Full HD. Use LOW for near-real-time interaction with viewers.
 - `"name"`: Channel name.
+- `"playbackRestrictionPolicyArn"`: Playback-restriction-policy ARN. A valid ARN value here
+  both specifies the ARN and enables playback restriction. If this is set to an empty string,
+  playback restriction policy is disabled.
 - `"preset"`: Optional transcode preset for the channel. This is selectable only for
   ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is
   HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the
   empty string (\"\").
-- `"recordingConfigurationArn"`: Recording-configuration ARN. If this is set to an empty
-  string, recording is disabled. A value other than an empty string indicates that recording
-  is enabled
+- `"recordingConfigurationArn"`: Recording-configuration ARN. A valid ARN value here both
+  specifies the ARN and enables recording. If this is set to an empty string, recording is
+  disabled.
 - `"type"`: Channel type, which determines the allowable resolution and bitrate. If you
   exceed the allowable input resolution or bitrate, the stream probably will disconnect
-  immediately. Some types generate multiple qualities (renditions) from the original input;
-  this automatically gives viewers the best experience for their devices and network
-  conditions. Some types provide transcoded video; transcoding allows higher playback quality
-  across a range of download speeds. Default: STANDARD. Valid values:    BASIC: Video is
-  transmuxed: Amazon IVS delivers the original input quality to viewers. The viewer’s
-  video-quality choice is limited to the original input. Input resolution can be up to 1080p
-  and bitrate can be up to 1.5 Mbps for 480p and up to 3.5 Mbps for resolutions between 480p
-  and 1080p. Original audio is passed through.    STANDARD: Video is transcoded: multiple
-  qualities are generated from the original input, to automatically give viewers the best
-  experience for their devices and network conditions. Transcoding allows higher playback
-  quality across a range of download speeds. Resolution can be up to 1080p and bitrate can be
-  up to 8.5 Mbps. Audio is transcoded only for renditions 360p and below; above that, audio
-  is passed through. This is the default when you create a channel.    ADVANCED_SD: Video is
-  transcoded; multiple qualities are generated from the original input, to automatically give
-  viewers the best experience for their devices and network conditions. Input resolution can
-  be up to 1080p and bitrate can be up to 8.5 Mbps; output is capped at SD quality (480p).
-  You can select an optional transcode preset (see below). Audio for all renditions is
-  transcoded, and an audio-only rendition is available.    ADVANCED_HD: Video is transcoded;
-  multiple qualities are generated from the original input, to automatically give viewers the
-  best experience for their devices and network conditions. Input resolution can be up to
-  1080p and bitrate can be up to 8.5 Mbps; output is capped at HD quality (720p). You can
-  select an optional transcode preset (see below). Audio for all renditions is transcoded,
-  and an audio-only rendition is available.   Optional transcode presets (available for the
-  ADVANCED types) allow you to trade off available download bandwidth and video quality, to
-  optimize the viewing experience. There are two presets:    Constrained bandwidth delivery
-  uses a lower bitrate for each quality level. Use it if you have low download bandwidth
-  and/or simple video content (e.g., talking heads)    Higher bandwidth delivery uses a
-  higher bitrate for each quality level. Use it if you have high download bandwidth and/or
-  complex video content (e.g., flashes and quick scene changes).
+  immediately. Default: STANDARD. For details, see Channel Types.
 """
 function update_channel(arn; aws_config::AbstractAWSConfig=global_aws_config())
     return ivs(
@@ -1122,6 +1313,51 @@ function update_channel(
     return ivs(
         "POST",
         "/UpdateChannel",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_playback_restriction_policy(arn)
+    update_playback_restriction_policy(arn, params::Dict{String,<:Any})
+
+Updates a specified playback restriction policy.
+
+# Arguments
+- `arn`: ARN of the playback-restriction-policy to be updated.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"allowedCountries"`: A list of country codes that control geoblocking restriction.
+  Allowed values are the officially assigned ISO 3166-1 alpha-2 codes. Default: All countries
+  (an empty array).
+- `"allowedOrigins"`: A list of origin sites that control CORS restriction. Allowed values
+  are the same as valid values of the Origin header defined at
+  https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin. Default: All origins (an
+  empty array).
+- `"enableStrictOriginEnforcement"`: Whether channel playback is constrained by origin
+  site. Default: false.
+- `"name"`: Playback-restriction-policy name. The value does not need to be unique.
+"""
+function update_playback_restriction_policy(
+    arn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/UpdatePlaybackRestrictionPolicy",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_playback_restriction_policy(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ivs(
+        "POST",
+        "/UpdatePlaybackRestrictionPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

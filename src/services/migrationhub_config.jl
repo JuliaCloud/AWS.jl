@@ -51,6 +51,43 @@ function create_home_region_control(
 end
 
 """
+    delete_home_region_control(control_id)
+    delete_home_region_control(control_id, params::Dict{String,<:Any})
+
+This operation deletes the home region configuration for the calling account. The operation
+does not delete discovery or migration tracking data in the home region.
+
+# Arguments
+- `control_id`: A unique identifier that's generated for each home region control. It's
+  always a string that begins with \"hrc-\" followed by 12 lowercase letters and numbers.
+
+"""
+function delete_home_region_control(
+    ControlId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return migrationhub_config(
+        "DeleteHomeRegionControl",
+        Dict{String,Any}("ControlId" => ControlId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_home_region_control(
+    ControlId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return migrationhub_config(
+        "DeleteHomeRegionControl",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ControlId" => ControlId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_home_region_controls()
     describe_home_region_controls(params::Dict{String,<:Any})
 

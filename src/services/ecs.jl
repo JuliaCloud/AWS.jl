@@ -153,22 +153,22 @@ end
 Runs and maintains your desired number of tasks from a specified task definition. If the
 number of tasks running in a service drops below the desiredCount, Amazon ECS runs another
 copy of the task in the specified cluster. To update an existing service, see the
-UpdateService action.  Starting April 15, 2023, Amazon Web Services will not onboard new
-customers to Amazon Elastic Inference (EI), and will help current customers migrate their
-workloads to options that offer better price and performance. After April 15, 2023, new
-customers will not be able to launch instances with Amazon EI accelerators in Amazon
-SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least
-once during the past 30-day period are considered current customers and will be able to
-continue using the service.   In addition to maintaining the desired count of tasks in your
-service, you can optionally run your service behind one or more load balancers. The load
-balancers distribute traffic across the tasks that are associated with the service. For
-more information, see Service load balancing in the Amazon Elastic Container Service
-Developer Guide. Tasks for services that don't use a load balancer are considered healthy
-if they're in the RUNNING state. Tasks for services that use a load balancer are considered
-healthy if they're in the RUNNING state and are reported as healthy by the load balancer.
-There are two service scheduler strategies available:    REPLICA - The replica scheduling
-strategy places and maintains your desired number of tasks across your cluster. By default,
-the service scheduler spreads tasks across Availability Zones. You can use task placement
+UpdateService action.  On March 21, 2024, a change was made to resolve the task definition
+revision before authorization. When a task definition revision is not specified,
+authorization will occur using the latest revision of a task definition.  In addition to
+maintaining the desired count of tasks in your service, you can optionally run your service
+behind one or more load balancers. The load balancers distribute traffic across the tasks
+that are associated with the service. For more information, see Service load balancing in
+the Amazon Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to
+Amazon ECS tasks by configuring the volume when creating or updating a service.
+volumeConfigurations is only supported for REPLICA service and not DAEMON service. For more
+infomation, see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide.
+Tasks for services that don't use a load balancer are considered healthy if they're in the
+RUNNING state. Tasks for services that use a load balancer are considered healthy if
+they're in the RUNNING state and are reported as healthy by the load balancer. There are
+two service scheduler strategies available:    REPLICA - The replica scheduling strategy
+places and maintains your desired number of tasks across your cluster. By default, the
+service scheduler spreads tasks across Availability Zones. You can use task placement
 strategies and constraints to customize task placement decisions. For more information, see
 Service scheduler concepts in the Amazon Elastic Container Service Developer Guide.
 DAEMON - The daemon scheduling strategy deploys exactly one task on each active container
@@ -216,7 +216,13 @@ service name. You control your services using the CreateTaskSet operation. For m
 information, see Amazon ECS deployment types in the Amazon Elastic Container Service
 Developer Guide. When the service scheduler launches new tasks, it determines task
 placement. For information about task placement and task placement strategies, see Amazon
-ECS task placement in the Amazon Elastic Container Service Developer Guide.
+ECS task placement in the Amazon Elastic Container Service Developer Guide  Starting April
+15, 2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference
+(EI), and will help current customers migrate their workloads to options that offer better
+price and performance. After April 15, 2023, new customers will not be able to launch
+instances with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2.
+However, customers who have used Amazon EI at least once during the past 30-day period are
+considered current customers and will be able to continue using the service.
 
 # Arguments
 - `service_name`: The name of your service. Up to 255 letters (uppercase and lowercase),
@@ -232,7 +238,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the cluster is used. A capacity provider strategy may contain a maximum of 6 capacity
   providers.
 - `"clientToken"`: An identifier that you provide to ensure the idempotency of the request.
-  It must be unique and is case sensitive. Up to 32 ASCII characters are allowed.
+  It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126
+  (inclusive) are allowed.
 - `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster that you
   run your service on. If you do not specify a cluster, the default cluster is assumed.
 - `"deploymentConfiguration"`: Optional deployment parameters that control how many tasks
@@ -244,7 +251,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   isn't specified. If schedulingStrategy is DAEMON then this isn't required.
 - `"enableECSManagedTags"`: Specifies whether to turn on Amazon ECS managed tags for the
   tasks within the service. For more information, see Tagging your Amazon ECS resources in
-  the Amazon Elastic Container Service Developer Guide.
+  the Amazon Elastic Container Service Developer Guide. When you use Amazon ECS managed tags,
+  you need to set the propagateTags request parameter.
 - `"enableExecuteCommand"`: Determines whether the execute command functionality is turned
   on for the service. If true, this enables execute command functionality on all containers
   in the service tasks.
@@ -264,8 +272,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide. The
   FARGATE launch type runs your tasks on Fargate On-Demand infrastructure.  Fargate Spot
   infrastructure is available for use but a capacity provider strategy must be used. For more
-  information, see Fargate capacity providers in the Amazon ECS User Guide for Fargate.  The
-  EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The
+  information, see Fargate capacity providers in the Amazon ECS Developer Guide.  The EC2
+  launch type runs your tasks on Amazon EC2 instances registered to your cluster. The
   EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM)
   capacity registered to your cluster. A service can use either a launch type or a capacity
   provider strategy. If a launchType is specified, the capacityProviderStrategy parameter
@@ -318,7 +326,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"propagateTags"`: Specifies whether to propagate the tags from the task definition to
   the task. If no value is specified, the tags aren't propagated. Tags can only be propagated
   to the task during task creation. To add tags to a task after task creation, use the
-  TagResource API action.
+  TagResource API action. You must set this to a value other than NONE when you use Cost
+  Explorer. For more information, see Amazon ECS usage reports in the Amazon Elastic
+  Container Service Developer Guide. The default is NONE.
 - `"role"`: The name or full Amazon Resource Name (ARN) of the IAM role that allows Amazon
   ECS to make calls to your load balancer on your behalf. This parameter is only permitted if
   you are using a load balancer with your service and your task definition doesn't use the
@@ -377,6 +387,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   revision is used. A task definition must be specified if the service uses either the ECS or
   CODE_DEPLOY deployment controllers. For more information about deployment types, see Amazon
   ECS deployment types.
+- `"volumeConfigurations"`: The configuration for a volume specified in the task definition
+  as a volume that is configured at launch time. Currently, the only supported volume type is
+  an Amazon EBS volume.
 """
 function create_service(serviceName; aws_config::AbstractAWSConfig=global_aws_config())
     return ecs(
@@ -407,14 +420,20 @@ end
 
 Create a task set in the specified cluster and service. This is used when a service uses
 the EXTERNAL deployment controller type. For more information, see Amazon ECS deployment
-types in the Amazon Elastic Container Service Developer Guide.
+types in the Amazon Elastic Container Service Developer Guide.  On March 21, 2024, a change
+was made to resolve the task definition revision before authorization. When a task
+definition revision is not specified, authorization will occur using the latest revision of
+a task definition.  For information about the maximum number of task sets and otther
+quotas, see Amazon ECS service quotas in the Amazon Elastic Container Service Developer
+Guide.
 
 # Arguments
 - `cluster`: The short name or full Amazon Resource Name (ARN) of the cluster that hosts
   the service to create the task set in.
 - `service`: The short name or full Amazon Resource Name (ARN) of the service to create the
   task set in.
-- `task_definition`: The task definition for the tasks in the task set to use.
+- `task_definition`: The task definition for the tasks in the task set to use. If a
+  revision isn't specified, the latest ACTIVE revision is used.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -432,9 +451,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The Fargate capacity providers are available to all accounts and only need to be associated
   with a cluster to be used. The PutClusterCapacityProviders API operation is used to update
   the list of available capacity providers for a cluster after the cluster is created.
-- `"clientToken"`: The identifier that you provide to ensure the idempotency of the
-  request. It's case sensitive and must be unique. It can be up to 32 ASCII characters are
-  allowed.
+- `"clientToken"`: An identifier that you provide to ensure the idempotency of the request.
+  It must be unique and is case sensitive. Up to 36 ASCII characters in the range of 33-126
+  (inclusive) are allowed.
 - `"externalId"`: An optional non-unique tag that identifies this task set in external
   systems. If the task set is associated with a service discovery registry, the tasks in this
   task set will have the ECS_TASK_SET_EXTERNAL_ID Cloud Map attribute set to the provided
@@ -729,6 +748,11 @@ count. You can't use a DELETE_IN_PROGRESS task definition revision to run new ta
 create new services. You also can't update an existing service to reference a
 DELETE_IN_PROGRESS task definition revision.  A task definition revision will stay in
 DELETE_IN_PROGRESS status until all the associated tasks and services have been terminated.
+When you delete all INACTIVE task definition revisions, the task definition name is not
+displayed in the console and not returned in the API. If a task definition revisions are in
+the DELETE_IN_PROGRESS state, the task definition name is displayed in the console and
+returned in the API. The task definition name is retained by Amazon ECS and the revision is
+incremented the next time you create a task definition with that name.
 
 # Arguments
 - `task_definitions`: The family and revision (family:revision) or full Amazon Resource
@@ -1190,7 +1214,9 @@ end
     describe_tasks(tasks, params::Dict{String,<:Any})
 
 Describes a specified task or tasks. Currently, stopped tasks appear in the returned
-results for at least one hour.
+results for at least one hour. If you have tasks with tags, and then delete the cluster,
+the tagged tasks are returned in the response. If you create a new cluster with the same
+name as the deleted cluster, the tagged tasks are not included in the response.
 
 # Arguments
 - `tasks`: A list of up to 100 task IDs or full ARN entries.
@@ -1773,8 +1799,7 @@ end
 
 Returns a list of tasks. You can filter the results by cluster, task definition family,
 container instance, launch type, what IAM principal started the task, or by the desired
-status of the task. Recently stopped tasks might appear in the returned results. Currently,
-stopped tasks appear in the returned results for at least one hour.
+status of the task. Recently stopped tasks might appear in the returned results.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1828,52 +1853,74 @@ end
 Modifies an account setting. Account settings are set on a per-Region basis. If you change
 the root user account setting, the default settings are reset for users and roles that do
 not have specified individual account settings. For more information, see Account Settings
-in the Amazon Elastic Container Service Developer Guide. When serviceLongArnFormat,
-taskLongArnFormat, or containerInstanceLongArnFormat are specified, the Amazon Resource
-Name (ARN) and resource ID format of the resource type for a specified user, role, or the
-root user for an account is affected. The opt-in and opt-out account setting must be set
-for each Amazon ECS resource separately. The ARN and resource ID format of a resource is
-defined by the opt-in status of the user or role that created the resource. You must turn
-on this setting to use Amazon ECS features such as resource tagging. When awsvpcTrunking is
-specified, the elastic network interface (ENI) limit for any new container instances that
-support the feature is changed. If awsvpcTrunking is turned on, any new container instances
-that support the feature are launched have the increased ENI limits available to them. For
-more information, see Elastic Network Interface Trunking in the Amazon Elastic Container
-Service Developer Guide. When containerInsights is specified, the default setting
-indicating whether Amazon Web Services CloudWatch Container Insights is turned on for your
-clusters is changed. If containerInsights is turned on, any new clusters that are created
-will have Container Insights turned on unless you disable it during cluster creation. For
-more information, see CloudWatch Container Insights in the Amazon Elastic Container Service
-Developer Guide. Amazon ECS is introducing tagging authorization for resource creation.
-Users must have permissions for actions that create the resource, such as ecsCreateCluster.
-If tags are specified when you create a resource, Amazon Web Services performs additional
-authorization to verify if users or roles have permissions to create tags. Therefore, you
-must grant explicit permissions to use the ecs:TagResource action. For more information,
-see Grant permission to tag resources on creation in the Amazon ECS Developer Guide.
+in the Amazon Elastic Container Service Developer Guide.
 
 # Arguments
-- `name`: The Amazon ECS resource name for which to modify the account setting. If
-  serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If
-  taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is
-  affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your
-  Amazon ECS container instances is affected. If awsvpcTrunking is specified, the elastic
-  network interface (ENI) limit for your Amazon ECS container instances is affected. If
-  containerInsights is specified, the default setting for Amazon Web Services CloudWatch
-  Container Insights for your clusters is affected. If fargateFIPSMode is specified, Fargate
-  FIPS 140 compliance is affected. If tagResourceAuthorization is specified, the opt-in
-  option for tagging resources on creation is affected. For information about the opt-in
-  timeline, see Tagging authorization timeline in the Amazon ECS Developer Guide.
+- `name`: The Amazon ECS account setting name to modify. The following are the valid values
+  for the account setting name.    serviceLongArnFormat - When modified, the Amazon Resource
+  Name (ARN) and resource ID format of the resource type for a specified user, role, or the
+  root user for an account is affected. The opt-in and opt-out account setting must be set
+  for each Amazon ECS resource separately. The ARN and resource ID format of a resource is
+  defined by the opt-in status of the user or role that created the resource. You must turn
+  on this setting to use Amazon ECS features such as resource tagging.    taskLongArnFormat -
+  When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type
+  for a specified user, role, or the root user for an account is affected. The opt-in and
+  opt-out account setting must be set for each Amazon ECS resource separately. The ARN and
+  resource ID format of a resource is defined by the opt-in status of the user or role that
+  created the resource. You must turn on this setting to use Amazon ECS features such as
+  resource tagging.    containerInstanceLongArnFormat - When modified, the Amazon Resource
+  Name (ARN) and resource ID format of the resource type for a specified user, role, or the
+  root user for an account is affected. The opt-in and opt-out account setting must be set
+  for each Amazon ECS resource separately. The ARN and resource ID format of a resource is
+  defined by the opt-in status of the user or role that created the resource. You must turn
+  on this setting to use Amazon ECS features such as resource tagging.    awsvpcTrunking -
+  When modified, the elastic network interface (ENI) limit for any new container instances
+  that support the feature is changed. If awsvpcTrunking is turned on, any new container
+  instances that support the feature are launched have the increased ENI limits available to
+  them. For more information, see Elastic Network Interface Trunking in the Amazon Elastic
+  Container Service Developer Guide.    containerInsights - When modified, the default
+  setting indicating whether Amazon Web Services CloudWatch Container Insights is turned on
+  for your clusters is changed. If containerInsights is turned on, any new clusters that are
+  created will have Container Insights turned on unless you disable it during cluster
+  creation. For more information, see CloudWatch Container Insights in the Amazon Elastic
+  Container Service Developer Guide.    dualStackIPv6 - When turned on, when using a VPC in
+  dual stack mode, your tasks using the awsvpc network mode can have an IPv6 address
+  assigned. For more information on using IPv6 with tasks launched on Amazon EC2 instances,
+  see Using a VPC in dual-stack mode. For more information on using IPv6 with tasks launched
+  on Fargate, see Using a VPC in dual-stack mode.    fargateFIPSMode - If you specify
+  fargateFIPSMode, Fargate FIPS 140 compliance is affected.
+  fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or
+  infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to
+  be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to
+  configure the wait time to retire a Fargate task. For information about the Fargate tasks
+  maintenance, see Amazon Web Services Fargate task maintenance in the Amazon ECS Developer
+  Guide.    tagResourceAuthorization - Amazon ECS is introducing tagging authorization for
+  resource creation. Users must have permissions for actions that create the resource, such
+  as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services
+  performs additional authorization to verify if users or roles have permissions to create
+  tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For
+  more information, see Grant permission to tag resources on creation in the Amazon ECS
+  Developer Guide.    guardDutyActivate - The guardDutyActivate parameter is read-only in
+  Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by
+  your security administrator in your Amazon ECS account. Amazon GuardDuty controls this
+  account setting on your behalf. For more information, see Protecting Amazon ECS workloads
+  with Amazon ECS Runtime Monitoring.
 - `value`: The account setting value for the specified principal ARN. Accepted values are
-  enabled, disabled, on, and off.
+  enabled, disabled, on, and off. When you specify fargateTaskRetirementWaitPeriod for the
+  name, the following are the valid values:    0 - Amazon Web Services sends the
+  notification, and immediately retires the affected tasks.    7 - Amazon Web Services sends
+  the notification, and waits 7 calendar days to retire the tasks.    14 - Amazon Web
+  Services sends the notification, and waits 14 calendar days to retire the tasks.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"principalArn"`: The ARN of the principal, which can be a user, role, or the root user.
   If you specify the root user, it modifies the account setting for all users, roles, and the
   root user of the account unless a user or role explicitly overrides these settings. If this
-  field is omitted, the setting is changed only for the authenticated user.  Federated users
-  assume the account setting of the root user and can't have explicit account settings set
-  for them.
+  field is omitted, the setting is changed only for the authenticated user.  You must use the
+  root user when you set the Fargate wait time (fargateTaskRetirementWaitPeriod).  Federated
+  users assume the account setting of the root user and can't have explicit account settings
+  set for them.
 """
 function put_account_setting(name, value; aws_config::AbstractAWSConfig=global_aws_config())
     return ecs(
@@ -1907,22 +1954,61 @@ Modifies an account setting for all users on an account for whom no individual a
 setting has been specified. Account settings are set on a per-Region basis.
 
 # Arguments
-- `name`: The resource name for which to modify the account setting. If
-  serviceLongArnFormat is specified, the ARN for your Amazon ECS services is affected. If
-  taskLongArnFormat is specified, the ARN and resource ID for your Amazon ECS tasks is
-  affected. If containerInstanceLongArnFormat is specified, the ARN and resource ID for your
-  Amazon ECS container instances is affected. If awsvpcTrunking is specified, the ENI limit
-  for your Amazon ECS container instances is affected. If containerInsights is specified, the
-  default setting for Amazon Web Services CloudWatch Container Insights for your clusters is
-  affected. If tagResourceAuthorization is specified, the opt-in option for tagging resources
-  on creation is affected. For information about the opt-in timeline, see Tagging
-  authorization timeline in the Amazon ECS Developer Guide. When you specify fargateFIPSMode
-  for the name and enabled for the value, Fargate uses FIPS-140 compliant cryptographic
-  algorithms on your tasks. For more information about FIPS-140 compliance with Fargate, see
-  Amazon Web Services Fargate Federal Information Processing Standard (FIPS) 140-2 compliance
-  in the Amazon Elastic Container Service Developer Guide.
+- `name`: The resource name for which to modify the account setting. The following are the
+  valid values for the account setting name.    serviceLongArnFormat - When modified, the
+  Amazon Resource Name (ARN) and resource ID format of the resource type for a specified
+  user, role, or the root user for an account is affected. The opt-in and opt-out account
+  setting must be set for each Amazon ECS resource separately. The ARN and resource ID format
+  of a resource is defined by the opt-in status of the user or role that created the
+  resource. You must turn on this setting to use Amazon ECS features such as resource
+  tagging.    taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource
+  ID format of the resource type for a specified user, role, or the root user for an account
+  is affected. The opt-in and opt-out account setting must be set for each Amazon ECS
+  resource separately. The ARN and resource ID format of a resource is defined by the opt-in
+  status of the user or role that created the resource. You must turn on this setting to use
+  Amazon ECS features such as resource tagging.    containerInstanceLongArnFormat - When
+  modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a
+  specified user, role, or the root user for an account is affected. The opt-in and opt-out
+  account setting must be set for each Amazon ECS resource separately. The ARN and resource
+  ID format of a resource is defined by the opt-in status of the user or role that created
+  the resource. You must turn on this setting to use Amazon ECS features such as resource
+  tagging.    awsvpcTrunking - When modified, the elastic network interface (ENI) limit for
+  any new container instances that support the feature is changed. If awsvpcTrunking is
+  turned on, any new container instances that support the feature are launched have the
+  increased ENI limits available to them. For more information, see Elastic Network Interface
+  Trunking in the Amazon Elastic Container Service Developer Guide.    containerInsights -
+  When modified, the default setting indicating whether Amazon Web Services CloudWatch
+  Container Insights is turned on for your clusters is changed. If containerInsights is
+  turned on, any new clusters that are created will have Container Insights turned on unless
+  you disable it during cluster creation. For more information, see CloudWatch Container
+  Insights in the Amazon Elastic Container Service Developer Guide.    dualStackIPv6 - When
+  turned on, when using a VPC in dual stack mode, your tasks using the awsvpc network mode
+  can have an IPv6 address assigned. For more information on using IPv6 with tasks launched
+  on Amazon EC2 instances, see Using a VPC in dual-stack mode. For more information on using
+  IPv6 with tasks launched on Fargate, see Using a VPC in dual-stack mode.    fargateFIPSMode
+  - If you specify fargateFIPSMode, Fargate FIPS 140 compliance is affected.
+  fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or
+  infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to
+  be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to
+  configure the wait time to retire a Fargate task. For information about the Fargate tasks
+  maintenance, see Amazon Web Services Fargate task maintenance in the Amazon ECS Developer
+  Guide.    tagResourceAuthorization - Amazon ECS is introducing tagging authorization for
+  resource creation. Users must have permissions for actions that create the resource, such
+  as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services
+  performs additional authorization to verify if users or roles have permissions to create
+  tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For
+  more information, see Grant permission to tag resources on creation in the Amazon ECS
+  Developer Guide.    guardDutyActivate - The guardDutyActivate parameter is read-only in
+  Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by
+  your security administrator in your Amazon ECS account. Amazon GuardDuty controls this
+  account setting on your behalf. For more information, see Protecting Amazon ECS workloads
+  with Amazon ECS Runtime Monitoring.
 - `value`: The account setting value for the specified principal ARN. Accepted values are
-  enabled, disabled, on, and off.
+  enabled, disabled, on, and off. When you specify fargateTaskRetirementWaitPeriod for the
+  name, the following are the valid values:    0 - Amazon Web Services sends the
+  notification, and immediately retires the affected tasks.    7 - Amazon Web Services sends
+  the notification, and waits 7 calendar days to retire the tasks.    14 - Amazon Web
+  Services sends the notification, and waits 14 calendar days to retire the tasks.
 
 """
 function put_account_setting_default(
@@ -2186,8 +2272,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Linux platform 1.4.0 or later.
 - `"ephemeralStorage"`: The amount of ephemeral storage to allocate for the task. This
   parameter is used to expand the total amount of ephemeral storage available, beyond the
-  default amount, for tasks hosted on Fargate. For more information, see Fargate task storage
-  in the Amazon ECS User Guide for Fargate.  For tasks using the Fargate launch type, the
+  default amount, for tasks hosted on Fargate. For more information, see Using data volumes
+  in tasks in the Amazon ECS Developer Guide.  For tasks using the Fargate launch type, the
   task requires the following platforms:   Linux platform version 1.4.0 or later.   Windows
   platform version 1.0.0 or later.
 - `"executionRoleArn"`: The Amazon Resource Name (ARN) of the task execution role that
@@ -2253,14 +2339,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instantiations of the same task on a single container instance when port mappings are used.
   For more information, see Network settings in the Docker run reference.
 - `"pidMode"`: The process namespace to use for the containers in the task. The valid
-  values are host or task. If host is specified, then all containers within the tasks that
-  specified the host PID mode on the same container instance share the same process namespace
-  with the host Amazon EC2 instance. If task is specified, all containers within the
-  specified task share the same process namespace. If no value is specified, the default is a
-  private namespace. For more information, see PID settings in the Docker run reference. If
-  the host PID mode is used, be aware that there is a heightened risk of undesired process
-  namespace expose. For more information, see Docker security.  This parameter is not
-  supported for Windows containers or tasks run on Fargate.
+  values are host or task. On Fargate for Linux containers, the only valid value is task. For
+  example, monitoring sidecars might need pidMode to access information about other
+  containers running in the same task. If host is specified, all containers within the tasks
+  that specified the host PID mode on the same container instance share the same process
+  namespace with the host Amazon EC2 instance. If task is specified, all containers within
+  the specified task share the same process namespace. If no value is specified, the default
+  is a private namespace for each container. For more information, see PID settings in the
+  Docker run reference. If the host PID mode is used, there's a heightened risk of undesired
+  process namespace exposure. For more information, see Docker security.  This parameter is
+  not supported for Windows containers.   This parameter is only supported for tasks that are
+  hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This
+  isn't supported for Windows containers on Fargate.
 - `"placementConstraints"`: An array of placement constraint objects to use for the task.
   You can specify a maximum of 10 constraints for each task. This limit includes constraints
   in the task definition and those specified at runtime.
@@ -2276,8 +2366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   against the compatibilities specified. If no value is specified, the parameter is omitted
   from the response.
 - `"runtimePlatform"`: The operating system that your tasks definitions run on. A platform
-  family is specified only for tasks using the Fargate launch type.  When you specify a task
-  definition in a service, this value must match the runtimePlatform value of the service.
+  family is specified only for tasks using the Fargate launch type.
 - `"tags"`: The metadata that you apply to the task definition to help you categorize and
   organize them. Each tag consists of a key and an optional value. You define both of them.
   The following basic restrictions apply to tags:   Maximum number of tags per resource - 50
@@ -2336,19 +2425,24 @@ end
     run_task(task_definition)
     run_task(task_definition, params::Dict{String,<:Any})
 
-Starts a new task using the specified task definition. You can allow Amazon ECS to place
-tasks for you, or you can customize how Amazon ECS places tasks using placement constraints
-and placement strategies. For more information, see Scheduling Tasks in the Amazon Elastic
-Container Service Developer Guide. Alternatively, you can use StartTask to use your own
-scheduler or place tasks manually on specific container instances.  Starting April 15,
-2023, Amazon Web Services will not onboard new customers to Amazon Elastic Inference (EI),
-and will help current customers migrate their workloads to options that offer better price
-and performance. After April 15, 2023, new customers will not be able to launch instances
-with Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However,
-customers who have used Amazon EI at least once during the past 30-day period are
-considered current customers and will be able to continue using the service.   The Amazon
-ECS API follows an eventual consistency model. This is because of the distributed nature of
-the system supporting the API. This means that the result of an API command you run that
+Starts a new task using the specified task definition.  On March 21, 2024, a change was
+made to resolve the task definition revision before authorization. When a task definition
+revision is not specified, authorization will occur using the latest revision of a task
+definition.  You can allow Amazon ECS to place tasks for you, or you can customize how
+Amazon ECS places tasks using placement constraints and placement strategies. For more
+information, see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide.
+Alternatively, you can use StartTask to use your own scheduler or place tasks manually on
+specific container instances. Starting April 15, 2023, Amazon Web Services will not onboard
+new customers to Amazon Elastic Inference (EI), and will help current customers migrate
+their workloads to options that offer better price and performance. After April 15, 2023,
+new customers will not be able to launch instances with Amazon EI accelerators in Amazon
+SageMaker, Amazon ECS, or Amazon EC2. However, customers who have used Amazon EI at least
+once during the past 30-day period are considered current customers and will be able to
+continue using the service.  You can attach Amazon EBS volumes to Amazon ECS tasks by
+configuring the volume when creating or updating a service. For more infomation, see Amazon
+EBS volumes in the Amazon Elastic Container Service Developer Guide. The Amazon ECS API
+follows an eventual consistency model. This is because of the distributed nature of the
+system supporting the API. This means that the result of an API command you run that
 affects your Amazon ECS resources might not be immediately visible to all subsequent
 commands you run. Keep this in mind when you carry out an API command that immediately
 follows a previous API command. To manage eventual consistency, you can do the following:
@@ -2363,19 +2457,15 @@ gradually up to about five minutes of wait time.
 
 # Arguments
 - `task_definition`: The family and revision (family:revision) or full ARN of the task
-  definition to run. If a revision isn't specified, the latest ACTIVE revision is used. When
-  you create a policy for run-task, you can set the resource to be the latest task definition
-  revision, or a specific revision. The full ARN value must match the value that you
-  specified as the Resource of the principal's permissions policy. When you specify the
-  policy resource as the latest task definition version (by setting the Resource in the
-  policy to arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName), then set this
-  value to arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName. When you
-  specify the policy resource as a specific task definition version (by setting the Resource
-  in the policy to arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:1 or
-  arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*), then set this value
-  to arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:1. For more
-  information, see Policy Resources for Amazon ECS in the Amazon Elastic Container Service
-  developer Guide.
+  definition to run. If a revision isn't specified, the latest ACTIVE revision is used. The
+  full ARN value must match the value that you specified as the Resource of the principal's
+  permissions policy. When you specify a task definition, you must either specify a specific
+  revision, or all revisions in the ARN. To specify a specific revision, include the revision
+  number in the ARN. For example, to specify revision 2, use
+  arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:2. To specify all
+  revisions, use the wildcard (*) in the ARN. For example, to specify all revisions, use
+  arn:aws:ecs:us-east-1:111122223333:task-definition/TaskFamilyName:*. For more information,
+  see Policy Resources for Amazon ECS in the Amazon Elastic Container Service Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2385,6 +2475,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the cluster is used. When you use cluster auto scaling, you must specify
   capacityProviderStrategy and not launchType.  A capacity provider strategy may contain a
   maximum of 6 capacity providers.
+- `"clientToken"`: An identifier that you provide to ensure the idempotency of the request.
+  It must be unique and is case sensitive. Up to 64 characters are allowed. The valid
+  characters are characters in the range of 33-126, inclusive. For more information, see
+  Ensuring idempotency.
 - `"cluster"`: The short name or full Amazon Resource Name (ARN) of the cluster to run your
   task on. If you do not specify a cluster, the default cluster is assumed.
 - `"count"`: The number of instantiations of the specified task to place on your cluster.
@@ -2402,8 +2496,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see Amazon ECS launch types in the Amazon Elastic Container Service Developer Guide. The
   FARGATE launch type runs your tasks on Fargate On-Demand infrastructure.  Fargate Spot
   infrastructure is available for use but a capacity provider strategy must be used. For more
-  information, see Fargate capacity providers in the Amazon ECS User Guide for Fargate.  The
-  EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The
+  information, see Fargate capacity providers in the Amazon ECS Developer Guide.  The EC2
+  launch type runs your tasks on Amazon EC2 instances registered to your cluster. The
   EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM)
   capacity registered to your cluster. A task can use either a launch type or a capacity
   provider strategy. If a launchType is specified, the capacityProviderStrategy parameter
@@ -2441,7 +2535,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   automatically trigger a task to run a batch process job, you could apply a unique
   identifier for that job to your task with the startedBy parameter. You can then identify
   which tasks belong to that job by filtering the results of a ListTasks call with the
-  startedBy value. Up to 36 letters (uppercase and lowercase), numbers, hyphens (-), and
+  startedBy value. Up to 128 letters (uppercase and lowercase), numbers, hyphens (-), and
   underscores (_) are allowed. If a task is started by an Amazon ECS service, then the
   startedBy parameter contains the deployment ID of the service that starts it.
 - `"tags"`: The metadata that you apply to the task to help you categorize and organize
@@ -2457,11 +2551,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag
   keys or values with this prefix. Tags with this prefix do not count against your tags per
   resource limit.
+- `"volumeConfigurations"`: The details of the volume that was configuredAtLaunch. You can
+  configure the size, volumeType, IOPS, throughput, snapshot and encryption in in
+  TaskManagedEBSVolumeConfiguration. The name of the volume must match the name from the task
+  definition.
 """
 function run_task(taskDefinition; aws_config::AbstractAWSConfig=global_aws_config())
     return ecs(
         "RunTask",
-        Dict{String,Any}("taskDefinition" => taskDefinition);
+        Dict{String,Any}(
+            "taskDefinition" => taskDefinition, "clientToken" => string(uuid4())
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2474,7 +2574,13 @@ function run_task(
     return ecs(
         "RunTask",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("taskDefinition" => taskDefinition), params)
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "taskDefinition" => taskDefinition, "clientToken" => string(uuid4())
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2486,14 +2592,19 @@ end
     start_task(container_instances, task_definition, params::Dict{String,<:Any})
 
 Starts a new task from the specified task definition on the specified container instance or
-instances.  Starting April 15, 2023, Amazon Web Services will not onboard new customers to
-Amazon Elastic Inference (EI), and will help current customers migrate their workloads to
-options that offer better price and performance. After April 15, 2023, new customers will
-not be able to launch instances with Amazon EI accelerators in Amazon SageMaker, Amazon
-ECS, or Amazon EC2. However, customers who have used Amazon EI at least once during the
-past 30-day period are considered current customers and will be able to continue using the
-service.   Alternatively, you can use RunTask to place tasks for you. For more information,
-see Scheduling Tasks in the Amazon Elastic Container Service Developer Guide.
+instances.  On March 21, 2024, a change was made to resolve the task definition revision
+before authorization. When a task definition revision is not specified, authorization will
+occur using the latest revision of a task definition.  Starting April 15, 2023, Amazon Web
+Services will not onboard new customers to Amazon Elastic Inference (EI), and will help
+current customers migrate their workloads to options that offer better price and
+performance. After April 15, 2023, new customers will not be able to launch instances with
+Amazon EI accelerators in Amazon SageMaker, Amazon ECS, or Amazon EC2. However, customers
+who have used Amazon EI at least once during the past 30-day period are considered current
+customers and will be able to continue using the service.  Alternatively, you can use
+RunTask to place tasks for you. For more information, see Scheduling Tasks in the Amazon
+Elastic Container Service Developer Guide. You can attach Amazon EBS volumes to Amazon ECS
+tasks by configuring the volume when creating or updating a service. For more infomation,
+see Amazon EBS volumes in the Amazon Elastic Container Service Developer Guide.
 
 # Arguments
 - `container_instances`: The container instance IDs or full ARN entries for the container
@@ -2546,6 +2657,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keys or values as it is reserved for Amazon Web Services use. You cannot edit or delete tag
   keys or values with this prefix. Tags with this prefix do not count against your tags per
   resource limit.
+- `"volumeConfigurations"`: The details of the volume that was configuredAtLaunch. You can
+  configure the size, volumeType, IOPS, throughput, snapshot and encryption in
+  TaskManagedEBSVolumeConfiguration. The name of the volume must match the name from the task
+  definition.
 """
 function start_task(
     containerInstances, taskDefinition; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2591,9 +2706,12 @@ called on a task, the equivalent of docker stop is issued to the containers runn
 task. This results in a SIGTERM value and a default 30-second timeout, after which the
 SIGKILL value is sent and the containers are forcibly stopped. If the container handles the
 SIGTERM value gracefully and exits within 30 seconds from receiving it, no SIGKILL value is
-sent.  The default 30-second timeout can be configured on the Amazon ECS container agent
-with the ECS_CONTAINER_STOP_TIMEOUT variable. For more information, see Amazon ECS
-Container Agent Configuration in the Amazon Elastic Container Service Developer Guide.
+sent. For Windows containers, POSIX signals do not work and runtime stops the container by
+sending a CTRL_SHUTDOWN_EVENT. For more information, see Unable to react to graceful
+shutdown of (Windows) container #25982 on GitHub.  The default 30-second timeout can be
+configured on the Amazon ECS container agent with the ECS_CONTAINER_STOP_TIMEOUT variable.
+For more information, see Amazon ECS Container Agent Configuration in the Amazon Elastic
+Container Service Developer Guide.
 
 # Arguments
 - `task`: The task ID of the task to stop.
@@ -2605,7 +2723,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"reason"`: An optional message specified when a task is stopped. For example, if you're
   using a custom scheduler, you can use this parameter to specify the reason for stopping the
   task here, and the message appears in subsequent DescribeTasks API operations on this task.
-  Up to 255 characters are allowed in this message.
 """
 function stop_task(task; aws_config::AbstractAWSConfig=global_aws_config())
     return ecs(
@@ -3116,71 +3233,82 @@ end
     update_service(service)
     update_service(service, params::Dict{String,<:Any})
 
-Modifies the parameters of a service. For services using the rolling update (ECS) you can
-update the desired count, deployment configuration, network configuration, load balancers,
-service registries, enable ECS managed tags option, propagate tags option, task placement
-constraints and strategies, and task definition. When you update any of these parameters,
-Amazon ECS starts new tasks with the new configuration.  For services using the blue/green
-(CODE_DEPLOY) deployment controller, only the desired count, deployment configuration,
-health check grace period, task placement constraints and strategies, enable ECS managed
-tags option, and propagate tags can be updated using this API. If the network
-configuration, platform version, task definition, or load balancer need to be updated,
-create a new CodeDeploy deployment. For more information, see CreateDeployment in the
-CodeDeploy API Reference. For services using an external deployment controller, you can
-update only the desired count, task placement constraints and strategies, health check
-grace period, enable ECS managed tags option, and propagate tags option, using this API. If
-the launch type, load balancer, network configuration, platform version, or task definition
-need to be updated, create a new task set For more information, see CreateTaskSet. You can
-add to or subtract from the number of instantiations of a task definition in a service by
-specifying the cluster that the service is running in and a new desiredCount parameter. If
-you have updated the Docker image of your application, you can create a new task definition
-with that image and deploy it to your service. The service scheduler uses the minimum
-healthy percent and maximum percent parameters (in the service's deployment configuration)
-to determine the deployment strategy.  If your updated Docker image uses the same tag as
-what is in the existing task definition for your service (for example, my_image:latest),
-you don't need to create a new revision of your task definition. You can update the service
-using the forceNewDeployment option. The new tasks launched by the deployment pull the
-current image/tag combination from your repository when they start.  You can also update
-the deployment configuration of a service. When a deployment is triggered by updating the
-task definition of a service, the service scheduler uses the deployment configuration
-parameters, minimumHealthyPercent and maximumPercent, to determine the deployment strategy.
-  If minimumHealthyPercent is below 100%, the scheduler can ignore desiredCount temporarily
-during a deployment. For example, if desiredCount is four tasks, a minimum of 50% allows
-the scheduler to stop two existing tasks before starting two new tasks. Tasks for services
-that don't use a load balancer are considered healthy if they're in the RUNNING state.
-Tasks for services that use a load balancer are considered healthy if they're in the
-RUNNING state and are reported as healthy by the load balancer.   The maximumPercent
-parameter represents an upper limit on the number of running tasks during a deployment. You
-can use it to define the deployment batch size. For example, if desiredCount is four tasks,
-a maximum of 200% starts four new tasks before stopping the four older tasks (provided that
-the cluster resources required to do this are available).   When UpdateService stops a task
-during a deployment, the equivalent of docker stop is issued to the containers running in
-the task. This results in a SIGTERM and a 30-second timeout. After this, SIGKILL is sent
-and the containers are forcibly stopped. If the container handles the SIGTERM gracefully
-and exits within 30 seconds from receiving it, no SIGKILL is sent. When the service
-scheduler launches new tasks, it determines task placement in your cluster with the
-following logic.   Determine which of the container instances in your cluster can support
-your service's task definition. For example, they have the required CPU, memory, ports, and
-container instance attributes.   By default, the service scheduler attempts to balance
-tasks across Availability Zones in this manner even though you can choose a different
-placement strategy.   Sort the valid container instances by the fewest number of running
-tasks for this service in the same Availability Zone as the instance. For example, if zone
-A has one running service task and zones B and C each have zero, valid container instances
-in either zone B or C are considered optimal for placement.   Place the new service task on
-a valid container instance in an optimal Availability Zone (based on the previous steps),
-favoring container instances with the fewest number of running tasks for this service.
-When the service scheduler stops running tasks, it attempts to maintain balance across the
-Availability Zones in your cluster using the following logic:    Sort the container
-instances by the largest number of running tasks for this service in the same Availability
-Zone as the instance. For example, if zone A has one running service task and zones B and C
-each have two, container instances in either zone B or C are considered optimal for
-termination.   Stop the task on a container instance in an optimal Availability Zone (based
-on the previous steps), favoring container instances with the largest number of running
-tasks for this service.    You must have a service-linked role when you update any of the
-following service properties. If you specified a custom role when you created the service,
-Amazon ECS automatically replaces the roleARN associated with the service with the ARN of
-your service-linked role. For more information, see Service-linked roles in the Amazon
-Elastic Container Service Developer Guide.    loadBalancers,     serviceRegistries
+Modifies the parameters of a service.  On March 21, 2024, a change was made to resolve the
+task definition revision before authorization. When a task definition revision is not
+specified, authorization will occur using the latest revision of a task definition.  For
+services using the rolling update (ECS) you can update the desired count, deployment
+configuration, network configuration, load balancers, service registries, enable ECS
+managed tags option, propagate tags option, task placement constraints and strategies, and
+task definition. When you update any of these parameters, Amazon ECS starts new tasks with
+the new configuration.  You can attach Amazon EBS volumes to Amazon ECS tasks by
+configuring the volume when starting or running a task, or when creating or updating a
+service. For more infomation, see Amazon EBS volumes in the Amazon Elastic Container
+Service Developer Guide. You can update your volume configurations and trigger a new
+deployment. volumeConfigurations is only supported for REPLICA service and not DAEMON
+service. If you leave volumeConfigurations null, it doesn't trigger a new deployment. For
+more infomation on volumes, see Amazon EBS volumes in the Amazon Elastic Container Service
+Developer Guide. For services using the blue/green (CODE_DEPLOY) deployment controller,
+only the desired count, deployment configuration, health check grace period, task placement
+constraints and strategies, enable ECS managed tags option, and propagate tags can be
+updated using this API. If the network configuration, platform version, task definition, or
+load balancer need to be updated, create a new CodeDeploy deployment. For more information,
+see CreateDeployment in the CodeDeploy API Reference. For services using an external
+deployment controller, you can update only the desired count, task placement constraints
+and strategies, health check grace period, enable ECS managed tags option, and propagate
+tags option, using this API. If the launch type, load balancer, network configuration,
+platform version, or task definition need to be updated, create a new task set For more
+information, see CreateTaskSet. You can add to or subtract from the number of
+instantiations of a task definition in a service by specifying the cluster that the service
+is running in and a new desiredCount parameter. You can attach Amazon EBS volumes to Amazon
+ECS tasks by configuring the volume when starting or running a task, or when creating or
+updating a service. For more infomation, see Amazon EBS volumes in the Amazon Elastic
+Container Service Developer Guide. If you have updated the container image of your
+application, you can create a new task definition with that image and deploy it to your
+service. The service scheduler uses the minimum healthy percent and maximum percent
+parameters (in the service's deployment configuration) to determine the deployment
+strategy.  If your updated Docker image uses the same tag as what is in the existing task
+definition for your service (for example, my_image:latest), you don't need to create a new
+revision of your task definition. You can update the service using the forceNewDeployment
+option. The new tasks launched by the deployment pull the current image/tag combination
+from your repository when they start.  You can also update the deployment configuration of
+a service. When a deployment is triggered by updating the task definition of a service, the
+service scheduler uses the deployment configuration parameters, minimumHealthyPercent and
+maximumPercent, to determine the deployment strategy.   If minimumHealthyPercent is below
+100%, the scheduler can ignore desiredCount temporarily during a deployment. For example,
+if desiredCount is four tasks, a minimum of 50% allows the scheduler to stop two existing
+tasks before starting two new tasks. Tasks for services that don't use a load balancer are
+considered healthy if they're in the RUNNING state. Tasks for services that use a load
+balancer are considered healthy if they're in the RUNNING state and are reported as healthy
+by the load balancer.   The maximumPercent parameter represents an upper limit on the
+number of running tasks during a deployment. You can use it to define the deployment batch
+size. For example, if desiredCount is four tasks, a maximum of 200% starts four new tasks
+before stopping the four older tasks (provided that the cluster resources required to do
+this are available).   When UpdateService stops a task during a deployment, the equivalent
+of docker stop is issued to the containers running in the task. This results in a SIGTERM
+and a 30-second timeout. After this, SIGKILL is sent and the containers are forcibly
+stopped. If the container handles the SIGTERM gracefully and exits within 30 seconds from
+receiving it, no SIGKILL is sent. When the service scheduler launches new tasks, it
+determines task placement in your cluster with the following logic.   Determine which of
+the container instances in your cluster can support your service's task definition. For
+example, they have the required CPU, memory, ports, and container instance attributes.   By
+default, the service scheduler attempts to balance tasks across Availability Zones in this
+manner even though you can choose a different placement strategy.   Sort the valid
+container instances by the fewest number of running tasks for this service in the same
+Availability Zone as the instance. For example, if zone A has one running service task and
+zones B and C each have zero, valid container instances in either zone B or C are
+considered optimal for placement.   Place the new service task on a valid container
+instance in an optimal Availability Zone (based on the previous steps), favoring container
+instances with the fewest number of running tasks for this service.     When the service
+scheduler stops running tasks, it attempts to maintain balance across the Availability
+Zones in your cluster using the following logic:    Sort the container instances by the
+largest number of running tasks for this service in the same Availability Zone as the
+instance. For example, if zone A has one running service task and zones B and C each have
+two, container instances in either zone B or C are considered optimal for termination.
+Stop the task on a container instance in an optimal Availability Zone (based on the
+previous steps), favoring container instances with the largest number of running tasks for
+this service.    You must have a service-linked role when you update any of the following
+service properties:    loadBalancers,    serviceRegistries    For more information about
+the role see the CreateService request parameter  role .
 
 # Arguments
 - `service`: The name of the service to update.
@@ -3287,6 +3415,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   revision is used. If you modify the task definition with UpdateService, Amazon ECS spawns a
   task with the new version of the task definition and then stops an old task after the new
   version is running.
+- `"volumeConfigurations"`: The details of the volume that was configuredAtLaunch. You can
+  configure the size, volumeType, IOPS, throughput, snapshot and encryption in
+  ServiceManagedEBSVolumeConfiguration. The name of the volume must match the name from the
+  task definition. If set to null, no new deployment is triggered. Otherwise, if this
+  configuration differs from the existing one, it triggers a new deployment.
 """
 function update_service(service; aws_config::AbstractAWSConfig=global_aws_config())
     return ecs(

@@ -5,6 +5,131 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    create_performance_analysis_report(end_time, identifier, service_type, start_time)
+    create_performance_analysis_report(end_time, identifier, service_type, start_time, params::Dict{String,<:Any})
+
+Creates a new performance analysis report for a specific time period for the DB instance.
+
+# Arguments
+- `end_time`: The end time defined for the analysis report.
+- `identifier`: An immutable, Amazon Web Services Region-unique identifier for a data
+  source. Performance Insights gathers metrics from this data source. To use an Amazon RDS
+  instance as a data source, you specify its DbiResourceId value. For example, specify
+  db-ADECBTYHKTSAUMUZQYPDS2GW4A.
+- `service_type`: The Amazon Web Services service for which Performance Insights will
+  return metrics. Valid value is RDS.
+- `start_time`: The start time defined for the analysis report.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Tags"`: The metadata assigned to the analysis report consisting of a key-value pair.
+"""
+function create_performance_analysis_report(
+    EndTime,
+    Identifier,
+    ServiceType,
+    StartTime;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "CreatePerformanceAnalysisReport",
+        Dict{String,Any}(
+            "EndTime" => EndTime,
+            "Identifier" => Identifier,
+            "ServiceType" => ServiceType,
+            "StartTime" => StartTime,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_performance_analysis_report(
+    EndTime,
+    Identifier,
+    ServiceType,
+    StartTime,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "CreatePerformanceAnalysisReport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EndTime" => EndTime,
+                    "Identifier" => Identifier,
+                    "ServiceType" => ServiceType,
+                    "StartTime" => StartTime,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_performance_analysis_report(analysis_report_id, identifier, service_type)
+    delete_performance_analysis_report(analysis_report_id, identifier, service_type, params::Dict{String,<:Any})
+
+Deletes a performance analysis report.
+
+# Arguments
+- `analysis_report_id`: The unique identifier of the analysis report for deletion.
+- `identifier`: An immutable identifier for a data source that is unique for an Amazon Web
+  Services Region. Performance Insights gathers metrics from this data source. In the
+  console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the
+  identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its
+  DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+- `service_type`: The Amazon Web Services service for which Performance Insights will
+  return metrics. Valid value is RDS.
+
+"""
+function delete_performance_analysis_report(
+    AnalysisReportId,
+    Identifier,
+    ServiceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "DeletePerformanceAnalysisReport",
+        Dict{String,Any}(
+            "AnalysisReportId" => AnalysisReportId,
+            "Identifier" => Identifier,
+            "ServiceType" => ServiceType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_performance_analysis_report(
+    AnalysisReportId,
+    Identifier,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "DeletePerformanceAnalysisReport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AnalysisReportId" => AnalysisReportId,
+                    "Identifier" => Identifier,
+                    "ServiceType" => ServiceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_dimension_keys(end_time, group_by, identifier, metric, service_type, start_time)
     describe_dimension_keys(end_time, group_by, identifier, metric, service_type, start_time, params::Dict{String,<:Any})
 
@@ -200,6 +325,74 @@ function get_dimension_key_details(
 end
 
 """
+    get_performance_analysis_report(analysis_report_id, identifier, service_type)
+    get_performance_analysis_report(analysis_report_id, identifier, service_type, params::Dict{String,<:Any})
+
+Retrieves the report including the report ID, status, time details, and the insights with
+recommendations. The report status can be RUNNING, SUCCEEDED, or FAILED. The insights
+include the description and recommendation fields.
+
+# Arguments
+- `analysis_report_id`: A unique identifier of the created analysis report. For example,
+  report-12345678901234567
+- `identifier`: An immutable identifier for a data source that is unique for an Amazon Web
+  Services Region. Performance Insights gathers metrics from this data source. In the
+  console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the
+  identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its
+  DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+- `service_type`: The Amazon Web Services service for which Performance Insights will
+  return metrics. Valid value is RDS.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AcceptLanguage"`: The text language in the report. The default language is EN_US
+  (English).
+- `"TextFormat"`: Indicates the text format in the report. The options are PLAIN_TEXT or
+  MARKDOWN. The default value is plain text.
+"""
+function get_performance_analysis_report(
+    AnalysisReportId,
+    Identifier,
+    ServiceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "GetPerformanceAnalysisReport",
+        Dict{String,Any}(
+            "AnalysisReportId" => AnalysisReportId,
+            "Identifier" => Identifier,
+            "ServiceType" => ServiceType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_performance_analysis_report(
+    AnalysisReportId,
+    Identifier,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "GetPerformanceAnalysisReport",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AnalysisReportId" => AnalysisReportId,
+                    "Identifier" => Identifier,
+                    "ServiceType" => ServiceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_resource_metadata(identifier, service_type)
     get_resource_metadata(identifier, service_type, params::Dict{String,<:Any})
 
@@ -250,9 +443,10 @@ end
     get_resource_metrics(end_time, identifier, metric_queries, service_type, start_time, params::Dict{String,<:Any})
 
 Retrieve Performance Insights metrics for a set of data sources over a time period. You can
-provide specific dimension groups and dimensions, and provide aggregation and filtering
-criteria for each group.  Each response element returns a maximum of 500 bytes. For larger
-elements, such as SQL statements, only the first 500 bytes are returned.
+provide specific dimension groups and dimensions, and provide filtering criteria for each
+group. You must specify an aggregate function for each metric.  Each response element
+returns a maximum of 500 bytes. For larger elements, such as SQL statements, only the first
+500 bytes are returned.
 
 # Arguments
 - `end_time`: The date and time specifying the end of the requested time series query
@@ -265,7 +459,10 @@ elements, such as SQL statements, only the first 500 bytes are returned.
   identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its
   DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
 - `metric_queries`: An array of one or more queries to perform. Each query must specify a
-  Performance Insights metric, and can optionally specify aggregation and filtering criteria.
+  Performance Insights metric and specify an aggregate function, and you can provide
+  filtering criteria. You must append the aggregate function to the metric. For example, to
+  find the average for the metric db.load you must use db.load.avg. Valid values for
+  aggregate functions include .avg, .min, .max, and .sum.
 - `service_type`: The Amazon Web Services service for which Performance Insights returns
   metrics. Valid values are as follows:    RDS     DOCDB
 - `start_time`: The date and time specifying the beginning of the requested time series
@@ -360,6 +557,11 @@ DB instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthorizedActions"`: The actions to discover the dimensions you are authorized to
+  access. If you specify multiple actions, then the response will contain the dimensions
+  common for all the actions. When you don't specify this request parameter or provide an
+  empty list, the response contains all the available dimensions for the target database
+  engine whether or not you are authorized to access them.
 - `"MaxResults"`: The maximum number of items to return in the response. If more items
   exist than the specified MaxRecords value, a pagination token is included in the response
   so that the remaining results can be retrieved.
@@ -461,6 +663,213 @@ function list_available_resource_metrics(
                     "Identifier" => Identifier,
                     "MetricTypes" => MetricTypes,
                     "ServiceType" => ServiceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_performance_analysis_reports(identifier, service_type)
+    list_performance_analysis_reports(identifier, service_type, params::Dict{String,<:Any})
+
+Lists all the analysis reports created for the DB instance. The reports are sorted based on
+the start time of each report.
+
+# Arguments
+- `identifier`: An immutable identifier for a data source that is unique for an Amazon Web
+  Services Region. Performance Insights gathers metrics from this data source. In the
+  console, the identifier is shown as ResourceID. When you call DescribeDBInstances, the
+  identifier is returned as DbiResourceId. To use a DB instance as a data source, specify its
+  DbiResourceId value. For example, specify db-ABCDEFGHIJKLMNOPQRSTU1VW2X.
+- `service_type`: The Amazon Web Services service for which Performance Insights returns
+  metrics. Valid value is RDS.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ListTags"`: Specifies whether or not to include the list of tags in the response.
+- `"MaxResults"`: The maximum number of items to return in the response. If more items
+  exist than the specified MaxResults value, a pagination token is included in the response
+  so that the remaining results can be retrieved.
+- `"NextToken"`: An optional pagination token provided by a previous request. If this
+  parameter is specified, the response includes only records beyond the token, up to the
+  value specified by MaxResults.
+"""
+function list_performance_analysis_reports(
+    Identifier, ServiceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pi(
+        "ListPerformanceAnalysisReports",
+        Dict{String,Any}("Identifier" => Identifier, "ServiceType" => ServiceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_performance_analysis_reports(
+    Identifier,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "ListPerformanceAnalysisReports",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Identifier" => Identifier, "ServiceType" => ServiceType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_tags_for_resource(resource_arn, service_type)
+    list_tags_for_resource(resource_arn, service_type, params::Dict{String,<:Any})
+
+Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
+
+# Arguments
+- `resource_arn`: Lists all the tags for the Amazon RDS Performance Insights resource. This
+  value is an Amazon Resource Name (ARN). For information about creating an ARN, see
+  Constructing an RDS Amazon Resource Name (ARN).
+- `service_type`: List the tags for the Amazon Web Services service for which Performance
+  Insights returns metrics. Valid value is RDS.
+
+"""
+function list_tags_for_resource(
+    ResourceARN, ServiceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pi(
+        "ListTagsForResource",
+        Dict{String,Any}("ResourceARN" => ResourceARN, "ServiceType" => ServiceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    ResourceARN,
+    ServiceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "ListTagsForResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceARN" => ResourceARN, "ServiceType" => ServiceType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, service_type, tags)
+    tag_resource(resource_arn, service_type, tags, params::Dict{String,<:Any})
+
+Adds metadata tags to the Amazon RDS Performance Insights resource.
+
+# Arguments
+- `resource_arn`: The Amazon RDS Performance Insights resource that the tags are added to.
+  This value is an Amazon Resource Name (ARN). For information about creating an ARN, see
+  Constructing an RDS Amazon Resource Name (ARN).
+- `service_type`: The Amazon Web Services service for which Performance Insights returns
+  metrics. Valid value is RDS.
+- `tags`: The metadata assigned to an Amazon RDS resource consisting of a key-value pair.
+
+"""
+function tag_resource(
+    ResourceARN, ServiceType, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pi(
+        "TagResource",
+        Dict{String,Any}(
+            "ResourceARN" => ResourceARN, "ServiceType" => ServiceType, "Tags" => Tags
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    ResourceARN,
+    ServiceType,
+    Tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "TagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceARN" => ResourceARN,
+                    "ServiceType" => ServiceType,
+                    "Tags" => Tags,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, service_type, tag_keys)
+    untag_resource(resource_arn, service_type, tag_keys, params::Dict{String,<:Any})
+
+Deletes the metadata tags from the Amazon RDS Performance Insights resource.
+
+# Arguments
+- `resource_arn`: The Amazon RDS Performance Insights resource that the tags are added to.
+  This value is an Amazon Resource Name (ARN). For information about creating an ARN, see
+  Constructing an RDS Amazon Resource Name (ARN).
+- `service_type`: List the tags for the Amazon Web Services service for which Performance
+  Insights returns metrics. Valid value is RDS.
+- `tag_keys`: The metadata assigned to an Amazon RDS Performance Insights resource
+  consisting of a key-value pair.
+
+"""
+function untag_resource(
+    ResourceARN, ServiceType, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return pi(
+        "UntagResource",
+        Dict{String,Any}(
+            "ResourceARN" => ResourceARN, "ServiceType" => ServiceType, "TagKeys" => TagKeys
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    ResourceARN,
+    ServiceType,
+    TagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return pi(
+        "UntagResource",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceARN" => ResourceARN,
+                    "ServiceType" => ServiceType,
+                    "TagKeys" => TagKeys,
                 ),
                 params,
             ),

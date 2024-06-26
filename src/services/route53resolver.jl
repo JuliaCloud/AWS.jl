@@ -333,6 +333,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response.
   This option requires custom handling details in the rule's BlockOverride* settings.    This
   setting is required if the rule action setting is BLOCK.
+- `"FirewallDomainRedirectionAction"`:  How you want the the rule to evaluate DNS
+  redirection in the DNS redirection chain, such as CNAME or DNAME.
+  Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The
+  individual domains in the redirection chain must be added to the domain list.
+  Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You
+  don't need to add the subsequent domains in the domain in the redirection list to the
+  domain list.
+- `"Qtype"`:  The DNS query type you want the rule to evaluate. Allowed values are;     A:
+  Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can
+  create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS:
+  Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail
+  servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative
+  name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record
+  for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV:
+  Application specific values that identify servers.   TXT: Verifies email senders and
+  application-specific values.   A query type you define by using the DNS type ID, for
+  example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be
+  1-65334, for example, TYPE28. For more information, see List of DNS record types.
 """
 function create_firewall_rule(
     Action,
@@ -437,6 +455,75 @@ function create_firewall_rule_group(
 end
 
 """
+    create_outpost_resolver(creator_request_id, name, outpost_arn, preferred_instance_type)
+    create_outpost_resolver(creator_request_id, name, outpost_arn, preferred_instance_type, params::Dict{String,<:Any})
+
+Creates a Route 53 Resolver on an Outpost.
+
+# Arguments
+- `creator_request_id`: A unique string that identifies the request and that allows failed
+  requests to be retried without the risk of running the operation twice.   CreatorRequestId
+  can be any unique string, for example, a date/time stamp.
+- `name`: A friendly name that lets you easily find a configuration in the Resolver
+  dashboard in the Route 53 console.
+- `outpost_arn`: The Amazon Resource Name (ARN) of the Outpost. If you specify this, you
+  must also specify a value for the PreferredInstanceType.
+- `preferred_instance_type`:  The Amazon EC2 instance type. If you specify this, you must
+  also specify a value for the OutpostArn.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceCount"`: Number of Amazon EC2 instances for the Resolver on Outpost. The
+  default and minimal value is 4.
+- `"Tags"`:  A string that helps identify the Route 53 Resolvers on Outpost.
+"""
+function create_outpost_resolver(
+    CreatorRequestId,
+    Name,
+    OutpostArn,
+    PreferredInstanceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53resolver(
+        "CreateOutpostResolver",
+        Dict{String,Any}(
+            "CreatorRequestId" => CreatorRequestId,
+            "Name" => Name,
+            "OutpostArn" => OutpostArn,
+            "PreferredInstanceType" => PreferredInstanceType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_outpost_resolver(
+    CreatorRequestId,
+    Name,
+    OutpostArn,
+    PreferredInstanceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53resolver(
+        "CreateOutpostResolver",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "CreatorRequestId" => CreatorRequestId,
+                    "Name" => Name,
+                    "OutpostArn" => OutpostArn,
+                    "PreferredInstanceType" => PreferredInstanceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_resolver_endpoint(creator_request_id, direction, ip_addresses, security_group_ids)
     create_resolver_endpoint(creator_request_id, direction, ip_addresses, security_group_ids, params::Dict{String,<:Any})
 
@@ -454,19 +541,34 @@ service for a VPC to your network.
   the DNS service for a VPC to your network
 - `ip_addresses`: The subnets and IP addresses in your VPC that DNS queries originate from
   (for outbound endpoints) or that you forward DNS queries to (for inbound endpoints). The
-  subnet ID uniquely identifies a VPC.
+  subnet ID uniquely identifies a VPC.   Even though the minimum is 1, Route 53 requires
+  that you create at least two.
 - `security_group_ids`: The ID of one or more security groups that you want to use to
   control access to this VPC. The security group that you specify must include one or more
   inbound rules (for inbound Resolver endpoints) or outbound rules (for outbound Resolver
   endpoints). Inbound and outbound rules must allow TCP and UDP access. For inbound access,
   open port 53. For outbound access, open the port that you're using for DNS queries on your
-  network.
+  network. Some security group rules will cause your connection to be tracked. For outbound
+  resolver endpoint, it can potentially impact the maximum queries per second from outbound
+  endpoint to your target name server. For inbound resolver endpoint, it can bring down the
+  overall maximum queries per second per IP address to as low as 1500. To avoid connection
+  tracking caused by security group, see Untracked connections.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: A friendly name that lets you easily find a configuration in the Resolver
   dashboard in the Route 53 console.
-- `"ResolverEndpointType"`:  For the endpoint type you can choose either IPv4, IPv6. or
+- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost. If you specify this, you
+  must also specify a value for the PreferredInstanceType.
+- `"PreferredInstanceType"`: The instance type. If you specify this, you must also specify
+  a value for the OutpostArn.
+- `"Protocols"`:  The protocols you want to use for the endpoint. DoH-FIPS is applicable
+  for inbound endpoints only.  For an inbound endpoint you can apply the protocols as
+  follows:    Do53 and DoH in combination.   Do53 and DoH-FIPS in combination.   Do53 alone.
+   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For an outbound endpoint
+  you can apply the protocols as follows:    Do53 and DoH in combination.   Do53 alone.   DoH
+  alone.   None, which is treated as Do53.
+- `"ResolverEndpointType"`:  For the endpoint type you can choose either IPv4, IPv6, or
   dual-stack. A dual-stack endpoint means that it will resolve via both IPv4 and IPv6. This
   endpoint type is applied to all IP addresses.
 - `"Tags"`: A list of the tag keys and values that you want to associate with the endpoint.
@@ -593,8 +695,8 @@ function create_resolver_query_log_config(
 end
 
 """
-    create_resolver_rule(creator_request_id, domain_name, rule_type)
-    create_resolver_rule(creator_request_id, domain_name, rule_type, params::Dict{String,<:Any})
+    create_resolver_rule(creator_request_id, rule_type)
+    create_resolver_rule(creator_request_id, rule_type, params::Dict{String,<:Any})
 
 For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries
 pass through, one domain name that you want to forward to your network, and the IP
@@ -604,10 +706,6 @@ addresses of the DNS resolvers in your network.
 - `creator_request_id`: A unique string that identifies the request and that allows failed
   requests to be retried without the risk of running the operation twice. CreatorRequestId
   can be any unique string, for example, a date/time stamp.
-- `domain_name`: DNS queries for this domain name are forwarded to the IP addresses that
-  you specify in TargetIps. If a query matches multiple Resolver rules (example.com and
-  www.example.com), outbound DNS queries are routed using the Resolver rule that contains the
-  most specific domain name (www.example.com).
 - `rule_type`: When you want to forward DNS queries for specified domain name to resolvers
   on your network, specify FORWARD. When you have a forwarding rule to forward DNS queries
   for a domain to your network and you want Resolver to process queries for a subdomain of
@@ -619,35 +717,31 @@ addresses of the DNS resolvers in your network.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DomainName"`: DNS queries for this domain name are forwarded to the IP addresses that
+  you specify in TargetIps. If a query matches multiple Resolver rules (example.com and
+  www.example.com), outbound DNS queries are routed using the Resolver rule that contains the
+  most specific domain name (www.example.com).
 - `"Name"`: A friendly name that lets you easily find a rule in the Resolver dashboard in
   the Route 53 console.
 - `"ResolverEndpointId"`: The ID of the outbound Resolver endpoint that you want to use to
   route DNS queries to the IP addresses that you specify in TargetIps.
 - `"Tags"`: A list of the tag keys and values that you want to associate with the endpoint.
 - `"TargetIps"`: The IPs that you want Resolver to forward DNS queries to. You can specify
-  only IPv4 addresses. Separate IP addresses with a space.  TargetIps is available only when
-  the value of Rule type is FORWARD.
+  either Ipv4 or Ipv6 addresses but not both in the same rule. Separate IP addresses with a
+  space.  TargetIps is available only when the value of Rule type is FORWARD.
 """
 function create_resolver_rule(
-    CreatorRequestId,
-    DomainName,
-    RuleType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    CreatorRequestId, RuleType; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return route53resolver(
         "CreateResolverRule",
-        Dict{String,Any}(
-            "CreatorRequestId" => CreatorRequestId,
-            "DomainName" => DomainName,
-            "RuleType" => RuleType,
-        );
+        Dict{String,Any}("CreatorRequestId" => CreatorRequestId, "RuleType" => RuleType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_resolver_rule(
     CreatorRequestId,
-    DomainName,
     RuleType,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -658,9 +752,7 @@ function create_resolver_rule(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "CreatorRequestId" => CreatorRequestId,
-                    "DomainName" => DomainName,
-                    "RuleType" => RuleType,
+                    "CreatorRequestId" => CreatorRequestId, "RuleType" => RuleType
                 ),
                 params,
             ),
@@ -720,6 +812,19 @@ Deletes the specified firewall rule.
 - `firewall_rule_group_id`: The unique identifier of the firewall rule group that you want
   to delete the rule from.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Qtype"`:  The DNS query type that the rule you are deleting evaluates. Allowed values
+  are;     A: Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs
+  that can create SSL/TLS certifications for the domain.   CNAME: Returns another domain
+  name.   DS: Record that identifies the DNSSEC signing key of a delegated zone.   MX:
+  Specifies mail servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS:
+  Authoritative name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of
+  authority record for the zone.   SPF: Lists the servers authorized to send emails from a
+  domain.   SRV: Application specific values that identify servers.   TXT: Verifies email
+  senders and application-specific values.   A query type you define by using the DNS type
+  ID, for example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can
+  be 1-65334, for example, TYPE28. For more information, see List of DNS record types.
 """
 function delete_firewall_rule(
     FirewallDomainListId,
@@ -794,6 +899,35 @@ function delete_firewall_rule_group(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_outpost_resolver(id)
+    delete_outpost_resolver(id, params::Dict{String,<:Any})
+
+Deletes a Resolver on the Outpost.
+
+# Arguments
+- `id`: A unique string that identifies the Resolver on the Outpost.
+
+"""
+function delete_outpost_resolver(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53resolver(
+        "DeleteOutpostResolver",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_outpost_resolver(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53resolver(
+        "DeleteOutpostResolver",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1301,6 +1435,36 @@ function get_firewall_rule_group_policy(
     return route53resolver(
         "GetFirewallRuleGroupPolicy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Arn" => Arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_outpost_resolver(id)
+    get_outpost_resolver(id, params::Dict{String,<:Any})
+
+Gets information about a specified Resolver on the Outpost, such as its instance count and
+type, name, and the current status of the Resolver.
+
+# Arguments
+- `id`: The ID of the Resolver on the Outpost.
+
+"""
+function get_outpost_resolver(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53resolver(
+        "GetOutpostResolver",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_outpost_resolver(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53resolver(
+        "GetOutpostResolver",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1985,6 +2149,37 @@ function list_firewall_rules(
 end
 
 """
+    list_outpost_resolvers()
+    list_outpost_resolvers(params::Dict{String,<:Any})
+
+Lists all the Resolvers on Outposts that were created using the current Amazon Web Services
+account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of Resolvers on the Outpost that you want to return in
+  the response to a ListOutpostResolver request. If you don't specify a value for MaxResults,
+  the request returns up to 100 Resolvers.
+- `"NextToken"`: For the first ListOutpostResolver request, omit this value.
+- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost.
+"""
+function list_outpost_resolvers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53resolver(
+        "ListOutpostResolvers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_outpost_resolvers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53resolver(
+        "ListOutpostResolvers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_resolver_configs()
     list_resolver_configs(params::Dict{String,<:Any})
 
@@ -2451,7 +2646,6 @@ operations that you want the account to be able to perform on the configuration.
   can specify the following operations in the Actions section of the statement:
   route53resolver:AssociateResolverQueryLogConfig
   route53resolver:DisassociateResolverQueryLogConfig
-  route53resolver:ListResolverQueryLogConfigAssociations
   route53resolver:ListResolverQueryLogConfigs    In the Resource section of the statement,
   you specify the ARNs for the query logging configurations that you want to share with the
   account that you specified in Arn.
@@ -2772,6 +2966,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   but no response is available for it.    NXDOMAIN - Respond indicating that the domain name
   that's in the query doesn't exist.    OVERRIDE - Provide a custom override in the response.
   This option requires custom handling details in the rule's BlockOverride* settings.
+- `"FirewallDomainRedirectionAction"`:  How you want the the rule to evaluate DNS
+  redirection in the DNS redirection chain, such as CNAME or DNAME.
+  Inspect_Redirection_Domain (Default) inspects all domains in the redirection chain. The
+  individual domains in the redirection chain must be added to the domain list.
+  Trust_Redirection_Domain  inspects only the first domain in the redirection chain. You
+  don't need to add the subsequent domains in the domain in the redirection list to the
+  domain list.
 - `"Name"`: The name of the rule.
 - `"Priority"`: The setting that determines the processing order of the rule in the rule
   group. DNS Firewall processes the rules in a rule group by order of priority, starting from
@@ -2779,6 +2980,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   make it easier to insert rules later, leave space between the numbers, for example, use
   100, 200, and so on. You can change the priority setting for the rules in a rule group at
   any time.
+- `"Qtype"`:  The DNS query type you want the rule to evaluate. Allowed values are;     A:
+  Returns an IPv4 address.   AAAA: Returns an Ipv6 address.   CAA: Restricts CAs that can
+  create SSL/TLS certifications for the domain.   CNAME: Returns another domain name.   DS:
+  Record that identifies the DNSSEC signing key of a delegated zone.   MX: Specifies mail
+  servers.   NAPTR: Regular-expression-based rewriting of domain names.   NS: Authoritative
+  name servers.   PTR: Maps an IP address to a domain name.   SOA: Start of authority record
+  for the zone.   SPF: Lists the servers authorized to send emails from a domain.   SRV:
+  Application specific values that identify servers.   TXT: Verifies email senders and
+  application-specific values.   A query type you define by using the DNS type ID, for
+  example 28 for AAAA. The values must be defined as TYPENUMBER, where the NUMBER can be
+  1-65334, for example, TYPE28. For more information, see List of DNS record types.
 """
 function update_firewall_rule(
     FirewallDomainListId,
@@ -2869,6 +3081,41 @@ function update_firewall_rule_group_association(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_outpost_resolver(id)
+    update_outpost_resolver(id, params::Dict{String,<:Any})
+
+You can use UpdateOutpostResolver to update the instance count, type, or name of a Resolver
+on an Outpost.
+
+# Arguments
+- `id`: A unique string that identifies Resolver on an Outpost.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"InstanceCount"`: The Amazon EC2 instance count for a Resolver on the Outpost.
+- `"Name"`: Name of the Resolver on the Outpost.
+- `"PreferredInstanceType"`:  Amazon EC2 instance type.
+"""
+function update_outpost_resolver(Id; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53resolver(
+        "UpdateOutpostResolver",
+        Dict{String,Any}("Id" => Id);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_outpost_resolver(
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return route53resolver(
+        "UpdateOutpostResolver",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Id" => Id), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2977,7 +3224,7 @@ end
     update_resolver_endpoint(resolver_endpoint_id)
     update_resolver_endpoint(resolver_endpoint_id, params::Dict{String,<:Any})
 
-Updates the name, or enpoint type for an inbound or an outbound Resolver endpoint. You can
+Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint. You can
 only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
 
 # Arguments
@@ -2986,9 +3233,22 @@ only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to o
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Name"`: The name of the Resolver endpoint that you want to update.
+- `"Protocols"`:  The protocols you want to use for the endpoint. DoH-FIPS is applicable
+  for inbound endpoints only.  For an inbound endpoint you can apply the protocols as
+  follows:    Do53 and DoH in combination.   Do53 and DoH-FIPS in combination.   Do53 alone.
+   DoH alone.   DoH-FIPS alone.   None, which is treated as Do53.   For an outbound endpoint
+  you can apply the protocols as follows:    Do53 and DoH in combination.   Do53 alone.   DoH
+  alone.   None, which is treated as Do53.     You can't change the protocol of an inbound
+  endpoint directly from only Do53 to only DoH, or DoH-FIPS. This is to prevent a sudden
+  disruption to incoming traffic that relies on Do53. To change the protocol from Do53 to
+  DoH, or DoH-FIPS, you must first enable both Do53 and DoH, or Do53 and DoH-FIPS, to make
+  sure that all incoming traffic has transferred to using the DoH protocol, or DoH-FIPS, and
+  then remove the Do53.
 - `"ResolverEndpointType"`:  Specifies the endpoint type for what type of IP address the
-  endpoint uses to forward DNS queries.
-- `"UpdateIpAddresses"`:  Updates the Resolver endpoint type to IpV4, Ipv6, or dual-stack.
+  endpoint uses to forward DNS queries.  Updating to IPV6 type isn't currently supported.
+- `"UpdateIpAddresses"`:  Specifies the IPv6 address when you update the Resolver endpoint
+  from IPv4 to dual-stack. If you don't specify an IPv6 address, one will be automatically
+  chosen from your subnet.
 """
 function update_resolver_endpoint(
     ResolverEndpointId; aws_config::AbstractAWSConfig=global_aws_config()

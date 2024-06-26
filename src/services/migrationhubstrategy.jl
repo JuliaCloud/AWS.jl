@@ -324,6 +324,43 @@ function get_server_strategies(
 end
 
 """
+    list_analyzable_servers()
+    list_analyzable_servers(params::Dict{String,<:Any})
+
+Retrieves a list of all the servers fetched from customer vCenter using Strategy
+Recommendation Collector.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of items to include in the response. The maximum value
+  is 100.
+- `"nextToken"`: The token from a previous call that you use to retrieve the next set of
+  results. For example, if a previous call to this action returned 100 items, but you set
+  maxResults to 10. You'll receive a set of 10 results along with a token. You then use the
+  returned token to retrieve the next set of 10.
+- `"sort"`: Specifies whether to sort by ascending (ASC) or descending (DESC) order.
+"""
+function list_analyzable_servers(; aws_config::AbstractAWSConfig=global_aws_config())
+    return migrationhubstrategy(
+        "POST",
+        "/list-analyzable-servers";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_analyzable_servers(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return migrationhubstrategy(
+        "POST",
+        "/list-analyzable-servers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_application_components()
     list_application_components(params::Dict{String,<:Any})
 
@@ -513,6 +550,7 @@ end
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"assessmentDataSourceType"`: The data source type of an assessment to be started.
 - `"assessmentTargets"`: List of criteria for assessment.
 - `"s3bucketForAnalysisData"`:  The S3 bucket used by the collectors to send analysis data
   to the service. The bucket name must begin with migrationhub-strategy-.

@@ -744,7 +744,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of NextPageMarker in the Marker element.
 - `"MaxItems"`: Number of domains to be returned. Default: 20
 - `"SortBy"`:  The sort type for returned values.
-- `"SortOrder"`:  The sort order ofr returned values, either ascending or descending.
+- `"SortOrder"`:  The sort order for returned values, either ascending or descending.
 - `"Status"`:  The status of the operations.
 - `"SubmittedSince"`: An optional parameter that lets you get information about all the
   operations that you submitted after a specified date and time. Specify the date and time in
@@ -878,24 +878,22 @@ end
     register_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact)
     register_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact, params::Dict{String,<:Any})
 
-This operation registers a domain. Domains are registered either by Amazon Registrar (for
-.com, .net, and .org domains) or by our registrar associate, Gandi (for all other domains).
-For some top-level domains (TLDs), this operation requires extra parameters. When you
-register a domain, Amazon Route 53 does the following:   Creates a Route 53 hosted zone
-that has the same name as the domain. Route 53 assigns four name servers to your hosted
-zone and automatically updates your domain registration with the names of these name
-servers.   Enables auto renew, so your domain registration will renew automatically each
-year. We'll notify you in advance of the renewal date so you can choose whether to renew
-the registration.   Optionally enables privacy protection, so WHOIS queries return contact
-information either for Amazon Registrar (for .com, .net, and .org domains) or for our
-registrar associate, Gandi (for all other TLDs). If you don't enable privacy protection,
-WHOIS queries return the information that you entered for the administrative, registrant,
-and technical contacts.  You must specify the same privacy setting for the administrative,
-registrant, and technical contacts.    If registration is successful, returns an operation
-ID that you can use to track the progress and completion of the action. If the request is
-not completed successfully, the domain registrant is notified by email.   Charges your
-Amazon Web Services account an amount based on the top-level domain. For more information,
-see Amazon Route 53 Pricing.
+This operation registers a domain. For some top-level domains (TLDs), this operation
+requires extra parameters. When you register a domain, Amazon Route 53 does the following:
+ Creates a Route 53 hosted zone that has the same name as the domain. Route 53 assigns four
+name servers to your hosted zone and automatically updates your domain registration with
+the names of these name servers.   Enables auto renew, so your domain registration will
+renew automatically each year. We'll notify you in advance of the renewal date so you can
+choose whether to renew the registration.   Optionally enables privacy protection, so WHOIS
+queries return contact for the registrar or the phrase \"REDACTED FOR PRIVACY\", or \"On
+behalf of &lt;domain name&gt; owner.\" If you don't enable privacy protection, WHOIS
+queries return the information that you entered for the administrative, registrant, and
+technical contacts.  While some domains may allow different privacy settings per contact,
+we recommend specifying the same privacy setting for all contacts.    If registration is
+successful, returns an operation ID that you can use to track the progress and completion
+of the action. If the request is not completed successfully, the domain registrant is
+notified by email.   Charges your Amazon Web Services account an amount based on the
+top-level domain. For more information, see Amazon Route 53 Pricing.
 
 # Arguments
 - `admin_contact`: Provides detailed contact information. For information about the values
@@ -923,26 +921,33 @@ see Amazon Route 53 Pricing.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoRenew"`: Indicates whether the domain will be automatically renewed (true) or not
   (false). Auto renewal only takes effect after the account is charged. Default: true
+- `"BillingContact"`: Provides detailed contact information. For information about the
+  values that you specify for each element, see ContactDetail.
 - `"IdnLangCode"`: Reserved for future use.
 - `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
-  either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
-  associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the admin contact.  You must specify the same privacy
-  setting for the administrative, registrant, and technical contacts.  Default: true
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify false,
+  WHOIS queries return the information that you entered for the admin contact.  You must
+  specify the same privacy setting for the administrative, billing, registrant, and technical
+  contacts.  Default: true
+- `"PrivacyProtectBillingContact"`: Whether you want to conceal contact information from
+  WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify false,
+  WHOIS queries return the information that you entered for the billing contact.  You must
+  specify the same privacy setting for the administrative, billing, registrant, and technical
+  contacts.
 - `"PrivacyProtectRegistrantContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
-  either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
-  associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the registrant contact (the domain owner).  You must
-  specify the same privacy setting for the administrative, registrant, and technical
-  contacts.  Default: true
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify false,
+  WHOIS queries return the information that you entered for the registrant contact (the
+  domain owner).  You must specify the same privacy setting for the administrative, billing,
+  registrant, and technical contacts.  Default: true
 - `"PrivacyProtectTechContact"`: Whether you want to conceal contact information from WHOIS
   queries. If you specify true, WHOIS (\"who is\") queries return contact information either
-  for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
-  Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that
-  you entered for the technical contact.  You must specify the same privacy setting for the
-  administrative, registrant, and technical contacts.  Default: true
+  for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS
+  queries return the information that you entered for the technical contact.  You must
+  specify the same privacy setting for the administrative, billing, registrant, and technical
+  contacts.  Default: true
 """
 function register_domain(
     AdminContact,
@@ -1199,27 +1204,28 @@ end
     transfer_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact)
     transfer_domain(admin_contact, domain_name, duration_in_years, registrant_contact, tech_contact, params::Dict{String,<:Any})
 
-Transfers a domain from another registrar to Amazon Route 53. When the transfer is
-complete, the domain is registered either with Amazon Registrar (for .com, .net, and .org
-domains) or with our registrar associate, Gandi (for all other TLDs). For more information
-about transferring domains, see the following topics:   For transfer requirements, a
-detailed procedure, and information about viewing the status of a domain that you're
-transferring to Route 53, see Transferring Registration for a Domain to Amazon Route 53 in
-the Amazon Route 53 Developer Guide.   For information about how to transfer a domain from
-one Amazon Web Services account to another, see TransferDomainToAnotherAwsAccount.    For
-information about how to transfer a domain to another domain registrar, see Transferring a
-Domain from Amazon Route 53 to Another Registrar in the Amazon Route 53 Developer Guide.
-If the registrar for your domain is also the DNS service provider for the domain, we highly
-recommend that you transfer your DNS service to Route 53 or to another DNS service provider
-before you transfer your registration. Some registrars provide free DNS service when you
-purchase a domain registration. When you transfer the registration, the previous registrar
-will not renew your domain registration and could end your DNS service at any time.  If the
-registrar for your domain is also the DNS service provider for the domain and you don't
-transfer DNS service to another provider, your website, email, and the web applications
-associated with the domain might become unavailable.  If the transfer is successful, this
-method returns an operation ID that you can use to track the progress and completion of the
-action. If the transfer doesn't complete successfully, the domain registrant will be
-notified by email.
+Transfers a domain from another registrar to Amazon Route 53.  For more information about
+transferring domains, see the following topics:   For transfer requirements, a detailed
+procedure, and information about viewing the status of a domain that you're transferring to
+Route 53, see Transferring Registration for a Domain to Amazon Route 53 in the Amazon Route
+53 Developer Guide.   For information about how to transfer a domain from one Amazon Web
+Services account to another, see TransferDomainToAnotherAwsAccount.    For information
+about how to transfer a domain to another domain registrar, see Transferring a Domain from
+Amazon Route 53 to Another Registrar in the Amazon Route 53 Developer Guide.    During the
+transfer of any country code top-level domains (ccTLDs) to Route 53, except for .cc and
+.tv, updates to the owner contact are ignored and the owner contact data from the registry
+is used. You can update the owner contact after the transfer is complete. For more
+information, see UpdateDomainContact.  If the registrar for your domain is also the DNS
+service provider for the domain, we highly recommend that you transfer your DNS service to
+Route 53 or to another DNS service provider before you transfer your registration. Some
+registrars provide free DNS service when you purchase a domain registration. When you
+transfer the registration, the previous registrar will not renew your domain registration
+and could end your DNS service at any time.  If the registrar for your domain is also the
+DNS service provider for the domain and you don't transfer DNS service to another provider,
+your website, email, and the web applications associated with the domain might become
+unavailable.  If the transfer is successful, this method returns an operation ID that you
+can use to track the progress and completion of the action. If the transfer doesn't
+complete successfully, the domain registrant will be notified by email.
 
 # Arguments
 - `admin_contact`: Provides detailed contact information.
@@ -1242,27 +1248,32 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   registrar.
 - `"AutoRenew"`: Indicates whether the domain will be automatically renewed (true) or not
   (false). Auto renewal only takes effect after the account is charged. Default: true
+- `"BillingContact"`: Provides detailed contact information.
 - `"IdnLangCode"`: Reserved for future use.
 - `"Nameservers"`: Contains details for the host and glue IP addresses.
 - `"PrivacyProtectAdminContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
-  either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
-  associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the admin contact.  You must specify the same privacy
-  setting for the administrative, registrant, and technical contacts.  Default: true
+  for the registrar, the phrase \"REDACTED FOR PRIVACY\", or \"On behalf of &lt;domain
+  name&gt; owner.\".  While some domains may allow different privacy settings per contact, we
+  recommend specifying the same privacy setting for all contacts.  Default: true
+- `"PrivacyProtectBillingContact"`:  Whether you want to conceal contact information from
+  WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify false,
+  WHOIS queries return the information that you entered for the billing contact.   You must
+  specify the same privacy setting for the administrative, billing, registrant, and technical
+  contacts.
 - `"PrivacyProtectRegistrantContact"`: Whether you want to conceal contact information from
   WHOIS queries. If you specify true, WHOIS (\"who is\") queries return contact information
-  either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar
-  associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the
-  information that you entered for the registrant contact (domain owner).  You must specify
-  the same privacy setting for the administrative, registrant, and technical contacts.
-  Default: true
+  either for Amazon Registrar or for our registrar associate, Gandi. If you specify false,
+  WHOIS queries return the information that you entered for the registrant contact (domain
+  owner).  You must specify the same privacy setting for the administrative, billing,
+  registrant, and technical contacts.  Default: true
 - `"PrivacyProtectTechContact"`: Whether you want to conceal contact information from WHOIS
   queries. If you specify true, WHOIS (\"who is\") queries return contact information either
-  for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
-  Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that
-  you entered for the technical contact.  You must specify the same privacy setting for the
-  administrative, registrant, and technical contacts.  Default: true
+  for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS
+  queries return the information that you entered for the technical contact.  You must
+  specify the same privacy setting for the administrative, billing, registrant, and technical
+  contacts.  Default: true
 """
 function transfer_domain(
     AdminContact,
@@ -1387,7 +1398,9 @@ domain registrant will be notified by email.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AdminContact"`: Provides detailed contact information.
-- `"Consent"`:  Customer's consent for the owner change request.
+- `"BillingContact"`: Provides detailed contact information.
+- `"Consent"`:  Customer's consent for the owner change request. Required if the domain is
+  not free (consent price is more than 0.00).
 - `"RegistrantContact"`: Provides detailed contact information.
 - `"TechContact"`: Provides detailed contact information.
 """
@@ -1421,11 +1434,11 @@ end
     update_domain_contact_privacy(domain_name, params::Dict{String,<:Any})
 
 This operation updates the specified domain contact's privacy setting. When privacy
-protection is enabled, contact information such as email address is replaced either with
-contact information for Amazon Registrar (for .com, .net, and .org domains) or with contact
-information for our registrar associate, Gandi.  You must specify the same privacy setting
-for the administrative, registrant, and technical contacts.  This operation affects only
-the contact information for the specified contact type (administrative, registrant, or
+protection is enabled, your contact information is replaced with contact information for
+the registrar or with the phrase \"REDACTED FOR PRIVACY\", or \"On behalf of &lt;domain
+name&gt; owner.\"  While some domains may allow different privacy settings per contact, we
+recommend specifying the same privacy setting for all contacts.  This operation affects
+only the contact information for the specified contact type (administrative, registrant, or
 technical). If the request succeeds, Amazon Route 53 returns an operation ID that you can
 use with GetOperationDetail to track the progress and completion of the action. If the
 request doesn't complete successfully, the domain registrant will be notified by email.  By
@@ -1444,22 +1457,25 @@ on our privacy practices, see https://aws.amazon.com/privacy/.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AdminPrivacy"`: Whether you want to conceal contact information from WHOIS queries. If
   you specify true, WHOIS (\"who is\") queries return contact information either for Amazon
-  Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all
-  other TLDs). If you specify false, WHOIS queries return the information that you entered
-  for the admin contact.  You must specify the same privacy setting for the administrative,
-  registrant, and technical contacts.
+  Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return
+  the information that you entered for the admin contact.  You must specify the same privacy
+  setting for the administrative, billing, registrant, and technical contacts.
+- `"BillingPrivacy"`:  Whether you want to conceal contact information from WHOIS queries.
+  If you specify true, WHOIS (\"who is\") queries return contact information either for
+  Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries
+  return the information that you entered for the billing contact.   You must specify the
+  same privacy setting for the administrative, billing, registrant, and technical contacts.
 - `"RegistrantPrivacy"`: Whether you want to conceal contact information from WHOIS
   queries. If you specify true, WHOIS (\"who is\") queries return contact information either
-  for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate,
-  Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that
-  you entered for the registrant contact (domain owner).  You must specify the same privacy
-  setting for the administrative, registrant, and technical contacts.
+  for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS
+  queries return the information that you entered for the registrant contact (domain owner).
+  You must specify the same privacy setting for the administrative, billing, registrant, and
+  technical contacts.
 - `"TechPrivacy"`: Whether you want to conceal contact information from WHOIS queries. If
   you specify true, WHOIS (\"who is\") queries return contact information either for Amazon
-  Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all
-  other TLDs). If you specify false, WHOIS queries return the information that you entered
-  for the technical contact.  You must specify the same privacy setting for the
-  administrative, registrant, and technical contacts.
+  Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return
+  the information that you entered for the technical contact.  You must specify the same
+  privacy setting for the administrative, billing, registrant, and technical contacts.
 """
 function update_domain_contact_privacy(
     DomainName; aws_config::AbstractAWSConfig=global_aws_config()

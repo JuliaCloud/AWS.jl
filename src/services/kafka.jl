@@ -283,6 +283,74 @@ function create_configuration(
 end
 
 """
+    create_replicator(kafka_clusters, replication_info_list, replicator_name, service_execution_role_arn)
+    create_replicator(kafka_clusters, replication_info_list, replicator_name, service_execution_role_arn, params::Dict{String,<:Any})
+
+Creates the replicator.
+
+# Arguments
+- `kafka_clusters`: Kafka Clusters to use in setting up sources / targets for replication.
+- `replication_info_list`: A list of replication configurations, where each configuration
+  targets a given source cluster to target cluster replication flow.
+- `replicator_name`: The name of the replicator. Alpha-numeric characters with '-' are
+  allowed.
+- `service_execution_role_arn`: The ARN of the IAM role used by the replicator to access
+  resources in the customer's account (e.g source and target clusters)
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A summary description of the replicator.
+- `"tags"`: List of tags to attach to created Replicator.
+"""
+function create_replicator(
+    kafkaClusters,
+    replicationInfoList,
+    replicatorName,
+    serviceExecutionRoleArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "POST",
+        "/replication/v1/replicators",
+        Dict{String,Any}(
+            "kafkaClusters" => kafkaClusters,
+            "replicationInfoList" => replicationInfoList,
+            "replicatorName" => replicatorName,
+            "serviceExecutionRoleArn" => serviceExecutionRoleArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_replicator(
+    kafkaClusters,
+    replicationInfoList,
+    replicatorName,
+    serviceExecutionRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "POST",
+        "/replication/v1/replicators",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "kafkaClusters" => kafkaClusters,
+                    "replicationInfoList" => replicationInfoList,
+                    "replicatorName" => replicatorName,
+                    "serviceExecutionRoleArn" => serviceExecutionRoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_vpc_connection(authentication, client_subnets, security_groups, target_cluster_arn, vpc_id)
     create_vpc_connection(authentication, client_subnets, security_groups, target_cluster_arn, vpc_id, params::Dict{String,<:Any})
 
@@ -470,6 +538,41 @@ function delete_configuration(
 end
 
 """
+    delete_replicator(replicator_arn)
+    delete_replicator(replicator_arn, params::Dict{String,<:Any})
+
+Deletes a replicator.
+
+# Arguments
+- `replicator_arn`: The Amazon Resource Name (ARN) of the replicator to be deleted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"currentVersion"`: The current version of the replicator.
+"""
+function delete_replicator(replicatorArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return kafka(
+        "DELETE",
+        "/replication/v1/replicators/$(replicatorArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_replicator(
+    replicatorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "DELETE",
+        "/replication/v1/replicators/$(replicatorArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_vpc_connection(arn)
     delete_vpc_connection(arn, params::Dict{String,<:Any})
 
@@ -569,6 +672,41 @@ function describe_cluster_operation(
     return kafka(
         "GET",
         "/v1/operations/$(clusterOperationArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_cluster_operation_v2(cluster_operation_arn)
+    describe_cluster_operation_v2(cluster_operation_arn, params::Dict{String,<:Any})
+
+
+            Returns a description of the cluster operation specified by the ARN.
+
+# Arguments
+- `cluster_operation_arn`: ARN of the cluster operation to describe.
+
+"""
+function describe_cluster_operation_v2(
+    clusterOperationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "GET",
+        "/api/v2/operations/$(clusterOperationArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_cluster_operation_v2(
+    clusterOperationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "GET",
+        "/api/v2/operations/$(clusterOperationArn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -679,6 +817,40 @@ function describe_configuration_revision(
     return kafka(
         "GET",
         "/v1/configurations/$(arn)/revisions/$(revision)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_replicator(replicator_arn)
+    describe_replicator(replicator_arn, params::Dict{String,<:Any})
+
+Describes a replicator.
+
+# Arguments
+- `replicator_arn`: The Amazon Resource Name (ARN) of the replicator to be described.
+
+"""
+function describe_replicator(
+    replicatorArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "GET",
+        "/replication/v1/replicators/$(replicatorArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_replicator(
+    replicatorArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "GET",
+        "/replication/v1/replicators/$(replicatorArn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -919,6 +1091,46 @@ function list_cluster_operations(
 end
 
 """
+    list_cluster_operations_v2(cluster_arn)
+    list_cluster_operations_v2(cluster_arn, params::Dict{String,<:Any})
+
+
+            Returns a list of all the operations that have been performed on the specified
+MSK cluster.
+
+# Arguments
+- `cluster_arn`: The arn of the cluster whose operations are being requested.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maxResults of the query.
+- `"nextToken"`: The nextToken of the query.
+"""
+function list_cluster_operations_v2(
+    clusterArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "GET",
+        "/api/v2/clusters/$(clusterArn)/operations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_cluster_operations_v2(
+    clusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "GET",
+        "/api/v2/clusters/$(clusterArn)/operations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_clusters()
     list_clusters(params::Dict{String,<:Any})
 
@@ -1151,6 +1363,40 @@ function list_nodes(
     return kafka(
         "GET",
         "/v1/clusters/$(clusterArn)/nodes",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_replicators()
+    list_replicators(params::Dict{String,<:Any})
+
+Lists the replicators.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in the response. If there are
+  more results, the response includes a NextToken parameter.
+- `"nextToken"`: If the response of ListReplicators is truncated, it returns a NextToken in
+  the response. This NextToken should be sent in the subsequent request to ListReplicators.
+- `"replicatorNameFilter"`: Returns replicators starting with given name.
+"""
+function list_replicators(; aws_config::AbstractAWSConfig=global_aws_config())
+    return kafka(
+        "GET",
+        "/replication/v1/replicators";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_replicators(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafka(
+        "GET",
+        "/replication/v1/replicators",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1966,6 +2212,69 @@ function update_monitoring(
         "/v1/clusters/$(clusterArn)/monitoring",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("currentVersion" => currentVersion), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_replication_info(current_version, replicator_arn, source_kafka_cluster_arn, target_kafka_cluster_arn)
+    update_replication_info(current_version, replicator_arn, source_kafka_cluster_arn, target_kafka_cluster_arn, params::Dict{String,<:Any})
+
+Updates replication info of a replicator.
+
+# Arguments
+- `current_version`: Current replicator version.
+- `replicator_arn`: The Amazon Resource Name (ARN) of the replicator to be updated.
+- `source_kafka_cluster_arn`: The ARN of the source Kafka cluster.
+- `target_kafka_cluster_arn`: The ARN of the target Kafka cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"consumerGroupReplication"`: Updated consumer group replication information.
+- `"topicReplication"`: Updated topic replication information.
+"""
+function update_replication_info(
+    currentVersion,
+    replicatorArn,
+    sourceKafkaClusterArn,
+    targetKafkaClusterArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "PUT",
+        "/replication/v1/replicators/$(replicatorArn)/replication-info",
+        Dict{String,Any}(
+            "currentVersion" => currentVersion,
+            "sourceKafkaClusterArn" => sourceKafkaClusterArn,
+            "targetKafkaClusterArn" => targetKafkaClusterArn,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_replication_info(
+    currentVersion,
+    replicatorArn,
+    sourceKafkaClusterArn,
+    targetKafkaClusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafka(
+        "PUT",
+        "/replication/v1/replicators/$(replicatorArn)/replication-info",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "currentVersion" => currentVersion,
+                    "sourceKafkaClusterArn" => sourceKafkaClusterArn,
+                    "targetKafkaClusterArn" => targetKafkaClusterArn,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

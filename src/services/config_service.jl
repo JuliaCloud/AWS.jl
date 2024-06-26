@@ -1047,7 +1047,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information. If you do not specify any names, Config returns status information for all
   Config managed rules that you use.
 - `"Limit"`: The number of rule evaluation results that you want returned. This parameter
-  is required if the rule limit for your account is more than the default of 150 rules. For
+  is required if the rule limit for your account is more than the default of 1000 rules. For
   information about requesting a rule limit increase, see Config Limits in the Amazon Web
   Services General Reference Guide.
 - `"NextToken"`: The nextToken string returned on a previous page that you use to get the
@@ -1485,7 +1485,7 @@ end
 Returns a list of organization Config rules.   When you specify the limit and the next
 token, you receive a paginated response. Limit and next token are not applicable if you
 specify organization Config rule names. It is only applicable, when you request all the
-organization Config rules.  For accounts within an organzation  If you deploy an
+organization Config rules.  For accounts within an organization  If you deploy an
 organizational rule or conformance pack in an organization administrator account, and then
 establish a delegated administrator and deploy an organizational rule or conformance pack
 in the delegated administrator account, you won't be able to see the organizational rule or
@@ -1574,13 +1574,13 @@ end
 Returns a list of organization conformance packs.   When you specify the limit and the next
 token, you receive a paginated response.  Limit and next token are not applicable if you
 specify organization conformance packs names. They are only applicable, when you request
-all the organization conformance packs.   For accounts within an organzation  If you deploy
-an organizational rule or conformance pack in an organization administrator account, and
-then establish a delegated administrator and deploy an organizational rule or conformance
-pack in the delegated administrator account, you won't be able to see the organizational
-rule or conformance pack in the organization administrator account from the delegated
-administrator account or see the organizational rule or conformance pack in the delegated
-administrator account from organization administrator account. The
+all the organization conformance packs.   For accounts within an organization  If you
+deploy an organizational rule or conformance pack in an organization administrator account,
+and then establish a delegated administrator and deploy an organizational rule or
+conformance pack in the delegated administrator account, you won't be able to see the
+organizational rule or conformance pack in the organization administrator account from the
+delegated administrator account or see the organizational rule or conformance pack in the
+delegated administrator account from organization administrator account. The
 DescribeOrganizationConfigRules and DescribeOrganizationConformancePacks APIs can only see
 and interact with the organization-related resource that were deployed from within the
 account calling those APIs.
@@ -2576,17 +2576,19 @@ end
     get_resource_config_history(resource_id, resource_type)
     get_resource_config_history(resource_id, resource_type, params::Dict{String,<:Any})
 
-Returns a list of ConfigurationItems for the specified resource. The list contains details
-about each state of the resource during the specified time interval. If you specified a
-retention period to retain your ConfigurationItems between a minimum of 30 days and a
-maximum of 7 years (2557 days), Config returns the ConfigurationItems for the specified
-retention period.  The response is paginated. By default, Config returns a limit of 10
-configuration items per page. You can customize this number with the limit parameter. The
-response includes a nextToken string. To get the next page of results, run the request
-again and specify the string for the nextToken parameter.  Each call to the API is limited
-to span a duration of seven days. It is likely that the number of records returned is
-smaller than the specified limit. In such cases, you can make another call, using the
-nextToken.
+ For accurate reporting on the compliance status, you must record the
+AWS::Config::ResourceCompliance resource type. For more information, see Selecting Which
+Resources Config Records.  Returns a list of ConfigurationItems for the specified resource.
+The list contains details about each state of the resource during the specified time
+interval. If you specified a retention period to retain your ConfigurationItems between a
+minimum of 30 days and a maximum of 7 years (2557 days), Config returns the
+ConfigurationItems for the specified retention period.  The response is paginated. By
+default, Config returns a limit of 10 configuration items per page. You can customize this
+number with the limit parameter. The response includes a nextToken string. To get the next
+page of results, run the request again and specify the string for the nextToken parameter.
+Each call to the API is limited to span a duration of seven days. It is likely that the
+number of records returned is smaller than the specified limit. In such cases, you can make
+another call, using the nextToken.
 
 # Arguments
 - `resource_id`: The ID of the resource (for example., sg-xxxxxx).
@@ -2596,11 +2598,11 @@ nextToken.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"chronologicalOrder"`: The chronological order for configuration items listed. By
   default, the results are listed in reverse chronological order.
-- `"earlierTime"`: The time stamp that indicates an earlier time. If not specified, the
-  action returns paginated results that contain configuration items that start when the first
-  configuration item was recorded.
-- `"laterTime"`: The time stamp that indicates a later time. If not specified, current time
-  is taken.
+- `"earlierTime"`: The chronologically earliest time in the time range for which the
+  history requested. If not specified, the action returns paginated results that contain
+  configuration items that start when the first configuration item was recorded.
+- `"laterTime"`: The chronologically latest time in the time range for which the history
+  requested. If not specified, current time is taken.
 - `"limit"`: The maximum number of configuration items returned on each page. The default
   is 10. You cannot specify a number greater than 100. If you specify 0, Config uses the
   default.
@@ -3246,7 +3248,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateS3Uri"`: The location of the file containing the template body
   (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300
   KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack.
-  You must have access to read Amazon S3 bucket.
+  You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful
+  deployment, the template object must not be in an archived storage class if this parameter
+  is passed.
 - `"TemplateSSMDocumentDetails"`: An object of type TemplateSSMDocumentDetails, which
   contains the name or the Amazon Resource Name (ARN) of the Amazon Web Services Systems
   Manager document (SSM document) and the version of the SSM document that is used to create
@@ -3285,14 +3289,15 @@ end
     put_delivery_channel(delivery_channel)
     put_delivery_channel(delivery_channel, params::Dict{String,<:Any})
 
-Creates a delivery channel object to deliver configuration information to an Amazon S3
-bucket and Amazon SNS topic. Before you can create a delivery channel, you must create a
-configuration recorder. You can use this action to change the Amazon S3 bucket or an Amazon
-SNS topic of the existing delivery channel. To change the Amazon S3 bucket or an Amazon SNS
-topic, call this action and specify the changed values for the S3 bucket and the SNS topic.
-If you specify a different value for either the S3 bucket or the SNS topic, this action
-will keep the existing value for the parameter that is not changed.  You can have only one
-delivery channel per region in your account.
+Creates a delivery channel object to deliver configuration information and other compliance
+information to an Amazon S3 bucket and Amazon SNS topic. For more information, see
+Notifications that Config Sends to an Amazon SNS topic. Before you can create a delivery
+channel, you must create a configuration recorder. You can use this action to change the
+Amazon S3 bucket or an Amazon SNS topic of the existing delivery channel. To change the
+Amazon S3 bucket or an Amazon SNS topic, call this action and specify the changed values
+for the S3 bucket and the SNS topic. If you specify a different value for either the S3
+bucket or the SNS topic, this action will keep the existing value for the parameter that is
+not changed.  You can have only one delivery channel per region in your account.
 
 # Arguments
 - `delivery_channel`: The configuration delivery channel object that delivers the
@@ -3553,7 +3558,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   bytes.
 - `"TemplateS3Uri"`: Location of file containing the template body. The uri must point to
   the conformance pack template (max size: 300 KB).  You must have access to read Amazon S3
-  bucket.
+  bucket. In addition, in order to ensure a successful deployment, the template object must
+  not be in an archived storage class if this parameter is passed.
 """
 function put_organization_conformance_pack(
     OrganizationConformancePackName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3595,16 +3601,26 @@ end
 Adds or updates the remediation configuration with a specific Config rule with the selected
 target or action. The API creates the RemediationConfiguration object for the Config rule.
 The Config rule must already exist for you to add a remediation configuration. The target
-(SSM document) must exist and have permissions to use the target.   If you make backward
-incompatible changes to the SSM document, you must call this again to ensure the
-remediations can run. This API does not support adding remediation configurations for
-service-linked Config Rules such as Organization Config rules, the rules deployed by
-conformance packs, and rules deployed by Amazon Web Services Security Hub.   For manual
-remediation configuration, you need to provide a value for automationAssumeRole or use a
-value in the assumeRolefield to remediate your resources. The SSM automation document can
-use either as long as it maps to a valid parameter. However, for automatic remediation
-configuration, the only valid assumeRole field value is AutomationAssumeRole and you need
-to provide a value for AutomationAssumeRole to remediate your resources.
+(SSM document) must exist and have permissions to use the target.    Be aware of backward
+incompatible changes  If you make backward incompatible changes to the SSM document, you
+must call this again to ensure the remediations can run. This API does not support adding
+remediation configurations for service-linked Config Rules such as Organization Config
+rules, the rules deployed by conformance packs, and rules deployed by Amazon Web Services
+Security Hub.    Required fields  For manual remediation configuration, you need to provide
+a value for automationAssumeRole or use a value in the assumeRolefield to remediate your
+resources. The SSM automation document can use either as long as it maps to a valid
+parameter. However, for automatic remediation configuration, the only valid assumeRole
+field value is AutomationAssumeRole and you need to provide a value for
+AutomationAssumeRole to remediate your resources.    Auto remediation can be initiated even
+for compliant resources  If you enable auto remediation for a specific Config rule using
+the PutRemediationConfigurations API or the Config console, it initiates the remediation
+process for all non-compliant resources for that specific rule. The auto remediation
+process relies on the compliance data snapshot which is captured on a periodic basis. Any
+non-compliant resource that is updated between the snapshot schedule will continue to be
+remediated based on the last known compliance data snapshot. This means that in some cases
+auto remediation can be initiated even for compliant resources, since the bootstrap
+processor uses a database that can have stale evaluation results based on the last known
+compliance data snapshot.
 
 # Arguments
 - `remediation_configurations`: A list of remediation configuration objects.
@@ -3645,19 +3661,30 @@ end
 
 A remediation exception is when a specified resource is no longer considered for
 auto-remediation. This API adds a new exception or updates an existing exception for a
-specified resource with a specified Config rule.   Config generates a remediation exception
-when a problem occurs running a remediation action for a specified resource. Remediation
-exceptions blocks auto-remediation until the exception is cleared.   When placing an
-exception on an Amazon Web Services resource, it is recommended that remediation is set as
-manual remediation until the given Config rule for the specified resource evaluates the
-resource as NON_COMPLIANT. Once the resource has been evaluated as NON_COMPLIANT, you can
-add remediation exceptions and change the remediation type back from Manual to Auto if you
-want to use auto-remediation. Otherwise, using auto-remediation before a NON_COMPLIANT
-evaluation result can delete resources before the exception is applied.   Placing an
+specified resource with a specified Config rule.    Exceptions block auto remediation
+Config generates a remediation exception when a problem occurs running a remediation action
+for a specified resource. Remediation exceptions blocks auto-remediation until the
+exception is cleared.    Manual remediation is recommended when placing an exception  When
+placing an exception on an Amazon Web Services resource, it is recommended that remediation
+is set as manual remediation until the given Config rule for the specified resource
+evaluates the resource as NON_COMPLIANT. Once the resource has been evaluated as
+NON_COMPLIANT, you can add remediation exceptions and change the remediation type back from
+Manual to Auto if you want to use auto-remediation. Otherwise, using auto-remediation
+before a NON_COMPLIANT evaluation result can delete resources before the exception is
+applied.    Exceptions can only be performed on non-compliant resources  Placing an
 exception can only be performed on resources that are NON_COMPLIANT. If you use this API
 for COMPLIANT resources or resources that are NOT_APPLICABLE, a remediation exception will
 not be generated. For more information on the conditions that initiate the possible Config
-evaluation results, see Concepts | Config Rules in the Config Developer Guide.
+evaluation results, see Concepts | Config Rules in the Config Developer Guide.    Auto
+remediation can be initiated even for compliant resources  If you enable auto remediation
+for a specific Config rule using the PutRemediationConfigurations API or the Config
+console, it initiates the remediation process for all non-compliant resources for that
+specific rule. The auto remediation process relies on the compliance data snapshot which is
+captured on a periodic basis. Any non-compliant resource that is updated between the
+snapshot schedule will continue to be remediated based on the last known compliance data
+snapshot. This means that in some cases auto remediation can be initiated even for
+compliant resources, since the bootstrap processor uses a database that can have stale
+evaluation results based on the last known compliance data snapshot.
 
 # Arguments
 - `config_rule_name`: The name of the Config rule for which you want to create remediation

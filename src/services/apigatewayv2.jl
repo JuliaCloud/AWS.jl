@@ -1149,7 +1149,7 @@ end
     delete_route_request_parameter(api_id, request_parameter_key, route_id)
     delete_route_request_parameter(api_id, request_parameter_key, route_id, params::Dict{String,<:Any})
 
-Deletes a route request parameter.
+Deletes a route request parameter. Supported only for WebSocket APIs.
 
 # Arguments
 - `api_id`: The API identifier.

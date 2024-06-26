@@ -742,8 +742,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another call with the returned nextToken value. Action execution
   history is retained for up to 12 months, based on action execution start times. Default
-  value is 100.   Detailed execution history is available for executions run on or after
-  February 21, 2019.
+  value is 100.
 - `"nextToken"`: The token that was returned from the previous ListActionExecutions call,
   which can be used to return the next set of action executions in the list.
 """
@@ -803,7 +802,9 @@ end
     list_pipeline_executions(pipeline_name)
     list_pipeline_executions(pipeline_name, params::Dict{String,<:Any})
 
-Gets a summary of the most recent executions for a pipeline.
+Gets a summary of the most recent executions for a pipeline.  When applying the filter for
+pipeline executions that have succeeded in the stage, the operation returns all executions
+in the current pipeline version beginning on February 1, 2024.
 
 # Arguments
 - `pipeline_name`: The name of the pipeline for which you want to get execution summary
@@ -811,6 +812,7 @@ Gets a summary of the most recent executions for a pipeline.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: The pipeline execution to filter on.
 - `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
   remaining results, make another call with the returned nextToken value. Pipeline history is
   limited to the most recent 12 months, based on pipeline execution start times. Default
@@ -1425,17 +1427,20 @@ end
     retry_stage_execution(pipeline_execution_id, pipeline_name, retry_mode, stage_name)
     retry_stage_execution(pipeline_execution_id, pipeline_name, retry_mode, stage_name, params::Dict{String,<:Any})
 
-Resumes the pipeline execution by retrying the last failed actions in a stage. You can
-retry a stage immediately if any of the actions in the stage fail. When you retry, all
-actions that are still in progress continue working, and failed actions are triggered again.
+You can retry a stage that has failed without having to run a pipeline again from the
+beginning. You do this by either retrying the failed actions in a stage or by retrying all
+actions in the stage starting from the first action in the stage. When you retry the failed
+actions in a stage, all actions that are still in progress continue working, and failed
+actions are triggered again. When you retry a failed stage from the first action in the
+stage, the stage cannot have any actions in progress. Before a stage can be retried, it
+must either have all actions failed or some actions failed and some succeeded.
 
 # Arguments
 - `pipeline_execution_id`: The ID of the pipeline execution in the failed stage to be
   retried. Use the GetPipelineState action to retrieve the current pipelineExecutionId of the
   failed stage
 - `pipeline_name`: The name of the pipeline that contains the failed stage.
-- `retry_mode`: The scope of the retry attempt. Currently, the only supported value is
-  FAILED_ACTIONS.
+- `retry_mode`: The scope of the retry attempt.
 - `stage_name`: The name of the failed stage to be retried.
 
 """
@@ -1486,6 +1491,61 @@ function retry_stage_execution(
 end
 
 """
+    rollback_stage(pipeline_name, stage_name, target_pipeline_execution_id)
+    rollback_stage(pipeline_name, stage_name, target_pipeline_execution_id, params::Dict{String,<:Any})
+
+Rolls back a stage execution.
+
+# Arguments
+- `pipeline_name`: The name of the pipeline for which the stage will be rolled back.
+- `stage_name`: The name of the stage in the pipeline to be rolled back.
+- `target_pipeline_execution_id`: The pipeline execution ID for the stage to be rolled back
+  to.
+
+"""
+function rollback_stage(
+    pipelineName,
+    stageName,
+    targetPipelineExecutionId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codepipeline(
+        "RollbackStage",
+        Dict{String,Any}(
+            "pipelineName" => pipelineName,
+            "stageName" => stageName,
+            "targetPipelineExecutionId" => targetPipelineExecutionId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function rollback_stage(
+    pipelineName,
+    stageName,
+    targetPipelineExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codepipeline(
+        "RollbackStage",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "pipelineName" => pipelineName,
+                    "stageName" => stageName,
+                    "targetPipelineExecutionId" => targetPipelineExecutionId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_pipeline_execution(name)
     start_pipeline_execution(name, params::Dict{String,<:Any})
 
@@ -1499,6 +1559,12 @@ source location specified as part of the pipeline.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientRequestToken"`: The system-generated unique ID used to identify a unique
   execution request.
+- `"sourceRevisions"`: A list that allows you to specify, or override, the source revision
+  for a pipeline execution that's being started. A source revision is the version with all
+  the changes to your application code, or source artifact, for the pipeline execution.
+- `"variables"`: A list that overrides pipeline variables for a pipeline execution that's
+  being started. Variable names must match [A-Za-z0-9@-_]+, and the values can be anything
+  except an empty string.
 """
 function start_pipeline_execution(name; aws_config::AbstractAWSConfig=global_aws_config())
     return codepipeline(

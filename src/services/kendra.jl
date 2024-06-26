@@ -107,7 +107,10 @@ end
 Removes one or more documents from an index. The documents must have been added with the
 BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of
 the deletion by using Amazon Web Services CloudWatch. Any error messages related to the
-processing of the batch are sent to you CloudWatch log.
+processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also
+use the BatchGetDocumentStatus API to monitor the progress of deleting your documents.
+Deleting documents from an index using BatchDeleteDocument could take up to an hour or
+more, depending on the number of documents you want to delete.
 
 # Arguments
 - `document_id_list`: One or more identifiers for documents to delete from the index.
@@ -256,8 +259,9 @@ ingest your text and unstructured text into an index, add custom attributes to t
 documents, and to attach an access control list to the documents added to the index. The
 documents are indexed asynchronously. You can see the progress of the batch using Amazon
 Web Services CloudWatch. Any error messages related to processing the batch are sent to
-your Amazon Web Services CloudWatch log. For an example of ingesting inline documents using
-Python and Java SDKs, see Adding files directly to an index.
+your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to
+monitor the progress of indexing your documents. For an example of ingesting inline
+documents using Python and Java SDKs, see Adding files directly to an index.
 
 # Arguments
 - `documents`: One or more documents to add to the index. Documents have the following file
@@ -532,8 +536,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for your Amazon Kendra experience.
 - `"RoleArn"`: The Amazon Resource Name (ARN) of an IAM role with permission to access
   Query API, GetQuerySuggestions API, and other required APIs. The role also must include
-  permission to access IAM Identity Center (successor to Single Sign-On) that stores your
-  user and group information. For more information, see IAM access roles for Amazon Kendra.
+  permission to access IAM Identity Center that stores your user and group information. For
+  more information, see IAM access roles for Amazon Kendra.
 """
 function create_experience(IndexId, Name; aws_config::AbstractAWSConfig=global_aws_config())
     return kendra(
@@ -591,9 +595,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the FAQ.
 - `"FileFormat"`: The format of the FAQ input file. You can choose between a basic CSV
   format, a CSV format that includes customs attributes in a header, and a JSON format that
-  includes custom attributes. The format must match the format of the file stored in the S3
-  bucket identified in the S3Path parameter. For more information, see Adding questions and
-  answers.
+  includes custom attributes. The default format is CSV. The format must match the format of
+  the file stored in the S3 bucket identified in the S3Path parameter. For more information,
+  see Adding questions and answers.
 - `"LanguageCode"`: The code for a language. This allows you to support a language for the
   FAQ document. English is supported by default. For more information on supported languages,
   including their codes, see Adding documents in languages other than English.
@@ -720,7 +724,7 @@ end
 
 Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if
 index creation has completed, check the Status field returned from a call to DescribeIndex.
-The Status field is set to ACTIVE when the index is ready to use. Once the index is active
+The Status field is set to ACTIVE when the index is ready to use. Once the index is active,
 you can index your documents using the BatchPutDocument API or using one of the supported
 data sources. For an example of creating an index and data source using the Python SDK, see
 Getting started with Python SDK. For an example of creating an index and data source using
@@ -755,8 +759,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   control to filter search results on user context. All documents with no access control and
   all documents accessible to the user will be searchable and displayable.
 - `"UserGroupResolutionConfiguration"`: Gets users and groups from IAM Identity Center
-  (successor to Single Sign-On) identity source. To configure this, see
-  UserGroupResolutionConfiguration.
+  identity source. To configure this, see UserGroupResolutionConfiguration. This is useful
+  for user context filtering, where search results are filtered based on the user or their
+  group access to documents.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
 function create_index(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -989,7 +994,9 @@ end
 Deletes an Amazon Kendra data source connector. An exception is not thrown if the data
 source is already being deleted. While the data source is being deleted, the Status field
 returned by a call to the DescribeDataSource API is set to DELETING. For more information,
-see Deleting Data Sources.
+see Deleting Data Sources. Deleting an entire data source or re-syncing your index after
+deleting specific documents from a data source could take up to an hour or more, depending
+on the number of documents you want to delete.
 
 # Arguments
 - `id`: The identifier of the data source connector you want to delete.
@@ -1095,8 +1102,8 @@ end
     delete_index(id)
     delete_index(id, params::Dict{String,<:Any})
 
-Deletes an existing Amazon Kendra index. An exception is not thrown if the index is already
-being deleted. While the index is being deleted, the Status field returned by a call to the
+Deletes an Amazon Kendra index. An exception is not thrown if the index is already being
+deleted. While the index is being deleted, the Status field returned by a call to the
 DescribeIndex API is set to DELETING.
 
 # Arguments
@@ -1234,7 +1241,7 @@ end
     delete_thesaurus(id, index_id)
     delete_thesaurus(id, index_id, params::Dict{String,<:Any})
 
-Deletes an existing Amazon Kendra thesaurus.
+Deletes an Amazon Kendra thesaurus.
 
 # Arguments
 - `id`: The identifier of the thesaurus you want to delete.
@@ -1466,7 +1473,7 @@ end
     describe_index(id)
     describe_index(id, params::Dict{String,<:Any})
 
-Gets information about an existing Amazon Kendra index.
+Gets information about an Amazon Kendra index.
 
 # Arguments
 - `id`: The identifier of the index you want to get information on.
@@ -1619,7 +1626,7 @@ end
     describe_thesaurus(id, index_id)
     describe_thesaurus(id, index_id, params::Dict{String,<:Any})
 
-Gets information about an existing Amazon Kendra thesaurus.
+Gets information about an Amazon Kendra thesaurus.
 
 # Arguments
 - `id`: The identifier of the thesaurus you want to get information on.
@@ -2473,50 +2480,60 @@ end
     query(index_id)
     query(index_id, params::Dict{String,<:Any})
 
-Searches an active index. Use this API to search your documents using query. The Query API
-enables to do faceted search and to filter results based on document attributes. It also
-enables you to provide user context that Amazon Kendra uses to enforce document access
-control in the search results. Amazon Kendra searches your index for text content and
-question and answer (FAQ) content. By default the response contains three types of results.
-  Relevant passages   Matching FAQs   Relevant documents   You can specify that the query
-return only one type of result using the QueryResultTypeFilter parameter. Each query
-returns the 100 most relevant results.
+Searches an index given an input query.  If you are working with large language models
+(LLMs) or implementing retrieval augmented generation (RAG) systems, you can use Amazon
+Kendra's Retrieve API, which can return longer semantically relevant passages. We recommend
+using the Retrieve API instead of filing a service limit increase to increase the Query API
+document excerpt length.  You can configure boosting or relevance tuning at the query level
+to override boosting at the index level, filter based on document fields/attributes and
+faceted search, and filter based on the user or their group access to documents. You can
+also include certain fields in the response that might provide useful additional
+information. A query response contains three types of results.   Relevant suggested
+answers. The answers can be either a text excerpt or table excerpt. The answer can be
+highlighted in the excerpt.   Matching FAQs or questions-answer from your FAQ file.
+Relevant documents. This result type includes an excerpt of the document with the document
+title. The searched terms can be highlighted in the excerpt.   You can specify that the
+query return only one type of result using the QueryResultTypeFilter parameter. Each query
+returns the 100 most relevant results. If you filter result type to only question-answers,
+a maximum of four results are returned. If you filter result type to only answers, a
+maximum of three results are returned.
 
 # Arguments
-- `index_id`: The identifier of the index to search. The identifier is returned in the
-  response from the CreateIndex API.
+- `index_id`: The identifier of the index for the search.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"AttributeFilter"`: Enables filtered searches based on document attributes. You can only
+- `"AttributeFilter"`: Filters search results by document fields/attributes. You can only
   provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters
-  parameters contain a list of other filters. The AttributeFilter parameter enables you to
+  parameters contain a list of other filters. The AttributeFilter parameter means you can
   create a set of filtering rules that a document must satisfy to be included in the query
   results.
+- `"CollapseConfiguration"`: Provides configuration to determine how to group results by
+  document attribute value, and how to display them (collapsed or expanded) under a
+  designated primary document for each group.
 - `"DocumentRelevanceOverrideConfigurations"`: Overrides relevance tuning configurations of
-  fields or attributes set at the index level. If you use this API to override the relevance
+  fields/attributes set at the index level. If you use this API to override the relevance
   tuning configured at the index level, but there is no relevance tuning configured at the
   index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance
-  tuning configured at the index level, but you do not use this API to override any relevance
-  tuning in the index, then Amazon Kendra uses the relevance tuning that is configured at the
-  index level. If there is relevance tuning configured for fields at the index level, but you
-  use this API to override only some of these fields, then for the fields you did not
-  override, the importance is set to 1.
-- `"Facets"`: An array of documents attributes. Amazon Kendra returns a count for each
-  attribute key specified. This helps your users narrow their search.
+  tuning configured for fields at the index level, and you use this API to override only some
+  of these fields, then for the fields you did not override, the importance is set to 1.
+- `"Facets"`: An array of documents fields/attributes for faceted search. Amazon Kendra
+  returns a count for each field key specified. This helps your users narrow their search.
 - `"PageNumber"`: Query results are returned in pages the size of the PageSize parameter.
   By default, Amazon Kendra returns the first page of results. Use this parameter to get
   result pages after the first one.
 - `"PageSize"`: Sets the number of results that are returned in each page of results. The
   default page size is 10. The maximum number of results returned is 100. If you ask for more
   than 100 results, only 100 are returned.
-- `"QueryResultTypeFilter"`: Sets the type of query. Only results for the specified query
-  type are returned.
+- `"QueryResultTypeFilter"`: Sets the type of query result or response. Only results for
+  the specified type are returned.
 - `"QueryText"`: The input query text for the search. Amazon Kendra truncates queries at 30
   token words, which excludes punctuation and stop words. Truncation still applies if you use
-  Boolean or more advanced, complex queries.
-- `"RequestedDocumentAttributes"`: An array of document attributes to include in the
-  response. You can limit the response to include certain document attributes. By default all
+  Boolean or more advanced, complex queries. For example, Timeoff AND October AND Category:HR
+  is counted as 3 tokens: timeoff, october, hr. For more information, see Searching with
+  advanced query syntax in the Amazon Kendra Developer Guide.
+- `"RequestedDocumentAttributes"`: An array of document fields/attributes to include in the
+  response. You can limit the response to include certain document fields. By default, all
   document attributes are included in the response.
 - `"SortingConfiguration"`: Provides information that determines how the results of the
   query are sorted. You can set the field that Amazon Kendra should sort the results on, and
@@ -2524,6 +2541,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of ties in sorting the results, the results are sorted by relevance. If you don't provide
   sorting configuration, the results are sorted by the relevance that Amazon Kendra
   determines for the result.
+- `"SortingConfigurations"`: Provides configuration information to determine how the
+  results of a query are sorted. You can set upto 3 fields that Amazon Kendra should sort the
+  results on, and specify whether the results should be sorted in ascending or descending
+  order. The sort field quota can be increased. If you don't provide a sorting configuration,
+  the results are sorted by the relevance that Amazon Kendra determines for the result. In
+  the case of ties in sorting the results, the results are sorted by relevance.
 - `"SpellCorrectionConfiguration"`: Enables suggested spell corrections for queries.
 - `"UserContext"`: The user context token or user and group information.
 - `"VisitorId"`: Provides an identifier for a specific user. The VisitorId should be a
@@ -2550,11 +2573,96 @@ function query(
 end
 
 """
+    retrieve(index_id, query_text)
+    retrieve(index_id, query_text, params::Dict{String,<:Any})
+
+Retrieves relevant passages or text excerpts given an input query. This API is similar to
+the Query API. However, by default, the Query API only returns excerpt passages of up to
+100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token
+words and up to 100 semantically relevant passages. This doesn't include question-answer or
+FAQ type responses from your index. The passages are text excerpts that can be semantically
+extracted from multiple documents and multiple parts of the same document. If in extreme
+cases your documents produce zero passages using the Retrieve API, you can alternatively
+use the Query API and its types of responses. You can also do the following:   Override
+boosting at the index level   Filter based on document fields or attributes   Filter based
+on the user or their group access to documents   View the confidence score bucket for a
+retrieved passage result. The confidence bucket provides a relative ranking that indicates
+how confident Amazon Kendra is that the response is relevant to the query.  Confidence
+score buckets are currently available only for English.    You can also include certain
+fields in the response that might provide useful additional information. The Retrieve API
+shares the number of query capacity units that you set for your index. For more information
+on what's included in a single capacity unit and the default base capacity for an index,
+see Adjusting capacity.
+
+# Arguments
+- `index_id`: The identifier of the index to retrieve relevant passages for the search.
+- `query_text`: The input query text to retrieve relevant passages for the search. Amazon
+  Kendra truncates queries at 30 token words, which excludes punctuation and stop words.
+  Truncation still applies if you use Boolean or more advanced, complex queries. For example,
+  Timeoff AND October AND Category:HR is counted as 3 tokens: timeoff, october, hr. For more
+  information, see Searching with advanced query syntax in the Amazon Kendra Developer Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributeFilter"`: Filters search results by document fields/attributes. You can only
+  provide one attribute filter; however, the AndAllFilters, NotFilter, and OrAllFilters
+  parameters contain a list of other filters. The AttributeFilter parameter means you can
+  create a set of filtering rules that a document must satisfy to be included in the query
+  results.
+- `"DocumentRelevanceOverrideConfigurations"`: Overrides relevance tuning configurations of
+  fields/attributes set at the index level. If you use this API to override the relevance
+  tuning configured at the index level, but there is no relevance tuning configured at the
+  index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance
+  tuning configured for fields at the index level, and you use this API to override only some
+  of these fields, then for the fields you did not override, the importance is set to 1.
+- `"PageNumber"`: Retrieved relevant passages are returned in pages the size of the
+  PageSize parameter. By default, Amazon Kendra returns the first page of results. Use this
+  parameter to get result pages after the first one.
+- `"PageSize"`: Sets the number of retrieved relevant passages that are returned in each
+  page of results. The default page size is 10. The maximum number of results returned is
+  100. If you ask for more than 100 results, only 100 are returned.
+- `"RequestedDocumentAttributes"`: A list of document fields/attributes to include in the
+  response. You can limit the response to include certain document fields. By default, all
+  document fields are included in the response.
+- `"UserContext"`: The user context token or user and group information.
+"""
+function retrieve(IndexId, QueryText; aws_config::AbstractAWSConfig=global_aws_config())
+    return kendra(
+        "Retrieve",
+        Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function retrieve(
+    IndexId,
+    QueryText,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kendra(
+        "Retrieve",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IndexId" => IndexId, "QueryText" => QueryText),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_data_source_sync_job(id, index_id)
     start_data_source_sync_job(id, index_id, params::Dict{String,<:Any})
 
 Starts a synchronization job for a data source connector. If a synchronization job is
-already in progress, Amazon Kendra returns a ResourceInUseException exception.
+already in progress, Amazon Kendra returns a ResourceInUseException exception. Re-syncing
+your data source with your index after modifying, adding, or deleting documents from your
+data source respository could take up to an hour or more, depending on the number of
+documents to sync.
 
 # Arguments
 - `id`: The identifier of the data source connector to synchronize.
@@ -2823,7 +2931,7 @@ end
     update_data_source(id, index_id)
     update_data_source(id, index_id, params::Dict{String,<:Any})
 
-Updates an existing Amazon Kendra data source connector.
+Updates an Amazon Kendra data source connector.
 
 # Arguments
 - `id`: The identifier of the data source connector you want to update.
@@ -2985,7 +3093,7 @@ end
     update_index(id)
     update_index(id, params::Dict{String,<:Any})
 
-Updates an existing Amazon Kendra index.
+Updates an Amazon Kendra index.
 
 # Arguments
 - `id`: The identifier of the index you want to update.
@@ -3000,13 +3108,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DocumentMetadataConfigurationUpdates"`: The document metadata configuration you want to
   update for the index. Document metadata are fields or attributes associated with your
   documents. For example, the company department name associated with each document.
-- `"Name"`: The name of the index you want to update.
+- `"Name"`: A new name for the index.
 - `"RoleArn"`: An Identity and Access Management (IAM) role that gives Amazon Kendra
   permission to access Amazon CloudWatch logs and metrics.
 - `"UserContextPolicy"`: The user context policy.
-- `"UserGroupResolutionConfiguration"`: Enables fetching access levels of groups and users
-  from an IAM Identity Center (successor to Single Sign-On) identity source. To configure
-  this, see UserGroupResolutionConfiguration.
+- `"UserGroupResolutionConfiguration"`: Gets users and groups from IAM Identity Center
+  identity source. To configure this, see UserGroupResolutionConfiguration. This is useful
+  for user context filtering, where search results are filtered based on the user or their
+  group access to documents.
 - `"UserTokenConfigurations"`: The user token configuration.
 """
 function update_index(Id; aws_config::AbstractAWSConfig=global_aws_config())

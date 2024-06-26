@@ -9,8 +9,9 @@ using AWS.UUIDs
     complete_attachment_upload(attachment_ids, client_token, x-_amz-_bearer, params::Dict{String,<:Any})
 
 Allows you to confirm that the attachment has been uploaded using the pre-signed URL
-provided in StartAttachmentUpload API.    ConnectionToken is used for invoking this API
-instead of ParticipantToken.  The Amazon Connect Participant Service APIs do not use
+provided in StartAttachmentUpload API. A conflict exception is thrown when an attachment
+with that identifier is already being uploaded.   ConnectionToken is used for invoking this
+API instead of ParticipantToken.  The Amazon Connect Participant Service APIs do not use
 Signature Version 4 authentication.
 
 # Arguments
@@ -95,8 +96,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConnectParticipant"`: Amazon Connect Participant is used to mark the participant as
   connected for customer participant in message streaming, as well as for agent or manager
   participant in non-streaming chats.
-- `"Type"`: Type of connection information required. This can be omitted if
-  ConnectParticipant is true.
+- `"Type"`: Type of connection information required. If you need CONNECTION_CREDENTIALS
+  along with marking participant as connected, pass CONNECTION_CREDENTIALS in Type.
 """
 function create_participant_connection(
     X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
@@ -117,6 +118,52 @@ function create_participant_connection(
     return connectparticipant(
         "POST",
         "/participant/connection",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_view(view_token, x-_amz-_bearer)
+    describe_view(view_token, x-_amz-_bearer, params::Dict{String,<:Any})
+
+Retrieves the view for the specified view token.
+
+# Arguments
+- `view_token`: An encrypted token originating from the interactive message of a ShowView
+  block operation. Represents the desired view.
+- `x-_amz-_bearer`: The connection token.
+
+"""
+function describe_view(
+    ViewToken, X_Amz_Bearer; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connectparticipant(
+        "GET",
+        "/participant/views/$(ViewToken)",
+        Dict{String,Any}("headers" => Dict{String,Any}("X-Amz-Bearer" => X_Amz_Bearer));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_view(
+    ViewToken,
+    X_Amz_Bearer,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connectparticipant(
+        "GET",
+        "/participant/views/$(ViewToken)",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -243,9 +290,16 @@ end
 
 Retrieves a transcript of the session, including details about any attachments. For
 information about accessing past chat contact transcripts for a persistent chat, see Enable
-persistent chat.    ConnectionToken is used for invoking this API instead of
-ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version
-4 authentication.
+persistent chat.  If you have a process that consumes events in the transcript of an chat
+that has ended, note that chat transcripts contain the following event content types if the
+event has occurred during the chat session:
+application/vnd.amazonaws.connect.event.participant.left
+application/vnd.amazonaws.connect.event.participant.joined
+application/vnd.amazonaws.connect.event.chat.ended
+application/vnd.amazonaws.connect.event.transfer.succeeded
+application/vnd.amazonaws.connect.event.transfer.failed      ConnectionToken is used for
+invoking this API instead of ParticipantToken.  The Amazon Connect Participant Service APIs
+do not use Signature Version 4 authentication.
 
 # Arguments
 - `x-_amz-_bearer`: The authentication token associated with the participant's connection.
@@ -297,15 +351,20 @@ end
     send_event(content_type, x-_amz-_bearer)
     send_event(content_type, x-_amz-_bearer, params::Dict{String,<:Any})
 
-Sends an event.    ConnectionToken is used for invoking this API instead of
+ The application/vnd.amazonaws.connect.event.connection.acknowledged ContentType will no
+longer be supported starting December 31, 2024. This event has been migrated to the
+CreateParticipantConnection API using the ConnectParticipant field.  Sends an event.
+Message receipts are not supported when there are more than two active participants in the
+chat. Using the SendEvent API for message receipts when a supervisor is barged-in will
+result in a conflict exception.   ConnectionToken is used for invoking this API instead of
 ParticipantToken.  The Amazon Connect Participant Service APIs do not use Signature Version
 4 authentication.
 
 # Arguments
 - `content_type`: The content type of the request. Supported types are:
   application/vnd.amazonaws.connect.event.typing
-  application/vnd.amazonaws.connect.event.connection.acknowledged
-  application/vnd.amazonaws.connect.event.message.delivered
+  application/vnd.amazonaws.connect.event.connection.acknowledged (will be deprecated on
+  December 31, 2024)    application/vnd.amazonaws.connect.event.message.delivered
   application/vnd.amazonaws.connect.event.message.read
 - `x-_amz-_bearer`: The authentication token associated with the participant's connection.
 

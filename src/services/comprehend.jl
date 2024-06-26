@@ -226,7 +226,8 @@ end
     batch_detect_targeted_sentiment(language_code, text_list, params::Dict{String,<:Any})
 
 Inspects a batch of documents and returns a sentiment analysis for each entity identified
-in the documents. For more information about targeted sentiment, see Targeted sentiment.
+in the documents. For more information about targeted sentiment, see Targeted sentiment in
+the Amazon Comprehend Developer Guide.
 
 # Arguments
 - `language_code`: The language of the input documents. Currently, English is the only
@@ -269,28 +270,39 @@ end
     classify_document(endpoint_arn)
     classify_document(endpoint_arn, params::Dict{String,<:Any})
 
-Creates a new document classification request to analyze a single document in real-time,
-using a previously created and trained custom model and an endpoint. You can input plain
-text or you can upload a single-page input document (text, PDF, Word, or image).  If the
-system detects errors while processing a page in the input document, the API response
-includes an entry in Errors that describes the errors. If the system detects a
-document-level error in your input document, the API returns an InvalidRequestException
-error response. For details about this exception, see  Errors in semi-structured documents
-in the Comprehend Developer Guide.
+Creates a classification request to analyze a single document in real-time.
+ClassifyDocument supports the following model types:   Custom classifier - a custom model
+that you have created and trained. For input, you can provide plain text, a single-page
+document (PDF, Word, or image), or Amazon Textract API output. For more information, see
+Custom classification in the Amazon Comprehend Developer Guide.   Prompt safety classifier
+- Amazon Comprehend provides a pre-trained model for classifying input prompts for
+generative AI applications. For input, you provide English plain text input. For prompt
+safety classification, the response includes only the Classes field. For more information
+about prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend
+Developer Guide.   If the system detects errors while processing a page in the input
+document, the API response includes an Errors field that describes the errors. If the
+system detects a document-level error in your input document, the API returns an
+InvalidRequestException error response. For details about this exception, see  Errors in
+semi-structured documents in the Comprehend Developer Guide.
 
 # Arguments
-- `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint. For information about
-  endpoints, see Managing endpoints.
+- `endpoint_arn`: The Amazon Resource Number (ARN) of the endpoint.  For prompt safety
+  classification, Amazon Comprehend provides the endpoint ARN. For more information about
+  prompt safety classifiers, see Prompt safety classification in the Amazon Comprehend
+  Developer Guide  For custom classification, you create an endpoint for your custom model.
+  For more information, see Using Amazon Comprehend endpoints.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Bytes"`: Use the Bytes parameter to input a text, PDF, Word or image file. You can also
-  use the Bytes parameter to input an Amazon Textract DetectDocumentText or AnalyzeDocument
-  output file. Provide the input document as a sequence of base64-encoded bytes. If your code
-  uses an Amazon Web Services SDK to classify documents, the SDK may encode the document file
-  bytes for you.  The maximum length of this field depends on the input document type. For
-  details, see  Inputs for real-time custom analysis in the Comprehend Developer Guide.  If
-  you use the Bytes parameter, do not use the Text parameter.
+- `"Bytes"`: Use the Bytes parameter to input a text, PDF, Word or image file. When you
+  classify a document using a custom model, you can also use the Bytes parameter to input an
+  Amazon Textract DetectDocumentText or AnalyzeDocument output file. To classify a document
+  using the prompt safety classifier, use the Text parameter for input. Provide the input
+  document as a sequence of base64-encoded bytes. If your code uses an Amazon Web Services
+  SDK to classify documents, the SDK may encode the document file bytes for you.  The maximum
+  length of this field depends on the input document type. For details, see  Inputs for
+  real-time custom analysis in the Comprehend Developer Guide.  If you use the Bytes
+  parameter, do not use the Text parameter.
 - `"DocumentReaderConfig"`: Provides configuration parameters to override the default
   actions for extracting text from PDF documents and image files.
 - `"Text"`: The document text to be analyzed. If you enter text using this parameter, do
@@ -328,8 +340,7 @@ returns the labels of identified PII entity types such as name, address, bank ac
 number, or phone number.
 
 # Arguments
-- `language_code`: The language of the input documents. Currently, English is the only
-  valid language.
+- `language_code`: The language of the input documents.
 - `text`: A UTF-8 text string. The maximum string size is 100 KB.
 
 """
@@ -454,10 +465,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"Mode"`: Indicates the mode in which the classifier will be trained. The classifier can
-  be trained in multi-class mode, which identifies one and only one class for each document,
-  or multi-label mode, which identifies one or more labels for each document. In multi-label
-  mode, multiple labels for an individual document are separated by a delimiter. The default
-  delimiter between labels is a pipe (|).
+  be trained in multi-class (single-label) mode or multi-label mode. Multi-class mode
+  identifies a single class label for each document and multi-label mode identifies one or
+  more class labels for each document. Multiple labels for an individual document are
+  separated by a delimiter. The default delimiter between labels is a pipe (|).
 - `"ModelKmsKeyId"`: ID for the KMS key that Amazon Comprehend uses to encrypt trained
   custom models. The ModelKmsKeyId can be either of the following formats:   KMS Key ID:
   \"1234abcd-12ab-34cd-56ef-1234567890ab\"    Amazon Resource Name (ARN) of a KMS Key:
@@ -472,7 +483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and double quotes to enclose the JSON names and values:  '{\"attribute\": \"value\",
   \"attribute\": [\"value\"]}'
 - `"OutputDataConfig"`: Specifies the location for the output files from a custom
-  classifier job. This parameter is required for a request that creates a native classifier
+  classifier job. This parameter is required for a request that creates a native document
   model.
 - `"Tags"`: Tags to associate with the document classifier. A tag is a key-value pair that
   adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with
@@ -739,13 +750,16 @@ the Amazon Comprehend Developer Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ActiveModelArn"`: To associate an existing model with the flywheel, specify the Amazon
-  Resource Number (ARN) of the model version.
+  Resource Number (ARN) of the model version. Do not set TaskConfig or ModelType if you
+  specify an ActiveModelArn.
 - `"ClientRequestToken"`: A unique identifier for the request. If you don't set the client
   request token, Amazon Comprehend generates one.
 - `"DataSecurityConfig"`: Data security configurations.
-- `"ModelType"`: The model type.
+- `"ModelType"`: The model type. You need to set ModelType if you are creating a flywheel
+  for a new model.
 - `"Tags"`: The tags to associate with this flywheel.
-- `"TaskConfig"`: Configuration about the custom classifier associated with the flywheel.
+- `"TaskConfig"`: Configuration about the model associated with the flywheel. You need to
+  set TaskConfig if you are creating a flywheel for a new model.
 """
 function create_flywheel(
     DataAccessRoleArn,
@@ -1688,8 +1702,8 @@ Inspects the input text for entities that contain personally identifiable inform
 and returns information about them.
 
 # Arguments
-- `language_code`: The language of the input documents. Currently, English is the only
-  valid language.
+- `language_code`: The language of the input text. Enter the language code for English (en)
+  or Spanish (es).
 - `text`: A UTF-8 text string. The maximum string size is 100 KB.
 
 """
@@ -1815,7 +1829,8 @@ end
     detect_targeted_sentiment(language_code, text, params::Dict{String,<:Any})
 
 Inspects the input text and returns a sentiment analysis for each entity identified in the
-text. For more information about targeted sentiment, see Targeted sentiment.
+text. For more information about targeted sentiment, see Targeted sentiment in the Amazon
+Comprehend Developer Guide.
 
 # Arguments
 - `language_code`: The language of the input documents. Currently, English is the only
@@ -1845,6 +1860,54 @@ function detect_targeted_sentiment(
             mergewith(
                 _merge,
                 Dict{String,Any}("LanguageCode" => LanguageCode, "Text" => Text),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    detect_toxic_content(language_code, text_segments)
+    detect_toxic_content(language_code, text_segments, params::Dict{String,<:Any})
+
+Performs toxicity analysis on the list of text strings that you provide as input. The API
+response contains a results list that matches the size of the input list. For more
+information about toxicity detection, see Toxicity detection in the Amazon Comprehend
+Developer Guide.
+
+# Arguments
+- `language_code`: The language of the input text. Currently, English is the only supported
+  language.
+- `text_segments`: A list of up to 10 text strings. Each string has a maximum size of 1 KB,
+  and the maximum size of the list is 10 KB.
+
+"""
+function detect_toxic_content(
+    LanguageCode, TextSegments; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return comprehend(
+        "DetectToxicContent",
+        Dict{String,Any}("LanguageCode" => LanguageCode, "TextSegments" => TextSegments);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function detect_toxic_content(
+    LanguageCode,
+    TextSegments,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return comprehend(
+        "DetectToxicContent",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "LanguageCode" => LanguageCode, "TextSegments" => TextSegments
+                ),
                 params,
             ),
         );
@@ -2545,8 +2608,8 @@ end
     start_document_classification_job(data_access_role_arn, input_data_config, output_data_config)
     start_document_classification_job(data_access_role_arn, input_data_config, output_data_config, params::Dict{String,<:Any})
 
-Starts an asynchronous document classification job. Use the
-DescribeDocumentClassificationJob operation to track the progress of the job.
+Starts an asynchronous document classification job using a custom classification model. Use
+the DescribeDocumentClassificationJob operation to track the progress of the job.
 
 # Arguments
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
@@ -2997,8 +3060,8 @@ Starts an asynchronous PII entity detection job for a collection of documents.
 - `data_access_role_arn`: The Amazon Resource Name (ARN) of the IAM role that grants Amazon
   Comprehend read access to your input data.
 - `input_data_config`: The input properties for a PII entities detection job.
-- `language_code`: The language of the input documents. Currently, English is the only
-  valid language.
+- `language_code`: The language of the input documents. Enter the language code for English
+  (en) or Spanish (es).
 - `mode`: Specifies whether the output provides the locations (offsets) of PII entities or
   a file in which PII entities are redacted.
 - `output_data_config`: Provides conﬁguration parameters for the output of PII entity

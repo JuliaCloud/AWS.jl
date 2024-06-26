@@ -5,46 +5,96 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_workflow(application_configuration_id, input_parameters, name, template_id)
-    create_workflow(application_configuration_id, input_parameters, name, template_id, params::Dict{String,<:Any})
+    create_template(template_name, template_source)
+    create_template(template_name, template_source, params::Dict{String,<:Any})
+
+Creates a migration workflow template.
+
+# Arguments
+- `template_name`: The name of the migration workflow template.
+- `template_source`: The source of the migration workflow template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Idempotency in the Smithy
+  documentation.
+- `"tags"`: The tags to add to the migration workflow template.
+- `"templateDescription"`: A description of the migration workflow template.
+"""
+function create_template(
+    templateName, templateSource; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/template",
+        Dict{String,Any}(
+            "templateName" => templateName,
+            "templateSource" => templateSource,
+            "clientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_template(
+    templateName,
+    templateSource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/template",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "templateName" => templateName,
+                    "templateSource" => templateSource,
+                    "clientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_workflow(input_parameters, name, template_id)
+    create_workflow(input_parameters, name, template_id, params::Dict{String,<:Any})
 
 Create a workflow to orchestrate your migrations.
 
 # Arguments
-- `application_configuration_id`: The configuration ID of the application configured in
-  Application Discovery Service.
 - `input_parameters`: The input parameters required to create a migration workflow.
 - `name`: The name of the migration workflow.
 - `template_id`: The ID of the template.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"applicationConfigurationId"`: The configuration ID of the application configured in
+  Application Discovery Service.
 - `"description"`: The description of the migration workflow.
 - `"stepTargets"`: The servers on which a step will be run.
 - `"tags"`: The tags to add on a migration workflow.
 """
 function create_workflow(
-    applicationConfigurationId,
-    inputParameters,
-    name,
-    templateId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    inputParameters, name, templateId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return migrationhuborchestrator(
         "POST",
         "/migrationworkflow/",
         Dict{String,Any}(
-            "applicationConfigurationId" => applicationConfigurationId,
-            "inputParameters" => inputParameters,
-            "name" => name,
-            "templateId" => templateId,
+            "inputParameters" => inputParameters, "name" => name, "templateId" => templateId
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_workflow(
-    applicationConfigurationId,
     inputParameters,
     name,
     templateId,
@@ -58,7 +108,6 @@ function create_workflow(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "applicationConfigurationId" => applicationConfigurationId,
                     "inputParameters" => inputParameters,
                     "name" => name,
                     "templateId" => templateId,
@@ -183,6 +232,33 @@ function create_workflow_step_group(
                 _merge, Dict{String,Any}("name" => name, "workflowId" => workflowId), params
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_template(id)
+    delete_template(id, params::Dict{String,<:Any})
+
+Deletes a migration workflow template.
+
+# Arguments
+- `id`: The ID of the request to delete a migration workflow template.
+
+"""
+function delete_template(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return migrationhuborchestrator(
+        "DELETE", "/template/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function delete_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return migrationhuborchestrator(
+        "DELETE",
+        "/template/$(id)",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -452,7 +528,7 @@ Get a step in the migration workflow.
 
 # Arguments
 - `id`: The ID of the step.
-- `step_group_id`: desThe ID of the step group.
+- `step_group_id`: The ID of the step group.
 - `workflow_id`: The ID of the migration workflow.
 
 """
@@ -992,6 +1068,45 @@ function untag_resource(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_template(id)
+    update_template(id, params::Dict{String,<:Any})
+
+Updates a migration workflow template.
+
+# Arguments
+- `id`: The ID of the request to update a migration workflow template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request.
+- `"templateDescription"`: The description of the migration workflow template to update.
+- `"templateName"`: The name of the migration workflow template to update.
+"""
+function update_template(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return migrationhuborchestrator(
+        "POST",
+        "/template/$(id)",
+        Dict{String,Any}("clientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_template(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return migrationhuborchestrator(
+        "POST",
+        "/template/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("clientToken" => string(uuid4())), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

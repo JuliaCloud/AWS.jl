@@ -48,13 +48,24 @@ end
     associate_resource(application, resource, resource_type, params::Dict{String,<:Any})
 
  Associates a resource with an application. The resource can be specified by its ARN or
-name. The application can be specified by ARN, ID, or name.
+name. The application can be specified by ARN, ID, or name.   Minimum permissions   You
+must have the following permissions to associate a resource using the OPTIONS parameter set
+to APPLY_APPLICATION_TAG.     tag:GetResources     tag:TagResources     You must also have
+these additional permissions if you don't use the AWSServiceCatalogAppRegistryFullAccess
+policy. For more information, see AWSServiceCatalogAppRegistryFullAccess in the AppRegistry
+Administrator Guide.     resource-groups:AssociateResource     cloudformation:UpdateStack
+  cloudformation:DescribeStacks      In addition, you must have the tagging permission
+defined by the Amazon Web Services service that creates the resource. For more information,
+see TagResources in the Resource Groups Tagging API Reference.
 
 # Arguments
 - `application`:  The name, ID, or ARN of the application.
 - `resource`: The name or ID of the resource of which the application will be associated.
 - `resource_type`: The type of resource of which the application will be associated.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"options"`:  Determines whether an application tag is applied or skipped.
 """
 function associate_resource(
     application, resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
@@ -308,8 +319,17 @@ end
     disassociate_resource(application, resource, resource_type)
     disassociate_resource(application, resource, resource_type, params::Dict{String,<:Any})
 
-Disassociates a resource from application. Both the resource and the application can be
-specified either by ID or name.
+ Disassociates a resource from application. Both the resource and the application can be
+specified either by ID or name.   Minimum permissions   You must have the following
+permissions to remove a resource that's been associated with an application using the
+APPLY_APPLICATION_TAG option for AssociateResource.     tag:GetResources
+tag:UntagResources     You must also have the following permissions if you don't use the
+AWSServiceCatalogAppRegistryFullAccess policy. For more information, see
+AWSServiceCatalogAppRegistryFullAccess in the AppRegistry Administrator Guide.
+resource-groups:DisassociateResource     cloudformation:UpdateStack
+cloudformation:DescribeStacks      In addition, you must have the tagging permission
+defined by the Amazon Web Services service that creates the resource. For more information,
+see UntagResources in the Resource Groups Tagging API Reference.
 
 # Arguments
 - `application`: The name or ID of the application.
@@ -390,6 +410,14 @@ Gets the resource associated with the application.
 - `resource`: The name or ID of the resource associated with the application.
 - `resource_type`: The type of resource associated with the application.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`:  The maximum number of results to return. If the parameter is omitted, it
+  defaults to 25. The value is optional.
+- `"nextToken"`:  A unique pagination token for each page of results. Make the call again
+  with the returned token to retrieve the next page of results.
+- `"resourceTagStatus"`:  States whether an application tag is applied, not applied, in the
+  process of being applied, or skipped.
 """
 function get_associated_resource(
     application, resource, resourceType; aws_config::AbstractAWSConfig=global_aws_config()

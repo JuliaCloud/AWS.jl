@@ -87,36 +87,37 @@ minimum read capacity units according to the type of read. For more information,
 Working with Tables in the Amazon DynamoDB Developer Guide.
 
 # Arguments
-- `request_items`: A map of one or more table names and, for each table, a map that
-  describes one or more items to retrieve from that table. Each table name can be used only
-  once per BatchGetItem request. Each element in the map of items to retrieve consists of the
-  following:    ConsistentRead - If true, a strongly consistent read is used; if false (the
-  default), an eventually consistent read is used.    ExpressionAttributeNames - One or more
-  substitution tokens for attribute names in the ProjectionExpression parameter. The
-  following are some use cases for using ExpressionAttributeNames:   To access an attribute
-  whose name conflicts with a DynamoDB reserved word.   To create a placeholder for repeating
-  occurrences of an attribute name in an expression.   To prevent special characters in an
-  attribute name from being misinterpreted in an expression.   Use the # character in an
-  expression to dereference an attribute name. For example, consider the following attribute
-  name:    Percentile    The name of this attribute conflicts with a reserved word, so it
-  cannot be used directly in an expression. (For the complete list of reserved words, see
-  Reserved Words in the Amazon DynamoDB Developer Guide). To work around this, you could
-  specify the following for ExpressionAttributeNames:    {\"#P\":\"Percentile\"}    You could
-  then use this substitution in an expression, as in this example:    #P = :val     Tokens
-  that begin with the : character are expression attribute values, which are placeholders for
-  the actual value at runtime.  For more information about expression attribute names, see
-  Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    Keys - An array of
-  primary key attribute values that define specific items in the table. For each primary key,
-  you must provide all of the key attributes. For example, with a simple primary key, you
-  only need to provide the partition key value. For a composite key, you must provide both
-  the partition key value and the sort key value.    ProjectionExpression - A string that
-  identifies one or more attributes to retrieve from the table. These attributes can include
-  scalars, sets, or elements of a JSON document. The attributes in the expression must be
-  separated by commas. If no attribute names are specified, then all attributes are returned.
-  If any of the requested attributes are not found, they do not appear in the result. For
-  more information, see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.
-  AttributesToGet - This is a legacy parameter. Use ProjectionExpression instead. For more
-  information, see AttributesToGet in the Amazon DynamoDB Developer Guide.
+- `request_items`: A map of one or more table names or table ARNs and, for each table, a
+  map that describes one or more items to retrieve from that table. Each table name or ARN
+  can be used only once per BatchGetItem request. Each element in the map of items to
+  retrieve consists of the following:    ConsistentRead - If true, a strongly consistent read
+  is used; if false (the default), an eventually consistent read is used.
+  ExpressionAttributeNames - One or more substitution tokens for attribute names in the
+  ProjectionExpression parameter. The following are some use cases for using
+  ExpressionAttributeNames:   To access an attribute whose name conflicts with a DynamoDB
+  reserved word.   To create a placeholder for repeating occurrences of an attribute name in
+  an expression.   To prevent special characters in an attribute name from being
+  misinterpreted in an expression.   Use the # character in an expression to dereference an
+  attribute name. For example, consider the following attribute name:    Percentile    The
+  name of this attribute conflicts with a reserved word, so it cannot be used directly in an
+  expression. (For the complete list of reserved words, see Reserved Words in the Amazon
+  DynamoDB Developer Guide). To work around this, you could specify the following for
+  ExpressionAttributeNames:    {\"#P\":\"Percentile\"}    You could then use this
+  substitution in an expression, as in this example:    #P = :val     Tokens that begin with
+  the : character are expression attribute values, which are placeholders for the actual
+  value at runtime.  For more information about expression attribute names, see Accessing
+  Item Attributes in the Amazon DynamoDB Developer Guide.    Keys - An array of primary key
+  attribute values that define specific items in the table. For each primary key, you must
+  provide all of the key attributes. For example, with a simple primary key, you only need to
+  provide the partition key value. For a composite key, you must provide both the partition
+  key value and the sort key value.    ProjectionExpression - A string that identifies one or
+  more attributes to retrieve from the table. These attributes can include scalars, sets, or
+  elements of a JSON document. The attributes in the expression must be separated by commas.
+  If no attribute names are specified, then all attributes are returned. If any of the
+  requested attributes are not found, they do not appear in the result. For more information,
+  see Accessing Item Attributes in the Amazon DynamoDB Developer Guide.    AttributesToGet -
+  This is a legacy parameter. Use ProjectionExpression instead. For more information, see
+  AttributesToGet in the Amazon DynamoDB Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -195,25 +196,26 @@ BatchWriteItem request. For example, you cannot put and delete the same item in 
 BatchWriteItem request.     Your request contains at least two items with identical hash
 and range keys (which essentially is two put operations).    There are more than 25
 requests in the batch.   Any individual item in a batch exceeds 400 KB.   The total request
-size exceeds 16 MB.
+size exceeds 16 MB.   Any individual items with keys exceeding the key length limits. For a
+partition key, the limit is 2048 bytes and for a sort key, the limit is 1024 bytes.
 
 # Arguments
-- `request_items`: A map of one or more table names and, for each table, a list of
-  operations to be performed (DeleteRequest or PutRequest). Each element in the map consists
-  of the following:    DeleteRequest - Perform a DeleteItem operation on the specified item.
-  The item to be deleted is identified by a Key subelement:    Key - A map of primary key
-  attribute values that uniquely identify the item. Each entry in this map consists of an
-  attribute name and an attribute value. For each primary key, you must provide all of the
-  key attributes. For example, with a simple primary key, you only need to provide a value
-  for the partition key. For a composite primary key, you must provide values for both the
-  partition key and the sort key.      PutRequest - Perform a PutItem operation on the
-  specified item. The item to be put is identified by an Item subelement:    Item - A map of
-  attributes and their values. Each entry in this map consists of an attribute name and an
-  attribute value. Attribute values must not be null; string and binary type attributes must
-  have lengths greater than zero; and set type attributes must not be empty. Requests that
-  contain empty values are rejected with a ValidationException exception. If you specify any
-  attributes that are part of an index key, then the data types for those attributes must
-  match those of the schema in the table's attribute definition.
+- `request_items`: A map of one or more table names or table ARNs and, for each table, a
+  list of operations to be performed (DeleteRequest or PutRequest). Each element in the map
+  consists of the following:    DeleteRequest - Perform a DeleteItem operation on the
+  specified item. The item to be deleted is identified by a Key subelement:    Key - A map of
+  primary key attribute values that uniquely identify the item. Each entry in this map
+  consists of an attribute name and an attribute value. For each primary key, you must
+  provide all of the key attributes. For example, with a simple primary key, you only need to
+  provide a value for the partition key. For a composite primary key, you must provide values
+  for both the partition key and the sort key.      PutRequest - Perform a PutItem operation
+  on the specified item. The item to be put is identified by an Item subelement:    Item - A
+  map of attributes and their values. Each entry in this map consists of an attribute name
+  and an attribute value. Attribute values must not be null; string and binary type
+  attributes must have lengths greater than zero; and set type attributes must not be empty.
+  Requests that contain empty values are rejected with a ValidationException exception. If
+  you specify any attributes that are part of an index key, then the data types for those
+  attributes must match those of the schema in the table's attribute definition.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -267,7 +269,8 @@ write capacity
 
 # Arguments
 - `backup_name`: Specified name for the backup.
-- `table_name`: The name of the table.
+- `table_name`: The name of the table. You can also provide the Amazon Resource Name (ARN)
+  of the table in this parameter.
 
 """
 function create_backup(
@@ -306,28 +309,29 @@ end
 
 Creates a global table from an existing table. A global table creates a replication
 relationship between two or more DynamoDB tables with the same table name in the provided
-Regions.   This operation only applies to Version 2017.11.29 (Legacy) of global tables. We
-recommend using Version 2019.11.21 (Current) when creating new global tables, as it
-provides greater flexibility, higher efficiency and consumes less write capacity than
-2017.11.29 (Legacy). To determine which version you are using, see Determining the version.
-To update existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21
-(Current), see  Updating global tables.   If you want to add a new replica table to a
-global table, each of the following conditions must be true:   The table must have the same
-primary key as all of the other replicas.   The table must have the same name as all of the
-other replicas.   The table must have DynamoDB Streams enabled, with the stream containing
-both the new and the old images of the item.   None of the replica tables in the global
-table can contain any data.    If global secondary indexes are specified, then the
-following conditions must also be met:     The global secondary indexes must have the same
-name.     The global secondary indexes must have the same hash key and sort key (if
-present).     If local secondary indexes are specified, then the following conditions must
-also be met:     The local secondary indexes must have the same name.     The local
-secondary indexes must have the same hash key and sort key (if present).      Write
-capacity settings should be set consistently across your replica tables and secondary
-indexes. DynamoDB strongly recommends enabling auto scaling to manage the write capacity
-settings for all of your global tables replicas and indexes.   If you prefer to manage
-write capacity settings manually, you should provision equal replicated write capacity
-units to your replica tables. You should also provision equal replicated write capacity
-units to matching secondary indexes across your global table.
+Regions.   This documentation is for version 2017.11.29 (Legacy) of global tables, which
+should be avoided for new global tables. Customers should use Global Tables version
+2019.11.21 (Current) when possible, because it provides greater flexibility, higher
+efficiency, and consumes less write capacity than 2017.11.29 (Legacy). To determine which
+version you're using, see Determining the global table version you are using. To update
+existing global tables from version 2017.11.29 (Legacy) to version 2019.11.21 (Current),
+see Upgrading global tables.  If you want to add a new replica table to a global table,
+each of the following conditions must be true:   The table must have the same primary key
+as all of the other replicas.   The table must have the same name as all of the other
+replicas.   The table must have DynamoDB Streams enabled, with the stream containing both
+the new and the old images of the item.   None of the replica tables in the global table
+can contain any data.    If global secondary indexes are specified, then the following
+conditions must also be met:     The global secondary indexes must have the same name.
+The global secondary indexes must have the same hash key and sort key (if present).     If
+local secondary indexes are specified, then the following conditions must also be met:
+The local secondary indexes must have the same name.     The local secondary indexes must
+have the same hash key and sort key (if present).      Write capacity settings should be
+set consistently across your replica tables and secondary indexes. DynamoDB strongly
+recommends enabling auto scaling to manage the write capacity settings for all of your
+global tables replicas and indexes.   If you prefer to manage write capacity settings
+manually, you should provision equal replicated write capacity units to your replica
+tables. You should also provision equal replicated write capacity units to matching
+secondary indexes across your global table.
 
 # Arguments
 - `global_table_name`: The global table name.
@@ -404,15 +408,16 @@ status.
   in this order: The first element must have a KeyType of HASH, and the second element must
   have a KeyType of RANGE. For more information, see Working with Tables in the Amazon
   DynamoDB Developer Guide.
-- `table_name`: The name of the table to create.
+- `table_name`: The name of the table to create. You can also provide the Amazon Resource
+  Name (ARN) of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BillingMode"`: Controls how you are charged for read and write throughput and how you
   manage capacity. This setting can be changed later.    PROVISIONED - We recommend using
   PROVISIONED for predictable workloads. PROVISIONED sets the billing mode to Provisioned
-  Mode.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads.
-  PAY_PER_REQUEST sets the billing mode to On-Demand Mode.
+  capacity mode.    PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable
+  workloads. PAY_PER_REQUEST sets the billing mode to On-demand capacity mode.
 - `"DeletionProtectionEnabled"`: Indicates whether deletion protection is to be enabled
   (true) or disabled (false) on the table.
 - `"GlobalSecondaryIndexes"`: One or more global secondary indexes (the maximum is 20) to
@@ -450,12 +455,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   across all of the secondary indexes, must not exceed 100. If you project the same attribute
   into two different indexes, this counts as two distinct attributes when determining the
   total.
+- `"OnDemandThroughput"`: Sets the maximum number of read and write units for the specified
+  table in on-demand capacity mode. If you use this parameter, you must specify
+  MaxReadRequestUnits, MaxWriteRequestUnits, or both.
 - `"ProvisionedThroughput"`: Represents the provisioned throughput settings for a specified
   table or index. The settings can be modified using the UpdateTable operation.  If you set
   BillingMode as PROVISIONED, you must specify this property. If you set BillingMode as
   PAY_PER_REQUEST, you cannot specify this property. For current minimum and maximum
   provisioned throughput values, see Service, Account, and Table Quotas in the Amazon
   DynamoDB Developer Guide.
+- `"ResourcePolicy"`: An Amazon Web Services resource-based policy document in JSON format
+  that will be attached to the table. When you attach a resource-based policy while creating
+  a table, the policy application is strongly consistent. The maximum size supported for a
+  resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the
+  size of a policy against this limit. For a full list of all considerations that apply for
+  resource-based policies, see Resource-based policy considerations.  You need to specify the
+  CreateTable and PutResourcePolicy IAM actions for authorizing a user to create a table with
+  a resource-based policy.
 - `"SSESpecification"`: Represents the settings used to enable server-side encryption.
 - `"StreamSpecification"`: The settings for DynamoDB Streams on the table. These settings
   consist of:    StreamEnabled - Indicates whether DynamoDB Streams is to be enabled (true)
@@ -566,7 +582,8 @@ Otherwise, the item is not deleted.
   example, with a simple primary key, you only need to provide a value for the partition key.
   For a composite primary key, you must provide values for both the partition key and the
   sort key.
-- `table_name`: The name of the table from which to delete the item.
+- `table_name`: The name of the table from which to delete the item. You can also provide
+  the Amazon Resource Name (ARN) of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -618,6 +635,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the small network and processing overhead of receiving a larger response. No read
   capacity units are consumed.  The ReturnValues parameter is used by several DynamoDB
   operations; however, DeleteItem does not recognize any values other than NONE or ALL_OLD.
+- `"ReturnValuesOnConditionCheckFailure"`: An optional parameter that returns the item
+  attributes for a DeleteItem operation that failed a condition check. There is no additional
+  cost associated with requesting a return value aside from the small network and processing
+  overhead of receiving a larger response. No read capacity units are consumed.
 """
 function delete_item(Key, TableName; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb(
@@ -646,6 +667,61 @@ function delete_item(
 end
 
 """
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Deletes the resource-based policy attached to the resource, which can be a table or stream.
+ DeleteResourcePolicy is an idempotent operation; running it multiple times on the same
+resource doesn't result in an error response, unless you specify an ExpectedRevisionId,
+which will then return a PolicyNotFoundException.  To make sure that you don't
+inadvertently lock yourself out of your own resources, the root principal in your Amazon
+Web Services account can perform DeleteResourcePolicy requests, even if your resource-based
+policy explicitly denies the root principal's access.     DeleteResourcePolicy is an
+asynchronous operation. If you issue a GetResourcePolicy request immediately after running
+the DeleteResourcePolicy request, DynamoDB might still return the deleted policy. This is
+because the policy for your resource might not have been deleted yet. Wait for a few
+seconds, and then try the GetResourcePolicy request again.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the DynamoDB resource from which the
+  policy will be removed. The resources you can specify include tables and streams. If you
+  remove the policy of a table, it will also remove the permissions for the table's indexes
+  defined in that policy document. This is because index permissions are defined in the
+  table's policy.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExpectedRevisionId"`: A string value that you can use to conditionally delete your
+  policy. When you provide an expected revision ID, if the revision ID of the existing policy
+  on the resource doesn't match or if there's no policy attached to the resource, the request
+  will fail and return a PolicyNotFoundException.
+"""
+function delete_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return dynamodb(
+        "DeleteResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dynamodb(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_table(table_name)
     delete_table(table_name, params::Dict{String,<:Any})
 
@@ -654,16 +730,18 @@ request, the specified table is in the DELETING state until DynamoDB completes t
 deletion. If the table is in the ACTIVE state, you can delete it. If a table is in CREATING
 or UPDATING states, then DynamoDB returns a ResourceInUseException. If the specified table
 does not exist, DynamoDB returns a ResourceNotFoundException. If table is already in the
-DELETING state, no error is returned.   This operation only applies to Version 2019.11.21
-(Current) of global tables.    DynamoDB might continue to accept data read and write
-operations, such as GetItem and PutItem, on a table in the DELETING state until the table
-deletion is complete.  When you delete a table, any indexes on that table are also deleted.
-If you have DynamoDB Streams enabled on the table, then the corresponding stream on that
-table goes into the DISABLED state, and the stream is automatically deleted after 24 hours.
-Use the DescribeTable action to check the status of the table.
+DELETING state, no error is returned.   For global tables, this operation only applies to
+global tables using Version 2019.11.21 (Current version).    DynamoDB might continue to
+accept data read and write operations, such as GetItem and PutItem, on a table in the
+DELETING state until the table deletion is complete.  When you delete a table, any indexes
+on that table are also deleted. If you have DynamoDB Streams enabled on the table, then the
+corresponding stream on that table goes into the DISABLED state, and the stream is
+automatically deleted after 24 hours. Use the DescribeTable action to check the status of
+the table.
 
 # Arguments
-- `table_name`: The name of the table to delete.
+- `table_name`: The name of the table to delete. You can also provide the Amazon Resource
+  Name (ARN) of the table in this parameter.
 
 """
 function delete_table(TableName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -738,7 +816,8 @@ time during the last 35 days.  You can call DescribeContinuousBackups at a maxim
 
 # Arguments
 - `table_name`: Name of the table for which the customer wants to check the continuous
-  backups and point in time recovery settings.
+  backups and point in time recovery settings. You can also provide the Amazon Resource Name
+  (ARN) of the table in this parameter.
 
 """
 function describe_continuous_backups(
@@ -773,7 +852,8 @@ end
 Returns information about contributor insights for a given table or global secondary index.
 
 # Arguments
-- `table_name`: The name of the table to describe.
+- `table_name`: The name of the table to describe. You can also provide the Amazon Resource
+  Name (ARN) of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -808,9 +888,8 @@ end
     describe_endpoints()
     describe_endpoints(params::Dict{String,<:Any})
 
-Returns the regional endpoint information. This action must be included in your VPC
-endpoint policies, or access to the DescribeEndpoints API will be denied. For more
-information on policy permissions, please see Internetwork traffic privacy.
+Returns the regional endpoint information. For more information on policy permissions,
+please see Internetwork traffic privacy.
 
 """
 function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -863,12 +942,13 @@ end
     describe_global_table(global_table_name)
     describe_global_table(global_table_name, params::Dict{String,<:Any})
 
-Returns information about the specified global table.  This operation only applies to
-Version 2017.11.29 (Legacy) of global tables. We recommend using Version 2019.11.21
-(Current) when creating new global tables, as it provides greater flexibility, higher
-efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine which
-version you are using, see Determining the version. To update existing global tables from
-version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see  Updating global tables.
+Returns information about the specified global table.  This documentation is for version
+2017.11.29 (Legacy) of global tables, which should be avoided for new global tables.
+Customers should use Global Tables version 2019.11.21 (Current) when possible, because it
+provides greater flexibility, higher efficiency, and consumes less write capacity than
+2017.11.29 (Legacy). To determine which version you're using, see Determining the global
+table version you are using. To update existing global tables from version 2017.11.29
+(Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
 
 # Arguments
 - `global_table_name`: The name of the global table.
@@ -905,12 +985,13 @@ end
     describe_global_table_settings(global_table_name)
     describe_global_table_settings(global_table_name, params::Dict{String,<:Any})
 
-Describes Region-specific settings for a global table.  This operation only applies to
-Version 2017.11.29 (Legacy) of global tables. We recommend using Version 2019.11.21
-(Current) when creating new global tables, as it provides greater flexibility, higher
-efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine which
-version you are using, see Determining the version. To update existing global tables from
-version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see  Updating global tables.
+Describes Region-specific settings for a global table.  This documentation is for version
+2017.11.29 (Legacy) of global tables, which should be avoided for new global tables.
+Customers should use Global Tables version 2019.11.21 (Current) when possible, because it
+provides greater flexibility, higher efficiency, and consumes less write capacity than
+2017.11.29 (Legacy). To determine which version you're using, see Determining the global
+table version you are using. To update existing global tables from version 2017.11.29
+(Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
 
 # Arguments
 - `global_table_name`: The name of the global table to describe.
@@ -984,7 +1065,8 @@ end
 Returns information about the status of Kinesis streaming.
 
 # Arguments
-- `table_name`: The name of the table being described.
+- `table_name`: The name of the table being described. You can also provide the Amazon
+  Resource Name (ARN) of the table in this parameter.
 
 """
 function describe_kinesis_streaming_destination(
@@ -1066,15 +1148,16 @@ end
     describe_table(table_name, params::Dict{String,<:Any})
 
 Returns information about the table, including the current status of the table, when it was
-created, the primary key schema, and any indexes on the table.  This operation only applies
-to Version 2019.11.21 (Current) of global tables.    If you issue a DescribeTable request
-immediately after a CreateTable request, DynamoDB might return a ResourceNotFoundException.
-This is because DescribeTable uses an eventually consistent query, and the metadata for
-your table might not be available at that moment. Wait for a few seconds, and then try the
-DescribeTable request again.
+created, the primary key schema, and any indexes on the table.  For global tables, this
+operation only applies to global tables using Version 2019.11.21 (Current version).    If
+you issue a DescribeTable request immediately after a CreateTable request, DynamoDB might
+return a ResourceNotFoundException. This is because DescribeTable uses an eventually
+consistent query, and the metadata for your table might not be available at that moment.
+Wait for a few seconds, and then try the DescribeTable request again.
 
 # Arguments
-- `table_name`: The name of the table to describe.
+- `table_name`: The name of the table to describe. You can also provide the Amazon Resource
+  Name (ARN) of the table in this parameter.
 
 """
 function describe_table(TableName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1104,11 +1187,13 @@ end
     describe_table_replica_auto_scaling(table_name)
     describe_table_replica_auto_scaling(table_name, params::Dict{String,<:Any})
 
-Describes auto scaling settings across replicas of the global table at once.  This
-operation only applies to Version 2019.11.21 (Current) of global tables.
+Describes auto scaling settings across replicas of the global table at once.  For global
+tables, this operation only applies to global tables using Version 2019.11.21 (Current
+version).
 
 # Arguments
-- `table_name`: The name of the table.
+- `table_name`: The name of the table. You can also provide the Amazon Resource Name (ARN)
+  of the table in this parameter.
 
 """
 function describe_table_replica_auto_scaling(
@@ -1143,7 +1228,8 @@ end
 Gives a description of the Time to Live (TTL) status on the specified table.
 
 # Arguments
-- `table_name`: The name of the table to be described.
+- `table_name`: The name of the table to be described. You can also provide the Amazon
+  Resource Name (ARN) of the table in this parameter.
 
 """
 function describe_time_to_live(TableName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1178,8 +1264,13 @@ deleting either of the resources.
 
 # Arguments
 - `stream_arn`: The ARN for a Kinesis data stream.
-- `table_name`: The name of the DynamoDB table.
+- `table_name`: The name of the DynamoDB table. You can also provide the Amazon Resource
+  Name (ARN) of the table in this parameter.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnableKinesisStreamingConfiguration"`: The source for the Kinesis streaming information
+  that is being enabled.
 """
 function disable_kinesis_streaming_destination(
     StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1222,8 +1313,13 @@ ACTIVE.
 
 # Arguments
 - `stream_arn`: The ARN for a Kinesis data stream.
-- `table_name`: The name of the DynamoDB table.
+- `table_name`: The name of the DynamoDB table. You can also provide the Amazon Resource
+  Name (ARN) of the table in this parameter.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EnableKinesisStreamingConfiguration"`: The source for the Kinesis streaming information
+  that is being enabled.
 """
 function enable_kinesis_streaming_destination(
     StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1288,6 +1384,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   statement response.
 - `"Parameters"`: The parameters for the PartiQL statement, if any.
 - `"ReturnConsumedCapacity"`:
+- `"ReturnValuesOnConditionCheckFailure"`: An optional parameter that returns the item
+  attributes for an ExecuteStatement operation that failed a condition check. There is no
+  additional cost associated with requesting a return value aside from the small network and
+  processing overhead of receiving a larger response. No read capacity units are consumed.
 """
 function execute_statement(Statement; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb(
@@ -1394,8 +1494,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ExportTime"`: Time in the past from which to export table data, counted in seconds from
   the start of the Unix epoch. The table export will be a snapshot of the table's state at
   this point in time.
+- `"ExportType"`: Choice of whether to execute as a full export or incremental export.
+  Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. The default value is FULL_EXPORT. If
+  INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+- `"IncrementalExportSpecification"`: Optional object containing the parameters specific to
+  an incremental export.
 - `"S3BucketOwner"`: The ID of the Amazon Web Services account that owns the bucket the
-  export will be stored in.
+  export will be stored in.  S3BucketOwner is a required parameter when exporting to a S3
+  bucket in another account.
 - `"S3Prefix"`: The Amazon S3 bucket prefix to use as the file name and path of the
   exported snapshot.
 - `"S3SseAlgorithm"`: Type of encryption used on the bucket where export data will be
@@ -1457,7 +1563,8 @@ always returns the last updated value.
   example, with a simple primary key, you only need to provide a value for the partition key.
   For a composite primary key, you must provide values for both the partition key and the
   sort key.
-- `table_name`: The name of the table containing the requested item.
+- `table_name`: The name of the table containing the requested item. You can also provide
+  the Amazon Resource Name (ARN) of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1509,6 +1616,56 @@ function get_item(
             mergewith(
                 _merge, Dict{String,Any}("Key" => Key, "TableName" => TableName), params
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resource_policy(resource_arn)
+    get_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Returns the resource-based policy document attached to the resource, which can be a table
+or stream, in JSON format.  GetResourcePolicy follows an  eventually consistent  model. The
+following list describes the outcomes when you issue the GetResourcePolicy request
+immediately after issuing another request:   If you issue a GetResourcePolicy request
+immediately after a PutResourcePolicy request, DynamoDB might return a
+PolicyNotFoundException.   If you issue a GetResourcePolicyrequest immediately after a
+DeleteResourcePolicy request, DynamoDB might return the policy that was present before the
+deletion request.   If you issue a GetResourcePolicy request immediately after a
+CreateTable request, which includes a resource-based policy, DynamoDB might return a
+ResourceNotFoundException or a PolicyNotFoundException.   Because GetResourcePolicy uses an
+eventually consistent query, the metadata for your policy or table might not be available
+at that moment. Wait for a few seconds, and then retry the GetResourcePolicy request. After
+a GetResourcePolicy request returns a policy created using the PutResourcePolicy request,
+the policy will be applied in the authorization of requests to the resource. Because this
+process is eventually consistent, it will take some time to apply the policy to all
+requests to a resource. Policies that you attach while creating a table using the
+CreateTable request will always be applied to all requests for that table.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the DynamoDB resource to which the
+  policy is attached. The resources you can specify include tables and streams.
+
+"""
+function get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return dynamodb(
+        "GetResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dynamodb(
+        "GetResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1589,12 +1746,14 @@ end
     list_backups()
     list_backups(params::Dict{String,<:Any})
 
-List backups associated with an Amazon Web Services account. To list backups for a given
-table, specify TableName. ListBackups returns a paginated list of results with at most 1 MB
-worth of items in a page. You can also specify a maximum number of entries to be returned
-in a page. In the request, start time is inclusive, but end time is exclusive. Note that
-these boundaries are for the time at which the original backup was requested. You can call
-ListBackups a maximum of five times per second.
+List DynamoDB backups that are associated with an Amazon Web Services account and weren't
+made with Amazon Web Services Backup. To list these backups for a given table, specify
+TableName. ListBackups returns a paginated list of results with at most 1 MB worth of items
+in a page. You can also specify a maximum number of entries to be returned in a page. In
+the request, start time is inclusive, but end time is exclusive. Note that these boundaries
+are for the time at which the original backup was requested. You can call ListBackups a
+maximum of five times per second. If you want to retrieve the complete list of backups made
+with Amazon Web Services Backup, use the Amazon Web Services Backup list API.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1607,7 +1766,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   current page of results. This value may be specified as the ExclusiveStartBackupArn of a
   new ListBackups operation in order to fetch the next page of results.
 - `"Limit"`: Maximum number of backups to return at once.
-- `"TableName"`: The backups from the table specified by TableName are listed.
+- `"TableName"`: Lists the backups from the table specified in TableName. You can also
+  provide the Amazon Resource Name (ARN) of the table in this parameter.
 - `"TimeRangeLowerBound"`: Only backups created after this time are listed.
   TimeRangeLowerBound is inclusive.
 - `"TimeRangeUpperBound"`: Only backups created before this time are listed.
@@ -1635,7 +1795,8 @@ indexes.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: Maximum number of results to return per page.
 - `"NextToken"`: A token to for the desired page, if there is one.
-- `"TableName"`: The name of the table.
+- `"TableName"`: The name of the table. You can also provide the Amazon Resource Name (ARN)
+  of the table in this parameter.
 """
 function list_contributor_insights(; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb(
@@ -1682,13 +1843,13 @@ end
     list_global_tables()
     list_global_tables(params::Dict{String,<:Any})
 
-Lists all global tables that have a replica in the specified Region.  This operation only
-applies to Version 2017.11.29 (Legacy) of global tables. We recommend using Version
-2019.11.21 (Current) when creating new global tables, as it provides greater flexibility,
-higher efficiency and consumes less write capacity than 2017.11.29 (Legacy). To determine
-which version you are using, see Determining the version. To update existing global tables
-from version 2017.11.29 (Legacy) to version 2019.11.21 (Current), see  Updating global
-tables.
+Lists all global tables that have a replica in the specified Region.  This documentation is
+for version 2017.11.29 (Legacy) of global tables, which should be avoided for new global
+tables. Customers should use Global Tables version 2019.11.21 (Current) when possible,
+because it provides greater flexibility, higher efficiency, and consumes less write
+capacity than 2017.11.29 (Legacy). To determine which version you're using, see Determining
+the global table version you are using. To update existing global tables from version
+2017.11.29 (Legacy) to version 2019.11.21 (Current), see Upgrading global tables.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1841,7 +2002,8 @@ information about PutItem, see Working with Items in the Amazon DynamoDB Develop
   have a length greater than zero if the attribute is used as a key attribute for a table or
   index. For more information about primary keys, see Primary Key in the Amazon DynamoDB
   Developer Guide. Each element in the Item map is an AttributeValue object.
-- `table_name`: The name of the table to contain the item.
+- `table_name`: The name of the table to contain the item. You can also provide the Amazon
+  Resource Name (ARN) of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1895,6 +2057,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. No read capacity units are consumed.  The ReturnValues parameter is used by
   several DynamoDB operations; however, PutItem does not recognize any values other than NONE
   or ALL_OLD.
+- `"ReturnValuesOnConditionCheckFailure"`: An optional parameter that returns the item
+  attributes for a PutItem operation that failed a condition check. There is no additional
+  cost associated with requesting a return value aside from the small network and processing
+  overhead of receiving a larger response. No read capacity units are consumed.
 """
 function put_item(Item, TableName; aws_config::AbstractAWSConfig=global_aws_config())
     return dynamodb(
@@ -1915,6 +2081,80 @@ function put_item(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("Item" => Item, "TableName" => TableName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_resource_policy(policy, resource_arn)
+    put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+
+Attaches a resource-based policy document to the resource, which can be a table or stream.
+When you attach a resource-based policy using this API, the policy application is
+eventually consistent .  PutResourcePolicy is an idempotent operation; running it multiple
+times on the same resource using the same policy document will return the same revision ID.
+If you specify an ExpectedRevisionId that doesn't match the current policy's RevisionId,
+the PolicyNotFoundException will be returned.   PutResourcePolicy is an asynchronous
+operation. If you issue a GetResourcePolicy request immediately after a PutResourcePolicy
+request, DynamoDB might return your previous policy, if there was one, or return the
+PolicyNotFoundException. This is because GetResourcePolicy uses an eventually consistent
+query, and the metadata for your policy or table might not be available at that moment.
+Wait for a few seconds, and then try the GetResourcePolicy request again.
+
+# Arguments
+- `policy`: An Amazon Web Services resource-based policy document in JSON format.   The
+  maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts
+  whitespaces when calculating the size of a policy against this limit.   Within a
+  resource-based policy, if the action for a DynamoDB service-linked role (SLR) to replicate
+  data for a global table is denied, adding or deleting a replica will fail with an error.
+  For a full list of all considerations that apply while attaching a resource-based policy,
+  see Resource-based policy considerations.
+- `resource_arn`: The Amazon Resource Name (ARN) of the DynamoDB resource to which the
+  policy will be attached. The resources you can specify include tables and streams. You can
+  control index permissions using the base table's policy. To specify the same permission
+  level for your table and its indexes, you can provide both the table and index Amazon
+  Resource Name (ARN)s in the Resource field of a given Statement in your policy document.
+  Alternatively, to specify different permissions for your table, indexes, or both, you can
+  define multiple Statement fields in your policy document.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ConfirmRemoveSelfResourceAccess"`: Set this parameter to true to confirm that you want
+  to remove your permissions to change the policy of this resource in the future.
+- `"ExpectedRevisionId"`: A string value that you can use to conditionally update your
+  policy. You can provide the revision ID of your existing policy to make mutating requests
+  against that policy.  When you provide an expected revision ID, if the revision ID of the
+  existing policy on the resource doesn't match or if there's no policy attached to the
+  resource, your request will be rejected with a PolicyNotFoundException.  To conditionally
+  attach a policy when no policy exists for the resource, specify NO_POLICY for the revision
+  ID.
+"""
+function put_resource_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return dynamodb(
+        "PutResourcePolicy",
+        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dynamodb(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -1961,7 +2201,8 @@ secondary indexes support eventually consistent reads only, so do not specify
 ConsistentRead when querying a global secondary index.
 
 # Arguments
-- `table_name`: The name of the table containing the requested items.
+- `table_name`: The name of the table containing the requested items. You can also provide
+  the Amazon Resource Name (ARN) of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2146,6 +2387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LocalSecondaryIndexOverride"`: List of local secondary indexes for the restored table.
   The indexes provided should match existing secondary indexes. You can choose to exclude
   some or all of the indexes at the time of restore.
+- `"OnDemandThroughputOverride"`:
 - `"ProvisionedThroughputOverride"`: Provisioned throughput settings for the restored table.
 - `"SSESpecificationOverride"`: The new server-side encryption settings for the restored
   table.
@@ -2188,10 +2430,10 @@ end
 
 Restores the specified table to the specified point in time within
 EarliestRestorableDateTime and LatestRestorableDateTime. You can restore your table to any
-point in time during the last 35 days. Any number of users can execute up to 4 concurrent
-restores (any type of restore) in a given account.   When you restore using point in time
+point in time during the last 35 days. Any number of users can execute up to 50 concurrent
+restores (any type of restore) in a given account.  When you restore using point in time
 recovery, DynamoDB restores your table data to the state based on the selected date and
-time (day:hour:minute:second) to a new table.   Along with data, the following are also
+time (day:hour:minute:second) to a new table.  Along with data, the following are also
 included on the new restored table using point in time recovery:    Global secondary
 indexes (GSIs)   Local secondary indexes (LSIs)   Provisioned read and write capacity
 Encryption settings   All these settings come from the current settings of the source table
@@ -2211,6 +2453,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LocalSecondaryIndexOverride"`: List of local secondary indexes for the restored table.
   The indexes provided should match existing secondary indexes. You can choose to exclude
   some or all of the indexes at the time of restore.
+- `"OnDemandThroughputOverride"`:
 - `"ProvisionedThroughputOverride"`: Provisioned throughput settings for the restored table.
 - `"RestoreDateTime"`: Time in the past to restore the table to.
 - `"SSESpecificationOverride"`: The new server-side encryption settings for the restored
@@ -2254,26 +2497,37 @@ end
 
 The Scan operation returns one or more items and item attributes by accessing every item in
 a table or a secondary index. To have DynamoDB return fewer items, you can provide a
-FilterExpression operation. If the total number of scanned items exceeds the maximum
-dataset size limit of 1 MB, the scan stops and results are returned to the user as a
-LastEvaluatedKey value to continue the scan in a subsequent operation. The results also
-include the number of items exceeding the limit. A scan can result in no table data meeting
-the filter criteria.  A single Scan operation reads up to the maximum number of items set
-(if using the Limit parameter) or a maximum of 1 MB of data and then apply any filtering to
-the results using FilterExpression. If LastEvaluatedKey is present in the response, you
-need to paginate the result set. For more information, see Paginating the Results in the
-Amazon DynamoDB Developer Guide.   Scan operations proceed sequentially; however, for
-faster performance on a large table or secondary index, applications can request a parallel
-Scan operation by providing the Segment and TotalSegments parameters. For more information,
-see Parallel Scan in the Amazon DynamoDB Developer Guide.  Scan uses eventually consistent
-reads when accessing the data in a table; therefore, the result set might not include the
-changes to data in the table immediately before the operation began. If you need a
-consistent copy of the data, as of the time that the Scan begins, you can set the
-ConsistentRead parameter to true.
+FilterExpression operation. If the total size of scanned items exceeds the maximum dataset
+size limit of 1 MB, the scan completes and results are returned to the user. The
+LastEvaluatedKey value is also returned and the requestor can use the LastEvaluatedKey to
+continue the scan in a subsequent operation. Each scan response also includes number of
+items that were scanned (ScannedCount) as part of the request. If using a FilterExpression,
+a scan result can result in no items meeting the criteria and the Count will result in
+zero. If you did not use a FilterExpression in the scan request, then Count is the same as
+ScannedCount.   Count and ScannedCount only return the count of items specific to a single
+scan request and, unless the table is less than 1MB, do not represent the total number of
+items in the table.   A single Scan operation first reads up to the maximum number of items
+set (if using the Limit parameter) or a maximum of 1 MB of data and then applies any
+filtering to the results if a FilterExpression is provided. If LastEvaluatedKey is present
+in the response, pagination is required to complete the full table scan. For more
+information, see Paginating the Results in the Amazon DynamoDB Developer Guide.  Scan
+operations proceed sequentially; however, for faster performance on a large table or
+secondary index, applications can request a parallel Scan operation by providing the
+Segment and TotalSegments parameters. For more information, see Parallel Scan in the Amazon
+DynamoDB Developer Guide. By default, a Scan uses eventually consistent reads when
+accessing the items in a table. Therefore, the results from an eventually consistent Scan
+may not include the latest item changes at the time the scan iterates through each item in
+the table. If you require a strongly consistent read of each item as the scan iterates
+through the items in the table, you can set the ConsistentRead parameter to true. Strong
+consistency only relates to the consistency of the read at the item level.   DynamoDB does
+not provide snapshot isolation for a scan operation when the ConsistentRead parameter is
+set to true. Thus, a DynamoDB scan operation does not guarantee that all reads in a scan
+see a consistent snapshot of the table when the scan operation was requested.
 
 # Arguments
-- `table_name`: The name of the table containing the requested items; or, if you provide
-  IndexName, the name of the table to which that index belongs.
+- `table_name`: The name of the table containing the requested items or if you provide
+  IndexName, the name of the table to which that index belongs. You can also provide the
+  Amazon Resource Name (ARN) of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2665,7 +2919,8 @@ your table to any point in time during the last 35 days.
 # Arguments
 - `point_in_time_recovery_specification`: Represents the settings used to enable point in
   time recovery.
-- `table_name`: The name of the table.
+- `table_name`: The name of the table. You can also provide the Amazon Resource Name (ARN)
+  of the table in this parameter.
 
 """
 function update_continuous_backups(
@@ -2720,7 +2975,8 @@ for this table.
 
 # Arguments
 - `contributor_insights_action`: Represents the contributor insights action.
-- `table_name`: The name of the table.
+- `table_name`: The name of the table. You can also provide the Amazon Resource Name (ARN)
+  of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2769,20 +3025,21 @@ end
 Adds or removes replicas in the specified global table. The global table must already exist
 to be able to use this operation. Any replica to be added must be empty, have the same name
 as the global table, have the same key schema, have DynamoDB Streams enabled, and have the
-same provisioned and maximum write capacity units.  This operation only applies to Version
-2017.11.29 (Legacy) of global tables. We recommend using Version 2019.11.21 (Current) when
-creating new global tables, as it provides greater flexibility, higher efficiency and
-consumes less write capacity than 2017.11.29 (Legacy). To determine which version you are
-using, see Determining the version. To update existing global tables from version
-2017.11.29 (Legacy) to version 2019.11.21 (Current), see  Updating global tables.     This
-operation only applies to Version 2017.11.29 of global tables. If you are using global
-tables Version 2019.11.21 you can use DescribeTable instead.   Although you can use
-UpdateGlobalTable to add replicas and remove replicas in a single request, for simplicity
-we recommend that you issue separate requests for adding or removing replicas.    If global
-secondary indexes are specified, then the following conditions must also be met:     The
-global secondary indexes must have the same name.     The global secondary indexes must
-have the same hash key and sort key (if present).     The global secondary indexes must
-have the same provisioned and maximum write capacity units.
+same provisioned and maximum write capacity units.  This documentation is for version
+2017.11.29 (Legacy) of global tables, which should be avoided for new global tables.
+Customers should use Global Tables version 2019.11.21 (Current) when possible, because it
+provides greater flexibility, higher efficiency, and consumes less write capacity than
+2017.11.29 (Legacy). To determine which version you're using, see Determining the global
+table version you are using. To update existing global tables from version 2017.11.29
+(Legacy) to version 2019.11.21 (Current), see Upgrading global tables.    For global
+tables, this operation only applies to global tables using Version 2019.11.21 (Current
+version). If you are using global tables Version 2019.11.21 you can use UpdateTable
+instead.   Although you can use UpdateGlobalTable to add replicas and remove replicas in a
+single request, for simplicity we recommend that you issue separate requests for adding or
+removing replicas.    If global secondary indexes are specified, then the following
+conditions must also be met:     The global secondary indexes must have the same name.
+The global secondary indexes must have the same hash key and sort key (if present).     The
+global secondary indexes must have the same provisioned and maximum write capacity units.
 
 # Arguments
 - `global_table_name`: The global table name.
@@ -2828,12 +3085,13 @@ end
     update_global_table_settings(global_table_name)
     update_global_table_settings(global_table_name, params::Dict{String,<:Any})
 
-Updates settings for a global table.  This operation only applies to Version 2017.11.29
-(Legacy) of global tables. We recommend using Version 2019.11.21 (Current) when creating
-new global tables, as it provides greater flexibility, higher efficiency and consumes less
-write capacity than 2017.11.29 (Legacy). To determine which version you are using, see
-Determining the version. To update existing global tables from version 2017.11.29 (Legacy)
-to version 2019.11.21 (Current), see  Updating global tables.
+Updates settings for a global table.  This documentation is for version 2017.11.29 (Legacy)
+of global tables, which should be avoided for new global tables. Customers should use
+Global Tables version 2019.11.21 (Current) when possible, because it provides greater
+flexibility, higher efficiency, and consumes less write capacity than 2017.11.29 (Legacy).
+To determine which version you're using, see Determining the global table version you are
+using. To update existing global tables from version 2017.11.29 (Legacy) to version
+2019.11.21 (Current), see Upgrading global tables.
 
 # Arguments
 - `global_table_name`: The name of the global table
@@ -2843,9 +3101,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"GlobalTableBillingMode"`: The billing mode of the global table. If
   GlobalTableBillingMode is not specified, the global table defaults to PROVISIONED capacity
   billing mode.    PROVISIONED - We recommend using PROVISIONED for predictable workloads.
-  PROVISIONED sets the billing mode to Provisioned Mode.    PAY_PER_REQUEST - We recommend
-  using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the billing mode to
-  On-Demand Mode.
+  PROVISIONED sets the billing mode to Provisioned capacity mode.    PAY_PER_REQUEST - We
+  recommend using PAY_PER_REQUEST for unpredictable workloads. PAY_PER_REQUEST sets the
+  billing mode to On-demand capacity mode.
 - `"GlobalTableGlobalSecondaryIndexSettingsUpdate"`: Represents the settings of a global
   secondary index for a global table that will be modified.
 - `"GlobalTableProvisionedWriteCapacityAutoScalingSettingsUpdate"`: Auto scaling settings
@@ -2899,7 +3157,8 @@ ReturnValues parameter.
   attributes. For example, with a simple primary key, you only need to provide a value for
   the partition key. For a composite primary key, you must provide values for both the
   partition key and the sort key.
-- `table_name`: The name of the table containing the item to update.
+- `table_name`: The name of the table containing the item to update. You can also provide
+  the Amazon Resource Name (ARN) of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2956,6 +3215,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation.   There is no additional cost associated with requesting a return value aside
   from the small network and processing overhead of receiving a larger response. No read
   capacity units are consumed. The values returned are strongly consistent.
+- `"ReturnValuesOnConditionCheckFailure"`: An optional parameter that returns the item
+  attributes for an UpdateItem operation that failed a condition check. There is no
+  additional cost associated with requesting a return value aside from the small network and
+  processing overhead of receiving a larger response. No read capacity units are consumed.
 - `"UpdateExpression"`: An expression that defines one or more attributes to be updated,
   the action to be performed on them, and new values for them. The following action values
   are available for UpdateExpression.    SET - Adds one or more attributes and values to an
@@ -3024,21 +3287,69 @@ function update_item(
 end
 
 """
+    update_kinesis_streaming_destination(stream_arn, table_name)
+    update_kinesis_streaming_destination(stream_arn, table_name, params::Dict{String,<:Any})
+
+The command to update the Kinesis stream destination.
+
+# Arguments
+- `stream_arn`: The Amazon Resource Name (ARN) for the Kinesis stream input.
+- `table_name`: The table name for the Kinesis streaming destination input. You can also
+  provide the ARN of the table in this parameter.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UpdateKinesisStreamingConfiguration"`: The command to update the Kinesis stream
+  configuration.
+"""
+function update_kinesis_streaming_destination(
+    StreamArn, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return dynamodb(
+        "UpdateKinesisStreamingDestination",
+        Dict{String,Any}("StreamArn" => StreamArn, "TableName" => TableName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_kinesis_streaming_destination(
+    StreamArn,
+    TableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dynamodb(
+        "UpdateKinesisStreamingDestination",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("StreamArn" => StreamArn, "TableName" => TableName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_table(table_name)
     update_table(table_name, params::Dict{String,<:Any})
 
 Modifies the provisioned throughput settings, global secondary indexes, or DynamoDB Streams
-settings for a given table.  This operation only applies to Version 2019.11.21 (Current) of
-global tables.   You can only perform one of the following operations at once:   Modify the
-provisioned throughput settings of the table.   Remove a global secondary index from the
-table.   Create a new global secondary index on the table. After the index begins
-backfilling, you can use UpdateTable to perform other operations.    UpdateTable is an
-asynchronous operation; while it is executing, the table status changes from ACTIVE to
-UPDATING. While it is UPDATING, you cannot issue another UpdateTable request. When the
-table returns to the ACTIVE state, the UpdateTable operation is complete.
+settings for a given table.  For global tables, this operation only applies to global
+tables using Version 2019.11.21 (Current version).   You can only perform one of the
+following operations at once:   Modify the provisioned throughput settings of the table.
+Remove a global secondary index from the table.   Create a new global secondary index on
+the table. After the index begins backfilling, you can use UpdateTable to perform other
+operations.    UpdateTable is an asynchronous operation; while it's executing, the table
+status changes from ACTIVE to UPDATING. While it's UPDATING, you can't issue another
+UpdateTable request. When the table returns to the ACTIVE state, the UpdateTable operation
+is complete.
 
 # Arguments
-- `table_name`: The name of the table to be updated.
+- `table_name`: The name of the table to be updated. You can also provide the Amazon
+  Resource Name (ARN) of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3050,9 +3361,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provisioned capacity values must be set. The initial provisioned capacity values are
   estimated based on the consumed read and write capacity of your table and global secondary
   indexes over the past 30 minutes.    PROVISIONED - We recommend using PROVISIONED for
-  predictable workloads. PROVISIONED sets the billing mode to Provisioned Mode.
+  predictable workloads. PROVISIONED sets the billing mode to Provisioned capacity mode.
   PAY_PER_REQUEST - We recommend using PAY_PER_REQUEST for unpredictable workloads.
-  PAY_PER_REQUEST sets the billing mode to On-Demand Mode.
+  PAY_PER_REQUEST sets the billing mode to On-demand capacity mode.
 - `"DeletionProtectionEnabled"`: Indicates whether deletion protection is to be enabled
   (true) or disabled (false) on the table.
 - `"GlobalSecondaryIndexUpdates"`: An array of one or more global secondary indexes for the
@@ -3062,14 +3373,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   table.   You can create or delete only one global secondary index per UpdateTable
   operation. For more information, see Managing Global Secondary Indexes in the Amazon
   DynamoDB Developer Guide.
+- `"OnDemandThroughput"`: Updates the maximum number of read and write units for the
+  specified table in on-demand capacity mode. If you use this parameter, you must specify
+  MaxReadRequestUnits, MaxWriteRequestUnits, or both.
 - `"ProvisionedThroughput"`: The new provisioned throughput settings for the specified
   table or index.
 - `"ReplicaUpdates"`: A list of replica update actions (create, delete, or update) for the
-  table.  This property only applies to Version 2019.11.21 (Current) of global tables.
+  table.  For global tables, this property only applies to global tables using Version
+  2019.11.21 (Current version).
 - `"SSESpecification"`: The new server-side encryption settings for the specified table.
 - `"StreamSpecification"`: Represents the DynamoDB Streams configuration for the table.
-  You receive a ResourceInUseException if you try to enable a stream on a table that already
-  has a stream, or if you try to disable a stream on a table that doesn't have a stream.
+  You receive a ValidationException if you try to enable a stream on a table that already has
+  a stream, or if you try to disable a stream on a table that doesn't have a stream.
 - `"TableClass"`: The table class of the table to be updated. Valid values are STANDARD and
   STANDARD_INFREQUENT_ACCESS.
 """
@@ -3100,11 +3415,12 @@ end
     update_table_replica_auto_scaling(table_name)
     update_table_replica_auto_scaling(table_name, params::Dict{String,<:Any})
 
-Updates auto scaling settings on your global tables at once.  This operation only applies
-to Version 2019.11.21 (Current) of global tables.
+Updates auto scaling settings on your global tables at once.  For global tables, this
+operation only applies to global tables using Version 2019.11.21 (Current version).
 
 # Arguments
-- `table_name`: The name of the global table to be updated.
+- `table_name`: The name of the global table to be updated. You can also provide the Amazon
+  Resource Name (ARN) of the table in this parameter.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3161,7 +3477,8 @@ delete operation. For more information, see Time To Live in the Amazon DynamoDB 
 Guide.
 
 # Arguments
-- `table_name`: The name of the table to be configured.
+- `table_name`: The name of the table to be configured. You can also provide the Amazon
+  Resource Name (ARN) of the table in this parameter.
 - `time_to_live_specification`: Represents the settings used to enable or disable Time to
   Live for the specified table.
 

@@ -33,17 +33,16 @@ gateway.
   Reference. Valid Values: See  Storage Gateway endpoints and quotas in the Amazon Web
   Services General Reference.
 - `gateway_timezone`: A value that indicates the time zone you want to set for the gateway.
-  The time zone is of the format \"GMT-hr:mm\" or \"GMT+hr:mm\". For example, GMT-4:00
-  indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of
-  GMT. The time zone is used, for example, for scheduling snapshots and your gateway's
-  maintenance schedule.
+  The time zone is of the format \"GMT\", \"GMT-hr:mm\", or \"GMT+hr:mm\". For example, GMT
+  indicates Greenwich Mean Time without any offset. GMT-4:00 indicates the time is 4 hours
+  behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for
+  example, for scheduling snapshots and your gateway's maintenance schedule.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"GatewayType"`: A value that defines the type of gateway to activate. The type specified
   is critical to all later functions of the gateway and cannot be changed after activation.
-  The default value is CACHED. Valid Values: STORED | CACHED | VTL | VTL_SNOW | FILE_S3 |
-  FILE_FSX_SMB
+  The default value is CACHED. Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB
 - `"MediumChangerType"`: The value that indicates the type of medium changer to use for
   tape gateway. This field is optional. Valid Values: STK-L700 | AWS-Gateway-VTL |
   IBM-03584L32-0402
@@ -2149,9 +2148,9 @@ end
     describe_gateway_information(gateway_arn)
     describe_gateway_information(gateway_arn, params::Dict{String,<:Any})
 
-Returns metadata about a gateway such as its name, network interfaces, configured time
-zone, and the state (whether the gateway is running or not). To specify which gateway to
-describe, use the Amazon Resource Name (ARN) of the gateway in your request.
+Returns metadata about a gateway such as its name, network interfaces, time zone, status,
+and software version. To specify which gateway to describe, use the Amazon Resource Name
+(ARN) of the gateway in your request.
 
 # Arguments
 - `gateway_arn`:
@@ -2186,8 +2185,9 @@ end
     describe_maintenance_start_time(gateway_arn)
     describe_maintenance_start_time(gateway_arn, params::Dict{String,<:Any})
 
-Returns your gateway's weekly maintenance start time including the day and time of the
-week. Note that values are in terms of the gateway's time zone.
+Returns your gateway's maintenance window schedule information, with values for monthly or
+weekly cadence, specific day and time to begin maintenance, and which types of updates to
+apply. Time values returned are for the gateway's time zone.
 
 # Arguments
 - `gateway_arn`:
@@ -2491,9 +2491,14 @@ end
     describe_tapes(gateway_arn)
     describe_tapes(gateway_arn, params::Dict{String,<:Any})
 
-Returns a description of the specified Amazon Resource Name (ARN) of virtual tapes. If a
-TapeARN is not specified, returns a description of all virtual tapes associated with the
-specified gateway. This operation is only supported in the tape gateway type.
+Returns a description of virtual tapes that correspond to the specified Amazon Resource
+Names (ARNs). If TapeARN is not specified, returns a description of the virtual tapes
+associated with the specified gateway. This operation is only supported for the tape
+gateway type. The operation supports pagination. By default, the operation returns a
+maximum of up to 100 tapes. You can optionally specify the Limit field in the body to limit
+the number of tapes in the response. If the number of tapes returned in the response is
+truncated, the response includes a Marker field. You can use this Marker value in your
+subsequent request to retrieve the next set of tapes.
 
 # Arguments
 - `gateway_arn`:
@@ -2788,7 +2793,13 @@ end
     join_domain(domain_name, gateway_arn, password, user_name, params::Dict{String,<:Any})
 
 Adds a file gateway to an Active Directory domain. This operation is only supported for
-file gateways that support the SMB file protocol.
+file gateways that support the SMB file protocol.  Joining a domain creates an Active
+Directory computer account in the default organizational unit, using the gateway's Gateway
+ID as the account name (for example, SGW-1234ADE). If your Active Directory environment
+requires that you pre-stage accounts to facilitate the join domain process, you will need
+to create this account ahead of time. To create the gateway's computer account in an
+organizational unit other than the default, you must specify the organizational unit when
+joining the domain.
 
 # Arguments
 - `domain_name`: The name of the domain that you want the gateway to join.
@@ -2895,8 +2906,8 @@ end
     list_file_shares(params::Dict{String,<:Any})
 
 Gets a list of the file shares for a specific S3 File Gateway, or the list of file shares
-that belong to the calling user account. This operation is only supported for S3 File
-Gateways.
+that belong to the calling Amazon Web Services account. This operation is only supported
+for S3 File Gateways.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3253,14 +3264,14 @@ end
     notify_when_uploaded(file_share_arn, params::Dict{String,<:Any})
 
 Sends you notification through CloudWatch Events when all files written to your file share
-have been uploaded to S3. Amazon S3. Storage Gateway can send a notification through Amazon
+have been uploaded to Amazon S3. Storage Gateway can send a notification through Amazon
 CloudWatch Events when all files written to your file share up to that point in time have
 been uploaded to Amazon S3. These files include files written to the file share up to the
 time that you make a request for notification. When the upload is done, Storage Gateway
 sends you notification through an Amazon CloudWatch Event. You can configure CloudWatch
 Events to send the notification through event targets such as Amazon SNS or Lambda
 function. This operation is only supported for S3 File Gateways. For more information, see
-Getting file upload notification in the Storage Gateway User Guide.
+Getting file upload notification in the Amazon S3 File Gateway User Guide.
 
 # Arguments
 - `file_share_arn`:
@@ -3302,23 +3313,23 @@ import files into the S3 File Gateway cache storage. It only updates the cached 
 to reflect changes in the inventory of the objects in the S3 bucket. This operation is only
 supported in the S3 File Gateway types. You can subscribe to be notified through an Amazon
 CloudWatch event when your RefreshCache operation completes. For more information, see
-Getting notified about file operations in the Storage Gateway User Guide. This operation is
-Only supported for S3 File Gateways. When this API is called, it only initiates the refresh
-operation. When the API call completes and returns a success code, it doesn't necessarily
-mean that the file refresh has completed. You should use the refresh-complete notification
-to determine that the operation has completed before you check for new files on the gateway
-file share. You can subscribe to be notified through a CloudWatch event when your
-RefreshCache operation completes. Throttle limit: This API is asynchronous, so the gateway
-will accept no more than two refreshes at any time. We recommend using the refresh-complete
-CloudWatch event notification before issuing additional requests. For more information, see
-Getting notified about file operations in the Storage Gateway User Guide.    Wait at least
-60 seconds between consecutive RefreshCache API requests.   RefreshCache does not evict
-cache entries if invoked consecutively within 60 seconds of a previous RefreshCache
-request.   If you invoke the RefreshCache API when two requests are already being
-processed, any new request will cause an InvalidGatewayRequestException error because too
-many requests were sent to the server.     The S3 bucket name does not need to be included
-when entering the list of folders in the FolderList parameter.  For more information, see
-Getting notified about file operations in the Storage Gateway User Guide.
+Getting notified about file operations in the Amazon S3 File Gateway User Guide. This
+operation is Only supported for S3 File Gateways. When this API is called, it only
+initiates the refresh operation. When the API call completes and returns a success code, it
+doesn't necessarily mean that the file refresh has completed. You should use the
+refresh-complete notification to determine that the operation has completed before you
+check for new files on the gateway file share. You can subscribe to be notified through a
+CloudWatch event when your RefreshCache operation completes. Throttle limit: This API is
+asynchronous, so the gateway will accept no more than two refreshes at any time. We
+recommend using the refresh-complete CloudWatch event notification before issuing
+additional requests. For more information, see Getting notified about file operations in
+the Amazon S3 File Gateway User Guide.    Wait at least 60 seconds between consecutive
+RefreshCache API requests.   If you invoke the RefreshCache API when two requests are
+already being processed, any new request will cause an InvalidGatewayRequestException error
+because too many requests were sent to the server.     The S3 bucket name does not need to
+be included when entering the list of folders in the FolderList parameter.  For more
+information, see Getting notified about file operations in the Amazon S3 File Gateway User
+Guide.
 
 # Arguments
 - `file_share_arn`: The Amazon Resource Name (ARN) of the file share you want to refresh.
@@ -3328,7 +3339,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"FolderList"`: A comma-separated list of the paths of folders to refresh in the cache.
   The default is [\"/\"]. The default refreshes objects and folders at the root of the Amazon
   S3 bucket. If Recursive is set to true, the entire S3 bucket that the file share has access
-  to is refreshed.
+  to is refreshed. Do not include / when specifying folder names. For example, you would
+  specify samplefolder rather than samplefolder/.
 - `"Recursive"`: A value that specifies whether to recursively refresh folders in the
   cache. The refresh includes folders that were in the cache the last time the gateway listed
   the folder's contents. If this value set to true, each folder that is listed in FolderList
@@ -3639,19 +3651,20 @@ end
     shutdown_gateway(gateway_arn)
     shutdown_gateway(gateway_arn, params::Dict{String,<:Any})
 
-Shuts down a gateway. To specify which gateway to shut down, use the Amazon Resource Name
-(ARN) of the gateway in the body of your request. The operation shuts down the gateway
-service component running in the gateway's virtual machine (VM) and not the host VM.  If
-you want to shut down the VM, it is recommended that you first shut down the gateway
-component in the VM to avoid unpredictable conditions.  After the gateway is shutdown, you
-cannot call any other API except StartGateway, DescribeGatewayInformation, and
-ListGateways. For more information, see ActivateGateway. Your applications cannot read from
-or write to the gateway's storage volumes, and there are no snapshots taken.  When you make
-a shutdown request, you will get a 200 OK success response immediately. However, it might
-take some time for the gateway to shut down. You can call the DescribeGatewayInformation
-API to check the status. For more information, see ActivateGateway.  If do not intend to
-use the gateway again, you must delete the gateway (using DeleteGateway) to no longer pay
-software charges associated with the gateway.
+Shuts down a Tape Gateway or Volume Gateway. To specify which gateway to shut down, use the
+Amazon Resource Name (ARN) of the gateway in the body of your request.  This API action
+cannot be used to shut down S3 File Gateway or FSx File Gateway.  The operation shuts down
+the gateway service component running in the gateway's virtual machine (VM) and not the
+host VM.  If you want to shut down the VM, it is recommended that you first shut down the
+gateway component in the VM to avoid unpredictable conditions.  After the gateway is
+shutdown, you cannot call any other API except StartGateway, DescribeGatewayInformation,
+and ListGateways. For more information, see ActivateGateway. Your applications cannot read
+from or write to the gateway's storage volumes, and there are no snapshots taken.  When you
+make a shutdown request, you will get a 200 OK success response immediately. However, it
+might take some time for the gateway to shut down. You can call the
+DescribeGatewayInformation API to check the status. For more information, see
+ActivateGateway.  If do not intend to use the gateway again, you must delete the gateway
+(using DeleteGateway) to no longer pay software charges associated with the gateway.
 
 # Arguments
 - `gateway_arn`:
@@ -3869,8 +3882,9 @@ end
  Updates the bandwidth rate limit schedule for a specified gateway. By default, gateways do
 not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in
 effect. Use this to initiate or update a gateway's bandwidth rate limit schedule. This
-operation is supported only for volume, tape and S3 file gateways. FSx file gateways do not
-support bandwidth rate limits.
+operation is supported for volume, tape, and S3 file gateways. S3 file gateways support
+bandwidth rate limits for upload only. FSx file gateways do not support bandwidth rate
+limits.
 
 # Arguments
 - `bandwidth_rate_limit_intervals`:  An array containing bandwidth rate limit schedule
@@ -4038,11 +4052,11 @@ end
     update_gateway_information(gateway_arn)
     update_gateway_information(gateway_arn, params::Dict{String,<:Any})
 
-Updates a gateway's metadata, which includes the gateway's name and time zone. To specify
-which gateway to update, use the Amazon Resource Name (ARN) of the gateway in your request.
- For gateways activated after September 2, 2015, the gateway's ARN contains the gateway ID
-rather than the gateway name. However, changing the name of the gateway has no effect on
-the gateway's ARN.
+Updates a gateway's metadata, which includes the gateway's name, time zone, and metadata
+cache size. To specify which gateway to update, use the Amazon Resource Name (ARN) of the
+gateway in your request.  For gateways activated after September 2, 2015, the gateway's ARN
+contains the gateway ID rather than the gateway name. However, changing the name of the
+gateway has no effect on the gateway's ARN.
 
 # Arguments
 - `gateway_arn`:
@@ -4052,7 +4066,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CloudWatchLogGroupARN"`: The Amazon Resource Name (ARN) of the Amazon CloudWatch log
   group that you want to use to monitor and log events in the gateway. For more information,
   see What is Amazon CloudWatch Logs?
-- `"GatewayCapacity"`: Specifies the size of the gateway's metadata cache.
+- `"GatewayCapacity"`: Specifies the size of the gateway's metadata cache. This setting
+  impacts gateway performance and hardware recommendations. For more information, see
+  Performance guidance for gateways with multiple file shares in the Amazon S3 File Gateway
+  User Guide.
 - `"GatewayName"`:
 - `"GatewayTimezone"`: A value that indicates the time zone of the gateway.
 """
@@ -4125,61 +4142,60 @@ function update_gateway_software_now(
 end
 
 """
-    update_maintenance_start_time(gateway_arn, hour_of_day, minute_of_hour)
-    update_maintenance_start_time(gateway_arn, hour_of_day, minute_of_hour, params::Dict{String,<:Any})
+    update_maintenance_start_time(gateway_arn)
+    update_maintenance_start_time(gateway_arn, params::Dict{String,<:Any})
 
-Updates a gateway's weekly maintenance start time information, including day and time of
-the week. The maintenance time is the time in your gateway's time zone.
+Updates a gateway's maintenance window schedule, with settings for monthly or weekly
+cadence, specific day and time to begin maintenance, and which types of updates to apply.
+Time configuration uses the gateway's time zone. You can pass values for a complete
+maintenance schedule, or update policy, or both. Previous values will persist for whichever
+setting you choose not to modify. If an incomplete or invalid maintenance schedule is
+passed, the entire request will be rejected with an error and no changes will occur. A
+complete maintenance schedule must include values for both MinuteOfHour and HourOfDay, and
+either DayOfMonth or DayOfWeek.  We recommend keeping maintenance updates turned on, except
+in specific use cases where the brief disruptions caused by updating the gateway could
+critically impact your deployment.
 
 # Arguments
 - `gateway_arn`:
-- `hour_of_day`: The hour component of the maintenance start time represented as hh, where
-  hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
-- `minute_of_hour`: The minute component of the maintenance start time represented as mm,
-  where mm is the minute (00 to 59). The minute of the hour is in the time zone of the
-  gateway.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DayOfMonth"`: The day of the month component of the maintenance start time represented
-  as an ordinal number from 1 to 28, where 1 represents the first day of the month and 28
-  represents the last day of the month.
+  as an ordinal number from 1 to 28, where 1 represents the first day of the month. It is not
+  possible to set the maintenance schedule to start on days 29 through 31.
 - `"DayOfWeek"`: The day of the week component of the maintenance start time week
-  represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 Saturday.
+  represented as an ordinal number from 0 to 6, where 0 represents Sunday and 6 represents
+  Saturday.
+- `"HourOfDay"`: The hour component of the maintenance start time represented as hh, where
+  hh is the hour (00 to 23). The hour of the day is in the time zone of the gateway.
+- `"MinuteOfHour"`: The minute component of the maintenance start time represented as mm,
+  where mm is the minute (00 to 59). The minute of the hour is in the time zone of the
+  gateway.
+- `"SoftwareUpdatePreferences"`: A set of variables indicating the software update
+  preferences for the gateway. Includes AutomaticUpdatePolicy field with the following
+  inputs:  ALL_VERSIONS - Enables regular gateway maintenance updates.
+  EMERGENCY_VERSIONS_ONLY - Disables regular gateway maintenance updates.
 """
 function update_maintenance_start_time(
-    GatewayARN, HourOfDay, MinuteOfHour; aws_config::AbstractAWSConfig=global_aws_config()
+    GatewayARN; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return storage_gateway(
         "UpdateMaintenanceStartTime",
-        Dict{String,Any}(
-            "GatewayARN" => GatewayARN,
-            "HourOfDay" => HourOfDay,
-            "MinuteOfHour" => MinuteOfHour,
-        );
+        Dict{String,Any}("GatewayARN" => GatewayARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function update_maintenance_start_time(
     GatewayARN,
-    HourOfDay,
-    MinuteOfHour,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return storage_gateway(
         "UpdateMaintenanceStartTime",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "GatewayARN" => GatewayARN,
-                    "HourOfDay" => HourOfDay,
-                    "MinuteOfHour" => MinuteOfHour,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("GatewayARN" => GatewayARN), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4472,22 +4488,28 @@ end
     update_smbsecurity_strategy(gateway_arn, smbsecurity_strategy)
     update_smbsecurity_strategy(gateway_arn, smbsecurity_strategy, params::Dict{String,<:Any})
 
-Updates the SMB security strategy on a file gateway. This action is only supported in file
-gateways.  This API is called Security level in the User Guide. A higher security level can
-affect performance of the gateway.
+Updates the SMB security strategy level for an Amazon S3 file gateway. This action is only
+supported for Amazon S3 file gateways.  For information about configuring this setting
+using the Amazon Web Services console, see Setting a security level for your gateway in the
+Amazon S3 File Gateway User Guide. A higher security strategy level can affect performance
+of the gateway.
 
 # Arguments
 - `gateway_arn`:
-- `smbsecurity_strategy`: Specifies the type of security strategy. ClientSpecified: if you
-  use this option, requests are established based on what is negotiated by the client. This
-  option is recommended when you want to maximize compatibility across different clients in
-  your environment. Supported only in S3 File Gateway. MandatorySigning: if you use this
-  option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing
-  enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008
-  or newer. MandatoryEncryption: if you use this option, file gateway only allows connections
-  from SMBv3 clients that have encryption enabled. This option is highly recommended for
-  environments that handle sensitive data. This option works with SMB clients on Microsoft
-  Windows 8, Windows Server 2012 or newer.
+- `smbsecurity_strategy`: Specifies the type of security strategy.  ClientSpecified: If you
+  choose this option, requests are established based on what is negotiated by the client.
+  This option is recommended when you want to maximize compatibility across different clients
+  in your environment. Supported only for S3 File Gateway.  MandatorySigning: If you choose
+  this option, File Gateway only allows connections from SMBv2 or SMBv3 clients that have
+  signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows
+  Server 2008 or newer.  MandatoryEncryption: If you choose this option, File Gateway only
+  allows connections from SMBv3 clients that have encryption enabled. This option is
+  recommended for environments that handle sensitive data. This option works with SMB clients
+  on Microsoft Windows 8, Windows Server 2012 or newer.  MandatoryEncryptionNoAes128: If you
+  choose this option, File Gateway only allows connections from SMBv3 clients that use
+  256-bit AES encryption algorithms. 128-bit algorithms are not allowed. This option is
+  recommended for environments that handle sensitive data. It works with SMB clients on
+  Microsoft Windows 8, Windows Server 2012, or later.
 
 """
 function update_smbsecurity_strategy(

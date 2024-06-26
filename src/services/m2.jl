@@ -62,7 +62,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service also handles deleting the clientToken after it expires.
 - `"description"`: The description of the application.
 - `"kmsKeyId"`: The identifier of a customer managed key.
-- `"roleArn"`: The Amazon Resource Name (ARN) of the role associated with the application.
+- `"roleArn"`: The Amazon Resource Name (ARN) that identifies a role that the application
+  uses to access Amazon Web Services resources that are not part of the application or are in
+  a different Amazon Web Services account.
 - `"tags"`: A list of tags to apply to the application.
 """
 function create_application(
@@ -248,9 +250,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"highAvailabilityConfig"`: The details of a high availability configuration for this
   runtime environment.
 - `"kmsKeyId"`: The identifier of a customer managed key.
-- `"preferredMaintenanceWindow"`: Configures the maintenance window you want for the
-  runtime environment. If you do not provide a value, a random system-generated value will be
-  assigned.
+- `"preferredMaintenanceWindow"`: Configures the maintenance window that you want for the
+  runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi
+  and must be less than 24 hours. The following two examples are valid maintenance windows:
+  sun:23:45-mon:00:15 or sat:01:00-sat:03:00.  If you do not provide a value, a random
+  system-generated value will be assigned.
 - `"publiclyAccessible"`: Specifies whether the runtime environment is publicly accessible.
 - `"securityGroupIds"`: The list of security groups for the VPC associated with this
   runtime environment.
@@ -659,6 +663,30 @@ function get_environment(
 end
 
 """
+    get_signed_bluinsights_url()
+    get_signed_bluinsights_url(params::Dict{String,<:Any})
+
+Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
+
+"""
+function get_signed_bluinsights_url(; aws_config::AbstractAWSConfig=global_aws_config())
+    return m2(
+        "GET", "/signed-bi-url"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_signed_bluinsights_url(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return m2(
+        "GET",
+        "/signed-bi-url",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_application_versions(application_id)
     list_application_versions(application_id, params::Dict{String,<:Any})
 
@@ -821,6 +849,43 @@ function list_batch_job_executions(
 end
 
 """
+    list_batch_job_restart_points(application_id, execution_id)
+    list_batch_job_restart_points(application_id, execution_id, params::Dict{String,<:Any})
+
+Lists all the job steps for JCL files to restart a batch job. This is only applicable for
+Micro Focus engine with versions 8.0.6 and above.
+
+# Arguments
+- `application_id`: The unique identifier of the application.
+- `execution_id`: The unique identifier of each batch job execution.
+
+"""
+function list_batch_job_restart_points(
+    applicationId, executionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/batch-job-executions/$(executionId)/steps";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_batch_job_restart_points(
+    applicationId,
+    executionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return m2(
+        "GET",
+        "/applications/$(applicationId)/batch-job-executions/$(executionId)/steps",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_data_set_import_history(application_id)
     list_data_set_import_history(application_id, params::Dict{String,<:Any})
 
@@ -876,6 +941,8 @@ Modernization can import data sets into catalogs using CreateDataSetImportTask.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of objects to return.
+- `"nameFilter"`: Filter dataset name matching the specified pattern. Can use * and % as
+  wild cards.
 - `"nextToken"`: A pagination token returned from a previous call to this operation. This
   specifies the next item to return. To return to the beginning of the list, exclude this
   parameter.
@@ -1294,12 +1361,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Mainframe Modernization accepts the engineVersion parameter only if
   applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided
   in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
-- `"desiredCapacity"`: The desired capacity for the runtime environment to update.
+- `"desiredCapacity"`: The desired capacity for the runtime environment to update. The
+  minimum possible value is 0 and the maximum is 100.
 - `"engineVersion"`: The version of the runtime engine for the runtime environment.
+- `"forceUpdate"`: Forces the updates on the environment. This option is needed if the
+  applications in the environment are not stopped or if there are ongoing application-related
+  activities in the environment. If you use this option, be aware that it could lead to data
+  corruption in the applications, and that you might need to perform repair and recovery
+  procedures for the applications. This option is not needed if the attribute being updated
+  is preferredMaintenanceWindow.
 - `"instanceType"`: The instance type for the runtime environment to update.
-- `"preferredMaintenanceWindow"`: Configures the maintenance window you want for the
-  runtime environment. If you do not provide a value, a random system-generated value will be
-  assigned.
+- `"preferredMaintenanceWindow"`: Configures the maintenance window that you want for the
+  runtime environment. The maintenance window must have the format ddd:hh24:mi-ddd:hh24:mi
+  and must be less than 24 hours. The following two examples are valid maintenance windows:
+  sun:23:45-mon:00:15 or sat:01:00-sat:03:00.  If you do not provide a value, a random
+  system-generated value will be assigned.
 """
 function update_environment(
     environmentId; aws_config::AbstractAWSConfig=global_aws_config()

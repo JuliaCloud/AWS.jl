@@ -246,10 +246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   catalog_id  is the account ID of the Amazon Web Services account to which the Glue Data
   Catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the
   default AwsDataCatalog that already exists in your account, of which you can have only one
-  and cannot modify.   Queries that specify a Glue Data Catalog other than the default
-  AwsDataCatalog must be run on Athena engine version 2.   In Regions where Athena engine
-  version 2 is not available, creating new Glue data catalogs results in an INVALID_INPUT
-  error.
+  and cannot modify.
 - `"Tags"`: A list of comma separated tags to add to the data catalog that is created.
 """
 function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config())
@@ -281,8 +278,7 @@ end
     create_named_query(database, name, query_string, params::Dict{String,<:Any})
 
 Creates a named query in the specified workgroup. Requires that you have access to the
-workgroup. For code samples using the Amazon Web Services SDK for Java, see Examples and
-Code Samples in the Amazon Athena User Guide.
+workgroup.
 
 # Arguments
 - `database`: The database to which the query belongs.
@@ -595,8 +591,6 @@ end
     delete_named_query(named_query_id, params::Dict{String,<:Any})
 
 Deletes the named query if you have access to the workgroup in which the query was saved.
-For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples
-in the Amazon Athena User Guide.
 
 # Arguments
 - `named_query_id`: The unique ID of the query to delete.
@@ -966,6 +960,10 @@ Returns the specified data catalog.
 # Arguments
 - `name`: The name of the data catalog to return.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"WorkGroup"`: The name of the workgroup. Required if making an IAM Identity Center
+  request.
 """
 function get_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
@@ -996,6 +994,10 @@ Returns a database object for the specified database and data catalog.
 - `catalog_name`: The name of the data catalog that contains the database to return.
 - `database_name`: The name of the database to return.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
+  Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function get_database(
     CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1237,10 +1239,12 @@ end
     get_query_runtime_statistics(query_execution_id, params::Dict{String,<:Any})
 
 Returns query execution runtime statistics related to a single execution of a query if you
-have access to the workgroup in which the query ran. Query execution runtime statistics are
-returned only when QueryExecutionStatusState is in a SUCCEEDED or FAILED state. Stage-level
-input and output row count and data size statistics are not shown when a query has
-row-level filters defined in Lake Formation.
+have access to the workgroup in which the query ran. Statistics from the Timeline section
+of the response object are available as soon as QueryExecutionStatusState is in a SUCCEEDED
+or FAILED state. The remaining non-timeline statistics in the response (like stage-level
+input and output row count and data size) are updated asynchronously and may not be
+available immediately after a query completes. The non-timeline statistics are also not
+included when a query has row-level filters defined in Lake Formation.
 
 # Arguments
 - `query_execution_id`: The unique ID of the query execution.
@@ -1352,6 +1356,10 @@ Returns table metadata for the specified catalog, database, and table.
 - `database_name`: The name of the database that contains the table metadata to return.
 - `table_name`: The name of the table for which metadata is returned.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
+  Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function get_table_metadata(
     CatalogName, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1426,16 +1434,17 @@ function get_work_group(
 end
 
 """
-    import_notebook(name, payload, type, work_group)
-    import_notebook(name, payload, type, work_group, params::Dict{String,<:Any})
+    import_notebook(name, type, work_group)
+    import_notebook(name, type, work_group, params::Dict{String,<:Any})
 
-Imports a single ipynb file to a Spark enabled workgroup. The maximum file size that can be
-imported is 10 megabytes. If an ipynb file with the same name already exists in the
-workgroup, throws an error.
+Imports a single ipynb file to a Spark enabled workgroup. To import the notebook, the
+request must specify a value for either Payload or NoteBookS3LocationUri. If neither is
+specified or both are specified, an InvalidRequestException occurs. The maximum file size
+that can be imported is 10 megabytes. If an ipynb file with the same name already exists in
+the workgroup, throws an error.
 
 # Arguments
 - `name`: The name of the notebook to import.
-- `payload`: The notebook content to be imported.
 - `type`: The notebook content type. Currently, the only valid type is IPYNB.
 - `work_group`: The name of the Spark enabled workgroup to import the notebook to.
 
@@ -1446,22 +1455,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
   Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or
   the Amazon Web Services CLI, you must provide this token or the action will fail.
+- `"NotebookS3LocationUri"`: A URI that specifies the Amazon S3 location of a notebook file
+  in ipynb format.
+- `"Payload"`: The notebook content to be imported. The payload must be in ipynb format.
 """
 function import_notebook(
-    Name, Payload, Type, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, Type, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return athena(
         "ImportNotebook",
-        Dict{String,Any}(
-            "Name" => Name, "Payload" => Payload, "Type" => Type, "WorkGroup" => WorkGroup
-        );
+        Dict{String,Any}("Name" => Name, "Type" => Type, "WorkGroup" => WorkGroup);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function import_notebook(
     Name,
-    Payload,
     Type,
     WorkGroup,
     params::AbstractDict{String};
@@ -1472,12 +1481,7 @@ function import_notebook(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "Name" => Name,
-                    "Payload" => Payload,
-                    "Type" => Type,
-                    "WorkGroup" => WorkGroup,
-                ),
+                Dict{String,Any}("Name" => Name, "Type" => Type, "WorkGroup" => WorkGroup),
                 params,
             ),
         );
@@ -1607,6 +1611,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
+- `"WorkGroup"`: The name of the workgroup. Required if making an IAM Identity Center
+  request.
 """
 function list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
@@ -1636,6 +1642,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
+- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
+  Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function list_databases(CatalogName; aws_config::AbstractAWSConfig=global_aws_config())
     return athena(
@@ -1738,8 +1746,7 @@ end
 
 Provides a list of available query IDs only for queries saved in the specified workgroup.
 Requires that you have access to the specified workgroup. If a workgroup is not specified,
-lists the saved queries for the primary workgroup. For code samples using the Amazon Web
-Services SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
+lists the saved queries for the primary workgroup.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1893,10 +1900,9 @@ end
     list_query_executions(params::Dict{String,<:Any})
 
 Provides a list of available query execution IDs for the queries in the specified
-workgroup. If a workgroup is not specified, returns a list of query execution IDs for the
-primary workgroup. Requires you to have access to the workgroup in which the queries ran.
-For code samples using the Amazon Web Services SDK for Java, see Examples and Code Samples
-in the Amazon Athena User Guide.
+workgroup. Athena keeps a query history for 45 days. If a workgroup is not specified,
+returns a list of query execution IDs for the primary workgroup. Requires you to have
+access to the workgroup in which the queries ran.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1989,6 +1995,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
+- `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
+  Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function list_table_metadata(
     CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2145,7 +2153,11 @@ end
     start_calculation_execution(session_id, params::Dict{String,<:Any})
 
 Submits calculations for execution within a session. You can supply the code to run as an
-inline code block within the request.
+inline code block within the request.  The request syntax requires the
+StartCalculationExecutionRequestCodeBlock parameter or the
+CalculationConfigurationCodeBlock parameter, but not both. Because
+CalculationConfigurationCodeBlock is deprecated, use the
+StartCalculationExecutionRequestCodeBlock parameter instead.
 
 # Arguments
 - `session_id`: The session ID.
@@ -2161,7 +2173,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services SDK for Java) auto-generate the token for users. If you are not using the Amazon
   Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action
   will fail.
-- `"CodeBlock"`: A string that contains the code of the calculation.
+- `"CodeBlock"`: A string that contains the code of the calculation. Use this parameter
+  instead of CalculationConfigurationCodeBlock, which is deprecated.
 - `"Description"`: A description of the calculation.
 """
 function start_calculation_execution(
@@ -2205,11 +2218,14 @@ SDK for Java, see Examples and Code Samples in the Amazon Athena User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientRequestToken"`: A unique case-sensitive string used to ensure the request to
   create the query is idempotent (executes only once). If another StartQueryExecution request
-  is received, the same response is returned and another query is not created. If a parameter
-  has changed, for example, the QueryString, an error is returned.  This token is listed as
-  not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for
-  Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK
-  or the Amazon Web Services CLI, you must provide this token or the action will fail.
+  is received, the same response is returned and another query is not created. An error is
+  returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution
+  that uses a previous client request token returns the same QueryExecutionId even if the
+  requester doesn't have permission on the tables specified in QueryString.  This token is
+  listed as not required because Amazon Web Services SDKs (for example the Amazon Web
+  Services SDK for Java) auto-generate the token for users. If you are not using the Amazon
+  Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action
+  will fail.
 - `"ExecutionParameters"`: A list of values for the parameters in a query. The values are
   applied sequentially to the parameters in the query in the order in which the parameters
   occur.
@@ -2367,8 +2383,7 @@ end
     stop_query_execution(query_execution_id, params::Dict{String,<:Any})
 
 Stops a query execution. Requires you to have access to the workgroup in which the query
-ran. For code samples using the Amazon Web Services SDK for Java, see Examples and Code
-Samples in the Amazon Athena User Guide.
+ran.
 
 # Arguments
 - `query_execution_id`: The unique ID of the query execution to stop.

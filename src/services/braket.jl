@@ -97,6 +97,7 @@ Creates an Amazon Braket job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"associations"`: The list of Amazon Braket resources associated with the hybrid job.
 - `"checkpointConfig"`: Information about the output locations for job checkpoint data.
 - `"hyperParameters"`: Algorithm-specific parameters used by an Amazon Braket job that
   influence the quality of the training job. The values are set with a string of JSON
@@ -185,6 +186,7 @@ Creates a quantum task.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"associations"`: The list of Amazon Braket resources associated with the quantum task.
 - `"deviceParameters"`: The parameters for the device to run the task on.
 - `"jobToken"`: The token for an Amazon Braket job that associates it with the quantum task.
 - `"tags"`: Tags to be added to the quantum task you're creating.
@@ -293,6 +295,9 @@ Retrieves the specified Amazon Braket job.
 # Arguments
 - `job_arn`: The ARN of the job to retrieve.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"additionalAttributeNames"`: A list of attributes to return information for.
 """
 function get_job(jobArn; aws_config::AbstractAWSConfig=global_aws_config())
     return braket(
@@ -318,8 +323,11 @@ end
 Retrieves the specified quantum task.
 
 # Arguments
-- `quantum_task_arn`: the ARN of the task to retrieve.
+- `quantum_task_arn`: The ARN of the task to retrieve.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"additionalAttributeNames"`: A list of attributes to return information for.
 """
 function get_quantum_task(quantumTaskArn; aws_config::AbstractAWSConfig=global_aws_config())
     return braket(

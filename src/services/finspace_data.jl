@@ -8,8 +8,8 @@ using AWS.UUIDs
     associate_user_to_permission_group(permission_group_id, user_id)
     associate_user_to_permission_group(permission_group_id, user_id, params::Dict{String,<:Any})
 
-Adds a user account to a permission group to grant permissions for actions a user can
-perform in FinSpace.
+Adds a user to a permission group to grant permissions for actions a user can perform in
+FinSpace.
 
 # Arguments
 - `permission_group_id`: The unique identifier for the permission group.
@@ -342,7 +342,7 @@ Creates a new user in FinSpace.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ApiAccess"`: The option to indicate whether the user can use the
+- `"apiAccess"`: The option to indicate whether the user can use the
   GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access
   other FinSpace Data API operations.    ENABLED – The user has permissions to use the
   APIs.    DISABLED – The user does not have permissions to use any APIs.
@@ -475,7 +475,7 @@ end
 Denies access to the FinSpace web application and API for the specified user.
 
 # Arguments
-- `user_id`: The unique identifier for the user account that you want to disable.
+- `user_id`: The unique identifier for the user that you want to deactivate.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -508,7 +508,7 @@ end
     disassociate_user_from_permission_group(permission_group_id, user_id)
     disassociate_user_from_permission_group(permission_group_id, user_id, params::Dict{String,<:Any})
 
-Removes a user account from a permission group.
+Removes a user from a permission group.
 
 # Arguments
 - `permission_group_id`: The unique identifier for the permission group.
@@ -553,7 +553,7 @@ end
  Allows the specified user to access the FinSpace web application and API.
 
 # Arguments
-- `user_id`: The unique identifier for the user account that you want to enable.
+- `user_id`: The unique identifier for the user that you want to activate.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -763,7 +763,8 @@ end
     get_programmatic_access_credentials(environment_id)
     get_programmatic_access_credentials(environment_id, params::Dict{String,<:Any})
 
-Request programmatic credentials to use with FinSpace SDK.
+Request programmatic credentials to use with FinSpace SDK. For more information, see Step
+2. Access credentials programmatically using IAM access key id and secret access key.
 
 # Arguments
 - `environment_id`: The FinSpace environment identifier.
@@ -999,7 +1000,7 @@ end
     list_permission_groups_by_user(max_results, user_id)
     list_permission_groups_by_user(max_results, user_id, params::Dict{String,<:Any})
 
-Lists all the permission groups that are associated with a specific user account.
+Lists all the permission groups that are associated with a specific user.
 
 # Arguments
 - `max_results`: The maximum number of results per page.
@@ -1041,7 +1042,7 @@ end
     list_users(max_results)
     list_users(max_results, params::Dict{String,<:Any})
 
-Lists all available user accounts in FinSpace.
+Lists all available users in FinSpace.
 
 # Arguments
 - `max_results`: The maximum number of results per page.
@@ -1354,10 +1355,10 @@ end
     update_user(user_id)
     update_user(user_id, params::Dict{String,<:Any})
 
-Modifies the details of the specified user account. You cannot update the userId for a user.
+Modifies the details of the specified user. You cannot update the userId for a user.
 
 # Arguments
-- `user_id`: The unique identifier for the user account to update.
+- `user_id`: The unique identifier for the user that you want to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

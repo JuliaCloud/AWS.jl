@@ -43,6 +43,40 @@ function batch_put_property_values(
 end
 
 """
+    cancel_metadata_transfer_job(metadata_transfer_job_id)
+    cancel_metadata_transfer_job(metadata_transfer_job_id, params::Dict{String,<:Any})
+
+Cancels the metadata transfer job.
+
+# Arguments
+- `metadata_transfer_job_id`: The metadata transfer job Id.
+
+"""
+function cancel_metadata_transfer_job(
+    metadataTransferJobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "PUT",
+        "/metadata-transfer-jobs/$(metadataTransferJobId)/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_metadata_transfer_job(
+    metadataTransferJobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "PUT",
+        "/metadata-transfer-jobs/$(metadataTransferJobId)/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_component_type(component_type_id, workspace_id)
     create_component_type(component_type_id, workspace_id, params::Dict{String,<:Any})
 
@@ -55,6 +89,9 @@ Creates a component type.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"componentTypeName"`: A friendly name for the component type.
+- `"compositeComponentTypes"`: This is an object that maps strings to
+  compositeComponentTypes of the componentType. CompositeComponentType is referenced by
+  componentTypeId.
 - `"description"`: The description of the component type.
 - `"extendsFrom"`: Specifies the parent component type to extend.
 - `"functions"`: An object that maps strings to the functions in the component type. Each
@@ -105,6 +142,9 @@ Creates an entity.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"components"`: An object that maps strings to the components in the entity. Each string
   in the mapping must be unique to this object.
+- `"compositeComponents"`: This is an object that maps strings to compositeComponent
+  updates in the request. Each key of the map represents the componentPath of the
+  compositeComponent.
 - `"description"`: The description of the entity.
 - `"entityId"`: The ID of the entity.
 - `"parentEntityId"`: The ID of the entity's parent entity.
@@ -132,6 +172,53 @@ function create_entity(
         "/workspaces/$(workspaceId)/entities",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("entityName" => entityName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_metadata_transfer_job(destination, sources)
+    create_metadata_transfer_job(destination, sources, params::Dict{String,<:Any})
+
+Creates a new metadata transfer job.
+
+# Arguments
+- `destination`: The metadata transfer job destination.
+- `sources`: The metadata transfer job sources.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: The metadata transfer job description.
+- `"metadataTransferJobId"`: The metadata transfer job Id.
+"""
+function create_metadata_transfer_job(
+    destination, sources; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "POST",
+        "/metadata-transfer-jobs",
+        Dict{String,Any}("destination" => destination, "sources" => sources);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_metadata_transfer_job(
+    destination,
+    sources,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "POST",
+        "/metadata-transfer-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("destination" => destination, "sources" => sources),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -238,36 +325,31 @@ function create_sync_job(
 end
 
 """
-    create_workspace(role, s3_location, workspace_id)
-    create_workspace(role, s3_location, workspace_id, params::Dict{String,<:Any})
+    create_workspace(workspace_id)
+    create_workspace(workspace_id, params::Dict{String,<:Any})
 
 Creates a workplace.
 
 # Arguments
-- `role`: The ARN of the execution role associated with the workspace.
-- `s3_location`: The ARN of the S3 bucket where resources associated with the workspace are
-  stored.
 - `workspace_id`: The ID of the workspace.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the workspace.
+- `"role"`: The ARN of the execution role associated with the workspace.
+- `"s3Location"`: The ARN of the S3 bucket where resources associated with the workspace
+  are stored.
 - `"tags"`: Metadata that you can use to manage the workspace
 """
-function create_workspace(
-    role, s3Location, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function create_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config())
     return iottwinmaker(
         "POST",
-        "/workspaces/$(workspaceId)",
-        Dict{String,Any}("role" => role, "s3Location" => s3Location);
+        "/workspaces/$(workspaceId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_workspace(
-    role,
-    s3Location,
     workspaceId,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -275,11 +357,7 @@ function create_workspace(
     return iottwinmaker(
         "POST",
         "/workspaces/$(workspaceId)",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("role" => role, "s3Location" => s3Location), params
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -470,7 +548,8 @@ end
     execute_query(query_statement, workspace_id, params::Dict{String,<:Any})
 
 Run queries to access information from your knowledge graph of entities within individual
-workspaces.
+workspaces.  The ExecuteQuery action only works with Amazon Web Services Java SDK2.
+ExecuteQuery will not work with any Amazon Web Services Java SDK version &lt; 2.x.
 
 # Arguments
 - `query_statement`: The query statement.
@@ -478,8 +557,7 @@ workspaces.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of results to return at one time. The default is 25.
-  Valid Range: Minimum value of 1. Maximum value of 250.
+- `"maxResults"`: The maximum number of results to return at one time. The default is 50.
 - `"nextToken"`: The string that specifies the next page of results.
 """
 function execute_query(
@@ -589,6 +667,40 @@ function get_entity(
 end
 
 """
+    get_metadata_transfer_job(metadata_transfer_job_id)
+    get_metadata_transfer_job(metadata_transfer_job_id, params::Dict{String,<:Any})
+
+Gets a nmetadata transfer job.
+
+# Arguments
+- `metadata_transfer_job_id`: The metadata transfer job Id.
+
+"""
+function get_metadata_transfer_job(
+    metadataTransferJobId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "GET",
+        "/metadata-transfer-jobs/$(metadataTransferJobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_metadata_transfer_job(
+    metadataTransferJobId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "GET",
+        "/metadata-transfer-jobs/$(metadataTransferJobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_pricing_plan()
     get_pricing_plan(params::Dict{String,<:Any})
 
@@ -626,6 +738,8 @@ specify a value for either componentName, componentTypeId, entityId, or workspac
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"componentName"`: The name of the component whose property values the operation returns.
+- `"componentPath"`: This string specifies the path to the composite component, starting
+  from the top-level component.
 - `"componentTypeId"`: The ID of the component type whose property values the operation
   returns.
 - `"entityId"`: The ID of the entity whose property values the operation returns.
@@ -681,6 +795,8 @@ quries, specify a value for componentTypeId.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"componentName"`: The name of the component.
+- `"componentPath"`: This string specifies the path to the composite component, starting
+  from the top-level component.
 - `"componentTypeId"`: The ID of the component type.
 - `"endDateTime"`: The date and time of the latest property value to return.
 - `"endTime"`: The ISO8601 DateTime of the latest property value to return. For more
@@ -869,6 +985,49 @@ function list_component_types(
 end
 
 """
+    list_components(entity_id, workspace_id)
+    list_components(entity_id, workspace_id, params::Dict{String,<:Any})
+
+This API lists the components of an entity.
+
+# Arguments
+- `entity_id`: The ID for the entity whose metadata (component/properties) is returned by
+  the operation.
+- `workspace_id`: The workspace ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"componentPath"`: This string specifies the path to the composite component, starting
+  from the top-level component.
+- `"maxResults"`: The maximum number of results returned at one time. The default is 25.
+- `"nextToken"`: The string that specifies the next page of results.
+"""
+function list_components(
+    entityId, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "POST",
+        "/workspaces/$(workspaceId)/entities/$(entityId)/components-list";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_components(
+    entityId,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "POST",
+        "/workspaces/$(workspaceId)/entities/$(entityId)/components-list",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_entities(workspace_id)
     list_entities(workspace_id, params::Dict{String,<:Any})
 
@@ -902,6 +1061,104 @@ function list_entities(
         "POST",
         "/workspaces/$(workspaceId)/entities-list",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_metadata_transfer_jobs(destination_type, source_type)
+    list_metadata_transfer_jobs(destination_type, source_type, params::Dict{String,<:Any})
+
+Lists the metadata transfer jobs.
+
+# Arguments
+- `destination_type`: The metadata transfer job's destination type.
+- `source_type`: The metadata transfer job's source type.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: An object that filters metadata transfer jobs.
+- `"maxResults"`: The maximum number of results to return at one time.
+- `"nextToken"`: The string that specifies the next page of results.
+"""
+function list_metadata_transfer_jobs(
+    destinationType, sourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "POST",
+        "/metadata-transfer-jobs-list",
+        Dict{String,Any}("destinationType" => destinationType, "sourceType" => sourceType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_metadata_transfer_jobs(
+    destinationType,
+    sourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "POST",
+        "/metadata-transfer-jobs-list",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationType" => destinationType, "sourceType" => sourceType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_properties(entity_id, workspace_id)
+    list_properties(entity_id, workspace_id, params::Dict{String,<:Any})
+
+This API lists the properties of a component.
+
+# Arguments
+- `entity_id`: The ID for the entity whose metadata (component/properties) is returned by
+  the operation.
+- `workspace_id`: The workspace ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"componentName"`: The name of the component whose properties are returned by the
+  operation.
+- `"componentPath"`: This string specifies the path to the composite component, starting
+  from the top-level component.
+- `"maxResults"`: The maximum number of results returned at one time. The default is 25.
+- `"nextToken"`: The string that specifies the next page of results.
+"""
+function list_properties(
+    entityId, workspaceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return iottwinmaker(
+        "POST",
+        "/workspaces/$(workspaceId)/properties-list",
+        Dict{String,Any}("entityId" => entityId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_properties(
+    entityId,
+    workspaceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iottwinmaker(
+        "POST",
+        "/workspaces/$(workspaceId)/properties-list",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("entityId" => entityId), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1193,6 +1450,9 @@ Updates information in a component type.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"componentTypeName"`: The component type name.
+- `"compositeComponentTypes"`: This is an object that maps strings to
+  compositeComponentTypes of the componentType. CompositeComponentType is referenced by
+  componentTypeId.
 - `"description"`: The description of the component type.
 - `"extendsFrom"`: Specifies the component type that this component type extends.
 - `"functions"`: An object that maps strings to the functions in the component type. Each
@@ -1242,6 +1502,9 @@ Updates an entity.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"componentUpdates"`: An object that maps strings to the component updates in the
   request. Each string in the mapping must be unique to this object.
+- `"compositeComponentUpdates"`: This is an object that maps strings to compositeComponent
+  updates in the request. Each key of the map represents the componentPath of the
+  compositeComponent.
 - `"description"`: The description of the entity.
 - `"entityName"`: The name of the entity.
 - `"parentEntityUpdate"`: An object that describes the update request for a parent entity.
@@ -1365,6 +1628,8 @@ Updates a workspace.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the workspace.
 - `"role"`: The ARN of the execution role associated with the workspace.
+- `"s3Location"`: The ARN of the S3 bucket where resources associated with the workspace
+  are stored.
 """
 function update_workspace(workspaceId; aws_config::AbstractAWSConfig=global_aws_config())
     return iottwinmaker(

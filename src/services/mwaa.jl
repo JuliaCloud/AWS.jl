@@ -61,20 +61,45 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration options you want to attach to your environment. For more information, see
   Apache Airflow configuration options.
 - `"AirflowVersion"`: The Apache Airflow version for your environment. If no value is
-  specified, it defaults to the latest version. Valid values: 1.10.12, 2.0.2, 2.2.2, 2.4.3,
-  and 2.5.1. For more information, see Apache Airflow versions on Amazon Managed Workflows
-  for Apache Airflow (MWAA).
+  specified, it defaults to the latest version. For more information, see Apache Airflow
+  versions on Amazon Managed Workflows for Apache Airflow (MWAA). Valid values: 1.10.12,
+  2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2 2.8.1
+- `"EndpointManagement"`: Defines whether the VPC endpoints configured for the environment
+  are created, and managed, by the customer or by Amazon MWAA. If set to SERVICE, Amazon MWAA
+  will create and manage the required VPC endpoints in your VPC. If set to CUSTOMER, you must
+  create, and manage, the VPC endpoints for your VPC. If you choose to create an environment
+  in a shared VPC, you must set this value to CUSTOMER. In a shared VPC deployment, the
+  environment will remain in PENDING status until you create the VPC endpoints. If you do not
+  take action to create the endpoints within 72 hours, the status will change to
+  CREATE_FAILED. You can delete the failed environment and create a new one.
 - `"EnvironmentClass"`: The environment class type. Valid values: mw1.small, mw1.medium,
-  mw1.large. For more information, see Amazon MWAA environment class.
+  mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see Amazon MWAA environment
+  class.
 - `"KmsKey"`: The Amazon Web Services Key Management Service (KMS) key to encrypt the data
   in your environment. You can use an Amazon Web Services owned CMK, or a Customer managed
   CMK (advanced). For more information, see Create an Amazon MWAA environment.
 - `"LoggingConfiguration"`: Defines the Apache Airflow logs to send to CloudWatch Logs.
+- `"MaxWebservers"`:  The maximum number of web servers that you want to run in your
+  environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number
+  you specify for MaxWebservers when you interact with your Apache Airflow environment using
+  Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your
+  workload requires network calls to the Apache Airflow REST API with a high
+  transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up
+  to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the
+  additional web servers, and scales down to the number set in MinxWebserers.  Valid values:
+  Accepts between 2 and 5. Defaults to 2.
 - `"MaxWorkers"`: The maximum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
   MaxWorkers field. For example, 20. When there are no more tasks running, and no more in the
   queue, MWAA disposes of the extra workers leaving the one worker that is included with your
   environment, or the number you specify in MinWorkers.
+- `"MinWebservers"`:  The minimum number of web servers that you want to run in your
+  environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number
+  you specify for MaxWebservers when you interact with your Apache Airflow environment using
+  Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and
+  the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales
+  down to the number set in MinxWebserers.  Valid values: Accepts between 2 and 5. Defaults
+  to 2.
 - `"MinWorkers"`: The minimum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
   MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA
@@ -108,8 +133,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The key-value tag pairs you want to associate to your environment. For example,
   \"Environment\": \"Staging\". For more information, see Tagging Amazon Web Services
   resources.
-- `"WebserverAccessMode"`: The Apache Airflow Web server access mode. For more information,
-  see Apache Airflow access modes.
+- `"WebserverAccessMode"`: Defines the access mode for the Apache Airflow web server. For
+  more information, see Apache Airflow access modes.
 - `"WeeklyMaintenanceWindowStart"`: The day and time of the week in Coordinated Universal
   Time (UTC) 24-hour standard time to start weekly maintenance updates of your environment in
   the following format: DAY:HH:MM. For example: TUE:03:30. You can specify a start time in 30
@@ -457,21 +482,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   upgrade an environment, make sure your requirements, DAGs, plugins, and other resources
   used in your workflows are compatible with the new Apache Airflow version. For more
   information about updating your resources, see Upgrading an Amazon MWAA environment. Valid
-  values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, and 2.5.1.
+  values: 1.10.12, 2.0.2, 2.2.2, 2.4.3, 2.5.1, 2.6.3, 2.7.2, 2.8.1.
 - `"DagS3Path"`: The relative path to the DAGs folder on your Amazon S3 bucket. For
   example, dags. For more information, see Adding or updating DAGs.
 - `"EnvironmentClass"`: The environment class type. Valid values: mw1.small, mw1.medium,
-  mw1.large. For more information, see Amazon MWAA environment class.
+  mw1.large, mw1.xlarge, and mw1.2xlarge. For more information, see Amazon MWAA environment
+  class.
 - `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the execution role in IAM that
   allows MWAA to access Amazon Web Services resources in your environment. For example,
   arn:aws:iam::123456789:role/my-execution-role. For more information, see Amazon MWAA
   Execution role.
 - `"LoggingConfiguration"`: The Apache Airflow log types to send to CloudWatch Logs.
+- `"MaxWebservers"`:  The maximum number of web servers that you want to run in your
+  environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number
+  you specify for MaxWebservers when you interact with your Apache Airflow environment using
+  Apache Airflow REST API, or the Apache Airflow CLI. For example, in scenarios where your
+  workload requires network calls to the Apache Airflow REST API with a high
+  transaction-per-second (TPS) rate, Amazon MWAA will increase the number of web servers up
+  to the number set in MaxWebserers. As TPS rates decrease Amazon MWAA disposes of the
+  additional web servers, and scales down to the number set in MinxWebserers.  Valid values:
+  Accepts between 2 and 5. Defaults to 2.
 - `"MaxWorkers"`: The maximum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
   MaxWorkers field. For example, 20. When there are no more tasks running, and no more in the
   queue, MWAA disposes of the extra workers leaving the one worker that is included with your
   environment, or the number you specify in MinWorkers.
+- `"MinWebservers"`:  The minimum number of web servers that you want to run in your
+  environment. Amazon MWAA scales the number of Apache Airflow web servers up to the number
+  you specify for MaxWebservers when you interact with your Apache Airflow environment using
+  Apache Airflow REST API, or the Apache Airflow CLI. As the transaction-per-second rate, and
+  the network load, decrease, Amazon MWAA disposes of the additional web servers, and scales
+  down to the number set in MinxWebserers.  Valid values: Accepts between 2 and 5. Defaults
+  to 2.
 - `"MinWorkers"`: The minimum number of workers that you want to run in your environment.
   MWAA scales the number of Apache Airflow workers up to the number you specify in the
   MaxWorkers field. When there are no more tasks running, and no more in the queue, MWAA

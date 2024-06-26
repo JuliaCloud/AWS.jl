@@ -105,7 +105,7 @@ service-linked role for all additional indexes you create afterwards.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: This value helps ensure idempotency. Resource Explorer uses this value
   to prevent the accidental creation of duplicate versions. We recommend that you generate a
-  UUID-type value to ensure the uniqueness of your views.
+  UUID-type value to ensure the uniqueness of your index.
 - `"Tags"`: The specified tags are attached only to the index created in this Amazon Web
   Services Region. The tags aren't attached to any of the resources listed in the index.
 """
@@ -166,6 +166,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludedProperties"`: Specifies optional fields that you want included in search
   results from this view. It is a list of objects that each describe a field to include. The
   default is an empty list, with no optional fields included in the results.
+- `"Scope"`: The root ARN of the account, an organizational unit (OU), or an organization
+  ARN. If left empty, the default is account.
 - `"Tags"`: Tag key and value pairs that are attached to the view.
 """
 function create_view(ViewName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -301,6 +303,38 @@ function disassociate_default_view(
 end
 
 """
+    get_account_level_service_configuration()
+    get_account_level_service_configuration(params::Dict{String,<:Any})
+
+Retrieves the status of your account's Amazon Web Services service access, and validates
+the service linked role required to access the multi-account search feature. Only the
+management account or a delegated administrator with service access enabled can invoke this
+API call.
+
+"""
+function get_account_level_service_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/GetAccountLevelServiceConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_account_level_service_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/GetAccountLevelServiceConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_default_view()
     get_default_view(params::Dict{String,<:Any})
 
@@ -398,7 +432,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from.
+  indicate where the output should continue from. The pagination tokens expire after 24 hours.
 - `"Regions"`: If specified, limits the response to only information about the index in the
   specified list of Amazon Web Services Regions.
 - `"Type"`: If specified, limits the output to only indexes of the specified Type, either
@@ -416,6 +450,61 @@ function list_indexes(
         "POST",
         "/ListIndexes",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_indexes_for_members(account_id_list)
+    list_indexes_for_members(account_id_list, params::Dict{String,<:Any})
+
+Retrieves a list of a member's indexes in all Amazon Web Services Regions that are
+currently collecting resource information for Amazon Web Services Resource Explorer. Only
+the management account or a delegated administrator with service access enabled can invoke
+this API call.
+
+# Arguments
+- `account_id_list`: The account IDs will limit the output to only indexes from these
+  accounts.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results that you want included on each page of the
+  response. If you do not include this parameter, it defaults to a value appropriate to the
+  operation. If additional items exist beyond those included in the current response, the
+  NextToken response element is present and has a value (is not null). Include that value as
+  the NextToken request parameter in the next call to the operation to get the next part of
+  the results.  An API operation can return fewer results than the maximum even when there
+  are more results available. You should check NextToken after every operation to ensure that
+  you receive all of the results.
+- `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
+  response in a previous request. A NextToken response indicates that more output is
+  available. Set this parameter to the value of the previous call's NextToken response to
+  indicate where the output should continue from. The pagination tokens expire after 24 hours.
+"""
+function list_indexes_for_members(
+    AccountIdList; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resource_explorer_2(
+        "POST",
+        "/ListIndexesForMembers",
+        Dict{String,Any}("AccountIdList" => AccountIdList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_indexes_for_members(
+    AccountIdList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return resource_explorer_2(
+        "POST",
+        "/ListIndexesForMembers",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AccountIdList" => AccountIdList), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -441,7 +530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from.
+  indicate where the output should continue from. The pagination tokens expire after 24 hours.
 """
 function list_supported_resource_types(; aws_config::AbstractAWSConfig=global_aws_config())
     return resource_explorer_2(
@@ -521,7 +610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from.
+  indicate where the output should continue from. The pagination tokens expire after 24 hours.
 """
 function list_views(; aws_config::AbstractAWSConfig=global_aws_config())
     return resource_explorer_2(
@@ -572,7 +661,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The parameter for receiving additional results if you receive a NextToken
   response in a previous request. A NextToken response indicates that more output is
   available. Set this parameter to the value of the previous call's NextToken response to
-  indicate where the output should continue from.
+  indicate where the output should continue from. The pagination tokens expire after 24 hours.
 - `"ViewArn"`: Specifies the Amazon resource name (ARN) of the view to use for the query.
   If you don't specify a value for this parameter, then the operation automatically uses the
   default view for the Amazon Web Services Region in which you called this operation. If the
