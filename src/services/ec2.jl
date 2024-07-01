@@ -9657,7 +9657,7 @@ function delete_placement_group(
 )
     return ec2(
         "DeletePlacementGroup",
-        Dict{String,Any}("groupName" => groupName);
+        Dict{String,Any}("GroupName" => groupName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -9670,7 +9670,7 @@ function delete_placement_group(
     return ec2(
         "DeletePlacementGroup",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("groupName" => groupName), params)
+            mergewith(_merge, Dict{String,Any}("GroupName" => groupName), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
