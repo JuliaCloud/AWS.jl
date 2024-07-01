@@ -13,6 +13,8 @@ A Julia interface for [Amazon Web Services](https://aws.amazon.com).
 This package replaces [AWSCore.jl](https://github.com/JuliaCloud/AWSCore.jl) and [AWSSDK.jl](https://github.com/JuliaCloud/AWSSDK.jl) which previously provided low-level and high-level APIs respectively.
 It includes automated code generation to ensure all new AWS services are available, as well as keeping existing services up to date.
 
+semver note: AWS.jl uses [semver](https://semver.org/) to imbue it's version numbers with semantic meaning. In particular, breaking changes to the programmatic interface provided by AWS.jl (e.g. the `@service` macro, the [backends](https://juliacloud.github.io/AWS.jl/stable/backends.html) mechanism, etc) will only occur when the major version number changes. However, breaking changes to the upstream AWS-provided API are **not** reflected in the AWS.jl version number. For example, if AWS removes functionality, changes a keyword argument, etc, then the corresponding changes will be made here (via an automated update mechanism) **without** a corresponding breaking release to AWS.jl. These changes will always be made as a *feature release*, i.e. a minor-version bump to AWS.jl. Therefore it is recommended to use the [tilde specifier](https://pkgdocs.julialang.org/v1/compatibility/#Tilde-specifiers) in your compat bounds with AWS.jl if your code is sensitive to such changes.
+
 To see an overview of the architecture see the [design document](https://github.com/JuliaCloud/AWS.jl/wiki/v1-Design-Document).
 
 ## Installation
