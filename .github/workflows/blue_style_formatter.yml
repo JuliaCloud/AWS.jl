@@ -1,13 +1,16 @@
 name: Format suggestions
-
 on:
   pull_request:
-
+permissions:
+  contents: read
+  checks: write
+  issues: write
+  pull-requests: write
 jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: julia-actions/setup-julia@latest
         with:
           version: 1
