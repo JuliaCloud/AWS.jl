@@ -5503,7 +5503,8 @@ Delete a hub content reference in order to remove a model from a private hub.
 
 # Arguments
 - `hub_content_name`: The name of the hub content to delete.
-- `hub_content_type`: The type of hub content to delete.
+- `hub_content_type`: The type of hub content reference to delete. The only supported type
+  of hub content reference to delete is ModelReference.
 - `hub_name`: The name of the hub to delete the hub content reference from.
 
 """

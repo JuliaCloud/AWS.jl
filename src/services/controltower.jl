@@ -144,10 +144,10 @@ end
     disable_control(control_identifier, target_identifier)
     disable_control(control_identifier, target_identifier, params::Dict{String,<:Any})
 
-This API call turns off a control. It starts an asynchronous operation that deletes AWS
-resources on the specified organizational unit and the accounts it contains. The resources
-will vary according to the control that you specify. For usage examples, see  the Amazon
-Web Services Control Tower User Guide .
+This API call turns off a control. It starts an asynchronous operation that deletes Amazon
+Web Services resources on the specified organizational unit and the accounts it contains.
+The resources will vary according to the control that you specify. For usage examples, see
+the  Controls Reference Guide .
 
 # Arguments
 - `control_identifier`: The ARN of the control. Only Strongly recommended and Elective
@@ -265,7 +265,7 @@ end
 This API call activates a control. It starts an asynchronous operation that creates Amazon
 Web Services resources on the specified organizational unit and the accounts it contains.
 The resources created will vary according to the control that you specify. For usage
-examples, see  the Amazon Web Services Control Tower User Guide .
+examples, see the  Controls Reference Guide .
 
 # Arguments
 - `control_identifier`: The ARN of the control. Only Strongly recommended and Elective
@@ -406,7 +406,7 @@ end
 
 Returns the status of a particular EnableControl or DisableControl operation. Displays a
 message in case of error. Details for an operation are available for 90 days. For usage
-examples, see  the Amazon Web Services Control Tower User Guide .
+examples, see the  Controls Reference Guide .
 
 # Arguments
 - `operation_identifier`: The ID of the asynchronous operation, which is used to track
@@ -490,8 +490,8 @@ end
     get_enabled_control(enabled_control_identifier)
     get_enabled_control(enabled_control_identifier, params::Dict{String,<:Any})
 
-Retrieves details about an enabled control. For usage examples, see  the Amazon Web
-Services Control Tower User Guide .
+Retrieves details about an enabled control. For usage examples, see the  Controls Reference
+Guide .
 
 # Arguments
 - `enabled_control_identifier`: The controlIdentifier of the enabled control.
@@ -644,7 +644,8 @@ end
     list_control_operations()
     list_control_operations(params::Dict{String,<:Any})
 
-Provides a list of operations in progress or queued.
+Provides a list of operations in progress or queued. For usage examples, see
+ListControlOperation examples.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -713,12 +714,12 @@ end
     list_enabled_controls(params::Dict{String,<:Any})
 
 Lists the controls enabled by Amazon Web Services Control Tower on the specified
-organizational unit and the accounts it contains. For usage examples, see  the Amazon Web
-Services Control Tower User Guide .
+organizational unit and the accounts it contains. For usage examples, see the  Controls
+Reference Guide .
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`: An input filter for the ListCEnabledControls API that lets you select the
+- `"filter"`: An input filter for the ListEnabledControls API that lets you select the
   types of control operations to view.
 - `"maxResults"`: How many results to return per API call.
 - `"nextToken"`: The token to continue the list from a previous API call with the same
@@ -740,6 +741,41 @@ function list_enabled_controls(
     return controltower(
         "POST",
         "/list-enabled-controls",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_landing_zone_operations()
+    list_landing_zone_operations(params::Dict{String,<:Any})
+
+Lists all landing zone operations from the past 90 days. Results are sorted by time, with
+the most recent operation first.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: An input filter for the ListLandingZoneOperations API that lets you select
+  the types of landing zone operations to view.
+- `"maxResults"`: How many results to return per API call.
+- `"nextToken"`: The token to continue the list from a previous API call with the same
+  parameters.
+"""
+function list_landing_zone_operations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return controltower(
+        "POST",
+        "/list-landingzone-operations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_landing_zone_operations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return controltower(
+        "POST",
+        "/list-landingzone-operations",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -781,8 +817,8 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Returns a list of tags associated with the resource. For usage examples, see  the Amazon
-Web Services Control Tower User Guide .
+Returns a list of tags associated with the resource. For usage examples, see the  Controls
+Reference Guide .
 
 # Arguments
 - `resource_arn`:  The ARN of the resource.
@@ -861,7 +897,10 @@ end
     reset_landing_zone(landing_zone_identifier, params::Dict{String,<:Any})
 
 This API call resets a landing zone. It starts an asynchronous operation that resets the
-landing zone to the parameters specified in its original configuration.
+landing zone to the parameters specified in the original configuration, which you specified
+in the manifest file. Nothing in the manifest file's original landing zone configuration is
+changed during the reset process, by default. This API is not the same as a rollback of a
+landing zone version, which is not a supported operation.
 
 # Arguments
 - `landing_zone_identifier`: The unique identifier of the landing zone.
@@ -902,8 +941,7 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Applies tags to a resource. For usage examples, see  the Amazon Web Services Control Tower
-User Guide .
+Applies tags to a resource. For usage examples, see the  Controls Reference Guide .
 
 # Arguments
 - `resource_arn`: The ARN of the resource to be tagged.
@@ -938,8 +976,7 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags from a resource. For usage examples, see  the Amazon Web Services Control
-Tower User Guide .
+Removes tags from a resource. For usage examples, see the  Controls Reference Guide .
 
 # Arguments
 - `resource_arn`: The ARN of the resource.
@@ -1036,11 +1073,11 @@ end
 EnablementStatus of SUCCEEDED, supply parameters that are different from the currently
 configured parameters. Otherwise, Amazon Web Services Control Tower will not accept the
 request. If the enabled control shows an EnablementStatus of FAILED, Amazon Web Services
-Control Tower will update the control to match any valid parameters that you supply. If the
+Control Tower updates the control to match any valid parameters that you supply. If the
 DriftSummary status for the control shows as DRIFTED, you cannot call this API. Instead,
 you can update the control by calling DisableControl and again calling EnableControl, or
-you can run an extending governance operation. For usage examples, see  the Amazon Web
-Services Control Tower User Guide
+you can run an extending governance operation. For usage examples, see the  Controls
+Reference Guide .
 
 # Arguments
 - `enabled_control_identifier`:  The ARN of the enabled control that will be updated.
@@ -1095,8 +1132,10 @@ specified in the updated manifest file.
 
 # Arguments
 - `landing_zone_identifier`: The unique identifier of the landing zone.
-- `manifest`: The manifest JSON file is a text file that describes your Amazon Web Services
-  resources. For examples, review Launch your landing zone.
+- `manifest`: The manifest file (JSON) is a text file that describes your Amazon Web
+  Services resources. For an example, review Launch your landing zone. The example manifest
+  file contains each of the available parameters. The schema for the landing zone's JSON
+  manifest file is not published, by design.
 - `version`: The landing zone version, for example, 3.2.
 
 """

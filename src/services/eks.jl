@@ -394,6 +394,10 @@ Launching Amazon EKS nodes in the Amazon EKS User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accessConfig"`: The access configuration for the cluster.
+- `"bootstrapSelfManagedAddons"`: If you set this value to False when creating a cluster,
+  the default networking add-ons will not be installed. The default networking addons include
+  vpc-cni, coredns, and kube-proxy. Use this option when you plan to install third-party
+  alternative add-ons or self-manage the default networking add-ons.
 - `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
 - `"encryptionConfig"`: The encryption configuration for the cluster.
