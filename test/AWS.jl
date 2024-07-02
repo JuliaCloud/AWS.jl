@@ -820,7 +820,7 @@ end
                 queue_url,
             )
 
-            message_id = response["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
+            message_id = only(response["Successful"])["Id"]
             @test message_id == expected_message_id
 
             SQS.send_message(expected_message, queue_url)
@@ -878,7 +878,7 @@ end
                 ),
             )
 
-            message_id = response["DeleteMessageBatchResult"]["DeleteMessageBatchResultEntry"]["Id"]
+            message_id = only(response["Successful"])["Id"]
             @test message_id == expected_message_id
 
             # Send message
