@@ -869,7 +869,7 @@ end
                 "DeleteMessageBatch",
                 LittleDict(
                     "QueueUrl" => queue_url,
-                    "DeleteMessageBatchRequestEntry" => [
+                    "Entries" => [
                         LittleDict(
                             "Id" => expected_message_id,
                             "ReceiptHandle" => receipt_handle,
