@@ -792,7 +792,7 @@ end
         function _get_queue_url(queue_name)
             result = SQS.get_queue_url(queue_name)
 
-            return result["GetQueueUrlResult"]["QueueUrl"]
+            return result["QueueUrl"]
         end
 
         # Create Queue
@@ -842,7 +842,7 @@ end
         function _get_queue_url(queue_name)
             result = AWSServices.sqs("GetQueueUrl", LittleDict("QueueName" => queue_name))
 
-            return result["GetQueueUrlResult"]["QueueUrl"]
+            return result["QueueUrl"]
         end
 
         # Create Queue
