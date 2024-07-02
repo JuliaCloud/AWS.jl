@@ -43,8 +43,8 @@ const TOP_LEVEL_STUFF = quote
 
     Mocking.activate()
 
-    include("patch.jl")
-    include("resources/totp.jl")
+    Base.include(@__MODULE__, "patch.jl")
+    Base.include(@__MODULE__, "resources/totp.jl")
 
     const _NOW_FMT = DateFormat("yyyymmdd\\THHMMSSsss\\Z")
 
@@ -75,14 +75,14 @@ aws = AWSConfig()
         M = Module(Symbol(:Test, nameof(backend)))
         Core.eval(M, TOP_LEVEL_STUFF)  # ensure things are loaded/defined in this module too
         Core.eval(M, :(using ..Main: aws))
-        Core.include(M, "AWS.jl")
-        Core.include(M, "IMDS.jl")
-        Core.include(M, "AWSCredentials.jl")
-        Core.include(M, "role.jl")
-        Core.include(M, "issues.jl")
+        Base.include(M, "AWS.jl")
+        Base.include(M, "IMDS.jl")
+        Base.include(M, "AWSCredentials.jl")
+        Base.include(M, "role.jl")
+        Base.include(M, "issues.jl")
 
         if TEST_MINIO
-            Core.include(M, "minio.jl")
+            Base.include(M, "minio.jl")
         end
     end
 end
