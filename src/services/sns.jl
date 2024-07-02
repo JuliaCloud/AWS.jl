@@ -164,18 +164,23 @@ such as APNS and GCM (Firebase Cloud Messaging), to which devices and mobile app
 register. You must specify PlatformPrincipal and PlatformCredential attributes when using
 the CreatePlatformApplication action.  PlatformPrincipal and PlatformCredential are
 received from the notification service.   For ADM, PlatformPrincipal is client id and
-PlatformCredential is client secret.   For Baidu, PlatformPrincipal is API key and
-PlatformCredential is secret key.   For APNS and APNS_SANDBOX using certificate
+PlatformCredential is client secret.   For APNS and APNS_SANDBOX using certificate
 credentials, PlatformPrincipal is SSL certificate and PlatformCredential is private key.
 For APNS and APNS_SANDBOX using token credentials, PlatformPrincipal is signing key ID and
-PlatformCredential is signing key.   For GCM (Firebase Cloud Messaging), there is no
-PlatformPrincipal and the PlatformCredential is API key.   For MPNS, PlatformPrincipal is
-TLS certificate and PlatformCredential is private key.   For WNS, PlatformPrincipal is
-Package Security Identifier and PlatformCredential is secret key.   You can use the
-returned PlatformApplicationArn as an attribute for the CreatePlatformEndpoint action.
+PlatformCredential is signing key.   For Baidu, PlatformPrincipal is API key and
+PlatformCredential is secret key.   For GCM (Firebase Cloud Messaging) using key
+credentials, there is no PlatformPrincipal. The PlatformCredential is API key.   For GCM
+(Firebase Cloud Messaging) using token credentials, there is no PlatformPrincipal. The
+PlatformCredential is a JSON formatted private key file. When using the Amazon Web Services
+CLI, the file must be in string format and special characters must be ignored. To format
+the file correctly, Amazon SNS recommends using the following command: SERVICE_JSON=`jq
+@json &lt;&lt;&lt; cat service.json`.   For MPNS, PlatformPrincipal is TLS certificate and
+PlatformCredential is private key.   For WNS, PlatformPrincipal is Package Security
+Identifier and PlatformCredential is secret key.   You can use the returned
+PlatformApplicationArn as an attribute for the CreatePlatformEndpoint action.
 
 # Arguments
-- `attributes`: For a list of attributes, see SetPlatformApplicationAttributes.
+- `attributes`: For a list of attributes, see  SetPlatformApplicationAttributes .
 - `name`: Application names must be made up of only uppercase and lowercase ASCII letters,
   numbers, underscores, hyphens, and periods, and must be between 1 and 256 characters long.
 - `platform`: The following platforms are supported: ADM (Amazon Device Messaging), APNS
@@ -233,7 +238,7 @@ attributes must be provided: ChannelId and UserId. The token field must also con
 ChannelId. For more information, see Creating an Amazon SNS Endpoint for Baidu.
 
 # Arguments
-- `platform_application_arn`: PlatformApplicationArn returned from
+- `platform_application_arn`:  PlatformApplicationArn returned from
   CreatePlatformApplication is used to create a an endpoint.
 - `token`: Unique identifier created by the notification service for an app on a device.
   The specific name for Token will vary, depending on which notification service is being
@@ -243,7 +248,7 @@ ChannelId. For more information, see Creating an Amazon SNS Endpoint for Baidu.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Attributes"`: For a list of attributes, see SetEndpointAttributes.
+- `"Attributes"`: For a list of attributes, see  SetEndpointAttributes .
 - `"CustomUserData"`: Arbitrary user data to associate with the endpoint. Amazon SNS does
   not use this data. The data must be in UTF-8 format and less than 2KB.
 """
@@ -347,7 +352,7 @@ a new topic.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Attributes"`: A map of attributes with their corresponding values. The following lists
-  the names, descriptions, and values of the special request parameters that the CreateTopic
+  names, descriptions, and values of the special request parameters that the CreateTopic
   action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed
   deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with
   SMS subscriptions.    FifoTopic – Set to true to create a FIFO topic.    Policy – The
@@ -363,15 +368,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attribute applies only to server-side encryption:    KmsMasterKeyId – The ID of an Amazon
   Web Services managed customer master key (CMK) for Amazon SNS or a custom CMK. For more
   information, see Key Terms. For more examples, see KeyId in the Key Management Service API
-  Reference.    The following attributes apply only to FIFO topics:    FifoTopic – When
-  this is set to true, a FIFO topic is created.    ContentBasedDeduplication – Enables
-  content-based deduplication for FIFO topics.   By default, ContentBasedDeduplication is set
-  to false. If you create a FIFO topic and this attribute is false, you must specify a value
-  for the MessageDeduplicationId parameter for the Publish action.    When you set
-  ContentBasedDeduplication to true, Amazon SNS uses a SHA-256 hash to generate the
-  MessageDeduplicationId using the body of the message (but not the attributes of the
-  message). (Optional) To override the generated value, you can specify a value for the
-  MessageDeduplicationId parameter for the Publish action.
+  Reference.    The following attributes apply only to FIFO topics:    ArchivePolicy – Adds
+  or updates an inline policy document to archive messages stored in the specified Amazon SNS
+  topic.    BeginningArchiveTime – The earliest starting point at which a message in the
+  topic’s archive can be replayed from. This point in time is based on the configured
+  message retention period set by the topic’s message archiving policy.
+  ContentBasedDeduplication – Enables content-based deduplication for FIFO topics.   By
+  default, ContentBasedDeduplication is set to false. If you create a FIFO topic and this
+  attribute is false, you must specify a value for the MessageDeduplicationId parameter for
+  the Publish action.    When you set ContentBasedDeduplication to true, Amazon SNS uses a
+  SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not
+  the attributes of the message). (Optional) To override the generated value, you can specify
+  a value for the MessageDeduplicationId parameter for the Publish action.
 - `"DataProtectionPolicy"`: The body of the policy document you want to use for this topic.
   You can only add one policy per topic. The policy must be in JSON string format. Length
   Constraints: Maximum length of 30,720.
@@ -407,7 +415,7 @@ delete an endpoint that is also subscribed to a topic, then you must also unsubs
 endpoint from the topic.
 
 # Arguments
-- `endpoint_arn`: EndpointArn of endpoint to delete.
+- `endpoint_arn`:  EndpointArn of endpoint to delete.
 
 """
 function delete_endpoint(EndpointArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -442,7 +450,7 @@ such as APNS and GCM (Firebase Cloud Messaging). For more information, see Using
 Mobile Push Notifications.
 
 # Arguments
-- `platform_application_arn`: PlatformApplicationArn of platform application object to
+- `platform_application_arn`:  PlatformApplicationArn of platform application object to
   delete.
 
 """
@@ -599,7 +607,7 @@ services, such as GCM (Firebase Cloud Messaging) and APNS. For more information,
 Amazon SNS Mobile Push Notifications.
 
 # Arguments
-- `endpoint_arn`: EndpointArn for GetEndpointAttributes input.
+- `endpoint_arn`:  EndpointArn for GetEndpointAttributes input.
 
 """
 function get_endpoint_attributes(
@@ -636,7 +644,7 @@ notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
 information, see Using Amazon SNS Mobile Push Notifications.
 
 # Arguments
-- `platform_application_arn`: PlatformApplicationArn for
+- `platform_application_arn`:  PlatformApplicationArn for
   GetPlatformApplicationAttributesInput.
 
 """
@@ -809,12 +817,12 @@ information, see Using Amazon SNS Mobile Push Notifications.  This action is thr
 30 transactions per second (TPS).
 
 # Arguments
-- `platform_application_arn`: PlatformApplicationArn for
+- `platform_application_arn`:  PlatformApplicationArn for
   ListEndpointsByPlatformApplicationInput action.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: NextToken string is used when calling ListEndpointsByPlatformApplication
+- `"NextToken"`:  NextToken string is used when calling ListEndpointsByPlatformApplication
   action to retrieve additional records that are available after the first page results.
 """
 function list_endpoints_by_platform_application(
@@ -922,7 +930,7 @@ is throttled at 15 transactions per second (TPS).
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"NextToken"`: NextToken string is used when calling ListPlatformApplications action to
+- `"NextToken"`:  NextToken string is used when calling ListPlatformApplications action to
   retrieve additional records that are available after the first page results.
 """
 function list_platform_applications(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1201,9 +1209,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value for the TargetArn or TopicArn parameters.
 - `"Subject"`: Optional parameter to be used as the \"Subject\" line when the message is
   delivered to email endpoints. This field will also be included, if present, in the standard
-  JSON messages delivered to other endpoints. Constraints: Subjects must be ASCII text that
-  begins with a letter, number, or punctuation mark; must not include line breaks or control
-  characters; and must be less than 100 characters long.
+  JSON messages delivered to other endpoints. Constraints: Subjects must be UTF-8 text with
+  no line breaks or control characters, and less than 100 characters long.
 - `"TargetArn"`: If you don't specify a value for the TargetArn parameter, you must specify
   a value for the PhoneNumber or TopicArn parameters.
 - `"TopicArn"`: The topic you want to publish to. If you don't specify a value for the
@@ -1447,15 +1454,20 @@ delivery status, see Using Amazon SNS Application Attributes for Message Deliver
   notification service.   For ADM, PlatformCredentialis client secret.   For Apple Services
   using certificate credentials, PlatformCredential is private key.   For Apple Services
   using token credentials, PlatformCredential is signing key.   For GCM (Firebase Cloud
-  Messaging), PlatformCredential is API key.         PlatformPrincipal – The principal
-  received from the notification service.   For ADM, PlatformPrincipalis client id.   For
-  Apple Services using certificate credentials, PlatformPrincipal is SSL certificate.   For
-  Apple Services using token credentials, PlatformPrincipal is signing key ID.   For GCM
-  (Firebase Cloud Messaging), there is no PlatformPrincipal.         EventEndpointCreated –
-  Topic ARN to which EndpointCreated event notifications are sent.    EventEndpointDeleted
-  – Topic ARN to which EndpointDeleted event notifications are sent.
-  EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications are sent.
-  EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications are sent
+  Messaging) using key credentials, there is no PlatformPrincipal. The PlatformCredential is
+  API key.   For GCM (Firebase Cloud Messaging) using token credentials, there is no
+  PlatformPrincipal. The PlatformCredential is a JSON formatted private key file. When using
+  the Amazon Web Services CLI, the file must be in string format and special characters must
+  be ignored. To format the file correctly, Amazon SNS recommends using the following
+  command: SERVICE_JSON=`jq @json &lt;&lt;&lt; cat service.json`.        PlatformPrincipal
+  – The principal received from the notification service.   For ADM, PlatformPrincipalis
+  client id.   For Apple Services using certificate credentials, PlatformPrincipal is SSL
+  certificate.   For Apple Services using token credentials, PlatformPrincipal is signing key
+  ID.   For GCM (Firebase Cloud Messaging), there is no PlatformPrincipal.
+  EventEndpointCreated – Topic ARN to which EndpointCreated event notifications are sent.
+   EventEndpointDeleted – Topic ARN to which EndpointDeleted event notifications are sent.
+    EventEndpointUpdated – Topic ARN to which EndpointUpdate event notifications are sent.
+    EventDeliveryFailure – Topic ARN to which DeliveryFailure event notifications are sent
   upon Direct Publish delivery failure (permanent) to one of the application's endpoints.
   SuccessFeedbackRoleArn – IAM role ARN used to give Amazon SNS write access to use
   CloudWatch Logs on your behalf.    FailureFeedbackRoleArn – IAM role ARN used to give
@@ -1464,7 +1476,7 @@ delivery status, see Using Amazon SNS Application Attributes for Message Deliver
   attributes only apply to APNs token-based authentication:    ApplePlatformTeamID – The
   identifier that's assigned to your Apple developer account team.    ApplePlatformBundleID
   – The bundle identifier that's assigned to your iOS app.
-- `platform_application_arn`: PlatformApplicationArn for SetPlatformApplicationAttributes
+- `platform_application_arn`:  PlatformApplicationArn for SetPlatformApplicationAttributes
   action.
 
 """
@@ -1598,13 +1610,12 @@ Allows a subscription owner to set an attribute of the subscription to a new val
   dead-letter queue. Messages that can't be delivered due to client errors (for example, when
   the subscribed endpoint is unreachable) or server errors (for example, when the service
   that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue
-  for further analysis or reprocessing.   The following attribute applies only to Amazon
-  Kinesis Data Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of
-  the IAM role that has the following:   Permission to write to the Kinesis Data Firehose
-  delivery stream   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this
-  attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more
-  information, see Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS
-  Developer Guide.
+  for further analysis or reprocessing.   The following attribute applies only to Amazon Data
+  Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role
+  that has the following:   Permission to write to the Firehose delivery stream   Amazon SNS
+  listed as a trusted entity   Specifying a valid ARN for this attribute is required for
+  Firehose delivery stream subscriptions. For more information, see Fanout to Firehose
+  delivery streams in the Amazon SNS Developer Guide.
 - `subscription_arn`: The ARN of the subscription to modify.
 
 # Optional Parameters
@@ -1763,7 +1774,7 @@ Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or
 if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint
 owner must run the ConfirmSubscription action to confirm the subscription. You call the
 ConfirmSubscription action with the token from the subscription response. Confirmation
-tokens are valid for three days. This action is throttled at 100 transactions per second
+tokens are valid for two days. This action is throttled at 100 transactions per second
 (TPS).
 
 # Arguments
@@ -1794,13 +1805,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   dead-letter queue. Messages that can't be delivered due to client errors (for example, when
   the subscribed endpoint is unreachable) or server errors (for example, when the service
   that powers the subscribed endpoint becomes unavailable) are held in the dead-letter queue
-  for further analysis or reprocessing.   The following attribute applies only to Amazon
-  Kinesis Data Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of
-  the IAM role that has the following:   Permission to write to the Kinesis Data Firehose
-  delivery stream   Amazon SNS listed as a trusted entity   Specifying a valid ARN for this
-  attribute is required for Kinesis Data Firehose delivery stream subscriptions. For more
-  information, see Fanout to Kinesis Data Firehose delivery streams in the Amazon SNS
-  Developer Guide.
+  for further analysis or reprocessing.   The following attribute applies only to Amazon Data
+  Firehose delivery stream subscriptions:    SubscriptionRoleArn – The ARN of the IAM role
+  that has the following:   Permission to write to the Firehose delivery stream   Amazon SNS
+  listed as a trusted entity   Specifying a valid ARN for this attribute is required for
+  Firehose delivery stream subscriptions. For more information, see Fanout to Firehose
+  delivery streams in the Amazon SNS Developer Guide.   The following attributes apply only
+  to FIFO topics:    ReplayPolicy – Adds or updates an inline policy document for a
+  subscription to replay messages stored in the specified Amazon SNS topic.    ReplayStatus
+  – Retrieves the status of the subscription message replay, which can be one of the
+  following:    Completed – The replay has successfully redelivered all messages, and is
+  now delivering newly published messages. If an ending point was specified in the
+  ReplayPolicy then the subscription will no longer receive newly published messages.    In
+  progress – The replay is currently replaying the selected messages.    Failed – The
+  replay was unable to complete.    Pending – The default state while the replay initiates.
+  
 - `"Endpoint"`: The endpoint that you want to receive notifications. Endpoints vary by
   protocol:   For the http protocol, the (public) endpoint is a URL beginning with http://.
   For the https protocol, the (public) endpoint is a URL beginning with https://.   For the

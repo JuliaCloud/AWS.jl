@@ -1563,11 +1563,11 @@ for a rule.   Firehose delivery stream (Kinesis Data Firehose)   Inspector asses
 template (Amazon Inspector)   Kinesis stream (Kinesis Data Stream)   Lambda function
 Redshift clusters (Data API statement execution)   Amazon SNS topic   Amazon SQS queues
 (includes FIFO queues   SSM Automation   SSM OpsItem   SSM Run Command   Step Functions
-state machines   Creating rules with built-in targets is supported only in the Management
-Console. The built-in targets are EC2 CreateSnapshot API call, EC2 RebootInstances API
-call, EC2 StopInstances API call, and EC2 TerminateInstances API call.  For some target
-types, PutTargets provides target-specific parameters. If the target is a Kinesis data
-stream, you can optionally specify which shard the event goes to by using the
+state machines   Creating rules with built-in targets is supported only in the Amazon Web
+Services Management Console. The built-in targets are EC2 CreateSnapshot API call, EC2
+RebootInstances API call, EC2 StopInstances API call, and EC2 TerminateInstances API call.
+For some target types, PutTargets provides target-specific parameters. If the target is a
+Kinesis data stream, you can optionally specify which shard the event goes to by using the
 KinesisParameters argument. To invoke a command on multiple EC2 instances with one rule,
 you can use the RunCommandParameters field. To be able to make API calls against the
 resources that you own, Amazon EventBridge needs the appropriate permissions. For Lambda

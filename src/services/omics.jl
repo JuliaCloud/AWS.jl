@@ -8,12 +8,11 @@ using AWS.UUIDs
     abort_multipart_read_set_upload(sequence_store_id, upload_id)
     abort_multipart_read_set_upload(sequence_store_id, upload_id, params::Dict{String,<:Any})
 
- Stops a multipart upload.
+Stops a multipart upload.
 
 # Arguments
-- `sequence_store_id`:  The sequence store ID for the store involved in the multipart
-  upload.
-- `upload_id`:  The ID for the multipart upload.
+- `sequence_store_id`: The sequence store ID for the store involved in the multipart upload.
+- `upload_id`: The ID for the multipart upload.
 
 """
 function abort_multipart_read_set_upload(
@@ -35,6 +34,33 @@ function abort_multipart_read_set_upload(
     return omics(
         "DELETE",
         "/sequencestore/$(sequenceStoreId)/upload/$(uploadId)/abort",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    accept_share(share_id)
+    accept_share(share_id, params::Dict{String,<:Any})
+
+Accept a resource share request.
+
+# Arguments
+- `share_id`: The ID of the resource share.
+
+"""
+function accept_share(shareId; aws_config::AbstractAWSConfig=global_aws_config())
+    return omics(
+        "POST", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function accept_share(
+    shareId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "POST",
+        "/share/$(shareId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -171,13 +197,12 @@ end
     complete_multipart_read_set_upload(parts, sequence_store_id, upload_id)
     complete_multipart_read_set_upload(parts, sequence_store_id, upload_id, params::Dict{String,<:Any})
 
- Concludes a multipart upload once you have uploaded all the components.
+Concludes a multipart upload once you have uploaded all the components.
 
 # Arguments
-- `parts`:  The individual uploads or parts of a multipart upload.
-- `sequence_store_id`:  The sequence store ID for the store involved in the multipart
-  upload.
-- `upload_id`:  The ID for the multipart upload.
+- `parts`: The individual uploads or parts of a multipart upload.
+- `sequence_store_id`: The sequence store ID for the store involved in the multipart upload.
+- `upload_id`: The ID for the multipart upload.
 
 """
 function complete_multipart_read_set_upload(
@@ -224,6 +249,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
 - `"storeOptions"`: File parsing options for the annotation store.
 - `"tags"`: Tags for the store.
+- `"versionName"`:  The name given to an annotation store version to distinguish it from
+  other versions.
 """
 function create_annotation_store(
     storeFormat; aws_config::AbstractAWSConfig=global_aws_config()
@@ -253,31 +280,75 @@ function create_annotation_store(
 end
 
 """
-    create_multipart_read_set_upload(name, reference_arn, sample_id, sequence_store_id, source_file_type, subject_id)
-    create_multipart_read_set_upload(name, reference_arn, sample_id, sequence_store_id, source_file_type, subject_id, params::Dict{String,<:Any})
+    create_annotation_store_version(name, version_name)
+    create_annotation_store_version(name, version_name, params::Dict{String,<:Any})
 
- Begins a multipart read set upload.
+ Creates a new version of an annotation store.
 
 # Arguments
-- `name`:  The name of the read set.
-- `reference_arn`:  The ARN of the reference.
-- `sample_id`:  The source's sample ID.
-- `sequence_store_id`:  The sequence store ID for the store that is the destination of the
-  multipart uploads.
-- `source_file_type`:  The type of file being uploaded.
-- `subject_id`:  The source's subject ID.
+- `name`:  The name of an annotation store version from which versions are being created.
+- `version_name`:  The name given to an annotation store version to distinguish it from
+  other versions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`:  An idempotency token that can be used to avoid triggering multiple
+- `"description"`:  The description of an annotation store version.
+- `"tags"`:  Any tags added to annotation store version.
+- `"versionOptions"`:  The options for an annotation store version.
+"""
+function create_annotation_store_version(
+    name, versionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "POST",
+        "/annotationStore/$(name)/version",
+        Dict{String,Any}("versionName" => versionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_annotation_store_version(
+    name,
+    versionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "POST",
+        "/annotationStore/$(name)/version",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("versionName" => versionName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_multipart_read_set_upload(name, sample_id, sequence_store_id, source_file_type, subject_id)
+    create_multipart_read_set_upload(name, sample_id, sequence_store_id, source_file_type, subject_id, params::Dict{String,<:Any})
+
+Begins a multipart read set upload.
+
+# Arguments
+- `name`: The name of the read set.
+- `sample_id`: The source's sample ID.
+- `sequence_store_id`: The sequence store ID for the store that is the destination of the
   multipart uploads.
-- `"description"`:  The description of the read set.
-- `"generatedFrom"`:  Where the source originated.
-- `"tags"`:  Any tags to add to the read set.
+- `source_file_type`: The type of file being uploaded.
+- `subject_id`: The source's subject ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientToken"`: An idempotency token that can be used to avoid triggering multiple
+  multipart uploads.
+- `"description"`: The description of the read set.
+- `"generatedFrom"`: Where the source originated.
+- `"referenceArn"`: The ARN of the reference.
+- `"tags"`: Any tags to add to the read set.
 """
 function create_multipart_read_set_upload(
     name,
-    referenceArn,
     sampleId,
     sequenceStoreId,
     sourceFileType,
@@ -289,7 +360,6 @@ function create_multipart_read_set_upload(
         "/sequencestore/$(sequenceStoreId)/upload",
         Dict{String,Any}(
             "name" => name,
-            "referenceArn" => referenceArn,
             "sampleId" => sampleId,
             "sourceFileType" => sourceFileType,
             "subjectId" => subjectId,
@@ -300,7 +370,6 @@ function create_multipart_read_set_upload(
 end
 function create_multipart_read_set_upload(
     name,
-    referenceArn,
     sampleId,
     sequenceStoreId,
     sourceFileType,
@@ -316,7 +385,6 @@ function create_multipart_read_set_upload(
                 _merge,
                 Dict{String,Any}(
                     "name" => name,
-                    "referenceArn" => referenceArn,
                     "sampleId" => sampleId,
                     "sourceFileType" => sourceFileType,
                     "subjectId" => subjectId,
@@ -381,7 +449,7 @@ Creates a run group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxCpus"`: The maximum number of CPUs to use in the group.
 - `"maxDuration"`: A maximum run time for the group in minutes.
-- `"maxGpus"`:  The maximum GPUs that can be used by a run group.
+- `"maxGpus"`: The maximum GPUs that can be used by a run group.
 - `"maxRuns"`: The maximum number of concurrent runs for the group.
 - `"name"`: A name for the group.
 - `"tags"`: Tags for the group.
@@ -425,7 +493,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: To ensure that requests don't run multiple times, specify a unique token
   for each request.
 - `"description"`: A description for the store.
-- `"fallbackLocation"`:  An S3 location that is used to store files that have failed a
+- `"eTagAlgorithmFamily"`: The ETag algorithm family to use for ingested read sets.
+- `"fallbackLocation"`: An S3 location that is used to store files that have failed a
   direct upload.
 - `"sseConfig"`: Server-side encryption (SSE) settings for the store.
 - `"tags"`: Tags for the store.
@@ -446,6 +515,61 @@ function create_sequence_store(
         "POST",
         "/sequencestore",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_share(principal_subscriber, resource_arn)
+    create_share(principal_subscriber, resource_arn, params::Dict{String,<:Any})
+
+Creates a cross-account shared resource. The resource owner makes an offer to share the
+resource with the principal subscriber (an AWS user with a different account than the
+resource owner). The following resources support cross-account sharing:   Healthomics
+variant stores   Healthomics annotation stores   Private workflows
+
+# Arguments
+- `principal_subscriber`: The principal subscriber is the account being offered shared
+  access to the resource.
+- `resource_arn`: The ARN of the resource to be shared.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"shareName"`: A name that the owner defines for the share.
+"""
+function create_share(
+    principalSubscriber, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "POST",
+        "/share",
+        Dict{String,Any}(
+            "principalSubscriber" => principalSubscriber, "resourceArn" => resourceArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_share(
+    principalSubscriber,
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "POST",
+        "/share",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "principalSubscriber" => principalSubscriber,
+                    "resourceArn" => resourceArn,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -504,7 +628,7 @@ Creates a workflow.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"accelerators"`:  The computational accelerator specified to run the workflow.
+- `"accelerators"`: The computational accelerator specified to run the workflow.
 - `"definitionUri"`: The URI of a definition for the workflow.
 - `"definitionZip"`: A ZIP archive for the workflow.
 - `"description"`: A description for the workflow.
@@ -512,7 +636,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"main"`: The path of the main definition file for the workflow.
 - `"name"`: A name for the workflow.
 - `"parameterTemplate"`: A parameter template for the workflow.
-- `"storageCapacity"`: A storage capacity for the workflow in gigabytes.
+- `"storageCapacity"`: The storage capacity for the workflow in gibibytes.
 - `"tags"`: Tags for the workflow.
 """
 function create_workflow(requestId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -568,6 +692,49 @@ function delete_annotation_store(
         "DELETE",
         "/annotationStore/$(name)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_annotation_store_versions(name, versions)
+    delete_annotation_store_versions(name, versions, params::Dict{String,<:Any})
+
+ Deletes one or multiple versions of an annotation store.
+
+# Arguments
+- `name`:  The name of the annotation store from which versions are being deleted.
+- `versions`:  The versions of an annotation store to be deleted.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"force"`:  Forces the deletion of an annotation store version when imports are
+  in-progress..
+"""
+function delete_annotation_store_versions(
+    name, versions; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "POST",
+        "/annotationStore/$(name)/versions/delete",
+        Dict{String,Any}("versions" => versions);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_annotation_store_versions(
+    name,
+    versions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "POST",
+        "/annotationStore/$(name)/versions/delete",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("versions" => versions), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -724,6 +891,38 @@ function delete_sequence_store(
 end
 
 """
+    delete_share(share_id)
+    delete_share(share_id, params::Dict{String,<:Any})
+
+Deletes a resource share. If you are the resource owner, the subscriber will no longer have
+access to the shared resource. If you are the subscriber, this operation deletes your
+access to the share.
+
+# Arguments
+- `share_id`: The ID for the resource share to be deleted.
+
+"""
+function delete_share(shareId; aws_config::AbstractAWSConfig=global_aws_config())
+    return omics(
+        "DELETE",
+        "/share/$(shareId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_share(
+    shareId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "DELETE",
+        "/share/$(shareId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_variant_store(name)
     delete_variant_store(name, params::Dict{String,<:Any})
 
@@ -837,6 +1036,43 @@ function get_annotation_store(
     return omics(
         "GET",
         "/annotationStore/$(name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_annotation_store_version(name, version_name)
+    get_annotation_store_version(name, version_name, params::Dict{String,<:Any})
+
+ Retrieves the metadata for an annotation store version.
+
+# Arguments
+- `name`:  The name given to an annotation store version to distinguish it from others.
+- `version_name`:  The name given to an annotation store version to distinguish it from
+  others.
+
+"""
+function get_annotation_store_version(
+    name, versionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "GET",
+        "/annotationStore/$(name)/version/$(versionName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_annotation_store_version(
+    name,
+    versionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "GET",
+        "/annotationStore/$(name)/version/$(versionName)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1182,7 +1418,8 @@ end
     get_run(id)
     get_run(id, params::Dict{String,<:Any})
 
-Gets information about a workflow run.
+Gets information about a workflow run. If a workflow is shared with you, you cannot export
+information about the run.
 
 # Arguments
 - `id`: The run's ID.
@@ -1238,7 +1475,7 @@ end
 Gets information about a workflow run task.
 
 # Arguments
-- `id`: The task's ID.
+- `id`: The workflow run ID.
 - `task_id`: The task's ID.
 
 """
@@ -1289,6 +1526,33 @@ function get_sequence_store(
     return omics(
         "GET",
         "/sequencestore/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_share(share_id)
+    get_share(share_id, params::Dict{String,<:Any})
+
+Retrieves the metadata for the specified resource share.
+
+# Arguments
+- `share_id`: The ID of the share.
+
+"""
+function get_share(shareId; aws_config::AbstractAWSConfig=global_aws_config())
+    return omics(
+        "GET", "/share/$(shareId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_share(
+    shareId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "GET",
+        "/share/$(shareId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1359,7 +1623,8 @@ end
     get_workflow(id)
     get_workflow(id, params::Dict{String,<:Any})
 
-Gets information about a workflow.
+Gets information about a workflow. If a workflow is shared with you, you cannot export the
+workflow.
 
 # Arguments
 - `id`: The workflow's ID.
@@ -1368,6 +1633,7 @@ Gets information about a workflow.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"export"`: The export format for the workflow.
 - `"type"`: The workflow's type.
+- `"workflowOwnerId"`: The ID of the workflow owner.
 """
 function get_workflow(id; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
@@ -1397,8 +1663,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filter"`: A filter to apply to the list.
 - `"ids"`: IDs of annotation import jobs to retrieve.
 - `"maxResults"`: The maximum number of jobs to return in one page of results.
-- `"nextToken"`: Specify the pagination token from a previous request to retrieve the next
-  page of results.
+- `"nextToken"`: Specifies the pagination token from a previous request to retrieve the
+  next page of results.
 """
 function list_annotation_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
@@ -1414,6 +1680,45 @@ function list_annotation_import_jobs(
     return omics(
         "POST",
         "/import/annotations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_annotation_store_versions(name)
+    list_annotation_store_versions(name, params::Dict{String,<:Any})
+
+ Lists the versions of an annotation store.
+
+# Arguments
+- `name`:  The name of an annotation store.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`:  A filter to apply to the list of annotation store versions.
+- `"maxResults"`:  The maximum number of annotation store versions to return in one page of
+  results.
+- `"nextToken"`:  Specifies the pagination token from a previous request to retrieve the
+  next page of results.
+"""
+function list_annotation_store_versions(
+    name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "POST",
+        "/annotationStore/$(name)/versions";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_annotation_store_versions(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "POST",
+        "/annotationStore/$(name)/versions",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1455,15 +1760,16 @@ end
     list_multipart_read_set_uploads(sequence_store_id)
     list_multipart_read_set_uploads(sequence_store_id, params::Dict{String,<:Any})
 
- Lists all multipart read set uploads and their statuses.
+Lists multipart read set uploads and for in progress uploads. Once the upload is completed,
+a read set is created and the upload will no longer be returned in the response.
 
 # Arguments
-- `sequence_store_id`:  The Sequence Store ID used for the multipart uploads.
+- `sequence_store_id`: The Sequence Store ID used for the multipart uploads.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`:  The maximum number of multipart uploads returned in a page.
-- `"nextToken"`:  Next token returned in the response of a previous
+- `"maxResults"`: The maximum number of multipart uploads returned in a page.
+- `"nextToken"`: Next token returned in the response of a previous
   ListMultipartReadSetUploads call. Used to get the next page of results.
 """
 function list_multipart_read_set_uploads(
@@ -1615,18 +1921,18 @@ end
     list_read_set_upload_parts(part_source, sequence_store_id, upload_id)
     list_read_set_upload_parts(part_source, sequence_store_id, upload_id, params::Dict{String,<:Any})
 
- This operation will list all parts in a requested multipart upload for a sequence store.
+This operation will list all parts in a requested multipart upload for a sequence store.
 
 # Arguments
-- `part_source`:  The source file for the upload part.
-- `sequence_store_id`:  The Sequence Store ID used for the multipart uploads.
-- `upload_id`:  The ID for the initiated multipart upload.
+- `part_source`: The source file for the upload part.
+- `sequence_store_id`: The Sequence Store ID used for the multipart uploads.
+- `upload_id`: The ID for the initiated multipart upload.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"filter"`:  Attributes used to filter for a specific subset of read set part uploads.
-- `"maxResults"`:  The maximum number of read set upload parts returned in a page.
-- `"nextToken"`:  Next token returned in the response of a previous
+- `"filter"`: Attributes used to filter for a specific subset of read set part uploads.
+- `"maxResults"`: The maximum number of read set upload parts returned in a page.
+- `"nextToken"`: Next token returned in the response of a previous
   ListReadSetUploadPartsRequest call. Used to get the next page of results.
 """
 function list_read_set_upload_parts(
@@ -1876,7 +2182,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"runGroupId"`: Filter the list by run group ID.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
   next page of results.
-- `"status"`:  The status of a run.
+- `"status"`: The status of a run.
 """
 function list_runs(; aws_config::AbstractAWSConfig=global_aws_config())
     return omics("GET", "/run"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -1914,6 +2220,48 @@ function list_sequence_stores(
         "POST",
         "/sequencestores",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_shares(resource_owner)
+    list_shares(resource_owner, params::Dict{String,<:Any})
+
+Retrieves the resource shares associated with an account. Use the filter parameter to
+retrieve a specific subset of the shares.
+
+# Arguments
+- `resource_owner`: The account that owns the resource shares.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: Attributes that you use to filter for a specific subset of resource shares.
+- `"maxResults"`: The maximum number of shares to return in one page of results.
+- `"nextToken"`: Next token returned in the response of a previous
+  ListReadSetUploadPartsRequest call. Used to get the next page of results.
+"""
+function list_shares(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config())
+    return omics(
+        "POST",
+        "/shares",
+        Dict{String,Any}("resourceOwner" => resourceOwner);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_shares(
+    resourceOwner,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "POST",
+        "/shares",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceOwner" => resourceOwner), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2024,10 +2372,10 @@ Retrieves a list of workflows.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of workflows to return in one page of results.
-- `"name"`: The workflows' name.
+- `"name"`: Filter the list by workflow name.
 - `"startingToken"`: Specify the pagination token from a previous request to retrieve the
   next page of results.
-- `"type"`: The workflows' type.
+- `"type"`: Filter the list by workflow type.
 """
 function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
     return omics("GET", "/workflow"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
@@ -2053,9 +2401,10 @@ Starts an annotation import job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"annotationFields"`:  The annotation schema generated by the parsed annotation data.
+- `"annotationFields"`: The annotation schema generated by the parsed annotation data.
 - `"formatOptions"`: Formatting options for the annotation file.
 - `"runLeftNormalization"`: The job's left normalization setting.
+- `"versionName"`:  The name of the annotation store version.
 """
 function start_annotation_import_job(
     destinationName, items, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2295,7 +2644,16 @@ end
     start_run(request_id, role_arn)
     start_run(request_id, role_arn, params::Dict{String,<:Any})
 
-Starts a run.
+Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The
+remaining parameters are copied from the previous run. StartRun will not support re-run for
+a workflow that is shared with you. The total number of runs in your account is subject to
+a quota per Region. To avoid needing to delete runs manually, you can set the retention
+mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is
+exceeded. By default, the run uses STATIC storage. For STATIC storage, set the
+storageCapacity field. You can set the storage type to DYNAMIC. You do not set
+storageCapacity, because HealthOmics dynamically scales the storage up or down as required.
+For more information about static and dynamic storage, see Running workflows in the AWS
+HealthOmics User Guide.
 
 # Arguments
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
@@ -2309,12 +2667,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"outputUri"`: An output URI for the run.
 - `"parameters"`: Parameters for the run.
 - `"priority"`: A priority for the run.
+- `"retentionMode"`: The retention mode for the run.
 - `"runGroupId"`: The run's group ID.
-- `"runId"`: The run's ID.
-- `"storageCapacity"`: A storage capacity for the run in gigabytes.
+- `"runId"`: The ID of a run to duplicate.
+- `"storageCapacity"`: A storage capacity for the run in gibibytes. This field is not
+  required if the storage type is dynamic (the system ignores any value that you enter).
+- `"storageType"`: The run's storage type. By default, the run uses STATIC storage type,
+  which allocates a fixed amount of storage. If you set the storage type to DYNAMIC,
+  HealthOmics dynamically scales the storage up or down, based on file system utilization.
 - `"tags"`: Tags for the run.
 - `"workflowId"`: The run's workflow ID.
-- `"workflowType"`: The run's workflows type.
+- `"workflowOwnerId"`: The ID of the workflow owner.
+- `"workflowType"`: The run's workflow type.
 """
 function start_run(requestId, roleArn; aws_config::AbstractAWSConfig=global_aws_config())
     return omics(
@@ -2359,7 +2723,7 @@ Starts a variant import job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"annotationFields"`:  The annotation schema generated by the parsed annotation data.
+- `"annotationFields"`: The annotation schema generated by the parsed annotation data.
 - `"runLeftNormalization"`: The job's left normalization setting.
 """
 function start_variant_import_job(
@@ -2507,6 +2871,45 @@ function update_annotation_store(
 end
 
 """
+    update_annotation_store_version(name, version_name)
+    update_annotation_store_version(name, version_name, params::Dict{String,<:Any})
+
+ Updates the description of an annotation store version.
+
+# Arguments
+- `name`:  The name of an annotation store.
+- `version_name`:  The name of an annotation store version.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`:  The description of an annotation store.
+"""
+function update_annotation_store_version(
+    name, versionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return omics(
+        "POST",
+        "/annotationStore/$(name)/version/$(versionName)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_annotation_store_version(
+    name,
+    versionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return omics(
+        "POST",
+        "/annotationStore/$(name)/version/$(versionName)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_run_group(id)
     update_run_group(id, params::Dict{String,<:Any})
 
@@ -2519,7 +2922,7 @@ Updates a run group.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxCpus"`: The maximum number of CPUs to use.
 - `"maxDuration"`: A maximum run time for the group in minutes.
-- `"maxGpus"`:  The maximum GPUs that can be used by a run group.
+- `"maxGpus"`: The maximum GPUs that can be used by a run group.
 - `"maxRuns"`: The maximum number of concurrent runs for the group.
 - `"name"`: A name for the group.
 """
@@ -2608,15 +3011,15 @@ end
     upload_read_set_part(part_number, part_source, payload, sequence_store_id, upload_id)
     upload_read_set_part(part_number, part_source, payload, sequence_store_id, upload_id, params::Dict{String,<:Any})
 
- This operation uploads a specific part of a read set. If you upload a new part using a
+This operation uploads a specific part of a read set. If you upload a new part using a
 previously used part number, the previously uploaded part will be overwritten.
 
 # Arguments
-- `part_number`:  The number of the part being uploaded.
-- `part_source`:  The source file for an upload part.
-- `payload`:  The read set data to upload for a part.
-- `sequence_store_id`:  The Sequence Store ID used for the multipart upload.
-- `upload_id`:  The ID for the initiated multipart upload.
+- `part_number`: The number of the part being uploaded.
+- `part_source`: The source file for an upload part.
+- `payload`: The read set data to upload for a part.
+- `sequence_store_id`: The Sequence Store ID used for the multipart upload.
+- `upload_id`: The ID for the initiated multipart upload.
 
 """
 function upload_read_set_part(

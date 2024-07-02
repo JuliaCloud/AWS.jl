@@ -5,6 +5,46 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_describe_entities(entity_request_list)
+    batch_describe_entities(entity_request_list, params::Dict{String,<:Any})
+
+Returns metadata and content for multiple entities. This is the Batch version of the
+DescribeEntity API and uses the same IAM permission action as DescribeEntity API.
+
+# Arguments
+- `entity_request_list`: List of entity IDs and the catalogs the entities are present in.
+
+"""
+function batch_describe_entities(
+    EntityRequestList; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return marketplace_catalog(
+        "POST",
+        "/BatchDescribeEntities",
+        Dict{String,Any}("EntityRequestList" => EntityRequestList);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_describe_entities(
+    EntityRequestList,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return marketplace_catalog(
+        "POST",
+        "/BatchDescribeEntities",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("EntityRequestList" => EntityRequestList), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_change_set(catalog, change_set_id)
     cancel_change_set(catalog, change_set_id, params::Dict{String,<:Any})
 
@@ -54,10 +94,10 @@ end
     delete_resource_policy(resource_arn)
     delete_resource_policy(resource_arn, params::Dict{String,<:Any})
 
-Deletes a resource-based policy on an Entity that is identified by its resource ARN.
+Deletes a resource-based policy on an entity that is identified by its resource ARN.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the Entity resource that is associated
+- `resource_arn`: The Amazon Resource Name (ARN) of the entity resource that is associated
   with the resource policy.
 
 """
@@ -179,10 +219,10 @@ end
     get_resource_policy(resource_arn)
     get_resource_policy(resource_arn, params::Dict{String,<:Any})
 
-Gets a resource-based policy of an Entity that is identified by its resource ARN.
+Gets a resource-based policy of an entity that is identified by its resource ARN.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the Entity resource that is associated
+- `resource_arn`: The Amazon Resource Name (ARN) of the entity resource that is associated
   with the resource policy.
 
 """
@@ -263,17 +303,28 @@ Provides the list of entities of a given type.
 
 # Arguments
 - `catalog`: The catalog related to the request. Fixed value: AWSMarketplace
-- `entity_type`: The type of entities to retrieve.
+- `entity_type`: The type of entities to retrieve. Valid values are: AmiProduct,
+  ContainerProduct, DataProduct, SaaSProduct, ProcurementPolicy, Experience, Audience,
+  BrandingSettings, Offer, Seller, ResaleAuthorization.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EntityTypeFilters"`: A Union object containing filter shapes for all EntityTypes. Each
+  EntityTypeFilter shape will have filters applicable for that EntityType that can be used to
+  search or filter entities.
+- `"EntityTypeSort"`: A Union object containing Sort shapes for all EntityTypes. Each
+  EntityTypeSort shape will have SortBy and SortOrder applicable for fields on that
+  EntityType. This can be used to sort the results of the filter query.
 - `"FilterList"`: An array of filter objects. Each filter object contains two attributes,
   filterName and filterValues.
 - `"MaxResults"`: Specifies the upper limit of the elements on a single page. If a value
   isn't provided, the default value is 20.
 - `"NextToken"`: The value of the next token, if it exists. Null if there are no more
   results.
-- `"OwnershipType"`:
+- `"OwnershipType"`: Filters the returned set of entities based on their owner. The default
+  is SELF. To list entities shared with you through AWS Resource Access Manager (AWS RAM),
+  set to SHARED. Entities shared through the AWS Marketplace Catalog API PutResourcePolicy
+  operation can't be discovered through the SHARED parameter.
 - `"Sort"`: An object that contains two attributes, SortBy and SortOrder.
 """
 function list_entities(
@@ -350,12 +401,12 @@ end
     put_resource_policy(policy, resource_arn)
     put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
 
-Attaches a resource-based policy to an Entity. Examples of an entity include: AmiProduct
+Attaches a resource-based policy to an entity. Examples of an entity include: AmiProduct
 and ContainerProduct.
 
 # Arguments
 - `policy`: The policy document to set; formatted in JSON.
-- `resource_arn`: The Amazon Resource Name (ARN) of the Entity resource you want to
+- `resource_arn`: The Amazon Resource Name (ARN) of the entity resource you want to
   associate with a resource policy.
 
 """
@@ -403,8 +454,8 @@ set containing a change against an entity that is already locked, you will recei
 ResourceInUseException error. For example, you can't start the ChangeSet described in the
 example later in this topic because it contains two changes to run the same change type
 (AddRevisions) against the same entity (entity-id@1). For more information about working
-with change sets, see  Working with change sets. For information on change types for
-single-AMI products, see Working with single-AMI products. Als, for more information on
+with change sets, see  Working with change sets. For information about change types for
+single-AMI products, see Working with single-AMI products. Also, for more information about
 change types available for container-based products, see Working with container products.
 
 # Arguments
@@ -418,6 +469,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ChangeSetTags"`: A list of objects specifying each key name and value for the
   ChangeSetTags property.
 - `"ClientRequestToken"`: A unique token to identify the request to ensure idempotency.
+- `"Intent"`: The intent related to the request. The default is APPLY. To test your request
+  before applying changes to your entities, use VALIDATE. This feature is currently available
+  for adding versions to single-AMI products. For more information, see Add a new version.
 """
 function start_change_set(
     Catalog, ChangeSet; aws_config::AbstractAWSConfig=global_aws_config()

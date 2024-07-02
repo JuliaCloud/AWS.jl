@@ -108,7 +108,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"copyTags"`: Copy tags.
 - `"exportBucketArn"`: S3 bucket ARN to export Source Network templates.
 - `"launchDisposition"`: Launch disposition.
+- `"launchIntoSourceInstance"`: DRS will set the 'launch into instance ID' of any source
+  server when performing a drill, recovery or failback to the previous region or availability
+  zone, using the instance ID of the source instance.
 - `"licensing"`: Licensing.
+- `"postLaunchEnabled"`: Whether we want to activate post-launch actions.
 - `"tags"`: Request to associate tags during creation of a Launch Configuration Template.
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
@@ -332,6 +336,49 @@ function delete_job(
         "POST",
         "/DeleteJob",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("jobID" => jobID), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_launch_action(action_id, resource_id)
+    delete_launch_action(action_id, resource_id, params::Dict{String,<:Any})
+
+Deletes a resource launch action.
+
+# Arguments
+- `action_id`:
+- `resource_id`:
+
+"""
+function delete_launch_action(
+    actionId, resourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return drs(
+        "POST",
+        "/DeleteLaunchAction",
+        Dict{String,Any}("actionId" => actionId, "resourceId" => resourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_launch_action(
+    actionId,
+    resourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/DeleteLaunchAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("actionId" => actionId, "resourceId" => resourceId),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1142,6 +1189,46 @@ function list_extensible_source_servers(
 end
 
 """
+    list_launch_actions(resource_id)
+    list_launch_actions(resource_id, params::Dict{String,<:Any})
+
+Lists resource launch actions.
+
+# Arguments
+- `resource_id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: Filters to apply when listing resource launch actions.
+- `"maxResults"`: Maximum amount of items to return when listing resource launch actions.
+- `"nextToken"`: Next token to use when listing resource launch actions.
+"""
+function list_launch_actions(resourceId; aws_config::AbstractAWSConfig=global_aws_config())
+    return drs(
+        "POST",
+        "/ListLaunchActions",
+        Dict{String,Any}("resourceId" => resourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_launch_actions(
+    resourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/ListLaunchActions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceId" => resourceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_staging_accounts()
     list_staging_accounts(params::Dict{String,<:Any})
 
@@ -1201,6 +1288,100 @@ function list_tags_for_resource(
         "GET",
         "/tags/$(resourceArn)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_launch_action(action_code, action_id, action_version, active, category, description, name, optional, order, resource_id)
+    put_launch_action(action_code, action_id, action_version, active, category, description, name, optional, order, resource_id, params::Dict{String,<:Any})
+
+Puts a resource launch action.
+
+# Arguments
+- `action_code`: Launch action code.
+- `action_id`:
+- `action_version`:
+- `active`: Whether the launch action is active.
+- `category`:
+- `description`:
+- `name`:
+- `optional`: Whether the launch will not be marked as failed if this action fails.
+- `order`:
+- `resource_id`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"parameters"`:
+"""
+function put_launch_action(
+    actionCode,
+    actionId,
+    actionVersion,
+    active,
+    category,
+    description,
+    name,
+    optional,
+    order,
+    resourceId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/PutLaunchAction",
+        Dict{String,Any}(
+            "actionCode" => actionCode,
+            "actionId" => actionId,
+            "actionVersion" => actionVersion,
+            "active" => active,
+            "category" => category,
+            "description" => description,
+            "name" => name,
+            "optional" => optional,
+            "order" => order,
+            "resourceId" => resourceId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_launch_action(
+    actionCode,
+    actionId,
+    actionVersion,
+    active,
+    category,
+    description,
+    name,
+    optional,
+    order,
+    resourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return drs(
+        "POST",
+        "/PutLaunchAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "actionCode" => actionCode,
+                    "actionId" => actionId,
+                    "actionVersion" => actionVersion,
+                    "active" => active,
+                    "category" => category,
+                    "description" => description,
+                    "name" => name,
+                    "optional" => optional,
+                    "order" => order,
+                    "resourceId" => resourceId,
+                ),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1796,8 +1977,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Recovery Instance.
 - `"launchDisposition"`: The state of the Recovery Instance in EC2 after the recovery
   operation.
+- `"launchIntoInstanceProperties"`: Launch into existing instance properties.
 - `"licensing"`: The licensing configuration to be used for this launch configuration.
 - `"name"`: The name of the launch configuration.
+- `"postLaunchEnabled"`: Whether we want to enable post-launch actions for the Source
+  Server.
 - `"targetInstanceTypeRightSizingMethod"`: Whether Elastic Disaster Recovery should try to
   automatically choose the instance type that best matches the OS, CPU, and RAM of your
   Source Server.
@@ -1844,7 +2028,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"copyTags"`: Copy tags.
 - `"exportBucketArn"`: S3 bucket ARN to export Source Network templates.
 - `"launchDisposition"`: Launch disposition.
+- `"launchIntoSourceInstance"`: DRS will set the 'launch into instance ID' of any source
+  server when performing a drill, recovery or failback to the previous region or availability
+  zone, using the instance ID of the source instance.
 - `"licensing"`: Licensing.
+- `"postLaunchEnabled"`: Whether we want to activate post-launch actions.
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
 function update_launch_configuration_template(

@@ -72,10 +72,13 @@ Add endpoints to an endpoint group. The AddEndpoints API operation is the recomm
 option for adding endpoints. The alternative options are to add endpoints when you create
 an endpoint group (with the CreateEndpointGroup API) or when you update an endpoint group
 (with the UpdateEndpointGroup API).  There are two advantages to using AddEndpoints to add
-endpoints:   It's faster, because Global Accelerator only has to resolve the new endpoints
-that you're adding.   It's more convenient, because you don't need to specify all of the
-current endpoints that are already in the endpoint group in addition to the new endpoints
-that you want to add.
+endpoints in Global Accelerator:   It's faster, because Global Accelerator only has to
+resolve the new endpoints that you're adding, rather than resolving new and existing
+endpoints.   It's more convenient, because you don't need to specify the current endpoints
+that are already in the endpoint group, in addition to the new endpoints that you want to
+add.   For information about endpoint types and requirements for endpoints that you can add
+to Global Accelerator, see  Endpoints for standard accelerators in the Global Accelerator
+Developer Guide.
 
 # Arguments
 - `endpoint_configurations`: The list of endpoint objects.
@@ -133,7 +136,9 @@ Developer Guide.
 
 # Arguments
 - `cidr`: The address range, in CIDR notation. This must be the exact range that you
-  provisioned. You can't advertise only a portion of the provisioned range.
+  provisioned. You can't advertise only a portion of the provisioned range.  For more
+  information, see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer
+  Guide.
 
 """
 function advertise_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config())
@@ -232,7 +237,7 @@ connections and direct traffic to one or more endpoint groups, each of which inc
 endpoints, such as Network Load Balancers.   Global Accelerator is a global service that
 supports endpoints in multiple Amazon Web Services Regions but you must specify the US West
 (Oregon) Region to create, update, or otherwise work with accelerators. That is, for
-example, specify --region us-west-2 on AWS CLI commands.
+example, specify --region us-west-2 on Amazon Web Services CLI commands.
 
 # Arguments
 - `idempotency_token`: A unique, case-sensitive identifier that you provide to ensure the
@@ -295,6 +300,73 @@ function create_accelerator(
 end
 
 """
+    create_cross_account_attachment(idempotency_token, name)
+    create_cross_account_attachment(idempotency_token, name, params::Dict{String,<:Any})
+
+Create a cross-account attachment in Global Accelerator. You create a cross-account
+attachment to specify the principals who have permission to work with resources in
+accelerators in their own account. You specify, in the same attachment, the resources that
+are shared. A principal can be an Amazon Web Services account number or the Amazon Resource
+Name (ARN) for an accelerator. For account numbers that are listed as principals, to work
+with a resource listed in the attachment, you must sign in to an account specified as a
+principal. Then, you can work with resources that are listed, with any of your
+accelerators. If an accelerator ARN is listed in the cross-account attachment as a
+principal, anyone with permission to make updates to the accelerator can work with
+resources that are listed in the attachment.  Specify each principal and resource
+separately. To specify two CIDR address pools, list them individually under Resources, and
+so on. For a command line operation, for example, you might use a statement like the
+following:   \"Resources\": [{\"Cidr\": \"169.254.60.0/24\"},{\"Cidr\":
+\"169.254.59.0/24\"}]  For more information, see  Working with cross-account attachments
+and resources in Global Accelerator in the  Global Accelerator Developer Guide.
+
+# Arguments
+- `idempotency_token`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency—that is, the uniqueness—of the request.
+- `name`: The name of the cross-account attachment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Principals"`: The principals to include in the cross-account attachment. A principal
+  can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an
+  accelerator.
+- `"Resources"`: The Amazon Resource Names (ARNs) for the resources to include in the
+  cross-account attachment. A resource can be any supported Amazon Web Services resource type
+  for Global Accelerator or a CIDR range for a bring your own IP address (BYOIP) address
+  pool.
+- `"Tags"`: Add tags for a cross-account attachment. For more information, see Tagging in
+  Global Accelerator in the Global Accelerator Developer Guide.
+"""
+function create_cross_account_attachment(
+    IdempotencyToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "CreateCrossAccountAttachment",
+        Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_cross_account_attachment(
+    IdempotencyToken,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "CreateCrossAccountAttachment",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IdempotencyToken" => IdempotencyToken, "Name" => Name),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_custom_routing_accelerator(idempotency_token, name)
     create_custom_routing_accelerator(idempotency_token, name, params::Dict{String,<:Any})
 
@@ -306,7 +378,7 @@ to receive traffic, or to specify individual port mappings that can receive traf
 the  AllowCustomRoutingTraffic operation.  Global Accelerator is a global service that
 supports endpoints in multiple Amazon Web Services Regions but you must specify the US West
 (Oregon) Region to create, update, or otherwise work with accelerators. That is, for
-example, specify --region us-west-2 on AWS CLI commands.
+example, specify --region us-west-2 on Amazon Web Services CLI commands.
 
 # Arguments
 - `idempotency_token`: A unique, case-sensitive identifier that you provide to ensure the
@@ -498,7 +570,9 @@ end
 
 Create an endpoint group for the specified listener. An endpoint group is a collection of
 endpoints in one Amazon Web Services Region. A resource must be valid and active when you
-add it as an endpoint.
+add it as an endpoint. For more information about endpoint types and requirements for
+endpoints that you can add to Global Accelerator, see  Endpoints for standard accelerators
+in the Global Accelerator Developer Guide.
 
 # Arguments
 - `endpoint_group_region`: The Amazon Web Services Region where the endpoint group is
@@ -695,6 +769,46 @@ function delete_accelerator(
         "DeleteAccelerator",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_cross_account_attachment(attachment_arn)
+    delete_cross_account_attachment(attachment_arn, params::Dict{String,<:Any})
+
+Delete a cross-account attachment. When you delete an attachment, Global Accelerator
+revokes the permission to use the resources in the attachment from all principals in the
+list of principals. Global Accelerator revokes the permission for specific resources. For
+more information, see  Working with cross-account attachments and resources in Global
+Accelerator in the  Global Accelerator Developer Guide.
+
+# Arguments
+- `attachment_arn`: The Amazon Resource Name (ARN) for the cross-account attachment to
+  delete.
+
+"""
+function delete_cross_account_attachment(
+    AttachmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DeleteCrossAccountAttachment",
+        Dict{String,Any}("AttachmentArn" => AttachmentArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_cross_account_attachment(
+    AttachmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DeleteCrossAccountAttachment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AttachmentArn" => AttachmentArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -971,7 +1085,8 @@ Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide.
 
 # Arguments
 - `cidr`: The address range, in CIDR notation. The prefix must be the same prefix that you
-  specified when you provisioned the address range.
+  specified when you provisioned the address range.  For more information, see Bring your own
+  IP addresses (BYOIP) in the Global Accelerator Developer Guide.
 
 """
 function deprovision_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1058,6 +1173,42 @@ function describe_accelerator_attributes(
         "DescribeAcceleratorAttributes",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("AcceleratorArn" => AcceleratorArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_cross_account_attachment(attachment_arn)
+    describe_cross_account_attachment(attachment_arn, params::Dict{String,<:Any})
+
+Gets configuration information about a cross-account attachment.
+
+# Arguments
+- `attachment_arn`: The Amazon Resource Name (ARN) for the cross-account attachment to
+  describe.
+
+"""
+function describe_cross_account_attachment(
+    AttachmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "DescribeCrossAccountAttachment",
+        Dict{String,Any}("AttachmentArn" => AttachmentArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_cross_account_attachment(
+    AttachmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "DescribeCrossAccountAttachment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AttachmentArn" => AttachmentArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1326,6 +1477,114 @@ function list_byoip_cidrs(
 )
     return global_accelerator(
         "ListByoipCidrs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_cross_account_attachments()
+    list_cross_account_attachments(params::Dict{String,<:Any})
+
+List the cross-account attachments that have been created in Global Accelerator.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The number of cross-account attachment objects that you want to return
+  with this call. The default value is 10.
+- `"NextToken"`: The token for the next set of results. You receive this token from a
+  previous call.
+"""
+function list_cross_account_attachments(; aws_config::AbstractAWSConfig=global_aws_config())
+    return global_accelerator(
+        "ListCrossAccountAttachments";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_cross_account_attachments(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListCrossAccountAttachments",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cross_account_resource_accounts()
+    list_cross_account_resource_accounts(params::Dict{String,<:Any})
+
+List the accounts that have cross-account resources. For more information, see  Working
+with cross-account attachments and resources in Global Accelerator in the  Global
+Accelerator Developer Guide.
+
+"""
+function list_cross_account_resource_accounts(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListCrossAccountResourceAccounts";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_cross_account_resource_accounts(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListCrossAccountResourceAccounts",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_cross_account_resources(resource_owner_aws_account_id)
+    list_cross_account_resources(resource_owner_aws_account_id, params::Dict{String,<:Any})
+
+List the cross-account resources available to work with.
+
+# Arguments
+- `resource_owner_aws_account_id`: The account ID of a resource owner in a cross-account
+  attachment.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AcceleratorArn"`: The Amazon Resource Name (ARN) of an accelerator in a cross-account
+  attachment.
+- `"MaxResults"`: The number of cross-account resource objects that you want to return with
+  this call. The default value is 10.
+- `"NextToken"`: The token for the next set of results. You receive this token from a
+  previous call.
+"""
+function list_cross_account_resources(
+    ResourceOwnerAwsAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "ListCrossAccountResources",
+        Dict{String,Any}("ResourceOwnerAwsAccountId" => ResourceOwnerAwsAccountId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_cross_account_resources(
+    ResourceOwnerAwsAccountId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "ListCrossAccountResources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ResourceOwnerAwsAccountId" => ResourceOwnerAwsAccountId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1688,7 +1947,8 @@ Guide.
 # Arguments
 - `cidr`: The public IPv4 address range, in CIDR notation. The most specific IP prefix that
   you can specify is /24. The address range cannot overlap with another address range that
-  you've brought to this or another Region.
+  you've brought to this Amazon Web Services Region or another Region.  For more information,
+  see Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide.
 - `cidr_authorization_context`: A signed document that proves that you are authorized to
   bring the specified IP address range to Amazon using BYOIP.
 
@@ -1920,10 +2180,18 @@ end
     update_accelerator(accelerator_arn)
     update_accelerator(accelerator_arn, params::Dict{String,<:Any})
 
-Update an accelerator.   Global Accelerator is a global service that supports endpoints in
-multiple Amazon Web Services Regions but you must specify the US West (Oregon) Region to
-create, update, or otherwise work with accelerators. That is, for example, specify --region
-us-west-2 on AWS CLI commands.
+Update an accelerator to make changes, such as the following:    Change the name of the
+accelerator.   Disable the accelerator so that it no longer accepts or routes traffic, or
+so that you can delete it.   Enable the accelerator, if it is disabled.   Change the IP
+address type to dual-stack if it is IPv4, or change the IP address type to IPv4 if it's
+dual-stack.   Be aware that static IP addresses remain assigned to your accelerator for as
+long as it exists, even if you disable the accelerator and it no longer accepts or routes
+traffic. However, when you delete the accelerator, you lose the static IP addresses that
+are assigned to it, so you can no longer route traffic by using them.  Global Accelerator
+is a global service that supports endpoints in multiple Amazon Web Services Regions but you
+must specify the US West (Oregon) Region to create, update, or otherwise work with
+accelerators. That is, for example, specify --region us-west-2 on Amazon Web Services CLI
+commands.
 
 # Arguments
 - `accelerator_arn`: The Amazon Resource Name (ARN) of the accelerator to update.
@@ -1935,6 +2203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set to false, the accelerator can be deleted.
 - `"IpAddressType"`: The IP address type that an accelerator supports. For a standard
   accelerator, the value can be IPV4 or DUAL_STACK.
+- `"IpAddresses"`: The IP addresses for an accelerator.
 - `"Name"`: The name of the accelerator. The name can have a maximum of 64 characters, must
   contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or
   end with a hyphen or period.
@@ -2013,6 +2282,67 @@ function update_accelerator_attributes(
 end
 
 """
+    update_cross_account_attachment(attachment_arn)
+    update_cross_account_attachment(attachment_arn, params::Dict{String,<:Any})
+
+Update a cross-account attachment to add or remove principals or resources. When you update
+an attachment to remove a principal (account ID or accelerator) or a resource, Global
+Accelerator revokes the permission for specific resources.  For more information, see
+Working with cross-account attachments and resources in Global Accelerator in the  Global
+Accelerator Developer Guide.
+
+# Arguments
+- `attachment_arn`: The Amazon Resource Name (ARN) of the cross-account attachment to
+  update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AddPrincipals"`: The principals to add to the cross-account attachment. A principal is
+  an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives
+  permission to work with resources from another account. The resources are also listed in
+  the attachment. To add more than one principal, separate the account numbers or accelerator
+  ARNs, or both, with commas.
+- `"AddResources"`: The resources to add to the cross-account attachment. A resource listed
+  in a cross-account attachment can be used with an accelerator by the principals that are
+  listed in the attachment. To add more than one resource, separate the resource ARNs with
+  commas.
+- `"Name"`: The name of the cross-account attachment.
+- `"RemovePrincipals"`: The principals to remove from the cross-account attachment. A
+  principal is an account or the Amazon Resource Name (ARN) of an accelerator that the
+  attachment gives permission to work with resources from another account. The resources are
+  also listed in the attachment. To remove more than one principal, separate the account
+  numbers or accelerator ARNs, or both, with commas.
+- `"RemoveResources"`: The resources to remove from the cross-account attachment. A
+  resource listed in a cross-account attachment can be used with an accelerator by the
+  principals that are listed in the attachment. To remove more than one resource, separate
+  the resource ARNs with commas.
+"""
+function update_cross_account_attachment(
+    AttachmentArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return global_accelerator(
+        "UpdateCrossAccountAttachment",
+        Dict{String,Any}("AttachmentArn" => AttachmentArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_cross_account_attachment(
+    AttachmentArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return global_accelerator(
+        "UpdateCrossAccountAttachment",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("AttachmentArn" => AttachmentArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_custom_routing_accelerator(accelerator_arn)
     update_custom_routing_accelerator(accelerator_arn, params::Dict{String,<:Any})
 
@@ -2028,6 +2358,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set to false, the accelerator can be deleted.
 - `"IpAddressType"`: The IP address type that an accelerator supports. For a custom routing
   accelerator, the value must be IPV4.
+- `"IpAddresses"`: The IP addresses for an accelerator.
 - `"Name"`: The name of the accelerator. The name can have a maximum of 64 characters, must
   contain only alphanumeric characters, periods (.), or hyphens (-), and must not begin or
   end with a hyphen or period.
@@ -2277,7 +2608,8 @@ routing to Amazon Web Services because of propagation delays. For more informati
 Bring your own IP addresses (BYOIP) in the Global Accelerator Developer Guide.
 
 # Arguments
-- `cidr`: The address range, in CIDR notation.
+- `cidr`: The address range, in CIDR notation.  For more information, see Bring your own IP
+  addresses (BYOIP) in the Global Accelerator Developer Guide.
 
 """
 function withdraw_byoip_cidr(Cidr; aws_config::AbstractAWSConfig=global_aws_config())

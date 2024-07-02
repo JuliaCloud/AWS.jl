@@ -154,6 +154,44 @@ function authorize_vpc_endpoint_access(
 end
 
 """
+    cancel_domain_config_change(domain_name)
+    cancel_domain_config_change(domain_name, params::Dict{String,<:Any})
+
+Cancels a pending configuration change on an Amazon OpenSearch Service domain.
+
+# Arguments
+- `domain_name`: Name of the OpenSearch Service domain configuration request to cancel.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: When set to True, returns the list of change IDs and properties that will be
+  cancelled without actually cancelling the change.
+"""
+function cancel_domain_config_change(
+    DomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain/$(DomainName)/config/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_domain_config_change(
+    DomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elasticsearch_service(
+        "POST",
+        "/2015-01-01/es/domain/$(DomainName)/config/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_elasticsearch_service_software_update(domain_name)
     cancel_elasticsearch_service_software_update(domain_name, params::Dict{String,<:Any})
 

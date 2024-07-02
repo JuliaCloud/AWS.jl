@@ -12,7 +12,7 @@ Adds a natively supported Amazon Web Service as an Amazon Security Lake source. 
 source types for member accounts in required Amazon Web Services Regions, based on the
 parameters you specify. You can choose any source type in any Region for either accounts
 that are part of a trusted organization or standalone accounts. Once you add an Amazon Web
-Service as a source, Security Lake starts collecting logs and events from it,  You can use
+Service as a source, Security Lake starts collecting logs and events from it. You can use
 this API only to enable natively supported Amazon Web Services as a source. Use
 CreateCustomLogSource to enable data collection from a custom source.
 
@@ -43,8 +43,8 @@ function create_aws_log_source(
 end
 
 """
-    create_custom_log_source(source_name)
-    create_custom_log_source(source_name, params::Dict{String,<:Any})
+    create_custom_log_source(configuration, source_name)
+    create_custom_log_source(configuration, source_name, params::Dict{String,<:Any})
 
 Adds a third-party custom source in Amazon Security Lake, from the Amazon Web Services
 Region where you want to create a custom source. Security Lake can collect logs and events
@@ -55,12 +55,12 @@ from the custom source. In addition, this operation also creates an associated G
 and an Glue crawler.
 
 # Arguments
+- `configuration`: The configuration for the third-party custom source.
 - `source_name`: Specify the name for a third-party custom source. This must be a
   Regionally unique value.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"configuration"`: The configuration for the third-party custom source.
 - `"eventClasses"`: The Open Cybersecurity Schema Framework (OCSF) event classes which
   describes the type of data that the custom source will send to Security Lake. The supported
   event classes are:    ACCESS_ACTIVITY     FILE_ACTIVITY     KERNEL_ACTIVITY
@@ -75,17 +75,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   log collection to a specific version of custom data source.
 """
 function create_custom_log_source(
-    sourceName; aws_config::AbstractAWSConfig=global_aws_config()
+    configuration, sourceName; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
         "/v1/datalake/logsources/custom",
-        Dict{String,Any}("sourceName" => sourceName);
+        Dict{String,Any}("configuration" => configuration, "sourceName" => sourceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_custom_log_source(
+    configuration,
     sourceName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -94,7 +95,13 @@ function create_custom_log_source(
         "POST",
         "/v1/datalake/logsources/custom",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("sourceName" => sourceName), params)
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuration" => configuration, "sourceName" => sourceName
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -107,17 +114,17 @@ end
 
 Initializes an Amazon Security Lake instance with the provided (or default) configuration.
 You can enable Security Lake in Amazon Web Services Regions with customized settings before
-enabling log collection in Regions. By default, the CreateDataLake Security Lake in all
-Regions. To specify particular Regions, configure these Regions using the configurations
-parameter. If you have already enabled Security Lake in a Region when you call this
-command, the command will update the Region if you provide new configuration parameters. If
-you have not already enabled Security Lake in the Region when you call this API, it will
-set up the data lake in the Region with the specified configurations. When you enable
-Security Lake, it starts ingesting security data after the CreateAwsLogSource call. This
-includes ingesting security data from sources, storing data, and making data accessible to
-subscribers. Security Lake also enables all the existing settings and resources that it
-stores or maintains for your Amazon Web Services account in the current Region, including
-security log and event data. For more information, see the Amazon Security Lake User Guide.
+enabling log collection in Regions. To specify particular Regions, configure these Regions
+using the configurations parameter. If you have already enabled Security Lake in a Region
+when you call this command, the command will update the Region if you provide new
+configuration parameters. If you have not already enabled Security Lake in the Region when
+you call this API, it will set up the data lake in the Region with the specified
+configurations. When you enable Security Lake, it starts ingesting security data after the
+CreateAwsLogSource call. This includes ingesting security data from sources, storing data,
+and making data accessible to subscribers. Security Lake also enables all the existing
+settings and resources that it stores or maintains for your Amazon Web Services account in
+the current Region, including security log and event data. For more information, see the
+Amazon Security Lake User Guide.
 
 # Arguments
 - `configurations`: Specify the Region or Regions that will contribute data to the rollup
@@ -126,6 +133,11 @@ security log and event data. For more information, see the Amazon Security Lake 
   the Glue table. This table contains partitions generated by the ingestion and normalization
   of Amazon Web Services log sources and custom sources.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: An array of objects, one for each tag to associate with the data lake
+  configuration. For each tag, you must specify both a tag key and a tag value. A tag value
+  cannot be null, but it can be an empty string.
 """
 function create_data_lake(
     configurations,
@@ -225,44 +237,35 @@ function create_data_lake_exception_subscription(
 end
 
 """
-    create_data_lake_organization_configuration(auto_enable_new_account)
-    create_data_lake_organization_configuration(auto_enable_new_account, params::Dict{String,<:Any})
+    create_data_lake_organization_configuration()
+    create_data_lake_organization_configuration(params::Dict{String,<:Any})
 
 Automatically enables Amazon Security Lake for new member accounts in your organization.
 Security Lake is not automatically enabled for any existing member accounts in your
 organization.
 
-# Arguments
-- `auto_enable_new_account`: Enable Security Lake with the specified configuration
-  settings, to begin collecting security data for new accounts in your organization.
-
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"autoEnableNewAccount"`: Enable Security Lake with the specified configuration settings,
+  to begin collecting security data for new accounts in your organization.
 """
-function create_data_lake_organization_configuration(
-    autoEnableNewAccount; aws_config::AbstractAWSConfig=global_aws_config()
+function create_data_lake_organization_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
-        "/v1/datalake/organization/configuration",
-        Dict{String,Any}("autoEnableNewAccount" => autoEnableNewAccount);
+        "/v1/datalake/organization/configuration";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_data_lake_organization_configuration(
-    autoEnableNewAccount,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
         "/v1/datalake/organization/configuration",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("autoEnableNewAccount" => autoEnableNewAccount),
-                params,
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -279,13 +282,16 @@ Region.
 # Arguments
 - `sources`: The supported Amazon Web Services from which logs and events are collected.
   Security Lake supports log and event collection for natively supported Amazon Web Services.
-- `subscriber_identity`: The AWS identity used to access your data.
+- `subscriber_identity`: The Amazon Web Services identity used to access your data.
 - `subscriber_name`: The name of your Security Lake subscriber account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accessTypes"`: The Amazon S3 or Lake Formation access type.
 - `"subscriberDescription"`: The description for your subscriber account in Security Lake.
+- `"tags"`: An array of objects, one for each tag to associate with the subscriber. For
+  each tag, you must specify both a tag key and a tag value. A tag value cannot be null, but
+  it can be an empty string.
 """
 function create_subscriber(
     sources,
@@ -518,46 +524,37 @@ function delete_data_lake_exception_subscription(
 end
 
 """
-    delete_data_lake_organization_configuration(auto_enable_new_account)
-    delete_data_lake_organization_configuration(auto_enable_new_account, params::Dict{String,<:Any})
+    delete_data_lake_organization_configuration()
+    delete_data_lake_organization_configuration(params::Dict{String,<:Any})
 
-Removes automatic the enablement of configuration settings for new member accounts (but
-retains the settings for the delegated administrator) from Amazon Security Lake. You must
-run this API using the credentials of the delegated administrator. When you run this API,
-new member accounts that are added after the organization enables Security Lake won't
-contribute to the data lake.
+Turns off automatic enablement of Amazon Security Lake for member accounts that are added
+to an organization in Organizations. Only the delegated Security Lake administrator for an
+organization can perform this operation. If the delegated Security Lake administrator
+performs this operation, new member accounts won't automatically contribute data to the
+data lake.
 
-# Arguments
-- `auto_enable_new_account`: Removes the automatic enablement of configuration settings for
-  new member accounts in Security Lake.
-
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"autoEnableNewAccount"`: Turns off automatic enablement of Security Lake for member
+  accounts that are added to an organization.
 """
-function delete_data_lake_organization_configuration(
-    autoEnableNewAccount; aws_config::AbstractAWSConfig=global_aws_config()
+function delete_data_lake_organization_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
-        "/v1/datalake/organization/configuration/delete",
-        Dict{String,Any}("autoEnableNewAccount" => autoEnableNewAccount);
+        "/v1/datalake/organization/configuration/delete";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function delete_data_lake_organization_configuration(
-    autoEnableNewAccount,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return securitylake(
         "POST",
         "/v1/datalake/organization/configuration/delete",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("autoEnableNewAccount" => autoEnableNewAccount),
-                params,
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -812,7 +809,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unique pagination token for each page. Repeat the call using the returned token to retrieve
   the next page. Keep all other arguments unchanged. Each pagination token expires after 24
   hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
-- `"regions"`: List the Amazon Web Services Regions from which exceptions are retrieved.
+- `"regions"`: The Amazon Web Services Regions from which exceptions are retrieved.
 """
 function list_data_lake_exceptions(; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
@@ -839,12 +836,12 @@ end
     list_data_lakes(params::Dict{String,<:Any})
 
 Retrieves the Amazon Security Lake configuration object for the specified Amazon Web
-Services account ID. You can use the ListDataLakes API to know whether Security Lake is
-enabled for any region.
+Services Regions. You can use this operation to determine whether Security Lake is enabled
+for a Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"regions"`: The list of regions where Security Lake is enabled.
+- `"regions"`: The list of Regions where Security Lake is enabled.
 """
 function list_data_lakes(; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(
@@ -876,7 +873,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of accounts for which the log sources are displayed.
 - `"nextToken"`: If nextToken is returned, there are more results available. You can repeat
   the call using the returned token to retrieve the next page.
-- `"regions"`: The list of regions for which log sources are displayed.
+- `"regions"`: The list of Regions for which log sources are displayed.
 - `"sources"`: The list of sources for which log sources are displayed.
 """
 function list_log_sources(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -931,6 +928,43 @@ function list_subscribers(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Retrieves the tags (keys and values) that are associated with an Amazon Security Lake
+resource: a subscriber, or the data lake configuration for your Amazon Web Services account
+in a particular Amazon Web Services Region.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Security Lake resource for
+  which you want to retrieve the tags.
+
+"""
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "GET",
+        "/v1/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securitylake(
+        "GET",
+        "/v1/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     register_data_lake_delegated_administrator(account_id)
     register_data_lake_delegated_administrator(account_id, params::Dict{String,<:Any})
 
@@ -971,6 +1005,93 @@ function register_data_lake_delegated_administrator(
 end
 
 """
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Adds or updates one or more tags that are associated with an Amazon Security Lake resource:
+a subscriber, or the data lake configuration for your Amazon Web Services account in a
+particular Amazon Web Services Region. A tag is a label that you can define and associate
+with Amazon Web Services resources. Each tag consists of a required tag key and an
+associated tag value. A tag key is a general label that acts as a category for a more
+specific tag value. A tag value acts as a descriptor for a tag key. Tags can help you
+identify, categorize, and manage resources in different ways, such as by owner,
+environment, or other criteria. For more information, see Tagging Amazon Security Lake
+resources in the Amazon Security Lake User Guide.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Security Lake resource to
+  add or update the tags for.
+- `tags`: An array of objects, one for each tag (key and value) to associate with the
+  Amazon Security Lake resource. For each tag, you must specify both a tag key and a tag
+  value. A tag value cannot be null, but it can be an empty string.
+
+"""
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return securitylake(
+        "POST",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securitylake(
+        "POST",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes one or more tags (keys and values) from an Amazon Security Lake resource: a
+subscriber, or the data lake configuration for your Amazon Web Services account in a
+particular Amazon Web Services Region.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the Amazon Security Lake resource to
+  remove one or more tags from.
+- `tag_keys`: A list of one or more tag keys. For each value in the list, specify the tag
+  key for a tag to remove from the Amazon Security Lake resource.
+
+"""
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return securitylake(
+        "DELETE",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return securitylake(
+        "DELETE",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_data_lake(configurations)
     update_data_lake(configurations, params::Dict{String,<:Any})
 
@@ -981,6 +1102,11 @@ to consolidate data from multiple Amazon Web Services Regions.
 - `configurations`: Specify the Region or Regions that will contribute data to the rollup
   region.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"metaStoreManagerRoleArn"`: The Amazon Resource Name (ARN) used to create and update the
+  Glue table. This table contains partitions generated by the ingestion and normalization of
+  Amazon Web Services log sources and custom sources.
 """
 function update_data_lake(configurations; aws_config::AbstractAWSConfig=global_aws_config())
     return securitylake(

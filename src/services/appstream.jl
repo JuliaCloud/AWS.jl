@@ -5,6 +5,52 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    associate_app_block_builder_app_block(app_block_arn, app_block_builder_name)
+    associate_app_block_builder_app_block(app_block_arn, app_block_builder_name, params::Dict{String,<:Any})
+
+Associates the specified app block builder with the specified app block.
+
+# Arguments
+- `app_block_arn`: The ARN of the app block.
+- `app_block_builder_name`: The name of the app block builder.
+
+"""
+function associate_app_block_builder_app_block(
+    AppBlockArn, AppBlockBuilderName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "AssociateAppBlockBuilderAppBlock",
+        Dict{String,Any}(
+            "AppBlockArn" => AppBlockArn, "AppBlockBuilderName" => AppBlockBuilderName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function associate_app_block_builder_app_block(
+    AppBlockArn,
+    AppBlockBuilderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "AssociateAppBlockBuilderAppBlock",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppBlockArn" => AppBlockArn,
+                    "AppBlockBuilderName" => AppBlockBuilderName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     associate_application_fleet(application_arn, fleet_name)
     associate_application_fleet(application_arn, fleet_name, params::Dict{String,<:Any})
 
@@ -284,8 +330,8 @@ function copy_image(
 end
 
 """
-    create_app_block(name, setup_script_details, source_s3_location)
-    create_app_block(name, setup_script_details, source_s3_location, params::Dict{String,<:Any})
+    create_app_block(name, source_s3_location)
+    create_app_block(name, source_s3_location, params::Dict{String,<:Any})
 
 Creates an app block. App blocks are an Amazon AppStream 2.0 resource that stores the
 details about the virtual hard disk in an S3 bucket. It also stores the setup script with
@@ -296,35 +342,31 @@ fleets.
 
 # Arguments
 - `name`: The name of the app block.
-- `setup_script_details`: The setup script details of the app block.
 - `source_s3_location`: The source S3 location of the app block.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the app block.
 - `"DisplayName"`: The display name of the app block. This is not displayed to the user.
+- `"PackagingType"`: The packaging type of the app block.
+- `"PostSetupScriptDetails"`: The post setup script details of the app block. This can only
+  be provided for the APPSTREAM2 PackagingType.
+- `"SetupScriptDetails"`: The setup script details of the app block. This must be provided
+  for the CUSTOM PackagingType.
 - `"Tags"`: The tags assigned to the app block.
 """
 function create_app_block(
-    Name,
-    SetupScriptDetails,
-    SourceS3Location;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Name, SourceS3Location; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appstream(
         "CreateAppBlock",
-        Dict{String,Any}(
-            "Name" => Name,
-            "SetupScriptDetails" => SetupScriptDetails,
-            "SourceS3Location" => SourceS3Location,
-        );
+        Dict{String,Any}("Name" => Name, "SourceS3Location" => SourceS3Location);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_app_block(
     Name,
-    SetupScriptDetails,
     SourceS3Location,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -334,11 +376,134 @@ function create_app_block(
         Dict{String,Any}(
             mergewith(
                 _merge,
+                Dict{String,Any}("Name" => Name, "SourceS3Location" => SourceS3Location),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_app_block_builder(instance_type, name, platform, vpc_config)
+    create_app_block_builder(instance_type, name, platform, vpc_config, params::Dict{String,<:Any})
+
+Creates an app block builder.
+
+# Arguments
+- `instance_type`: The instance type to use when launching the app block builder. The
+  following instance types are available:   stream.standard.small   stream.standard.medium
+  stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+- `name`: The unique name for the app block builder.
+- `platform`: The platform of the app block builder.  WINDOWS_SERVER_2019 is the only valid
+  value.
+- `vpc_config`: The VPC configuration for the app block builder. App block builders require
+  that you specify at least two subnets in different availability zones.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessEndpoints"`: The list of interface VPC endpoint (interface endpoint) objects.
+  Administrators can connect to the app block builder only through the specified endpoints.
+- `"Description"`: The description of the app block builder.
+- `"DisplayName"`: The display name of the app block builder.
+- `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the app
+  block builder.
+- `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the app block
+  builder. To assume a role, the app block builder calls the AWS Security Token Service (STS)
+  AssumeRole API operation and passes the ARN of the role to use. The operation creates a new
+  session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and
+  creates the appstream_machine_role credential profile on the instance. For more
+  information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running
+  on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+- `"Tags"`: The tags to associate with the app block builder. A tag is a key-value pair,
+  and the value is optional. For example, Environment=Test. If you do not specify a value,
+  Environment=.  If you do not specify a value, the value is set to an empty string.
+  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and
+  the following special characters:  _ . : / = +  - @ For more information, see Tagging Your
+  Resources in the Amazon AppStream 2.0 Administration Guide.
+"""
+function create_app_block_builder(
+    InstanceType,
+    Name,
+    Platform,
+    VpcConfig;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateAppBlockBuilder",
+        Dict{String,Any}(
+            "InstanceType" => InstanceType,
+            "Name" => Name,
+            "Platform" => Platform,
+            "VpcConfig" => VpcConfig,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_app_block_builder(
+    InstanceType,
+    Name,
+    Platform,
+    VpcConfig,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateAppBlockBuilder",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
                 Dict{String,Any}(
+                    "InstanceType" => InstanceType,
                     "Name" => Name,
-                    "SetupScriptDetails" => SetupScriptDetails,
-                    "SourceS3Location" => SourceS3Location,
+                    "Platform" => Platform,
+                    "VpcConfig" => VpcConfig,
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_app_block_builder_streaming_url(app_block_builder_name)
+    create_app_block_builder_streaming_url(app_block_builder_name, params::Dict{String,<:Any})
+
+Creates a URL to start a create app block builder streaming session.
+
+# Arguments
+- `app_block_builder_name`: The name of the app block builder.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
+  between 1 and 604800 seconds. The default is 3600 seconds.
+"""
+function create_app_block_builder_streaming_url(
+    AppBlockBuilderName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "CreateAppBlockBuilderStreamingURL",
+        Dict{String,Any}("AppBlockBuilderName" => AppBlockBuilderName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_app_block_builder_streaming_url(
+    AppBlockBuilderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateAppBlockBuilderStreamingURL",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("AppBlockBuilderName" => AppBlockBuilderName),
                 params,
             ),
         );
@@ -639,11 +804,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ImageName"`: The name of the image used to create the fleet.
 - `"MaxConcurrentSessions"`: The maximum concurrent sessions of the Elastic fleet. This is
   required for Elastic fleets, and not allowed for other fleet types.
+- `"MaxSessionsPerInstance"`: The maximum number of user sessions on an instance. This only
+  applies to multi-session fleets.
 - `"MaxUserDurationInSeconds"`: The maximum amount of time that a streaming session can
   remain active, in seconds. If users are still connected to a streaming instance five
   minutes before this limit is reached, they are prompted to save any open documents before
   being disconnected. After this time elapses, the instance is terminated and replaced by a
-  new instance. Specify a value between 600 and 360000.
+  new instance. Specify a value between 600 and 432000.
 - `"Platform"`: The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for
   Elastic fleets.
 - `"SessionScriptS3Location"`: The S3 location of the session scripts configuration zip
@@ -1104,6 +1271,36 @@ function delete_app_block(
 end
 
 """
+    delete_app_block_builder(name)
+    delete_app_block_builder(name, params::Dict{String,<:Any})
+
+Deletes an app block builder. An app block builder can only be deleted when it has no
+association with an app block.
+
+# Arguments
+- `name`: The name of the app block builder.
+
+"""
+function delete_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "DeleteAppBlockBuilder",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_app_block_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteAppBlockBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_application(name)
     delete_application(name, params::Dict{String,<:Any})
 
@@ -1443,6 +1640,69 @@ function delete_user(
 end
 
 """
+    describe_app_block_builder_app_block_associations()
+    describe_app_block_builder_app_block_associations(params::Dict{String,<:Any})
+
+Retrieves a list that describes one or more app block builder associations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AppBlockArn"`: The ARN of the app block.
+- `"AppBlockBuilderName"`: The name of the app block builder.
+- `"MaxResults"`: The maximum size of each page of results.
+- `"NextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function describe_app_block_builder_app_block_associations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeAppBlockBuilderAppBlockAssociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_app_block_builder_app_block_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeAppBlockBuilderAppBlockAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_app_block_builders()
+    describe_app_block_builders(params::Dict{String,<:Any})
+
+Retrieves a list that describes one or more app block builders.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum size of each page of results. The maximum value is 25.
+- `"Names"`: The names of the app block builders.
+- `"NextToken"`: The pagination token used to retrieve the next page of results for this
+  operation.
+"""
+function describe_app_block_builders(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "DescribeAppBlockBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_app_block_builders(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeAppBlockBuilders",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_app_blocks()
     describe_app_blocks(params::Dict{String,<:Any})
 
@@ -1746,6 +2006,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuthenticationType"`: The authentication method. Specify API for a user authenticated
   using a streaming URL or SAML for a SAML federated user. The default is to authenticate
   users using a streaming URL.
+- `"InstanceId"`: The identifier for the instance hosting the session.
 - `"Limit"`: The size of each page of results. The default value is 20 and the maximum
   value is 50.
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
@@ -1960,6 +2221,52 @@ function disable_user(
                 _merge,
                 Dict{String,Any}(
                     "AuthenticationType" => AuthenticationType, "UserName" => UserName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    disassociate_app_block_builder_app_block(app_block_arn, app_block_builder_name)
+    disassociate_app_block_builder_app_block(app_block_arn, app_block_builder_name, params::Dict{String,<:Any})
+
+Disassociates a specified app block builder from a specified app block.
+
+# Arguments
+- `app_block_arn`: The ARN of the app block.
+- `app_block_builder_name`: The name of the app block builder.
+
+"""
+function disassociate_app_block_builder_app_block(
+    AppBlockArn, AppBlockBuilderName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DisassociateAppBlockBuilderAppBlock",
+        Dict{String,Any}(
+            "AppBlockArn" => AppBlockArn, "AppBlockBuilderName" => AppBlockBuilderName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disassociate_app_block_builder_app_block(
+    AppBlockArn,
+    AppBlockBuilderName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DisassociateAppBlockBuilderAppBlock",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "AppBlockArn" => AppBlockArn,
+                    "AppBlockBuilderName" => AppBlockBuilderName,
                 ),
                 params,
             ),
@@ -2354,6 +2661,37 @@ function list_tags_for_resource(
 end
 
 """
+    start_app_block_builder(name)
+    start_app_block_builder(name, params::Dict{String,<:Any})
+
+Starts an app block builder. An app block builder can only be started when it's associated
+with an app block. Starting an app block builder starts a new instance, which is equivalent
+to an elastic fleet instance with application builder assistance functionality.
+
+# Arguments
+- `name`: The name of the app block builder.
+
+"""
+function start_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "StartAppBlockBuilder",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_app_block_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "StartAppBlockBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_fleet(name)
     start_fleet(name, params::Dict{String,<:Any})
 
@@ -2409,6 +2747,36 @@ function start_image_builder(
 )
     return appstream(
         "StartImageBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_app_block_builder(name)
+    stop_app_block_builder(name, params::Dict{String,<:Any})
+
+Stops an app block builder. Stopping an app block builder terminates the instance, and the
+instance state is not persisted.
+
+# Arguments
+- `name`: The name of the app block builder.
+
+"""
+function stop_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "StopAppBlockBuilder",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_app_block_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "StopAppBlockBuilder",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2559,6 +2927,61 @@ function untag_resource(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_app_block_builder(name)
+    update_app_block_builder(name, params::Dict{String,<:Any})
+
+Updates an app block builder. If the app block builder is in the STARTING or STOPPING
+state, you can't update it. If the app block builder is in the RUNNING state, you can only
+update the DisplayName and Description. If the app block builder is in the STOPPED state,
+you can update any attribute except the Name.
+
+# Arguments
+- `name`: The unique name for the app block builder.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AccessEndpoints"`: The list of interface VPC endpoint (interface endpoint) objects.
+  Administrators can connect to the app block builder only through the specified endpoints.
+- `"AttributesToDelete"`: The attributes to delete from the app block builder.
+- `"Description"`: The description of the app block builder.
+- `"DisplayName"`: The display name of the app block builder.
+- `"EnableDefaultInternetAccess"`: Enables or disables default internet access for the app
+  block builder.
+- `"IamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to apply to the app block
+  builder. To assume a role, the app block builder calls the AWS Security Token Service (STS)
+  AssumeRole API operation and passes the ARN of the role to use. The operation creates a new
+  session with temporary credentials. AppStream 2.0 retrieves the temporary credentials and
+  creates the appstream_machine_role credential profile on the instance. For more
+  information, see Using an IAM Role to Grant Permissions to Applications and Scripts Running
+  on AppStream 2.0 Streaming Instances in the Amazon AppStream 2.0 Administration Guide.
+- `"InstanceType"`: The instance type to use when launching the app block builder. The
+  following instance types are available:   stream.standard.small   stream.standard.medium
+  stream.standard.large   stream.standard.xlarge   stream.standard.2xlarge
+- `"Platform"`: The platform of the app block builder.  WINDOWS_SERVER_2019 is the only
+  valid value.
+- `"VpcConfig"`: The VPC configuration for the app block builder. App block builders
+  require that you specify at least two subnets in different availability zones.
+"""
+function update_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
+    return appstream(
+        "UpdateAppBlockBuilder",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_app_block_builder(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "UpdateAppBlockBuilder",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2774,11 +3197,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   stream.standard.medium   stream.standard.large   stream.standard.xlarge
   stream.standard.2xlarge
 - `"MaxConcurrentSessions"`: The maximum number of concurrent sessions for a fleet.
+- `"MaxSessionsPerInstance"`: The maximum number of user sessions on an instance. This only
+  applies to multi-session fleets.
 - `"MaxUserDurationInSeconds"`: The maximum amount of time that a streaming session can
   remain active, in seconds. If users are still connected to a streaming instance five
   minutes before this limit is reached, they are prompted to save any open documents before
   being disconnected. After this time elapses, the instance is terminated and replaced by a
-  new instance. Specify a value between 600 and 360000.
+  new instance. Specify a value between 600 and 432000.
 - `"Name"`: A unique name for the fleet.
 - `"Platform"`: The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are
   supported for Elastic fleets.

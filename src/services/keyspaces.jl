@@ -82,6 +82,13 @@ Creating tables in the Amazon Keyspaces Developer Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"autoScalingSpecification"`: The optional auto scaling settings for a table in
+  provisioned capacity mode. Specifies if the service can manage throughput capacity
+  automatically on your behalf. Auto scaling helps you provision throughput capacity for
+  variable workloads efficiently by increasing and decreasing your table's read and write
+  capacity automatically in response to application traffic. For more information, see
+  Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the Amazon
+  Keyspaces Developer Guide. By default, auto scaling is disabled for a table.
 - `"capacitySpecification"`: Specifies the read/write throughput capacity mode for the
   table. The options are:    throughputMode:PAY_PER_REQUEST and
   throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and
@@ -106,6 +113,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   table. The options are:    status=ENABLED     status=DISABLED    If it's not specified, the
   default is status=DISABLED. For more information, see Point-in-time recovery in the Amazon
   Keyspaces Developer Guide.
+- `"replicaSpecifications"`: The optional Amazon Web Services Region specific settings of a
+  multi-Region table. These settings overwrite the general settings of the table for the
+  specified Region.  For a multi-Region table in provisioned capacity mode, you can configure
+  the table's read capacity differently for each Region's replica. The write capacity,
+  however, remains synchronized between all replicas to ensure that there's enough capacity
+  to replicate writes across all Regions. To define the read capacity for a table replica in
+  a specific Region, you can do so by configuring the following parameters.    region: The
+  Region where these settings are applied. (Required)    readCapacityUnits: The provisioned
+  read capacity units. (Optional)    readCapacityAutoScaling: The read capacity auto scaling
+  settings for the table. (Optional)
 - `"tags"`: A list of key-value pair tags to be attached to the resource.  For more
   information, see Adding tags and labels to Amazon Keyspaces resources in the Amazon
   Keyspaces Developer Guide.
@@ -314,6 +331,57 @@ function get_table(
 end
 
 """
+    get_table_auto_scaling_settings(keyspace_name, table_name)
+    get_table_auto_scaling_settings(keyspace_name, table_name, params::Dict{String,<:Any})
+
+Returns auto scaling related settings of the specified table in JSON format. If the table
+is a multi-Region table, the Amazon Web Services Region specific auto scaling settings of
+the table are included. Amazon Keyspaces auto scaling helps you provision throughput
+capacity for variable workloads efficiently by increasing and decreasing your table's read
+and write capacity automatically in response to application traffic. For more information,
+see Managing throughput capacity automatically with Amazon Keyspaces auto scaling in the
+Amazon Keyspaces Developer Guide.   GetTableAutoScalingSettings can't be used as an action
+in an IAM policy.  To define permissions for GetTableAutoScalingSettings, you must allow
+the following two actions in the IAM policy statement's Action element:
+application-autoscaling:DescribeScalableTargets
+application-autoscaling:DescribeScalingPolicies
+
+# Arguments
+- `keyspace_name`: The name of the keyspace.
+- `table_name`: The name of the table.
+
+"""
+function get_table_auto_scaling_settings(
+    keyspaceName, tableName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return keyspaces(
+        "GetTableAutoScalingSettings",
+        Dict{String,Any}("keyspaceName" => keyspaceName, "tableName" => tableName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_table_auto_scaling_settings(
+    keyspaceName,
+    tableName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return keyspaces(
+        "GetTableAutoScalingSettings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("keyspaceName" => keyspaceName, "tableName" => tableName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_keyspaces()
     list_keyspaces(params::Dict{String,<:Any})
 
@@ -429,24 +497,24 @@ end
     restore_table(source_keyspace_name, source_table_name, target_keyspace_name, target_table_name)
     restore_table(source_keyspace_name, source_table_name, target_keyspace_name, target_table_name, params::Dict{String,<:Any})
 
-Restores the specified table to the specified point in time within the
-earliest_restorable_timestamp and the current time. For more information about restore
-points, see  Time window for PITR continuous backups in the Amazon Keyspaces Developer
-Guide. Any number of users can execute up to 4 concurrent restores (any type of restore) in
-a given account. When you restore using point in time recovery, Amazon Keyspaces restores
-your source table's schema and data to the state based on the selected timestamp
-(day:hour:minute:second) to a new table. The Time to Live (TTL) settings are also restored
-to the state based on the selected timestamp. In addition to the table's schema, data, and
-TTL settings, RestoreTable restores the capacity mode, encryption, and point-in-time
-recovery settings from the source table. Unlike the table's schema data and TTL settings,
-which are restored based on the selected timestamp, these settings are always restored
-based on the table's settings as of the current time or when the table was deleted. You can
-also overwrite these settings during restore:   Read/write capacity mode   Provisioned
-throughput capacity settings   Point-in-time (PITR) settings   Tags   For more information,
-see PITR restore settings in the Amazon Keyspaces Developer Guide. Note that the following
-settings are not restored, and you must configure them manually for the new table:
-Automatic scaling policies (for tables that use provisioned capacity mode)   Identity and
-Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
+Restores the table to the specified point in time within the earliest_restorable_timestamp
+and the current time. For more information about restore points, see  Time window for PITR
+continuous backups in the Amazon Keyspaces Developer Guide. Any number of users can execute
+up to 4 concurrent restores (any type of restore) in a given account. When you restore
+using point in time recovery, Amazon Keyspaces restores your source table's schema and data
+to the state based on the selected timestamp (day:hour:minute:second) to a new table. The
+Time to Live (TTL) settings are also restored to the state based on the selected timestamp.
+In addition to the table's schema, data, and TTL settings, RestoreTable restores the
+capacity mode, auto scaling settings, encryption settings, and point-in-time recovery
+settings from the source table. Unlike the table's schema data and TTL settings, which are
+restored based on the selected timestamp, these settings are always restored based on the
+table's settings as of the current time or when the table was deleted. You can also
+overwrite these settings during restore:   Read/write capacity mode   Provisioned
+throughput capacity units   Auto scaling settings   Point-in-time (PITR) settings   Tags
+For more information, see PITR restore settings in the Amazon Keyspaces Developer Guide.
+Note that the following settings are not restored, and you must configure them manually for
+the new table:   Identity and Access Management (IAM) policies   Amazon CloudWatch metrics
+and alarms
 
 # Arguments
 - `source_keyspace_name`: The keyspace name of the source table.
@@ -456,6 +524,13 @@ Access Management (IAM) policies   Amazon CloudWatch metrics and alarms
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"autoScalingSpecification"`: The optional auto scaling settings for the restored table
+  in provisioned capacity mode. Specifies if the service can manage throughput capacity of a
+  provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you
+  provision throughput capacity for variable workloads efficiently by increasing and
+  decreasing your table's read and write capacity automatically in response to application
+  traffic. For more information, see Managing throughput capacity automatically with Amazon
+  Keyspaces auto scaling in the Amazon Keyspaces Developer Guide.
 - `"capacitySpecificationOverride"`: Specifies the read/write throughput capacity mode for
   the target table. The options are:    throughputMode:PAY_PER_REQUEST
   throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and
@@ -472,6 +547,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   target table. The options are:    status=ENABLED     status=DISABLED    If it's not
   specified, the default is status=DISABLED. For more information, see Point-in-time recovery
   in the Amazon Keyspaces Developer Guide.
+- `"replicaSpecifications"`: The optional Region specific settings of a multi-Regional
+  table.
 - `"restoreTimestamp"`: The restore timestamp in ISO 8601 format.
 - `"tagsOverride"`: A list of key-value pair tags to be attached to the restored table.
   For more information, see Adding tags and labels to Amazon Keyspaces resources in the
@@ -615,8 +692,8 @@ end
     update_table(keyspace_name, table_name, params::Dict{String,<:Any})
 
 Adds new columns to the table or updates one of the table's settings, for example capacity
-mode, encryption, point-in-time recovery, or ttl settings. Note that you can only update
-one specific table setting per update operation.
+mode, auto scaling, encryption, point-in-time recovery, or ttl settings. Note that you can
+only update one specific table setting per update operation.
 
 # Arguments
 - `keyspace_name`: The name of the keyspace the specified table is stored in.
@@ -627,6 +704,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"addColumns"`: For each column to be added to the specified table:    name - The name of
   the column.    type - An Amazon Keyspaces data type. For more information, see Data types
   in the Amazon Keyspaces Developer Guide.
+- `"autoScalingSpecification"`: The optional auto scaling settings to update for a table in
+  provisioned capacity mode. Specifies if the service can manage throughput capacity of a
+  provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you
+  provision throughput capacity for variable workloads efficiently by increasing and
+  decreasing your table's read and write capacity automatically in response to application
+  traffic. If auto scaling is already enabled for the table, you can use UpdateTable to
+  update the minimum and maximum values or the auto scaling policy settings independently.
+  For more information, see Managing throughput capacity automatically with Amazon Keyspaces
+  auto scaling in the Amazon Keyspaces Developer Guide.
 - `"capacitySpecification"`: Modifies the read/write throughput capacity mode for the
   table. The options are:    throughputMode:PAY_PER_REQUEST and
   throughputMode:PROVISIONED - Provisioned capacity mode requires readCapacityUnits and
@@ -650,6 +736,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   options are:    status=ENABLED     status=DISABLED    If it's not specified, the default is
   status=DISABLED. For more information, see Point-in-time recovery in the Amazon Keyspaces
   Developer Guide.
+- `"replicaSpecifications"`: The Region specific settings of a multi-Regional table.
 - `"ttl"`: Modifies Time to Live custom settings for the table. The options are:
   status:enabled     status:disabled    The default is status:disabled. After ttl is enabled,
   you can't disable it for the table. For more information, see Expiring data by using Amazon

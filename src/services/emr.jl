@@ -319,6 +319,13 @@ Creates a new Amazon EMR Studio.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A detailed description of the Amazon EMR Studio.
+- `"EncryptionKeyArn"`: The KMS key identifier (ARN) used to encrypt Amazon EMR Studio
+  workspace and notebook files when backed up to Amazon S3.
+- `"IdcInstanceArn"`:  The ARN of the IAM Identity Center instance to create the Studio
+  application.
+- `"IdcUserAssignment"`:  Specifies whether IAM Identity Center user assignment is REQUIRED
+  or OPTIONAL. If the value is set to REQUIRED, users must be explicitly assigned to the
+  Studio application to access the Studio.
 - `"IdpAuthUrl"`: The authentication endpoint of your identity provider (IdP). Specify this
   value when you use IAM authentication and want to let federated users log in to a Studio
   with the Studio URL and credentials from your IdP. Amazon EMR Studio redirects users to
@@ -330,6 +337,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: A list of tags to associate with the Amazon EMR Studio. Tags are user-defined
   key-value pairs that consist of a required key string with a maximum of 128 characters, and
   an optional value string with a maximum of 256 characters.
+- `"TrustedIdentityPropagationEnabled"`:  A Boolean indicating whether to enable Trusted
+  identity propagation for the Studio. The default value is false.
 - `"UserRole"`: The IAM user role that users and groups assume when logged in to an Amazon
   EMR Studio. Only specify a UserRole when you use IAM Identity Center authentication. The
   permissions attached to the UserRole can be scoped down for each user or group using
@@ -888,8 +897,8 @@ function get_block_public_access_configuration(
 end
 
 """
-    get_cluster_session_credentials(cluster_id, execution_role_arn)
-    get_cluster_session_credentials(cluster_id, execution_role_arn, params::Dict{String,<:Any})
+    get_cluster_session_credentials(cluster_id)
+    get_cluster_session_credentials(cluster_id, params::Dict{String,<:Any})
 
 Provides temporary, HTTP basic credentials that are associated with a given runtime IAM
 role and used by a cluster with fine-grained access control activated. You can use these
@@ -898,38 +907,33 @@ authentication.
 
 # Arguments
 - `cluster_id`: The unique identifier of the cluster.
-- `execution_role_arn`: The Amazon Resource Name (ARN) of the runtime role for interactive
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExecutionRoleArn"`: The Amazon Resource Name (ARN) of the runtime role for interactive
   workload submission on the cluster. The runtime role can be a cross-account IAM role. The
   runtime role ARN is a combination of account ID, role name, and role type using the
   following format: arn:partition:service:region:account:resource.
-
 """
 function get_cluster_session_credentials(
-    ClusterId, ExecutionRoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ClusterId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return emr(
         "GetClusterSessionCredentials",
-        Dict{String,Any}("ClusterId" => ClusterId, "ExecutionRoleArn" => ExecutionRoleArn);
+        Dict{String,Any}("ClusterId" => ClusterId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_cluster_session_credentials(
     ClusterId,
-    ExecutionRoleArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return emr(
         "GetClusterSessionCredentials",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterId" => ClusterId, "ExecutionRoleArn" => ExecutionRoleArn
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("ClusterId" => ClusterId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1411,6 +1415,49 @@ function list_studios(
 )
     return emr(
         "ListStudios", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_supported_instance_types(release_label)
+    list_supported_instance_types(release_label, params::Dict{String,<:Any})
+
+A list of the instance types that Amazon EMR supports. You can filter the list by Amazon
+Web Services Region and Amazon EMR release.
+
+# Arguments
+- `release_label`: The Amazon EMR release label determines the versions of open-source
+  application packages that Amazon EMR has installed on the cluster. Release labels are in
+  the format emr-x.x.x, where x.x.x is an Amazon EMR release number such as emr-6.10.0. For
+  more information about Amazon EMR releases and their included application versions and
+  features, see the  Amazon EMR Release Guide .
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: The pagination token that marks the next set of results to retrieve.
+"""
+function list_supported_instance_types(
+    ReleaseLabel; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr(
+        "ListSupportedInstanceTypes",
+        Dict{String,Any}("ReleaseLabel" => ReleaseLabel);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_supported_instance_types(
+    ReleaseLabel,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr(
+        "ListSupportedInstanceTypes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ReleaseLabel" => ReleaseLabel), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1948,9 +1995,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   AmiVersion instead. For information about creating a custom AMI, see Creating an Amazon
   EBS-Backed Linux AMI in the Amazon Elastic Compute Cloud User Guide for Linux Instances.
   For information about finding an AMI ID, see Finding a Linux AMI.
+- `"EbsRootVolumeIops"`: The IOPS, of the Amazon EBS root device volume of the Linux AMI
+  that is used for each Amazon EC2 instance. Available in Amazon EMR releases 6.15.0 and
+  later.
 - `"EbsRootVolumeSize"`: The size, in GiB, of the Amazon EBS root device volume of the
   Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR releases 4.x
   and later.
+- `"EbsRootVolumeThroughput"`: The throughput, in MiB/s, of the Amazon EBS root device
+  volume of the Linux AMI that is used for each Amazon EC2 instance. Available in Amazon EMR
+  releases 6.15.0 and later.
 - `"JobFlowRole"`: Also called instance profile and Amazon EC2 role. An IAM role for an
   Amazon EMR cluster. The Amazon EC2 instances of the cluster assume this role. The default
   role is EMR_EC2_DefaultRole. In order to use the default role, you must have already
@@ -2057,6 +2110,62 @@ function run_job_flow(
 end
 
 """
+    set_keep_job_flow_alive_when_no_steps(job_flow_ids, keep_job_flow_alive_when_no_steps)
+    set_keep_job_flow_alive_when_no_steps(job_flow_ids, keep_job_flow_alive_when_no_steps, params::Dict{String,<:Any})
+
+You can use the SetKeepJobFlowAliveWhenNoSteps to configure a cluster (job flow) to
+terminate after the step execution, i.e., all your steps are executed. If you want a
+transient cluster that shuts down after the last of the current executing steps are
+completed, you can configure SetKeepJobFlowAliveWhenNoSteps to false. If you want a long
+running cluster, configure SetKeepJobFlowAliveWhenNoSteps to true. For more information,
+see Managing Cluster Termination in the Amazon EMR Management Guide.
+
+# Arguments
+- `job_flow_ids`: A list of strings that uniquely identify the clusters to protect. This
+  identifier is returned by RunJobFlow and can also be obtained from DescribeJobFlows.
+- `keep_job_flow_alive_when_no_steps`: A Boolean that indicates whether to terminate the
+  cluster after all steps are executed.
+
+"""
+function set_keep_job_flow_alive_when_no_steps(
+    JobFlowIds,
+    KeepJobFlowAliveWhenNoSteps;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr(
+        "SetKeepJobFlowAliveWhenNoSteps",
+        Dict{String,Any}(
+            "JobFlowIds" => JobFlowIds,
+            "KeepJobFlowAliveWhenNoSteps" => KeepJobFlowAliveWhenNoSteps,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function set_keep_job_flow_alive_when_no_steps(
+    JobFlowIds,
+    KeepJobFlowAliveWhenNoSteps,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr(
+        "SetKeepJobFlowAliveWhenNoSteps",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "JobFlowIds" => JobFlowIds,
+                    "KeepJobFlowAliveWhenNoSteps" => KeepJobFlowAliveWhenNoSteps,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     set_termination_protection(job_flow_ids, termination_protected)
     set_termination_protection(job_flow_ids, termination_protected, params::Dict{String,<:Any})
 
@@ -2070,7 +2179,7 @@ ensure that in the event of an error, the instances persist so that you can reco
 data stored in their ephemeral instance storage.  To terminate a cluster that has been
 locked by setting SetTerminationProtection to true, you must first unlock the job flow by a
 subsequent call to SetTerminationProtection in which you set the value to false.   For more
-information, seeManaging Cluster Termination in the Amazon EMR Management Guide.
+information, see Managing Cluster Termination in the Amazon EMR Management Guide.
 
 # Arguments
 - `job_flow_ids`:  A list of strings that uniquely identify the clusters to protect. This
@@ -2106,6 +2215,65 @@ function set_termination_protection(
                 Dict{String,Any}(
                     "JobFlowIds" => JobFlowIds,
                     "TerminationProtected" => TerminationProtected,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    set_unhealthy_node_replacement(job_flow_ids, unhealthy_node_replacement)
+    set_unhealthy_node_replacement(job_flow_ids, unhealthy_node_replacement, params::Dict{String,<:Any})
+
+Specify whether to enable unhealthy node replacement, which lets Amazon EMR gracefully
+replace core nodes on a cluster if any nodes become unhealthy. For example, a node becomes
+unhealthy if disk usage is above 90%. If unhealthy node replacement is on and
+TerminationProtected are off, Amazon EMR immediately terminates the unhealthy core nodes.
+To use unhealthy node replacement and retain unhealthy core nodes, use to turn on
+termination protection. In such cases, Amazon EMR adds the unhealthy nodes to a denylist,
+reducing job interruptions and failures. If unhealthy node replacement is on, Amazon EMR
+notifies YARN and other applications on the cluster to stop scheduling tasks with these
+nodes, moves the data, and then terminates the nodes. For more information, see graceful
+node replacement in the Amazon EMR Management Guide.
+
+# Arguments
+- `job_flow_ids`: The list of strings that uniquely identify the clusters for which to turn
+  on unhealthy node replacement. You can get these identifiers by running the RunJobFlow or
+  the DescribeJobFlows operations.
+- `unhealthy_node_replacement`: Indicates whether to turn on or turn off graceful unhealthy
+  node replacement.
+
+"""
+function set_unhealthy_node_replacement(
+    JobFlowIds, UnhealthyNodeReplacement; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return emr(
+        "SetUnhealthyNodeReplacement",
+        Dict{String,Any}(
+            "JobFlowIds" => JobFlowIds,
+            "UnhealthyNodeReplacement" => UnhealthyNodeReplacement,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function set_unhealthy_node_replacement(
+    JobFlowIds,
+    UnhealthyNodeReplacement,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return emr(
+        "SetUnhealthyNodeReplacement",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "JobFlowIds" => JobFlowIds,
+                    "UnhealthyNodeReplacement" => UnhealthyNodeReplacement,
                 ),
                 params,
             ),
@@ -2338,6 +2506,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DefaultS3Location"`: The Amazon S3 location to back up Workspaces and notebook files
   for the Amazon EMR Studio.
 - `"Description"`: A detailed description to assign to the Amazon EMR Studio.
+- `"EncryptionKeyArn"`: The KMS key identifier (ARN) used to encrypt Amazon EMR Studio
+  workspace and notebook files when backed up to Amazon S3.
 - `"Name"`: A descriptive name for the Amazon EMR Studio.
 - `"SubnetIds"`: A list of subnet IDs to associate with the Amazon EMR Studio. The list can
   include new subnet IDs, but must also include all of the subnet IDs previously associated

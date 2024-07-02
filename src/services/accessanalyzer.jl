@@ -92,6 +92,186 @@ function cancel_policy_generation(
 end
 
 """
+    check_access_not_granted(access, policy_document, policy_type)
+    check_access_not_granted(access, policy_document, policy_type, params::Dict{String,<:Any})
+
+Checks whether the specified access isn't allowed by a policy.
+
+# Arguments
+- `access`: An access object containing the permissions that shouldn't be granted by the
+  specified policy. If only actions are specified, IAM Access Analyzer checks for access of
+  the actions on all resources in the policy. If only resources are specified, then IAM
+  Access Analyzer checks which actions have access to the specified resources. If both
+  actions and resources are specified, then IAM Access Analyzer checks which of the specified
+  actions have access to the specified resources.
+- `policy_document`: The JSON policy document to use as the content for the policy.
+- `policy_type`: The type of policy. Identity policies grant permissions to IAM principals.
+  Identity policies include managed and inline policies for IAM roles, users, and groups.
+  Resource policies grant permissions on Amazon Web Services resources. Resource policies
+  include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can
+  provide a generic input such as identity policy or resource policy or a specific input such
+  as managed policy or Amazon S3 bucket policy.
+
+"""
+function check_access_not_granted(
+    access, policyDocument, policyType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return accessanalyzer(
+        "POST",
+        "/policy/check-access-not-granted",
+        Dict{String,Any}(
+            "access" => access,
+            "policyDocument" => policyDocument,
+            "policyType" => policyType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function check_access_not_granted(
+    access,
+    policyDocument,
+    policyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/policy/check-access-not-granted",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "access" => access,
+                    "policyDocument" => policyDocument,
+                    "policyType" => policyType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    check_no_new_access(existing_policy_document, new_policy_document, policy_type)
+    check_no_new_access(existing_policy_document, new_policy_document, policy_type, params::Dict{String,<:Any})
+
+Checks whether new access is allowed for an updated policy when compared to the existing
+policy. You can find examples for reference policies and learn how to set up and run a
+custom policy check for new access in the IAM Access Analyzer custom policy checks samples
+repository on GitHub. The reference policies in this repository are meant to be passed to
+the existingPolicyDocument request parameter.
+
+# Arguments
+- `existing_policy_document`: The JSON policy document to use as the content for the
+  existing policy.
+- `new_policy_document`: The JSON policy document to use as the content for the updated
+  policy.
+- `policy_type`: The type of policy to compare. Identity policies grant permissions to IAM
+  principals. Identity policies include managed and inline policies for IAM roles, users, and
+  groups. Resource policies grant permissions on Amazon Web Services resources. Resource
+  policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets.
+  You can provide a generic input such as identity policy or resource policy or a specific
+  input such as managed policy or Amazon S3 bucket policy.
+
+"""
+function check_no_new_access(
+    existingPolicyDocument,
+    newPolicyDocument,
+    policyType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/policy/check-no-new-access",
+        Dict{String,Any}(
+            "existingPolicyDocument" => existingPolicyDocument,
+            "newPolicyDocument" => newPolicyDocument,
+            "policyType" => policyType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function check_no_new_access(
+    existingPolicyDocument,
+    newPolicyDocument,
+    policyType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/policy/check-no-new-access",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "existingPolicyDocument" => existingPolicyDocument,
+                    "newPolicyDocument" => newPolicyDocument,
+                    "policyType" => policyType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    check_no_public_access(policy_document, resource_type)
+    check_no_public_access(policy_document, resource_type, params::Dict{String,<:Any})
+
+Checks whether a resource policy can grant public access to the specified resource type.
+
+# Arguments
+- `policy_document`: The JSON policy document to evaluate for public access.
+- `resource_type`: The type of resource to evaluate for public access. For example, to
+  check for public access to Amazon S3 buckets, you can choose AWS::S3::Bucket for the
+  resource type. For resource types not supported as valid values, IAM Access Analyzer will
+  return an error.
+
+"""
+function check_no_public_access(
+    policyDocument, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return accessanalyzer(
+        "POST",
+        "/policy/check-no-public-access",
+        Dict{String,Any}(
+            "policyDocument" => policyDocument, "resourceType" => resourceType
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function check_no_public_access(
+    policyDocument,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/policy/check-no-public-access",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "policyDocument" => policyDocument, "resourceType" => resourceType
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_access_preview(analyzer_arn, configurations)
     create_access_preview(analyzer_arn, configurations, params::Dict{String,<:Any})
 
@@ -158,16 +338,20 @@ Creates an analyzer for your account.
 
 # Arguments
 - `analyzer_name`: The name of the analyzer to create.
-- `type`: The type of analyzer to create. Only ACCOUNT and ORGANIZATION analyzers are
-  supported. You can create only one analyzer per account per Region. You can create up to 5
-  analyzers per organization per Region.
+- `type`: The type of analyzer to create. Only ACCOUNT, ORGANIZATION,
+  ACCOUNT_UNUSED_ACCESS, and ORGANIZATION_UNUSED_ACCESS analyzers are supported. You can
+  create only one analyzer per account per Region. You can create up to 5 analyzers per
+  organization per Region.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"archiveRules"`: Specifies the archive rules to add for the analyzer. Archive rules
   automatically archive findings that meet the criteria you define for the rule.
 - `"clientToken"`: A client token.
-- `"tags"`: The tags to apply to the analyzer.
+- `"configuration"`: Specifies the configuration of the analyzer. If the analyzer is an
+  unused access analyzer, the specified scope of unused access is used for the configuration.
+  If the analyzer is an external access analyzer, this field is not used.
+- `"tags"`: An array of key-value pairs to apply to the analyzer.
 """
 function create_analyzer(
     analyzerName, type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -347,6 +531,45 @@ function delete_archive_rule(
 end
 
 """
+    generate_finding_recommendation(analyzer_arn, id)
+    generate_finding_recommendation(analyzer_arn, id, params::Dict{String,<:Any})
+
+Creates a recommendation for an unused permissions finding.
+
+# Arguments
+- `analyzer_arn`: The ARN of the analyzer used to generate the finding recommendation.
+- `id`: The unique ID for the finding recommendation.
+
+"""
+function generate_finding_recommendation(
+    analyzerArn, id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return accessanalyzer(
+        "POST",
+        "/recommendation/$(id)",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function generate_finding_recommendation(
+    analyzerArn,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/recommendation/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_access_preview(access_preview_id, analyzer_arn)
     get_access_preview(access_preview_id, analyzer_arn, params::Dict{String,<:Any})
 
@@ -503,7 +726,9 @@ end
     get_finding(analyzer_arn, id)
     get_finding(analyzer_arn, id, params::Dict{String,<:Any})
 
-Retrieves information about the specified finding.
+Retrieves information about the specified finding. GetFinding and GetFindingV2 both use
+access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have
+permission to perform the access-analyzer:GetFinding action.
 
 # Arguments
 - `analyzer_arn`: The ARN of the analyzer that generated the finding.
@@ -528,6 +753,92 @@ function get_finding(
     return accessanalyzer(
         "GET",
         "/finding/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_finding_recommendation(analyzer_arn, id)
+    get_finding_recommendation(analyzer_arn, id, params::Dict{String,<:Any})
+
+Retrieves information about a finding recommendation for the specified analyzer.
+
+# Arguments
+- `analyzer_arn`: The ARN of the analyzer used to generate the finding recommendation.
+- `id`: The unique ID for the finding recommendation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token used for pagination of results returned.
+"""
+function get_finding_recommendation(
+    analyzerArn, id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return accessanalyzer(
+        "GET",
+        "/recommendation/$(id)",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_finding_recommendation(
+    analyzerArn,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/recommendation/$(id)",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_finding_v2(analyzer_arn, id)
+    get_finding_v2(analyzer_arn, id, params::Dict{String,<:Any})
+
+Retrieves information about the specified finding. GetFinding and GetFindingV2 both use
+access-analyzer:GetFinding in the Action element of an IAM policy statement. You must have
+permission to perform the access-analyzer:GetFinding action.
+
+# Arguments
+- `analyzer_arn`: The ARN of the analyzer that generated the finding.
+- `id`: The ID of the finding to retrieve.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token used for pagination of results returned.
+"""
+function get_finding_v2(analyzerArn, id; aws_config::AbstractAWSConfig=global_aws_config())
+    return accessanalyzer(
+        "GET",
+        "/findingv2/$(id)",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_finding_v2(
+    analyzerArn,
+    id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return accessanalyzer(
+        "GET",
+        "/findingv2/$(id)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
         );
@@ -669,7 +980,8 @@ end
     list_analyzed_resources(analyzer_arn, params::Dict{String,<:Any})
 
 Retrieves a list of resources of the specified type that have been analyzed by the
-specified analyzer..
+specified external access analyzer. This action is not supported for unused access
+analyzers.
 
 # Arguments
 - `analyzer_arn`: The ARN of the analyzer to retrieve a list of analyzed resources from.
@@ -772,9 +1084,11 @@ end
     list_findings(analyzer_arn)
     list_findings(analyzer_arn, params::Dict{String,<:Any})
 
-Retrieves a list of findings generated by the specified analyzer. To learn about filter
-keys that you can use to retrieve a list of findings, see IAM Access Analyzer filter keys
-in the IAM User Guide.
+Retrieves a list of findings generated by the specified analyzer. ListFindings and
+ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy
+statement. You must have permission to perform the access-analyzer:ListFindings action. To
+learn about filter keys that you can use to retrieve a list of findings, see IAM Access
+Analyzer filter keys in the IAM User Guide.
 
 # Arguments
 - `analyzer_arn`: The ARN of the analyzer to retrieve findings from.
@@ -803,6 +1117,51 @@ function list_findings(
     return accessanalyzer(
         "POST",
         "/finding",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_findings_v2(analyzer_arn)
+    list_findings_v2(analyzer_arn, params::Dict{String,<:Any})
+
+Retrieves a list of findings generated by the specified analyzer. ListFindings and
+ListFindingsV2 both use access-analyzer:ListFindings in the Action element of an IAM policy
+statement. You must have permission to perform the access-analyzer:ListFindings action. To
+learn about filter keys that you can use to retrieve a list of findings, see IAM Access
+Analyzer filter keys in the IAM User Guide.
+
+# Arguments
+- `analyzer_arn`: The ARN of the analyzer to retrieve findings from.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: A filter to match for the findings to return.
+- `"maxResults"`: The maximum number of results to return in the response.
+- `"nextToken"`: A token used for pagination of results returned.
+- `"sort"`:
+"""
+function list_findings_v2(analyzerArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return accessanalyzer(
+        "POST",
+        "/findingv2",
+        Dict{String,Any}("analyzerArn" => analyzerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_findings_v2(
+    analyzerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return accessanalyzer(
+        "POST",
+        "/findingv2",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("analyzerArn" => analyzerArn), params)
         );
@@ -1176,12 +1535,12 @@ to author functional policies that meet security best practices.
 - `policy_document`: The JSON policy document to use as the content for the policy.
 - `policy_type`: The type of policy to validate. Identity policies grant permissions to IAM
   principals. Identity policies include managed and inline policies for IAM roles, users, and
-  groups. They also include service-control policies (SCPs) that are attached to an Amazon
-  Web Services organization, organizational unit (OU), or an account. Resource policies grant
-  permissions on Amazon Web Services resources. Resource policies include trust policies for
-  IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such
-  as identity policy or resource policy or a specific input such as managed policy or Amazon
-  S3 bucket policy.
+  groups. Resource policies grant permissions on Amazon Web Services resources. Resource
+  policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets.
+  You can provide a generic input such as identity policy or resource policy or a specific
+  input such as managed policy or Amazon S3 bucket policy.  Service control policies (SCPs)
+  are a type of organization policy attached to an Amazon Web Services organization,
+  organizational unit (OU), or an account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

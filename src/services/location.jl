@@ -269,26 +269,26 @@ end
     batch_update_device_position(tracker_name, updates)
     batch_update_device_position(tracker_name, updates, params::Dict{String,<:Any})
 
-Uploads position update data for one or more devices to a tracker resource. Amazon Location
-uses the data when it reports the last known device position and position history. Amazon
-Location retains location data for 30 days.  Position updates are handled based on the
-PositionFiltering property of the tracker. When PositionFiltering is set to TimeBased,
-updates are evaluated against linked geofence collections, and location data is stored at a
-maximum of one position per 30 second interval. If your update frequency is more often than
-every 30 seconds, only one update per 30 seconds is stored for each unique device ID. When
-PositionFiltering is set to DistanceBased filtering, location data is stored and evaluated
-against linked geofence collections only if the device has moved more than 30 m (98.4 ft).
-When PositionFiltering is set to AccuracyBased filtering, location data is stored and
-evaluated against linked geofence collections only if the device has moved more than the
-measured accuracy. For example, if two consecutive updates from a device have a horizontal
-accuracy of 5 m and 10 m, the second update is neither stored or evaluated if the device
-has moved less than 15 m. If PositionFiltering is set to AccuracyBased filtering, Amazon
-Location uses the default value { \"Horizontal\": 0} when accuracy is not provided on a
-DevicePositionUpdate.
+Uploads position update data for one or more devices to a tracker resource (up to 10
+devices per batch). Amazon Location uses the data when it reports the last known device
+position and position history. Amazon Location retains location data for 30 days.  Position
+updates are handled based on the PositionFiltering property of the tracker. When
+PositionFiltering is set to TimeBased, updates are evaluated against linked geofence
+collections, and location data is stored at a maximum of one position per 30 second
+interval. If your update frequency is more often than every 30 seconds, only one update per
+30 seconds is stored for each unique device ID. When PositionFiltering is set to
+DistanceBased filtering, location data is stored and evaluated against linked geofence
+collections only if the device has moved more than 30 m (98.4 ft). When PositionFiltering
+is set to AccuracyBased filtering, location data is stored and evaluated against linked
+geofence collections only if the device has moved more than the measured accuracy. For
+example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10
+m, the second update is neither stored or evaluated if the device has moved less than 15 m.
+If PositionFiltering is set to AccuracyBased filtering, Amazon Location uses the default
+value { \"Horizontal\": 0} when accuracy is not provided on a DevicePositionUpdate.
 
 # Arguments
 - `tracker_name`: The name of the tracker resource to update.
-- `updates`: Contains the position update details for each device.
+- `updates`: Contains the position update details for each device, up to 10 devices.
 
 """
 function batch_update_device_position(
@@ -350,6 +350,9 @@ destination must be within 40km.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ArrivalTime"`: Specifies the desired time of arrival. Uses the given time to calculate
+  the route. Otherwise, the best time of day to travel with the best traffic conditions is
+  used to calculate the route.  ArrivalTime is not supported Esri.
 - `"CarModeOptions"`: Specifies route preferences when traveling by Car, such as avoiding
   routes that use ferries or tolls. Requirements: TravelMode must be specified as Car.
 - `"DepartNow"`: Sets the time of departure as the current time. Uses the current time to
@@ -357,12 +360,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   conditions is used to calculate the route. Default Value: false  Valid Values: false | true
 - `"DepartureTime"`: Specifies the desired time of departure. Uses the given time to
   calculate the route. Otherwise, the best time of day to travel with the best traffic
-  conditions is used to calculate the route.  Setting a departure time in the past returns a
-  400 ValidationException error.    In ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. For
-  example, 2020–07-2T12:15:20.000Z+01:00
+  conditions is used to calculate the route.   In ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
+  For example, 2020–07-2T12:15:20.000Z+01:00
 - `"DistanceUnit"`: Set the unit system to specify the distance. Default Value: Kilometers
 - `"IncludeLegGeometry"`: Set to include the geometry details in the result for each path
   between a pair of positions. Default Value: false  Valid Values: false | true
+- `"OptimizeFor"`: Specifies the distance to optimize for when calculating a route.
 - `"TravelMode"`: Specifies the mode of transport when calculating a route. Used in
   estimating the speed of travel and road compatibility. You can choose Car, Truck, Walking,
   Bicycle or Motorcycle as options for the TravelMode.   Bicycle and Motorcycle are only
@@ -384,6 +387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ValidationException error. If Esri is the provider for your route calculator, specifying a
   route that is longer than 400 km returns a 400 RoutesValidationException error.  Valid
   Values: [-180 to 180,-90 to 90]
+- `"key"`: The optional API key to authorize the request.
 """
 function calculate_route(
     CalculatorName,
@@ -496,6 +500,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TruckModeOptions"`: Specifies route preferences when traveling by Truck, such as
   avoiding routes that use ferries or tolls, and truck specifications to consider when
   choosing an optimal road. Requirements: TravelMode must be specified as Truck.
+- `"key"`: The optional API key to authorize the request.
 """
 function calculate_route_matrix(
     CalculatorName,
@@ -598,9 +603,8 @@ end
     create_key(key_name, restrictions, params::Dict{String,<:Any})
 
 Creates an API key resource in your Amazon Web Services account, which lets you grant
-geo:GetMap* actions for Amazon Location Map resources to the API key bearer.  The API keys
-feature is in preview. We may add, change, or remove features before announcing general
-availability. For more information, see Using API keys.
+actions for Amazon Location resources to the API key bearer.  For more information, see
+Using API keys.
 
 # Arguments
 - `key_name`: A custom name for the API key resource. Requirements:   Contain only
@@ -880,6 +884,18 @@ current and historical location of devices.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: An optional description for the tracker resource.
+- `"EventBridgeEnabled"`: Whether to enable position UPDATE events from this tracker to be
+  sent to EventBridge.  You do not need enable this feature to get ENTER and EXIT events for
+  geofences with this tracker. Those events are always sent to EventBridge.
+- `"KmsKeyEnableGeospatialQueries"`: Enables GeospatialQueries for a tracker that uses a
+  Amazon Web Services KMS customer managed key. This parameter is only used if you are using
+  a KMS customer managed key.  If you wish to encrypt your data using your own KMS customer
+  managed key, then the Bounding Polygon Queries feature will be disabled by default. This is
+  because by using this feature, a representation of your device positions will not be
+  encrypted using the your KMS managed key. The exact device position, however; is still
+  encrypted using your managed key. You can choose to opt-in to the Bounding Polygon Quseries
+  feature. This is done by setting the KmsKeyEnableGeospatialQueries parameter to true when
+  creating or updating a Tracker.
 - `"KmsKeyId"`: A key identifier for an Amazon Web Services KMS customer managed key. Enter
   a key ID, key ARN, alias name, or alias ARN.
 - `"PositionFiltering"`: Specifies the position filtering for the tracker resource. Valid
@@ -979,6 +995,12 @@ previously.
 # Arguments
 - `key_name`: The name of the API key to delete.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"forceDelete"`: ForceDelete bypasses an API key's expiry conditions and deletes the key.
+  Set the parameter true to delete the key or to false to not preemptively delete the API
+  key. Valid values: true, or false. Required: No  This action is irreversible. Only use
+  ForceDelete if you are certain the key is no longer in use.
 """
 function delete_key(KeyName; aws_config::AbstractAWSConfig=global_aws_config())
     return location(
@@ -1171,9 +1193,7 @@ end
     describe_key(key_name)
     describe_key(key_name, params::Dict{String,<:Any})
 
-Retrieves the API key resource details.  The API keys feature is in preview. We may add,
-change, or remove features before announcing general availability. For more information,
-see Using API keys.
+Retrieves the API key resource details.
 
 # Arguments
 - `key_name`: The name of the API key resource.
@@ -1369,6 +1389,66 @@ function disassociate_tracker_consumer(
 end
 
 """
+    forecast_geofence_events(collection_name, device_state)
+    forecast_geofence_events(collection_name, device_state, params::Dict{String,<:Any})
+
+Evaluates device positions against geofence geometries from a given geofence collection.
+The event forecasts three states for which a device can be in relative to a geofence:
+ENTER: If a device is outside of a geofence, but would breach the fence if the device is
+moving at its current speed within time horizon window.  EXIT: If a device is inside of a
+geofence, but would breach the fence if the device is moving at its current speed within
+time horizon window.  IDLE: If a device is inside of a geofence, and the device is not
+moving.
+
+# Arguments
+- `collection_name`: The name of the geofence collection.
+- `device_state`: The device's state, including current position and speed.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DistanceUnit"`: The distance unit used for the NearestDistance property returned in a
+  forecasted event. The measurement system must match for DistanceUnit and SpeedUnit; if
+  Kilometers is specified for DistanceUnit, then SpeedUnit must be KilometersPerHour.
+  Default Value: Kilometers
+- `"MaxResults"`: An optional limit for the number of resources returned in a single call.
+  Default value: 20
+- `"NextToken"`: The pagination token specifying which page of results to return in the
+  response. If no token is provided, the default page is the first page. Default value: null
+- `"SpeedUnit"`: The speed unit for the device captured by the device state. The
+  measurement system must match for DistanceUnit and SpeedUnit; if Kilometers is specified
+  for DistanceUnit, then SpeedUnit must be KilometersPerHour. Default Value:
+  KilometersPerHour.
+- `"TimeHorizonMinutes"`: Specifies the time horizon in minutes for the forecasted events.
+"""
+function forecast_geofence_events(
+    CollectionName, DeviceState; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/forecast-geofence-events",
+        Dict{String,Any}("DeviceState" => DeviceState);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function forecast_geofence_events(
+    CollectionName,
+    DeviceState,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/geofencing/v0/collections/$(CollectionName)/forecast-geofence-events",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DeviceState" => DeviceState), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_device_position(device_id, tracker_name)
     get_device_position(device_id, tracker_name, params::Dict{String,<:Any})
 
@@ -1461,7 +1541,8 @@ end
     get_geofence(collection_name, geofence_id)
     get_geofence(collection_name, geofence_id, params::Dict{String,<:Any})
 
-Retrieves the geofence details from a geofence collection.
+Retrieves the geofence details from a geofence collection.  The returned geometry will
+always match the geometry format used when the geofence was created.
 
 # Arguments
 - `collection_name`: The geofence collection storing the target geofence.
@@ -1501,7 +1582,7 @@ Retrieves glyphs used to display labels on a map.
 
 # Arguments
 - `font_stack`: A comma-separated list of fonts to load glyphs from in order of preference.
-  For example, Noto Sans Regular, Arial Unicode. Valid fonts stacks for Esri styles:
+  For example, Noto Sans Regular, Arial Unicode. Valid font stacks for Esri styles:
   VectorEsriDarkGrayCanvas – Ubuntu Medium Italic | Ubuntu Medium | Ubuntu Italic | Ubuntu
   Regular | Ubuntu Bold    VectorEsriLightGrayCanvas – Ubuntu Italic | Ubuntu Regular |
   Ubuntu Light | Ubuntu Bold    VectorEsriTopographic – Noto Sans Italic | Noto Sans
@@ -1702,6 +1783,7 @@ Region   Data provider specified in the place index resource
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"key"`: The optional API key to authorize the request.
 - `"language"`: The preferred language used to return results. The value must be a valid
   BCP 47 language tag, for example, en for English. This setting affects the languages used
   in the results, but not the results themselves. If no language is specified, or not
@@ -1746,6 +1828,7 @@ A batch request to retrieve all device positions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FilterGeometry"`: The geometry used to filter device positions.
 - `"MaxResults"`: An optional limit for the number of entries returned in a single call.
   Default value: 100
 - `"NextToken"`: The pagination token specifying which page of results to return in the
@@ -1850,9 +1933,7 @@ end
     list_keys()
     list_keys(params::Dict{String,<:Any})
 
-Lists API key resources in your Amazon Web Services account.  The API keys feature is in
-preview. We may add, change, or remove features before announcing general availability. For
-more information, see Using API keys.
+Lists API key resources in your Amazon Web Services account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2097,10 +2178,16 @@ existing geofence if a geofence ID is included in the request.
 # Arguments
 - `collection_name`: The geofence collection to store the geofence in.
 - `geofence_id`: An identifier for the geofence. For example, ExampleGeofence-1.
-- `geometry`: Contains the details to specify the position of the geofence. Can be either a
-  polygon or a circle. Including both will return a validation error.  Each  geofence polygon
-  can have a maximum of 1,000 vertices.
+- `geometry`: Contains the details to specify the position of the geofence. Can be a
+  polygon, a circle or a polygon encoded in Geobuf format. Including multiple selections will
+  return a validation error.  The  geofence polygon format supports a maximum of 1,000
+  vertices. The Geofence Geobuf format supports a maximum of 100,000 vertices.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"GeofenceProperties"`: Associates one of more properties with the geofence. A property
+  is a key-value pair stored with the geofence and added to any geofence event triggered with
+  that geofence. Format: \"key\" : \"value\"
 """
 function put_geofence(
     CollectionName, GeofenceId, Geometry; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2158,6 +2245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not have a value for Greek, the result will be in a language that the provider does support.
 - `"MaxResults"`: An optional parameter. The maximum number of results returned per
   request. Default value: 50
+- `"key"`: The optional API key to authorize the request.
 """
 function search_place_index_for_position(
     IndexName, Position; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2222,6 +2310,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude
   -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive.
   Specifying both options results in an error.
+- `"FilterCategories"`: A list of one or more Amazon Location categories to filter the
+  returned places. If you include more than one category, the results will include results
+  that match any of the categories listed. For more information about using categories,
+  including a list of Amazon Location categories, see Categories and filtering, in the Amazon
+  Location Service Developer Guide.
 - `"FilterCountries"`: An optional parameter that limits the search results by returning
   only suggestions within the provided list of countries.   Use the ISO 3166 3-digit country
   code. For example, Australia uses three upper-case characters: AUS.
@@ -2236,6 +2329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be in a language that the provider does support.
 - `"MaxResults"`: An optional parameter. The maximum number of results returned per
   request.  The default: 5
+- `"key"`: The optional API key to authorize the request.
 """
 function search_place_index_for_suggestions(
     IndexName, Text; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2297,6 +2391,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude
   -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive.
   Specifying both options results in an error.
+- `"FilterCategories"`: A list of one or more Amazon Location categories to filter the
+  returned places. If you include more than one category, the results will include results
+  that match any of the categories listed. For more information about using categories,
+  including a list of Amazon Location categories, see Categories and filtering, in the Amazon
+  Location Service Developer Guide.
 - `"FilterCountries"`: An optional parameter that limits the search results by returning
   only places that are in a specified list of countries.   Valid values include ISO 3166
   3-digit country codes. For example, Australia uses three upper-case characters: AUS.
@@ -2311,6 +2410,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   will be in a language that the provider does support.
 - `"MaxResults"`: An optional parameter. The maximum number of results returned per
   request.  The default: 50
+- `"key"`: The optional API key to authorize the request.
 """
 function search_place_index_for_text(
     IndexName, Text; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2468,9 +2568,7 @@ end
     update_key(key_name)
     update_key(key_name, params::Dict{String,<:Any})
 
-Updates the specified properties of a given API key resource.  The API keys feature is in
-preview. We may add, change, or remove features before announcing general availability. For
-more information, see Using API keys.
+Updates the specified properties of a given API key resource.
 
 # Arguments
 - `key_name`: The name of the API key resource to update.
@@ -2630,6 +2728,12 @@ Updates the specified properties of a given tracker resource.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: Updates the description for the tracker resource.
+- `"EventBridgeEnabled"`: Whether to enable position UPDATE events from this tracker to be
+  sent to EventBridge.  You do not need enable this feature to get ENTER and EXIT events for
+  geofences with this tracker. Those events are always sent to EventBridge.
+- `"KmsKeyEnableGeospatialQueries"`: Enables GeospatialQueries for a tracker that uses a
+  Amazon Web Services KMS customer managed key. This parameter is only used if you are using
+  a KMS customer managed key.
 - `"PositionFiltering"`: Updates the position filtering for the tracker resource. Valid
   values:    TimeBased - Location updates are evaluated against linked geofence collections,
   but not every location update is stored. If your update frequency is more often than 30
@@ -2666,6 +2770,52 @@ function update_tracker(
         "PATCH",
         "/tracking/v0/trackers/$(TrackerName)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    verify_device_position(device_state, tracker_name)
+    verify_device_position(device_state, tracker_name, params::Dict{String,<:Any})
+
+Verifies the integrity of the device's position by determining if it was reported behind a
+proxy, and by comparing it to an inferred position estimated based on the device's state.
+
+# Arguments
+- `device_state`: The device's state, including position, IP address, cell signals and
+  Wi-Fi access points.
+- `tracker_name`: The name of the tracker resource to be associated with verification
+  request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DistanceUnit"`: The distance unit for the verification request. Default Value:
+  Kilometers
+"""
+function verify_device_position(
+    DeviceState, TrackerName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/positions/verify",
+        Dict{String,Any}("DeviceState" => DeviceState);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function verify_device_position(
+    DeviceState,
+    TrackerName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return location(
+        "POST",
+        "/tracking/v0/trackers/$(TrackerName)/positions/verify",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("DeviceState" => DeviceState), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

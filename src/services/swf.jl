@@ -236,13 +236,12 @@ function count_pending_decision_tasks(
 end
 
 """
-    deprecate_activity_type(activity_type, domain)
-    deprecate_activity_type(activity_type, domain, params::Dict{String,<:Any})
+    delete_activity_type(activity_type, domain)
+    delete_activity_type(activity_type, domain, params::Dict{String,<:Any})
 
-Deprecates the specified activity type. After an activity type has been deprecated, you
-cannot create new tasks of that activity type. Tasks of this type that were scheduled
-before the type was deprecated continue to run.  This operation is eventually consistent.
-The results are best effort and may not exactly reflect recent updates and changes.
+Deletes the specified activity type. Note: Prior to deletion, activity types must first be
+deprecated.   After an activity type has been deleted, you cannot schedule new activities
+of that type. Activities that started before the type was deleted will continue to run.
 Access Control  You can use IAM policies to control this action's access to Amazon SWF
 resources as follows:   Use a Resource element with the domain name to limit the action to
 only specified domains.   Use an Action element to allow or deny permission to call this
@@ -254,6 +253,113 @@ the action, or the parameter values fall outside the specified constraints, the 
 fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED.
 For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
 Workflows in the Amazon SWF Developer Guide.
+
+# Arguments
+- `activity_type`: The activity type to delete.
+- `domain`: The name of the domain in which the activity type is registered.
+
+"""
+function delete_activity_type(
+    activityType, domain; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return swf(
+        "DeleteActivityType",
+        Dict{String,Any}("activityType" => activityType, "domain" => domain);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_activity_type(
+    activityType,
+    domain,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return swf(
+        "DeleteActivityType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("activityType" => activityType, "domain" => domain),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_workflow_type(domain, workflow_type)
+    delete_workflow_type(domain, workflow_type, params::Dict{String,<:Any})
+
+Deletes the specified workflow type. Note: Prior to deletion, workflow types must first be
+deprecated.  After a workflow type has been deleted, you cannot create new executions of
+that type. Executions that started before the type was deleted will continue to run.
+Access Control  You can use IAM policies to control this action's access to Amazon SWF
+resources as follows:   Use a Resource element with the domain name to limit the action to
+only specified domains.   Use an Action element to allow or deny permission to call this
+action.   Constrain the following parameters by using a Condition element with the
+appropriate keys.    workflowType.name: String constraint. The key is
+swf:workflowType.name.    workflowType.version: String constraint. The key is
+swf:workflowType.version.     If the caller doesn't have sufficient permissions to invoke
+the action, or the parameter values fall outside the specified constraints, the action
+fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED.
+For details and example IAM policies, see Using IAM to Manage Access to Amazon SWF
+Workflows in the Amazon SWF Developer Guide.
+
+# Arguments
+- `domain`: The name of the domain in which the workflow type is registered.
+- `workflow_type`: The workflow type to delete.
+
+"""
+function delete_workflow_type(
+    domain, workflowType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return swf(
+        "DeleteWorkflowType",
+        Dict{String,Any}("domain" => domain, "workflowType" => workflowType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_workflow_type(
+    domain,
+    workflowType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return swf(
+        "DeleteWorkflowType",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("domain" => domain, "workflowType" => workflowType),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    deprecate_activity_type(activity_type, domain)
+    deprecate_activity_type(activity_type, domain, params::Dict{String,<:Any})
+
+Deprecates the specified activity type. After an activity type has been deprecated, you
+cannot create new tasks of that activity type. Tasks of this type that were scheduled
+before the type was deprecated continue to run.  Access Control  You can use IAM policies
+to control this action's access to Amazon SWF resources as follows:   Use a Resource
+element with the domain name to limit the action to only specified domains.   Use an Action
+element to allow or deny permission to call this action.   Constrain the following
+parameters by using a Condition element with the appropriate keys.    activityType.name:
+String constraint. The key is swf:activityType.name.    activityType.version: String
+constraint. The key is swf:activityType.version.     If the caller doesn't have sufficient
+permissions to invoke the action, or the parameter values fall outside the specified
+constraints, the action fails. The associated event attribute's cause parameter is set to
+OPERATION_NOT_PERMITTED. For details and example IAM policies, see Using IAM to Manage
+Access to Amazon SWF Workflows in the Amazon SWF Developer Guide.
 
 # Arguments
 - `activity_type`: The activity type to deprecate.
@@ -1776,6 +1882,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"decisions"`: The list of decisions (possibly empty) made by the decider while
   processing this decision task. See the docs for the Decision structure for details.
 - `"executionContext"`: User defined context to add to workflow execution.
+- `"taskList"`: The task list to use for the future decision tasks of this workflow
+  execution. This list overrides the original task list you specified while starting the
+  workflow execution.
+- `"taskListScheduleToStartTimeout"`: Specifies a timeout (in seconds) for the task list
+  override. When this parameter is missing, the task list override is permanent. This
+  parameter makes it possible to temporarily override the task list. If a decision task
+  scheduled on the override task list is not started within the timeout, the decision task
+  will time out. Amazon SWF will revert the override and schedule a new decision task to the
+  original task list. If a decision task scheduled on the override task list is started
+  within the timeout, but not completed within the start-to-close timeout, Amazon SWF will
+  also revert the override and schedule a new decision task to the original task list.
 """
 function respond_decision_task_completed(
     taskToken; aws_config::AbstractAWSConfig=global_aws_config()

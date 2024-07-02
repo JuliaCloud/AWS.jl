@@ -441,8 +441,9 @@ end
     describe_endpoints()
     describe_endpoints(params::Dict{String,<:Any})
 
-Send an request with an empty body to the regional API endpoint to get your account API
-endpoint.
+Send a request with an empty body to the regional API endpoint to get your account API
+endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send
+your requests directly to the regional endpoint instead.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -511,7 +512,7 @@ end
     get_job(id)
     get_job(id, params::Dict{String,<:Any})
 
-Retrieve the JSON for a specific completed transcoding job.
+Retrieve the JSON for a specific transcoding job.
 
 # Arguments
 - `id`: the job ID of the job.
@@ -866,6 +867,45 @@ function put_policy(
         "PUT",
         "/2017-08-29/policy",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("policy" => policy), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_jobs()
+    search_jobs(params::Dict{String,<:Any})
+
+Retrieve a JSON array that includes job details for up to twenty of your most recent jobs.
+Optionally filter results further according to input file, queue, or status. To retrieve
+the twenty next most recent jobs, use the nextToken string returned with the array.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"inputFile"`: Optional. Provide your input file URL or your partial input file name. The
+  maximum length for an input file is 300 characters.
+- `"maxResults"`: Optional. Number of jobs, up to twenty, that will be returned at one time.
+- `"nextToken"`: Optional. Use this string, provided with the response to a previous
+  request, to request the next batch of jobs.
+- `"order"`: Optional. When you request lists of resources, you can specify whether they
+  are sorted in ASCENDING or DESCENDING order. Default varies by resource.
+- `"queue"`: Optional. Provide a queue name, or a queue ARN, to return only jobs from that
+  queue.
+- `"status"`: Optional. A job's status can be SUBMITTED, PROGRESSING, COMPLETE, CANCELED,
+  or ERROR.
+"""
+function search_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return mediaconvert(
+        "GET", "/2017-08-29/search"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function search_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconvert(
+        "GET",
+        "/2017-08-29/search",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

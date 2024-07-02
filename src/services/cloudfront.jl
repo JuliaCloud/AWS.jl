@@ -59,7 +59,8 @@ distribution. A staging distribution is a copy of an existing distribution (call
 primary distribution) that you can use in a continuous deployment workflow. After you
 create a staging distribution, you can use UpdateDistribution to modify the staging
 distribution's configuration. Then you can use CreateContinuousDeploymentPolicy to
-incrementally move traffic to the staging distribution.
+incrementally move traffic to the staging distribution. This API operation requires the
+following IAM permissions:    GetDistribution     CreateDistribution     CopyDistribution
 
 # Arguments
 - `caller_reference`: A value that uniquely identifies a request to create a resource. This
@@ -70,6 +71,10 @@ incrementally move traffic to the staging distribution.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Enabled"`: A Boolean flag to specify the state of the staging distribution when it's
+  created. When you set this value to True, the staging distribution is enabled. When you set
+  this value to False, the staging distribution is disabled. If you omit this field, the
+  default value is True.
 - `"If-Match"`: The version identifier of the primary distribution whose configuration you
   are copying. This is the ETag value returned in the response to GetDistribution and
   GetDistributionConfig.
@@ -305,7 +310,8 @@ end
     create_distribution_with_tags2020_05_31(distribution_config_with_tags)
     create_distribution_with_tags2020_05_31(distribution_config_with_tags, params::Dict{String,<:Any})
 
-Create a new distribution with tags.
+Create a new distribution with tags. This API operation requires the following IAM
+permissions:    CreateDistribution     TagResource
 
 # Arguments
 - `distribution_config_with_tags`: The distribution's configuration information.
@@ -501,7 +507,8 @@ end
     create_invalidation2020_05_31(distribution_id, invalidation_batch)
     create_invalidation2020_05_31(distribution_id, invalidation_batch, params::Dict{String,<:Any})
 
-Create a new invalidation.
+Create a new invalidation. For more information, see Invalidating files in the Amazon
+CloudFront Developer Guide.
 
 # Arguments
 - `distribution_id`: The distribution's id.
@@ -578,6 +585,47 @@ function create_key_group2020_05_31(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("KeyGroupConfig" => KeyGroupConfig), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_key_value_store2020_05_31(name)
+    create_key_value_store2020_05_31(name, params::Dict{String,<:Any})
+
+Specifies the key value store resource to add to your account. In your account, the key
+value store names must be unique. You can also import key value store data in JSON format
+from an S3 bucket by providing a valid ImportSource that you own.
+
+# Arguments
+- `name`: The name of the key value store. The minimum length is 1 character and the
+  maximum length is 64 characters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Comment"`: The comment of the key value store.
+- `"ImportSource"`: The S3 bucket that provides the source for the import. The source must
+  be in a valid JSON format.
+"""
+function create_key_value_store2020_05_31(
+    Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/key-value-store/",
+        Dict{String,Any}("Name" => Name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_key_value_store2020_05_31(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "POST",
+        "/2020-05-31/key-value-store/",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -787,9 +835,9 @@ Real-time logs in the Amazon CloudFront Developer Guide.
   about fields, see Real-time log configuration fields in the Amazon CloudFront Developer
   Guide.
 - `name`: A unique name to identify this real-time log configuration.
-- `sampling_rate`: The sampling rate for this real-time log configuration. The sampling
-  rate determines the percentage of viewer requests that are represented in the real-time log
-  data. You must provide an integer between 1 and 100, inclusive.
+- `sampling_rate`: The sampling rate for this real-time log configuration. You can specify
+  a whole number between 1 and 100 (inclusive) to determine the percentage of viewer requests
+  that are represented in the real-time log data.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1299,6 +1347,49 @@ function delete_key_group2020_05_31(
 end
 
 """
+    delete_key_value_store2020_05_31(if-_match, name)
+    delete_key_value_store2020_05_31(if-_match, name, params::Dict{String,<:Any})
+
+Specifies the key value store to delete.
+
+# Arguments
+- `if-_match`: The key value store to delete, if a match occurs.
+- `name`: The name of the key value store.
+
+"""
+function delete_key_value_store2020_05_31(
+    If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/key-value-store/$(Name)",
+        Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_key_value_store2020_05_31(
+    If_Match,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "DELETE",
+        "/2020-05-31/key-value-store/$(Name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("headers" => Dict{String,Any}("If-Match" => If_Match)),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_monitoring_subscription2020_05_31(distribution_id)
     delete_monitoring_subscription2020_05_31(distribution_id, params::Dict{String,<:Any})
 
@@ -1612,6 +1703,38 @@ function describe_function2020_05_31(
     return cloudfront(
         "GET",
         "/2020-05-31/function/$(Name)/describe",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_key_value_store2020_05_31(name)
+    describe_key_value_store2020_05_31(name, params::Dict{String,<:Any})
+
+Specifies the key value store and its configuration.
+
+# Arguments
+- `name`: The name of the key value store.
+
+"""
+function describe_key_value_store2020_05_31(
+    Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/key-value-store/$(Name)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_key_value_store2020_05_31(
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/key-value-store/$(Name)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3050,7 +3173,11 @@ List the distributions that are associated with a specified WAF web ACL.
 # Arguments
 - `web_aclid`: The ID of the WAF web ACL that you want to list the associated
   distributions. If you specify \"null\" for the ID, the request returns a list of the
-  distributions that aren't associated with a web ACL.
+  distributions that aren't associated with a web ACL.  For WAFV2, this is the ARN of the web
+  ACL, such as
+  arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXA
+  MPLE11111. For WAF Classic, this is the ID of the web ACL, such as
+  a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3280,6 +3407,40 @@ function list_key_groups2020_05_31(
     return cloudfront(
         "GET",
         "/2020-05-31/key-group",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_key_value_stores2020_05_31()
+    list_key_value_stores2020_05_31(params::Dict{String,<:Any})
+
+Specifies the key value stores to list.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: The marker associated with the key value stores list.
+- `"MaxItems"`: The maximum number of items in the key value stores list.
+- `"Status"`: The status of the request for the key value stores list.
+"""
+function list_key_value_stores2020_05_31(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/key-value-store";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_key_value_stores2020_05_31(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "GET",
+        "/2020-05-31/key-value-store",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3998,7 +4159,8 @@ distribution. After using a continuous deployment policy to move a portion of yo
 name's traffic to the staging distribution and verifying that it works as intended, you can
 use this operation to copy the staging distribution's configuration to the primary
 distribution. This action will disable the continuous deployment policy and move your
-domain's traffic back to the primary distribution.
+domain's traffic back to the primary distribution. This API operation requires the
+following IAM permissions:    GetDistribution     UpdateDistribution
 
 # Arguments
 - `id`: The identifier of the primary distribution to which you are copying a staging
@@ -4242,6 +4404,56 @@ function update_key_group2020_05_31(
         "/2020-05-31/key-group/$(Id)",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("KeyGroupConfig" => KeyGroupConfig), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_key_value_store2020_05_31(comment, if-_match, name)
+    update_key_value_store2020_05_31(comment, if-_match, name, params::Dict{String,<:Any})
+
+Specifies the key value store to update.
+
+# Arguments
+- `comment`: The comment of the key value store to update.
+- `if-_match`: The key value store to update, if a match occurs.
+- `name`: The name of the key value store to update.
+
+"""
+function update_key_value_store2020_05_31(
+    Comment, If_Match, Name; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/key-value-store/$(Name)",
+        Dict{String,Any}(
+            "Comment" => Comment, "headers" => Dict{String,Any}("If-Match" => If_Match)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_key_value_store2020_05_31(
+    Comment,
+    If_Match,
+    Name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudfront(
+        "PUT",
+        "/2020-05-31/key-value-store/$(Name)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "Comment" => Comment,
+                    "headers" => Dict{String,Any}("If-Match" => If_Match),
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

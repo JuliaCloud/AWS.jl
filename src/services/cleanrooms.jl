@@ -5,6 +5,54 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_get_collaboration_analysis_template(analysis_template_arns, collaboration_identifier)
+    batch_get_collaboration_analysis_template(analysis_template_arns, collaboration_identifier, params::Dict{String,<:Any})
+
+Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names
+(ARNs).
+
+# Arguments
+- `analysis_template_arns`: The Amazon Resource Name (ARN) associated with the analysis
+  template within a collaboration.
+- `collaboration_identifier`: A unique identifier for the collaboration that the analysis
+  templates belong to. Currently accepts collaboration ID.
+
+"""
+function batch_get_collaboration_analysis_template(
+    analysisTemplateArns,
+    collaborationIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/collaborations/$(collaborationIdentifier)/batch-analysistemplates",
+        Dict{String,Any}("analysisTemplateArns" => analysisTemplateArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_collaboration_analysis_template(
+    analysisTemplateArns,
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/collaborations/$(collaborationIdentifier)/batch-analysistemplates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("analysisTemplateArns" => analysisTemplateArns),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_schema(collaboration_identifier, names)
     batch_get_schema(collaboration_identifier, names, params::Dict{String,<:Any})
 
@@ -13,7 +61,7 @@ Retrieves multiple schemas by their identifiers.
 # Arguments
 - `collaboration_identifier`: A unique identifier for the collaboration that the schemas
   belong to. Currently accepts collaboration ID.
-- `names`: The names for the schema objects to retrieve.&gt;
+- `names`: The names for the schema objects to retrieve.
 
 """
 function batch_get_schema(
@@ -43,6 +91,115 @@ function batch_get_schema(
 end
 
 """
+    batch_get_schema_analysis_rule(collaboration_identifier, schema_analysis_rule_requests)
+    batch_get_schema_analysis_rule(collaboration_identifier, schema_analysis_rule_requests, params::Dict{String,<:Any})
+
+Retrieves multiple analysis rule schemas.
+
+# Arguments
+- `collaboration_identifier`: The unique identifier of the collaboration that contains the
+  schema analysis rule.
+- `schema_analysis_rule_requests`: The information that's necessary to retrieve a schema
+  analysis rule.
+
+"""
+function batch_get_schema_analysis_rule(
+    collaborationIdentifier,
+    schemaAnalysisRuleRequests;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/collaborations/$(collaborationIdentifier)/batch-schema-analysis-rule",
+        Dict{String,Any}("schemaAnalysisRuleRequests" => schemaAnalysisRuleRequests);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_schema_analysis_rule(
+    collaborationIdentifier,
+    schemaAnalysisRuleRequests,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/collaborations/$(collaborationIdentifier)/batch-schema-analysis-rule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "schemaAnalysisRuleRequests" => schemaAnalysisRuleRequests
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_analysis_template(format, membership_identifier, name, source)
+    create_analysis_template(format, membership_identifier, name, source, params::Dict{String,<:Any})
+
+Creates a new analysis template.
+
+# Arguments
+- `format`: The format of the analysis template.
+- `membership_identifier`: The identifier for a membership resource.
+- `name`: The name of the analysis template.
+- `source`: The information in the analysis template. Currently supports text, the query
+  text for the analysis template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"analysisParameters"`: The parameters of the analysis template.
+- `"description"`: The description of the analysis template.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each
+  tag consists of a key and an optional value, both of which you define. When you use
+  tagging, you can also use tag-based access control in IAM policies to control access to
+  this resource.
+"""
+function create_analysis_template(
+    format,
+    membershipIdentifier,
+    name,
+    source;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/analysistemplates",
+        Dict{String,Any}("format" => format, "name" => name, "source" => source);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_analysis_template(
+    format,
+    membershipIdentifier,
+    name,
+    source,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/analysistemplates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("format" => format, "name" => name, "source" => source),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_collaboration(creator_display_name, creator_member_abilities, description, members, name, query_log_status)
     create_collaboration(creator_display_name, creator_member_abilities, description, members, name, query_log_status, params::Dict{String,<:Any})
 
@@ -59,6 +216,9 @@ Creates a new collaboration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"creatorPaymentConfiguration"`: The collaboration creator's payment responsibilities set
+  by the collaboration creator.  If the collaboration creator hasn't specified anyone as the
+  member paying for query compute costs, then the member who can query is the default payer.
 - `"dataEncryptionMetadata"`: The settings for client-side encryption with Cryptographic
   Computing for Clean Rooms.
 - `"tags"`: An optional label that you can assign to a resource when you create it. Each
@@ -123,6 +283,86 @@ function create_collaboration(
 end
 
 """
+    create_configured_audience_model_association(configured_audience_model_arn, configured_audience_model_association_name, manage_resource_policies, membership_identifier)
+    create_configured_audience_model_association(configured_audience_model_arn, configured_audience_model_association_name, manage_resource_policies, membership_identifier, params::Dict{String,<:Any})
+
+Provides the details necessary to create a configured audience model association.
+
+# Arguments
+- `configured_audience_model_arn`: A unique identifier for the configured audience model
+  that you want to associate.
+- `configured_audience_model_association_name`: The name of the configured audience model
+  association.
+- `manage_resource_policies`: When TRUE, indicates that the resource policy for the
+  configured audience model resource being associated is configured for Clean Rooms to manage
+  permissions related to the given collaboration. When FALSE, indicates that the configured
+  audience model resource owner will manage permissions related to the given collaboration.
+  Setting this to TRUE requires you to have permissions to create, update, and delete the
+  resource policy for the cleanrooms-ml resource when you call the
+  DeleteConfiguredAudienceModelAssociation resource. In addition, if you are the
+  collaboration creator and specify TRUE, you must have the same permissions when you call
+  the DeleteMember and DeleteCollaboration APIs.
+- `membership_identifier`: A unique identifier for one of your memberships for a
+  collaboration. The configured audience model is associated to the collaboration that this
+  membership belongs to. Accepts a membership ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A description of the configured audience model association.
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each
+  tag consists of a key and an optional value, both of which you define. When you use
+  tagging, you can also use tag-based access control in IAM policies to control access to
+  this resource.
+"""
+function create_configured_audience_model_association(
+    configuredAudienceModelArn,
+    configuredAudienceModelAssociationName,
+    manageResourcePolicies,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations",
+        Dict{String,Any}(
+            "configuredAudienceModelArn" => configuredAudienceModelArn,
+            "configuredAudienceModelAssociationName" =>
+                configuredAudienceModelAssociationName,
+            "manageResourcePolicies" => manageResourcePolicies,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_configured_audience_model_association(
+    configuredAudienceModelArn,
+    configuredAudienceModelAssociationName,
+    manageResourcePolicies,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "configuredAudienceModelArn" => configuredAudienceModelArn,
+                    "configuredAudienceModelAssociationName" =>
+                        configuredAudienceModelAssociationName,
+                    "manageResourcePolicies" => manageResourcePolicies,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_configured_table(allowed_columns, analysis_method, name, table_reference)
     create_configured_table(allowed_columns, analysis_method, name, table_reference, params::Dict{String,<:Any})
 
@@ -134,7 +374,7 @@ Creates a new configured table resource.
 - `analysis_method`: The analysis method for the configured tables. The only valid value is
   currently `DIRECT_QUERY`.
 - `name`: The name of the configured table.
-- `table_reference`: A reference to the AWS Glue table being configured.
+- `table_reference`: A reference to the Glue table being configured.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -201,7 +441,7 @@ be created for a given configured table.
 
 # Arguments
 - `analysis_rule_policy`: The entire created configured table analysis rule object.
-- `analysis_rule_type`: The type of analysis rule. Valid values are AGGREGATION and LIST.
+- `analysis_rule_type`: The type of analysis rule.
 - `configured_table_identifier`: The identifier for the configured table to create the
   analysis rule for. Currently accepts the configured table ID.
 
@@ -329,10 +569,16 @@ Creates a membership for a specific collaboration identifier and joins the colla
 # Arguments
 - `collaboration_identifier`: The unique ID for the associated collaboration.
 - `query_log_status`: An indicator as to whether query logging has been enabled or disabled
-  for the collaboration.
+  for the membership.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"defaultResultConfiguration"`: The default protected query result configuration as
+  specified by the member who can receive results.
+- `"paymentConfiguration"`: The payment responsibilities accepted by the collaboration
+  member. Not required if the collaboration member has the member ability to run queries.
+  Required if the collaboration member doesn't have the member ability to run queries but is
+  configured as a payer by the collaboration creator.
 - `"tags"`: An optional label that you can assign to a resource when you create it. Each
   tag consists of a key and an optional value, both of which you define. When you use
   tagging, you can also use tag-based access control in IAM policies to control access to
@@ -379,6 +625,118 @@ function create_membership(
 end
 
 """
+    create_privacy_budget_template(auto_refresh, membership_identifier, parameters, privacy_budget_type)
+    create_privacy_budget_template(auto_refresh, membership_identifier, parameters, privacy_budget_type, params::Dict{String,<:Any})
+
+Creates a privacy budget template for a specified membership. Each membership can have only
+one privacy budget template, but it can be deleted and recreated. If you need to change the
+privacy budget template for a membership, use the UpdatePrivacyBudgetTemplate operation.
+
+# Arguments
+- `auto_refresh`: How often the privacy budget refreshes.  If you plan to regularly bring
+  new data into the collaboration, you can use CALENDAR_MONTH to automatically get a new
+  privacy budget for the collaboration every calendar month. Choosing this option allows
+  arbitrary amounts of information to be revealed about rows of the data when repeatedly
+  queries across refreshes. Avoid choosing this if the same rows will be repeatedly queried
+  between privacy budget refreshes.
+- `membership_identifier`: A unique identifier for one of your memberships for a
+  collaboration. The privacy budget template is created in the collaboration that this
+  membership belongs to. Accepts a membership ID.
+- `parameters`: Specifies your parameters for the privacy budget template.
+- `privacy_budget_type`: Specifies the type of the privacy budget template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"tags"`: An optional label that you can assign to a resource when you create it. Each
+  tag consists of a key and an optional value, both of which you define. When you use
+  tagging, you can also use tag-based access control in IAM policies to control access to
+  this resource.
+"""
+function create_privacy_budget_template(
+    autoRefresh,
+    membershipIdentifier,
+    parameters,
+    privacyBudgetType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/privacybudgettemplates",
+        Dict{String,Any}(
+            "autoRefresh" => autoRefresh,
+            "parameters" => parameters,
+            "privacyBudgetType" => privacyBudgetType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_privacy_budget_template(
+    autoRefresh,
+    membershipIdentifier,
+    parameters,
+    privacyBudgetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/privacybudgettemplates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "autoRefresh" => autoRefresh,
+                    "parameters" => parameters,
+                    "privacyBudgetType" => privacyBudgetType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_analysis_template(analysis_template_identifier, membership_identifier)
+    delete_analysis_template(analysis_template_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Deletes an analysis template.
+
+# Arguments
+- `analysis_template_identifier`: The identifier for the analysis template resource.
+- `membership_identifier`: The identifier for a membership resource.
+
+"""
+function delete_analysis_template(
+    analysisTemplateIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_analysis_template(
+    analysisTemplateIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_collaboration(collaboration_identifier)
     delete_collaboration(collaboration_identifier, params::Dict{String,<:Any})
 
@@ -406,6 +764,46 @@ function delete_collaboration(
     return cleanrooms(
         "DELETE",
         "/collaborations/$(collaborationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_configured_audience_model_association(configured_audience_model_association_identifier, membership_identifier)
+    delete_configured_audience_model_association(configured_audience_model_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Provides the information necessary to delete a configured audience model association.
+
+# Arguments
+- `configured_audience_model_association_identifier`: A unique identifier of the configured
+  audience model association that you want to delete.
+- `membership_identifier`: A unique identifier of the membership that contains the audience
+  model association that you want to delete.
+
+"""
+function delete_configured_audience_model_association(
+    configuredAudienceModelAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_configured_audience_model_association(
+    configuredAudienceModelAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -599,6 +997,85 @@ function delete_membership(
 end
 
 """
+    delete_privacy_budget_template(membership_identifier, privacy_budget_template_identifier)
+    delete_privacy_budget_template(membership_identifier, privacy_budget_template_identifier, params::Dict{String,<:Any})
+
+Deletes a privacy budget template for a specified membership.
+
+# Arguments
+- `membership_identifier`: A unique identifier for one of your memberships for a
+  collaboration. The privacy budget template is deleted from the collaboration that this
+  membership belongs to. Accepts a membership ID.
+- `privacy_budget_template_identifier`: A unique identifier for your privacy budget
+  template.
+
+"""
+function delete_privacy_budget_template(
+    membershipIdentifier,
+    privacyBudgetTemplateIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_privacy_budget_template(
+    membershipIdentifier,
+    privacyBudgetTemplateIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "DELETE",
+        "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_analysis_template(analysis_template_identifier, membership_identifier)
+    get_analysis_template(analysis_template_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Retrieves an analysis template.
+
+# Arguments
+- `analysis_template_identifier`: The identifier for the analysis template resource.
+- `membership_identifier`: The identifier for a membership resource.
+
+"""
+function get_analysis_template(
+    analysisTemplateIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_analysis_template(
+    analysisTemplateIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_collaboration(collaboration_identifier)
     get_collaboration(collaboration_identifier, params::Dict{String,<:Any})
 
@@ -626,6 +1103,165 @@ function get_collaboration(
     return cleanrooms(
         "GET",
         "/collaborations/$(collaborationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_collaboration_analysis_template(analysis_template_arn, collaboration_identifier)
+    get_collaboration_analysis_template(analysis_template_arn, collaboration_identifier, params::Dict{String,<:Any})
+
+Retrieves an analysis template within a collaboration.
+
+# Arguments
+- `analysis_template_arn`: The Amazon Resource Name (ARN) associated with the analysis
+  template within a collaboration.
+- `collaboration_identifier`: A unique identifier for the collaboration that the analysis
+  templates belong to. Currently accepts collaboration ID.
+
+"""
+function get_collaboration_analysis_template(
+    analysisTemplateArn,
+    collaborationIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/analysistemplates/$(analysisTemplateArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_collaboration_analysis_template(
+    analysisTemplateArn,
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/analysistemplates/$(analysisTemplateArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_collaboration_configured_audience_model_association(collaboration_identifier, configured_audience_model_association_identifier)
+    get_collaboration_configured_audience_model_association(collaboration_identifier, configured_audience_model_association_identifier, params::Dict{String,<:Any})
+
+Retrieves a configured audience model association within a collaboration.
+
+# Arguments
+- `collaboration_identifier`: A unique identifier for the collaboration that the configured
+  audience model association belongs to. Accepts a collaboration ID.
+- `configured_audience_model_association_identifier`: A unique identifier for the
+  configured audience model association that you want to retrieve.
+
+"""
+function get_collaboration_configured_audience_model_association(
+    collaborationIdentifier,
+    configuredAudienceModelAssociationIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_collaboration_configured_audience_model_association(
+    collaborationIdentifier,
+    configuredAudienceModelAssociationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_collaboration_privacy_budget_template(collaboration_identifier, privacy_budget_template_identifier)
+    get_collaboration_privacy_budget_template(collaboration_identifier, privacy_budget_template_identifier, params::Dict{String,<:Any})
+
+Returns details about a specified privacy budget template.
+
+# Arguments
+- `collaboration_identifier`: A unique identifier for one of your collaborations.
+- `privacy_budget_template_identifier`: A unique identifier for one of your privacy budget
+  templates.
+
+"""
+function get_collaboration_privacy_budget_template(
+    collaborationIdentifier,
+    privacyBudgetTemplateIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_collaboration_privacy_budget_template(
+    collaborationIdentifier,
+    privacyBudgetTemplateIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_configured_audience_model_association(configured_audience_model_association_identifier, membership_identifier)
+    get_configured_audience_model_association(configured_audience_model_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Returns information about a configured audience model association.
+
+# Arguments
+- `configured_audience_model_association_identifier`: A unique identifier for the
+  configured audience model association that you want to retrieve.
+- `membership_identifier`: A unique identifier for the membership that contains the
+  configured audience model association that you want to retrieve.
+
+"""
+function get_configured_audience_model_association(
+    configuredAudienceModelAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_configured_audience_model_association(
+    configuredAudienceModelAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -781,6 +1417,47 @@ function get_membership(
 end
 
 """
+    get_privacy_budget_template(membership_identifier, privacy_budget_template_identifier)
+    get_privacy_budget_template(membership_identifier, privacy_budget_template_identifier, params::Dict{String,<:Any})
+
+Returns details for a specified privacy budget template.
+
+# Arguments
+- `membership_identifier`: A unique identifier for one of your memberships for a
+  collaboration. The privacy budget template is retrieved from the collaboration that this
+  membership belongs to. Accepts a membership ID.
+- `privacy_budget_template_identifier`: A unique identifier for your privacy budget
+  template.
+
+"""
+function get_privacy_budget_template(
+    membershipIdentifier,
+    privacyBudgetTemplateIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_privacy_budget_template(
+    membershipIdentifier,
+    privacyBudgetTemplateIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_protected_query(membership_identifier, protected_query_identifier)
     get_protected_query(membership_identifier, protected_query_identifier, params::Dict{String,<:Any})
 
@@ -896,6 +1573,218 @@ function get_schema_analysis_rule(
 end
 
 """
+    list_analysis_templates(membership_identifier)
+    list_analysis_templates(membership_identifier, params::Dict{String,<:Any})
+
+Lists analysis templates that the caller owns.
+
+# Arguments
+- `membership_identifier`: The identifier for a membership resource.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_analysis_templates(
+    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/analysistemplates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_analysis_templates(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/analysistemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_collaboration_analysis_templates(collaboration_identifier)
+    list_collaboration_analysis_templates(collaboration_identifier, params::Dict{String,<:Any})
+
+Lists analysis templates within a collaboration.
+
+# Arguments
+- `collaboration_identifier`: A unique identifier for the collaboration that the analysis
+  templates belong to. Currently accepts collaboration ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_collaboration_analysis_templates(
+    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/analysistemplates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_collaboration_analysis_templates(
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/analysistemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_collaboration_configured_audience_model_associations(collaboration_identifier)
+    list_collaboration_configured_audience_model_associations(collaboration_identifier, params::Dict{String,<:Any})
+
+Lists configured audience model associations within a collaboration.
+
+# Arguments
+- `collaboration_identifier`: A unique identifier for the collaboration that the configured
+  audience model association belongs to. Accepts a collaboration ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_collaboration_configured_audience_model_associations(
+    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_collaboration_configured_audience_model_associations(
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/configuredaudiencemodelassociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_collaboration_privacy_budget_templates(collaboration_identifier)
+    list_collaboration_privacy_budget_templates(collaboration_identifier, params::Dict{String,<:Any})
+
+Returns an array that summarizes each privacy budget template in a specified collaboration.
+
+# Arguments
+- `collaboration_identifier`: A unique identifier for one of your collaborations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_collaboration_privacy_budget_templates(
+    collaborationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/privacybudgettemplates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_collaboration_privacy_budget_templates(
+    collaborationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/privacybudgettemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_collaboration_privacy_budgets(collaboration_identifier, privacy_budget_type)
+    list_collaboration_privacy_budgets(collaboration_identifier, privacy_budget_type, params::Dict{String,<:Any})
+
+Returns an array that summarizes each privacy budget in a specified collaboration. The
+summary includes the collaboration ARN, creation time, creating account, and privacy budget
+details.
+
+# Arguments
+- `collaboration_identifier`: A unique identifier for one of your collaborations.
+- `privacy_budget_type`: Specifies the type of the privacy budget.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_collaboration_privacy_budgets(
+    collaborationIdentifier,
+    privacyBudgetType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/privacybudgets",
+        Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_collaboration_privacy_budgets(
+    collaborationIdentifier,
+    privacyBudgetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/collaborations/$(collaborationIdentifier)/privacybudgets",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("privacyBudgetType" => privacyBudgetType), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_collaborations()
     list_collaborations(params::Dict{String,<:Any})
 
@@ -921,6 +1810,48 @@ function list_collaborations(
     return cleanrooms(
         "GET",
         "/collaborations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_configured_audience_model_associations(membership_identifier)
+    list_configured_audience_model_associations(membership_identifier, params::Dict{String,<:Any})
+
+Lists information about requested configured audience model associations.
+
+# Arguments
+- `membership_identifier`: A unique identifier for a membership that contains the
+  configured audience model associations that you want to retrieve.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_configured_audience_model_associations(
+    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_configured_audience_model_associations(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1067,6 +1998,101 @@ function list_memberships(
 end
 
 """
+    list_privacy_budget_templates(membership_identifier)
+    list_privacy_budget_templates(membership_identifier, params::Dict{String,<:Any})
+
+Returns detailed information about the privacy budget templates in a specified membership.
+
+# Arguments
+- `membership_identifier`: A unique identifier for one of your memberships for a
+  collaboration. The privacy budget templates are retrieved from the collaboration that this
+  membership belongs to. Accepts a membership ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_privacy_budget_templates(
+    membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/privacybudgettemplates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_privacy_budget_templates(
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/privacybudgettemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_privacy_budgets(membership_identifier, privacy_budget_type)
+    list_privacy_budgets(membership_identifier, privacy_budget_type, params::Dict{String,<:Any})
+
+Returns detailed information about the privacy budgets in a specified membership.
+
+# Arguments
+- `membership_identifier`: A unique identifier for one of your memberships for a
+  collaboration. The privacy budget is retrieved from the collaboration that this membership
+  belongs to. Accepts a membership ID.
+- `privacy_budget_type`: The privacy budget type.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum size of the results that is returned per call. Service
+  chooses a default if it has not been set. Service may return a nextToken even if the
+  maximum results has not been met.
+- `"nextToken"`: The token value retrieved from a previous call to access the next page of
+  results.
+"""
+function list_privacy_budgets(
+    membershipIdentifier,
+    privacyBudgetType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/privacybudgets",
+        Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_privacy_budgets(
+    membershipIdentifier,
+    privacyBudgetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "GET",
+        "/memberships/$(membershipIdentifier)/privacybudgets",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("privacyBudgetType" => privacyBudgetType), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_protected_queries(membership_identifier)
     list_protected_queries(membership_identifier, params::Dict{String,<:Any})
 
@@ -1186,22 +2212,64 @@ function list_tags_for_resource(
 end
 
 """
-    start_protected_query(membership_identifier, result_configuration, sql_parameters, type)
-    start_protected_query(membership_identifier, result_configuration, sql_parameters, type, params::Dict{String,<:Any})
+    preview_privacy_impact(membership_identifier, parameters)
+    preview_privacy_impact(membership_identifier, parameters, params::Dict{String,<:Any})
 
-Creates a protected query that is started by AWS Clean Rooms.
+An estimate of the number of aggregation functions that the member who can query can run
+given epsilon and noise parameters.
+
+# Arguments
+- `membership_identifier`: A unique identifier for one of your memberships for a
+  collaboration. Accepts a membership ID.
+- `parameters`: Specifies the desired epsilon and noise parameters to preview.
+
+"""
+function preview_privacy_impact(
+    membershipIdentifier, parameters; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/previewprivacyimpact",
+        Dict{String,Any}("parameters" => parameters);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function preview_privacy_impact(
+    membershipIdentifier,
+    parameters,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "POST",
+        "/memberships/$(membershipIdentifier)/previewprivacyimpact",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("parameters" => parameters), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_protected_query(membership_identifier, sql_parameters, type)
+    start_protected_query(membership_identifier, sql_parameters, type, params::Dict{String,<:Any})
+
+Creates a protected query that is started by Clean Rooms.
 
 # Arguments
 - `membership_identifier`: A unique identifier for the membership to run this query
   against. Currently accepts a membership ID.
-- `result_configuration`: The details needed to write the query results.
 - `sql_parameters`: The protected SQL query parameters.
 - `type`: The type of the protected query to be started.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"resultConfiguration"`: The details needed to write the query results.
 """
 function start_protected_query(
     membershipIdentifier,
-    resultConfiguration,
     sqlParameters,
     type;
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -1209,18 +2277,13 @@ function start_protected_query(
     return cleanrooms(
         "POST",
         "/memberships/$(membershipIdentifier)/protectedQueries",
-        Dict{String,Any}(
-            "resultConfiguration" => resultConfiguration,
-            "sqlParameters" => sqlParameters,
-            "type" => type,
-        );
+        Dict{String,Any}("sqlParameters" => sqlParameters, "type" => type);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function start_protected_query(
     membershipIdentifier,
-    resultConfiguration,
     sqlParameters,
     type,
     params::AbstractDict{String};
@@ -1232,11 +2295,7 @@ function start_protected_query(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "resultConfiguration" => resultConfiguration,
-                    "sqlParameters" => sqlParameters,
-                    "type" => type,
-                ),
+                Dict{String,Any}("sqlParameters" => sqlParameters, "type" => type),
                 params,
             ),
         );
@@ -1320,6 +2379,47 @@ function untag_resource(
 end
 
 """
+    update_analysis_template(analysis_template_identifier, membership_identifier)
+    update_analysis_template(analysis_template_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Updates the analysis template metadata.
+
+# Arguments
+- `analysis_template_identifier`: The identifier for the analysis template resource.
+- `membership_identifier`: The identifier for a membership resource.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A new description for the analysis template.
+"""
+function update_analysis_template(
+    analysisTemplateIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_analysis_template(
+    analysisTemplateIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/analysistemplates/$(analysisTemplateIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_collaboration(collaboration_identifier)
     update_collaboration(collaboration_identifier, params::Dict{String,<:Any})
 
@@ -1352,6 +2452,50 @@ function update_collaboration(
     return cleanrooms(
         "PATCH",
         "/collaborations/$(collaborationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_configured_audience_model_association(configured_audience_model_association_identifier, membership_identifier)
+    update_configured_audience_model_association(configured_audience_model_association_identifier, membership_identifier, params::Dict{String,<:Any})
+
+Provides the details necessary to update a configured audience model association.
+
+# Arguments
+- `configured_audience_model_association_identifier`: A unique identifier for the
+  configured audience model association that you want to update.
+- `membership_identifier`: A unique identifier of the membership that contains the
+  configured audience model association that you want to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: A new description for the configured audience model association.
+- `"name"`: A new name for the configured audience model association.
+"""
+function update_configured_audience_model_association(
+    configuredAudienceModelAssociationIdentifier,
+    membershipIdentifier;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_configured_audience_model_association(
+    configuredAudienceModelAssociationIdentifier,
+    membershipIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/configuredaudiencemodelassociations/$(configuredAudienceModelAssociationIdentifier)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1502,8 +2646,10 @@ Updates a membership.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"defaultResultConfiguration"`: The default protected query result configuration as
+  specified by the member who can receive results.
 - `"queryLogStatus"`: An indicator as to whether query logging has been enabled or disabled
-  for the collaboration.
+  for the membership.
 """
 function update_membership(
     membershipIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1524,6 +2670,59 @@ function update_membership(
         "PATCH",
         "/memberships/$(membershipIdentifier)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_privacy_budget_template(membership_identifier, privacy_budget_template_identifier, privacy_budget_type)
+    update_privacy_budget_template(membership_identifier, privacy_budget_template_identifier, privacy_budget_type, params::Dict{String,<:Any})
+
+Updates the privacy budget template for the specified membership.
+
+# Arguments
+- `membership_identifier`: A unique identifier for one of your memberships for a
+  collaboration. The privacy budget template is updated in the collaboration that this
+  membership belongs to. Accepts a membership ID.
+- `privacy_budget_template_identifier`: A unique identifier for your privacy budget
+  template that you want to update.
+- `privacy_budget_type`: Specifies the type of the privacy budget template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"parameters"`: Specifies the epsilon and noise parameters for the privacy budget
+  template.
+"""
+function update_privacy_budget_template(
+    membershipIdentifier,
+    privacyBudgetTemplateIdentifier,
+    privacyBudgetType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
+        Dict{String,Any}("privacyBudgetType" => privacyBudgetType);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_privacy_budget_template(
+    membershipIdentifier,
+    privacyBudgetTemplateIdentifier,
+    privacyBudgetType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cleanrooms(
+        "PATCH",
+        "/memberships/$(membershipIdentifier)/privacybudgettemplates/$(privacyBudgetTemplateIdentifier)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("privacyBudgetType" => privacyBudgetType), params
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

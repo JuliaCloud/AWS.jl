@@ -55,6 +55,61 @@ function convert_recovery_point_to_snapshot(
 end
 
 """
+    create_custom_domain_association(custom_domain_certificate_arn, custom_domain_name, workgroup_name)
+    create_custom_domain_association(custom_domain_certificate_arn, custom_domain_name, workgroup_name, params::Dict{String,<:Any})
+
+Creates a custom domain association for Amazon Redshift Serverless.
+
+# Arguments
+- `custom_domain_certificate_arn`: The custom domain name’s certificate Amazon resource
+  name (ARN).
+- `custom_domain_name`: The custom domain name to associate with the workgroup.
+- `workgroup_name`: The name of the workgroup associated with the database.
+
+"""
+function create_custom_domain_association(
+    customDomainCertificateArn,
+    customDomainName,
+    workgroupName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "CreateCustomDomainAssociation",
+        Dict{String,Any}(
+            "customDomainCertificateArn" => customDomainCertificateArn,
+            "customDomainName" => customDomainName,
+            "workgroupName" => workgroupName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_custom_domain_association(
+    customDomainCertificateArn,
+    customDomainName,
+    workgroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "CreateCustomDomainAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "customDomainCertificateArn" => customDomainCertificateArn,
+                    "customDomainName" => customDomainName,
+                    "workgroupName" => workgroupName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_endpoint_access(endpoint_name, subnet_ids, workgroup_name)
     create_endpoint_access(endpoint_name, subnet_ids, workgroup_name, params::Dict{String,<:Any})
 
@@ -70,6 +125,8 @@ Creates an Amazon Redshift Serverless managed VPC endpoint.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ownerAccount"`: The owner Amazon Web Services account for the Amazon Redshift
+  Serverless workgroup.
 - `"vpcSecurityGroupIds"`: The unique identifiers of the security group that defines the
   ports, protocols, and sources for inbound traffic that you are authorizing into your
   endpoint.
@@ -127,8 +184,11 @@ Creates a namespace in Amazon Redshift Serverless.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"adminPasswordSecretKmsKeyId"`: The ID of the Key Management Service (KMS) key used to
+  encrypt and store the namespace's admin credentials secret. You can only use this parameter
+  if manageAdminPassword is true.
 - `"adminUserPassword"`: The password of the administrator for the first database created
-  in the namespace.
+  in the namespace. You can't use adminUserPassword if manageAdminPassword is true.
 - `"adminUsername"`: The username of the administrator for the first database created in
   the namespace.
 - `"dbName"`: The name of the first database created in the namespace.
@@ -139,6 +199,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encrypt your data.
 - `"logExports"`: The types of logs the namespace can export. Available export types are
   userlog, connectionlog, and useractivitylog.
+- `"manageAdminPassword"`: If true, Amazon Redshift uses Secrets Manager to manage the
+  namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is
+  true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword
+  for the admin user account's password.
+- `"redshiftIdcApplicationArn"`: The ARN for the Redshift application that integrates with
+  IAM Identity Center.
 - `"tags"`: A list of tag instances.
 """
 function create_namespace(namespaceName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -158,6 +224,93 @@ function create_namespace(
         "CreateNamespace",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_scheduled_action(namespace_name, role_arn, schedule, scheduled_action_name, target_action)
+    create_scheduled_action(namespace_name, role_arn, schedule, scheduled_action_name, target_action, params::Dict{String,<:Any})
+
+Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift
+API action. For example, you can create a schedule of when to run the CreateSnapshot API
+operation.
+
+# Arguments
+- `namespace_name`: The name of the namespace for which to create a scheduled action.
+- `role_arn`: The ARN of the IAM role to assume to run the scheduled action. This IAM role
+  must have permission to run the Amazon Redshift Serverless API operation in the scheduled
+  action. This IAM role must allow the Amazon Redshift scheduler to schedule creating
+  snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your
+  behalf. For more information about the IAM role to use with the Amazon Redshift scheduler,
+  see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Cluster
+  Management Guide
+- `schedule`: The schedule for a one-time (at timestamp format) or recurring (cron format)
+  scheduled action. Schedule invocations must be separated by at least one hour. Times are in
+  UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.
+  Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For
+  example, \"(0 10 ? * MON *)\". For more information, see Cron Expressions in the Amazon
+  CloudWatch Events User Guide.
+- `scheduled_action_name`: The name of the scheduled action.
+- `target_action`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enabled"`: Indicates whether the schedule is enabled. If false, the scheduled action
+  does not trigger. For more information about state of the scheduled action, see
+  ScheduledAction.
+- `"endTime"`: The end time in UTC when the schedule is no longer active. After this time,
+  the scheduled action does not trigger.
+- `"scheduledActionDescription"`: The description of the scheduled action.
+- `"startTime"`: The start time in UTC when the schedule is active. Before this time, the
+  scheduled action does not trigger.
+"""
+function create_scheduled_action(
+    namespaceName,
+    roleArn,
+    schedule,
+    scheduledActionName,
+    targetAction;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "CreateScheduledAction",
+        Dict{String,Any}(
+            "namespaceName" => namespaceName,
+            "roleArn" => roleArn,
+            "schedule" => schedule,
+            "scheduledActionName" => scheduledActionName,
+            "targetAction" => targetAction,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_scheduled_action(
+    namespaceName,
+    roleArn,
+    schedule,
+    scheduledActionName,
+    targetAction,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "CreateScheduledAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "namespaceName" => namespaceName,
+                    "roleArn" => roleArn,
+                    "schedule" => schedule,
+                    "scheduledActionName" => scheduledActionName,
+                    "targetAction" => targetAction,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -203,6 +356,60 @@ function create_snapshot(
                 _merge,
                 Dict{String,Any}(
                     "namespaceName" => namespaceName, "snapshotName" => snapshotName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_snapshot_copy_configuration(destination_region, namespace_name)
+    create_snapshot_copy_configuration(destination_region, namespace_name, params::Dict{String,<:Any})
+
+Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web
+Services Region.
+
+# Arguments
+- `destination_region`: The destination Amazon Web Services Region that you want to copy
+  snapshots to.
+- `namespace_name`: The name of the namespace to copy snapshots from.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"destinationKmsKeyId"`: The KMS key to use to encrypt your snapshots in the destination
+  Amazon Web Services Region.
+- `"snapshotRetentionPeriod"`: The retention period of the snapshots that you copy to the
+  destination Amazon Web Services Region.
+"""
+function create_snapshot_copy_configuration(
+    destinationRegion, namespaceName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "CreateSnapshotCopyConfiguration",
+        Dict{String,Any}(
+            "destinationRegion" => destinationRegion, "namespaceName" => namespaceName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_snapshot_copy_configuration(
+    destinationRegion,
+    namespaceName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "CreateSnapshotCopyConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "destinationRegion" => destinationRegion,
+                    "namespaceName" => namespaceName,
                 ),
                 params,
             ),
@@ -286,13 +493,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"baseCapacity"`: The base data warehouse capacity of the workgroup in Redshift
   Processing Units (RPUs).
 - `"configParameters"`: An array of parameters to set for advanced control over a database.
-  The options are auto_mv, datestyle, enable_case_sensitivity_identifier,
-  enable_user_activity_logging, query_group, search_path, and query monitoring metrics that
-  let you define performance boundaries. For more information about query monitoring rules
-  and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+  The options are auto_mv, datestyle, enable_case_sensitive_identifier,
+  enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and
+  query monitoring metrics that let you define performance boundaries. For more information
+  about query monitoring rules and available metrics, see  Query monitoring metrics for
+  Amazon Redshift Serverless.
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC instead of over the internet.
+- `"maxCapacity"`: The maximum data-warehouse capacity Amazon Redshift Serverless uses to
+  serve queries. The max capacity is specified in RPUs.
 - `"port"`: The custom port to use when connecting to a workgroup. Valid port ranges are
   5431-5455 and 8191-8215. The default is 5439.
 - `"publiclyAccessible"`: A value that specifies whether the workgroup can be accessed from
@@ -326,6 +536,51 @@ function create_workgroup(
                 _merge,
                 Dict{String,Any}(
                     "namespaceName" => namespaceName, "workgroupName" => workgroupName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_custom_domain_association(custom_domain_name, workgroup_name)
+    delete_custom_domain_association(custom_domain_name, workgroup_name, params::Dict{String,<:Any})
+
+Deletes a custom domain association for Amazon Redshift Serverless.
+
+# Arguments
+- `custom_domain_name`: The custom domain name associated with the workgroup.
+- `workgroup_name`: The name of the workgroup associated with the database.
+
+"""
+function delete_custom_domain_association(
+    customDomainName, workgroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "DeleteCustomDomainAssociation",
+        Dict{String,Any}(
+            "customDomainName" => customDomainName, "workgroupName" => workgroupName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_custom_domain_association(
+    customDomainName,
+    workgroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "DeleteCustomDomainAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "customDomainName" => customDomainName, "workgroupName" => workgroupName
                 ),
                 params,
             ),
@@ -445,6 +700,45 @@ function delete_resource_policy(
 end
 
 """
+    delete_scheduled_action(scheduled_action_name)
+    delete_scheduled_action(scheduled_action_name, params::Dict{String,<:Any})
+
+Deletes a scheduled action.
+
+# Arguments
+- `scheduled_action_name`: The name of the scheduled action to delete.
+
+"""
+function delete_scheduled_action(
+    scheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "DeleteScheduledAction",
+        Dict{String,Any}("scheduledActionName" => scheduledActionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_scheduled_action(
+    scheduledActionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "DeleteScheduledAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("scheduledActionName" => scheduledActionName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_snapshot(snapshot_name)
     delete_snapshot(snapshot_name, params::Dict{String,<:Any})
 
@@ -471,6 +765,47 @@ function delete_snapshot(
         "DeleteSnapshot",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("snapshotName" => snapshotName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_snapshot_copy_configuration(snapshot_copy_configuration_id)
+    delete_snapshot_copy_configuration(snapshot_copy_configuration_id, params::Dict{String,<:Any})
+
+Deletes a snapshot copy configuration
+
+# Arguments
+- `snapshot_copy_configuration_id`: The ID of the snapshot copy configuration to delete.
+
+"""
+function delete_snapshot_copy_configuration(
+    snapshotCopyConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "DeleteSnapshotCopyConfiguration",
+        Dict{String,Any}("snapshotCopyConfigurationId" => snapshotCopyConfigurationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_snapshot_copy_configuration(
+    snapshotCopyConfigurationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "DeleteSnapshotCopyConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "snapshotCopyConfigurationId" => snapshotCopyConfigurationId
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -544,8 +879,8 @@ function delete_workgroup(
 end
 
 """
-    get_credentials(workgroup_name)
-    get_credentials(workgroup_name, params::Dict{String,<:Any})
+    get_credentials()
+    get_credentials(params::Dict{String,<:Any})
 
 Returns a database user name and temporary password with temporary authorization to log in
 to Amazon Redshift Serverless. By default, the temporary credentials expire in 900 seconds.
@@ -556,11 +891,10 @@ and resources.&lt;/p&gt; &lt;p&gt;If the &lt;code&gt;DbName&lt;/code&gt; paramet
 specified, the IAM policy must allow access to the resource dbname for the specified
 database name.&lt;/p&gt;
 
-# Arguments
-- `workgroup_name`: The name of the workgroup associated with the database.
-
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"customDomainName"`: The custom domain name associated with the workgroup. The custom
+  domain name or the workgroup name must be included in the request.
 - `"dbName"`: The name of the database to get temporary authorization to log on to.
   Constraints:   Must be 1 to 64 alphanumeric characters or hyphens.   Must contain only
   uppercase or lowercase letters, numbers, underscore, plus sign, period (dot), at symbol
@@ -569,24 +903,60 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Words  in the Amazon Redshift Database Developer Guide
 - `"durationSeconds"`: The number of seconds until the returned temporary password expires.
   The minimum is 900 seconds, and the maximum is 3600 seconds.
+- `"workgroupName"`: The name of the workgroup associated with the database.
 """
-function get_credentials(workgroupName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_credentials(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
-        "GetCredentials",
-        Dict{String,Any}("workgroupName" => workgroupName);
+        "GetCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_credentials(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "GetCredentials", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    get_custom_domain_association(custom_domain_name, workgroup_name)
+    get_custom_domain_association(custom_domain_name, workgroup_name, params::Dict{String,<:Any})
+
+Gets information about a specific custom domain association.
+
+# Arguments
+- `custom_domain_name`: The custom domain name associated with the workgroup.
+- `workgroup_name`: The name of the workgroup associated with the database.
+
+"""
+function get_custom_domain_association(
+    customDomainName, workgroupName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "GetCustomDomainAssociation",
+        Dict{String,Any}(
+            "customDomainName" => customDomainName, "workgroupName" => workgroupName
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
-function get_credentials(
+function get_custom_domain_association(
+    customDomainName,
     workgroupName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return redshift_serverless(
-        "GetCredentials",
+        "GetCustomDomainAssociation",
         Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("workgroupName" => workgroupName), params)
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "customDomainName" => customDomainName, "workgroupName" => workgroupName
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -733,6 +1103,45 @@ function get_resource_policy(
 end
 
 """
+    get_scheduled_action(scheduled_action_name)
+    get_scheduled_action(scheduled_action_name, params::Dict{String,<:Any})
+
+Returns information about a scheduled action.
+
+# Arguments
+- `scheduled_action_name`: The name of the scheduled action.
+
+"""
+function get_scheduled_action(
+    scheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "GetScheduledAction",
+        Dict{String,Any}("scheduledActionName" => scheduledActionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_scheduled_action(
+    scheduledActionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "GetScheduledAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("scheduledActionName" => scheduledActionName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_snapshot()
     get_snapshot(params::Dict{String,<:Any})
 
@@ -865,6 +1274,43 @@ function get_workgroup(
 end
 
 """
+    list_custom_domain_associations()
+    list_custom_domain_associations(params::Dict{String,<:Any})
+
+ Lists custom domain associations for Amazon Redshift Serverless.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"customDomainCertificateArn"`: The custom domain name’s certificate Amazon resource
+  name (ARN).
+- `"customDomainName"`: The custom domain name associated with the workgroup.
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to display the next page of results.
+- `"nextToken"`: When nextToken is returned, there are more results available. The value of
+  nextToken is a unique pagination token for each page. Make the call again using the
+  returned token to retrieve the next page.
+"""
+function list_custom_domain_associations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "ListCustomDomainAssociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_custom_domain_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "ListCustomDomainAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_endpoint_access()
     list_endpoint_access(params::Dict{String,<:Any})
 
@@ -877,6 +1323,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If your initial ListEndpointAccess operation returns a nextToken, you can
   include the returned nextToken in following ListEndpointAccess operations, which returns
   results in the next page.
+- `"ownerAccount"`: The owner Amazon Web Services account for the Amazon Redshift
+  Serverless workgroup.
 - `"vpcId"`: The unique identifier of the virtual private cloud with access to Amazon
   Redshift Serverless.
 - `"workgroupName"`: The name of the workgroup associated with the VPC endpoint to return.
@@ -950,6 +1398,73 @@ function list_recovery_points(
 )
     return redshift_serverless(
         "ListRecoveryPoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    list_scheduled_actions()
+    list_scheduled_actions(params::Dict{String,<:Any})
+
+Returns a list of scheduled actions. You can use the flags to filter the list of returned
+scheduled actions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. Use nextToken to display the next page of results.
+- `"namespaceName"`: The name of namespace associated with the scheduled action to retrieve.
+- `"nextToken"`: If nextToken is returned, there are more results available. The value of
+  nextToken is a unique pagination token for each page. Make the call again using the
+  returned token to retrieve the next page.
+"""
+function list_scheduled_actions(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift_serverless(
+        "ListScheduledActions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_scheduled_actions(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "ListScheduledActions",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_snapshot_copy_configurations()
+    list_snapshot_copy_configurations(params::Dict{String,<:Any})
+
+Returns a list of snapshot copy configurations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: An optional parameter that specifies the maximum number of results to
+  return. You can use nextToken to display the next page of results.
+- `"namespaceName"`: The namespace from which to list all snapshot copy configurations.
+- `"nextToken"`: If nextToken is returned, there are more results available. The value of
+  nextToken is a unique pagination token for each page. Make the call again using the
+  returned token to retrieve the next page.
+"""
+function list_snapshot_copy_configurations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "ListSnapshotCopyConfigurations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_snapshot_copy_configurations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "ListSnapshotCopyConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1098,6 +1613,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If your initial ListWorkgroups operation returns a nextToken, you can
   include the returned nextToken in following ListNamespaces operations, which returns
   results in the next page.
+- `"ownerAccount"`: The owner Amazon Web Services account for the Amazon Redshift
+  Serverless workgroup.
 """
 function list_workgroups(; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
@@ -1224,6 +1741,12 @@ Restores a namespace from a snapshot.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"adminPasswordSecretKmsKeyId"`: The ID of the Key Management Service (KMS) key used to
+  encrypt and store the namespace's admin credentials secret.
+- `"manageAdminPassword"`: If true, Amazon Redshift uses Secrets Manager to manage the
+  restored snapshot's admin credentials. If MmanageAdminPassword is false or not set, Amazon
+  Redshift uses the admin credentials that the namespace or cluster had at the time the
+  snapshot was taken.
 - `"ownerAccount"`: The Amazon Web Services account that owns the snapshot.
 - `"snapshotArn"`: The Amazon Resource Name (ARN) of the snapshot to restore from. Required
   if restoring from Amazon Redshift Serverless to a provisioned cluster. Must not be
@@ -1258,6 +1781,86 @@ function restore_from_snapshot(
                 _merge,
                 Dict{String,Any}(
                     "namespaceName" => namespaceName, "workgroupName" => workgroupName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    restore_table_from_recovery_point(namespace_name, new_table_name, recovery_point_id, source_database_name, source_table_name, workgroup_name)
+    restore_table_from_recovery_point(namespace_name, new_table_name, recovery_point_id, source_database_name, source_table_name, workgroup_name, params::Dict{String,<:Any})
+
+Restores a table from a recovery point to your Amazon Redshift Serverless instance. You
+can't use this operation to restore tables with interleaved sort keys.
+
+# Arguments
+- `namespace_name`: Namespace of the recovery point to restore from.
+- `new_table_name`: The name of the table to create from the restore operation.
+- `recovery_point_id`: The ID of the recovery point to restore the table from.
+- `source_database_name`: The name of the source database that contains the table being
+  restored.
+- `source_table_name`: The name of the source table being restored.
+- `workgroup_name`: The workgroup to restore the table to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"activateCaseSensitiveIdentifier"`: Indicates whether name identifiers for database,
+  schema, and table are case sensitive. If true, the names are case sensitive. If false, the
+  names are not case sensitive. The default is false.
+- `"sourceSchemaName"`: The name of the source schema that contains the table being
+  restored.
+- `"targetDatabaseName"`: The name of the database to restore the table to.
+- `"targetSchemaName"`: The name of the schema to restore the table to.
+"""
+function restore_table_from_recovery_point(
+    namespaceName,
+    newTableName,
+    recoveryPointId,
+    sourceDatabaseName,
+    sourceTableName,
+    workgroupName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "RestoreTableFromRecoveryPoint",
+        Dict{String,Any}(
+            "namespaceName" => namespaceName,
+            "newTableName" => newTableName,
+            "recoveryPointId" => recoveryPointId,
+            "sourceDatabaseName" => sourceDatabaseName,
+            "sourceTableName" => sourceTableName,
+            "workgroupName" => workgroupName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function restore_table_from_recovery_point(
+    namespaceName,
+    newTableName,
+    recoveryPointId,
+    sourceDatabaseName,
+    sourceTableName,
+    workgroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "RestoreTableFromRecoveryPoint",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "namespaceName" => namespaceName,
+                    "newTableName" => newTableName,
+                    "recoveryPointId" => recoveryPointId,
+                    "sourceDatabaseName" => sourceDatabaseName,
+                    "sourceTableName" => sourceTableName,
+                    "workgroupName" => workgroupName,
                 ),
                 params,
             ),
@@ -1428,6 +2031,61 @@ function untag_resource(
 end
 
 """
+    update_custom_domain_association(custom_domain_certificate_arn, custom_domain_name, workgroup_name)
+    update_custom_domain_association(custom_domain_certificate_arn, custom_domain_name, workgroup_name, params::Dict{String,<:Any})
+
+Updates an Amazon Redshift Serverless certificate associated with a custom domain.
+
+# Arguments
+- `custom_domain_certificate_arn`: The custom domain name’s certificate Amazon resource
+  name (ARN). This is optional.
+- `custom_domain_name`: The custom domain name associated with the workgroup.
+- `workgroup_name`: The name of the workgroup associated with the database.
+
+"""
+function update_custom_domain_association(
+    customDomainCertificateArn,
+    customDomainName,
+    workgroupName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "UpdateCustomDomainAssociation",
+        Dict{String,Any}(
+            "customDomainCertificateArn" => customDomainCertificateArn,
+            "customDomainName" => customDomainName,
+            "workgroupName" => workgroupName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_custom_domain_association(
+    customDomainCertificateArn,
+    customDomainName,
+    workgroupName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "UpdateCustomDomainAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "customDomainCertificateArn" => customDomainCertificateArn,
+                    "customDomainName" => customDomainName,
+                    "workgroupName" => workgroupName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_endpoint_access(endpoint_name)
     update_endpoint_access(endpoint_name, params::Dict{String,<:Any})
 
@@ -1481,8 +2139,12 @@ in a single request.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"adminPasswordSecretKmsKeyId"`: The ID of the Key Management Service (KMS) key used to
+  encrypt and store the namespace's admin credentials secret. You can only use this parameter
+  if manageAdminPassword is true.
 - `"adminUserPassword"`: The password of the administrator for the first database created
-  in the namespace. This parameter must be updated together with adminUsername.
+  in the namespace. This parameter must be updated together with adminUsername. You can't use
+  adminUserPassword if manageAdminPassword is true.
 - `"adminUsername"`: The username of the administrator for the first database created in
   the namespace. This parameter must be updated together with adminUserPassword.
 - `"defaultIamRoleArn"`: The Amazon Resource Name (ARN) of the IAM role to set as a default
@@ -1493,6 +2155,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encrypt your data.
 - `"logExports"`: The types of logs the namespace can export. The export types are userlog,
   connectionlog, and useractivitylog.
+- `"manageAdminPassword"`: If true, Amazon Redshift uses Secrets Manager to manage the
+  namespace's admin credentials. You can't use adminUserPassword if manageAdminPassword is
+  true. If manageAdminPassword is false or not set, Amazon Redshift uses adminUserPassword
+  for the admin user account's password.
 """
 function update_namespace(namespaceName; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift_serverless(
@@ -1511,6 +2177,65 @@ function update_namespace(
         "UpdateNamespace",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("namespaceName" => namespaceName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_scheduled_action(scheduled_action_name)
+    update_scheduled_action(scheduled_action_name, params::Dict{String,<:Any})
+
+Updates a scheduled action.
+
+# Arguments
+- `scheduled_action_name`: The name of the scheduled action to update to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"enabled"`: Specifies whether to enable the scheduled action.
+- `"endTime"`: The end time in UTC of the scheduled action to update.
+- `"roleArn"`: The ARN of the IAM role to assume to run the scheduled action. This IAM role
+  must have permission to run the Amazon Redshift Serverless API operation in the scheduled
+  action. This IAM role must allow the Amazon Redshift scheduler to schedule creating
+  snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your
+  behalf. For more information about the IAM role to use with the Amazon Redshift scheduler,
+  see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Cluster
+  Management Guide
+- `"schedule"`: The schedule for a one-time (at timestamp format) or recurring (cron
+  format) scheduled action. Schedule invocations must be separated by at least one hour.
+  Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example,
+  2016-03-04T17:27:00.   Format of cron expression is (Minutes Hours Day-of-month Month
+  Day-of-week Year). For example, \"(0 10 ? * MON *)\". For more information, see Cron
+  Expressions in the Amazon CloudWatch Events User Guide.
+- `"scheduledActionDescription"`: The descripion of the scheduled action to update to.
+- `"startTime"`: The start time in UTC of the scheduled action to update to.
+- `"targetAction"`:
+"""
+function update_scheduled_action(
+    scheduledActionName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "UpdateScheduledAction",
+        Dict{String,Any}("scheduledActionName" => scheduledActionName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_scheduled_action(
+    scheduledActionName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "UpdateScheduledAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("scheduledActionName" => scheduledActionName),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1547,6 +2272,51 @@ function update_snapshot(
         "UpdateSnapshot",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("snapshotName" => snapshotName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_snapshot_copy_configuration(snapshot_copy_configuration_id)
+    update_snapshot_copy_configuration(snapshot_copy_configuration_id, params::Dict{String,<:Any})
+
+Updates a snapshot copy configuration.
+
+# Arguments
+- `snapshot_copy_configuration_id`: The ID of the snapshot copy configuration to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"snapshotRetentionPeriod"`: The new retention period of how long to keep a snapshot in
+  the destination Amazon Web Services Region.
+"""
+function update_snapshot_copy_configuration(
+    snapshotCopyConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift_serverless(
+        "UpdateSnapshotCopyConfiguration",
+        Dict{String,Any}("snapshotCopyConfigurationId" => snapshotCopyConfigurationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_snapshot_copy_configuration(
+    snapshotCopyConfigurationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift_serverless(
+        "UpdateSnapshotCopyConfiguration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "snapshotCopyConfigurationId" => snapshotCopyConfigurationId
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1611,13 +2381,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"baseCapacity"`: The new base data warehouse capacity in Redshift Processing Units
   (RPUs).
 - `"configParameters"`: An array of parameters to set for advanced control over a database.
-  The options are auto_mv, datestyle, enable_case_sensitivity_identifier,
-  enable_user_activity_logging, query_group, search_path, and query monitoring metrics that
-  let you define performance boundaries. For more information about query monitoring rules
-  and available metrics, see  Query monitoring metrics for Amazon Redshift Serverless.
+  The options are auto_mv, datestyle, enable_case_sensitive_identifier,
+  enable_user_activity_logging, query_group, search_path, require_ssl, use_fips_ssl, and
+  query monitoring metrics that let you define performance boundaries. For more information
+  about query monitoring rules and available metrics, see  Query monitoring metrics for
+  Amazon Redshift Serverless.
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC.
+- `"maxCapacity"`: The maximum data-warehouse capacity Amazon Redshift Serverless uses to
+  serve queries. The max capacity is specified in RPUs.
 - `"port"`: The custom port to use when connecting to a workgroup. Valid port ranges are
   5431-5455 and 8191-8215. The default is 5439.
 - `"publiclyAccessible"`: A value that specifies whether the workgroup can be accessible

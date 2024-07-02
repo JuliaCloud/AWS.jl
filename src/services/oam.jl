@@ -9,6 +9,9 @@ using AWS.UUIDs
     create_link(label_template, resource_types, sink_identifier, params::Dict{String,<:Any})
 
 Creates a link between a source account and a sink that you have created in a monitoring
+account. After the link is created, data is sent from the source account to the monitoring
+account. When you create a link, you can optionally specify filters that specify which
+metric namespaces and which log groups are shared from the source account to the monitoring
 account. Before you create a link, you must create a sink in the monitoring account and
 create a sink policy in that account. The sink policy must permit the source account to
 link to it. You can grant permission to source accounts by granting permission to an entire
@@ -29,6 +32,9 @@ Each source account can be linked to as many as five monitoring accounts.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LinkConfiguration"`: Use this structure to optionally create filters that specify that
+  only some metric namespaces or log groups are to be shared from the source account to the
+  monitoring account.
 - `"Tags"`: Assigns one or more tags (key-value pairs) to the link.  Tags can help you
   organize and categorize your resources. You can also use them to scope user permissions by
   granting a user permission to access or change only resources with certain tag values. For
@@ -88,7 +94,8 @@ account in CloudWatch cross-account observability. A sink is a resource that rep
 attachment point in a monitoring account. Source accounts can link to the sink to send
 observability data. After you create a sink, you must create a sink policy that allows
 source accounts to attach to it. For more information, see PutSinkPolicy. Each account can
-contain one sink. If you delete a sink, you can then create a new one in that account.
+contain one sink per Region. If you delete a sink, you can then create a new one in that
+Region.
 
 # Arguments
 - `name`: A name for the sink.
@@ -443,8 +450,9 @@ to the monitoring account sink. When you create a sink policy, you can grant per
 all accounts in an organization or to individual accounts. You can also use a sink policy
 to limit the types of data that is shared. The three types that you can allow or deny are:
   Metrics - Specify with AWS::CloudWatch::Metric     Log groups - Specify with
-AWS::Logs::LogGroup     Traces - Specify with AWS::XRay::Trace    See the examples in this
-section to see how to specify permitted source accounts and data types.
+AWS::Logs::LogGroup     Traces - Specify with AWS::XRay::Trace     Application Insights -
+Applications - Specify with AWS::ApplicationInsights::Application    See the examples in
+this section to see how to specify permitted source accounts and data types.
 
 # Arguments
 - `policy`: The JSON policy to use. If you are updating an existing policy, the entire
@@ -584,7 +592,10 @@ end
 
 Use this operation to change what types of data are shared from a source account to its
 linked monitoring account sink. You can't change the sink or change the monitoring account
-with this operation. To update the list of tags associated with the sink, use TagResource.
+with this operation. When you update a link, you can optionally specify filters that
+specify which metric namespaces and which log groups are shared from the source account to
+the monitoring account. To update the list of tags associated with the sink, use
+TagResource.
 
 # Arguments
 - `identifier`: The ARN of the link that you want to update.
@@ -592,6 +603,10 @@ with this operation. To update the list of tags associated with the sink, use Ta
   account will send to the monitoring account. Your input here replaces the current set of
   data types that are shared.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LinkConfiguration"`: Use this structure to filter which metric namespaces and which log
+  groups are to be shared from the source account to the monitoring account.
 """
 function update_link(
     Identifier, ResourceTypes; aws_config::AbstractAWSConfig=global_aws_config()

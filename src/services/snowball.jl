@@ -78,7 +78,9 @@ end
 Creates an address for a Snow device to be shipped to. In most regions, addresses are
 validated at the time of creation. The address you provide must be located within the
 serviceable area of your region. If the address is invalid or unsupported, then an
-exception is thrown.
+exception is thrown. If providing an address as a JSON file through the cli-input-json
+option, include the full file path. For example, --cli-input-json
+file://create-address.json.
 
 # Arguments
 - `address`: The address that you want the Snow device shipped to.
@@ -244,14 +246,14 @@ Description: Snowcone       Device type: EDGE_S    Capacity: T98   Description: 
 Edge Storage Optimized for data transfer only       Device type: EDGE_CG    Capacity: T42
 Description: Snowball Edge Compute Optimized with GPU      Device type: EDGE_C    Capacity:
 T42   Description: Snowball Edge Compute Optimized without GPU      Device type: EDGE
-Capacity: T100   Description: Snowball Edge Storage Optimized with EC2 Compute      Device
-type: STANDARD    Capacity: T50   Description: Original Snowball device  This device is
-only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region
-Device type: STANDARD    Capacity: T80   Description: Original Snowball device  This device
-is only available in the Ningxia, Beijing, and Singapore Amazon Web Services Region.
-Device type: V3_5C    Capacity: T32   Description: Snowball Edge Compute Optimized without
-GPU      Device type: V3_5S    Capacity: T240   Description: Snowball Edge Storage
-Optimized 210TB
+Capacity: T100   Description: Snowball Edge Storage Optimized with EC2 Compute    This
+device is replaced with T98.     Device type: STANDARD    Capacity: T50   Description:
+Original Snowball device  This device is only available in the Ningxia, Beijing, and
+Singapore Amazon Web Services Region        Device type: STANDARD    Capacity: T80
+Description: Original Snowball device  This device is only available in the Ningxia,
+Beijing, and Singapore Amazon Web Services Region.        Snow Family device type:
+RACK_5U_C    Capacity: T13    Description: Snowblade.     Device type: V3_5S    Capacity:
+T240   Description: Snowball Edge Storage Optimized 210TB
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -269,6 +271,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (Snow Family Devices and Capacity) in the Snowcone User Guide.
 - `"ForwardingAddressId"`: The forwarding address ID for a job. This field is not supported
   in most Regions.
+- `"ImpactLevel"`: The highest impact level of data that will be stored or processed on the
+  device, provided at job creation.
 - `"JobType"`: Defines the type of job that you're creating.
 - `"KmsKeyARN"`: The KmsKeyARN that you want to associate with this job. KmsKeyARNs are
   created using the CreateKey Key Management Service (KMS) API action.
@@ -279,10 +283,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   device that your transferred data will be exported from or imported into. Amazon Web
   Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web
   Services Storage Gateway service Tape Gateway type.
+- `"PickupDetails"`: Information identifying the person picking up the device.
 - `"RemoteManagement"`: Allows you to securely operate and manage Snowcone devices remotely
   from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management
   will automatically be available when the device arrives at your location. Otherwise, you
-  need to use the Snowball Client to manage the device.
+  need to use the Snowball Edge client to manage the device. When set to NOT_INSTALLED,
+  remote management will not be available on the device.
 - `"Resources"`: Defines the Amazon S3 buckets associated with this job. With IMPORT jobs,
   you specify the bucket or buckets that your transferred data will be imported into. With
   EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported
@@ -330,8 +336,8 @@ function create_job(
 end
 
 """
-    create_long_term_pricing(long_term_pricing_type)
-    create_long_term_pricing(long_term_pricing_type, params::Dict{String,<:Any})
+    create_long_term_pricing(long_term_pricing_type, snowball_type)
+    create_long_term_pricing(long_term_pricing_type, snowball_type, params::Dict{String,<:Any})
 
 Creates a job with the long-term usage option for a device. The long-term usage is a 1-year
 or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web
@@ -340,25 +346,28 @@ Services provides discounts for long-term pricing.
 # Arguments
 - `long_term_pricing_type`: The type of long-term pricing option you want for the device,
   either 1-year or 3-year long-term pricing.
+- `snowball_type`: The type of Snow Family devices to use for the long-term pricing job.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IsLongTermPricingAutoRenew"`: Specifies whether the current long-term pricing type for
   the device should be renewed.
-- `"SnowballType"`: The type of Snow Family devices to use for the long-term pricing job.
 """
 function create_long_term_pricing(
-    LongTermPricingType; aws_config::AbstractAWSConfig=global_aws_config()
+    LongTermPricingType, SnowballType; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return snowball(
         "CreateLongTermPricing",
-        Dict{String,Any}("LongTermPricingType" => LongTermPricingType);
+        Dict{String,Any}(
+            "LongTermPricingType" => LongTermPricingType, "SnowballType" => SnowballType
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_long_term_pricing(
     LongTermPricingType,
+    SnowballType,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -367,7 +376,10 @@ function create_long_term_pricing(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}("LongTermPricingType" => LongTermPricingType),
+                Dict{String,Any}(
+                    "LongTermPricingType" => LongTermPricingType,
+                    "SnowballType" => SnowballType,
+                ),
                 params,
             ),
         );
@@ -778,10 +790,10 @@ end
     list_compatible_images()
     list_compatible_images(params::Dict{String,<:Any})
 
-This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that
-are owned by your Amazon Web Services accountthat would be supported for use on a Snow
-device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS -
-Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services
+This action returns a list of the different Amazon EC2-compatible Amazon Machine Images
+(AMIs) that are owned by your Amazon Web Services accountthat would be supported for use on
+a Snow device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS
+- Focal, or Ubuntu 22.04 LTS - Jammy images, available on the Amazon Web Services
 Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market,
 but still supported for use on devices through Amazon EC2 VM Import/Export and running
 locally in AMIs.
@@ -859,6 +871,35 @@ function list_long_term_pricing(
 )
     return snowball(
         "ListLongTermPricing",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_pickup_locations()
+    list_pickup_locations(params::Dict{String,<:Any})
+
+A list of locations from which the customer can choose to pickup a device.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of locations to list per page.
+- `"NextToken"`: HTTP requests are stateless. To identify what object comes \"next\" in the
+  list of ListPickupLocationsRequest objects, you have the option of specifying NextToken as
+  the starting point for your returned list.
+"""
+function list_pickup_locations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return snowball(
+        "ListPickupLocations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_pickup_locations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return snowball(
+        "ListPickupLocations",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -985,6 +1026,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   device that your transferred data will be exported from or imported into. Amazon Web
   Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web
   Services Storage Gateway service Tape Gateway type.
+- `"PickupDetails"`:
 - `"Resources"`: The updated JobResource object, or the updated JobResource object.
 - `"RoleARN"`: The new role Amazon Resource Name (ARN) that you want to associate with this
   job. To create a role ARN, use the CreateRoleIdentity and Access Management (IAM) API

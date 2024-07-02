@@ -38,6 +38,36 @@ function batch_get_metric_data(
 end
 
 """
+    cancel_export_job(job_id)
+    cancel_export_job(job_id, params::Dict{String,<:Any})
+
+Cancels an export job.
+
+# Arguments
+- `job_id`: The export job ID.
+
+"""
+function cancel_export_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return sesv2(
+        "PUT",
+        "/v2/email/export-jobs/$(JobId)/cancel";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_export_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sesv2(
+        "PUT",
+        "/v2/email/export-jobs/$(JobId)/cancel",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_configuration_set(configuration_set_name)
     create_configuration_set(configuration_set_name, params::Dict{String,<:Any})
 
@@ -105,10 +135,9 @@ end
 
 Create an event destination. Events include message sends, deliveries, opens, clicks,
 bounces, and complaints. Event destinations are places that you can send information about
-these events to. For example, you can send event data to Amazon SNS to receive
-notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data
-Firehose to stream data to Amazon S3 for long-term storage. A single configuration set can
-include more than one event destination.
+these events to. For example, you can send event data to Amazon EventBridge and associate a
+rule to send the event to the specified target. A single configuration set can include more
+than one event destination.
 
 # Arguments
 - `configuration_set_name`: The name of the configuration set .
@@ -599,6 +628,55 @@ function create_email_template(
 end
 
 """
+    create_export_job(export_data_source, export_destination)
+    create_export_job(export_data_source, export_destination, params::Dict{String,<:Any})
+
+Creates an export job for a data source and destination. You can execute this operation no
+more than once per second.
+
+# Arguments
+- `export_data_source`: The data source for the export job.
+- `export_destination`: The destination for the export job.
+
+"""
+function create_export_job(
+    ExportDataSource, ExportDestination; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/export-jobs",
+        Dict{String,Any}(
+            "ExportDataSource" => ExportDataSource, "ExportDestination" => ExportDestination
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_export_job(
+    ExportDataSource,
+    ExportDestination,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sesv2(
+        "POST",
+        "/v2/email/export-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ExportDataSource" => ExportDataSource,
+                    "ExportDestination" => ExportDestination,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_import_job(import_data_source, import_destination)
     create_import_job(import_data_source, import_destination, params::Dict{String,<:Any})
 
@@ -690,9 +768,8 @@ end
 
 Delete an event destination.  Events include message sends, deliveries, opens, clicks,
 bounces, and complaints. Event destinations are places that you can send information about
-these events to. For example, you can send event data to Amazon SNS to receive
-notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data
-Firehose to stream data to Amazon S3 for long-term storage.
+these events to. For example, you can send event data to Amazon EventBridge and associate a
+rule to send the event to the specified target.
 
 # Arguments
 - `configuration_set_name`: The name of the configuration set that contains the event
@@ -1127,9 +1204,8 @@ end
 Retrieve a list of event destinations that are associated with a configuration set.  Events
 include message sends, deliveries, opens, clicks, bounces, and complaints. Event
 destinations are places that you can send information about these events to. For example,
-you can send event data to Amazon SNS to receive notifications when you receive bounces or
-complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for
-long-term storage.
+you can send event data to Amazon EventBridge and associate a rule to send the event to the
+specified target.
 
 # Arguments
 - `configuration_set_name`: The name of the configuration set that contains the event
@@ -1635,6 +1711,36 @@ function get_email_template(
 end
 
 """
+    get_export_job(job_id)
+    get_export_job(job_id, params::Dict{String,<:Any})
+
+Provides information about an export job.
+
+# Arguments
+- `job_id`: The export job ID.
+
+"""
+function get_export_job(JobId; aws_config::AbstractAWSConfig=global_aws_config())
+    return sesv2(
+        "GET",
+        "/v2/email/export-jobs/$(JobId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_export_job(
+    JobId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sesv2(
+        "GET",
+        "/v2/email/export-jobs/$(JobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_import_job(job_id)
     get_import_job(job_id, params::Dict{String,<:Any})
 
@@ -1658,6 +1764,41 @@ function get_import_job(
     return sesv2(
         "GET",
         "/v2/email/import-jobs/$(JobId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_message_insights(message_id)
+    get_message_insights(message_id, params::Dict{String,<:Any})
+
+Provides information about a specific message, including the from address, the subject, the
+recipient address, email tags, as well as events associated with the message. You can
+execute this operation no more than once per second.
+
+# Arguments
+- `message_id`:  A MessageId is a unique identifier for a message, and is returned when
+  sending emails through Amazon SES.
+
+"""
+function get_message_insights(MessageId; aws_config::AbstractAWSConfig=global_aws_config())
+    return sesv2(
+        "GET",
+        "/v2/email/insights/$(MessageId)/";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_message_insights(
+    MessageId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sesv2(
+        "GET",
+        "/v2/email/insights/$(MessageId)/",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1797,8 +1938,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_contacts(ContactListName; aws_config::AbstractAWSConfig=global_aws_config())
     return sesv2(
-        "GET",
-        "/v2/email/contact-lists/$(ContactListName)/contacts";
+        "POST",
+        "/v2/email/contact-lists/$(ContactListName)/contacts/list";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1809,8 +1950,8 @@ function list_contacts(
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return sesv2(
-        "GET",
-        "/v2/email/contact-lists/$(ContactListName)/contacts",
+        "POST",
+        "/v2/email/contact-lists/$(ContactListName)/contacts/list",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2043,7 +2184,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PageSize"`: The number of results to show in a single call to ListEmailTemplates. If
   the number of results is larger than the number you specified in this parameter, then the
   response includes a NextToken element, which you can use to obtain additional results. The
-  value you specify has to be at least 1, and can be no more than 10.
+  value you specify has to be at least 1, and can be no more than 100.
 """
 function list_email_templates(; aws_config::AbstractAWSConfig=global_aws_config())
     return sesv2(
@@ -2056,6 +2197,44 @@ function list_email_templates(
     return sesv2(
         "GET",
         "/v2/email/templates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_export_jobs()
+    list_export_jobs(params::Dict{String,<:Any})
+
+Lists all of the export jobs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ExportSourceType"`: A value used to list export jobs that have a certain
+  ExportSourceType.
+- `"JobStatus"`: A value used to list export jobs that have a certain JobStatus.
+- `"NextToken"`: The pagination token returned from a previous call to ListExportJobs to
+  indicate the position in the list of export jobs.
+- `"PageSize"`: Maximum number of export jobs to return at once. Use this parameter to
+  paginate results. If additional export jobs exist beyond the specified limit, the NextToken
+  element is sent in the response. Use the NextToken value in subsequent calls to
+  ListExportJobs to retrieve additional export jobs.
+"""
+function list_export_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return sesv2(
+        "POST",
+        "/v2/email/list-export-jobs";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_export_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sesv2(
+        "POST",
+        "/v2/email/list-export-jobs",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2082,8 +2261,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function list_import_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
     return sesv2(
-        "GET",
-        "/v2/email/import-jobs";
+        "POST",
+        "/v2/email/import-jobs/list";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2092,8 +2271,8 @@ function list_import_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sesv2(
-        "GET",
-        "/v2/email/import-jobs",
+        "POST",
+        "/v2/email/import-jobs/list",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2275,11 +2454,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProductionAccessEnabled"`: Indicates whether or not your account should have production
   access in the current Amazon Web Services Region. If the value is false, then your account
   is in the sandbox. When your account is in the sandbox, you can only send email to verified
-  identities. Additionally, the maximum number of emails you can send in a 24-hour period
-  (your sending quota) is 200, and the maximum number of emails you can send per second (your
-  maximum sending rate) is 1. If the value is true, then your account has production access.
-  When your account has production access, you can send email to any address. The sending
-  quota and maximum sending rate for your account vary based on your specific use case.
+  identities.  If the value is true, then your account has production access. When your
+  account has production access, you can send email to any address. The sending quota and
+  maximum sending rate for your account vary based on your specific use case.
 """
 function put_account_details(
     MailType,
@@ -3284,7 +3461,7 @@ replaces the tags with values that you specify.
 
 # Arguments
 - `content`: An object that contains the body of the message. You can send either a Simple
-  message Raw message or a template Message.
+  message, Raw message, or a Templated message.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3490,8 +3667,7 @@ end
 Update the configuration of an event destination for a configuration set.  Events include
 message sends, deliveries, opens, clicks, bounces, and complaints. Event destinations are
 places that you can send information about these events to. For example, you can send event
-data to Amazon SNS to receive notifications when you receive bounces or complaints, or you
-can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
+data to Amazon EventBridge and associate a rule to send the event to the specified target.
 
 # Arguments
 - `configuration_set_name`: The name of the configuration set that contains the event
@@ -3538,8 +3714,9 @@ end
     update_contact(contact_list_name, email_address)
     update_contact(contact_list_name, email_address, params::Dict{String,<:Any})
 
-Updates a contact's preferences for a list. It is not necessary to specify all existing
-topic preferences in the TopicPreferences object, just the ones that need updating.
+Updates a contact's preferences for a list.  You must specify all existing topic
+preferences in the TopicPreferences object, not just the ones that need updating;
+otherwise, all your existing preferences will be removed.
 
 # Arguments
 - `contact_list_name`: The name of the contact list.

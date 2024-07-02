@@ -754,14 +754,15 @@ certificate signed by the preceding subordinate CA must come next, and so on unt
 chain is built.    The chain must be PEM-encoded.   The maximum allowed size of a
 certificate is 32 KB.   The maximum allowed size of a certificate chain is 2 MB.
 Enforcement of Critical Constraints  Amazon Web Services Private CA allows the following
-extensions to be marked critical in the imported CA certificate or chain.   Basic
-constraints (must be marked critical)   Subject alternative names   Key usage   Extended
-key usage   Authority key identifier   Subject key identifier   Issuer alternative name
-Subject directory attributes   Subject information access   Certificate policies   Policy
-mappings   Inhibit anyPolicy   Amazon Web Services Private CA rejects the following
-extensions when they are marked critical in an imported CA certificate or chain.   Name
-constraints   Policy constraints   CRL distribution points   Authority information access
-Freshest CRL   Any other extension
+extensions to be marked critical in the imported CA certificate or chain.   Authority key
+identifier   Basic constraints (must be marked critical)   Certificate policies   Extended
+key usage   Inhibit anyPolicy   Issuer alternative name   Key usage   Name constraints
+Policy mappings   Subject alternative name   Subject directory attributes   Subject key
+identifier   Subject information access   Amazon Web Services Private CA rejects the
+following extensions when they are marked critical in an imported CA certificate or chain.
+ Authority information access   CRL distribution points   Freshest CRL   Policy constraints
+  Amazon Web Services Private Certificate Authority will also reject any other extension
+marked as critical not contained on the preceding list of allowed extensions.
 
 # Arguments
 - `certificate`: The PEM-encoded certificate for a private CA. This may be a self-signed
@@ -860,12 +861,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supplied during certificate issuance, Amazon Web Services Private CA applies order of
   operation rules to determine what information is used.
 - `"IdempotencyToken"`: Alphanumeric string that can be used to distinguish between calls
-  to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one
-  minute. Therefore, if you call IssueCertificate multiple times with the same idempotency
-  token within one minute, Amazon Web Services Private CA recognizes that you are requesting
-  only one certificate and will issue only one. If you change the idempotency token for each
-  call, Amazon Web Services Private CA recognizes that you are requesting multiple
-  certificates.
+  to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after five
+  minutes. Therefore, if you call IssueCertificate multiple times with the same idempotency
+  token within five minutes, Amazon Web Services Private CA recognizes that you are
+  requesting only one certificate and will issue only one. If you change the idempotency
+  token for each call, Amazon Web Services Private CA recognizes that you are requesting
+  multiple certificates.
 - `"TemplateArn"`: Specifies a custom configuration template to use when issuing a
   certificate. If this parameter is not provided, Amazon Web Services Private CA defaults to
   the EndEntityCertificate/V1 template. For CA certificates, you should choose the shortest
@@ -942,7 +943,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Use this parameter when paginating results to specify the maximum number
   of items to return in the response on each page. If additional items exist beyond the
   number you specify, the NextToken element is sent in the response. Use this NextToken value
-  in a subsequent request to retrieve additional items.
+  in a subsequent request to retrieve additional items. Although the maximum value is 1000,
+  the action only returns a maximum of 100 items.
 - `"NextToken"`: Use this parameter when paginating results in a subsequent request after
   you receive a response with truncated results. Set it to the value of the NextToken
   parameter from the response you just received.

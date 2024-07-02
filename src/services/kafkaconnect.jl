@@ -23,7 +23,11 @@ Creates a connector using the specified properties.
   Kafka cluster.
 - `kafka_connect_version`: The version of Kafka Connect. It has to be compatible with both
   the Apache Kafka cluster's version and the plugins.
-- `plugins`: Specifies which plugins to use for the connector.
+- `plugins`:  Amazon MSK Connect does not currently support specifying multiple plugins as
+  a list. To use more than one plugin for your connector, you can create a single custom
+  plugin using a ZIP file that bundles multiple plugins together.  Specifies which plugin to
+  use for the connector. You must specify a single-element list containing one customPlugin
+  object.
 - `service_execution_role_arn`: The Amazon Resource Name (ARN) of the IAM role used by the
   connector to access the Amazon Web Services resources that it needs. The types of resources
   depends on the logic of the connector. For example, a connector that has Amazon S3 as a
@@ -33,6 +37,7 @@ Creates a connector using the specified properties.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"connectorDescription"`: A summary description of the connector.
 - `"logDelivery"`: Details about log delivery.
+- `"tags"`: The tags you want to attach to the connector.
 - `"workerConfiguration"`: Specifies which worker configuration to use with the connector.
 """
 function create_connector(
@@ -117,6 +122,7 @@ Creates a custom plugin using the specified properties.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A summary description of the custom plugin.
+- `"tags"`: The tags you want to attach to the custom plugin.
 """
 function create_custom_plugin(
     contentType, location, name; aws_config::AbstractAWSConfig=global_aws_config()
@@ -168,6 +174,7 @@ Creates a worker configuration using the specified properties.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: A summary description of the worker configuration.
+- `"tags"`: The tags you want to attach to the worker configuration.
 """
 function create_worker_configuration(
     name, propertiesFileContent; aws_config::AbstractAWSConfig=global_aws_config()
@@ -267,6 +274,41 @@ function delete_custom_plugin(
     return kafkaconnect(
         "DELETE",
         "/v1/custom-plugins/$(customPluginArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_worker_configuration(worker_configuration_arn)
+    delete_worker_configuration(worker_configuration_arn, params::Dict{String,<:Any})
+
+Deletes the specified worker configuration.
+
+# Arguments
+- `worker_configuration_arn`: The Amazon Resource Name (ARN) of the worker configuration
+  that you want to delete.
+
+"""
+function delete_worker_configuration(
+    workerConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafkaconnect(
+        "DELETE",
+        "/v1/worker-configurations/$(workerConfigurationArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_worker_configuration(
+    workerConfigurationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafkaconnect(
+        "DELETE",
+        "/v1/worker-configurations/$(workerConfigurationArn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -418,6 +460,7 @@ Returns a list of all of the custom plugins in this account and Region.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of custom plugins to list in one response.
+- `"namePrefix"`: Lists custom plugin names that start with the specified text string.
 - `"nextToken"`: If the response of a ListCustomPlugins operation is truncated, it will
   include a NextToken. Send this NextToken in a subsequent request to continue listing from
   where the previous operation left off.
@@ -440,6 +483,41 @@ function list_custom_plugins(
 end
 
 """
+    list_tags_for_resource(resource_arn)
+    list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
+
+Lists all the tags attached to the specified resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to list
+  all attached tags.
+
+"""
+function list_tags_for_resource(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafkaconnect(
+        "GET",
+        "/v1/tags/$(resourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_tags_for_resource(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafkaconnect(
+        "GET",
+        "/v1/tags/$(resourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_worker_configurations()
     list_worker_configurations(params::Dict{String,<:Any})
 
@@ -448,6 +526,8 @@ Returns a list of all of the worker configurations in this account and Region.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of worker configurations to list in one response.
+- `"namePrefix"`: Lists worker configuration names that start with the specified text
+  string.
 - `"nextToken"`: If the response of a ListWorkerConfigurations operation is truncated, it
   will include a NextToken. Send this NextToken in a subsequent request to continue listing
   from where the previous operation left off.
@@ -467,6 +547,80 @@ function list_worker_configurations(
         "GET",
         "/v1/worker-configurations",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    tag_resource(resource_arn, tags)
+    tag_resource(resource_arn, tags, params::Dict{String,<:Any})
+
+Attaches tags to the specified resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to
+  attach tags.
+- `tags`: The tags that you want to attach to the resource.
+
+"""
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+    return kafkaconnect(
+        "POST",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}("tags" => tags);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function tag_resource(
+    resourceArn,
+    tags,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafkaconnect(
+        "POST",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tags" => tags), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    untag_resource(resource_arn, tag_keys)
+    untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
+
+Removes tags from the specified resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource from which you want to
+  remove tags.
+- `tag_keys`: The keys of the tags that you want to remove from the resource.
+
+"""
+function untag_resource(
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kafkaconnect(
+        "DELETE",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}("tagKeys" => tagKeys);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function untag_resource(
+    resourceArn,
+    tagKeys,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kafkaconnect(
+        "DELETE",
+        "/v1/tags/$(resourceArn)",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

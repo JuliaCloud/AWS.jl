@@ -335,9 +335,9 @@ end
     create_approval_rule_template(approval_rule_template_content, approval_rule_template_name, params::Dict{String,<:Any})
 
 Creates a template for approval rules that can then be associated with one or more
-repositories in your AWS account. When you associate a template with a repository, AWS
-CodeCommit creates an approval rule that matches the conditions of the template for all
-pull requests that meet the conditions of the template. For more information, see
+repositories in your Amazon Web Services account. When you associate a template with a
+repository, CodeCommit creates an approval rule that matches the conditions of the template
+for all pull requests that meet the conditions of the template. For more information, see
 AssociateApprovalRuleTemplateWithRepository.
 
 # Arguments
@@ -346,19 +346,20 @@ AssociateApprovalRuleTemplateWithRepository.
   (branches), approval rules are created in an associated repository only if their
   destination references (branches) match those specified in the template.  When you create
   the content of the approval rule template, you can specify approvers in an approval pool in
-  one of two ways:    CodeCommitApprovers: This option only requires an AWS account and a
-  resource. It can be used for both IAM users and federated access users whose name matches
-  the provided resource name. This is a very powerful option that offers a great deal of
-  flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all
-  of the following are counted as approvals coming from that user:   An IAM user in the
-  account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as
-  Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not
-  recognize an active session of someone assuming the role of CodeCommitReview with a role
-  session name of Mary_Major
-  (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a
-  wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully
-  qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about
-  IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User Guide.
+  one of two ways:    CodeCommitApprovers: This option only requires an Amazon Web Services
+  account and a resource. It can be used for both IAM users and federated access users whose
+  name matches the provided resource name. This is a very powerful option that offers a great
+  deal of flexibility. For example, if you specify the Amazon Web Services account
+  123456789012 and Mary_Major, all of the following are counted as approvals coming from that
+  user:   An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A
+  federated user identified in IAM as Mary_Major
+  (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not recognize an
+  active session of someone assuming the role of CodeCommitReview with a role session name of
+  Mary_Major (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you
+  include a wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify
+  the fully qualified Amazon Resource Name (ARN) of the IAM user or role.    For more
+  information about IAM ARNs, wildcards, and formats, see IAM Identifiers in the IAM User
+  Guide.
 - `approval_rule_template_name`: The name of the approval rule template. Provide
   descriptive names, because this name is applied to the approval rules created automatically
   in associated repositories.
@@ -537,9 +538,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientRequestToken"`: A unique, client-generated idempotency token that, when provided
   in a request, ensures the request cannot be repeated with a changed parameter. If a request
   is received with the same parameters and a token is included, the request returns
-  information about the initial request that used that token.  The AWS SDKs prepopulate
-  client request tokens. If you are using an AWS SDK, an idempotency token is created for
-  you.
+  information about the initial request that used that token.  The Amazon Web ServicesSDKs
+  prepopulate client request tokens. If you are using an Amazon Web ServicesSDK, an
+  idempotency token is created for you.
 - `"description"`: A description of the pull request.
 """
 function create_pull_request(
@@ -587,17 +588,17 @@ Creates an approval rule for a pull request.
 # Arguments
 - `approval_rule_content`: The content of the approval rule, including the number of
   approvals needed and the structure of an approval pool defined for approvals, if any. For
-  more information about approval pools, see the AWS CodeCommit User Guide.  When you create
-  the content of the approval rule, you can specify approvers in an approval pool in one of
-  two ways:    CodeCommitApprovers: This option only requires an AWS account and a resource.
-  It can be used for both IAM users and federated access users whose name matches the
-  provided resource name. This is a very powerful option that offers a great deal of
-  flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all
-  of the following would be counted as approvals coming from that user:   An IAM user in the
-  account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as
-  Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not
-  recognize an active session of someone assuming the role of CodeCommitReview with a role
-  session name of Mary_Major
+  more information about approval pools, see the CodeCommit User Guide.  When you create the
+  content of the approval rule, you can specify approvers in an approval pool in one of two
+  ways:    CodeCommitApprovers: This option only requires an Amazon Web Services account and
+  a resource. It can be used for both IAM users and federated access users whose name matches
+  the provided resource name. This is a very powerful option that offers a great deal of
+  flexibility. For example, if you specify the Amazon Web Services account 123456789012 and
+  Mary_Major, all of the following would be counted as approvals coming from that user:   An
+  IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user
+  identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)
+  This option does not recognize an active session of someone assuming the role of
+  CodeCommitReview with a role session name of Mary_Major
   (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a
   wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully
   qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about
@@ -657,13 +658,18 @@ Creates a new, empty repository.
 
 # Arguments
 - `repository_name`: The name of the new repository to be created.  The repository name
-  must be unique across the calling AWS account. Repository names are limited to 100
-  alphanumeric, dash, and underscore characters, and cannot include certain characters. For
-  more information about the limits on repository names, see Limits in the AWS CodeCommit
-  User Guide. The suffix .git is prohibited.
+  must be unique across the calling Amazon Web Services account. Repository names are limited
+  to 100 alphanumeric, dash, and underscore characters, and cannot include certain
+  characters. For more information about the limits on repository names, see Quotas in the
+  CodeCommit User Guide. The suffix .git is prohibited.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"kmsKeyId"`: The ID of the encryption key. You can view the ID of an encryption key in
+  the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more
+  information about acceptable values for kmsKeyID, see KeyId in the Decrypt API description
+  in the Key Management Service API Reference. If no key is specified, the default
+  aws/codecommit Amazon Web Services managed key is used.
 - `"repositoryDescription"`: A comment or description about the new repository.  The
   description field for a repository accepts all HTML characters and all valid Unicode
   characters. Applications that do not HTML-encode the description and display it in a
@@ -1549,15 +1555,19 @@ active identities, use GetCommentReactions.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"afterCommitId"`: The full commit ID of the commit in the source branch that was the tip
-  of the branch at the time the comment was made.
+  of the branch at the time the comment was made. Requirement is conditional: afterCommitId
+  must be specified when repositoryName is included.
 - `"beforeCommitId"`: The full commit ID of the commit in the destination branch that was
-  the tip of the branch at the time the pull request was created.
+  the tip of the branch at the time the pull request was created. Requirement is conditional:
+  beforeCommitId must be specified when repositoryName is included.
 - `"maxResults"`: A non-zero, non-negative integer used to limit the number of returned
   results. The default is 100 comments. You can return up to 500 comments with a single
   request.
 - `"nextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 - `"repositoryName"`: The name of the repository that contains the pull request.
+  Requirement is conditional: repositoryName must be specified when beforeCommitId and
+  afterCommitId are included.
 """
 function get_comments_for_pull_request(
     pullRequestId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1709,7 +1719,7 @@ Returns the base-64 encoded contents of a specified file and its metadata.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"commitSpecifier"`: The fully quaified reference that identifies the commit that
   contains the file. For example, you can specify a full commit ID, a tag, a branch name, or
-  a reference such as refs/heads/master. If none is provided, the head commit is used.
+  a reference such as refs/heads/main. If none is provided, the head commit is used.
 """
 function get_file(
     filePath, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2206,8 +2216,9 @@ end
     list_approval_rule_templates()
     list_approval_rule_templates(params::Dict{String,<:Any})
 
-Lists all approval rule templates in the specified AWS Region in your AWS account. If an
-AWS Region is not specified, the AWS Region where you are signed in is used.
+Lists all approval rule templates in the specified Amazon Web Services Region in your
+Amazon Web Services account. If an Amazon Web Services Region is not specified, the Amazon
+Web Services Region where you are signed in is used.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2311,6 +2322,58 @@ function list_branches(
 end
 
 """
+    list_file_commit_history(file_path, repository_name)
+    list_file_commit_history(file_path, repository_name, params::Dict{String,<:Any})
+
+Retrieves a list of commits and changes to a specified file.
+
+# Arguments
+- `file_path`: The full path of the file whose history you want to retrieve, including the
+  name of the file.
+- `repository_name`: The name of the repository that contains the file.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"commitSpecifier"`: The fully quaified reference that identifies the commit that
+  contains the file. For example, you can specify a full commit ID, a tag, a branch name, or
+  a reference such as refs/heads/main. If none is provided, the head commit is used.
+- `"maxResults"`: A non-zero, non-negative integer used to limit the number of returned
+  results.
+- `"nextToken"`: An enumeration token that allows the operation to batch the results.
+"""
+function list_file_commit_history(
+    filePath, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codecommit(
+        "ListFileCommitHistory",
+        Dict{String,Any}("filePath" => filePath, "repositoryName" => repositoryName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_file_commit_history(
+    filePath,
+    repositoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecommit(
+        "ListFileCommitHistory",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "filePath" => filePath, "repositoryName" => repositoryName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_pull_requests(repository_name)
     list_pull_requests(repository_name, params::Dict{String,<:Any})
 
@@ -2366,7 +2429,7 @@ Gets information about one or more repositories.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"nextToken"`: An enumeration token that allows the operation to batch the results of the
   operation. Batch sizes are 1,000 for list repository operations. When the client sends the
-  token back to AWS CodeCommit, another page of 1,000 records is retrieved.
+  token back to CodeCommit, another page of 1,000 records is retrieved.
 - `"order"`: The order in which to sort the results of a list repositories operation.
 - `"sortBy"`: The criteria used to sort the results of a list repositories operation.
 """
@@ -2433,9 +2496,9 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS
-CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and
-Operations in the AWS CodeCommit User Guide.
+Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN)
+in CodeCommit. For a list of valid resources in CodeCommit, see CodeCommit Resources and
+Operations in the CodeCommit User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which you want to get
@@ -3154,7 +3217,7 @@ modify, or delete a reaction for another user.
 - `comment_id`: The ID of the comment to which you want to add or update a reaction.
 - `reaction_value`: The emoji reaction you want to add or update. To remove a reaction,
   provide a value of blank or null. You can also provide the value of none. For information
-  about emoji reaction values supported in AWS CodeCommit, see the AWS CodeCommit User Guide.
+  about emoji reaction values supported in CodeCommit, see the CodeCommit User Guide.
 
 """
 function put_comment_reaction(
@@ -3193,8 +3256,8 @@ end
     put_file(branch_name, file_content, file_path, repository_name)
     put_file(branch_name, file_content, file_path, repository_name, params::Dict{String,<:Any})
 
-Adds or updates a file in a branch in an AWS CodeCommit repository, and generates a commit
-for the addition in the specified branch.
+Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for
+the addition in the specified branch.
 
 # Arguments
 - `branch_name`: The name of the branch where you want to add or update the file. If this
@@ -3314,8 +3377,8 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resources in AWS
-CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
+Adds or updates tags for a resource in CodeCommit. For a list of valid resources in
+CodeCommit, see CodeCommit Resources and Operations in the CodeCommit User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to add
@@ -3400,8 +3463,8 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes tags for a resource in AWS CodeCommit. For a list of valid resources in AWS
-CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
+Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see
+CodeCommit Resources and Operations in the CodeCommit User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource to which you want to
@@ -3647,8 +3710,9 @@ operation to change the default branch name to the current default branch name, 
 message is returned even though the default branch did not change.
 
 # Arguments
-- `default_branch_name`: The name of the branch to set as the default.
-- `repository_name`: The name of the repository to set or change the default branch for.
+- `default_branch_name`: The name of the branch to set as the default branch.
+- `repository_name`: The name of the repository for which you want to set or change the
+  default branch.
 
 """
 function update_default_branch(
@@ -3698,15 +3762,15 @@ approvers.
 - `approval_rule_name`: The name of the approval rule you want to update.
 - `new_rule_content`: The updated content for the approval rule.  When you update the
   content of the approval rule, you can specify approvers in an approval pool in one of two
-  ways:    CodeCommitApprovers: This option only requires an AWS account and a resource. It
-  can be used for both IAM users and federated access users whose name matches the provided
-  resource name. This is a very powerful option that offers a great deal of flexibility. For
-  example, if you specify the AWS account 123456789012 and Mary_Major, all of the following
-  are counted as approvals coming from that user:   An IAM user in the account
-  (arn:aws:iam::123456789012:user/Mary_Major)   A federated user identified in IAM as
-  Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)   This option does not
-  recognize an active session of someone assuming the role of CodeCommitReview with a role
-  session name of Mary_Major
+  ways:    CodeCommitApprovers: This option only requires an Amazon Web Services account and
+  a resource. It can be used for both IAM users and federated access users whose name matches
+  the provided resource name. This is a very powerful option that offers a great deal of
+  flexibility. For example, if you specify the Amazon Web Services account 123456789012 and
+  Mary_Major, all of the following are counted as approvals coming from that user:   An IAM
+  user in the account (arn:aws:iam::123456789012:user/Mary_Major)   A federated user
+  identified in IAM as Mary_Major (arn:aws:sts::123456789012:federated-user/Mary_Major)
+  This option does not recognize an active session of someone assuming the role of
+  CodeCommitReview with a role session name of Mary_Major
   (arn:aws:sts::123456789012:assumed-role/CodeCommitReview/Mary_Major) unless you include a
   wildcard (*Mary_Major).    Fully qualified ARN: This option allows you to specify the fully
   qualified Amazon Resource Name (ARN) of the IAM user or role.    For more information about
@@ -3995,13 +4059,61 @@ function update_repository_description(
 end
 
 """
+    update_repository_encryption_key(kms_key_id, repository_name)
+    update_repository_encryption_key(kms_key_id, repository_name, params::Dict{String,<:Any})
+
+Updates the Key Management Service encryption key used to encrypt and decrypt a CodeCommit
+repository.
+
+# Arguments
+- `kms_key_id`: The ID of the encryption key. You can view the ID of an encryption key in
+  the KMS console, or use the KMS APIs to programmatically retrieve a key ID. For more
+  information about acceptable values for keyID, see KeyId in the Decrypt API description in
+  the Key Management Service API Reference.
+- `repository_name`: The name of the repository for which you want to update the KMS
+  encryption key used to encrypt and decrypt the repository.
+
+"""
+function update_repository_encryption_key(
+    kmsKeyId, repositoryName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codecommit(
+        "UpdateRepositoryEncryptionKey",
+        Dict{String,Any}("kmsKeyId" => kmsKeyId, "repositoryName" => repositoryName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_repository_encryption_key(
+    kmsKeyId,
+    repositoryName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codecommit(
+        "UpdateRepositoryEncryptionKey",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "kmsKeyId" => kmsKeyId, "repositoryName" => repositoryName
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_repository_name(new_name, old_name)
     update_repository_name(new_name, old_name, params::Dict{String,<:Any})
 
-Renames a repository. The repository name must be unique across the calling AWS account.
-Repository names are limited to 100 alphanumeric, dash, and underscore characters, and
-cannot include certain characters. The suffix .git is prohibited. For more information
-about the limits on repository names, see Limits in the AWS CodeCommit User Guide.
+Renames a repository. The repository name must be unique across the calling Amazon Web
+Services account. Repository names are limited to 100 alphanumeric, dash, and underscore
+characters, and cannot include certain characters. The suffix .git is prohibited. For more
+information about the limits on repository names, see Quotas in the CodeCommit User Guide.
 
 # Arguments
 - `new_name`: The new name for the repository.

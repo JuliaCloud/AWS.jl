@@ -167,8 +167,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more information about how to use advanced event selectors to include Config configuration
   items in your event data store, see Create an event data store for Config configuration
   items in the CloudTrail User Guide. For more information about how to use advanced event
-  selectors to include non-Amazon Web Services events in your event data store, see Create an
-  integration to log events from outside Amazon Web Services in the CloudTrail User Guide.
+  selectors to include events outside of Amazon Web Services events in your event data store,
+  see Create an integration to log events from outside Amazon Web Services in the CloudTrail
+  User Guide.
+- `"BillingMode"`: The billing mode for the event data store determines the cost for
+  ingesting events and the default and maximum retention period for the event data store. The
+  following are the possible values:    EXTENDABLE_RETENTION_PRICING - This billing mode is
+  generally recommended if you want a flexible retention period of up to 3653 days (about 10
+  years). The default retention period for this billing mode is 366 days.
+  FIXED_RETENTION_PRICING - This billing mode is recommended if you expect to ingest more
+  than 25 TB of event data per month and need a retention period of up to 2557 days (about 7
+  years). The default retention period for this billing mode is 2557 days.   The default
+  value is EXTENDABLE_RETENTION_PRICING. For more information about CloudTrail pricing, see
+  CloudTrail Pricing and Managing CloudTrail Lake costs.
 - `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the events delivered by
   CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an
   alias, a fully specified ARN to a key, or a globally unique identifier.  Disabling or
@@ -187,8 +198,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Regions, or only from the Region in which the event data store is created.
 - `"OrganizationEnabled"`: Specifies whether an event data store collects events logged for
   an organization in Organizations.
-- `"RetentionPeriod"`: The retention period of the event data store, in days. You can set a
-  retention period of up to 2557 days, the equivalent of seven years.
+- `"RetentionPeriod"`: The retention period of the event data store, in days. If
+  BillingMode is set to EXTENDABLE_RETENTION_PRICING, you can set a retention period of up to
+  3653 days, the equivalent of 10 years. If BillingMode is set to FIXED_RETENTION_PRICING,
+  you can set a retention period of up to 2557 days, the equivalent of seven years.
+  CloudTrail Lake determines whether to retain an event by checking if the eventTime of the
+  event is within the specified retention period. For example, if you set a retention period
+  of 90 days, CloudTrail will remove events when the eventTime is older than 90 days.  If you
+  plan to copy trail events to this event data store, we recommend that you consider both the
+  age of the events that you want to copy as well as how long you want to keep the copied
+  events in your event data store. For example, if you copy trail events that are 5 years old
+  and specify a retention period of 7 years, the event data store will retain those events
+  for two years.
 - `"StartIngestion"`: Specifies whether the event data store should start ingesting live
   events. The default is true.
 - `"TagsList"`:
@@ -230,7 +251,8 @@ bucket.
   my-_namespace and my--namespace are not valid.   Not be in IP address format (for example,
   192.168.5.4)
 - `s3_bucket_name`: Specifies the name of the Amazon S3 bucket designated for publishing
-  log files. See Amazon S3 Bucket Naming Requirements.
+  log files. For information about bucket naming rules, see Bucket naming rules in the Amazon
+  Simple Storage Service User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -337,11 +359,12 @@ end
 Disables the event data store specified by EventDataStore, which accepts an event data
 store ARN. After you run DeleteEventDataStore, the event data store enters a
 PENDING_DELETION state, and is automatically deleted after a wait period of seven days.
-TerminationProtectionEnabled must be set to False on the event data store; this operation
-cannot work if TerminationProtectionEnabled is True. After you run DeleteEventDataStore on
-an event data store, you cannot run ListQueries, DescribeQuery, or GetQueryResults on
-queries that are using an event data store in a PENDING_DELETION state. An event data store
-in the PENDING_DELETION state does not incur costs.
+TerminationProtectionEnabled must be set to False on the event data store and the
+FederationStatus must be DISABLED. You cannot delete an event data store if
+TerminationProtectionEnabled is True or the FederationStatus is ENABLED. After you run
+DeleteEventDataStore on an event data store, you cannot run ListQueries, DescribeQuery, or
+GetQueryResults on queries that are using an event data store in a PENDING_DELETION state.
+An event data store in the PENDING_DELETION state does not incur costs.
 
 # Arguments
 - `event_data_store`: The ARN (or the ID suffix of the ARN) of the event data store to
@@ -554,6 +577,106 @@ function describe_trails(
 end
 
 """
+    disable_federation(event_data_store)
+    disable_federation(event_data_store, params::Dict{String,<:Any})
+
+ Disables Lake query federation on the specified event data store. When you disable
+federation, CloudTrail disables the integration with Glue, Lake Formation, and Amazon
+Athena. After disabling Lake query federation, you can no longer query your event data in
+Amazon Athena. No CloudTrail Lake data is deleted when you disable federation and you can
+continue to run queries in CloudTrail Lake.
+
+# Arguments
+- `event_data_store`:  The ARN (or ID suffix of the ARN) of the event data store for which
+  you want to disable Lake query federation.
+
+"""
+function disable_federation(
+    EventDataStore; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "DisableFederation",
+        Dict{String,Any}("EventDataStore" => EventDataStore);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function disable_federation(
+    EventDataStore,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "DisableFederation",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("EventDataStore" => EventDataStore), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    enable_federation(event_data_store, federation_role_arn)
+    enable_federation(event_data_store, federation_role_arn, params::Dict{String,<:Any})
+
+ Enables Lake query federation on the specified event data store. Federating an event data
+store lets you view the metadata associated with the event data store in the Glue Data
+Catalog and run SQL queries against your event data using Amazon Athena. The table metadata
+stored in the Glue Data Catalog lets the Athena query engine know how to find, read, and
+process the data that you want to query. When you enable Lake query federation, CloudTrail
+creates a managed database named aws:cloudtrail (if the database doesn't already exist) and
+a managed federated table in the Glue Data Catalog. The event data store ID is used for the
+table name. CloudTrail registers the role ARN and event data store in Lake Formation, the
+service responsible for allowing fine-grained access control of the federated resources in
+the Glue Data Catalog. For more information about Lake query federation, see Federate an
+event data store.
+
+# Arguments
+- `event_data_store`: The ARN (or ID suffix of the ARN) of the event data store for which
+  you want to enable Lake query federation.
+- `federation_role_arn`:  The ARN of the federation role to use for the event data store.
+  Amazon Web Services services like Lake Formation use this federation role to access data
+  for the federated event data store. The federation role must exist in your account and
+  provide the required minimum permissions.
+
+"""
+function enable_federation(
+    EventDataStore, FederationRoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "EnableFederation",
+        Dict{String,Any}(
+            "EventDataStore" => EventDataStore, "FederationRoleArn" => FederationRoleArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function enable_federation(
+    EventDataStore,
+    FederationRoleArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "EnableFederation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EventDataStore" => EventDataStore,
+                    "FederationRoleArn" => FederationRoleArn,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_channel(channel)
     get_channel(channel, params::Dict{String,<:Any})
 
@@ -698,44 +821,44 @@ function get_import(
 end
 
 """
-    get_insight_selectors(trail_name)
-    get_insight_selectors(trail_name, params::Dict{String,<:Any})
+    get_insight_selectors()
+    get_insight_selectors(params::Dict{String,<:Any})
 
-Describes the settings for the Insights event selectors that you configured for your trail.
-GetInsightSelectors shows if CloudTrail Insights event logging is enabled on the trail, and
-if it is, which insight types are enabled. If you run GetInsightSelectors on a trail that
-does not have Insights events enabled, the operation throws the exception
-InsightNotEnabledException  For more information, see Logging CloudTrail Insights Events
-for Trails  in the CloudTrail User Guide.
+Describes the settings for the Insights event selectors that you configured for your trail
+or event data store. GetInsightSelectors shows if CloudTrail Insights event logging is
+enabled on the trail or event data store, and if it is, which Insights types are enabled.
+If you run GetInsightSelectors on a trail or event data store that does not have Insights
+events enabled, the operation throws the exception InsightNotEnabledException  Specify
+either the EventDataStore parameter to get Insights event selectors for an event data
+store, or the TrailName parameter to the get Insights event selectors for a trail. You
+cannot specify these parameters together. For more information, see Logging CloudTrail
+Insights events in the CloudTrail User Guide.
 
-# Arguments
-- `trail_name`: Specifies the name of the trail or trail ARN. If you specify a trail name,
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EventDataStore"`:  Specifies the ARN (or ID suffix of the ARN) of the event data store
+  for which you want to get Insights selectors.  You cannot use this parameter with the
+  TrailName parameter.
+- `"TrailName"`: Specifies the name of the trail or trail ARN. If you specify a trail name,
   the string must meet the following requirements:   Contain only ASCII letters (a-z, A-Z),
   numbers (0-9), periods (.), underscores (_), or dashes (-)   Start with a letter or number,
   and end with a letter or number   Be between 3 and 128 characters   Have no adjacent
   periods, underscores or dashes. Names like my-_namespace and my--namespace are not valid.
   Not be in IP address format (for example, 192.168.5.4)   If you specify a trail ARN, it
-  must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
-
+  must be in the format:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  You cannot
+  use this parameter with the EventDataStore parameter.
 """
-function get_insight_selectors(TrailName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_insight_selectors(; aws_config::AbstractAWSConfig=global_aws_config())
     return cloudtrail(
-        "GetInsightSelectors",
-        Dict{String,Any}("TrailName" => TrailName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "GetInsightSelectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_insight_selectors(
-    TrailName,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
         "GetInsightSelectors",
-        Dict{String,Any}(
-            mergewith(_merge, Dict{String,Any}("TrailName" => TrailName), params)
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -995,6 +1118,90 @@ function list_imports(
 end
 
 """
+    list_insights_metric_data(event_name, event_source, insight_type)
+    list_insights_metric_data(event_name, event_source, insight_type, params::Dict{String,<:Any})
+
+Returns Insights metrics data for trails that have enabled Insights. The request must
+include the EventSource, EventName, and InsightType parameters. If the InsightType is set
+to ApiErrorRateInsight, the request must also include the ErrorCode parameter. The
+following are the available time periods for ListInsightsMetricData. Each cutoff is
+inclusive.   Data points with a period of 60 seconds (1-minute) are available for 15 days.
+ Data points with a period of 300 seconds (5-minute) are available for 63 days.   Data
+points with a period of 3600 seconds (1 hour) are available for 90 days.   Access to the
+ListInsightsMetricData API operation is linked to the cloudtrail:LookupEvents action. To
+use this operation, you must have permissions to perform the cloudtrail:LookupEvents action.
+
+# Arguments
+- `event_name`: The name of the event, typically the Amazon Web Services API on which
+  unusual levels of activity were recorded.
+- `event_source`: The Amazon Web Services service to which the request was made, such as
+  iam.amazonaws.com or s3.amazonaws.com.
+- `insight_type`: The type of CloudTrail Insights event, which is either ApiCallRateInsight
+  or ApiErrorRateInsight. The ApiCallRateInsight Insights type analyzes write-only management
+  API calls that are aggregated per minute against a baseline API call volume. The
+  ApiErrorRateInsight Insights type analyzes management API calls that result in error codes.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DataType"`: Type of datapoints to return. Valid values are NonZeroData and
+  FillWithZeros. The default is NonZeroData.
+- `"EndTime"`: Specifies, in UTC, the end time for time-series data. The value specified is
+  exclusive; results include data points up to the specified time stamp. The default is the
+  time of request.
+- `"ErrorCode"`: Conditionally required if the InsightType parameter is set to
+  ApiErrorRateInsight. If returning metrics for the ApiErrorRateInsight Insights type, this
+  is the error to retrieve data for. For example, AccessDenied.
+- `"MaxResults"`: The maximum number of datapoints to return. Valid values are integers
+  from 1 to 21600. The default value is 21600.
+- `"NextToken"`: Returned if all datapoints can't be returned in a single call. For
+  example, due to reaching MaxResults. Add this parameter to the request to continue
+  retrieving results starting from the last evaluated point.
+- `"Period"`: Granularity of data to retrieve, in seconds. Valid values are 60, 300, and
+  3600. If you specify any other value, you will get an error. The default is 3600 seconds.
+- `"StartTime"`: Specifies, in UTC, the start time for time-series data. The value
+  specified is inclusive; results include data points with the specified time stamp. The
+  default is 90 days before the time of request.
+"""
+function list_insights_metric_data(
+    EventName, EventSource, InsightType; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return cloudtrail(
+        "ListInsightsMetricData",
+        Dict{String,Any}(
+            "EventName" => EventName,
+            "EventSource" => EventSource,
+            "InsightType" => InsightType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_insights_metric_data(
+    EventName,
+    EventSource,
+    InsightType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return cloudtrail(
+        "ListInsightsMetricData",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EventName" => EventName,
+                    "EventSource" => EventSource,
+                    "InsightType" => InsightType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_public_keys()
     list_public_keys(params::Dict{String,<:Any})
 
@@ -1146,14 +1353,17 @@ end
     lookup_events(params::Dict{String,<:Any})
 
 Looks up management events or CloudTrail Insights events that are captured by CloudTrail.
-You can look up events that occurred in a Region within the last 90 days. Lookup supports
-the following attributes for management events:   Amazon Web Services access key   Event ID
-  Event name   Event source   Read only   Resource name   Resource type   User name
-Lookup supports the following attributes for Insights events:   Event ID   Event name
-Event source   All attributes are optional. The default number of results returned is 50,
-with a maximum of 50 possible. The response includes a token that you can use to get the
-next page of results.  The rate of lookup requests is limited to two per second, per
-account, per Region. If this limit is exceeded, a throttling error occurs.
+You can look up events that occurred in a Region within the last 90 days.   LookupEvents
+returns recent Insights events for trails that enable Insights. To view Insights events for
+an event data store, you can run queries on your Insights event data store, and you can
+also view the Lake dashboard for Insights.  Lookup supports the following attributes for
+management events:   Amazon Web Services access key   Event ID   Event name   Event source
+ Read only   Resource name   Resource type   User name   Lookup supports the following
+attributes for Insights events:   Event ID   Event name   Event source   All attributes are
+optional. The default number of results returned is 50, with a maximum of 50 possible. The
+response includes a token that you can use to get the next page of results.  The rate of
+lookup requests is limited to two per second, per account, per Region. If this limit is
+exceeded, a throttling error occurs.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1195,27 +1405,27 @@ Configures an event selector or advanced event selectors for your trail. Use eve
 selectors or advanced event selectors to specify management and data event settings for
 your trail. If you want your trail to log Insights events, be sure the event selector
 enables logging of the Insights event types you want configured for your trail. For more
-information about logging Insights events, see Logging Insights events for trails in the
-CloudTrail User Guide. By default, trails created without specific event selectors are
-configured to log all read and write management events, and no data events. When an event
-occurs in your account, CloudTrail evaluates the event selectors or advanced event
-selectors in all trails. For each trail, if the event matches any event selector, the trail
-processes and logs the event. If the event doesn't match any event selector, the trail
-doesn't log the event. Example   You create an event selector for a trail and specify that
-you want write-only events.   The EC2 GetConsoleOutput and RunInstances API operations
-occur in your account.   CloudTrail evaluates whether the events match your event
-selectors.   The RunInstances is a write-only event and it matches your event selector. The
-trail logs the event.   The GetConsoleOutput is a read-only event that doesn't match your
-event selector. The trail doesn't log the event.    The PutEventSelectors operation must be
-called from the Region in which the trail was created; otherwise, an
-InvalidHomeRegionException exception is thrown. You can configure up to five event
-selectors for each trail. For more information, see Logging management events, Logging data
-events, and Quotas in CloudTrail in the CloudTrail User Guide. You can add advanced event
-selectors, and conditions for your advanced event selectors, up to a maximum of 500 values
-for all conditions and selectors on a trail. You can use either AdvancedEventSelectors or
-EventSelectors, but not both. If you apply AdvancedEventSelectors to a trail, any existing
-EventSelectors are overwritten. For more information about advanced event selectors, see
-Logging data events in the CloudTrail User Guide.
+information about logging Insights events, see Logging Insights events in the CloudTrail
+User Guide. By default, trails created without specific event selectors are configured to
+log all read and write management events, and no data events. When an event occurs in your
+account, CloudTrail evaluates the event selectors or advanced event selectors in all
+trails. For each trail, if the event matches any event selector, the trail processes and
+logs the event. If the event doesn't match any event selector, the trail doesn't log the
+event. Example   You create an event selector for a trail and specify that you want
+write-only events.   The EC2 GetConsoleOutput and RunInstances API operations occur in your
+account.   CloudTrail evaluates whether the events match your event selectors.   The
+RunInstances is a write-only event and it matches your event selector. The trail logs the
+event.   The GetConsoleOutput is a read-only event that doesn't match your event selector.
+The trail doesn't log the event.    The PutEventSelectors operation must be called from the
+Region in which the trail was created; otherwise, an InvalidHomeRegionException exception
+is thrown. You can configure up to five event selectors for each trail. For more
+information, see Logging management events, Logging data events, and Quotas in CloudTrail
+in the CloudTrail User Guide. You can add advanced event selectors, and conditions for your
+advanced event selectors, up to a maximum of 500 values for all conditions and selectors on
+a trail. You can use either AdvancedEventSelectors or EventSelectors, but not both. If you
+apply AdvancedEventSelectors to a trail, any existing EventSelectors are overwritten. For
+more information about advanced event selectors, see Logging data events in the CloudTrail
+User Guide.
 
 # Arguments
 - `trail_name`: Specifies the name of the trail or trail ARN. If you specify a trail name,
@@ -1263,41 +1473,62 @@ function put_event_selectors(
 end
 
 """
-    put_insight_selectors(insight_selectors, trail_name)
-    put_insight_selectors(insight_selectors, trail_name, params::Dict{String,<:Any})
+    put_insight_selectors(insight_selectors)
+    put_insight_selectors(insight_selectors, params::Dict{String,<:Any})
 
 Lets you enable Insights event logging by specifying the Insights selectors that you want
-to enable on an existing trail. You also use PutInsightSelectors to turn off Insights event
-logging, by passing an empty list of insight types. The valid Insights event types in this
-release are ApiErrorRateInsight and ApiCallRateInsight. To log CloudTrail Insights events
-on API call volume, the trail must log write management events. To log CloudTrail Insights
-events on API error rate, the trail must log read or write management events. You can call
-GetEventSelectors on a trail to check whether the trail logs management events.
+to enable on an existing trail or event data store. You also use PutInsightSelectors to
+turn off Insights event logging, by passing an empty list of Insights types. The valid
+Insights event types are ApiErrorRateInsight and ApiCallRateInsight. To enable Insights on
+an event data store, you must specify the ARNs (or ID suffix of the ARNs) for the source
+event data store (EventDataStore) and the destination event data store
+(InsightsDestination). The source event data store logs management events and enables
+Insights. The destination event data store logs Insights events based upon the management
+event activity of the source event data store. The source and destination event data stores
+must belong to the same Amazon Web Services account. To log Insights events for a trail,
+you must specify the name (TrailName) of the CloudTrail trail for which you want to change
+or add Insights selectors. To log CloudTrail Insights events on API call volume, the trail
+or event data store must log write management events. To log CloudTrail Insights events on
+API error rate, the trail or event data store must log read or write management events. You
+can call GetEventSelectors on a trail to check whether the trail logs management events.
+You can call GetEventDataStore on an event data store to check whether the event data store
+logs management events. For more information, see Logging CloudTrail Insights events in the
+CloudTrail User Guide.
 
 # Arguments
-- `insight_selectors`: A JSON string that contains the insight types you want to log on a
-  trail. ApiCallRateInsight and ApiErrorRateInsight are valid Insight types. The
-  ApiCallRateInsight Insights type analyzes write-only management API calls that are
-  aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights
-  type analyzes management API calls that result in error codes. The error is shown if the
-  API call is unsuccessful.
-- `trail_name`: The name of the CloudTrail trail for which you want to change or add
-  Insights selectors.
+- `insight_selectors`: A JSON string that contains the Insights types you want to log on a
+  trail or event data store. ApiCallRateInsight and ApiErrorRateInsight are valid Insight
+  types. The ApiCallRateInsight Insights type analyzes write-only management API calls that
+  are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight
+  Insights type analyzes management API calls that result in error codes. The error is shown
+  if the API call is unsuccessful.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"EventDataStore"`: The ARN (or ID suffix of the ARN) of the source event data store for
+  which you want to change or add Insights selectors. To enable Insights on an event data
+  store, you must provide both the EventDataStore and InsightsDestination parameters. You
+  cannot use this parameter with the TrailName parameter.
+- `"InsightsDestination"`:  The ARN (or ID suffix of the ARN) of the destination event data
+  store that logs Insights events. To enable Insights on an event data store, you must
+  provide both the EventDataStore and InsightsDestination parameters.  You cannot use this
+  parameter with the TrailName parameter.
+- `"TrailName"`: The name of the CloudTrail trail for which you want to change or add
+  Insights selectors. You cannot use this parameter with the EventDataStore and
+  InsightsDestination parameters.
 """
 function put_insight_selectors(
-    InsightSelectors, TrailName; aws_config::AbstractAWSConfig=global_aws_config()
+    InsightSelectors; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return cloudtrail(
         "PutInsightSelectors",
-        Dict{String,Any}("InsightSelectors" => InsightSelectors, "TrailName" => TrailName);
+        Dict{String,Any}("InsightSelectors" => InsightSelectors);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_insight_selectors(
     InsightSelectors,
-    TrailName,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -1305,11 +1536,7 @@ function put_insight_selectors(
         "PutInsightSelectors",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "InsightSelectors" => InsightSelectors, "TrailName" => TrailName
-                ),
-                params,
+                _merge, Dict{String,Any}("InsightSelectors" => InsightSelectors), params
             ),
         );
         aws_config=aws_config,
@@ -1539,14 +1766,14 @@ data store. By default, CloudTrail only imports events contained in the S3 bucke
 CloudTrail prefix and the prefixes inside the CloudTrail prefix, and does not check
 prefixes for other Amazon Web Services services. If you want to import CloudTrail events
 contained in another prefix, you must include the prefix in the S3LocationUri. For more
-considerations about importing trail events, see Considerations.   When you start a new
-import, the Destinations and ImportSource parameters are required. Before starting a new
-import, disable any access control lists (ACLs) attached to the source S3 bucket. For more
-information about disabling ACLs, see Controlling ownership of objects and disabling ACLs
-for your bucket.   When you retry an import, the ImportID parameter is required.    If the
-destination event data store is for an organization, you must use the management account to
-import trail events. You cannot use the delegated administrator account for the
-organization.
+considerations about importing trail events, see Considerations for copying trail events in
+the CloudTrail User Guide.   When you start a new import, the Destinations and ImportSource
+parameters are required. Before starting a new import, disable any access control lists
+(ACLs) attached to the source S3 bucket. For more information about disabling ACLs, see
+Controlling ownership of objects and disabling ACLs for your bucket.   When you retry an
+import, the ImportID parameter is required.    If the destination event data store is for
+an organization, you must use the management account to import trail events. You cannot use
+the delegated administrator account for the organization.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1790,12 +2017,14 @@ end
 Updates an event data store. The required EventDataStore value is an ARN or the ID portion
 of the ARN. Other parameters are optional, but at least one optional parameter must be
 specified, or CloudTrail throws an error. RetentionPeriod is in days, and valid values are
-integers between 90 and 2557. By default, TerminationProtection is enabled. For event data
-stores for CloudTrail events, AdvancedEventSelectors includes or excludes management and
-data events in your event data store. For more information about AdvancedEventSelectors,
-see AdvancedEventSelectors.  For event data stores for Config configuration items, Audit
-Manager evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events
-of that type in your event data store.
+integers between 7 and 3653 if the BillingMode is set to EXTENDABLE_RETENTION_PRICING, or
+between 7 and 2557 if BillingMode is set to FIXED_RETENTION_PRICING. By default,
+TerminationProtection is enabled. For event data stores for CloudTrail events,
+AdvancedEventSelectors includes or excludes management or data events in your event data
+store. For more information about AdvancedEventSelectors, see AdvancedEventSelectors.  For
+event data stores for CloudTrail Insights events, Config configuration items, Audit Manager
+evidence, or non-Amazon Web Services events, AdvancedEventSelectors includes events of that
+type in your event data store.
 
 # Arguments
 - `event_data_store`: The ARN (or the ID suffix of the ARN) of the event data store that
@@ -1806,6 +2035,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AdvancedEventSelectors"`: The advanced event selectors used to select events for the
   event data store. You can configure up to five advanced event selectors for each event data
   store.
+- `"BillingMode"`:  You can't change the billing mode from EXTENDABLE_RETENTION_PRICING to
+  FIXED_RETENTION_PRICING. If BillingMode is set to EXTENDABLE_RETENTION_PRICING and you want
+  to use FIXED_RETENTION_PRICING instead, you'll need to stop ingestion on the event data
+  store and create a new event data store that uses FIXED_RETENTION_PRICING.  The billing
+  mode for the event data store determines the cost for ingesting events and the default and
+  maximum retention period for the event data store. The following are the possible values:
+   EXTENDABLE_RETENTION_PRICING - This billing mode is generally recommended if you want a
+  flexible retention period of up to 3653 days (about 10 years). The default retention period
+  for this billing mode is 366 days.    FIXED_RETENTION_PRICING - This billing mode is
+  recommended if you expect to ingest more than 25 TB of event data per month and need a
+  retention period of up to 2557 days (about 7 years). The default retention period for this
+  billing mode is 2557 days.   For more information about CloudTrail pricing, see CloudTrail
+  Pricing and Managing CloudTrail Lake costs.
 - `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the events delivered by
   CloudTrail. The value can be an alias name prefixed by alias/, a fully specified ARN to an
   alias, a fully specified ARN to a key, or a globally unique identifier.  Disabling or
@@ -1824,8 +2066,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Regions, or only from the Region in which it was created.
 - `"Name"`: The event data store name.
 - `"OrganizationEnabled"`: Specifies whether an event data store collects events logged for
-  an organization in Organizations.
-- `"RetentionPeriod"`: The retention period, in days.
+  an organization in Organizations.  Only the management account for the organization can
+  convert an organization event data store to a non-organization event data store, or convert
+  a non-organization event data store to an organization event data store.
+- `"RetentionPeriod"`: The retention period of the event data store, in days. If
+  BillingMode is set to EXTENDABLE_RETENTION_PRICING, you can set a retention period of up to
+  3653 days, the equivalent of 10 years. If BillingMode is set to FIXED_RETENTION_PRICING,
+  you can set a retention period of up to 2557 days, the equivalent of seven years.
+  CloudTrail Lake determines whether to retain an event by checking if the eventTime of the
+  event is within the specified retention period. For example, if you set a retention period
+  of 90 days, CloudTrail will remove events when the eventTime is older than 90 days.  If you
+  decrease the retention period of an event data store, CloudTrail will remove any events
+  with an eventTime older than the new retention period. For example, if the previous
+  retention period was 365 days and you decrease it to 100 days, CloudTrail will remove
+  events with an eventTime older than 100 days.
 - `"TerminationProtectionEnabled"`: Indicates that termination protection is enabled and
   the event data store cannot be automatically deleted.
 """
@@ -1901,12 +2155,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IsOrganizationTrail"`: Specifies whether the trail is applied to all accounts in an
   organization in Organizations, or only for the current Amazon Web Services account. The
   default is false, and cannot be true unless the call is made on behalf of an Amazon Web
-  Services account that is the management account or delegated administrator account for an
-  organization in Organizations. If the trail is not an organization trail and this is set to
-  true, the trail will be created in all Amazon Web Services accounts that belong to the
-  organization. If the trail is an organization trail and this is set to false, the trail
-  will remain in the current Amazon Web Services account but be deleted from all member
-  accounts in the organization.
+  Services account that is the management account for an organization in Organizations. If
+  the trail is not an organization trail and this is set to true, the trail will be created
+  in all Amazon Web Services accounts that belong to the organization. If the trail is an
+  organization trail and this is set to false, the trail will remain in the current Amazon
+  Web Services account but be deleted from all member accounts in the organization.  Only the
+  management account for the organization can convert an organization trail to a
+  non-organization trail, or convert a non-organization trail to an organization trail.
 - `"KmsKeyId"`: Specifies the KMS key ID to use to encrypt the logs delivered by
   CloudTrail. The value can be an alias name prefixed by \"alias/\", a fully specified ARN to
   an alias, a fully specified ARN to a key, or a globally unique identifier. CloudTrail also
@@ -1916,7 +2171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   arn:aws:kms:us-east-2:123456789012:key/12345678-1234-1234-1234-123456789012
   12345678-1234-1234-1234-123456789012
 - `"S3BucketName"`: Specifies the name of the Amazon S3 bucket designated for publishing
-  log files. See Amazon S3 Bucket Naming Requirements.
+  log files. See Amazon S3 Bucket naming rules.
 - `"S3KeyPrefix"`: Specifies the Amazon S3 key prefix that comes after the name of the
   bucket you have designated for log file delivery. For more information, see Finding Your
   CloudTrail Log Files. The maximum length is 200 characters.

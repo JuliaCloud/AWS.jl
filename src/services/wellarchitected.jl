@@ -378,6 +378,135 @@ function create_profile_share(
 end
 
 """
+    create_review_template(client_request_token, description, lenses, template_name)
+    create_review_template(client_request_token, description, lenses, template_name, params::Dict{String,<:Any})
+
+Create a review template.   Disclaimer  Do not include or gather personal identifiable
+information (PII) of end users or other identifiable individuals in or via your review
+templates. If your review template or those shared with you and used in your account do
+include or collect PII you are responsible for: ensuring that the included PII is processed
+in accordance with applicable law, providing adequate privacy notices, and obtaining
+necessary consents for processing such data.
+
+# Arguments
+- `client_request_token`:
+- `description`: The review template description.
+- `lenses`: Lenses applied to the review template.
+- `template_name`: Name of the review template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Notes"`:
+- `"Tags"`: The tags assigned to the review template.
+"""
+function create_review_template(
+    ClientRequestToken,
+    Description,
+    Lenses,
+    TemplateName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/reviewTemplates",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken,
+            "Description" => Description,
+            "Lenses" => Lenses,
+            "TemplateName" => TemplateName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_review_template(
+    ClientRequestToken,
+    Description,
+    Lenses,
+    TemplateName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/reviewTemplates",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken,
+                    "Description" => Description,
+                    "Lenses" => Lenses,
+                    "TemplateName" => TemplateName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_template_share(client_request_token, shared_with, template_arn)
+    create_template_share(client_request_token, shared_with, template_arn, params::Dict{String,<:Any})
+
+Create a review template share. The owner of a review template can share it with other
+Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the
+same Amazon Web Services Region.   Shared access to a review template is not removed until
+the review template share invitation is deleted. If you share a review template with an
+organization or OU, all accounts in the organization or OU are granted access to the review
+template.   Disclaimer  By sharing your review template with other Amazon Web Services
+accounts, you acknowledge that Amazon Web Services will make your review template available
+to those other accounts.
+
+# Arguments
+- `client_request_token`:
+- `shared_with`:
+- `template_arn`: The review template ARN.
+
+"""
+function create_template_share(
+    ClientRequestToken,
+    SharedWith,
+    TemplateArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/templates/shares/$(TemplateArn)",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_template_share(
+    ClientRequestToken,
+    SharedWith,
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/templates/shares/$(TemplateArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken, "SharedWith" => SharedWith
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_workload(client_request_token, description, environment, lenses, workload_name)
     create_workload(client_request_token, description, environment, lenses, workload_name, params::Dict{String,<:Any})
 
@@ -387,7 +516,10 @@ Amazon Web Services Region. Only the owner of a workload can delete it. For more
 information, see Defining a Workload in the Well-Architected Tool User Guide.  Either
 AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also
 must specify ReviewOwner, even though the parameter is listed as not being required in the
-following section.
+following section.   When creating a workload using a review template, you must have the
+following IAM permissions:    wellarchitected:GetReviewTemplate
+wellarchitected:GetReviewTemplateAnswer     wellarchitected:ListReviewTemplateAnswers
+wellarchitected:GetReviewTemplateLensReview
 
 # Arguments
 - `client_request_token`:
@@ -406,11 +538,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workload.
 - `"Industry"`:
 - `"IndustryType"`:
+- `"JiraConfiguration"`: Jira configuration settings when creating a workload.
 - `"NonAwsRegions"`:
 - `"Notes"`:
 - `"PillarPriorities"`:
 - `"ProfileArns"`: The list of profile ARNs associated with the workload.
 - `"ReviewOwner"`:
+- `"ReviewTemplateArns"`: The list of review template ARNs to associate with the workload.
 - `"Tags"`: The tags to be associated with the workload.
 """
 function create_workload(
@@ -733,6 +867,98 @@ function delete_profile_share(
 end
 
 """
+    delete_review_template(client_request_token, template_arn)
+    delete_review_template(client_request_token, template_arn, params::Dict{String,<:Any})
+
+Delete a review template. Only the owner of a review template can delete it. After the
+review template is deleted, Amazon Web Services accounts, users, organizations, and
+organizational units (OUs) that you shared the review template with will no longer be able
+to apply it to new workloads.
+
+# Arguments
+- `client_request_token`:
+- `template_arn`: The review template ARN.
+
+"""
+function delete_review_template(
+    ClientRequestToken, TemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "DELETE",
+        "/reviewTemplates/$(TemplateArn)",
+        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_review_template(
+    ClientRequestToken,
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/reviewTemplates/$(TemplateArn)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_template_share(client_request_token, share_id, template_arn)
+    delete_template_share(client_request_token, share_id, template_arn, params::Dict{String,<:Any})
+
+Delete a review template share. After the review template share is deleted, Amazon Web
+Services accounts, users, organizations, and organizational units (OUs) that you shared the
+review template with will no longer be able to apply it to new workloads.
+
+# Arguments
+- `client_request_token`:
+- `share_id`:
+- `template_arn`: The review template ARN.
+
+"""
+function delete_template_share(
+    ClientRequestToken,
+    ShareId,
+    TemplateArn;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/templates/shares/$(TemplateArn)/$(ShareId)",
+        Dict{String,Any}("ClientRequestToken" => ClientRequestToken);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_template_share(
+    ClientRequestToken,
+    ShareId,
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "DELETE",
+        "/templates/shares/$(TemplateArn)/$(ShareId)",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClientRequestToken" => ClientRequestToken), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_workload(client_request_token, workload_id)
     delete_workload(client_request_token, workload_id, params::Dict{String,<:Any})
 
@@ -1022,6 +1248,30 @@ function get_consolidated_report(
 end
 
 """
+    get_global_settings()
+    get_global_settings(params::Dict{String,<:Any})
+
+Global settings for all workloads.
+
+"""
+function get_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET", "/global-settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_global_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/global-settings",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_lens(lens_alias)
     get_lens(lens_alias, params::Dict{String,<:Any})
 
@@ -1261,6 +1511,112 @@ function get_profile_template(
     return wellarchitected(
         "GET",
         "/profileTemplate",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_review_template(template_arn)
+    get_review_template(template_arn, params::Dict{String,<:Any})
+
+Get review template.
+
+# Arguments
+- `template_arn`: The review template ARN.
+
+"""
+function get_review_template(TemplateArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET",
+        "/reviewTemplates/$(TemplateArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_review_template(
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/reviewTemplates/$(TemplateArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_review_template_answer(lens_alias, question_id, template_arn)
+    get_review_template_answer(lens_alias, question_id, template_arn, params::Dict{String,<:Any})
+
+Get review template answer.
+
+# Arguments
+- `lens_alias`:
+- `question_id`:
+- `template_arn`: The review template ARN.
+
+"""
+function get_review_template_answer(
+    LensAlias, QuestionId, TemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_review_template_answer(
+    LensAlias,
+    QuestionId,
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_review_template_lens_review(lens_alias, template_arn)
+    get_review_template_lens_review(lens_alias, template_arn, params::Dict{String,<:Any})
+
+Get a lens review associated with a review template.
+
+# Arguments
+- `lens_alias`:
+- `template_arn`: The review template ARN.
+
+"""
+function get_review_template_lens_review(
+    LensAlias, TemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_review_template_lens_review(
+    LensAlias,
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1544,7 +1900,7 @@ end
     list_lens_review_improvements(lens_alias, workload_id)
     list_lens_review_improvements(lens_alias, workload_id, params::Dict{String,<:Any})
 
-List lens review improvements.
+List the improvements of a particular lens review.
 
 # Arguments
 - `lens_alias`:
@@ -1633,7 +1989,7 @@ List the lens shares associated with the lens.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
-- `"SharedWithPrefix"`: The Amazon Web Services account ID, IAM role, organization ID, or
+- `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
   organizational unit (OU) ID with which the lens is shared.
 - `"Status"`:
 """
@@ -1732,6 +2088,8 @@ List lens notifications.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
+- `"ResourceArn"`: The ARN for the related resource for the notification.  Only one of
+  WorkloadID or ResourceARN should be specified.
 - `"WorkloadId"`:
 """
 function list_notifications(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1796,7 +2154,7 @@ List profile shares.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
-- `"SharedWithPrefix"`: The Amazon Web Services account ID, IAM role, organization ID, or
+- `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
   organizational unit (OU) ID with which the profile is shared.
 - `"Status"`:
 """
@@ -1832,7 +2190,8 @@ List profiles.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`:
 - `"NextToken"`:
-- `"ProfileNamePrefix"`: Prefix for profile name.
+- `"ProfileNamePrefix"`: An optional string added to the beginning of each profile name
+  returned in the results.
 - `"ProfileOwnerType"`: Profile owner type.
 """
 function list_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1853,10 +2212,81 @@ function list_profiles(
 end
 
 """
+    list_review_template_answers(lens_alias, template_arn)
+    list_review_template_answers(lens_alias, template_arn, params::Dict{String,<:Any})
+
+List the answers of a review template.
+
+# Arguments
+- `lens_alias`:
+- `template_arn`: The ARN of the review template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return for this request.
+- `"NextToken"`:
+- `"PillarId"`:
+"""
+function list_review_template_answers(
+    LensAlias, TemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_review_template_answers(
+    LensAlias,
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_review_templates()
+    list_review_templates(params::Dict{String,<:Any})
+
+List review templates.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`:
+- `"NextToken"`:
+"""
+function list_review_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+    return wellarchitected(
+        "GET", "/reviewTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_review_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/reviewTemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_share_invitations()
     list_share_invitations(params::Dict{String,<:Any})
 
-List the workload invitations.
+List the share invitations.  WorkloadNamePrefix, LensNamePrefix, ProfileNamePrefix, and
+TemplateNamePrefix are mutually exclusive. Use the parameter that matches your
+ShareResourceType.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1864,8 +2294,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the results.
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
-- `"ProfileNamePrefix"`: Profile name prefix.
+- `"ProfileNamePrefix"`: An optional string added to the beginning of each profile name
+  returned in the results.
 - `"ShareResourceType"`: The type of share invitations to be returned.
+- `"TemplateNamePrefix"`: An optional string added to the beginning of each review template
+  name returned in the results.
 - `"WorkloadNamePrefix"`:
 """
 function list_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1890,7 +2323,7 @@ end
     list_tags_for_resource(workload_arn, params::Dict{String,<:Any})
 
 List the tags for a resource.  The WorkloadArn parameter can be a workload ARN, a custom
-lens ARN, or a profile ARN.
+lens ARN, a profile ARN, or review template ARN.
 
 # Arguments
 - `workload_arn`:
@@ -1921,6 +2354,47 @@ function list_tags_for_resource(
 end
 
 """
+    list_template_shares(template_arn)
+    list_template_shares(template_arn, params::Dict{String,<:Any})
+
+List review template shares.
+
+# Arguments
+- `template_arn`: The review template ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return for this request.
+- `"NextToken"`:
+- `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
+  organizational unit (OU) ID with which the profile is shared.
+- `"Status"`:
+"""
+function list_template_shares(
+    TemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "GET",
+        "/templates/shares/$(TemplateArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_template_shares(
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "GET",
+        "/templates/shares/$(TemplateArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_workload_shares(workload_id)
     list_workload_shares(workload_id, params::Dict{String,<:Any})
 
@@ -1933,7 +2407,7 @@ List the workload shares associated with the workload.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of results to return for this request.
 - `"NextToken"`:
-- `"SharedWithPrefix"`: The Amazon Web Services account ID, IAM role, organization ID, or
+- `"SharedWithPrefix"`: The Amazon Web Services account ID, organization ID, or
   organizational unit (OU) ID with which the workload is shared.
 - `"Status"`:
 """
@@ -1996,7 +2470,7 @@ end
     tag_resource(tags, workload_arn, params::Dict{String,<:Any})
 
 Adds one or more tags to the specified resource.  The WorkloadArn parameter can be a
-workload ARN, a custom lens ARN, or a profile ARN.
+workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
 
 # Arguments
 - `tags`: The tags for the resource.
@@ -2032,8 +2506,9 @@ end
     untag_resource(workload_arn, tag_keys, params::Dict{String,<:Any})
 
 Deletes specified tags from a resource.  The WorkloadArn parameter can be a workload ARN, a
-custom lens ARN, or a profile ARN.  To specify multiple tags, use separate tagKeys
-parameters, for example:  DELETE /tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
+custom lens ARN, a profile ARN, or review template ARN.  To specify multiple tags, use
+separate tagKeys parameters, for example:  DELETE
+/tags/WorkloadArn?tagKeys=key1&amp;tagKeys=key2
 
 # Arguments
 - `workload_arn`:
@@ -2117,12 +2592,13 @@ end
     update_global_settings()
     update_global_settings(params::Dict{String,<:Any})
 
-Updates whether the Amazon Web Services account is opted into organization sharing and
+Update whether the Amazon Web Services account is opted into organization sharing and
 discovery integration features.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DiscoveryIntegrationStatus"`: The status of discovery support settings.
+- `"JiraConfiguration"`: The status of Jira integration settings.
 - `"OrganizationSharingStatus"`: The status of organization sharing settings.
 """
 function update_global_settings(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2143,6 +2619,60 @@ function update_global_settings(
 end
 
 """
+    update_integration(client_request_token, integrating_service, workload_id)
+    update_integration(client_request_token, integrating_service, workload_id, params::Dict{String,<:Any})
+
+Update integration features.
+
+# Arguments
+- `client_request_token`:
+- `integrating_service`: Which integrated service to update.
+- `workload_id`:
+
+"""
+function update_integration(
+    ClientRequestToken,
+    IntegratingService,
+    WorkloadId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/workloads/$(WorkloadId)/updateIntegration",
+        Dict{String,Any}(
+            "ClientRequestToken" => ClientRequestToken,
+            "IntegratingService" => IntegratingService,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_integration(
+    ClientRequestToken,
+    IntegratingService,
+    WorkloadId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "POST",
+        "/workloads/$(WorkloadId)/updateIntegration",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClientRequestToken" => ClientRequestToken,
+                    "IntegratingService" => IntegratingService,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_lens_review(lens_alias, workload_id)
     update_lens_review(lens_alias, workload_id, params::Dict{String,<:Any})
 
@@ -2154,6 +2684,7 @@ Update lens review for a particular workload.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"JiraConfiguration"`: Configuration of the Jira integration.
 - `"LensNotes"`:
 - `"PillarNotes"`:
 """
@@ -2212,6 +2743,133 @@ function update_profile(
     return wellarchitected(
         "PATCH",
         "/profiles/$(ProfileArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_review_template(template_arn)
+    update_review_template(template_arn, params::Dict{String,<:Any})
+
+Update a review template.
+
+# Arguments
+- `template_arn`: The review template ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: The review template description.
+- `"LensesToAssociate"`: A list of lens aliases or ARNs to apply to the review template.
+- `"LensesToDisassociate"`: A list of lens aliases or ARNs to unapply to the review
+  template. The wellarchitected lens cannot be unapplied.
+- `"Notes"`:
+- `"TemplateName"`: The review template name.
+"""
+function update_review_template(
+    TemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PATCH",
+        "/reviewTemplates/$(TemplateArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_review_template(
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/reviewTemplates/$(TemplateArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_review_template_answer(lens_alias, question_id, template_arn)
+    update_review_template_answer(lens_alias, question_id, template_arn, params::Dict{String,<:Any})
+
+Update a review template answer.
+
+# Arguments
+- `lens_alias`:
+- `question_id`:
+- `template_arn`: The review template ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ChoiceUpdates"`: A list of choices to be updated.
+- `"IsApplicable"`:
+- `"Notes"`:
+- `"Reason"`: The update reason.
+- `"SelectedChoices"`:
+"""
+function update_review_template_answer(
+    LensAlias, QuestionId, TemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PATCH",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_review_template_answer(
+    LensAlias,
+    QuestionId,
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/answers/$(QuestionId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_review_template_lens_review(lens_alias, template_arn)
+    update_review_template_lens_review(lens_alias, template_arn, params::Dict{String,<:Any})
+
+Update a lens review associated with a review template.
+
+# Arguments
+- `lens_alias`:
+- `template_arn`: The review template ARN.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"LensNotes"`:
+- `"PillarNotes"`:
+"""
+function update_review_template_lens_review(
+    LensAlias, TemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PATCH",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_review_template_lens_review(
+    LensAlias,
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PATCH",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2291,6 +2949,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   acknowledged that the Review owner field is required. If a Review owner is not added to the
   workload within 60 days of acknowledgement, access to the workload is restricted until an
   owner is added.
+- `"JiraConfiguration"`: Configuration of the Jira integration.
 - `"NonAwsRegions"`:
 - `"Notes"`:
 - `"PillarPriorities"`:
@@ -2444,6 +3103,45 @@ function upgrade_profile_version(
                 _merge, Dict{String,Any}("ClientRequestToken" => string(uuid4())), params
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    upgrade_review_template_lens_review(lens_alias, template_arn)
+    upgrade_review_template_lens_review(lens_alias, template_arn, params::Dict{String,<:Any})
+
+Upgrade the lens review of a review template.
+
+# Arguments
+- `lens_alias`:
+- `template_arn`: The ARN of the review template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientRequestToken"`:
+"""
+function upgrade_review_template_lens_review(
+    LensAlias, TemplateArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return wellarchitected(
+        "PUT",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/upgrade";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function upgrade_review_template_lens_review(
+    LensAlias,
+    TemplateArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return wellarchitected(
+        "PUT",
+        "/reviewTemplates/$(TemplateArn)/lensReviews/$(LensAlias)/upgrade",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

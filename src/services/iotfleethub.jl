@@ -8,13 +8,17 @@ using AWS.UUIDs
     create_application(application_name, role_arn)
     create_application(application_name, role_arn, params::Dict{String,<:Any})
 
-Creates a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT
-Device Management is in public preview and is subject to change.
+Creates a Fleet Hub for IoT Device Management web application. When creating a Fleet Hub
+application, you must create an organization instance of IAM Identity Center if you don't
+already have one. The Fleet Hub application you create must also be in the same Amazon Web
+Services Region of the organization instance of IAM Identity Center. For more information
+see Enabling IAM Identity Center and Organization instances of IAM Identity Center.
 
 # Arguments
 - `application_name`: The name of the web application.
 - `role_arn`: The ARN of the role that the web application assumes when it interacts with
-  AWS IoT Core.  The name of the role must be in the form AWSIotFleetHub_random_string .
+  Amazon Web Services IoT Core.  The name of the role must be in the form
+  AWSIotFleetHub_random_string .
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -69,8 +73,7 @@ end
     delete_application(application_id)
     delete_application(application_id, params::Dict{String,<:Any})
 
-Deletes a Fleet Hub for AWS IoT Device Management web application.  Fleet Hub for AWS IoT
-Device Management is in public preview and is subject to change.
+Deletes a Fleet Hub for IoT Device Management web application.
 
 # Arguments
 - `application_id`: The unique Id of the web application.
@@ -112,8 +115,7 @@ end
     describe_application(application_id)
     describe_application(application_id, params::Dict{String,<:Any})
 
-Gets information about a Fleet Hub for AWS IoT Device Management web application.  Fleet
-Hub for AWS IoT Device Management is in public preview and is subject to change.
+Gets information about a Fleet Hub for IoT Device Management web application.
 
 # Arguments
 - `application_id`: The unique Id of the web application.
@@ -147,9 +149,7 @@ end
     list_applications()
     list_applications(params::Dict{String,<:Any})
 
-Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current
-account.  Fleet Hub for AWS IoT Device Management is in public preview and is subject to
-change.
+Gets a list of Fleet Hub for IoT Device Management web applications for the current account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -176,8 +176,7 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists the tags for the specified resource.  Fleet Hub for AWS IoT Device Management is in
-public preview and is subject to change.
+Lists the tags for the specified resource.
 
 # Arguments
 - `resource_arn`: The ARN of the resource.
@@ -212,8 +211,7 @@ end
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
 Adds to or modifies the tags of the specified resource. Tags are metadata which can be used
-to manage a resource.  Fleet Hub for AWS IoT Device Management is in public preview and is
-subject to change.
+to manage a resource.
 
 # Arguments
 - `resource_arn`: The ARN of the resource.
@@ -248,8 +246,7 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the specified tags (metadata) from the resource.  Fleet Hub for AWS IoT Device
-Management is in public preview and is subject to change.
+Removes the specified tags (metadata) from the resource.
 
 # Arguments
 - `resource_arn`: The ARN of the resource.
@@ -286,8 +283,7 @@ end
     update_application(application_id)
     update_application(application_id, params::Dict{String,<:Any})
 
-Updates information about a Fleet Hub for a AWS IoT Device Management web application.
-Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+Updates information about a Fleet Hub for IoT Device Management web application.
 
 # Arguments
 - `application_id`: The unique Id of the web application.

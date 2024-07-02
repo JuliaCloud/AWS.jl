@@ -788,8 +788,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sampling"`: Set to true to get summaries for only a subset of available traces.
 - `"SamplingStrategy"`: A parameter to indicate whether to enable sampling on trace
   summaries. Input parameters are Name and Value.
-- `"TimeRangeType"`: A parameter to indicate whether to query trace summaries by TraceId or
-  Event time.
+- `"TimeRangeType"`: A parameter to indicate whether to query trace summaries by TraceId,
+  Event (trace update time), or Service (segment end time).
 """
 function get_trace_summaries(
     EndTime, StartTime; aws_config::AbstractAWSConfig=global_aws_config()

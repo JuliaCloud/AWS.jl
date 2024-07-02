@@ -274,19 +274,28 @@ end
     create_pull_through_cache_rule(ecr_repository_prefix, upstream_registry_url, params::Dict{String,<:Any})
 
 Creates a pull through cache rule. A pull through cache rule provides a way to cache images
-from an external public registry in your Amazon ECR private registry.
+from an upstream registry source in your Amazon ECR private registry. For more information,
+see Using pull through cache rules in the Amazon Elastic Container Registry User Guide.
 
 # Arguments
 - `ecr_repository_prefix`: The repository name prefix to use when caching images from the
   source registry.
 - `upstream_registry_url`: The registry URL of the upstream public registry to use as the
-  source for the pull through cache rule.
+  source for the pull through cache rule. The following is the syntax to use for each
+  supported upstream registry.   Amazon ECR Public (ecr-public) - public.ecr.aws    Docker
+  Hub (docker-hub) - registry-1.docker.io    Quay (quay) - quay.io    Kubernetes (k8s) -
+  registry.k8s.io    GitHub Container Registry (github-container-registry) - ghcr.io
+  Microsoft Azure Container Registry (azure-container-registry) - &lt;custom&gt;.azurecr.io
+   GitLab Container Registry (gitlab-container-registry) - registry.gitlab.com
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"credentialArn"`: The Amazon Resource Name (ARN) of the Amazon Web Services Secrets
+  Manager secret that identifies the credentials to authenticate to the upstream registry.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry to create
   the pull through cache rule for. If you do not specify a registry, the default registry is
   assumed.
+- `"upstreamRegistry"`: The name of the upstream registry.
 """
 function create_pull_through_cache_rule(
     ecrRepositoryPrefix,
@@ -336,7 +345,9 @@ Elastic Container Registry User Guide.
 # Arguments
 - `repository_name`: The name to use for the repository. The repository name may be
   specified on its own (such as nginx-web-app) or it can be prepended with a namespace to
-  group the repository into a category (such as project-a/nginx-web-app).
+  group the repository into a category (such as project-a/nginx-web-app). The repository name
+  must start with a letter and can only contain lowercase letters, numbers, hyphens,
+  underscores, and forward slashes.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -492,15 +503,17 @@ end
     delete_repository(repository_name)
     delete_repository(repository_name, params::Dict{String,<:Any})
 
-Deletes a repository. If the repository contains images, you must either delete all images
-in the repository or use the force option to delete the repository.
+Deletes a repository. If the repository isn't empty, you must either delete the contents of
+the repository or use the force option to delete the repository and have Amazon ECR delete
+all of its contents on your behalf.
 
 # Arguments
 - `repository_name`: The name of the repository to delete.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"force"`:  If a repository contains images, forces the deletion.
+- `"force"`: If true, deleting the repository force deletes the contents of the repository.
+  If false, the repository must be empty before attempting to delete it.
 - `"registryId"`: The Amazon Web Services account ID associated with the registry that
   contains the repository to delete. If you do not specify a registry, the default registry
   is assumed.
@@ -1824,6 +1837,59 @@ function untag_resource(
 end
 
 """
+    update_pull_through_cache_rule(credential_arn, ecr_repository_prefix)
+    update_pull_through_cache_rule(credential_arn, ecr_repository_prefix, params::Dict{String,<:Any})
+
+Updates an existing pull through cache rule.
+
+# Arguments
+- `credential_arn`: The Amazon Resource Name (ARN) of the Amazon Web Services Secrets
+  Manager secret that identifies the credentials to authenticate to the upstream registry.
+- `ecr_repository_prefix`: The repository name prefix to use when caching images from the
+  source registry.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"registryId"`: The Amazon Web Services account ID associated with the registry
+  associated with the pull through cache rule. If you do not specify a registry, the default
+  registry is assumed.
+"""
+function update_pull_through_cache_rule(
+    credentialArn, ecrRepositoryPrefix; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "UpdatePullThroughCacheRule",
+        Dict{String,Any}(
+            "credentialArn" => credentialArn, "ecrRepositoryPrefix" => ecrRepositoryPrefix
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_pull_through_cache_rule(
+    credentialArn,
+    ecrRepositoryPrefix,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecr(
+        "UpdatePullThroughCacheRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "credentialArn" => credentialArn,
+                    "ecrRepositoryPrefix" => ecrRepositoryPrefix,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     upload_layer_part(layer_part_blob, part_first_byte, part_last_byte, repository_name, upload_id)
     upload_layer_part(layer_part_blob, part_first_byte, part_last_byte, repository_name, upload_id, params::Dict{String,<:Any})
 
@@ -1892,6 +1958,53 @@ function upload_layer_part(
                     "repositoryName" => repositoryName,
                     "uploadId" => uploadId,
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    validate_pull_through_cache_rule(ecr_repository_prefix)
+    validate_pull_through_cache_rule(ecr_repository_prefix, params::Dict{String,<:Any})
+
+Validates an existing pull through cache rule for an upstream registry that requires
+authentication. This will retrieve the contents of the Amazon Web Services Secrets Manager
+secret, verify the syntax, and then validate that authentication to the upstream registry
+is successful.
+
+# Arguments
+- `ecr_repository_prefix`: The repository name prefix associated with the pull through
+  cache rule.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"registryId"`: The registry ID associated with the pull through cache rule. If you do
+  not specify a registry, the default registry is assumed.
+"""
+function validate_pull_through_cache_rule(
+    ecrRepositoryPrefix; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "ValidatePullThroughCacheRule",
+        Dict{String,Any}("ecrRepositoryPrefix" => ecrRepositoryPrefix);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function validate_pull_through_cache_rule(
+    ecrRepositoryPrefix,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecr(
+        "ValidatePullThroughCacheRule",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ecrRepositoryPrefix" => ecrRepositoryPrefix),
                 params,
             ),
         );

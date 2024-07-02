@@ -60,8 +60,8 @@ end
 Creates a new AWS CloudHSM cluster.
 
 # Arguments
-- `hsm_type`: The type of HSM to use in the cluster. Currently the only allowed value is
-  hsm1.medium.
+- `hsm_type`: The type of HSM to use in the cluster. The allowed values are hsm1.medium and
+  hsm2m.medium.
 - `subnet_ids`: The identifiers (IDs) of the subnets where you are creating the cluster.
   You must specify at least one subnet. If you specify multiple subnets, they must meet the
   following criteria:   All subnets must be in the same virtual private cloud (VPC).   You
@@ -70,6 +70,7 @@ Creates a new AWS CloudHSM cluster.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BackupRetentionPolicy"`: A policy that defines how the service retains backups.
+- `"Mode"`: The mode to use in the cluster. The allowed values are FIPS and NON_FIPS.
 - `"SourceBackupId"`: The identifier (ID) of the cluster backup to restore. Use this value
   to restore the cluster from a backup instead of creating a new cluster. To find the backup
   ID, use DescribeBackups.

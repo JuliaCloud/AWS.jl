@@ -92,6 +92,35 @@ function batch_get_builds(
 end
 
 """
+    batch_get_fleets(names)
+    batch_get_fleets(names, params::Dict{String,<:Any})
+
+Gets information about one or more compute fleets.
+
+# Arguments
+- `names`: The names or ARNs of the compute fleets.
+
+"""
+function batch_get_fleets(names; aws_config::AbstractAWSConfig=global_aws_config())
+    return codebuild(
+        "BatchGetFleets",
+        Dict{String,Any}("names" => names);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_fleets(
+    names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codebuild(
+        "BatchGetFleets",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("names" => names), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_get_projects(names)
     batch_get_projects(names, params::Dict{String,<:Any})
 
@@ -194,6 +223,115 @@ function batch_get_reports(
 end
 
 """
+    create_fleet(base_capacity, compute_type, environment_type, name)
+    create_fleet(base_capacity, compute_type, environment_type, name, params::Dict{String,<:Any})
+
+Creates a compute fleet.
+
+# Arguments
+- `base_capacity`: The initial number of machines allocated to the ﬂeet, which deﬁnes
+  the number of builds that can run in parallel.
+- `compute_type`: Information about the compute resources the compute fleet uses. Available
+  values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for builds.
+  BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.
+  BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your
+  environment type.    BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds,
+  depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72
+  vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to
+  100 GB uncompressed.    If you use BUILD_GENERAL1_SMALL:     For environment type
+  LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.     For environment
+  type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor
+  Core GPU for builds.    For environment type ARM_CONTAINER, you can use up to 4 GB memory
+  and 2 vCPUs on ARM-based processors for builds.    If you use BUILD_GENERAL1_LARGE:     For
+  environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.
+   For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4
+  NVIDIA Tesla V100 GPUs for builds.    For environment type ARM_CONTAINER, you can use up to
+  16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see
+  Build environment compute types in the CodeBuild User Guide.
+- `environment_type`: The environment type of the compute fleet.   The environment type
+  ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West
+  (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific
+  (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São Paulo).   The
+  environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US
+  East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), Asia
+  Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific
+  (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East
+  (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
+  (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is
+  available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
+  Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The
+  environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N.
+  Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
+  (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and
+  Asia Pacific (Mumbai).   For more information, see Build environment compute types in the
+  CodeBuild user guide.
+- `name`: The name of the compute fleet.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"fleetServiceRole"`: The service role associated with the compute fleet. For more
+  information, see  Allow a user to add a permission policy for a fleet service role in the
+  CodeBuild User Guide.
+- `"overflowBehavior"`: The compute fleet overflow behavior.   For overflow behavior QUEUE,
+  your overflow builds need to wait on the existing fleet instance to become available.   For
+  overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you
+  choose to set your overflow behavior to on-demand while creating a VPC-connected fleet,
+  make sure that you add the required VPC permissions to your project service role. For more
+  information, see Example policy statement to allow CodeBuild access to Amazon Web Services
+  services required to create a VPC network interface.
+- `"scalingConfiguration"`: The scaling configuration of the compute fleet.
+- `"tags"`: A list of tag key and value pairs associated with this compute fleet. These
+  tags are available for use by Amazon Web Services services that support CodeBuild build
+  project tags.
+- `"vpcConfig"`:
+"""
+function create_fleet(
+    baseCapacity,
+    computeType,
+    environmentType,
+    name;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codebuild(
+        "CreateFleet",
+        Dict{String,Any}(
+            "baseCapacity" => baseCapacity,
+            "computeType" => computeType,
+            "environmentType" => environmentType,
+            "name" => name,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_fleet(
+    baseCapacity,
+    computeType,
+    environmentType,
+    name,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codebuild(
+        "CreateFleet",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "baseCapacity" => baseCapacity,
+                    "computeType" => computeType,
+                    "environmentType" => environmentType,
+                    "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_project(artifacts, environment, name, service_role, source)
     create_project(artifacts, environment, name, service_role, source, params::Dict{String,<:Any})
 
@@ -244,21 +382,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   branch name, or tag name that corresponds to the version of the source code you want to
   build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for
   example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not
-  specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID,
-  branch name, or tag name that corresponds to the version of the source code you want to
-  build. If a branch name is specified, the branch's HEAD commit ID is used. If not
-  specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of
-  the object that represents the build input ZIP file to use.   If sourceVersion is specified
-  at the build level, then that version takes precedence over this sourceVersion (at the
-  project level).  For more information, see Source Version Sample with CodeBuild in the
-  CodeBuild User Guide.
+  specified, the default branch's HEAD commit ID is used.   For GitLab: the commit ID,
+  branch, or Git tag to use.   For Bitbucket: the commit ID, branch name, or tag name that
+  corresponds to the version of the source code you want to build. If a branch name is
+  specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD
+  commit ID is used.   For Amazon S3: the version ID of the object that represents the build
+  input ZIP file to use.   If sourceVersion is specified at the build level, then that
+  version takes precedence over this sourceVersion (at the project level).  For more
+  information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
 - `"tags"`: A list of tag key and value pairs associated with this build project. These
   tags are available for use by Amazon Web Services services that support CodeBuild build
   project tags.
-- `"timeoutInMinutes"`: How long, in minutes, from 5 to 480 (8 hours), for CodeBuild to
+- `"timeoutInMinutes"`: How long, in minutes, from 5 to 2160 (36 hours), for CodeBuild to
   wait before it times out any build that has not been marked as completed. The default is 60
   minutes.
-- `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
+- `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.  If
+  you're using compute fleets during project creation, do not provide vpcConfig.
 """
 function create_project(
     artifacts,
@@ -389,6 +528,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   webhooks are triggered. At least one WebhookFilter in the array must specify EVENT as its
   type.  For a build to be triggered, at least one filter group in the filterGroups array
   must pass. For a filter group to pass, each of its filters must pass.
+- `"manualCreation"`: If manualCreation is true, CodeBuild doesn't create a webhook in
+  GitHub and instead returns payloadUrl and secret values for the webhook. The payloadUrl and
+  secret values in the output can be used to manually create a webhook within GitHub.
+  manualCreation is only available for GitHub webhooks.
+- `"scopeConfiguration"`: The scope configuration for global or organization webhooks.
+  Global or organization webhooks are only available for GitHub and Github Enterprise
+  webhooks.
 """
 function create_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config())
     return codebuild(
@@ -437,6 +583,35 @@ function delete_build_batch(
     return codebuild(
         "DeleteBuildBatch",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("id" => id), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_fleet(arn)
+    delete_fleet(arn, params::Dict{String,<:Any})
+
+Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
+
+# Arguments
+- `arn`: The ARN of the compute fleet.
+
+"""
+function delete_fleet(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return codebuild(
+        "DeleteFleet",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_fleet(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codebuild(
+        "DeleteFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -826,11 +1001,13 @@ code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
 
 # Arguments
 - `auth_type`:  The type of authentication used to connect to a GitHub, GitHub Enterprise,
-  or Bitbucket repository. An OAUTH connection is not supported by the API and must be
-  created using the CodeBuild console.
+  GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported
+  by the API and must be created using the CodeBuild console. Note that CODECONNECTIONS is
+  only valid for GitLab and GitLab Self Managed.
 - `server_type`:  The source provider used for this project.
 - `token`:  For GitHub or GitHub Enterprise, this is the personal access token. For
-  Bitbucket, this is the app password.
+  Bitbucket, this is either the access token or the app password. For the authType
+  CODECONNECTIONS, this is the connectionArn.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1075,6 +1252,42 @@ function list_curated_environment_images(
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_fleets()
+    list_fleets(params::Dict{String,<:Any})
+
+Gets a list of compute fleet names with each compute fleet name representing a single
+compute fleet.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of paginated compute fleets returned per response. Use
+  nextToken to iterate pages in the list of returned compute fleets.
+- `"nextToken"`: During a previous call, if there are more than 100 items in the list, only
+  the first 100 items are returned, along with a unique string called a nextToken. To get the
+  next batch of items in the list, call this operation again, adding the next token to the
+  call. To get all of the items in the list, keep calling this operation with each subsequent
+  next token that is returned, until no more next tokens are returned.
+- `"sortBy"`: The criterion to be used to list compute fleet names. Valid values include:
+   CREATED_TIME: List based on when each compute fleet was created.    LAST_MODIFIED_TIME:
+  List based on when information about each compute fleet was last changed.    NAME: List
+  based on each compute fleet's name.   Use sortOrder to specify in what order to list the
+  compute fleet names based on the preceding criteria.
+- `"sortOrder"`: The order in which to list compute fleets. Valid values include:
+  ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy
+  to specify the criterion to be used to list compute fleet names.
+"""
+function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
+    return codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
+end
+function list_fleets(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codebuild(
+        "ListFleets", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1434,7 +1647,11 @@ end
     start_build(project_name)
     start_build(project_name, params::Dict{String,<:Any})
 
-Starts running a build.
+Starts running a build with the settings defined in the project. These setting include: how
+to run a build, where to get the source code, which build environment to use, which build
+commands to run, and where to store the build output. You can also start a build run by
+overriding some of the build settings in the project. The overrides only apply for that
+specific start build request. The settings in the project are unaltered.
 
 # Arguments
 - `project_name`: The name of the CodeBuild build project to start running a build.
@@ -1446,15 +1663,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"buildStatusConfigOverride"`: Contains information that defines how the build project
   reports the build status to the source provider. This option is only used when the source
   provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
-- `"buildspecOverride"`: A buildspec file declaration that overrides, for this build only,
-  the latest one already defined in the build project.  If this value is set, it can be
-  either an inline buildspec definition, the path to an alternate buildspec file relative to
-  the value of the built-in CODEBUILD_SRC_DIR environment variable, or the path to an S3
-  bucket. The bucket must be in the same Amazon Web Services Region as the build project.
-  Specify the buildspec file using its ARN (for example,
-  arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or is set
-  to an empty string, the source code must contain a buildspec file in its root directory.
-  For more information, see Buildspec File Name and Storage Location.
+- `"buildspecOverride"`: A buildspec file declaration that overrides the latest one defined
+  in the build project, for this build only. The buildspec defined on the project is not
+  changed. If this value is set, it can be either an inline buildspec definition, the path to
+  an alternate buildspec file relative to the value of the built-in CODEBUILD_SRC_DIR
+  environment variable, or the path to an S3 bucket. The bucket must be in the same Amazon
+  Web Services Region as the build project. Specify the buildspec file using its ARN (for
+  example, arn:aws:s3:::my-codebuild-sample2/buildspec.yml). If this value is not provided or
+  is set to an empty string, the source code must contain a buildspec file in its root
+  directory. For more information, see Buildspec File Name and Storage Location.  Since this
+  property allows you to change the build commands that will run in the container, you should
+  note that an IAM principal with the ability to call this API and set this parameter can
+  override the default settings. Moreover, we encourage that you use a trustworthy buildspec
+  location like a file in your source repository or a Amazon S3 bucket.
 - `"cacheOverride"`: A ProjectCache object specified for this build that overrides the one
   defined in the build project.
 - `"certificateOverride"`: The name of a certificate for this build that overrides the one
@@ -1473,6 +1694,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified in the build project.
 - `"environmentVariablesOverride"`: A set of environment variables that overrides, for this
   build only, the latest ones already defined in the build project.
+- `"fleetOverride"`: A ProjectFleet object specified for this build that overrides the one
+  defined in the build project.
 - `"gitCloneDepthOverride"`: The user-defined depth of history, with a minimum value of 0,
   that overrides, for this build only, any previous depth of history defined in the build
   project.
@@ -1519,7 +1742,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified in the build project.
 - `"sourceAuthOverride"`: An authorization type for this build that overrides the one
   defined in the build project. This override applies only if the build project's source is
-  BitBucket or GitHub.
+  BitBucket, GitHub, GitLab, or GitLab Self Managed.
 - `"sourceLocationOverride"`: A location that overrides, for this build, the source
   location for the one defined in the build project.
 - `"sourceTypeOverride"`: A source input type, for this build, that overrides the source
@@ -1530,15 +1753,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pull request ID, branch name, or tag name that corresponds to the version of the source
   code you want to build. If a pull request ID is specified, it must use the format
   pr/pull-request-ID (for example pr/25). If a branch name is specified, the branch's HEAD
-  commit ID is used. If not specified, the default branch's HEAD commit ID is used.
-  Bitbucket  The commit ID, branch name, or tag name that corresponds to the version of the
-  source code you want to build. If a branch name is specified, the branch's HEAD commit ID
-  is used. If not specified, the default branch's HEAD commit ID is used.  Amazon S3  The
-  version ID of the object that represents the build input ZIP file to use.   If
-  sourceVersion is specified at the project level, then this sourceVersion (at the build
-  level) takes precedence.  For more information, see Source Version Sample with CodeBuild in
-  the CodeBuild User Guide.
-- `"timeoutInMinutesOverride"`: The number of build timeout minutes, from 5 to 480 (8
+  commit ID is used. If not specified, the default branch's HEAD commit ID is used.  GitLab
+  The commit ID, branch, or Git tag to use.  Bitbucket  The commit ID, branch name, or tag
+  name that corresponds to the version of the source code you want to build. If a branch name
+  is specified, the branch's HEAD commit ID is used. If not specified, the default branch's
+  HEAD commit ID is used.  Amazon S3  The version ID of the object that represents the build
+  input ZIP file to use.   If sourceVersion is specified at the project level, then this
+  sourceVersion (at the build level) takes precedence.  For more information, see Source
+  Version Sample with CodeBuild in the CodeBuild User Guide.
+- `"timeoutInMinutesOverride"`: The number of build timeout minutes, from 5 to 2160 (36
   hours), that overrides, for this build only, the latest setting already defined in the
   build project.
 """
@@ -1756,6 +1979,88 @@ function stop_build_batch(
 end
 
 """
+    update_fleet(arn)
+    update_fleet(arn, params::Dict{String,<:Any})
+
+Updates a compute fleet.
+
+# Arguments
+- `arn`: The ARN of the compute fleet.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"baseCapacity"`: The initial number of machines allocated to the compute ﬂeet, which
+  deﬁnes the number of builds that can run in parallel.
+- `"computeType"`: Information about the compute resources the compute fleet uses.
+  Available values include:    BUILD_GENERAL1_SMALL: Use up to 3 GB memory and 2 vCPUs for
+  builds.    BUILD_GENERAL1_MEDIUM: Use up to 7 GB memory and 4 vCPUs for builds.
+  BUILD_GENERAL1_LARGE: Use up to 16 GB memory and 8 vCPUs for builds, depending on your
+  environment type.    BUILD_GENERAL1_XLARGE: Use up to 70 GB memory and 36 vCPUs for builds,
+  depending on your environment type.    BUILD_GENERAL1_2XLARGE: Use up to 145 GB memory, 72
+  vCPUs, and 824 GB of SSD storage for builds. This compute type supports Docker images up to
+  100 GB uncompressed.    If you use BUILD_GENERAL1_SMALL:     For environment type
+  LINUX_CONTAINER, you can use up to 3 GB memory and 2 vCPUs for builds.     For environment
+  type LINUX_GPU_CONTAINER, you can use up to 16 GB memory, 4 vCPUs, and 1 NVIDIA A10G Tensor
+  Core GPU for builds.    For environment type ARM_CONTAINER, you can use up to 4 GB memory
+  and 2 vCPUs on ARM-based processors for builds.    If you use BUILD_GENERAL1_LARGE:     For
+  environment type LINUX_CONTAINER, you can use up to 15 GB memory and 8 vCPUs for builds.
+   For environment type LINUX_GPU_CONTAINER, you can use up to 255 GB memory, 32 vCPUs, and 4
+  NVIDIA Tesla V100 GPUs for builds.    For environment type ARM_CONTAINER, you can use up to
+  16 GB memory and 8 vCPUs on ARM-based processors for builds.   For more information, see
+  Build environment compute types in the CodeBuild User Guide.
+- `"environmentType"`: The environment type of the compute fleet.   The environment type
+  ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West
+  (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific
+  (Singapore), Asia Pacific (Sydney), EU (Frankfurt), and South America (São Paulo).   The
+  environment type LINUX_CONTAINER is available only in regions US East (N. Virginia), US
+  East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Tokyo), Asia
+  Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific
+  (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East
+  (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
+  (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is
+  available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
+  Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The
+  environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N.
+  Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
+  (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and
+  Asia Pacific (Mumbai).   For more information, see Build environment compute types in the
+  CodeBuild user guide.
+- `"fleetServiceRole"`: The service role associated with the compute fleet. For more
+  information, see  Allow a user to add a permission policy for a fleet service role in the
+  CodeBuild User Guide.
+- `"overflowBehavior"`: The compute fleet overflow behavior.   For overflow behavior QUEUE,
+  your overflow builds need to wait on the existing fleet instance to become available.   For
+  overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you
+  choose to set your overflow behavior to on-demand while creating a VPC-connected fleet,
+  make sure that you add the required VPC permissions to your project service role. For more
+  information, see Example policy statement to allow CodeBuild access to Amazon Web Services
+  services required to create a VPC network interface.
+- `"scalingConfiguration"`: The scaling configuration of the compute fleet.
+- `"tags"`: A list of tag key and value pairs associated with this compute fleet. These
+  tags are available for use by Amazon Web Services services that support CodeBuild build
+  project tags.
+- `"vpcConfig"`:
+"""
+function update_fleet(arn; aws_config::AbstractAWSConfig=global_aws_config())
+    return codebuild(
+        "UpdateFleet",
+        Dict{String,Any}("arn" => arn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_fleet(
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codebuild(
+        "UpdateFleet",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("arn" => arn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_project(name)
     update_project(name, params::Dict{String,<:Any})
 
@@ -1808,18 +2113,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   branch name, or tag name that corresponds to the version of the source code you want to
   build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for
   example pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not
-  specified, the default branch's HEAD commit ID is used.   For Bitbucket: the commit ID,
-  branch name, or tag name that corresponds to the version of the source code you want to
-  build. If a branch name is specified, the branch's HEAD commit ID is used. If not
-  specified, the default branch's HEAD commit ID is used.   For Amazon S3: the version ID of
-  the object that represents the build input ZIP file to use.    If sourceVersion is
-  specified at the build level, then that version takes precedence over this sourceVersion
-  (at the project level).   For more information, see Source Version Sample with CodeBuild in
-  the CodeBuild User Guide.
+  specified, the default branch's HEAD commit ID is used.   For GitLab: the commit ID,
+  branch, or Git tag to use.   For Bitbucket: the commit ID, branch name, or tag name that
+  corresponds to the version of the source code you want to build. If a branch name is
+  specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD
+  commit ID is used.   For Amazon S3: the version ID of the object that represents the build
+  input ZIP file to use.    If sourceVersion is specified at the build level, then that
+  version takes precedence over this sourceVersion (at the project level).   For more
+  information, see Source Version Sample with CodeBuild in the CodeBuild User Guide.
 - `"tags"`: An updated list of tag key and value pairs associated with this build project.
   These tags are available for use by Amazon Web Services services that support CodeBuild
   build project tags.
-- `"timeoutInMinutes"`: The replacement value in minutes, from 5 to 480 (8 hours), for
+- `"timeoutInMinutes"`: The replacement value in minutes, from 5 to 2160 (36 hours), for
   CodeBuild to wait before timing out any related build that did not get marked as completed.
 - `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
 """
@@ -1854,15 +2159,14 @@ builds that were run when the project was private, are available to the general 
 All build logs and artifacts are available to the public. Environment variables, source
 code, and other sensitive information may have been output to the build logs and artifacts.
 You must be careful about what information is output to the build logs. Some best practice
-are:   Do not store sensitive values, especially Amazon Web Services access key IDs and
-secret access keys, in environment variables. We recommend that you use an Amazon EC2
-Systems Manager Parameter Store or Secrets Manager to store sensitive values.   Follow Best
-practices for using webhooks in the CodeBuild User Guide to limit which entities can
-trigger a build, and do not store the buildspec in the project itself, to ensure that your
-webhooks are as secure as possible.     A malicious user can use public builds to
-distribute malicious artifacts. We recommend that you review all pull requests to verify
-that the pull request is a legitimate change. We also recommend that you validate any
-artifacts with their checksums to make sure that the correct artifacts are being
+are:   Do not store sensitive values in environment variables. We recommend that you use an
+Amazon EC2 Systems Manager Parameter Store or Secrets Manager to store sensitive values.
+Follow Best practices for using webhooks in the CodeBuild User Guide to limit which
+entities can trigger a build, and do not store the buildspec in the project itself, to
+ensure that your webhooks are as secure as possible.     A malicious user can use public
+builds to distribute malicious artifacts. We recommend that you review all pull requests to
+verify that the pull request is a legitimate change. We also recommend that you validate
+any artifacts with their checksums to make sure that the correct artifacts are being
 downloaded.
 
 # Arguments

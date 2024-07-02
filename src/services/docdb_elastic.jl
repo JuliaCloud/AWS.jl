@@ -5,46 +5,118 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_cluster(admin_user_name, admin_user_password, auth_type, cluster_name, shard_capacity, shard_count)
-    create_cluster(admin_user_name, admin_user_password, auth_type, cluster_name, shard_capacity, shard_count, params::Dict{String,<:Any})
+    copy_cluster_snapshot(snapshot_arn, target_snapshot_name)
+    copy_cluster_snapshot(snapshot_arn, target_snapshot_name, params::Dict{String,<:Any})
 
-Creates a new Elastic DocumentDB cluster and returns its Cluster structure.
+Copies a snapshot of an elastic cluster.
 
 # Arguments
-- `admin_user_name`: The name of the Elastic DocumentDB cluster administrator.
-  Constraints:   Must be from 1 to 63 letters or numbers.   The first character must be a
-  letter.   Cannot be a reserved word.
-- `admin_user_password`: The password for the Elastic DocumentDB cluster administrator and
-  can contain any printable ASCII characters.  Constraints:   Must contain from 8 to 100
-  characters.   Cannot contain a forward slash (/), double quote (\"), or the \"at\" symbol
-  (@).
-- `auth_type`: The authentication type for the Elastic DocumentDB cluster.
-- `cluster_name`: The name of the new Elastic DocumentDB cluster. This parameter is stored
-  as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or
-  hyphens.   The first character must be a letter.   Cannot end with a hyphen or contain two
-  consecutive hyphens.    Example: my-cluster
-- `shard_capacity`: The capacity of each shard in the new Elastic DocumentDB cluster.
-- `shard_count`: The number of shards to create in the new Elastic DocumentDB cluster.
+- `snapshot_arn`: The Amazon Resource Name (ARN) identifier of the elastic cluster snapshot.
+- `target_snapshot_name`: The identifier of the new elastic cluster snapshot to create from
+  the source cluster snapshot. This parameter is not case sensitive. Constraints:   Must
+  contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.
+   Cannot end with a hyphen or contain two consecutive hyphens.   Example:
+  elastic-cluster-snapshot-5
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clientToken"`: The client token for the Elastic DocumentDB cluster.
-- `"kmsKeyId"`: The KMS key identifier to use to encrypt the new Elastic DocumentDB
-  cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption
-  key. If you are creating a cluster using the same Amazon account that owns this KMS
-  encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key.
-  If an encryption key is not specified, Elastic DocumentDB uses the default encryption key
-  that KMS creates for your account. Your account has a different default encryption key for
-  each Amazon Region.
+- `"copyTags"`: Set to true to copy all tags from the source cluster snapshot to the target
+  elastic cluster snapshot. The default is false.
+- `"kmsKeyId"`: The Amazon Web Services KMS key ID for an encrypted elastic cluster
+  snapshot. The Amazon Web Services KMS key ID is the Amazon Resource Name (ARN), Amazon Web
+  Services KMS key identifier, or the Amazon Web Services KMS key alias for the Amazon Web
+  Services KMS encryption key. If you copy an encrypted elastic cluster snapshot from your
+  Amazon Web Services account, you can specify a value for KmsKeyId to encrypt the copy with
+  a new Amazon Web ServicesS KMS encryption key. If you don't specify a value for KmsKeyId,
+  then the copy of the elastic cluster snapshot is encrypted with the same AWS KMS key as the
+  source elastic cluster snapshot. To copy an encrypted elastic cluster snapshot to another
+  Amazon Web Services region, set KmsKeyId to the Amazon Web Services KMS key ID that you
+  want to use to encrypt the copy of the elastic cluster snapshot in the destination region.
+  Amazon Web Services KMS encryption keys are specific to the Amazon Web Services region that
+  they are created in, and you can't use encryption keys from one Amazon Web Services region
+  in another Amazon Web Services region. If you copy an unencrypted elastic cluster snapshot
+  and specify a value for the KmsKeyId parameter, an error is returned.
+- `"tags"`: The tags to be assigned to the elastic cluster snapshot.
+"""
+function copy_cluster_snapshot(
+    snapshotArn, targetSnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return docdb_elastic(
+        "POST",
+        "/cluster-snapshot/$(snapshotArn)/copy",
+        Dict{String,Any}("targetSnapshotName" => targetSnapshotName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function copy_cluster_snapshot(
+    snapshotArn,
+    targetSnapshotName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return docdb_elastic(
+        "POST",
+        "/cluster-snapshot/$(snapshotArn)/copy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("targetSnapshotName" => targetSnapshotName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_cluster(admin_user_name, admin_user_password, auth_type, cluster_name, shard_capacity, shard_count)
+    create_cluster(admin_user_name, admin_user_password, auth_type, cluster_name, shard_capacity, shard_count, params::Dict{String,<:Any})
+
+Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
+
+# Arguments
+- `admin_user_name`: The name of the Amazon DocumentDB elastic clusters administrator.
+  Constraints:   Must be from 1 to 63 letters or numbers.   The first character must be a
+  letter.   Cannot be a reserved word.
+- `admin_user_password`: The password for the Amazon DocumentDB elastic clusters
+  administrator. The password can contain any printable ASCII characters.  Constraints:
+  Must contain from 8 to 100 characters.   Cannot contain a forward slash (/), double quote
+  (\"), or the \"at\" symbol (@).
+- `auth_type`: The authentication type used to determine where to fetch the password used
+  for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN.
+- `cluster_name`: The name of the new elastic cluster. This parameter is stored as a
+  lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.
+  The first character must be a letter.   Cannot end with a hyphen or contain two consecutive
+  hyphens.    Example: my-cluster
+- `shard_capacity`: The number of vCPUs assigned to each elastic cluster shard. Maximum is
+  64. Allowed values are 2, 4, 8, 16, 32, 64.
+- `shard_count`: The number of shards assigned to the elastic cluster. Maximum is 32.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"backupRetentionPeriod"`: The number of days for which automatic snapshots are retained.
+- `"clientToken"`: The client token for the elastic cluster.
+- `"kmsKeyId"`: The KMS key identifier to use to encrypt the new elastic cluster. The KMS
+  key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are
+  creating a cluster using the same Amazon account that owns this KMS encryption key, you can
+  use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is
+  not specified, Amazon DocumentDB uses the default encryption key that KMS creates for your
+  account. Your account has a different default encryption key for each Amazon Region.
+- `"preferredBackupWindow"`: The daily time range during which automated backups are
+  created if automated backups are enabled, as determined by the backupRetentionPeriod.
 - `"preferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi   Default: a
   30-minute window selected at random from an 8-hour block of time for each Amazon Web
   Services Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu,
   Fri, Sat, Sun  Constraints: Minimum 30-minute window.
-- `"subnetIds"`: The Amazon EC2 subnet IDs for the new Elastic DocumentDB cluster.
-- `"tags"`: The tags to be assigned to the new Elastic DocumentDB cluster.
+- `"shardInstanceCount"`: The number of replica instances applying to all shards in the
+  elastic cluster. A shardInstanceCount value of 1 means there is one writer instance, and
+  any additional instances are replicas that can be used for reads and to improve
+  availability.
+- `"subnetIds"`: The Amazon EC2 subnet IDs for the new elastic cluster.
+- `"tags"`: The tags to be assigned to the new elastic cluster.
 - `"vpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with the new
-  Elastic DocumentDB cluster.
+  elastic cluster.
 """
 function create_cluster(
     adminUserName,
@@ -108,16 +180,16 @@ end
     create_cluster_snapshot(cluster_arn, snapshot_name)
     create_cluster_snapshot(cluster_arn, snapshot_name, params::Dict{String,<:Any})
 
-Creates a snapshot of a cluster.
+Creates a snapshot of an elastic cluster.
 
 # Arguments
-- `cluster_arn`: The arn of the Elastic DocumentDB cluster that the snapshot will be taken
-  from.
-- `snapshot_name`: The name of the Elastic DocumentDB snapshot.
+- `cluster_arn`: The ARN identifier of the elastic cluster of which you want to create a
+  snapshot.
+- `snapshot_name`: The name of the new elastic cluster snapshot.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"tags"`: The tags to be assigned to the new Elastic DocumentDB snapshot.
+- `"tags"`: The tags to be assigned to the new elastic cluster snapshot.
 """
 function create_cluster_snapshot(
     clusterArn, snapshotName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -157,10 +229,10 @@ end
     delete_cluster(cluster_arn)
     delete_cluster(cluster_arn, params::Dict{String,<:Any})
 
-Delete a Elastic DocumentDB cluster.
+Delete an elastic cluster.
 
 # Arguments
-- `cluster_arn`: The arn of the Elastic DocumentDB cluster that is to be deleted.
+- `cluster_arn`: The ARN identifier of the elastic cluster that is to be deleted.
 
 """
 function delete_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -189,10 +261,10 @@ end
     delete_cluster_snapshot(snapshot_arn)
     delete_cluster_snapshot(snapshot_arn, params::Dict{String,<:Any})
 
-Delete a Elastic DocumentDB snapshot.
+Delete an elastic cluster snapshot.
 
 # Arguments
-- `snapshot_arn`: The arn of the Elastic DocumentDB snapshot that is to be deleted.
+- `snapshot_arn`: The ARN identifier of the elastic cluster snapshot that is to be deleted.
 
 """
 function delete_cluster_snapshot(
@@ -223,10 +295,10 @@ end
     get_cluster(cluster_arn)
     get_cluster(cluster_arn, params::Dict{String,<:Any})
 
-Returns information about a specific Elastic DocumentDB cluster.
+Returns information about a specific elastic cluster.
 
 # Arguments
-- `cluster_arn`: The arn of the Elastic DocumentDB cluster.
+- `cluster_arn`: The ARN identifier of the elastic cluster.
 
 """
 function get_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -255,10 +327,10 @@ end
     get_cluster_snapshot(snapshot_arn)
     get_cluster_snapshot(snapshot_arn, params::Dict{String,<:Any})
 
-Returns information about a specific Elastic DocumentDB snapshot
+Returns information about a specific elastic cluster snapshot
 
 # Arguments
-- `snapshot_arn`: The arn of the Elastic DocumentDB snapshot.
+- `snapshot_arn`: The ARN identifier of the elastic cluster snapshot.
 
 """
 function get_cluster_snapshot(
@@ -289,13 +361,21 @@ end
     list_cluster_snapshots()
     list_cluster_snapshots(params::Dict{String,<:Any})
 
-Returns information about Elastic DocumentDB snapshots for a specified cluster.
+Returns information about snapshots for a specified elastic cluster.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"clusterArn"`: The arn of the Elastic DocumentDB cluster.
-- `"maxResults"`: The maximum number of entries to recieve in the response.
-- `"nextToken"`: The nextToken which is used the get the next page of data.
+- `"clusterArn"`: The ARN identifier of the elastic cluster.
+- `"maxResults"`: The maximum number of elastic cluster snapshot results to receive in the
+  response.
+- `"nextToken"`: A pagination token provided by a previous request. If this parameter is
+  specified, the response includes only records beyond this token, up to the value specified
+  by max-results. If there is no more data in the responce, the nextToken will not be
+  returned.
+- `"snapshotType"`: The type of cluster snapshots to be returned. You can specify one of
+  the following values:    automated - Return all cluster snapshots that Amazon DocumentDB
+  has automatically created for your Amazon Web Services account.    manual - Return all
+  cluster snapshots that you have manually created for your Amazon Web Services account.
 """
 function list_cluster_snapshots(; aws_config::AbstractAWSConfig=global_aws_config())
     return docdb_elastic(
@@ -318,12 +398,16 @@ end
     list_clusters()
     list_clusters(params::Dict{String,<:Any})
 
-Returns information about provisioned Elastic DocumentDB clusters.
+Returns information about provisioned Amazon DocumentDB elastic clusters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: The maximum number of entries to recieve in the response.
-- `"nextToken"`: The nextToken which is used the get the next page of data.
+- `"maxResults"`: The maximum number of elastic cluster snapshot results to receive in the
+  response.
+- `"nextToken"`: A pagination token provided by a previous request. If this parameter is
+  specified, the response includes only records beyond this token, up to the value specified
+  by max-results. If there is no more data in the responce, the nextToken will not be
+  returned.
 """
 function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
     return docdb_elastic(
@@ -342,10 +426,10 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists all tags on a Elastic DocumentDB resource
+Lists all tags on a elastic cluster resource
 
 # Arguments
-- `resource_arn`: The arn of the Elastic DocumentDB resource.
+- `resource_arn`: The ARN identifier of the elastic cluster resource.
 
 """
 function list_tags_for_resource(
@@ -376,27 +460,32 @@ end
     restore_cluster_from_snapshot(cluster_name, snapshot_arn)
     restore_cluster_from_snapshot(cluster_name, snapshot_arn, params::Dict{String,<:Any})
 
-Restores a Elastic DocumentDB cluster from a snapshot.
+Restores an elastic cluster from a snapshot.
 
 # Arguments
-- `cluster_name`: The name of the Elastic DocumentDB cluster.
-- `snapshot_arn`: The arn of the Elastic DocumentDB snapshot.
+- `cluster_name`: The name of the elastic cluster.
+- `snapshot_arn`: The ARN identifier of the elastic cluster snapshot.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"kmsKeyId"`: The KMS key identifier to use to encrypt the new Elastic DocumentDB
-  cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption
-  key. If you are creating a cluster using the same Amazon account that owns this KMS
-  encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key.
-  If an encryption key is not specified here, Elastic DocumentDB uses the default encryption
-  key that KMS creates for your account. Your account has a different default encryption key
-  for each Amazon Region.
-- `"subnetIds"`: The Amazon EC2 subnet IDs for the Elastic DocumentDB cluster.
-- `"tags"`: A list of the tag names to be assigned to the restored DB cluster, in the form
-  of an array of key-value pairs in which the key is the tag name and the value is the key
-  value.
-- `"vpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with the Elastic
-  DocumentDB cluster.
+- `"kmsKeyId"`: The KMS key identifier to use to encrypt the new Amazon DocumentDB elastic
+  clusters cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS
+  encryption key. If you are creating a cluster using the same Amazon account that owns this
+  KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption
+  key. If an encryption key is not specified here, Amazon DocumentDB uses the default
+  encryption key that KMS creates for your account. Your account has a different default
+  encryption key for each Amazon Region.
+- `"shardCapacity"`: The capacity of each shard in the new restored elastic cluster.
+- `"shardInstanceCount"`: The number of replica instances applying to all shards in the
+  elastic cluster. A shardInstanceCount value of 1 means there is one writer instance, and
+  any additional instances are replicas that can be used for reads and to improve
+  availability.
+- `"subnetIds"`: The Amazon EC2 subnet IDs for the elastic cluster.
+- `"tags"`: A list of the tag names to be assigned to the restored elastic cluster, in the
+  form of an array of key-value pairs in which the key is the tag name and the value is the
+  key value.
+- `"vpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with the elastic
+  cluster.
 """
 function restore_cluster_from_snapshot(
     clusterName, snapshotArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -427,14 +516,79 @@ function restore_cluster_from_snapshot(
 end
 
 """
+    start_cluster(cluster_arn)
+    start_cluster(cluster_arn, params::Dict{String,<:Any})
+
+Restarts the stopped elastic cluster that is specified by clusterARN.
+
+# Arguments
+- `cluster_arn`: The ARN identifier of the elastic cluster.
+
+"""
+function start_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return docdb_elastic(
+        "POST",
+        "/cluster/$(clusterArn)/start";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_cluster(
+    clusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return docdb_elastic(
+        "POST",
+        "/cluster/$(clusterArn)/start",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_cluster(cluster_arn)
+    stop_cluster(cluster_arn, params::Dict{String,<:Any})
+
+Stops the running elastic cluster that is specified by clusterArn. The elastic cluster must
+be in the available state.
+
+# Arguments
+- `cluster_arn`: The ARN identifier of the elastic cluster.
+
+"""
+function stop_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return docdb_elastic(
+        "POST",
+        "/cluster/$(clusterArn)/stop";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_cluster(
+    clusterArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return docdb_elastic(
+        "POST",
+        "/cluster/$(clusterArn)/stop",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds metadata tags to a Elastic DocumentDB resource
+Adds metadata tags to an elastic cluster resource
 
 # Arguments
-- `resource_arn`: The arn of the Elastic DocumentDB resource.
-- `tags`: The tags to be assigned to the Elastic DocumentDB resource.
+- `resource_arn`: The ARN identifier of the elastic cluster resource.
+- `tags`: The tags that are assigned to the elastic cluster resource.
 
 """
 function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
@@ -465,11 +619,11 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes metadata tags to a Elastic DocumentDB resource
+Removes metadata tags from an elastic cluster resource
 
 # Arguments
-- `resource_arn`: The arn of the Elastic DocumentDB resource.
-- `tag_keys`: The tag keys to be removed from the Elastic DocumentDB resource.
+- `resource_arn`: The ARN identifier of the elastic cluster resource.
+- `tag_keys`: The tag keys to be removed from the elastic cluster resource.
 
 """
 function untag_resource(
@@ -502,29 +656,38 @@ end
     update_cluster(cluster_arn)
     update_cluster(cluster_arn, params::Dict{String,<:Any})
 
-Modifies a Elastic DocumentDB cluster. This includes updating admin-username/password,
-upgrading API version setting up a backup window and maintenance window
+Modifies an elastic cluster. This includes updating admin-username/password, upgrading the
+API version, and setting up a backup window and maintenance window
 
 # Arguments
-- `cluster_arn`: The arn of the Elastic DocumentDB cluster.
+- `cluster_arn`: The ARN identifier of the elastic cluster.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"adminUserPassword"`: The password for the Elastic DocumentDB cluster administrator.
+- `"adminUserPassword"`: The password associated with the elastic cluster administrator.
   This password can contain any printable ASCII character except forward slash (/), double
   quote (\"), or the \"at\" symbol (@).  Constraints: Must contain from 8 to 100 characters.
-- `"authType"`: The authentication type for the Elastic DocumentDB cluster.
-- `"clientToken"`: The client token for the Elastic DocumentDB cluster.
+- `"authType"`: The authentication type used to determine where to fetch the password used
+  for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN.
+- `"backupRetentionPeriod"`: The number of days for which automatic snapshots are retained.
+- `"clientToken"`: The client token for the elastic cluster.
+- `"preferredBackupWindow"`: The daily time range during which automated backups are
+  created if automated backups are enabled, as determined by the backupRetentionPeriod.
 - `"preferredMaintenanceWindow"`: The weekly time range during which system maintenance can
   occur, in Universal Coordinated Time (UTC).  Format: ddd:hh24:mi-ddd:hh24:mi   Default: a
   30-minute window selected at random from an 8-hour block of time for each Amazon Web
   Services Region, occurring on a random day of the week.  Valid days: Mon, Tue, Wed, Thu,
   Fri, Sat, Sun  Constraints: Minimum 30-minute window.
-- `"shardCapacity"`: The capacity of each shard in the Elastic DocumentDB cluster.
-- `"shardCount"`: The number of shards to create in the Elastic DocumentDB cluster.
-- `"subnetIds"`: The number of shards to create in the Elastic DocumentDB cluster.
-- `"vpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with the new
-  Elastic DocumentDB cluster.
+- `"shardCapacity"`: The number of vCPUs assigned to each elastic cluster shard. Maximum is
+  64. Allowed values are 2, 4, 8, 16, 32, 64.
+- `"shardCount"`: The number of shards assigned to the elastic cluster. Maximum is 32.
+- `"shardInstanceCount"`: The number of replica instances applying to all shards in the
+  elastic cluster. A shardInstanceCount value of 1 means there is one writer instance, and
+  any additional instances are replicas that can be used for reads and to improve
+  availability.
+- `"subnetIds"`: The Amazon EC2 subnet IDs for the elastic cluster.
+- `"vpcSecurityGroupIds"`: A list of EC2 VPC security groups to associate with the elastic
+  cluster.
 """
 function update_cluster(clusterArn; aws_config::AbstractAWSConfig=global_aws_config())
     return docdb_elastic(

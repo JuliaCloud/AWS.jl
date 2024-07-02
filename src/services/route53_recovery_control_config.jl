@@ -499,6 +499,38 @@ function describe_safety_rule(
 end
 
 """
+    get_resource_policy(resource_arn)
+    get_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Get information about the resource policy for a cluster.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+
+"""
+function get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return route53_recovery_control_config(
+        "GET",
+        "/resourcePolicy/$(ResourceArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return route53_recovery_control_config(
+        "GET",
+        "/resourcePolicy/$(ResourceArn)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_associated_route53_health_checks(routing_control_arn)
     list_associated_route53_health_checks(routing_control_arn, params::Dict{String,<:Any})
 

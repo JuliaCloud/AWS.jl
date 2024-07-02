@@ -314,6 +314,95 @@ function create_data_cells_filter(
 end
 
 """
+    create_lake_formation_identity_center_configuration()
+    create_lake_formation_identity_center_configuration(params::Dict{String,<:Any})
+
+Creates an IAM Identity Center connection with Lake Formation to allow IAM Identity Center
+users and groups to access Data Catalog resources.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
+  Catalog is the persistent metadata store. It contains database definitions, table
+  definitions, view definitions, and other control information to manage your Lake Formation
+  environment.
+- `"ExternalFiltering"`: A list of the account IDs of Amazon Web Services accounts of
+  third-party applications that are allowed to access data managed by Lake Formation.
+- `"InstanceArn"`: The ARN of the IAM Identity Center instance for which the operation will
+  be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon
+  Web Services Service Namespaces in the Amazon Web Services General Reference.
+- `"ShareRecipients"`: A list of Amazon Web Services account IDs and/or Amazon Web Services
+  organization/organizational unit ARNs that are allowed to access data managed by Lake
+  Formation.  If the ShareRecipients list includes valid values, a resource share is created
+  with the principals you want to have access to the resources. If the ShareRecipients value
+  is null or the list is empty, no resource share is created.
+"""
+function create_lake_formation_identity_center_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/CreateLakeFormationIdentityCenterConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_lake_formation_identity_center_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/CreateLakeFormationIdentityCenterConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_lake_formation_opt_in(principal, resource)
+    create_lake_formation_opt_in(principal, resource, params::Dict{String,<:Any})
+
+Enforce Lake Formation permissions for the given databases, tables, and principals.
+
+# Arguments
+- `principal`:
+- `resource`:
+
+"""
+function create_lake_formation_opt_in(
+    Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/CreateLakeFormationOptIn",
+        Dict{String,Any}("Principal" => Principal, "Resource" => Resource);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_lake_formation_opt_in(
+    Principal,
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "POST",
+        "/CreateLakeFormationOptIn",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Principal" => Principal, "Resource" => Resource),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_lftag(tag_key, tag_values)
     create_lftag(tag_key, tag_values, params::Dict{String,<:Any})
 
@@ -387,6 +476,85 @@ function delete_data_cells_filter(
         "POST",
         "/DeleteDataCellsFilter",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_lake_formation_identity_center_configuration()
+    delete_lake_formation_identity_center_configuration(params::Dict{String,<:Any})
+
+Deletes an IAM Identity Center connection with Lake Formation.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
+  Catalog is the persistent metadata store. It contains database definitions, table
+  definitions, view definition, and other control information to manage your Lake Formation
+  environment.
+"""
+function delete_lake_formation_identity_center_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/DeleteLakeFormationIdentityCenterConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_lake_formation_identity_center_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/DeleteLakeFormationIdentityCenterConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_lake_formation_opt_in(principal, resource)
+    delete_lake_formation_opt_in(principal, resource, params::Dict{String,<:Any})
+
+Remove the Lake Formation permissions enforcement of the given databases, tables, and
+principals.
+
+# Arguments
+- `principal`:
+- `resource`:
+
+"""
+function delete_lake_formation_opt_in(
+    Principal, Resource; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/DeleteLakeFormationOptIn",
+        Dict{String,Any}("Principal" => Principal, "Resource" => Resource);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_lake_formation_opt_in(
+    Principal,
+    Resource,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return lakeformation(
+        "POST",
+        "/DeleteLakeFormationOptIn",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Principal" => Principal, "Resource" => Resource),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -535,6 +703,40 @@ function deregister_resource(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_lake_formation_identity_center_configuration()
+    describe_lake_formation_identity_center_configuration(params::Dict{String,<:Any})
+
+Retrieves the instance ARN and application ARN for the connection.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
+  Catalog is the persistent metadata store. It contains database definitions, table
+  definitions, and other control information to manage your Lake Formation environment.
+"""
+function describe_lake_formation_identity_center_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/DescribeLakeFormationIdentityCenterConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_lake_formation_identity_center_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/DescribeLakeFormationIdentityCenterConfiguration",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -697,6 +899,33 @@ function get_data_cells_filter(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_lake_principal()
+    get_data_lake_principal(params::Dict{String,<:Any})
+
+Returns the identity of the invoking principal.
+
+"""
+function get_data_lake_principal(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "POST",
+        "/GetDataLakePrincipal";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_lake_principal(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/GetDataLakePrincipal",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -986,8 +1215,8 @@ function get_table_objects(
 end
 
 """
-    get_temporary_glue_partition_credentials(partition, supported_permission_types, table_arn)
-    get_temporary_glue_partition_credentials(partition, supported_permission_types, table_arn, params::Dict{String,<:Any})
+    get_temporary_glue_partition_credentials(partition, table_arn)
+    get_temporary_glue_partition_credentials(partition, table_arn, params::Dict{String,<:Any})
 
 This API is identical to GetTemporaryTableCredentials except that this is used when the
 target Data Catalog resource is of type Partition. Lake Formation restricts the permission
@@ -996,8 +1225,6 @@ single Amazon S3 prefix.
 
 # Arguments
 - `partition`: A list of partition values identifying a single partition.
-- `supported_permission_types`: A list of supported permission types for the partition.
-  Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
 - `table_arn`: The ARN of the partitions' table.
 
 # Optional Parameters
@@ -1008,28 +1235,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the temporary credentials.
 - `"Permissions"`: Filters the request based on the user having been granted a list of
   specified permissions on the requested resource(s).
+- `"SupportedPermissionTypes"`: A list of supported permission types for the partition.
+  Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
 """
 function get_temporary_glue_partition_credentials(
-    Partition,
-    SupportedPermissionTypes,
-    TableArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Partition, TableArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lakeformation(
         "POST",
         "/GetTemporaryGluePartitionCredentials",
-        Dict{String,Any}(
-            "Partition" => Partition,
-            "SupportedPermissionTypes" => SupportedPermissionTypes,
-            "TableArn" => TableArn,
-        );
+        Dict{String,Any}("Partition" => Partition, "TableArn" => TableArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_temporary_glue_partition_credentials(
     Partition,
-    SupportedPermissionTypes,
     TableArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -1040,11 +1261,7 @@ function get_temporary_glue_partition_credentials(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "Partition" => Partition,
-                    "SupportedPermissionTypes" => SupportedPermissionTypes,
-                    "TableArn" => TableArn,
-                ),
+                Dict{String,Any}("Partition" => Partition, "TableArn" => TableArn),
                 params,
             ),
         );
@@ -1054,8 +1271,8 @@ function get_temporary_glue_partition_credentials(
 end
 
 """
-    get_temporary_glue_table_credentials(supported_permission_types, table_arn)
-    get_temporary_glue_table_credentials(supported_permission_types, table_arn, params::Dict{String,<:Any})
+    get_temporary_glue_table_credentials(table_arn)
+    get_temporary_glue_table_credentials(table_arn, params::Dict{String,<:Any})
 
 Allows a caller in a secure environment to assume a role with permission to access Amazon
 S3. In order to vend such credentials, Lake Formation assumes the role associated with a
@@ -1063,8 +1280,6 @@ registered location, for example an Amazon S3 bucket, with a scope down policy w
 restricts the access to a single prefix.
 
 # Arguments
-- `supported_permission_types`: A list of supported permission types for the table. Valid
-  values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
 - `table_arn`: The ARN identifying a table in the Data Catalog for the temporary
   credentials request.
 
@@ -1076,22 +1291,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the temporary credentials.
 - `"Permissions"`: Filters the request based on the user having been granted a list of
   specified permissions on the requested resource(s).
+- `"QuerySessionContext"`: A structure used as a protocol between query engines and Lake
+  Formation or Glue. Contains both a Lake Formation generated authorization identifier and
+  information from the request's authorization context.
+- `"S3Path"`: The Amazon S3 path for the table.
+- `"SupportedPermissionTypes"`: A list of supported permission types for the table. Valid
+  values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
 """
 function get_temporary_glue_table_credentials(
-    SupportedPermissionTypes, TableArn; aws_config::AbstractAWSConfig=global_aws_config()
+    TableArn; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return lakeformation(
         "POST",
         "/GetTemporaryGlueTableCredentials",
-        Dict{String,Any}(
-            "SupportedPermissionTypes" => SupportedPermissionTypes, "TableArn" => TableArn
-        );
+        Dict{String,Any}("TableArn" => TableArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_temporary_glue_table_credentials(
-    SupportedPermissionTypes,
     TableArn,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -1100,14 +1318,7 @@ function get_temporary_glue_table_credentials(
         "POST",
         "/GetTemporaryGlueTableCredentials",
         Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "SupportedPermissionTypes" => SupportedPermissionTypes,
-                    "TableArn" => TableArn,
-                ),
-                params,
-            ),
+            mergewith(_merge, Dict{String,Any}("TableArn" => TableArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1304,6 +1515,40 @@ function list_data_cells_filter(
     return lakeformation(
         "POST",
         "/ListDataCellsFilter",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_lake_formation_opt_ins()
+    list_lake_formation_opt_ins(params::Dict{String,<:Any})
+
+Retrieve the current list of resources and principals that are opt in to enforce Lake
+Formation permissions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return.
+- `"NextToken"`: A continuation token, if this is not the first call to retrieve this list.
+- `"Principal"`:
+- `"Resource"`: A structure for the resource.
+"""
+function list_lake_formation_opt_ins(; aws_config::AbstractAWSConfig=global_aws_config())
+    return lakeformation(
+        "POST",
+        "/ListLakeFormationOptIns";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_lake_formation_opt_ins(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/ListLakeFormationOptIns",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1573,6 +1818,9 @@ arn:aws:iam::12345:role/my-data-access-role
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HybridAccessEnabled"`:  Specifies whether the data access of tables pointing to the
+  location can be managed by both Lake Formation permissions as well as Amazon S3 bucket
+  policies.
 - `"RoleArn"`: The identifier for the role that registers the resource.
 - `"UseServiceLinkedRole"`: Designates an Identity and Access Management (IAM)
   service-linked role by registering this role with the Data Catalog. A service-linked role
@@ -1926,6 +2174,51 @@ function update_data_cells_filter(
 end
 
 """
+    update_lake_formation_identity_center_configuration()
+    update_lake_formation_identity_center_configuration(params::Dict{String,<:Any})
+
+Updates the IAM Identity Center connection parameters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationStatus"`: Allows to enable or disable the IAM Identity Center connection.
+- `"CatalogId"`: The identifier for the Data Catalog. By default, the account ID. The Data
+  Catalog is the persistent metadata store. It contains database definitions, table
+  definitions, view definitions, and other control information to manage your Lake Formation
+  environment.
+- `"ExternalFiltering"`: A list of the account IDs of Amazon Web Services accounts of
+  third-party applications that are allowed to access data managed by Lake Formation.
+- `"ShareRecipients"`: A list of Amazon Web Services account IDs or Amazon Web Services
+  organization/organizational unit ARNs that are allowed to access to access data managed by
+  Lake Formation.  If the ShareRecipients list includes valid values, then the resource share
+  is updated with the principals you want to have access to the resources. If the
+  ShareRecipients value is null, both the list of share recipients and the resource share
+  remain unchanged. If the ShareRecipients value is an empty list, then the existing share
+  recipients list will be cleared, and the resource share will be deleted.
+"""
+function update_lake_formation_identity_center_configuration(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/UpdateLakeFormationIdentityCenterConfiguration";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_lake_formation_identity_center_configuration(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return lakeformation(
+        "POST",
+        "/UpdateLakeFormationIdentityCenterConfiguration",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_lftag(tag_key)
     update_lftag(tag_key, params::Dict{String,<:Any})
 
@@ -1980,6 +2273,9 @@ Lake Formation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HybridAccessEnabled"`:  Specifies whether the data access of tables pointing to the
+  location can be managed by both Lake Formation permissions as well as Amazon S3 bucket
+  policies.
 - `"WithFederation"`: Whether or not the resource is a federated resource.
 """
 function update_resource(

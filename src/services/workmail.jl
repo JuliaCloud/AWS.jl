@@ -11,9 +11,15 @@ using AWS.UUIDs
 Adds a member (user or group) to the resource's set of delegates.
 
 # Arguments
-- `entity_id`: The member (user or group) to associate to the resource.
+- `entity_id`: The member (user or group) to associate to the resource. The entity ID can
+  accept UserId or GroupID, Username or Groupname, or email.   Entity:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: entity@domain.tld   Entity: entity
 - `organization_id`: The organization under which the resource exists.
-- `resource_id`: The resource for which members (users or groups) are associated.
+- `resource_id`: The resource for which members (users or groups) are associated. The
+  identifier can accept ResourceId, Resourcename, or email. The following identity formats
+  are available:   Resource ID: r-0123456789a0123456789b0123456789   Email address:
+  resource@domain.tld   Resource name: resource
 
 """
 function associate_delegate_to_resource(
@@ -62,8 +68,15 @@ end
 Adds a member (user or group) to the group's set.
 
 # Arguments
-- `group_id`: The group to which the member (user or group) is associated.
-- `member_id`: The member (user or group) to associate to the group.
+- `group_id`: The group to which the member (user or group) is associated. The identifier
+  can accept GroupId, Groupname, or email. The following identity formats are available:
+  Group ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group
+  name: group
+- `member_id`: The member (user or group) to associate to the group. The member ID can
+  accept UserID or GroupId, Username or Groupname, or email.   Member:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: member@domain.tld   Member name: member
 - `organization_id`: The organization under which the group exists.
 
 """
@@ -321,6 +334,10 @@ Creates a group that can be used in WorkMail by calling the RegisterToWorkMail o
 - `name`: The name of the group.
 - `organization_id`: The organization under which the group is to be created.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HiddenFromGlobalAddressList"`: If this parameter is enabled, the group will be hidden
+  from the address book.
 """
 function create_group(
     Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -553,6 +570,11 @@ Creates a new WorkMail resource.
   is created.
 - `type`: The type of the new resource. The available types are equipment and room.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Description"`: Resource description.
+- `"HiddenFromGlobalAddressList"`: If this parameter is enabled, the resource will be
+  hidden from the address book.
 """
 function create_resource(
     Name, OrganizationId, Type; aws_config::AbstractAWSConfig=global_aws_config()
@@ -590,8 +612,8 @@ function create_resource(
 end
 
 """
-    create_user(display_name, name, organization_id, password)
-    create_user(display_name, name, organization_id, password, params::Dict{String,<:Any})
+    create_user(display_name, name, organization_id)
+    create_user(display_name, name, organization_id, params::Dict{String,<:Any})
 
 Creates a user who can be used in WorkMail by calling the RegisterToWorkMail operation.
 
@@ -600,23 +622,24 @@ Creates a user who can be used in WorkMail by calling the RegisterToWorkMail ope
 - `name`: The name for the new user. WorkMail directory user names have a maximum length of
   64. All others have a maximum length of 20.
 - `organization_id`: The identifier of the organization for which the user is created.
-- `password`: The password for the new user.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FirstName"`: The first name of the new user.
+- `"HiddenFromGlobalAddressList"`: If this parameter is enabled, the user will be hidden
+  from the address book.
+- `"LastName"`: The last name of the new user.
+- `"Password"`: The password for the new user.
+- `"Role"`: The role of the new user. You cannot pass SYSTEM_USER or RESOURCE role in a
+  single request. When a user role is not selected, the default role of USER is selected.
 """
 function create_user(
-    DisplayName,
-    Name,
-    OrganizationId,
-    Password;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DisplayName, Name, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return workmail(
         "CreateUser",
         Dict{String,Any}(
-            "DisplayName" => DisplayName,
-            "Name" => Name,
-            "OrganizationId" => OrganizationId,
-            "Password" => Password,
+            "DisplayName" => DisplayName, "Name" => Name, "OrganizationId" => OrganizationId
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -626,7 +649,6 @@ function create_user(
     DisplayName,
     Name,
     OrganizationId,
-    Password,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
 )
@@ -639,7 +661,6 @@ function create_user(
                     "DisplayName" => DisplayName,
                     "Name" => Name,
                     "OrganizationId" => OrganizationId,
-                    "Password" => Password,
                 ),
                 params,
             ),
@@ -830,7 +851,10 @@ end
 Deletes a group from WorkMail.
 
 # Arguments
-- `group_id`: The identifier of the group to be deleted.
+- `group_id`: The identifier of the group to be deleted. The identifier can be the GroupId,
+  or Groupname. The following identity formats are available:   Group ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Group name: group
 - `organization_id`: The organization that contains the group.
 
 """
@@ -917,9 +941,16 @@ end
 Deletes permissions granted to a member (user or group).
 
 # Arguments
-- `entity_id`: The identifier of the member (user or group) that owns the mailbox.
-- `grantee_id`: The identifier of the member (user or group) for which to delete granted
-  permissions.
+- `entity_id`: The identifier of the entity that owns the mailbox. The identifier can be
+  UserId or Group Id, Username or Groupname, or email.   Entity ID:
+  12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity
+  name: entity
+- `grantee_id`: The identifier of the entity for which to delete granted permissions. The
+  identifier can be UserId, ResourceID, or Group Id, Username or Groupname, or email.
+  Grantee ID: 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789, or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: grantee@domain.tld   Grantee
+  name: grantee
 - `organization_id`: The identifier of the organization under which the member (user or
   group) exists.
 
@@ -1086,6 +1117,8 @@ more information, see Removing an organization in the WorkMail Administrator Gui
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: The idempotency token associated with the request.
+- `"ForceDelete"`: Deletes a WorkMail organization even if the organization has enabled
+  users.
 """
 function delete_organization(
     DeleteDirectory, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1134,7 +1167,9 @@ Deletes the specified resource.
 # Arguments
 - `organization_id`: The identifier associated with the organization from which the
   resource is deleted.
-- `resource_id`: The identifier of the resource to be deleted.
+- `resource_id`: The identifier of the resource to be deleted. The identifier can accept
+  ResourceId, or Resourcename. The following identity formats are available:   Resource ID:
+  r-0123456789a0123456789b0123456789   Resource name: resource
 
 """
 function delete_resource(
@@ -1221,7 +1256,10 @@ days before they are permanently removed.
 
 # Arguments
 - `organization_id`: The organization that contains the user to be deleted.
-- `user_id`: The identifier of the user to be deleted.
+- `user_id`: The identifier of the user to be deleted. The identifier can be the UserId or
+  Username. The following identity formats are available:   User ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234   User
+  name: user
 
 """
 function delete_user(
@@ -1263,7 +1301,11 @@ the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days 
 are permanently removed. The functionality in the console is Disable.
 
 # Arguments
-- `entity_id`: The identifier for the member (user or group) to be updated.
+- `entity_id`: The identifier for the member to be updated. The identifier can be UserId,
+  ResourceId, or Group Id, Username, Resourcename, or Groupname, or email.   Entity ID:
+  12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity
+  name: entity
 - `organization_id`: The identifier for the organization under which the WorkMail entity
   exists.
 
@@ -1383,13 +1425,57 @@ function describe_email_monitoring_configuration(
 end
 
 """
+    describe_entity(email, organization_id)
+    describe_entity(email, organization_id, params::Dict{String,<:Any})
+
+Returns basic details about an entity in WorkMail.
+
+# Arguments
+- `email`: The email under which the entity exists.
+- `organization_id`: The identifier for the organization under which the entity exists.
+
+"""
+function describe_entity(
+    Email, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "DescribeEntity",
+        Dict{String,Any}("Email" => Email, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_entity(
+    Email,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "DescribeEntity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Email" => Email, "OrganizationId" => OrganizationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_group(group_id, organization_id)
     describe_group(group_id, organization_id, params::Dict{String,<:Any})
 
 Returns the data available for the group.
 
 # Arguments
-- `group_id`: The identifier for the group to be described.
+- `group_id`: The identifier for the group to be described. The identifier can accept
+  GroupId, Groupname, or email. The following identity formats are available:   Group ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: group@domain.tld   Group name: group
 - `organization_id`: The identifier for the organization under which the group exists.
 
 """
@@ -1543,7 +1629,10 @@ Returns the data available for the resource.
 # Arguments
 - `organization_id`: The identifier associated with the organization for which the resource
   is described.
-- `resource_id`: The identifier of the resource to be described.
+- `resource_id`: The identifier of the resource to be described. The identifier can accept
+  ResourceId, Resourcename, or email. The following identity formats are available:
+  Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld
+  Resource name: resource
 
 """
 function describe_resource(
@@ -1586,7 +1675,10 @@ Provides information regarding the user.
 
 # Arguments
 - `organization_id`: The identifier for the organization under which the user exists.
-- `user_id`: The identifier for the user to be described.
+- `user_id`: The identifier for the user to be described. The identifier can be the UserId,
+  Username, or email. The following identity formats are available:   User ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: user@domain.tld   User name: user
 
 """
 function describe_user(
@@ -1627,10 +1719,15 @@ Removes a member from the resource's set of delegates.
 
 # Arguments
 - `entity_id`: The identifier for the member (user, group) to be removed from the
-  resource's delegates.
+  resource's delegates. The entity ID can accept UserId or GroupID, Username or Groupname, or
+  email.   Entity: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity:
+  entity
 - `organization_id`: The identifier for the organization under which the resource exists.
 - `resource_id`: The identifier of the resource from which delegates' set members are
-  removed.
+  removed.  The identifier can accept ResourceId, Resourcename, or email. The following
+  identity formats are available:   Resource ID: r-0123456789a0123456789b0123456789   Email
+  address: resource@domain.tld   Resource name: resource
 
 """
 function disassociate_delegate_from_resource(
@@ -1679,8 +1776,15 @@ end
 Removes a member from a group.
 
 # Arguments
-- `group_id`: The identifier for the group from which members are removed.
-- `member_id`: The identifier for the member to be removed to the group.
+- `group_id`: The identifier for the group from which members are removed. The identifier
+  can accept GroupId, Groupname, or email. The following identity formats are available:
+  Group ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group
+  name: group
+- `member_id`: The identifier for the member to be removed from the group. The member ID
+  can accept UserID or GroupId, Username or Groupname, or email.   Member ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: member@domain.tld   Member name: member
 - `organization_id`: The identifier for the organization under which the group exists.
 
 """
@@ -1970,7 +2074,11 @@ Requests a user's mailbox details for a specified organization and user.
 # Arguments
 - `organization_id`: The identifier for the organization that contains the user whose
   mailbox details are being requested.
-- `user_id`: The identifier for the user whose mailbox details are being requested.
+- `user_id`: The identifier for the user whose mailbox details are being requested. The
+  identifier can be the UserId, Username, or email. The following identity formats are
+  available:   User ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name:
+  user
 
 """
 function get_mailbox_details(
@@ -2232,7 +2340,10 @@ Returns an overview of the members of a group. Users and groups can be members o
 
 # Arguments
 - `group_id`: The identifier for the group to which the members (users or groups) are
-  associated.
+  associated. The identifier can accept GroupId, Groupname, or email. The following identity
+  formats are available:   Group ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: group@domain.tld   Group
+  name: group
 - `organization_id`: The identifier for the organization under which the group exists.
 
 # Optional Parameters
@@ -2282,6 +2393,8 @@ Returns summaries of the organization's groups.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Limit the search results based on the filter criteria. Only one filter per
+  request is supported.
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
@@ -2303,6 +2416,58 @@ function list_groups(
         "ListGroups",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("OrganizationId" => OrganizationId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_groups_for_entity(entity_id, organization_id)
+    list_groups_for_entity(entity_id, organization_id, params::Dict{String,<:Any})
+
+Returns all the groups to which an entity belongs.
+
+# Arguments
+- `entity_id`: The identifier for the entity. The entity ID can accept UserId or GroupID,
+  Username or Groupname, or email.   Entity ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity
+  name: entity
+- `organization_id`: The identifier for the organization under which the entity exists.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Limit the search results based on the filter criteria.
+- `"MaxResults"`: The maximum number of results to return in a single call.
+- `"NextToken"`: The token to use to retrieve the next page of results. The first call does
+  not contain any tokens.
+"""
+function list_groups_for_entity(
+    EntityId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "ListGroupsForEntity",
+        Dict{String,Any}("EntityId" => EntityId, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_groups_for_entity(
+    EntityId,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "ListGroupsForEntity",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "EntityId" => EntityId, "OrganizationId" => OrganizationId
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2437,8 +2602,11 @@ end
 Lists the mailbox permissions associated with a user, group, or resource mailbox.
 
 # Arguments
-- `entity_id`: The identifier of the user, group, or resource for which to list mailbox
-  permissions.
+- `entity_id`: The identifier of the user, or resource for which to list mailbox
+  permissions. The entity ID can accept UserId or ResourceId, Username or Resourcename, or
+  email.   Entity ID: 12345678-1234-1234-1234-123456789012, or
+  r-0123456789a0123456789b0123456789   Email address: entity@domain.tld   Entity name: entity
+  
 - `organization_id`: The identifier of the organization under which the user, group, or
   resource exists.
 
@@ -2597,7 +2765,10 @@ and answer requests on behalf of the resource.
 # Arguments
 - `organization_id`: The identifier for the organization that contains the resource for
   which delegates are listed.
-- `resource_id`: The identifier for the resource whose delegates are listed.
+- `resource_id`: The identifier for the resource whose delegates are listed. The identifier
+  can accept ResourceId, Resourcename, or email. The following identity formats are
+  available:   Resource ID: r-0123456789a0123456789b0123456789   Email address:
+  resource@domain.tld   Resource name: resource
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2648,6 +2819,8 @@ Returns summaries of the organization's resources.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Limit the resource search results based on the filter criteria. You can only
+  use one filter per request.
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
@@ -2721,6 +2894,8 @@ Returns summaries of the organization's users.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: Limit the user search results based on the filter criteria. You can only use
+  one filter per request.
 - `"MaxResults"`: The maximum number of results to return in a single call.
 - `"NextToken"`: The token to use to retrieve the next page of results. The first call does
   not contain any tokens.
@@ -2926,10 +3101,16 @@ end
 Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
 
 # Arguments
-- `entity_id`: The identifier of the user, group, or resource for which to update mailbox
-  permissions.
+- `entity_id`: The identifier of the user or resource for which to update mailbox
+  permissions. The identifier can be UserId, ResourceID, or Group Id, Username, Resourcename,
+  or Groupname, or email.   Entity ID: 12345678-1234-1234-1234-123456789012,
+  r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email
+  address: entity@domain.tld   Entity name: entity
 - `grantee_id`: The identifier of the user, group, or resource to which to grant the
-  permissions.
+  permissions. The identifier can be UserId, ResourceID, or Group Id, Username, Resourcename,
+  or Groupname, or email.   Grantee ID: 12345678-1234-1234-1234-123456789012,
+  r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email
+  address: grantee@domain.tld   Grantee name: grantee
 - `organization_id`: The identifier of the organization under which the user, group, or
   resource exists.
 - `permission_values`: The permissions granted to the grantee. SEND_AS allows the grantee
@@ -3180,7 +3361,11 @@ information, see DeregisterFromWorkMail.
 
 # Arguments
 - `email`: The email for the user, group, or resource to be updated.
-- `entity_id`: The identifier for the user, group, or resource to be updated.
+- `entity_id`: The identifier for the user, group, or resource to be updated. The
+  identifier can accept UserId, ResourceId, or GroupId, or Username, Resourcename, or
+  Groupname. The following identity formats are available:   Entity ID:
+  12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or
+  S-1-1-12-1234567890-123456789-123456789-1234   Entity name: entity
 - `organization_id`: The identifier for the organization under which the user, group, or
   resource exists.
 
@@ -3282,7 +3467,12 @@ For more information, see Exporting mailbox content in the WorkMail Administrato
 
 # Arguments
 - `client_token`: The idempotency token for the client request.
-- `entity_id`: The identifier of the user or resource associated with the mailbox.
+- `entity_id`: The identifier of the user or resource associated with the mailbox. The
+  identifier can accept UserId or ResourceId, Username or Resourcename, or email. The
+  following identity formats are available:   Entity ID:
+  12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789 , or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: entity@domain.tld   Entity
+  name: entity
 - `kms_key_arn`: The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service
   (AWS KMS) key that encrypts the exported mailbox content.
 - `organization_id`: The identifier associated with the organization.
@@ -3580,6 +3770,54 @@ function update_default_mail_domain(
 end
 
 """
+    update_group(group_id, organization_id)
+    update_group(group_id, organization_id, params::Dict{String,<:Any})
+
+Updates attibutes in a group.
+
+# Arguments
+- `group_id`: The identifier for the group to be updated. The identifier can accept
+  GroupId, Groupname, or email. The following identity formats are available:   Group ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: group@domain.tld   Group name: group
+- `organization_id`: The identifier for the organization under which the group exists.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"HiddenFromGlobalAddressList"`: If enabled, the group is hidden from the global address
+  list.
+"""
+function update_group(
+    GroupId, OrganizationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "UpdateGroup",
+        Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_group(
+    GroupId,
+    OrganizationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "UpdateGroup",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("GroupId" => GroupId, "OrganizationId" => OrganizationId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_impersonation_role(impersonation_role_id, name, organization_id, rules, type)
     update_impersonation_role(impersonation_role_id, name, organization_id, rules, type, params::Dict{String,<:Any})
 
@@ -3657,7 +3895,11 @@ Updates a user's current mailbox quota for a specified organization and user.
 - `mailbox_quota`: The updated mailbox quota, in MB, for the specified user.
 - `organization_id`: The identifier for the organization that contains the user for whom to
   update the mailbox quota.
-- `user_id`: The identifer for the user for whom to update the mailbox quota.
+- `user_id`: The identifer for the user for whom to update the mailbox quota. The
+  identifier can be the UserId, Username, or email. The following identity formats are
+  available:   User ID: 12345678-1234-1234-1234-123456789012 or
+  S-1-1-12-1234567890-123456789-123456789-1234   Email address: user@domain.tld   User name:
+  user
 
 """
 function update_mailbox_quota(
@@ -3783,7 +4025,11 @@ and the email provided in the input is promoted as the primary.
 
 # Arguments
 - `email`: The value of the email to be updated as primary.
-- `entity_id`: The user, group, or resource to update.
+- `entity_id`: The user, group, or resource to update. The identifier can accept UseriD,
+  ResourceId, or GroupId, Username, Resourcename, or Groupname, or email. The following
+  identity formats are available:   Entity ID: 12345678-1234-1234-1234-123456789012,
+  r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234   Email
+  address: entity@domain.tld   Entity name: entity
 - `organization_id`: The organization that contains the user, group, or resource to update.
 
 """
@@ -3835,12 +4081,19 @@ performing another DescribeResource call.
 # Arguments
 - `organization_id`: The identifier associated with the organization for which the resource
   is updated.
-- `resource_id`: The identifier of the resource to be updated.
+- `resource_id`: The identifier of the resource to be updated. The identifier can accept
+  ResourceId, Resourcename, or email. The following identity formats are available:
+  Resource ID: r-0123456789a0123456789b0123456789   Email address: resource@domain.tld
+  Resource name: resource
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"BookingOptions"`: The resource's booking options to be updated.
+- `"Description"`: Updates the resource description.
+- `"HiddenFromGlobalAddressList"`: If enabled, the resource is hidden from the global
+  address list.
 - `"Name"`: The name of the resource to be updated.
+- `"Type"`: Updates the resource type.
 """
 function update_resource(
     OrganizationId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3866,6 +4119,70 @@ function update_resource(
                 Dict{String,Any}(
                     "OrganizationId" => OrganizationId, "ResourceId" => ResourceId
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_user(organization_id, user_id)
+    update_user(organization_id, user_id, params::Dict{String,<:Any})
+
+Updates data for the user. To have the latest information, it must be preceded by a
+DescribeUser call. The dataset in the request should be the one expected when performing
+another DescribeUser call.
+
+# Arguments
+- `organization_id`: The identifier for the organization under which the user exists.
+- `user_id`: The identifier for the user to be updated. The identifier can be the UserId,
+  Username, or email. The following identity formats are available:   User ID:
+  12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+  Email address: user@domain.tld   User name: user
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"City"`: Updates the user's city.
+- `"Company"`: Updates the user's company.
+- `"Country"`: Updates the user's country.
+- `"Department"`: Updates the user's department.
+- `"DisplayName"`: Updates the display name of the user.
+- `"FirstName"`: Updates the user's first name.
+- `"HiddenFromGlobalAddressList"`: If enabled, the user is hidden from the global address
+  list.
+- `"Initials"`: Updates the user's initials.
+- `"JobTitle"`: Updates the user's job title.
+- `"LastName"`: Updates the user's last name.
+- `"Office"`: Updates the user's office.
+- `"Role"`: Updates the user role. You cannot pass SYSTEM_USER or RESOURCE.
+- `"Street"`: Updates the user's street address.
+- `"Telephone"`: Updates the user's contact details.
+- `"ZipCode"`: Updates the user's zipcode.
+"""
+function update_user(
+    OrganizationId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workmail(
+        "UpdateUser",
+        Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_user(
+    OrganizationId,
+    UserId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workmail(
+        "UpdateUser",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OrganizationId" => OrganizationId, "UserId" => UserId),
                 params,
             ),
         );

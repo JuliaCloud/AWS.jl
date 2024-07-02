@@ -5,6 +5,57 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_get_incident_findings(finding_ids, incident_record_arn)
+    batch_get_incident_findings(finding_ids, incident_record_arn, params::Dict{String,<:Any})
+
+Retrieves details about all specified findings for an incident, including descriptive
+details about each finding. A finding represents a recent application environment change
+made by an CodeDeploy deployment or an CloudFormation stack creation or update that can be
+investigated as a potential cause of the incident.
+
+# Arguments
+- `finding_ids`: A list of IDs of findings for which you want to view details.
+- `incident_record_arn`: The Amazon Resource Name (ARN) of the incident for which you want
+  to view finding details.
+
+"""
+function batch_get_incident_findings(
+    findingIds, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/batchGetIncidentFindings",
+        Dict{String,Any}(
+            "findingIds" => findingIds, "incidentRecordArn" => incidentRecordArn
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_get_incident_findings(
+    findingIds,
+    incidentRecordArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/batchGetIncidentFindings",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "findingIds" => findingIds, "incidentRecordArn" => incidentRecordArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_replication_set(regions)
     create_replication_set(regions, params::Dict{String,<:Any})
 
@@ -124,8 +175,11 @@ Manager can detect automatically.
 
 # Arguments
 - `event_data`: A short description of the event.
-- `event_time`: The time that the event occurred.
-- `event_type`: The type of event. You can create timeline events of type Custom Event.
+- `event_time`: The timestamp for when the event occurred.
+- `event_type`: The type of event. You can create timeline events of type Custom Event and
+  Note. To make a Note-type event appear on the Incident notes panel in the console, specify
+  eventType as Noteand enter the Amazon Resource Name (ARN) of the incident as the value for
+  eventReference.
 - `incident_record_arn`: The Amazon Resource Name (ARN) of the incident record that the
   action adds the incident to.
 
@@ -453,7 +507,8 @@ Retrieves the resource policies attached to the specified response plan.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of resource policies to display for each page of
   results.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+- `"nextToken"`: The pagination token for the next set of items to return. (You received
+  this token from a previous call.)
 """
 function get_resource_policies(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -561,6 +616,54 @@ function get_timeline_event(
 end
 
 """
+    list_incident_findings(incident_record_arn)
+    list_incident_findings(incident_record_arn, params::Dict{String,<:Any})
+
+Retrieves a list of the IDs of findings, plus their last modified times, that have been
+identified for a specified incident. A finding represents a recent application environment
+change made by an CloudFormation stack creation or update or an CodeDeploy deployment that
+can be investigated as a potential cause of the incident.
+
+# Arguments
+- `incident_record_arn`: The Amazon Resource Name (ARN) of the incident for which you want
+  to view associated findings.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of findings to retrieve per call.
+- `"nextToken"`: The pagination token for the next set of items to return. (You received
+  this token from a previous call.)
+"""
+function list_incident_findings(
+    incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ssm_incidents(
+        "POST",
+        "/listIncidentFindings",
+        Dict{String,Any}("incidentRecordArn" => incidentRecordArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_incident_findings(
+    incidentRecordArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ssm_incidents(
+        "POST",
+        "/listIncidentFindings",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("incidentRecordArn" => incidentRecordArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_incident_records()
     list_incident_records(params::Dict{String,<:Any})
 
@@ -577,7 +680,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with more than one value, the response returns incident records that match any of the
   values provided.
 - `"maxResults"`: The maximum number of results per page.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+- `"nextToken"`: The pagination token for the next set of items to return. (You received
+  this token from a previous call.)
 """
 function list_incident_records(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_incidents(
@@ -612,7 +716,8 @@ List all related items for an incident record.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of related items per page.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+- `"nextToken"`: The pagination token for the next set of items to return. (You received
+  this token from a previous call.)
 """
 function list_related_items(
     incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -652,7 +757,8 @@ Lists details about the replication set configured in your account.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of results per page.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+- `"nextToken"`: The pagination token for the next set of items to return. (You received
+  this token from a previous call.)
 """
 function list_replication_sets(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_incidents(
@@ -683,7 +789,8 @@ Lists all response plans in your account.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum number of response plans per page.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+- `"nextToken"`: The pagination token for the next set of items to return. (You received
+  this token from a previous call.)
 """
 function list_response_plans(; aws_config::AbstractAWSConfig=global_aws_config())
     return ssm_incidents(
@@ -706,10 +813,10 @@ end
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
-Lists the tags that are attached to the specified response plan.
+Lists the tags that are attached to the specified response plan or incident.
 
 # Arguments
-- `resource_arn`: The Amazon Resource Name (ARN) of the response plan.
+- `resource_arn`: The Amazon Resource Name (ARN) of the response plan or incident.
 
 """
 function list_tags_for_resource(
@@ -749,14 +856,15 @@ Lists timeline events for the specified incident record.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filters"`: Filters the timeline events based on the provided conditional values. You
-  can filter timeline events with the following keys:    eventTime     eventType    Note the
-  following when deciding how to use Filters:   If you don't specify a Filter, the response
-  includes all timeline events.   If you specify more than one filter in a single request,
-  the response returns timeline events that match all filters.   If you specify a filter with
-  more than one value, the response returns timeline events that match any of the values
-  provided.
+  can filter timeline events with the following keys:    eventReference     eventTime
+  eventType    Note the following when deciding how to use Filters:   If you don't specify a
+  Filter, the response includes all timeline events.   If you specify more than one filter in
+  a single request, the response returns timeline events that match all filters.   If you
+  specify a filter with more than one value, the response returns timeline events that match
+  any of the values provided.
 - `"maxResults"`: The maximum number of results per page.
-- `"nextToken"`: The pagination token to continue to the next page of results.
+- `"nextToken"`: The pagination token for the next set of items to return. (You received
+  this token from a previous call.)
 - `"sortBy"`: Sort timeline events by the specified key value pair.
 - `"sortOrder"`: Sorts the order of timeline events by the value specified in the sortBy
   field.
@@ -851,12 +959,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A token ensuring that the operation is called only once with the
   specified details.
 - `"impact"`: Defines the impact to the customers. Providing an impact overwrites the
-  impact provided by a response plan.  Possible impacts:     1 - Critical impact, this
-  typically relates to full application failure that impacts many to all customers.     2 -
-  High impact, partial application failure with impact to many customers.    3 - Medium
-  impact, the application is providing reduced service to customers.    4 - Low impact,
-  customer might aren't impacted by the problem yet.    5 - No impact, customers aren't
-  currently impacted but urgent action is needed to avoid impact.
+  impact provided by a response plan.  Supported impact codes     1 - Critical    2 - High
+  3 - Medium    4 - Low    5 - No Impact
 - `"relatedItems"`: Add related items to the incident for other responders to use. Related
   items are Amazon Web Services resources, external links, or files uploaded to an Amazon S3
   bucket.
@@ -1046,11 +1150,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the specified details.
 - `"impact"`: Defines the impact of the incident to customers and applications. If you
   provide an impact for an incident, it overwrites the impact provided by the response plan.
-  Possible impacts:     1 - Critical impact, full application failure that impacts many to
-  all customers.     2 - High impact, partial application failure with impact to many
-  customers.    3 - Medium impact, the application is providing reduced service to customers.
-     4 - Low impact, customer aren't impacted by the problem yet.    5 - No impact, customers
-  aren't currently impacted but urgent action is needed to avoid impact.
+  Supported impact codes     1 - Critical    2 - High    3 - Medium    4 - Low    5 - No
+  Impact
 - `"notificationTargets"`: The Amazon SNS targets that Incident Manager notifies when a
   client updates an incident. Using multiple SNS topics creates redundancy in the event that
   a Region is down during the incident.
@@ -1216,8 +1317,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"incidentTemplateDedupeString"`: The string Incident Manager uses to prevent duplicate
   incidents from being created by the same incident in the same account.
 - `"incidentTemplateImpact"`: Defines the impact to the customers. Providing an impact
-  overwrites the impact provided by a response plan.  Possible impacts:     5 - Severe impact
-     4 - High impact    3 - Medium impact    2 - Low impact    1 - No impact
+  overwrites the impact provided by a response plan.  Supported impact codes     1 - Critical
+     2 - High    3 - Medium    4 - Low    5 - No Impact
 - `"incidentTemplateNotificationTargets"`: The Amazon SNS targets that are notified when
   updates are made to an incident.
 - `"incidentTemplateSummary"`: A brief summary of the incident. This typically contains
@@ -1283,8 +1384,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with the DynamoDB table as a related item.  This update action overrides all existing
   references. If you want to keep existing references, you must specify them in the call. If
   you don't, this action removes any existing references and enters only new references.
-- `"eventTime"`: The time that the event occurred.
-- `"eventType"`: The type of event. You can update events of type Custom Event.
+- `"eventTime"`: The timestamp for when the event occurred.
+- `"eventType"`: The type of event. You can update events of type Custom Event and Note.
 """
 function update_timeline_event(
     eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()

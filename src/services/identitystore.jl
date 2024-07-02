@@ -17,8 +17,8 @@ Creates a group within the specified identity store.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A string containing the description of the group.
 - `"DisplayName"`: A string containing the name of the group. This value is commonly
-  displayed when the group is referenced. \"Administrator\" and \"AWSAdministrators\" are
-  reserved names and can't be used for users or groups.
+  displayed when the group is referenced. Administrator and AWSAdministrators are reserved
+  names and can't be used for users or groups.
 """
 function create_group(IdentityStoreId; aws_config::AbstractAWSConfig=global_aws_config())
     return identitystore(
@@ -128,8 +128,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserName"`: A unique string used to identify the user. The length limit is 128
   characters. This value can consist of letters, accented characters, symbols, numbers, and
   punctuation. This value is specified at the time the user is created and stored as an
-  attribute of the user object in the identity store. \"Administrator\" and
-  \"AWSAdministrators\" are reserved names and can't be used for users or groups.
+  attribute of the user object in the identity store. Administrator and AWSAdministrators are
+  reserved names and can't be used for users or groups.
 - `"UserType"`: A string indicating the type of user. Possible values are left unspecified.
   The value can vary based on your specific use case.
 """
@@ -291,7 +291,9 @@ end
     describe_group(group_id, identity_store_id)
     describe_group(group_id, identity_store_id, params::Dict{String,<:Any})
 
-Retrieves the group metadata and attributes from GroupId in an identity store.
+Retrieves the group metadata and attributes from GroupId in an identity store.  If you have
+administrator access to a member account, you can use this API from the member account.
+Read about member accounts in the Organizations User Guide.
 
 # Arguments
 - `group_id`: The identifier for a group in the identity store.
@@ -337,7 +339,9 @@ end
     describe_group_membership(identity_store_id, membership_id)
     describe_group_membership(identity_store_id, membership_id, params::Dict{String,<:Any})
 
-Retrieves membership metadata and attributes from MembershipId in an identity store.
+Retrieves membership metadata and attributes from MembershipId in an identity store.  If
+you have administrator access to a member account, you can use this API from the member
+account. Read about member accounts in the Organizations User Guide.
 
 # Arguments
 - `identity_store_id`: The globally unique identifier for the identity store.
@@ -382,7 +386,9 @@ end
     describe_user(identity_store_id, user_id)
     describe_user(identity_store_id, user_id, params::Dict{String,<:Any})
 
-Retrieves the user metadata and attributes from the UserId in an identity store.
+Retrieves the user metadata and attributes from the UserId in an identity store.  If you
+have administrator access to a member account, you can use this API from the member
+account. Read about member accounts in the Organizations User Guide.
 
 # Arguments
 - `identity_store_id`: The globally unique identifier for the identity store, such as
@@ -426,7 +432,9 @@ end
     get_group_id(alternate_identifier, identity_store_id)
     get_group_id(alternate_identifier, identity_store_id, params::Dict{String,<:Any})
 
-Retrieves GroupId in an identity store.
+Retrieves GroupId in an identity store.  If you have administrator access to a member
+account, you can use this API from the member account. Read about member accounts in the
+Organizations User Guide.
 
 # Arguments
 - `alternate_identifier`: A unique identifier for a user or group that is not the primary
@@ -476,7 +484,9 @@ end
     get_group_membership_id(group_id, identity_store_id, member_id)
     get_group_membership_id(group_id, identity_store_id, member_id, params::Dict{String,<:Any})
 
-Retrieves the MembershipId in an identity store.
+Retrieves the MembershipId in an identity store.  If you have administrator access to a
+member account, you can use this API from the member account. Read about member accounts in
+the Organizations User Guide.
 
 # Arguments
 - `group_id`: The identifier for a group in the identity store.
@@ -529,7 +539,9 @@ end
     get_user_id(alternate_identifier, identity_store_id)
     get_user_id(alternate_identifier, identity_store_id, params::Dict{String,<:Any})
 
-Retrieves the UserId in an identity store.
+Retrieves the UserId in an identity store.  If you have administrator access to a member
+account, you can use this API from the member account. Read about member accounts in the
+Organizations User Guide.
 
 # Arguments
 - `alternate_identifier`: A unique identifier for a user or group that is not the primary
@@ -580,7 +592,8 @@ end
     is_member_in_groups(group_ids, identity_store_id, member_id, params::Dict{String,<:Any})
 
 Checks the user's membership in all requested groups and returns if the member exists in
-all queried groups.
+all queried groups.  If you have administrator access to a member account, you can use this
+API from the member account. Read about member accounts in the Organizations User Guide.
 
 # Arguments
 - `group_ids`: A list of identifiers for groups in the identity store.
@@ -632,7 +645,9 @@ end
     list_group_memberships(group_id, identity_store_id, params::Dict{String,<:Any})
 
 For the specified group in the specified identity store, returns the list of all
-GroupMembership objects and returns results in paginated form.
+GroupMembership objects and returns results in paginated form.  If you have administrator
+access to a member account, you can use this API from the member account. Read about member
+accounts in the Organizations User Guide.
 
 # Arguments
 - `group_id`: The identifier for a group in the identity store.
@@ -684,7 +699,9 @@ end
     list_group_memberships_for_member(identity_store_id, member_id, params::Dict{String,<:Any})
 
 For the specified member in the specified identity store, returns the list of all
-GroupMembership objects and returns results in paginated form.
+GroupMembership objects and returns results in paginated form.  If you have administrator
+access to a member account, you can use this API from the member account. Read about member
+accounts in the Organizations User Guide.
 
 # Arguments
 - `identity_store_id`: The globally unique identifier for the identity store.
@@ -740,7 +757,9 @@ end
 
 Lists all groups in the identity store. Returns a paginated list of complete Group objects.
 Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the
-GetGroupId API action.
+GetGroupId API action.  If you have administrator access to a member account, you can use
+this API from the member account. Read about member accounts in the Organizations User
+Guide.
 
 # Arguments
 - `identity_store_id`: The globally unique identifier for the identity store, such as
@@ -791,7 +810,8 @@ end
 
 Lists all users in the identity store. Returns a paginated list of complete User objects.
 Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId
-API action.
+API action.  If you have administrator access to a member account, you can use this API
+from the member account. Read about member accounts in the Organizations User Guide.
 
 # Arguments
 - `identity_store_id`: The globally unique identifier for the identity store, such as

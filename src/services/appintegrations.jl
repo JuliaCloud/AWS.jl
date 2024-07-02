@@ -5,8 +5,80 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_data_integration(kms_key, name, schedule_config, source_uri)
-    create_data_integration(kms_key, name, schedule_config, source_uri, params::Dict{String,<:Any})
+    create_application(application_source_config, name, namespace)
+    create_application(application_source_config, name, namespace, params::Dict{String,<:Any})
+
+This API is in preview release and subject to change. Creates and persists an Application
+resource.
+
+# Arguments
+- `application_source_config`: The configuration for where the application should be loaded
+  from.
+- `name`: The name of the application.
+- `namespace`: The namespace of the application.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. If not provided, the Amazon Web Services SDK populates this
+  field. For more information about idempotency, see Making retries safe with idempotent APIs.
+- `"Description"`: The description of the application.
+- `"Permissions"`: The configuration of events or requests that the application has access
+  to.
+- `"Publications"`: The events that the application publishes.
+- `"Subscriptions"`: The events that the application subscribes.
+- `"Tags"`: The tags used to organize, track, or control access for this resource. For
+  example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
+"""
+function create_application(
+    ApplicationSourceConfig,
+    Name,
+    Namespace;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appintegrations(
+        "POST",
+        "/applications",
+        Dict{String,Any}(
+            "ApplicationSourceConfig" => ApplicationSourceConfig,
+            "Name" => Name,
+            "Namespace" => Namespace,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_application(
+    ApplicationSourceConfig,
+    Name,
+    Namespace,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appintegrations(
+        "POST",
+        "/applications",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationSourceConfig" => ApplicationSourceConfig,
+                    "Name" => Name,
+                    "Namespace" => Namespace,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_data_integration(kms_key, name, source_uri)
+    create_data_integration(kms_key, name, source_uri, params::Dict{String,<:Any})
 
 Creates and persists a DataIntegration resource.  You cannot create a DataIntegration
 association for a DataIntegration that has been previously associated. Use a different
@@ -15,7 +87,6 @@ DataIntegration, or recreate the DataIntegration using the CreateDataIntegration
 # Arguments
 - `kms_key`: The KMS key for the DataIntegration.
 - `name`: The name of the DataIntegration.
-- `schedule_config`: The name of the data and how often it should be pulled from the source.
 - `source_uri`: The URI of the data source.
 
 # Optional Parameters
@@ -26,15 +97,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the DataIntegration.
 - `"FileConfiguration"`: The configuration for what files should be pulled from the source.
 - `"ObjectConfiguration"`: The configuration for what data should be pulled from the source.
+- `"ScheduleConfig"`: The name of the data and how often it should be pulled from the
+  source.
 - `"Tags"`: The tags used to organize, track, or control access for this resource. For
   example, { \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_data_integration(
-    KmsKey,
-    Name,
-    ScheduleConfig,
-    SourceURI;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    KmsKey, Name, SourceURI; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appintegrations(
         "POST",
@@ -42,7 +111,6 @@ function create_data_integration(
         Dict{String,Any}(
             "KmsKey" => KmsKey,
             "Name" => Name,
-            "ScheduleConfig" => ScheduleConfig,
             "SourceURI" => SourceURI,
             "ClientToken" => string(uuid4()),
         );
@@ -53,7 +121,6 @@ end
 function create_data_integration(
     KmsKey,
     Name,
-    ScheduleConfig,
     SourceURI,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -67,7 +134,6 @@ function create_data_integration(
                 Dict{String,Any}(
                     "KmsKey" => KmsKey,
                     "Name" => Name,
-                    "ScheduleConfig" => ScheduleConfig,
                     "SourceURI" => SourceURI,
                     "ClientToken" => string(uuid4()),
                 ),
@@ -146,6 +212,41 @@ function create_event_integration(
 end
 
 """
+    delete_application(application_identifier)
+    delete_application(application_identifier, params::Dict{String,<:Any})
+
+Deletes the Application. Only Applications that don't have any Application Associations can
+be deleted.
+
+# Arguments
+- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
+
+"""
+function delete_application(
+    ApplicationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appintegrations(
+        "DELETE",
+        "/applications/$(ApplicationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_application(
+    ApplicationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appintegrations(
+        "DELETE",
+        "/applications/$(ApplicationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_data_integration(identifier)
     delete_data_integration(identifier, params::Dict{String,<:Any})
 
@@ -216,6 +317,40 @@ function delete_event_integration(
 end
 
 """
+    get_application(application_identifier)
+    get_application(application_identifier, params::Dict{String,<:Any})
+
+This API is in preview release and subject to change. Get an Application resource.
+
+# Arguments
+- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
+
+"""
+function get_application(
+    ApplicationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appintegrations(
+        "GET",
+        "/applications/$(ApplicationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_application(
+    ApplicationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appintegrations(
+        "GET",
+        "/applications/$(ApplicationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_data_integration(identifier)
     get_data_integration(identifier, params::Dict{String,<:Any})
 
@@ -273,6 +408,74 @@ function get_event_integration(
     return appintegrations(
         "GET",
         "/eventIntegrations/$(Name)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_application_associations(application_identifier)
+    list_application_associations(application_identifier, params::Dict{String,<:Any})
+
+Returns a paginated list of application associations for an application.
+
+# Arguments
+- `application_identifier`: A unique identifier for the Application.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_application_associations(
+    ApplicationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appintegrations(
+        "GET",
+        "/applications/$(ApplicationIdentifier)/associations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_application_associations(
+    ApplicationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appintegrations(
+        "GET",
+        "/applications/$(ApplicationIdentifier)/associations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_applications()
+    list_applications(params::Dict{String,<:Any})
+
+This API is in preview release and subject to change. Lists applications in the account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appintegrations(
+        "GET", "/applications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appintegrations(
+        "GET",
+        "/applications",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -527,6 +730,51 @@ function untag_resource(
 end
 
 """
+    update_application(application_identifier)
+    update_application(application_identifier, params::Dict{String,<:Any})
+
+This API is in preview release and subject to change. Updates and persists an Application
+resource.
+
+# Arguments
+- `application_identifier`: The Amazon Resource Name (ARN) of the Application.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationSourceConfig"`: The configuration for where the application should be loaded
+  from.
+- `"Description"`: The description of the application.
+- `"Name"`: The name of the application.
+- `"Permissions"`: The configuration of events or requests that the application has access
+  to.
+- `"Publications"`: The events that the application publishes.
+- `"Subscriptions"`: The events that the application subscribes.
+"""
+function update_application(
+    ApplicationIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appintegrations(
+        "PATCH",
+        "/applications/$(ApplicationIdentifier)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_application(
+    ApplicationIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appintegrations(
+        "PATCH",
+        "/applications/$(ApplicationIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_data_integration(identifier)
     update_data_integration(identifier, params::Dict{String,<:Any})
 
@@ -577,7 +825,7 @@ Updates the description of an event integration.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Description"`: The description of the event inegration.
+- `"Description"`: The description of the event integration.
 """
 function update_event_integration(Name; aws_config::AbstractAWSConfig=global_aws_config())
     return appintegrations(

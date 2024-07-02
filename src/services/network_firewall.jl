@@ -314,6 +314,10 @@ specification in your request using either RuleGroup or Rules.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyzeRuleGroup"`: Indicates whether you want Network Firewall to analyze the
+  stateless rules in the rule group for rule behavior such as asymmetric routing. If set to
+  TRUE, Network Firewall runs the analysis and then creates the rule group for you. To run
+  the stateless rule group analyzer without creating the rule group, set DryRun to TRUE.
 - `"Description"`: A description of the rule group.
 - `"DryRun"`: Indicates whether you want Network Firewall to just check the validity of the
   request, rather than run the request.  If set to TRUE, Network Firewall checks whether the
@@ -378,16 +382,16 @@ end
     create_tlsinspection_configuration(tlsinspection_configuration, tlsinspection_configuration_name, params::Dict{String,<:Any})
 
 Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration
-contains the Certificate Manager certificate references that Network Firewall uses to
-decrypt and re-encrypt inbound traffic. After you create a TLS inspection configuration,
-you associate it with a firewall policy. To update the settings for a TLS inspection
-configuration, use UpdateTLSInspectionConfiguration. To manage a TLS inspection
-configuration's tags, use the standard Amazon Web Services resource tagging operations,
-ListTagsForResource, TagResource, and UntagResource. To retrieve information about TLS
-inspection configurations, use ListTLSInspectionConfigurations and
-DescribeTLSInspectionConfiguration.  For more information about TLS inspection
-configurations, see Decrypting SSL/TLS traffic with TLS inspection configurations in the
-Network Firewall Developer Guide.
+contains Certificate Manager certificate associations between and the scope configurations
+that Network Firewall uses to decrypt and re-encrypt traffic traveling through your
+firewall. After you create a TLS inspection configuration, you can associate it with a new
+firewall policy. To update the settings for a TLS inspection configuration, use
+UpdateTLSInspectionConfiguration. To manage a TLS inspection configuration's tags, use the
+standard Amazon Web Services resource tagging operations, ListTagsForResource, TagResource,
+and UntagResource. To retrieve information about TLS inspection configurations, use
+ListTLSInspectionConfigurations and DescribeTLSInspectionConfiguration.  For more
+information about TLS inspection configurations, see Inspecting SSL/TLS traffic with TLS
+inspection configurations in the Network Firewall Developer Guide.
 
 # Arguments
 - `tlsinspection_configuration`: The object that defines a TLS inspection configuration.
@@ -395,13 +399,13 @@ Network Firewall Developer Guide.
   configuration. You can retrieve all objects for a TLS inspection configuration by calling
   DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration
   to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its
-  destination. To use a TLS inspection configuration, you add it to a Network Firewall
+  destination. To use a TLS inspection configuration, you add it to a new Network Firewall
   firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as
-  a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection
-  configuration from more than one firewall policy, and you can use a firewall policy in more
-  than one firewall. For more information about using TLS inspection configurations, see
-  Decrypting SSL/TLS traffic with TLS inspection configurations in the Network Firewall
-  Developer Guide.
+  a proxy service to decrypt and inspect the traffic traveling through your firewalls. You
+  can reference a TLS inspection configuration from more than one firewall policy, and you
+  can use a firewall policy in more than one firewall. For more information about using TLS
+  inspection configurations, see Inspecting SSL/TLS traffic with TLS inspection
+  configurations in the Network Firewall Developer Guide.
 - `tlsinspection_configuration_name`: The descriptive name of the TLS inspection
   configuration. You can't change the name of a TLS inspection configuration after you create
   it.
@@ -748,6 +752,9 @@ Returns the data objects for the specified rule group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyzeRuleGroup"`: Indicates whether you want Network Firewall to analyze the
+  stateless rules in the rule group for rule behavior such as asymmetric routing. If set to
+  TRUE, Network Firewall runs the analysis.
 - `"RuleGroupArn"`: The Amazon Resource Name (ARN) of the rule group. You must specify the
   ARN or the name, and you can specify both.
 - `"RuleGroupName"`: The descriptive name of the rule group. You can't change the name of a
@@ -1393,7 +1400,9 @@ end
 Updates the properties of the specified firewall policy.
 
 # Arguments
-- `firewall_policy`: The updated firewall policy to use for the firewall.
+- `firewall_policy`: The updated firewall policy to use for the firewall. You can't add or
+  remove a TLSInspectionConfiguration after you create a firewall policy. However, you can
+  replace an existing TLS inspection configuration with another TLSInspectionConfiguration.
 - `update_token`: A token used for optimistic locking. Network Firewall returns a token to
   your requests that access the firewall policy. The token marks the state of the policy
   resource at the time of the request.  To make changes to the policy, you provide the token
@@ -1585,6 +1594,10 @@ updated object to this call.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnalyzeRuleGroup"`: Indicates whether you want Network Firewall to analyze the
+  stateless rules in the rule group for rule behavior such as asymmetric routing. If set to
+  TRUE, Network Firewall runs the analysis and then updates the rule group for you. To run
+  the stateless rule group analyzer without updating the rule group, set DryRun to TRUE.
 - `"Description"`: A description of the rule group.
 - `"DryRun"`: Indicates whether you want Network Firewall to just check the validity of the
   request, rather than run the request.  If set to TRUE, Network Firewall checks whether the
@@ -1704,11 +1717,12 @@ end
     update_tlsinspection_configuration(tlsinspection_configuration, update_token, params::Dict{String,<:Any})
 
 Updates the TLS inspection configuration settings for the specified TLS inspection
-configuration. You use a TLS inspection configuration by reference in one or more firewall
-policies. When you modify a TLS inspection configuration, you modify all firewall policies
-that use the TLS inspection configuration.  To update a TLS inspection configuration, first
-call DescribeTLSInspectionConfiguration to retrieve the current TLSInspectionConfiguration
-object, update the object as needed, and then provide the updated object to this call.
+configuration. You use a TLS inspection configuration by referencing it in one or more
+firewall policies. When you modify a TLS inspection configuration, you modify all firewall
+policies that use the TLS inspection configuration.  To update a TLS inspection
+configuration, first call DescribeTLSInspectionConfiguration to retrieve the current
+TLSInspectionConfiguration object, update the object as needed, and then provide the
+updated object to this call.
 
 # Arguments
 - `tlsinspection_configuration`: The object that defines a TLS inspection configuration.
@@ -1716,13 +1730,13 @@ object, update the object as needed, and then provide the updated object to this
   configuration. You can retrieve all objects for a TLS inspection configuration by calling
   DescribeTLSInspectionConfiguration.  Network Firewall uses a TLS inspection configuration
   to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its
-  destination. To use a TLS inspection configuration, you add it to a Network Firewall
+  destination. To use a TLS inspection configuration, you add it to a new Network Firewall
   firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as
-  a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection
-  configuration from more than one firewall policy, and you can use a firewall policy in more
-  than one firewall. For more information about using TLS inspection configurations, see
-  Decrypting SSL/TLS traffic with TLS inspection configurations in the Network Firewall
-  Developer Guide.
+  a proxy service to decrypt and inspect the traffic traveling through your firewalls. You
+  can reference a TLS inspection configuration from more than one firewall policy, and you
+  can use a firewall policy in more than one firewall. For more information about using TLS
+  inspection configurations, see Inspecting SSL/TLS traffic with TLS inspection
+  configurations in the Network Firewall Developer Guide.
 - `update_token`: A token used for optimistic locking. Network Firewall returns a token to
   your requests that access the TLS inspection configuration. The token marks the state of
   the TLS inspection configuration resource at the time of the request.  To make changes to

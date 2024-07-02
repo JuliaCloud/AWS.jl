@@ -12,8 +12,8 @@ Create an ApiKey resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"customerId"`: An AWS Marketplace customer identifier , when integrating with the AWS
-  SaaS Marketplace.
+- `"customerId"`: An Amazon Web Services Marketplace customer identifier, when integrating
+  with the Amazon Web Services SaaS Marketplace.
 - `"description"`: The description of the ApiKey.
 - `"enabled"`: Specifies whether the ApiKey can be used by callers.
 - `"generateDistinctId"`: Specifies whether (true) or not (false) the key identifier is
@@ -330,9 +330,9 @@ Creates a new domain name.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"certificateArn"`: The reference to an AWS-managed certificate that will be used by
-  edge-optimized endpoint for this domain name. AWS Certificate Manager is the only supported
-  source.
+- `"certificateArn"`: The reference to an Amazon Web Services-managed certificate that will
+  be used by edge-optimized endpoint for this domain name. Certificate Manager is the only
+  supported source.
 - `"certificateBody"`: [Deprecated] The body of the server certificate that will be used by
   edge-optimized endpoint for this domain name provided by your certificate authority.
 - `"certificateChain"`: [Deprecated] The intermediate certificates and optionally the root
@@ -351,9 +351,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ownershipVerificationCertificateArn"`: The ARN of the public certificate issued by ACM
   to validate ownership of your custom domain. Only required when configuring mutual TLS and
   using an ACM imported or private CA certificate ARN as the regionalCertificateArn.
-- `"regionalCertificateArn"`: The reference to an AWS-managed certificate that will be used
-  by regional endpoint for this domain name. AWS Certificate Manager is the only supported
-  source.
+- `"regionalCertificateArn"`: The reference to an Amazon Web Services-managed certificate
+  that will be used by regional endpoint for this domain name. Certificate Manager is the
+  only supported source.
 - `"regionalCertificateName"`: The user-friendly name of the certificate that will be used
   by regional endpoint for this domain name.
 - `"securityPolicy"`: The Transport Layer Security (TLS) version + cipher suite for this
@@ -402,7 +402,7 @@ Adds a new Model resource to an existing RestApi resource.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description of the model.
 - `"schema"`: The schema for the model. For application/json models, this should be JSON
-  schema draft 4 model.
+  schema draft 4 model. The maximum size of the model is 400 KB.
 """
 function create_model(
     contentType, name, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -531,9 +531,8 @@ Creates a new RestApi resource.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"apiKeySource"`: The source of the API key for metering requests according to a usage
-  plan. Valid values are: &gt;HEADER to read the API key from the X-API-Key header of a
-  request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom
-  authorizer.
+  plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request.
+  AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
 - `"binaryMediaTypes"`: The list of binary media types supported by the RestApi. By
   default, the RestApi supports only UTF-8-encoded text payloads.
 - `"cloneFrom"`: The ID of the RestApi that you want to clone from.
@@ -734,7 +733,8 @@ must have permissions to create and update VPC Endpoint services.
 # Arguments
 - `name`: The name used to label and identify the VPC link.
 - `target_arns`: The ARN of the network load balancer of the VPC targeted by the VPC link.
-  The network load balancer must be owned by the same AWS account of the API owner.
+  The network load balancer must be owned by the same Amazon Web Services account of the API
+  owner.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1694,8 +1694,8 @@ Gets information about the current ApiKeys resource.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"customerId"`: The identifier of a customer in AWS Marketplace or an external system,
-  such as a developer portal.
+- `"customerId"`: The identifier of a customer in Amazon Web Services Marketplace or an
+  external system, such as a developer portal.
 - `"includeValues"`: A boolean flag to specify whether (true) or not (false) the result
   contains key values.
 - `"limit"`: The maximum number of returned results per page. The default value is 25 and
@@ -3372,9 +3372,9 @@ Imports documentation parts
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"failonwarnings"`: A query parameter to specify whether to rollback the documentation
   importation (true) or not (false) when a warning is encountered. The default value is false.
-- `"mode"`: A query parameter to indicate whether to overwrite (OVERWRITE) any existing
-  DocumentationParts definition or to merge (MERGE) the new definition into the existing one.
-  The default value is MERGE.
+- `"mode"`: A query parameter to indicate whether to overwrite (overwrite) any existing
+  DocumentationParts definition or to merge (merge) the new definition into the existing one.
+  The default value is merge.
 """
 function import_documentation_parts(
     body, restapi_id; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3424,9 +3424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters as ignore=documentation.  To configure the endpoint type, set parameters as
   endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or
   endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE.  To handle imported
-  basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For
-  example, the AWS CLI command to exclude documentation from the imported API is: The AWS CLI
-  command to set the regional endpoint on the imported API is:
+  basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split.
 """
 function import_rest_api(body; aws_config::AbstractAWSConfig=global_aws_config())
     return api_gateway(
@@ -4286,7 +4284,7 @@ Updates a documentation version.
 
 # Arguments
 - `doc_version`: The version identifier of the to-be-updated documentation version.
-- `restapi_id`: The string identifier of the associated RestApi..
+- `restapi_id`: The string identifier of the associated RestApi.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4578,7 +4576,7 @@ end
     update_model(model_name, restapi_id)
     update_model(model_name, restapi_id, params::Dict{String,<:Any})
 
-Changes information about a model.
+Changes information about a model. The maximum size of the model is 400 KB.
 
 # Arguments
 - `model_name`: The name of the model to update.

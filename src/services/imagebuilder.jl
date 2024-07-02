@@ -56,6 +56,56 @@ function cancel_image_creation(
 end
 
 """
+    cancel_lifecycle_execution(client_token, lifecycle_execution_id)
+    cancel_lifecycle_execution(client_token, lifecycle_execution_id, params::Dict{String,<:Any})
+
+Cancel a specific image lifecycle policy runtime instance.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
+- `lifecycle_execution_id`: Identifies the specific runtime instance of the image lifecycle
+  to cancel.
+
+"""
+function cancel_lifecycle_execution(
+    clientToken, lifecycleExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "PUT",
+        "/CancelLifecycleExecution",
+        Dict{String,Any}(
+            "clientToken" => clientToken, "lifecycleExecutionId" => lifecycleExecutionId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function cancel_lifecycle_execution(
+    clientToken,
+    lifecycleExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CancelLifecycleExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "lifecycleExecutionId" => lifecycleExecutionId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_component(client_token, name, platform, semantic_version)
     create_component(client_token, name, platform, semantic_version, params::Dict{String,<:Any})
 
@@ -66,7 +116,8 @@ points to a YAML document file stored in Amazon S3, using the uri property in th
 body.
 
 # Arguments
-- `client_token`: The idempotency token of the component.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `name`: The name of the component.
 - `platform`: The operating system platform of the component.
 - `semantic_version`: The semantic version of the component. This version follows the
@@ -82,7 +133,7 @@ body.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"changeDescription"`: The change description of the component. Describes what change has
-  been made in this version, or what makes this version different from other versions of this
+  been made in this version, or what makes this version different from other versions of the
   component.
 - `"data"`: Component data contains inline YAML document content for the component.
   Alternatively, you can specify the uri of a YAML document file stored in Amazon S3.
@@ -155,7 +206,8 @@ Creates a new container recipe. Container recipes define how images are configur
 and assessed.
 
 # Arguments
-- `client_token`: The client token used to make this request idempotent.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `components`: Components for build and test that are included in the container recipe.
   Recipes require a minimum of one build component, and can have a maximum of 20 build and
   test components in any combination.
@@ -257,7 +309,8 @@ Creates a new distribution configuration. Distribution configurations define and
 the outputs of your pipeline.
 
 # Arguments
-- `client_token`: The idempotency token of the distribution configuration.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `distributions`: The distributions of the distribution configuration.
 - `name`: The name of the distribution configuration.
 
@@ -314,7 +367,8 @@ output resources defined in the distribution configuration. You must specify exa
 recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
 
 # Arguments
-- `client_token`: The idempotency token used to make this request idempotent.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `infrastructure_configuration_arn`: The Amazon Resource Name (ARN) of the infrastructure
   configuration that defines the environment in which your image will be built and tested.
 
@@ -327,11 +381,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enhancedImageMetadataEnabled"`: Collects additional information about the image being
   created, including the operating system (OS) version and package list. This information is
   used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
+- `"executionRole"`: The name or Amazon Resource Name (ARN) for the IAM role you create
+  that grants Image Builder access to perform workflow actions.
 - `"imageRecipeArn"`: The Amazon Resource Name (ARN) of the image recipe that defines how
   images are configured, tested, and assessed.
 - `"imageScanningConfiguration"`: Contains settings for vulnerability scans.
 - `"imageTestsConfiguration"`: The image tests configuration of the image.
 - `"tags"`: The tags of the image.
+- `"workflows"`: Contains an array of workflow configuration objects.
 """
 function create_image(
     clientToken,
@@ -381,7 +438,8 @@ Creates a new image pipeline. Image pipelines enable you to automate the creatio
 distribution of images.
 
 # Arguments
-- `client_token`: The idempotency token used to make this request idempotent.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `infrastructure_configuration_arn`: The Amazon Resource Name (ARN) of the infrastructure
   configuration that will be used to build images created by this image pipeline.
 - `name`: The name of the image pipeline.
@@ -397,6 +455,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enhancedImageMetadataEnabled"`: Collects additional information about the image being
   created, including the operating system (OS) version and package list. This information is
   used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
+- `"executionRole"`: The name or Amazon Resource Name (ARN) for the IAM role you create
+  that grants Image Builder access to perform workflow actions.
 - `"imageRecipeArn"`: The Amazon Resource Name (ARN) of the image recipe that will be used
   to configure images created by this image pipeline.
 - `"imageScanningConfiguration"`: Contains settings for vulnerability scans.
@@ -404,6 +464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schedule"`: The schedule of the image pipeline.
 - `"status"`: The status of the image pipeline.
 - `"tags"`: The tags of the image pipeline.
+- `"workflows"`: Contains an array of workflow configuration objects.
 """
 function create_image_pipeline(
     clientToken,
@@ -457,7 +518,8 @@ Creates a new image recipe. Image recipes define how images are configured, test
 assessed.
 
 # Arguments
-- `client_token`: The idempotency token used to make this request idempotent.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `components`: The components included in the image recipe.
 - `name`: The name of the image recipe.
 - `parent_image`: The base image of the image recipe. The value of the string can be the
@@ -545,7 +607,8 @@ Creates a new infrastructure configuration. An infrastructure configuration defi
 environment in which your image will be built and tested.
 
 # Arguments
-- `client_token`: The idempotency token used to make this request idempotent.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `instance_profile_name`: The instance profile to associate with the instance used to
   customize your Amazon EC2 AMI.
 - `name`: The name of the infrastructure configuration.
@@ -610,6 +673,171 @@ function create_infrastructure_configuration(
                     "clientToken" => clientToken,
                     "instanceProfileName" => instanceProfileName,
                     "name" => name,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_lifecycle_policy(client_token, execution_role, name, policy_details, resource_selection, resource_type)
+    create_lifecycle_policy(client_token, execution_role, name, policy_details, resource_selection, resource_type, params::Dict{String,<:Any})
+
+Create a lifecycle policy resource.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
+- `execution_role`: The name or Amazon Resource Name (ARN) for the IAM role you create that
+  grants Image Builder access to run lifecycle actions.
+- `name`: The name of the lifecycle policy to create.
+- `policy_details`: Configuration details for the lifecycle policy rules.
+- `resource_selection`: Selection criteria for the resources that the lifecycle policy
+  applies to.
+- `resource_type`: The type of Image Builder resource that the lifecycle policy applies to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: Optional description for the lifecycle policy.
+- `"status"`: Indicates whether the lifecycle policy resource is enabled.
+- `"tags"`: Tags to apply to the lifecycle policy resource.
+"""
+function create_lifecycle_policy(
+    clientToken,
+    executionRole,
+    name,
+    policyDetails,
+    resourceSelection,
+    resourceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateLifecyclePolicy",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "executionRole" => executionRole,
+            "name" => name,
+            "policyDetails" => policyDetails,
+            "resourceSelection" => resourceSelection,
+            "resourceType" => resourceType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_lifecycle_policy(
+    clientToken,
+    executionRole,
+    name,
+    policyDetails,
+    resourceSelection,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateLifecyclePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "executionRole" => executionRole,
+                    "name" => name,
+                    "policyDetails" => policyDetails,
+                    "resourceSelection" => resourceSelection,
+                    "resourceType" => resourceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_workflow(client_token, name, semantic_version, type)
+    create_workflow(client_token, name, semantic_version, type, params::Dict{String,<:Any})
+
+Create a new workflow or a new version of an existing workflow.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
+- `name`: The name of the workflow to create.
+- `semantic_version`: The semantic version of this workflow resource. The semantic version
+  syntax adheres to the following rules.  The semantic version has four nodes:
+  &lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;/&lt;build&gt;. You can assign values for the
+  first three, and can filter on all of them.  Assignment: For the first three nodes you can
+  assign any positive integer value, including zero, with an upper limit of 2^30-1, or
+  1073741823 for each node. Image Builder automatically assigns the build number to the
+  fourth node.  Patterns: You can use any numeric pattern that adheres to the assignment
+  requirements for the nodes that you can assign. For example, you might choose a software
+  version pattern, such as 1.0.0, or a date, such as 2021.01.01.
+- `type`: The phase in the image build process for which the workflow resource is
+  responsible.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"changeDescription"`: Describes what change has been made in this version of the
+  workflow, or what makes this version different from other versions of the workflow.
+- `"data"`: Contains the UTF-8 encoded YAML document content for the workflow.
+  Alternatively, you can specify the uri of a YAML document file stored in Amazon S3.
+  However, you cannot specify both properties.
+- `"description"`: Describes the workflow.
+- `"kmsKeyId"`: The ID of the KMS key that is used to encrypt this workflow resource.
+- `"tags"`: Tags that apply to the workflow resource.
+- `"uri"`: The uri of a YAML component document file. This must be an S3 URL
+  (s3://bucket/key), and the requester must have permission to access the S3 bucket it points
+  to. If you use Amazon S3, you can specify component content up to your service quota.
+  Alternatively, you can specify the YAML document inline, using the component data property.
+  You cannot specify both properties.
+"""
+function create_workflow(
+    clientToken,
+    name,
+    semanticVersion,
+    type;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateWorkflow",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "name" => name,
+            "semanticVersion" => semanticVersion,
+            "type" => type,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_workflow(
+    clientToken,
+    name,
+    semanticVersion,
+    type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/CreateWorkflow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "name" => name,
+                    "semanticVersion" => semanticVersion,
+                    "type" => type,
                 ),
                 params,
             ),
@@ -906,6 +1134,88 @@ function delete_infrastructure_configuration(
                 Dict{String,Any}(
                     "infrastructureConfigurationArn" => infrastructureConfigurationArn
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_lifecycle_policy(lifecycle_policy_arn)
+    delete_lifecycle_policy(lifecycle_policy_arn, params::Dict{String,<:Any})
+
+Delete the specified lifecycle policy resource.
+
+# Arguments
+- `lifecycle_policy_arn`: The Amazon Resource Name (ARN) of the lifecycle policy resource
+  to delete.
+
+"""
+function delete_lifecycle_policy(
+    lifecyclePolicyArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteLifecyclePolicy",
+        Dict{String,Any}("lifecyclePolicyArn" => lifecyclePolicyArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_lifecycle_policy(
+    lifecyclePolicyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteLifecyclePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("lifecyclePolicyArn" => lifecyclePolicyArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_workflow(workflow_build_version_arn)
+    delete_workflow(workflow_build_version_arn, params::Dict{String,<:Any})
+
+Deletes a specific workflow resource.
+
+# Arguments
+- `workflow_build_version_arn`: The Amazon Resource Name (ARN) of the workflow resource to
+  delete.
+
+"""
+function delete_workflow(
+    workflowBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteWorkflow",
+        Dict{String,Any}("workflowBuildVersionArn" => workflowBuildVersionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_workflow(
+    workflowBuildVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "DELETE",
+        "/DeleteWorkflow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("workflowBuildVersionArn" => workflowBuildVersionArn),
                 params,
             ),
         );
@@ -1355,6 +1665,131 @@ function get_infrastructure_configuration(
 end
 
 """
+    get_lifecycle_execution(lifecycle_execution_id)
+    get_lifecycle_execution(lifecycle_execution_id, params::Dict{String,<:Any})
+
+Get the runtime information that was logged for a specific runtime instance of the
+lifecycle policy.
+
+# Arguments
+- `lifecycle_execution_id`: Use the unique identifier for a runtime instance of the
+  lifecycle policy to get runtime details.
+
+"""
+function get_lifecycle_execution(
+    lifecycleExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetLifecycleExecution",
+        Dict{String,Any}("lifecycleExecutionId" => lifecycleExecutionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_lifecycle_execution(
+    lifecycleExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetLifecycleExecution",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("lifecycleExecutionId" => lifecycleExecutionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_lifecycle_policy(lifecycle_policy_arn)
+    get_lifecycle_policy(lifecycle_policy_arn, params::Dict{String,<:Any})
+
+Get details for the specified image lifecycle policy.
+
+# Arguments
+- `lifecycle_policy_arn`: Specifies the Amazon Resource Name (ARN) of the image lifecycle
+  policy resource to get.
+
+"""
+function get_lifecycle_policy(
+    lifecyclePolicyArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetLifecyclePolicy",
+        Dict{String,Any}("lifecyclePolicyArn" => lifecyclePolicyArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_lifecycle_policy(
+    lifecyclePolicyArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetLifecyclePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("lifecyclePolicyArn" => lifecyclePolicyArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_workflow(workflow_build_version_arn)
+    get_workflow(workflow_build_version_arn, params::Dict{String,<:Any})
+
+Get a workflow resource object.
+
+# Arguments
+- `workflow_build_version_arn`: The Amazon Resource Name (ARN) of the workflow resource
+  that you want to get.
+
+"""
+function get_workflow(
+    workflowBuildVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "GET",
+        "/GetWorkflow",
+        Dict{String,Any}("workflowBuildVersionArn" => workflowBuildVersionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_workflow(
+    workflowBuildVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "GET",
+        "/GetWorkflow",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("workflowBuildVersionArn" => workflowBuildVersionArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_workflow_execution(workflow_execution_id)
     get_workflow_execution(workflow_execution_id, params::Dict{String,<:Any})
 
@@ -1444,7 +1879,8 @@ end
 Imports a component and transforms its data into a component document.
 
 # Arguments
-- `client_token`: The idempotency token of the component.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `format`: The format of the resource that you want to import as a component.
 - `name`: The name of the component.
 - `platform`: The platform of the component.
@@ -1462,7 +1898,7 @@ Imports a component and transforms its data into a component document.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"changeDescription"`: The change description of the component. This description
   indicates the change that has been made in this version, or what makes this version
-  different from other versions of this component.
+  different from other versions of the component.
 - `"data"`: The data of the component. Used to specify the data inline. Either data or uri
   can be used to specify the data within the component.
 - `"description"`: The description of the component. Describes the contents of the
@@ -1636,7 +2072,7 @@ wildcards.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_component_build_versions(
@@ -1689,7 +2125,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Use the following filters to streamline results:    description     name
   platform     supportedOsVersion     type     version
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 - `"owner"`: Filters results based on the type of owner for the component. By default, this
   request returns a list of components that your account owns. To see results for other types
@@ -1724,7 +2160,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Use the following filters to streamline results:    containerType     name
     parentImage     platform
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 - `"owner"`: Returns container recipes belonging to the specified owner, that have been
   shared with you. You can omit this field to return container recipes belonging to your
@@ -1760,7 +2196,7 @@ Returns a list of distribution configurations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filters"`: You can filter on name to streamline results.
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_distribution_configurations(;
@@ -1800,7 +2236,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Use the following filters to streamline results:    name     osVersion
   platform     type     version
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_image_build_versions(
@@ -1846,7 +2282,7 @@ Web Services Systems Manager Inventory at build time.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_image_packages(
@@ -1894,7 +2330,7 @@ Returns a list of images created by the specified pipeline.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filters"`: Use the following filters to streamline results:    name     version
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_image_pipeline_images(
@@ -1938,7 +2374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distributionConfigurationArn     imageRecipeArn     infrastructureConfigurationArn     name
       status
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_image_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1972,7 +2408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filters"`: Use the following filters to streamline results:    name     parentImage
   platform
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 - `"owner"`: The owner defines which image recipes you want to list. By default, this
   request will only show image recipes owned by your account. You can use this field to
@@ -2011,7 +2447,7 @@ vulnerabilityId
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filter"`:
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_image_scan_finding_aggregations(;
@@ -2049,7 +2485,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   imagePipelineArn     vulnerabilityId     severity    If you don't request a filter, then
   all findings in your account are listed.
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_image_scan_findings(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2086,7 +2522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   platform     type     version
 - `"includeDeprecated"`: Includes deprecated images in the response list.
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 - `"owner"`: The owner defines which images you want to list. By default, this request will
   only show images owned by your account. You can use this field to specify if you want to
@@ -2120,7 +2556,7 @@ Returns a list of infrastructure configurations.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filters"`: You can filter on name to streamline results.
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_infrastructure_configurations(;
@@ -2139,6 +2575,135 @@ function list_infrastructure_configurations(
     return imagebuilder(
         "POST",
         "/ListInfrastructureConfigurations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_lifecycle_execution_resources(lifecycle_execution_id)
+    list_lifecycle_execution_resources(lifecycle_execution_id, params::Dict{String,<:Any})
+
+List resources that the runtime instance of the image lifecycle identified for lifecycle
+actions.
+
+# Arguments
+- `lifecycle_execution_id`: Use the unique identifier for a runtime instance of the
+  lifecycle policy to get runtime details.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum items to return in a request.
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
+- `"parentResourceId"`: You can leave this empty to get a list of Image Builder resources
+  that were identified for lifecycle actions. To get a list of associated resources that are
+  impacted for an individual resource (the parent), specify its Amazon Resource Name (ARN).
+  Associated resources are produced from your image and distributed when you run a build,
+  such as AMIs or container images stored in ECR repositories.
+"""
+function list_lifecycle_execution_resources(
+    lifecycleExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/ListLifecycleExecutionResources",
+        Dict{String,Any}("lifecycleExecutionId" => lifecycleExecutionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_lifecycle_execution_resources(
+    lifecycleExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "POST",
+        "/ListLifecycleExecutionResources",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("lifecycleExecutionId" => lifecycleExecutionId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_lifecycle_executions(resource_arn)
+    list_lifecycle_executions(resource_arn, params::Dict{String,<:Any})
+
+Get the lifecycle runtime history for the specified resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to get a list of
+  lifecycle runtime instances.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum items to return in a request.
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
+"""
+function list_lifecycle_executions(
+    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/ListLifecycleExecutions",
+        Dict{String,Any}("resourceArn" => resourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_lifecycle_executions(
+    resourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "POST",
+        "/ListLifecycleExecutions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("resourceArn" => resourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_lifecycle_policies()
+    list_lifecycle_policies(params::Dict{String,<:Any})
+
+Get a list of lifecycle policies in your Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filters"`: Streamline results based on one of the following values: Name, Status.
+- `"maxResults"`: The maximum items to return in a request.
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
+"""
+function list_lifecycle_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder(
+        "POST",
+        "/ListLifecyclePolicies";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_lifecycle_policies(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/ListLifecyclePolicies",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2181,6 +2746,84 @@ function list_tags_for_resource(
 end
 
 """
+    list_waiting_workflow_steps()
+    list_waiting_workflow_steps(params::Dict{String,<:Any})
+
+Get a list of workflow steps that are waiting for action for workflows in your Amazon Web
+Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum items to return in a request.
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
+"""
+function list_waiting_workflow_steps(; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder(
+        "POST",
+        "/ListWaitingWorkflowSteps";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_waiting_workflow_steps(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/ListWaitingWorkflowSteps",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_workflow_build_versions(workflow_version_arn)
+    list_workflow_build_versions(workflow_version_arn, params::Dict{String,<:Any})
+
+Returns a list of build versions for a specific workflow resource.
+
+# Arguments
+- `workflow_version_arn`: The Amazon Resource Name (ARN) of the workflow resource for which
+  to get a list of build versions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum items to return in a request.
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
+"""
+function list_workflow_build_versions(
+    workflowVersionArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/ListWorkflowBuildVersions",
+        Dict{String,Any}("workflowVersionArn" => workflowVersionArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_workflow_build_versions(
+    workflowVersionArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "POST",
+        "/ListWorkflowBuildVersions",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("workflowVersionArn" => workflowVersionArn), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_workflow_executions(image_build_version_arn)
     list_workflow_executions(image_build_version_arn, params::Dict{String,<:Any})
 
@@ -2194,7 +2837,7 @@ version.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_workflow_executions(
@@ -2232,8 +2875,8 @@ end
     list_workflow_step_executions(workflow_execution_id)
     list_workflow_step_executions(workflow_execution_id, params::Dict{String,<:Any})
 
-Shows runtime data for each step in a runtime instance of the workflow that you specify in
-the request.
+Returns runtime data for each step in a runtime instance of the workflow that you specify
+in the request.
 
 # Arguments
 - `workflow_execution_id`: The unique identifier that Image Builder assigned to keep track
@@ -2242,7 +2885,7 @@ the request.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maxResults"`: The maximum items to return in a request.
-- `"nextToken"`: A token to specify where to start paginating. This is the NextToken from a
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
   previously truncated response.
 """
 function list_workflow_step_executions(
@@ -2271,6 +2914,39 @@ function list_workflow_step_executions(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_workflows()
+    list_workflows(params::Dict{String,<:Any})
+
+Lists workflow build versions based on filtering parameters.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"byName"`: Specify all or part of the workflow name to streamline results.
+- `"filters"`: Used to streamline search results.
+- `"maxResults"`: The maximum items to return in a request.
+- `"nextToken"`: A token to specify where to start paginating. This is the nextToken from a
+  previously truncated response.
+- `"owner"`: Used to get a list of workflow build version filtered by the identity of the
+  creator.
+"""
+function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
+    return imagebuilder(
+        "POST", "/ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_workflows(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "POST",
+        "/ListWorkflows",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2469,13 +3145,81 @@ function put_image_recipe_policy(
 end
 
 """
+    send_workflow_step_action(action, client_token, image_build_version_arn, step_execution_id)
+    send_workflow_step_action(action, client_token, image_build_version_arn, step_execution_id, params::Dict{String,<:Any})
+
+Pauses or resumes image creation when the associated workflow runs a WaitForAction step.
+
+# Arguments
+- `action`: The action for the image creation process to take while a workflow
+  WaitForAction step waits for an asynchronous action to complete.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
+- `image_build_version_arn`: The Amazon Resource Name (ARN) of the image build version to
+  send action for.
+- `step_execution_id`: Uniquely identifies the workflow step that sent the step action.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"reason"`: The reason why this action is sent.
+"""
+function send_workflow_step_action(
+    action,
+    clientToken,
+    imageBuildVersionArn,
+    stepExecutionId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/SendWorkflowStepAction",
+        Dict{String,Any}(
+            "action" => action,
+            "clientToken" => clientToken,
+            "imageBuildVersionArn" => imageBuildVersionArn,
+            "stepExecutionId" => stepExecutionId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function send_workflow_step_action(
+    action,
+    clientToken,
+    imageBuildVersionArn,
+    stepExecutionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/SendWorkflowStepAction",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "action" => action,
+                    "clientToken" => clientToken,
+                    "imageBuildVersionArn" => imageBuildVersionArn,
+                    "stepExecutionId" => stepExecutionId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_image_pipeline_execution(client_token, image_pipeline_arn)
     start_image_pipeline_execution(client_token, image_pipeline_arn, params::Dict{String,<:Any})
 
 Manually triggers a pipeline to create an image.
 
 # Arguments
-- `client_token`: The idempotency token used to make this request idempotent.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `image_pipeline_arn`: The Amazon Resource Name (ARN) of the image pipeline that you want
   to manually invoke.
 
@@ -2507,6 +3251,69 @@ function start_image_pipeline_execution(
                 _merge,
                 Dict{String,Any}(
                     "clientToken" => clientToken, "imagePipelineArn" => imagePipelineArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_resource_state_update(client_token, resource_arn, state)
+    start_resource_state_update(client_token, resource_arn, state, params::Dict{String,<:Any})
+
+Begin asynchronous resource state update for lifecycle changes to the specified image
+resources.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
+- `resource_arn`: The ARN of the Image Builder resource that is updated. The state update
+  might also impact associated resources.
+- `state`: Indicates the lifecycle action to take for this request.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"exclusionRules"`: Skip action on the image resource and associated resources if
+  specified exclusion rules are met.
+- `"executionRole"`: The name or Amazon Resource Name (ARN) of the IAM role that’s used
+  to update image state.
+- `"includeResources"`: A list of image resources to update state for.
+- `"updateAt"`: The timestamp that indicates when resources are updated by a lifecycle
+  action.
+"""
+function start_resource_state_update(
+    clientToken, resourceArn, state; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return imagebuilder(
+        "PUT",
+        "/StartResourceStateUpdate",
+        Dict{String,Any}(
+            "clientToken" => clientToken, "resourceArn" => resourceArn, "state" => state
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_resource_state_update(
+    clientToken,
+    resourceArn,
+    state,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/StartResourceStateUpdate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "resourceArn" => resourceArn,
+                    "state" => state,
                 ),
                 params,
             ),
@@ -2596,7 +3403,8 @@ Updates a new distribution configuration. Distribution configurations define and
 the outputs of your pipeline.
 
 # Arguments
-- `client_token`: The idempotency token of the distribution configuration.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `distribution_configuration_arn`: The Amazon Resource Name (ARN) of the distribution
   configuration that you want to update.
 - `distributions`: The distributions of the distribution configuration.
@@ -2654,12 +3462,14 @@ end
     update_image_pipeline(client_token, image_pipeline_arn, infrastructure_configuration_arn, params::Dict{String,<:Any})
 
 Updates an image pipeline. Image pipelines enable you to automate the creation and
-distribution of images.  UpdateImagePipeline does not support selective updates for the
-pipeline. You must specify all of the required properties in the update request, not just
-the properties that have changed.
+distribution of images. You must specify exactly one recipe for your image, using either a
+containerRecipeArn or an imageRecipeArn.  UpdateImagePipeline does not support selective
+updates for the pipeline. You must specify all of the required properties in the update
+request, not just the properties that have changed.
 
 # Arguments
-- `client_token`: The idempotency token used to make this request idempotent.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `image_pipeline_arn`: The Amazon Resource Name (ARN) of the image pipeline that you want
   to update.
 - `infrastructure_configuration_arn`: The Amazon Resource Name (ARN) of the infrastructure
@@ -2676,12 +3486,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enhancedImageMetadataEnabled"`: Collects additional information about the image being
   created, including the operating system (OS) version and package list. This information is
   used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
+- `"executionRole"`: The name or Amazon Resource Name (ARN) for the IAM role you create
+  that grants Image Builder access to perform workflow actions.
 - `"imageRecipeArn"`: The Amazon Resource Name (ARN) of the image recipe that will be used
   to configure images updated by this image pipeline.
 - `"imageScanningConfiguration"`: Contains settings for vulnerability scans.
 - `"imageTestsConfiguration"`: The image test configuration of the image pipeline.
 - `"schedule"`: The schedule of the image pipeline.
 - `"status"`: The status of the image pipeline.
+- `"workflows"`: Contains the workflows to run for the pipeline.
 """
 function update_image_pipeline(
     clientToken,
@@ -2735,7 +3548,8 @@ Updates a new infrastructure configuration. An infrastructure configuration defi
 environment in which your image will be built and tested.
 
 # Arguments
-- `client_token`: The idempotency token used to make this request idempotent.
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
 - `infrastructure_configuration_arn`: The Amazon Resource Name (ARN) of the infrastructure
   configuration that you want to update.
 - `instance_profile_name`: The instance profile to associate with the instance used to
@@ -2804,6 +3618,84 @@ function update_infrastructure_configuration(
                     "clientToken" => clientToken,
                     "infrastructureConfigurationArn" => infrastructureConfigurationArn,
                     "instanceProfileName" => instanceProfileName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_lifecycle_policy(client_token, execution_role, lifecycle_policy_arn, policy_details, resource_selection, resource_type)
+    update_lifecycle_policy(client_token, execution_role, lifecycle_policy_arn, policy_details, resource_selection, resource_type, params::Dict{String,<:Any})
+
+Update the specified lifecycle policy.
+
+# Arguments
+- `client_token`: Unique, case-sensitive identifier you provide to ensure idempotency of
+  the request. For more information, see Ensuring idempotency in the Amazon EC2 API Reference.
+- `execution_role`: The name or Amazon Resource Name (ARN) of the IAM role that Image
+  Builder uses to update the lifecycle policy.
+- `lifecycle_policy_arn`: The Amazon Resource Name (ARN) of the lifecycle policy resource.
+- `policy_details`: The configuration details for a lifecycle policy resource.
+- `resource_selection`: Selection criteria for resources that the lifecycle policy applies
+  to.
+- `resource_type`: The type of image resource that the lifecycle policy applies to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"description"`: Optional description for the lifecycle policy.
+- `"status"`: Indicates whether the lifecycle policy resource is enabled.
+"""
+function update_lifecycle_policy(
+    clientToken,
+    executionRole,
+    lifecyclePolicyArn,
+    policyDetails,
+    resourceSelection,
+    resourceType;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/UpdateLifecyclePolicy",
+        Dict{String,Any}(
+            "clientToken" => clientToken,
+            "executionRole" => executionRole,
+            "lifecyclePolicyArn" => lifecyclePolicyArn,
+            "policyDetails" => policyDetails,
+            "resourceSelection" => resourceSelection,
+            "resourceType" => resourceType,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_lifecycle_policy(
+    clientToken,
+    executionRole,
+    lifecyclePolicyArn,
+    policyDetails,
+    resourceSelection,
+    resourceType,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return imagebuilder(
+        "PUT",
+        "/UpdateLifecyclePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "clientToken" => clientToken,
+                    "executionRole" => executionRole,
+                    "lifecyclePolicyArn" => lifecyclePolicyArn,
+                    "policyDetails" => policyDetails,
+                    "resourceSelection" => resourceSelection,
+                    "resourceType" => resourceType,
                 ),
                 params,
             ),

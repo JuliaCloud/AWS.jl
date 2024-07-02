@@ -67,18 +67,25 @@ Guide.
 - `location_uri`: A URI to locate the configuration. You can specify the following:   For
   the AppConfig hosted configuration store and for feature flags, specify hosted.   For an
   Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter
-  name in the format ssm-parameter://&lt;parameter name&gt; or the ARN.   For an Secrets
-  Manager secret, specify the URI in the following format: secrets-manager://&lt;secret
-  name&gt;.   For an Amazon S3 object, specify the URI in the following format:
-  s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an example:
-  s3://my-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify either the
-  document name in the format ssm-document://&lt;document name&gt; or the Amazon Resource
-  Name (ARN).
+  name in the format ssm-parameter://&lt;parameter name&gt; or the ARN.   For an Amazon Web
+  Services CodePipeline pipeline, specify the URI in the following format:
+  codepipeline://&lt;pipeline name&gt;.   For an Secrets Manager secret, specify the URI in
+  the following format: secretsmanager://&lt;secret name&gt;.   For an Amazon S3 object,
+  specify the URI in the following format: s3://&lt;bucket&gt;/&lt;objectKey&gt; . Here is an
+  example: s3://my-bucket/my-app/us-east-1/my-config.json    For an SSM document, specify
+  either the document name in the format ssm-document://&lt;document name&gt; or the Amazon
+  Resource Name (ARN).
 - `name`: A name for the configuration profile.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the configuration profile.
+- `"KmsKeyIdentifier"`: The identifier for an Key Management Service key to encrypt new
+  configuration data versions in the AppConfig hosted configuration store. This attribute is
+  only used for hosted configuration types. The identifier can be an KMS key ID, alias, or
+  the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed in other
+  configuration stores, see the documentation for how to specify an KMS key for that
+  particular service.
 - `"RetrievalRoleArn"`: The ARN of an IAM role with permission to access the configuration
   at the specified LocationUri.  A retrieval role ARN is not required for configurations
   stored in the AppConfig hosted configuration store. It is required for all other sources
@@ -269,10 +276,16 @@ end
 Creates an AppConfig extension. An extension augments your ability to inject logic or
 behavior at different points during the AppConfig workflow of creating or deploying a
 configuration. You can create your own extensions or use the Amazon Web Services authored
-extensions provided by AppConfig. For most use cases, to create your own extension, you
-must create an Lambda function to perform any computation and processing defined in the
-extension. For more information about extensions, see Working with AppConfig extensions in
-the AppConfig User Guide.
+extensions provided by AppConfig. For an AppConfig extension that uses Lambda, you must
+create a Lambda function to perform any computation and processing defined in the
+extension. If you plan to create custom versions of the Amazon Web Services authored
+notification extensions, you only need to specify an Amazon Resource Name (ARN) in the Uri
+field for the new extension version.   For a custom EventBridge notification extension,
+enter the ARN of the EventBridge default events in the Uri field.   For a custom Amazon SNS
+notification extension, enter the ARN of an Amazon SNS topic in the Uri field.   For a
+custom Amazon SQS notification extension, enter the ARN of an Amazon SQS message queue in
+the Uri field.    For more information about extensions, see Extending workflows in the
+AppConfig User Guide.
 
 # Arguments
 - `actions`: The actions defined in the extension.
@@ -333,8 +346,7 @@ anytime a configuration deployment is started for a specific application. Defini
 extension to associate with an AppConfig resource is called an extension association. An
 extension association is a specified relationship between an extension and an AppConfig
 resource, such as an application or a configuration profile. For more information about
-extensions and associations, see Working with AppConfig extensions in the AppConfig User
-Guide.
+extensions and associations, see Extending workflows in the AppConfig User Guide.
 
 # Arguments
 - `extension_identifier`: The name, the ID, or the Amazon Resource Name (ARN) of the
@@ -1022,8 +1034,7 @@ end
     get_extension_association(extension_association_id, params::Dict{String,<:Any})
 
 Returns information about an AppConfig extension association. For more information about
-extensions and associations, see Working with AppConfig extensions in the AppConfig User
-Guide.
+extensions and associations, see Extending workflows in the AppConfig User Guide.
 
 # Arguments
 - `extension_association_id`: The extension association ID to get.
@@ -1286,8 +1297,7 @@ end
     list_extension_associations(params::Dict{String,<:Any})
 
 Lists all AppConfig extension associations in the account. For more information about
-extensions and associations, see Working with AppConfig extensions in the AppConfig User
-Guide.
+extensions and associations, see Extending workflows in the AppConfig User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1326,8 +1336,7 @@ end
     list_extensions(params::Dict{String,<:Any})
 
 Lists all custom and Amazon Web Services authored AppConfig extensions in the account. For
-more information about extensions, see Working with AppConfig extensions in the AppConfig
-User Guide.
+more information about extensions, see Extending workflows in the AppConfig User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1439,12 +1448,15 @@ Starts a deployment.
 - `configuration_profile_id`: The configuration profile ID.
 - `configuration_version`: The configuration version to deploy. If deploying an AppConfig
   hosted configuration version, you can specify either the version number or version label.
+  For all other configurations, you must specify the version number.
 - `deployment_strategy_id`: The deployment strategy ID.
 - `environment_id`: The environment ID.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the deployment.
+- `"DynamicExtensionParameters"`: A map of dynamic extension parameter names to values to
+  pass to associated extensions with PRE_START_DEPLOYMENT actions.
 - `"KmsKeyIdentifier"`: The KMS key identifier (key ID, key alias, or key ARN). AppConfig
   uses this ID to encrypt the configuration data using a customer managed key.
 - `"Tags"`: Metadata to assign to the deployment. Tags help organize and categorize your
@@ -1668,6 +1680,12 @@ Updates a configuration profile.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the configuration profile.
+- `"KmsKeyIdentifier"`: The identifier for a Key Management Service key to encrypt new
+  configuration data versions in the AppConfig hosted configuration store. This attribute is
+  only used for hosted configuration types. The identifier can be an KMS key ID, alias, or
+  the Amazon Resource Name (ARN) of the key ID or alias. To encrypt data managed in other
+  configuration stores, see the documentation for how to specify an KMS key for that
+  particular service.
 - `"Name"`: The name of the configuration profile.
 - `"RetrievalRoleArn"`: The ARN of an IAM role with permission to access the configuration
   at the specified LocationUri.
@@ -1799,8 +1817,8 @@ end
     update_extension(extension_identifier)
     update_extension(extension_identifier, params::Dict{String,<:Any})
 
-Updates an AppConfig extension. For more information about extensions, see Working with
-AppConfig extensions in the AppConfig User Guide.
+Updates an AppConfig extension. For more information about extensions, see Extending
+workflows in the AppConfig User Guide.
 
 # Arguments
 - `extension_identifier`: The name, the ID, or the Amazon Resource Name (ARN) of the
@@ -1841,8 +1859,8 @@ end
     update_extension_association(extension_association_id)
     update_extension_association(extension_association_id, params::Dict{String,<:Any})
 
-Updates an association. For more information about extensions and associations, see Working
-with AppConfig extensions in the AppConfig User Guide.
+Updates an association. For more information about extensions and associations, see
+Extending workflows in the AppConfig User Guide.
 
 # Arguments
 - `extension_association_id`: The system-generated ID for the association.

@@ -15,9 +15,9 @@ can execute this operation no more than once per second.
 
 # Arguments
 - `original_rule_set_name`: The name of the rule set to clone.
-- `rule_set_name`: The name of the rule set to create. The name must:   This value can only
-  contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start
-  and end with a letter or number.   Contain less than 64 characters.
+- `rule_set_name`: The name of the rule set to create. The name must meet the following
+  requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  dashes (-).   Start and end with a letter or number.   Contain 64 characters or fewer.
 
 """
 function clone_receipt_rule_set(
@@ -101,16 +101,16 @@ end
 Creates a configuration set event destination.  When you create or update an event
 destination, you must provide one, and only one, destination. The destination can be
 CloudWatch, Amazon Kinesis Firehose, or Amazon Simple Notification Service (Amazon SNS).
-An event destination is the AWS service to which Amazon SES publishes the email sending
-events associated with a configuration set. For information about using configuration sets,
-see the Amazon SES Developer Guide. You can execute this operation no more than once per
-second.
+An event destination is the Amazon Web Services service to which Amazon SES publishes the
+email sending events associated with a configuration set. For information about using
+configuration sets, see the Amazon SES Developer Guide. You can execute this operation no
+more than once per second.
 
 # Arguments
 - `configuration_set_name`: The name of the configuration set that the event destination
   should be associated with.
-- `event_destination`: An object that describes the AWS service that email sending event
-  information will be published to.
+- `event_destination`: An object that describes the Amazon Web Services service that email
+  sending event where information is published.
 
 """
 function create_configuration_set_event_destination(
@@ -320,12 +320,12 @@ Developer Guide. You can execute this operation no more than once per second.
 # Arguments
 - `rule`: A data structure that contains the specified rule's name, actions, recipients,
   domains, enabled status, scan status, and TLS policy.
-- `rule_set_name`: The name of the rule set that the receipt rule will be added to.
+- `rule_set_name`: The name of the rule set where the receipt rule is added.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"After"`: The name of an existing rule after which the new rule will be placed. If this
-  parameter is null, the new rule will be inserted at the beginning of the rule list.
+- `"After"`: The name of an existing rule after which the new rule is placed. If this
+  parameter is null, the new rule is inserted at the beginning of the rule list.
 """
 function create_receipt_rule(
     Rule, RuleSetName; aws_config::AbstractAWSConfig=global_aws_config()
@@ -365,9 +365,9 @@ Creates an empty receipt rule set. For information about setting up receipt rule
 the Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 # Arguments
-- `rule_set_name`: The name of the rule set to create. The name must:   This value can only
-  contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Start
-  and end with a letter or number.   Contain less than 64 characters.
+- `rule_set_name`: The name of the rule set to create. The name must meet the following
+  requirements:   Contain only ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or
+  dashes (-).   Start and end with a letter or number.   Contain 64 characters or fewer.
 
 """
 function create_receipt_rule_set(
@@ -400,12 +400,12 @@ end
     create_template(template, params::Dict{String,<:Any})
 
 Creates an email template. Email templates enable you to send personalized email to one or
-more destinations in a single API operation. For more information, see the Amazon SES
-Developer Guide. You can execute this operation no more than once per second.
+more destinations in a single operation. For more information, see the Amazon SES Developer
+Guide. You can execute this operation no more than once per second.
 
 # Arguments
-- `template`: The content of the email, composed of a subject line, an HTML part, and a
-  text-only part.
+- `template`: The content of the email, composed of a subject line and either an HTML part
+  or a text-only part.
 
 """
 function create_template(Template; aws_config::AbstractAWSConfig=global_aws_config())
@@ -533,13 +533,12 @@ Deletes an association between a configuration set and a custom domain for open 
 event tracking. By default, images and links used for tracking open and click events are
 hosted on domains operated by Amazon SES. You can configure a subdomain of your own to
 handle these events. For information about using custom domains, see the Amazon SES
-Developer Guide.  Deleting this kind of association will result in emails sent using the
+Developer Guide.  Deleting this kind of association results in emails sent using the
 specified configuration set to capture open and click events using the standard, Amazon
 SES-operated domains.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set from which you want to delete
-  the tracking options.
+- `configuration_set_name`: The name of the configuration set.
 
 """
 function delete_configuration_set_tracking_options(
@@ -580,8 +579,7 @@ verification email templates, see Using Custom Verification Email Templates in t
 SES Developer Guide. You can execute this operation no more than once per second.
 
 # Arguments
-- `template_name`: The name of the custom verification email template that you want to
-  delete.
+- `template_name`: The name of the custom verification email template to delete.
 
 """
 function delete_custom_verification_email_template(
@@ -617,7 +615,8 @@ Deletes the specified identity (an email address or a domain) from the list of v
 identities. You can execute this operation no more than once per second.
 
 # Arguments
-- `identity`: The identity to be removed from the list of identities for the AWS Account.
+- `identity`: The identity to be removed from the list of identities for the Amazon Web
+  Services account.
 
 """
 function delete_identity(Identity; aws_config::AbstractAWSConfig=global_aws_config())
@@ -648,19 +647,18 @@ end
     delete_identity_policy(identity, policy_name, params::Dict{String,<:Any})
 
 Deletes the specified sending authorization policy for the given identity (an email address
-or a domain). This API returns successfully even if a policy with the specified name does
-not exist.  This API is for the identity owner only. If you have not verified the identity,
-this API will return an error.  Sending authorization is a feature that enables an identity
-owner to authorize other senders to use its identities. For information about using sending
-authorization, see the Amazon SES Developer Guide. You can execute this operation no more
-than once per second.
+or a domain). This operation returns successfully even if a policy with the specified name
+does not exist.  This operation is for the identity owner only. If you have not verified
+the identity, it returns an error.  Sending authorization is a feature that enables an
+identity owner to authorize other senders to use its identities. For information about
+using sending authorization, see the Amazon SES Developer Guide. You can execute this
+operation no more than once per second.
 
 # Arguments
-- `identity`: The identity that is associated with the policy that you want to delete. You
-  can specify the identity by using its name or by using its Amazon Resource Name (ARN).
-  Examples: user@example.com, example.com,
-  arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you
-  must own the identity.
+- `identity`: The identity that is associated with the policy to delete. You can specify
+  the identity by using its name or by using its Amazon Resource Name (ARN). Examples:
+  user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To
+  successfully call this operation, you must own the identity.
 - `policy_name`: The name of the policy to be deleted.
 
 """
@@ -1037,7 +1035,7 @@ end
     get_account_sending_enabled()
     get_account_sending_enabled(params::Dict{String,<:Any})
 
-Returns the email sending status of the Amazon SES account for the current region. You can
+Returns the email sending status of the Amazon SES account for the current Region. You can
 execute this operation no more than once per second.
 
 """
@@ -1067,8 +1065,7 @@ Templates in the Amazon SES Developer Guide. You can execute this operation no m
 once per second.
 
 # Arguments
-- `template_name`: The name of the custom verification email template that you want to
-  retrieve.
+- `template_name`: The name of the custom verification email template to retrieve.
 
 """
 function get_custom_verification_email_template(
@@ -1227,17 +1224,17 @@ end
 
 Returns the requested sending authorization policies for the given identity (an email
 address or a domain). The policies are returned as a map of policy names to policy
-contents. You can retrieve a maximum of 20 policies at a time.  This API is for the
-identity owner only. If you have not verified the identity, this API will return an error.
-Sending authorization is a feature that enables an identity owner to authorize other
-senders to use its identities. For information about using sending authorization, see the
-Amazon SES Developer Guide. You can execute this operation no more than once per second.
+contents. You can retrieve a maximum of 20 policies at a time.  This operation is for the
+identity owner only. If you have not verified the identity, it returns an error.  Sending
+authorization is a feature that enables an identity owner to authorize other senders to use
+its identities. For information about using sending authorization, see the Amazon SES
+Developer Guide. You can execute this operation no more than once per second.
 
 # Arguments
-- `identity`: The identity for which the policies will be retrieved. You can specify an
+- `identity`: The identity for which the policies are retrieved. You can specify an
   identity by using its name or by using its Amazon Resource Name (ARN). Examples:
   user@example.com, example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To
-  successfully call this API, you must own the identity.
+  successfully call this operation, you must own the identity.
 - `policy_names`: A list of the names of policies to be retrieved. You can retrieve a
   maximum of 20 policies at a time. If you do not know the names of the policies that are
   attached to the identity, you can use ListIdentityPolicies.
@@ -1283,15 +1280,15 @@ verification status of an email address is \"Pending\" until the email address o
 the link within the verification email that Amazon SES sent to that address. If the email
 address owner clicks the link within 24 hours, the verification status of the email address
 changes to \"Success\". If the link is not clicked within 24 hours, the verification status
-changes to \"Failed.\" In that case, if you still want to verify the email address, you
-must restart the verification process from the beginning. For domain identities, the
-domain's verification status is \"Pending\" as Amazon SES searches for the required TXT
-record in the DNS settings of the domain. When Amazon SES detects the record, the domain's
-verification status changes to \"Success\". If Amazon SES is unable to detect the record
-within 72 hours, the domain's verification status changes to \"Failed.\" In that case, if
-you still want to verify the domain, you must restart the verification process from the
-beginning. This operation is throttled at one request per second and can only get
-verification attributes for up to 100 identities at a time.
+changes to \"Failed.\" In that case, to verify the email address, you must restart the
+verification process from the beginning. For domain identities, the domain's verification
+status is \"Pending\" as Amazon SES searches for the required TXT record in the DNS
+settings of the domain. When Amazon SES detects the record, the domain's verification
+status changes to \"Success\". If Amazon SES is unable to detect the record within 72
+hours, the domain's verification status changes to \"Failed.\" In that case, to verify the
+domain, you must restart the verification process from the beginning. This operation is
+throttled at one request per second and can only get verification attributes for up to 100
+identities at a time.
 
 # Arguments
 - `identities`: A list of identities.
@@ -1345,10 +1342,10 @@ end
     get_send_statistics()
     get_send_statistics(params::Dict{String,<:Any})
 
-Provides sending statistics for the current AWS Region. The result is a list of data
-points, representing the last two weeks of sending activity. Each data point in the list
-contains statistics for a 15-minute period of time. You can execute this operation no more
-than once per second.
+Provides sending statistics for the current Amazon Web Services Region. The result is a
+list of data points, representing the last two weeks of sending activity. Each data point
+in the list contains statistics for a 15-minute period of time. You can execute this
+operation no more than once per second.
 
 """
 function get_send_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1370,7 +1367,7 @@ Displays the template object (which includes the Subject line, HTML part and tex
 the template you specify. You can execute this operation no more than once per second.
 
 # Arguments
-- `template_name`: The name of the template you want to retrieve.
+- `template_name`: The name of the template to retrieve.
 
 """
 function get_template(TemplateName; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1401,13 +1398,13 @@ end
     list_configuration_sets(params::Dict{String,<:Any})
 
 Provides a list of the configuration sets associated with your Amazon SES account in the
-current AWS Region. For information about using configuration sets, see Monitoring Your
-Amazon SES Sending Activity in the Amazon SES Developer Guide.  You can execute this
-operation no more than once per second. This operation will return up to 1,000
+current Amazon Web Services Region. For information about using configuration sets, see
+Monitoring Your Amazon SES Sending Activity in the Amazon SES Developer Guide.  You can
+execute this operation no more than once per second. This operation returns up to 1,000
 configuration sets each time it is run. If your Amazon SES account has more than 1,000
-configuration sets, this operation will also return a NextToken element. You can then
-execute the ListConfigurationSets operation again, passing the NextToken parameter and the
-value of the NextToken element to retrieve additional results.
+configuration sets, this operation also returns NextToken. You can then execute the
+ListConfigurationSets operation again, passing the NextToken parameter and the value of the
+NextToken element to retrieve additional results.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1435,17 +1432,16 @@ end
     list_custom_verification_email_templates()
     list_custom_verification_email_templates(params::Dict{String,<:Any})
 
-Lists the existing custom verification email templates for your account in the current AWS
-Region. For more information about custom verification email templates, see Using Custom
-Verification Email Templates in the Amazon SES Developer Guide. You can execute this
-operation no more than once per second.
+Lists the existing custom verification email templates for your account in the current
+Amazon Web Services Region. For more information about custom verification email templates,
+see Using Custom Verification Email Templates in the Amazon SES Developer Guide. You can
+execute this operation no more than once per second.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxResults"`: The maximum number of custom verification email templates to return. This
   value must be at least 1 and less than or equal to 50. If you do not specify a value, or if
-  you specify a value less than 1 or greater than 50, the operation will return up to 50
-  results.
+  you specify a value less than 1 or greater than 50, the operation returns up to 50 results.
 - `"NextToken"`: An array the contains the name and creation time stamp for each template
   in your Amazon SES account.
 """
@@ -1473,14 +1469,21 @@ end
     list_identities()
     list_identities(params::Dict{String,<:Any})
 
-Returns a list containing all of the identities (email addresses and domains) for your AWS
-account in the current AWS Region, regardless of verification status. You can execute this
-operation no more than once per second.
+Returns a list containing all of the identities (email addresses and domains) for your
+Amazon Web Services account in the current Amazon Web Services Region, regardless of
+verification status. You can execute this operation no more than once per second.  It's
+recommended that for successive pagination calls of this API, you continue to the use the
+same parameter/value pairs as used in the original call, e.g., if you used
+IdentityType=Domain in the the original call and received a NextToken in the response, you
+should continue providing the IdentityType=Domain parameter for further NextToken calls;
+however, if you didn't provide the IdentityType parameter in the original call, then
+continue to not provide it for successive pagination calls. Using this protocol will ensure
+consistent results.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IdentityType"`: The type of the identities to list. Possible values are
-  \"EmailAddress\" and \"Domain\". If this parameter is omitted, then all identities will be
+  \"EmailAddress\" and \"Domain\". If this parameter is omitted, then all identities are
   listed.
 - `"MaxItems"`: The maximum number of identities per page. Possible values are 1-1000
   inclusive.
@@ -1502,19 +1505,19 @@ end
     list_identity_policies(identity, params::Dict{String,<:Any})
 
 Returns a list of sending authorization policies that are attached to the given identity
-(an email address or a domain). This API returns only a list. If you want the actual policy
-content, you can use GetIdentityPolicies.  This API is for the identity owner only. If you
-have not verified the identity, this API will return an error.  Sending authorization is a
+(an email address or a domain). This operation returns only a list. To get the actual
+policy content, use GetIdentityPolicies.  This operation is for the identity owner only. If
+you have not verified the identity, it returns an error.  Sending authorization is a
 feature that enables an identity owner to authorize other senders to use its identities.
 For information about using sending authorization, see the Amazon SES Developer Guide. You
 can execute this operation no more than once per second.
 
 # Arguments
-- `identity`: The identity that is associated with the policy for which the policies will
-  be listed. You can specify an identity by using its name or by using its Amazon Resource
-  Name (ARN). Examples: user@example.com, example.com,
-  arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this API, you
-  must own the identity.
+- `identity`: The identity that is associated with the policy for which the policies are
+  listed. You can specify an identity by using its name or by using its Amazon Resource Name
+  (ARN). Examples: user@example.com, example.com,
+  arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call this
+  operation, you must own the identity.
 
 """
 function list_identity_policies(Identity; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1544,9 +1547,9 @@ end
     list_receipt_filters()
     list_receipt_filters(params::Dict{String,<:Any})
 
-Lists the IP address filters associated with your AWS account in the current AWS Region.
-For information about managing IP address filters, see the Amazon SES Developer Guide. You
-can execute this operation no more than once per second.
+Lists the IP address filters associated with your Amazon Web Services account in the
+current Amazon Web Services Region. For information about managing IP address filters, see
+the Amazon SES Developer Guide. You can execute this operation no more than once per second.
 
 """
 function list_receipt_filters(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -1564,11 +1567,12 @@ end
     list_receipt_rule_sets()
     list_receipt_rule_sets(params::Dict{String,<:Any})
 
-Lists the receipt rule sets that exist under your AWS account in the current AWS Region. If
-there are additional receipt rule sets to be retrieved, you will receive a NextToken that
-you can provide to the next call to ListReceiptRuleSets to retrieve the additional entries.
-For information about managing receipt rule sets, see the Amazon SES Developer Guide. You
-can execute this operation no more than once per second.
+Lists the receipt rule sets that exist under your Amazon Web Services account in the
+current Amazon Web Services Region. If there are additional receipt rule sets to be
+retrieved, you receive a NextToken that you can provide to the next call to
+ListReceiptRuleSets to retrieve the additional entries. For information about managing
+receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no
+more than once per second.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1595,14 +1599,14 @@ end
     list_templates()
     list_templates(params::Dict{String,<:Any})
 
-Lists the email templates present in your Amazon SES account in the current AWS Region. You
-can execute this operation no more than once per second.
+Lists the email templates present in your Amazon SES account in the current Amazon Web
+Services Region. You can execute this operation no more than once per second.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxItems"`: The maximum number of templates to return. This value must be at least 1
-  and less than or equal to 10. If you do not specify a value, or if you specify a value less
-  than 1 or greater than 10, the operation will return up to 10 results.
+  and less than or equal to 100. If more than 100 items are requested, the page size will
+  automatically set to 100. If you do not specify a value, 10 is the default page size.
 - `"NextToken"`: A token returned from a previous call to ListTemplates to indicate the
   position in the list of email templates.
 """
@@ -1648,8 +1652,7 @@ end
 Adds or updates the delivery options for a configuration set.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to specify the
-  delivery options for.
+- `configuration_set_name`: The name of the configuration set.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1690,17 +1693,17 @@ end
     put_identity_policy(identity, policy, policy_name, params::Dict{String,<:Any})
 
 Adds or updates a sending authorization policy for the specified identity (an email address
-or a domain).  This API is for the identity owner only. If you have not verified the
-identity, this API will return an error.  Sending authorization is a feature that enables
-an identity owner to authorize other senders to use its identities. For information about
-using sending authorization, see the Amazon SES Developer Guide. You can execute this
-operation no more than once per second.
+or a domain).  This operation is for the identity owner only. If you have not verified the
+identity, it returns an error.  Sending authorization is a feature that enables an identity
+owner to authorize other senders to use its identities. For information about using sending
+authorization, see the Amazon SES Developer Guide. You can execute this operation no more
+than once per second.
 
 # Arguments
-- `identity`: The identity that the policy will apply to. You can specify an identity by
+- `identity`: The identity to which that the policy applies. You can specify an identity by
   using its name or by using its Amazon Resource Name (ARN). Examples: user@example.com,
   example.com, arn:aws:ses:us-east-1:123456789012:identity/example.com. To successfully call
-  this API, you must own the identity.
+  this operation, you must own the identity.
 - `policy`: The text of the policy in JSON format. The policy cannot exceed 4 KB. For
   information about the syntax of sending authorization policies, see the Amazon SES
   Developer Guide.
@@ -1748,14 +1751,13 @@ end
     reorder_receipt_rule_set(rule_names, rule_set_name, params::Dict{String,<:Any})
 
 Reorders the receipt rules within a receipt rule set.  All of the rules in the rule set
-must be represented in this request. That is, this API will return an error if the reorder
-request doesn't explicitly position all of the rules.  For information about managing
-receipt rule sets, see the Amazon SES Developer Guide. You can execute this operation no
-more than once per second.
+must be represented in this request. That is, it is error if the reorder request doesn't
+explicitly position all of the rules.  For information about managing receipt rule sets,
+see the Amazon SES Developer Guide. You can execute this operation no more than once per
+second.
 
 # Arguments
-- `rule_names`: A list of the specified receipt rule set's receipt rules in the order that
-  you want to put them.
+- `rule_names`: The specified receipt rule set's receipt rules, in order.
 - `rule_set_name`: The name of the receipt rule set to reorder.
 
 """
@@ -1794,10 +1796,10 @@ end
     send_bounce(bounce_sender, bounced_recipient_info_list, original_message_id, params::Dict{String,<:Any})
 
 Generates and sends a bounce message to the sender of an email you received through Amazon
-SES. You can only use this API on an email up to 24 hours after you receive it.  You cannot
-use this API to send generic bounces for mail that was not received by Amazon SES.  For
-information about receiving email through Amazon SES, see the Amazon SES Developer Guide.
-You can execute this operation no more than once per second.
+SES. You can only use this operation on an email up to 24 hours after you receive it.  You
+cannot use this operation to send generic bounces for mail that was not received by Amazon
+SES.  For information about receiving email through Amazon SES, see the Amazon SES
+Developer Guide. You can execute this operation no more than once per second.
 
 # Arguments
 - `bounce_sender`: The address to use in the \"From\" header of the bounce message. This
@@ -1814,8 +1816,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to use the address in the \"From\" header of the bounce. For more information about sending
   authorization, see the Amazon SES Developer Guide.
 - `"Explanation"`: Human-readable text for the bounce message to explain the failure. If
-  not specified, the text will be auto-generated based on the bounced recipient information.
-- `"MessageDsn"`: Message-related DSN fields. If not specified, Amazon SES will choose the
+  not specified, the text is auto-generated based on the bounced recipient information.
+- `"MessageDsn"`: Message-related DSN fields. If not specified, Amazon SES chooses the
   values.
 """
 function send_bounce(
@@ -1865,28 +1867,27 @@ end
     send_bulk_templated_email(destinations, source, template, params::Dict{String,<:Any})
 
 Composes an email message to multiple destinations. The message body is created using an
-email template. In order to send email using the SendBulkTemplatedEmail operation, your
-call to the API must meet the following requirements:   The call must refer to an existing
-email template. You can create email templates using the CreateTemplate operation.   The
-message must be sent from a verified email address or domain.   If your account is still in
-the Amazon SES sandbox, you may only send to verified addresses or domains, or to email
-addresses associated with the Amazon SES Mailbox Simulator. For more information, see
-Verifying Email Addresses and Domains in the Amazon SES Developer Guide.    The maximum
-message size is 10 MB.   Each Destination parameter must include at least one recipient
-email address. The recipient address can be a To: address, a CC: address, or a BCC:
-address. If a recipient email address is invalid (that is, it is not in the format
-UserName@[SubDomain.]Domain.TopLevelDomain), the entire message will be rejected, even if
-the message contains other recipients that are valid.   The message may not include more
-than 50 recipients, across the To:, CC: and BCC: fields. If you need to send an email
-message to a larger audience, you can divide your recipient list into groups of 50 or
-fewer, and then call the SendBulkTemplatedEmail operation several times to send the message
-to each group.   The number of destinations you can contact in a single call to the API may
-be limited by your account's maximum sending rate.
+email template. To send email using this operation, your call must meet the following
+requirements:   The call must refer to an existing email template. You can create email
+templates using CreateTemplate.   The message must be sent from a verified email address or
+domain.   If your account is still in the Amazon SES sandbox, you may send only to verified
+addresses or domains, or to email addresses associated with the Amazon SES Mailbox
+Simulator. For more information, see Verifying Email Addresses and Domains in the Amazon
+SES Developer Guide.    The maximum message size is 10 MB.   Each Destination parameter
+must include at least one recipient email address. The recipient address can be a To:
+address, a CC: address, or a BCC: address. If a recipient email address is invalid (that
+is, it is not in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire message
+is rejected, even if the message contains other recipients that are valid.   The message
+may not include more than 50 recipients, across the To:, CC: and BCC: fields. If you need
+to send an email message to a larger audience, you can divide your recipient list into
+groups of 50 or fewer, and then call the SendBulkTemplatedEmail operation several times to
+send the message to each group.   The number of destinations you can contact in a single
+call can be limited by your account's maximum sending rate.
 
 # Arguments
 - `destinations`: One or more Destination objects. All of the recipients in a Destination
-  will receive the same version of the email. You can specify up to 50 Destination objects
-  within a Destinations array.
+  receive the same version of the email. You can specify up to 50 Destination objects within
+  a Destinations array.
 - `source`: The email address that is sending the email. This email address must be either
   individually verified with Amazon SES, or from a domain that has been verified with Amazon
   SES. For information about verifying identities, see the Amazon SES Developer Guide. If you
@@ -1894,13 +1895,13 @@ be limited by your account's maximum sending rate.
   authorization policy, then you must also specify the SourceArn parameter. For more
   information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES
   does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the
-  local part of a source email address (the part of the email address that precedes the @
-  sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part
-  after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as
-  described in RFC3492. The sender name (also known as the friendly name) may contain
-  non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as
-  described in RFC 2047. MIME encoded-word syntax uses the following form:
-  =?charset?encoding?encoded-text?=.
+  email address string must be 7-bit ASCII. If you want to send to or from email addresses
+  that contain Unicode characters in the domain part of an address, you must encode the
+  domain using Punycode. Punycode is not permitted in the local part of the email address
+  (the part before the @ sign) nor in the \"friendly from\" name. If you want to use Unicode
+  characters in the \"friendly from\" name, you must encode the \"friendly from\" name using
+  MIME encoded-word syntax, as described in Sending raw email using the Amazon SES API. For
+  more information about Punycode, see RFC 3492.
 - `template`: The template to use when sending this email.
 
 # Optional Parameters
@@ -1915,13 +1916,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   typically consisting of key-value pairs in which the keys correspond to replacement tags in
   the email template.
 - `"ReplyToAddresses"`: The reply-to email address(es) for the message. If the recipient
-  replies to the message, each reply-to address will receive the reply.
-- `"ReturnPath"`: The email address that bounces and complaints will be forwarded to when
+  replies to the message, each reply-to address receives the reply.
+- `"ReturnPath"`: The email address that bounces and complaints are forwarded to when
   feedback forwarding is enabled. If the message cannot be delivered to the recipient, then
-  an error message will be returned from the recipient's ISP; this message will then be
-  forwarded to the email address specified by the ReturnPath parameter. The ReturnPath
-  parameter is never overwritten. This email address must be either individually verified
-  with Amazon SES, or from a domain that has been verified with Amazon SES.
+  an error message is returned from the recipient's ISP; this message is forwarded to the
+  email address specified by the ReturnPath parameter. The ReturnPath parameter is never
+  overwritten. This email address must be either individually verified with Amazon SES, or
+  from a domain that has been verified with Amazon SES.
 - `"ReturnPathArn"`: This parameter is used only for sending authorization. It is the ARN
   of the identity that is associated with the sending authorization policy that permits you
   to use the email address specified in the ReturnPath parameter. For example, if the owner
@@ -1982,11 +1983,12 @@ end
     send_custom_verification_email(email_address, template_name, params::Dict{String,<:Any})
 
 Adds an email address to the list of identities for your Amazon SES account in the current
-AWS Region and attempts to verify it. As a result of executing this operation, a customized
-verification email is sent to the specified address. To use this operation, you must first
-create a custom verification email template. For more information about creating and using
-custom verification email templates, see Using Custom Verification Email Templates in the
-Amazon SES Developer Guide. You can execute this operation no more than once per second.
+Amazon Web Services Region and attempts to verify it. As a result of executing this
+operation, a customized verification email is sent to the specified address. To use this
+operation, you must first create a custom verification email template. For more information
+about creating and using custom verification email templates, see Using Custom Verification
+Email Templates in the Amazon SES Developer Guide. You can execute this operation no more
+than once per second.
 
 # Arguments
 - `email_address`: The email address to verify.
@@ -2034,26 +2036,25 @@ end
     send_email(destination, message, source)
     send_email(destination, message, source, params::Dict{String,<:Any})
 
-Composes an email message and immediately queues it for sending. In order to send email
-using the SendEmail operation, your message must meet the following requirements:   The
-message must be sent from a verified email address or domain. If you attempt to send email
-using a non-verified address or domain, the operation will result in an \"Email address not
-verified\" error.    If your account is still in the Amazon SES sandbox, you may only send
-to verified addresses or domains, or to email addresses associated with the Amazon SES
-Mailbox Simulator. For more information, see Verifying Email Addresses and Domains in the
-Amazon SES Developer Guide.    The maximum message size is 10 MB.   The message must
-include at least one recipient email address. The recipient address can be a To: address, a
-CC: address, or a BCC: address. If a recipient email address is invalid (that is, it is not
-in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire message will be
-rejected, even if the message contains other recipients that are valid.   The message may
-not include more than 50 recipients, across the To:, CC: and BCC: fields. If you need to
-send an email message to a larger audience, you can divide your recipient list into groups
-of 50 or fewer, and then call the SendEmail operation several times to send the message to
-each group.    For every message that you send, the total number of recipients (including
-each recipient in the To:, CC: and BCC: fields) is counted against the maximum number of
-emails you can send in a 24-hour period (your sending quota). For more information about
-sending quotas in Amazon SES, see Managing Your Amazon SES Sending Limits in the Amazon SES
-Developer Guide.
+Composes an email message and immediately queues it for sending. To send email using this
+operation, your message must meet the following requirements:   The message must be sent
+from a verified email address or domain. If you attempt to send email using a non-verified
+address or domain, the operation results in an \"Email address not verified\" error.    If
+your account is still in the Amazon SES sandbox, you may only send to verified addresses or
+domains, or to email addresses associated with the Amazon SES Mailbox Simulator. For more
+information, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.
+ The maximum message size is 10 MB.   The message must include at least one recipient email
+address. The recipient address can be a To: address, a CC: address, or a BCC: address. If a
+recipient email address is invalid (that is, it is not in the format
+UserName@[SubDomain.]Domain.TopLevelDomain), the entire message is rejected, even if the
+message contains other recipients that are valid.   The message may not include more than
+50 recipients, across the To:, CC: and BCC: fields. If you need to send an email message to
+a larger audience, you can divide your recipient list into groups of 50 or fewer, and then
+call the SendEmail operation several times to send the message to each group.    For every
+message that you send, the total number of recipients (including each recipient in the To:,
+CC: and BCC: fields) is counted against the maximum number of emails you can send in a
+24-hour period (your sending quota). For more information about sending quotas in Amazon
+SES, see Managing Your Amazon SES Sending Limits in the Amazon SES Developer Guide.
 
 # Arguments
 - `destination`: The destination for this email, composed of To:, CC:, and BCC: fields.
@@ -2065,26 +2066,26 @@ Developer Guide.
   authorization policy, then you must also specify the SourceArn parameter. For more
   information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES
   does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the
-  local part of a source email address (the part of the email address that precedes the @
-  sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part
-  after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as
-  described in RFC3492. The sender name (also known as the friendly name) may contain
-  non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as
-  described in RFC 2047. MIME encoded-word syntax uses the following form:
-  =?charset?encoding?encoded-text?=.
+  email address string must be 7-bit ASCII. If you want to send to or from email addresses
+  that contain Unicode characters in the domain part of an address, you must encode the
+  domain using Punycode. Punycode is not permitted in the local part of the email address
+  (the part before the @ sign) nor in the \"friendly from\" name. If you want to use Unicode
+  characters in the \"friendly from\" name, you must encode the \"friendly from\" name using
+  MIME encoded-word syntax, as described in Sending raw email using the Amazon SES API. For
+  more information about Punycode, see RFC 3492.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ConfigurationSetName"`: The name of the configuration set to use when you send an email
   using SendEmail.
 - `"ReplyToAddresses"`: The reply-to email address(es) for the message. If the recipient
-  replies to the message, each reply-to address will receive the reply.
-- `"ReturnPath"`: The email address that bounces and complaints will be forwarded to when
+  replies to the message, each reply-to address receives the reply.
+- `"ReturnPath"`: The email address that bounces and complaints are forwarded to when
   feedback forwarding is enabled. If the message cannot be delivered to the recipient, then
-  an error message will be returned from the recipient's ISP; this message will then be
-  forwarded to the email address specified by the ReturnPath parameter. The ReturnPath
-  parameter is never overwritten. This email address must be either individually verified
-  with Amazon SES, or from a domain that has been verified with Amazon SES.
+  an error message is returned from the recipient's ISP; this message is forwarded to the
+  email address specified by the ReturnPath parameter. The ReturnPath parameter is never
+  overwritten. This email address must be either individually verified with Amazon SES, or
+  from a domain that has been verified with Amazon SES.
 - `"ReturnPathArn"`: This parameter is used only for sending authorization. It is the ARN
   of the identity that is associated with the sending authorization policy that permits you
   to use the email address specified in the ReturnPath parameter. For example, if the owner
@@ -2145,9 +2146,9 @@ end
     send_raw_email(raw_message, params::Dict{String,<:Any})
 
 Composes an email message and immediately queues it for sending. This operation is more
-flexible than the SendEmail API operation. When you use the SendRawEmail operation, you can
+flexible than the SendEmail operation. When you use the SendRawEmail operation, you can
 specify the headers of the message as well as its content. This flexibility is useful, for
-example, when you want to send a multipart MIME email (such a message that contains both a
+example, when you need to send a multipart MIME email (such a message that contains both a
 text and an HTML version). You can also use this operation to send messages that include
 attachments. The SendRawEmail operation has the following requirements:   You can only send
 email from verified email addresses or domains. If you try to send email from an address
@@ -2169,22 +2170,22 @@ modify the contents of your message (for example, if you use open and click trac
 content that isn't 7-bit ASCII. For more information, see MIME Encoding in the Amazon SES
 Developer Guide.   Additionally, keep the following considerations in mind when using the
 SendRawEmail operation:   Although you can customize the message headers when using the
-SendRawEmail operation, Amazon SES will automatically apply its own Message-ID and Date
-headers; if you passed these headers when creating the message, they will be overwritten by
-the values that Amazon SES provides.   If you are using sending authorization to send on
-behalf of another user, SendRawEmail enables you to specify the cross-account identity for
-the email's Source, From, and Return-Path parameters in one of two ways: you can pass
-optional parameters SourceArn, FromArn, and/or ReturnPathArn to the API, or you can include
-the following X-headers in the header of your raw email:    X-SES-SOURCE-ARN
-X-SES-FROM-ARN     X-SES-RETURN-PATH-ARN     Don't include these X-headers in the DKIM
-signature. Amazon SES removes these before it sends the email.  If you only specify the
-SourceIdentityArn parameter, Amazon SES sets the From and Return-Path addresses to the same
-identity that you specified. For more information about sending authorization, see the
-Using Sending Authorization with Amazon SES in the Amazon SES Developer Guide.    For every
-message that you send, the total number of recipients (including each recipient in the To:,
-CC: and BCC: fields) is counted against the maximum number of emails you can send in a
-24-hour period (your sending quota). For more information about sending quotas in Amazon
-SES, see Managing Your Amazon SES Sending Limits in the Amazon SES Developer Guide.
+SendRawEmail operation, Amazon SES automatically applies its own Message-ID and Date
+headers; if you passed these headers when creating the message, they are overwritten by the
+values that Amazon SES provides.   If you are using sending authorization to send on behalf
+of another user, SendRawEmail enables you to specify the cross-account identity for the
+email's Source, From, and Return-Path parameters in one of two ways: you can pass optional
+parameters SourceArn, FromArn, and/or ReturnPathArn, or you can include the following
+X-headers in the header of your raw email:    X-SES-SOURCE-ARN     X-SES-FROM-ARN
+X-SES-RETURN-PATH-ARN     Don't include these X-headers in the DKIM signature. Amazon SES
+removes these before it sends the email.  If you only specify the SourceIdentityArn
+parameter, Amazon SES sets the From and Return-Path addresses to the same identity that you
+specified. For more information about sending authorization, see the Using Sending
+Authorization with Amazon SES in the Amazon SES Developer Guide.    For every message that
+you send, the total number of recipients (including each recipient in the To:, CC: and BCC:
+fields) is counted against the maximum number of emails you can send in a 24-hour period
+(your sending quota). For more information about sending quotas in Amazon SES, see Managing
+Your Amazon SES Sending Limits in the Amazon SES Developer Guide.
 
 # Arguments
 - `raw_message`: The raw email message itself. The message has to meet the following
@@ -2226,16 +2227,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Source"`: The identity's email address. If you do not provide a value for this
   parameter, you must specify a \"From\" address in the raw text of the message. (You can
   also specify both.)  Amazon SES does not support the SMTPUTF8 extension, as described
-  inRFC6531. For this reason, the local part of a source email address (the part of the email
-  address that precedes the @ sign) may only contain 7-bit ASCII characters. If the domain
-  part of an address (the part after the @ sign) contains non-ASCII characters, they must be
-  encoded using Punycode, as described in RFC3492. The sender name (also known as the
-  friendly name) may contain non-ASCII characters. These characters must be encoded using
-  MIME encoded-word syntax, as described in RFC 2047. MIME encoded-word syntax uses the
-  following form: =?charset?encoding?encoded-text?=.  If you specify the Source parameter and
-  have feedback forwarding enabled, then bounces and complaints will be sent to this email
-  address. This takes precedence over any Return-Path header that you might include in the
-  raw text of the message.
+  inRFC6531. For this reason, the email address string must be 7-bit ASCII. If you want to
+  send to or from email addresses that contain Unicode characters in the domain part of an
+  address, you must encode the domain using Punycode. Punycode is not permitted in the local
+  part of the email address (the part before the @ sign) nor in the \"friendly from\" name.
+  If you want to use Unicode characters in the \"friendly from\" name, you must encode the
+  \"friendly from\" name using MIME encoded-word syntax, as described in Sending raw email
+  using the Amazon SES API. For more information about Punycode, see RFC 3492.  If you
+  specify the Source parameter and have feedback forwarding enabled, then bounces and
+  complaints are sent to this email address. This takes precedence over any Return-Path
+  header that you might include in the raw text of the message.
 - `"SourceArn"`: This parameter is used only for sending authorization. It is the ARN of
   the identity that is associated with the sending authorization policy that permits you to
   send for the email address specified in the Source parameter. For example, if the owner of
@@ -2278,30 +2279,29 @@ end
     send_templated_email(destination, source, template, template_data)
     send_templated_email(destination, source, template, template_data, params::Dict{String,<:Any})
 
-Composes an email message using an email template and immediately queues it for sending. In
-order to send email using the SendTemplatedEmail operation, your call to the API must meet
-the following requirements:   The call must refer to an existing email template. You can
-create email templates using the CreateTemplate operation.   The message must be sent from
-a verified email address or domain.   If your account is still in the Amazon SES sandbox,
-you may only send to verified addresses or domains, or to email addresses associated with
-the Amazon SES Mailbox Simulator. For more information, see Verifying Email Addresses and
-Domains in the Amazon SES Developer Guide.    The maximum message size is 10 MB.   Calls to
-the SendTemplatedEmail operation may only include one Destination parameter. A destination
-is a set of recipients who will receive the same version of the email. The Destination
-parameter can include up to 50 recipients, across the To:, CC: and BCC: fields.   The
-Destination parameter must include at least one recipient email address. The recipient
-address can be a To: address, a CC: address, or a BCC: address. If a recipient email
-address is invalid (that is, it is not in the format
-UserName@[SubDomain.]Domain.TopLevelDomain), the entire message will be rejected, even if
-the message contains other recipients that are valid.    If your call to the
-SendTemplatedEmail operation includes all of the required parameters, Amazon SES accepts it
-and returns a Message ID. However, if Amazon SES can't render the email because the
-template contains errors, it doesn't send the email. Additionally, because it already
-accepted the message, Amazon SES doesn't return a message stating that it was unable to
-send the email. For these reasons, we highly recommend that you set up Amazon SES to send
-you notifications when Rendering Failure events occur. For more information, see Sending
-Personalized Email Using the Amazon SES API in the Amazon Simple Email Service Developer
-Guide.
+Composes an email message using an email template and immediately queues it for sending. To
+send email using this operation, your call must meet the following requirements:   The call
+must refer to an existing email template. You can create email templates using the
+CreateTemplate operation.   The message must be sent from a verified email address or
+domain.   If your account is still in the Amazon SES sandbox, you may only send to verified
+addresses or domains, or to email addresses associated with the Amazon SES Mailbox
+Simulator. For more information, see Verifying Email Addresses and Domains in the Amazon
+SES Developer Guide.    The maximum message size is 10 MB.   Calls to the
+SendTemplatedEmail operation may only include one Destination parameter. A destination is a
+set of recipients that receives the same version of the email. The Destination parameter
+can include up to 50 recipients, across the To:, CC: and BCC: fields.   The Destination
+parameter must include at least one recipient email address. The recipient address can be a
+To: address, a CC: address, or a BCC: address. If a recipient email address is invalid
+(that is, it is not in the format UserName@[SubDomain.]Domain.TopLevelDomain), the entire
+message is rejected, even if the message contains other recipients that are valid.    If
+your call to the SendTemplatedEmail operation includes all of the required parameters,
+Amazon SES accepts it and returns a Message ID. However, if Amazon SES can't render the
+email because the template contains errors, it doesn't send the email. Additionally,
+because it already accepted the message, Amazon SES doesn't return a message stating that
+it was unable to send the email. For these reasons, we highly recommend that you set up
+Amazon SES to send you notifications when Rendering Failure events occur. For more
+information, see Sending Personalized Email Using the Amazon SES API in the Amazon Simple
+Email Service Developer Guide.
 
 # Arguments
 - `destination`: The destination for this email, composed of To:, CC:, and BCC: fields. A
@@ -2312,14 +2312,14 @@ Guide.
   are sending on behalf of another user and have been permitted to do so by a sending
   authorization policy, then you must also specify the SourceArn parameter. For more
   information about sending authorization, see the Amazon SES Developer Guide.  Amazon SES
-  does not support the SMTPUTF8 extension, as described in RFC6531. For this reason, the
-  local part of a source email address (the part of the email address that precedes the @
-  sign) may only contain 7-bit ASCII characters. If the domain part of an address (the part
-  after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as
-  described in RFC3492. The sender name (also known as the friendly name) may contain
-  non-ASCII characters. These characters must be encoded using MIME encoded-word syntax, as
-  described inRFC 2047. MIME encoded-word syntax uses the following form:
-  =?charset?encoding?encoded-text?=.
+  does not support the SMTPUTF8 extension, as described in RFC6531. for this reason, The
+  email address string must be 7-bit ASCII. If you want to send to or from email addresses
+  that contain Unicode characters in the domain part of an address, you must encode the
+  domain using Punycode. Punycode is not permitted in the local part of the email address
+  (the part before the @ sign) nor in the \"friendly from\" name. If you want to use Unicode
+  characters in the \"friendly from\" name, you must encode the \"friendly from\" name using
+  MIME encoded-word syntax, as described in Sending raw email using the Amazon SES API. For
+  more information about Punycode, see RFC 3492.
 - `template`: The template to use when sending this email.
 - `template_data`: A list of replacement values to apply to the template. This parameter is
   a JSON object, typically consisting of key-value pairs in which the keys correspond to
@@ -2330,13 +2330,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ConfigurationSetName"`: The name of the configuration set to use when you send an email
   using SendTemplatedEmail.
 - `"ReplyToAddresses"`: The reply-to email address(es) for the message. If the recipient
-  replies to the message, each reply-to address will receive the reply.
-- `"ReturnPath"`: The email address that bounces and complaints will be forwarded to when
+  replies to the message, each reply-to address receives the reply.
+- `"ReturnPath"`: The email address that bounces and complaints are forwarded to when
   feedback forwarding is enabled. If the message cannot be delivered to the recipient, then
-  an error message will be returned from the recipient's ISP; this message will then be
-  forwarded to the email address specified by the ReturnPath parameter. The ReturnPath
-  parameter is never overwritten. This email address must be either individually verified
-  with Amazon SES, or from a domain that has been verified with Amazon SES.
+  an error message is returned from the recipient's ISP; this message is forwarded to the
+  email address specified by the ReturnPath parameter. The ReturnPath parameter is never
+  overwritten. This email address must be either individually verified with Amazon SES, or
+  from a domain that has been verified with Amazon SES.
 - `"ReturnPathArn"`: This parameter is used only for sending authorization. It is the ARN
   of the identity that is associated with the sending authorization policy that permits you
   to use the email address specified in the ReturnPath parameter. For example, if the owner
@@ -2409,9 +2409,9 @@ end
     set_active_receipt_rule_set(params::Dict{String,<:Any})
 
 Sets the specified receipt rule set as the active receipt rule set.  To disable your
-email-receiving through Amazon SES completely, you can call this API with RuleSetName set
-to null.  For information about managing receipt rule sets, see the Amazon SES Developer
-Guide. You can execute this operation no more than once per second.
+email-receiving through Amazon SES completely, you can call this operation with RuleSetName
+set to null.  For information about managing receipt rule sets, see the Amazon SES
+Developer Guide. You can execute this operation no more than once per second.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2498,12 +2498,12 @@ operation no more than once per second. For more information about using notific
 Amazon SES, see the Amazon SES Developer Guide.
 
 # Arguments
-- `forwarding_enabled`: Sets whether Amazon SES will forward bounce and complaint
-  notifications as email. true specifies that Amazon SES will forward bounce and complaint
-  notifications as email, in addition to any Amazon SNS topic publishing otherwise specified.
-  false specifies that Amazon SES will publish bounce and complaint notifications only
-  through Amazon SNS. This value can only be set to false when Amazon SNS topics are set for
-  both Bounce and Complaint notification types.
+- `forwarding_enabled`: Sets whether Amazon SES forwards bounce and complaint notifications
+  as email. true specifies that Amazon SES forwards bounce and complaint notifications as
+  email, in addition to any Amazon SNS topic publishing otherwise specified. false specifies
+  that Amazon SES publishes bounce and complaint notifications only through Amazon SNS. This
+  value can only be set to false when Amazon SNS topics are set for both Bounce and Complaint
+  notification types.
 - `identity`: The identity for which to set bounce and complaint notification forwarding.
   Examples: user@example.com, example.com.
 
@@ -2552,8 +2552,8 @@ information about using notifications with Amazon SES, see the Amazon SES Develo
 # Arguments
 - `enabled`: Sets whether Amazon SES includes the original email headers in Amazon SNS
   notifications of the specified notification type. A value of true specifies that Amazon SES
-  will include headers in notifications, and a value of false specifies that Amazon SES will
-  not include headers in notifications. This value can only be set when NotificationType is
+  includes headers in notifications, and a value of false specifies that Amazon SES does not
+  include headers in notifications. This value can only be set when NotificationType is
   already set to use a particular Amazon SNS topic.
 - `identity`: The identity for which to enable or disable headers in notifications.
   Examples: user@example.com, example.com.
@@ -2606,29 +2606,27 @@ end
 
 Enables or disables the custom MAIL FROM domain setup for a verified identity (an email
 address or a domain).  To send emails using the specified MAIL FROM domain, you must add an
-MX record to your MAIL FROM domain's DNS settings. If you want your emails to pass Sender
+MX record to your MAIL FROM domain's DNS settings. To ensure that your emails pass Sender
 Policy Framework (SPF) checks, you must also add or update an SPF record. For more
 information, see the Amazon SES Developer Guide.  You can execute this operation no more
 than once per second.
 
 # Arguments
-- `identity`: The verified identity for which you want to enable or disable the specified
-  custom MAIL FROM domain.
+- `identity`: The verified identity.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"BehaviorOnMXFailure"`: The action that you want Amazon SES to take if it cannot
-  successfully read the required MX record when you send an email. If you choose
-  UseDefaultValue, Amazon SES will use amazonses.com (or a subdomain of that) as the MAIL
-  FROM domain. If you choose RejectMessage, Amazon SES will return a
-  MailFromDomainNotVerified error and not send the email. The action specified in
-  BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup is in the Pending,
-  Failed, and TemporaryFailure states.
-- `"MailFromDomain"`: The custom MAIL FROM domain that you want the verified identity to
-  use. The MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used
-  in a \"From\" address if the MAIL FROM domain is the destination of email feedback
-  forwarding (for more information, see the Amazon SES Developer Guide), and 3) not be used
-  to receive emails. A value of null disables the custom MAIL FROM setting for the identity.
+- `"BehaviorOnMXFailure"`: The action for Amazon SES to take if it cannot successfully read
+  the required MX record when you send an email. If you choose UseDefaultValue, Amazon SES
+  uses amazonses.com (or a subdomain of that) as the MAIL FROM domain. If you choose
+  RejectMessage, Amazon SES returns a MailFromDomainNotVerified error and not send the email.
+  The action specified in BehaviorOnMXFailure is taken when the custom MAIL FROM domain setup
+  is in the Pending, Failed, and TemporaryFailure states.
+- `"MailFromDomain"`: The custom MAIL FROM domain for the verified identity to use. The
+  MAIL FROM domain must 1) be a subdomain of the verified identity, 2) not be used in a
+  \"From\" address if the MAIL FROM domain is the destination of email feedback forwarding
+  (for more information, see the Amazon SES Developer Guide), and 3) not be used to receive
+  emails. A value of null disables the custom MAIL FROM setting for the identity.
 """
 function set_identity_mail_from_domain(
     Identity; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2668,13 +2666,13 @@ topic that you specify. You can execute this operation no more than once per sec
 more information about feedback notification, see the Amazon SES Developer Guide.
 
 # Arguments
-- `identity`: The identity (email address or domain) that you want to set the Amazon SNS
-  topic for.  You can only specify a verified identity for this parameter.  You can specify
-  an identity by using its name or by using its Amazon Resource Name (ARN). The following
-  examples are all valid identities: sender@example.com, example.com,
+- `identity`: The identity (email address or domain) for the Amazon SNS topic.  You can
+  only specify a verified identity for this parameter.  You can specify an identity by using
+  its name or by using its Amazon Resource Name (ARN). The following examples are all valid
+  identities: sender@example.com, example.com,
   arn:aws:ses:us-east-1:123456789012:identity/example.com.
-- `notification_type`: The type of notifications that will be published to the specified
-  Amazon SNS topic.
+- `notification_type`: The type of notifications that are published to the specified Amazon
+  SNS topic.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2772,7 +2770,7 @@ of replacement data. You can execute this operation no more than once per second
 - `template_data`: A list of replacement values to apply to the template. This parameter is
   a JSON object, typically consisting of key-value pairs in which the keys correspond to
   replacement tags in the email template.
-- `template_name`: The name of the template that you want to render.
+- `template_name`: The name of the template to render.
 
 """
 function test_render_template(
@@ -2811,16 +2809,17 @@ end
     update_account_sending_enabled()
     update_account_sending_enabled(params::Dict{String,<:Any})
 
-Enables or disables email sending across your entire Amazon SES account in the current AWS
-Region. You can use this operation in conjunction with Amazon CloudWatch alarms to
-temporarily pause email sending across your Amazon SES account in a given AWS Region when
-reputation metrics (such as your bounce or complaint rates) reach certain thresholds. You
-can execute this operation no more than once per second.
+Enables or disables email sending across your entire Amazon SES account in the current
+Amazon Web Services Region. You can use this operation in conjunction with Amazon
+CloudWatch alarms to temporarily pause email sending across your Amazon SES account in a
+given Amazon Web Services Region when reputation metrics (such as your bounce or complaint
+rates) reach certain thresholds. You can execute this operation no more than once per
+second.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Enabled"`: Describes whether email sending is enabled or disabled for your Amazon SES
-  account in the current AWS Region.
+  account in the current Amazon Web Services Region.
 """
 function update_account_sending_enabled(; aws_config::AbstractAWSConfig=global_aws_config())
     return ses(
@@ -2855,9 +2854,8 @@ You can execute this operation no more than once per second.
 
 # Arguments
 - `configuration_set_name`: The name of the configuration set that contains the event
-  destination that you want to update.
-- `event_destination`: The event destination object that you want to apply to the specified
-  configuration set.
+  destination.
+- `event_destination`: The event destination object.
 
 """
 function update_configuration_set_event_destination(
@@ -2903,14 +2901,14 @@ end
     update_configuration_set_reputation_metrics_enabled(configuration_set_name, enabled, params::Dict{String,<:Any})
 
 Enables or disables the publishing of reputation metrics for emails sent using a specific
-configuration set in a given AWS Region. Reputation metrics include bounce and complaint
-rates. These metrics are published to Amazon CloudWatch. By using CloudWatch, you can
-create alarms when bounce or complaint rates exceed certain thresholds. You can execute
-this operation no more than once per second.
+configuration set in a given Amazon Web Services Region. Reputation metrics include bounce
+and complaint rates. These metrics are published to Amazon CloudWatch. By using CloudWatch,
+you can create alarms when bounce or complaint rates exceed certain thresholds. You can
+execute this operation no more than once per second.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to update.
-- `enabled`: Describes whether or not Amazon SES will publish reputation metrics for the
+- `configuration_set_name`: The name of the configuration set to update.
+- `enabled`: Describes whether or not Amazon SES publishes reputation metrics for the
   configuration set, such as bounce and complaint rates, to Amazon CloudWatch.
 
 """
@@ -2953,13 +2951,13 @@ end
     update_configuration_set_sending_enabled(configuration_set_name, enabled, params::Dict{String,<:Any})
 
 Enables or disables email sending for messages sent using a specific configuration set in a
-given AWS Region. You can use this operation in conjunction with Amazon CloudWatch alarms
-to temporarily pause email sending for a configuration set when the reputation metrics for
-that configuration set (such as your bounce on complaint rate) exceed certain thresholds.
-You can execute this operation no more than once per second.
+given Amazon Web Services Region. You can use this operation in conjunction with Amazon
+CloudWatch alarms to temporarily pause email sending for a configuration set when the
+reputation metrics for that configuration set (such as your bounce on complaint rate)
+exceed certain thresholds. You can execute this operation no more than once per second.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set that you want to update.
+- `configuration_set_name`: The name of the configuration set to update.
 - `enabled`: Describes whether email sending is enabled or disabled for the configuration
   set.
 
@@ -3009,8 +3007,7 @@ handle these events. For information about using custom domains, see the Amazon 
 Developer Guide.
 
 # Arguments
-- `configuration_set_name`: The name of the configuration set for which you want to update
-  the custom tracking domain.
+- `configuration_set_name`: The name of the configuration set.
 - `tracking_options`:
 
 """
@@ -3059,8 +3056,7 @@ verification email templates, see Using Custom Verification Email Templates in t
 SES Developer Guide. You can execute this operation no more than once per second.
 
 # Arguments
-- `template_name`: The name of the custom verification email template that you want to
-  update.
+- `template_name`: The name of the custom verification email template to update.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3147,8 +3143,8 @@ end
     update_template(template, params::Dict{String,<:Any})
 
 Updates an email template. Email templates enable you to send personalized email to one or
-more destinations in a single API operation. For more information, see the Amazon SES
-Developer Guide. You can execute this operation no more than once per second.
+more destinations in a single operation. For more information, see the Amazon SES Developer
+Guide. You can execute this operation no more than once per second.
 
 # Arguments
 - `template`:
@@ -3225,10 +3221,10 @@ end
     verify_domain_identity(domain)
     verify_domain_identity(domain, params::Dict{String,<:Any})
 
-Adds a domain to the list of identities for your Amazon SES account in the current AWS
-Region and attempts to verify it. For more information about verifying domains, see
-Verifying Email Addresses and Domains in the Amazon SES Developer Guide.  You can execute
-this operation no more than once per second.
+Adds a domain to the list of identities for your Amazon SES account in the current Amazon
+Web Services Region and attempts to verify it. For more information about verifying
+domains, see Verifying Email Addresses and Domains in the Amazon SES Developer Guide.  You
+can execute this operation no more than once per second.
 
 # Arguments
 - `domain`: The domain to be verified.
@@ -3293,9 +3289,9 @@ end
     verify_email_identity(email_address, params::Dict{String,<:Any})
 
 Adds an email address to the list of identities for your Amazon SES account in the current
-AWS region and attempts to verify it. As a result of executing this operation, a
-verification email is sent to the specified address. You can execute this operation no more
-than once per second.
+Amazon Web Services Region and attempts to verify it. As a result of executing this
+operation, a verification email is sent to the specified address. You can execute this
+operation no more than once per second.
 
 # Arguments
 - `email_address`: The email address to be verified.

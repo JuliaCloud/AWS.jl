@@ -98,6 +98,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Access Manager User Guide.
 - `"resourceArns"`: Specifies a list of Amazon Resource Names (ARNs) of the resources that
   you want to share. This can be null if you want to add only principals.
+- `"sources"`: Specifies from which source accounts the service principal has access to the
+  resources in this resource share.
 """
 function associate_resource_share(
     resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -410,6 +412,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Access Manager User Guide.
 - `"resourceArns"`: Specifies a list of one or more ARNs of the resources to associate with
   the resource share.
+- `"sources"`: Specifies from which source accounts the service principal has access to the
+  resources in this resource share.
 - `"tags"`: Specifies one or more tags to attach to the resource share itself. It doesn't
   attach the tags to the resources associated with the resource share.
 """
@@ -639,6 +643,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceArns"`: Specifies a list of Amazon Resource Names (ARNs) for one or more
   resources that you want to remove from the resource share. After the operation runs, these
   resources are no longer shared with principals associated with the resource share.
+- `"sources"`: Specifies from which source accounts the service principal no longer has
+  access to the resources in this resource share.
 """
 function disassociate_resource_share(
     resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -894,8 +900,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 - `"principal"`: Specifies the ID of the principal whose resource shares you want to
   retrieve. This can be an Amazon Web Services account ID, an organization ID, an
-  organizational unit ID, or the Amazon Resource Name (ARN) of an individual IAM user or
-  role. You cannot specify this parameter if the association type is RESOURCE.
+  organizational unit ID, or the Amazon Resource Name (ARN) of an individual IAM role or
+  user. You cannot specify this parameter if the association type is RESOURCE.
 - `"resourceArn"`: Specifies the Amazon Resource Name (ARN) of a resource whose resource
   shares you want to retrieve. You cannot specify this parameter if the association type is
   PRINCIPAL.

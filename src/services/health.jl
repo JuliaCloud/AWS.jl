@@ -106,8 +106,8 @@ function describe_affected_entities(
 end
 
 """
-    describe_affected_entities_for_organization(organization_entity_filters)
-    describe_affected_entities_for_organization(organization_entity_filters, params::Dict{String,<:Any})
+    describe_affected_entities_for_organization()
+    describe_affected_entities_for_organization(params::Dict{String,<:Any})
 
 Returns a list of entities that have been affected by one or more events for one or more
 accounts in your organization in Organizations, based on the filter criteria. Entities can
@@ -122,10 +122,6 @@ permissions. You can't use this operation to allow or deny access to specific He
 events. For more information, see Resource- and action-based conditions in the Health User
 Guide.
 
-# Arguments
-- `organization_entity_filters`: A JSON set of elements including the awsAccountId and the
-  eventArn.
-
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"locale"`: The locale (language) to return information in. English (en) is the default
@@ -136,31 +132,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned, and a nextToken pagination token is returned in the response. To retrieve the
   next batch of results, reissue the search request and include the returned token. When all
   results have been returned, the response does not contain a pagination token value.
+- `"organizationEntityAccountFilters"`: A JSON set of elements including the awsAccountId,
+  eventArn and a set of statusCodes.
+- `"organizationEntityFilters"`: A JSON set of elements including the awsAccountId and the
+  eventArn.
 """
-function describe_affected_entities_for_organization(
-    organizationEntityFilters; aws_config::AbstractAWSConfig=global_aws_config()
+function describe_affected_entities_for_organization(;
+    aws_config::AbstractAWSConfig=global_aws_config()
 )
     return health(
-        "DescribeAffectedEntitiesForOrganization",
-        Dict{String,Any}("organizationEntityFilters" => organizationEntityFilters);
+        "DescribeAffectedEntitiesForOrganization";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function describe_affected_entities_for_organization(
-    organizationEntityFilters,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return health(
         "DescribeAffectedEntitiesForOrganization",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("organizationEntityFilters" => organizationEntityFilters),
-                params,
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -191,6 +182,50 @@ function describe_entity_aggregates(
     return health(
         "DescribeEntityAggregates",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_entity_aggregates_for_organization(event_arns)
+    describe_entity_aggregates_for_organization(event_arns, params::Dict{String,<:Any})
+
+Returns a list of entity aggregates for your Organizations that are affected by each of the
+specified events.
+
+# Arguments
+- `event_arns`: A list of event ARNs (unique identifiers). For example:
+  \"arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREM
+  ENT_SCHEDULED_ABC123-CDE456\",
+  \"arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101
+  \"
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"awsAccountIds"`: A list of 12-digit Amazon Web Services account numbers that contains
+  the affected entities.
+"""
+function describe_entity_aggregates_for_organization(
+    eventArns; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return health(
+        "DescribeEntityAggregatesForOrganization",
+        Dict{String,Any}("eventArns" => eventArns);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_entity_aggregates_for_organization(
+    eventArns,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return health(
+        "DescribeEntityAggregatesForOrganization",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("eventArns" => eventArns), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

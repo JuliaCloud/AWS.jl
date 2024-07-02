@@ -842,6 +842,59 @@ function send_api_asset(
 end
 
 """
+    send_data_set_notification(data_set_id, type)
+    send_data_set_notification(data_set_id, type, params::Dict{String,<:Any})
+
+The type of event associated with the data set.
+
+# Arguments
+- `data_set_id`: Affected data set of the notification.
+- `type`: The type of the notification. Describing the kind of event the notification is
+  alerting you to.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Idempotency key for the notification, this key allows us to deduplicate
+  notifications that are sent in quick succession erroneously.
+- `"Comment"`: Free-form text field for providers to add information about their
+  notifications.
+- `"Details"`: Extra details specific to this notification type.
+- `"Scope"`: Affected scope of this notification such as the underlying resources affected
+  by the notification event.
+"""
+function send_data_set_notification(
+    DataSetId, Type; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return dataexchange(
+        "POST",
+        "/v1/data-sets/$(DataSetId)/notification",
+        Dict{String,Any}("Type" => Type, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function send_data_set_notification(
+    DataSetId,
+    Type,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return dataexchange(
+        "POST",
+        "/v1/data-sets/$(DataSetId)/notification",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Type" => Type, "ClientToken" => string(uuid4())),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     start_job(job_id)
     start_job(job_id, params::Dict{String,<:Any})
 

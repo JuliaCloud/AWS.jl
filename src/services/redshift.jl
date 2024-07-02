@@ -129,13 +129,14 @@ association, the consumer can consume the datashare.
 
 # Arguments
 - `data_share_arn`: The Amazon Resource Name (ARN) of the datashare that the consumer is to
-  use with the account or the namespace.
+  use.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowWrites"`: If set to true, allows write operations for a datashare.
 - `"AssociateEntireAccount"`: A value that specifies whether the datashare is associated
   with the entire account.
-- `"ConsumerArn"`: The Amazon Resource Name (ARN) of the consumer that is associated with
+- `"ConsumerArn"`: The Amazon Resource Name (ARN) of the consumer namespace associated with
   the datashare.
 - `"ConsumerRegion"`: From a datashare consumer account, associates a datashare with all
   existing and future namespaces in the specified Amazon Web Services Region.
@@ -237,9 +238,12 @@ producer account must have the correct access permissions.
 - `consumer_identifier`: The identifier of the data consumer that is authorized to access
   the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as
   ADX.
-- `data_share_arn`: The Amazon Resource Name (ARN) of the datashare that producers are to
-  authorize sharing for.
+- `data_share_arn`: The Amazon Resource Name (ARN) of the datashare namespace that
+  producers are to authorize sharing for.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowWrites"`: If set to true, allows write operations for a datashare.
 """
 function authorize_data_share(
     ConsumerIdentifier, DataShareArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -328,8 +332,11 @@ Amazon Redshift Cluster Management Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SnapshotArn"`: The Amazon Resource Name (ARN) of the snapshot to authorize access to.
 - `"SnapshotClusterIdentifier"`: The identifier of the cluster the snapshot was created
-  from. This parameter is required if your IAM user or role has a policy containing a
-  snapshot resource element that specifies anything other than * for the cluster name.
+  from.    If the snapshot to access doesn't exist and the associated IAM policy doesn't
+  allow access to all (*) snapshots - This parameter is required. Otherwise, permissions
+  aren't available to check if the snapshot exists.    If the snapshot to access exists -
+  This parameter isn't required. Redshift can retrieve the cluster identifier and use it to
+  validate snapshot authorization.
 - `"SnapshotIdentifier"`: The identifier of the snapshot the account is authorized to
   restore.
 """
@@ -513,9 +520,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If the value is -1, the manual snapshot is retained indefinitely.  The value must be either
   -1 or an integer between 1 and 3,653. The default value is -1.
 - `"SourceSnapshotClusterIdentifier"`: The identifier of the cluster the source snapshot
-  was created from. This parameter is required if your IAM user or role has a policy
-  containing a snapshot resource element that specifies anything other than * for the cluster
-  name. Constraints:   Must be the identifier for a valid cluster.
+  was created from. This parameter is required if your IAM user has a policy containing a
+  snapshot resource element that specifies anything other than * for the cluster name.
+  Constraints:   Must be the identifier for a valid cluster.
 """
 function copy_cluster_snapshot(
     SourceSnapshotIdentifier,
@@ -606,8 +613,8 @@ function create_authentication_profile(
 end
 
 """
-    create_cluster(cluster_identifier, master_user_password, master_username, node_type)
-    create_cluster(cluster_identifier, master_user_password, master_username, node_type, params::Dict{String,<:Any})
+    create_cluster(cluster_identifier, master_username, node_type)
+    create_cluster(cluster_identifier, master_username, node_type, params::Dict{String,<:Any})
 
 Creates a new cluster with the specified parameters. To create a cluster in Virtual Private
 Cloud (VPC), you must provide a cluster subnet group name. The cluster subnet group
@@ -623,22 +630,16 @@ Redshift Cluster Management Guide.
     First character must be a letter.   Cannot end with a hyphen or contain two consecutive
   hyphens.   Must be unique for all clusters within an Amazon Web Services account.
   Example: myexamplecluster
-- `master_user_password`: The password associated with the admin user for the cluster that
-  is being created. Constraints:   Must be between 8 and 64 characters in length.   Must
-  contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must
-  contain one number.   Can be any printable ASCII character (ASCII code 33-126) except '
-  (single quote), \" (double quote), , /, or @.
-- `master_username`: The user name associated with the admin user for the cluster that is
-  being created. Constraints:   Must be 1 - 128 alphanumeric characters or hyphens. The user
-  name can't be PUBLIC.   Must contain only lowercase letters, numbers, underscore, plus
-  sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.
-  Must not contain a colon (:) or a slash (/).   Cannot be a reserved word. A list of
+- `master_username`: The user name associated with the admin user account for the cluster
+  that is being created. Constraints:   Must be 1 - 128 alphanumeric characters or hyphens.
+  The user name can't be PUBLIC.   Must contain only lowercase letters, numbers, underscore,
+  plus sign, period (dot), at symbol (@), or hyphen.   The first character must be a letter.
+   Must not contain a colon (:) or a slash (/).   Cannot be a reserved word. A list of
   reserved words can be found in Reserved Words in the Amazon Redshift Database Developer
   Guide.
 - `node_type`: The node type to be provisioned for the cluster. For information about node
   types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid
-  Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge |
-  ra3.xlplus | ra3.4xlarge | ra3.16xlarge
+  Values: dc2.large | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -710,6 +711,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   their Amazon Resource Name (ARN) format.  The maximum number of IAM roles that you can
   associate is subject to a quota. For more information, go to Quotas and limits in the
   Amazon Redshift Cluster Management Guide.
+- `"IpAddressType"`: The IP address types that the cluster supports. Possible values are
+  ipv4 and dualstack.
 - `"KmsKeyId"`: The Key Management Service (KMS) key ID of the encryption key that you want
   to use to encrypt data in the cluster.
 - `"LoadSampleData"`: A flag that specifies whether to load sample data once the cluster is
@@ -717,10 +720,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaintenanceTrackName"`: An optional parameter for the name of the maintenance track for
   the cluster. If you don't provide a maintenance track name, the cluster is assigned to the
   current track.
+- `"ManageMasterPassword"`: If true, Amazon Redshift uses Secrets Manager to manage this
+  cluster's admin credentials. You can't use MasterUserPassword if ManageMasterPassword is
+  true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword
+  for the admin user account's password.
 - `"ManualSnapshotRetentionPeriod"`: The default number of days to retain a manual
   snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't
   change the retention period of existing snapshots. The value must be either -1 or an
   integer between 1 and 3,653.
+- `"MasterPasswordSecretKmsKeyId"`: The ID of the Key Management Service (KMS) key used to
+  encrypt and store the cluster's admin credentials secret. You can only use this parameter
+  if ManageMasterPassword is true.
+- `"MasterUserPassword"`: The password associated with the admin user account for the
+  cluster that is being created. You can't use MasterUserPassword if ManageMasterPassword is
+  true. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least
+  one uppercase letter.   Must contain at least one lowercase letter.   Must contain one
+  number.   Can be any printable ASCII character (ASCII code 33-126) except ' (single quote),
+  \" (double quote), , /, or @.
+- `"MultiAZ"`: If true, Amazon Redshift will deploy the cluster in two Availability Zones
+  (AZ).
 - `"NumberOfNodes"`: The number of compute nodes in the cluster. This parameter is required
   when the ClusterType parameter is specified as multi-node.  For information about
   determining how many nodes you need, go to  Working with Clusters in the Amazon Redshift
@@ -731,7 +749,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Port"`: The port number on which the cluster accepts incoming connections. The cluster
   is accessible only via the JDBC and ODBC connection strings. Part of the connection string
   requires the port on which the cluster will listen for incoming connections. Default: 5439
-  Valid Values: 1150-65535
+  Valid Values:    For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or
+  8191-8215. (If you have an existing cluster with ra3 nodes, it isn't required that you
+  change the port to these ranges.)   For clusters with dc2 nodes - Select a port within the
+  range 1150-65535.
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which automated
   cluster maintenance can occur.  Format: ddd:hh24:mi-ddd:hh24:mi   Default: A 30-minute
   window selected at random from an 8-hour block of time per region, occurring on a random
@@ -739,6 +760,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Maintenance Windows in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue |
   Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
 - `"PubliclyAccessible"`: If true, the cluster can be accessed from a public network.
+- `"RedshiftIdcApplicationArn"`: The Amazon resource name (ARN) of the Amazon Redshift IAM
+  Identity Center application.
 - `"SnapshotScheduleIdentifier"`: A unique identifier for the snapshot schedule.
 - `"Tags"`: A list of tag instances.
 - `"VpcSecurityGroupIds"`: A list of Virtual Private Cloud (VPC) security groups to be
@@ -747,7 +770,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 """
 function create_cluster(
     ClusterIdentifier,
-    MasterUserPassword,
     MasterUsername,
     NodeType;
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -756,7 +778,6 @@ function create_cluster(
         "CreateCluster",
         Dict{String,Any}(
             "ClusterIdentifier" => ClusterIdentifier,
-            "MasterUserPassword" => MasterUserPassword,
             "MasterUsername" => MasterUsername,
             "NodeType" => NodeType,
         );
@@ -766,7 +787,6 @@ function create_cluster(
 end
 function create_cluster(
     ClusterIdentifier,
-    MasterUserPassword,
     MasterUsername,
     NodeType,
     params::AbstractDict{String};
@@ -779,7 +799,6 @@ function create_cluster(
                 _merge,
                 Dict{String,Any}(
                     "ClusterIdentifier" => ClusterIdentifier,
-                    "MasterUserPassword" => MasterUserPassword,
                     "MasterUsername" => MasterUsername,
                     "NodeType" => NodeType,
                 ),
@@ -1035,6 +1054,63 @@ function create_cluster_subnet_group(
                     "ClusterSubnetGroupName" => ClusterSubnetGroupName,
                     "Description" => Description,
                     "SubnetIdentifier" => SubnetIdentifier,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_custom_domain_association(cluster_identifier, custom_domain_certificate_arn, custom_domain_name)
+    create_custom_domain_association(cluster_identifier, custom_domain_certificate_arn, custom_domain_name, params::Dict{String,<:Any})
+
+Used to create a custom domain name for a cluster. Properties include the custom domain
+name, the cluster the custom domain is associated with, and the certificate Amazon Resource
+Name (ARN).
+
+# Arguments
+- `cluster_identifier`: The cluster identifier that the custom domain is associated with.
+- `custom_domain_certificate_arn`: The certificate Amazon Resource Name (ARN) for the
+  custom domain name association.
+- `custom_domain_name`: The custom domain name for a custom domain association.
+
+"""
+function create_custom_domain_association(
+    ClusterIdentifier,
+    CustomDomainCertificateArn,
+    CustomDomainName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateCustomDomainAssociation",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "CustomDomainCertificateArn" => CustomDomainCertificateArn,
+            "CustomDomainName" => CustomDomainName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_custom_domain_association(
+    ClusterIdentifier,
+    CustomDomainCertificateArn,
+    CustomDomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateCustomDomainAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "CustomDomainCertificateArn" => CustomDomainCertificateArn,
+                    "CustomDomainName" => CustomDomainName,
                 ),
                 params,
             ),
@@ -1313,6 +1389,78 @@ function create_hsm_configuration(
                     "HsmPartitionName" => HsmPartitionName,
                     "HsmPartitionPassword" => HsmPartitionPassword,
                     "HsmServerPublicCertificate" => HsmServerPublicCertificate,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_redshift_idc_application(iam_role_arn, idc_display_name, idc_instance_arn, redshift_idc_application_name)
+    create_redshift_idc_application(iam_role_arn, idc_display_name, idc_instance_arn, redshift_idc_application_name, params::Dict{String,<:Any})
+
+Creates an Amazon Redshift application for use with IAM Identity Center.
+
+# Arguments
+- `iam_role_arn`: The IAM role ARN for the Amazon Redshift IAM Identity Center application
+  instance. It has the required permissions to be assumed and invoke the IDC Identity Center
+  API.
+- `idc_display_name`: The display name for the Amazon Redshift IAM Identity Center
+  application instance. It appears in the console.
+- `idc_instance_arn`: The Amazon resource name (ARN) of the IAM Identity Center instance
+  where Amazon Redshift creates a new managed application.
+- `redshift_idc_application_name`: The name of the Redshift application in IAM Identity
+  Center.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthorizedTokenIssuerList"`: The token issuer list for the Amazon Redshift IAM Identity
+  Center application instance.
+- `"IdentityNamespace"`: The namespace for the Amazon Redshift IAM Identity Center
+  application instance. It determines which managed application verifies the connection token.
+- `"ServiceIntegrations"`: A collection of service integrations for the Redshift IAM
+  Identity Center application.
+"""
+function create_redshift_idc_application(
+    IamRoleArn,
+    IdcDisplayName,
+    IdcInstanceArn,
+    RedshiftIdcApplicationName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateRedshiftIdcApplication",
+        Dict{String,Any}(
+            "IamRoleArn" => IamRoleArn,
+            "IdcDisplayName" => IdcDisplayName,
+            "IdcInstanceArn" => IdcInstanceArn,
+            "RedshiftIdcApplicationName" => RedshiftIdcApplicationName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_redshift_idc_application(
+    IamRoleArn,
+    IdcDisplayName,
+    IdcInstanceArn,
+    RedshiftIdcApplicationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "CreateRedshiftIdcApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IamRoleArn" => IamRoleArn,
+                    "IdcDisplayName" => IdcDisplayName,
+                    "IdcInstanceArn" => IdcInstanceArn,
+                    "RedshiftIdcApplicationName" => RedshiftIdcApplicationName,
                 ),
                 params,
             ),
@@ -1617,8 +1765,8 @@ From a datashare producer account, removes authorization from the specified data
 - `consumer_identifier`: The identifier of the data consumer that is to have authorization
   removed from the datashare. This identifier is an Amazon Web Services account ID or a
   keyword, such as ADX.
-- `data_share_arn`: The Amazon Resource Name (ARN) of the datashare to remove authorization
-  from.
+- `data_share_arn`: The namespace Amazon Resource Name (ARN) of the datashare to remove
+  authorization from.
 
 """
 function deauthorize_data_share(
@@ -1862,7 +2010,7 @@ authorizations before you can delete the snapshot.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"SnapshotClusterIdentifier"`: The unique identifier of the cluster the snapshot was
-  created from. This parameter is required if your IAM user or role has a policy containing a
+  created from. This parameter is required if your IAM user has a policy containing a
   snapshot resource element that specifies anything other than * for the cluster name.
   Constraints: Must be the name of valid cluster.
 """
@@ -1924,6 +2072,53 @@ function delete_cluster_subnet_group(
             mergewith(
                 _merge,
                 Dict{String,Any}("ClusterSubnetGroupName" => ClusterSubnetGroupName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_custom_domain_association(cluster_identifier, custom_domain_name)
+    delete_custom_domain_association(cluster_identifier, custom_domain_name, params::Dict{String,<:Any})
+
+Contains information about deleting a custom domain association for a cluster.
+
+# Arguments
+- `cluster_identifier`: The identifier of the cluster to delete a custom domain association
+  for.
+- `custom_domain_name`: The custom domain name for the custom domain association.
+
+"""
+function delete_custom_domain_association(
+    ClusterIdentifier, CustomDomainName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteCustomDomainAssociation",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier, "CustomDomainName" => CustomDomainName
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_custom_domain_association(
+    ClusterIdentifier,
+    CustomDomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteCustomDomainAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "CustomDomainName" => CustomDomainName,
+                ),
                 params,
             ),
         );
@@ -2146,6 +2341,82 @@ function delete_partner(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_redshift_idc_application(redshift_idc_application_arn)
+    delete_redshift_idc_application(redshift_idc_application_arn, params::Dict{String,<:Any})
+
+Deletes an Amazon Redshift IAM Identity Center application.
+
+# Arguments
+- `redshift_idc_application_arn`: The ARN for a deleted Amazon Redshift IAM Identity Center
+  application.
+
+"""
+function delete_redshift_idc_application(
+    RedshiftIdcApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteRedshiftIdcApplication",
+        Dict{String,Any}("RedshiftIdcApplicationArn" => RedshiftIdcApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_redshift_idc_application(
+    RedshiftIdcApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteRedshiftIdcApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RedshiftIdcApplicationArn" => RedshiftIdcApplicationArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_resource_policy(resource_arn)
+    delete_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Deletes the resource policy for a specified resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource of which its resource
+  policy is deleted.
+
+"""
+function delete_resource_policy(
+    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DeleteResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "DeleteResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2669,7 +2940,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
   retrying the command with the returned marker value.  Default: 100  Constraints: minimum
-  20, maximum 500.
+  20, maximum 100.
 - `"OwnerAccount"`: The Amazon Web Services account used to create or copy the snapshot.
   Use this field to filter the results to snapshots owned by a particular account. To
   describe snapshots you own, either specify your Amazon Web Services account, or do not
@@ -2898,6 +3169,40 @@ function describe_clusters(
 end
 
 """
+    describe_custom_domain_associations()
+    describe_custom_domain_associations(params::Dict{String,<:Any})
+
+Contains information about custom domain associations for a cluster.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CustomDomainCertificateArn"`: The certificate Amazon Resource Name (ARN) for the custom
+  domain association.
+- `"CustomDomainName"`: The custom domain name for the custom domain association.
+- `"Marker"`: The marker for the custom domain association.
+- `"MaxRecords"`: The maximum records setting for the associated custom domain.
+"""
+function describe_custom_domain_associations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeCustomDomainAssociations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_custom_domain_associations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeCustomDomainAssociations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_data_shares()
     describe_data_shares(params::Dict{String,<:Any})
 
@@ -2905,7 +3210,7 @@ Shows the status of any inbound or outbound datashares available in the specifie
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"DataShareArn"`: The identifier of the datashare to describe details of.
+- `"DataShareArn"`: The Amazon resource name (ARN) of the datashare to describe details of.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeDataShares request exceed the value
   specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the
@@ -2938,8 +3243,8 @@ account identifier.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConsumerArn"`: The Amazon Resource Name (ARN) of the consumer that returns in the list
-  of datashares.
+- `"ConsumerArn"`: The Amazon Resource Name (ARN) of the consumer namespace that returns in
+  the list of datashares.
 - `"Marker"`: An optional parameter that specifies the starting point to return a set of
   response records. When the results of a DescribeDataSharesForConsumer request exceed the
   value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
@@ -2991,8 +3296,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of remaining response records exceeds the specified MaxRecords value, a value is
   returned in a marker field of the response. You can retrieve the next set of records by
   retrying the command with the returned marker value.
-- `"ProducerArn"`: The Amazon Resource Name (ARN) of the producer that returns in the list
-  of datashares.
+- `"ProducerArn"`: The Amazon Resource Name (ARN) of the producer namespace that returns in
+  the list of datashares.
 - `"Status"`: An identifier giving the status of a datashare in the producer. If this field
   is specified, Amazon Redshift returns the list of datashares that have the specified status.
 """
@@ -3407,6 +3712,45 @@ function describe_hsm_configurations(
 end
 
 """
+    describe_inbound_integrations()
+    describe_inbound_integrations(params::Dict{String,<:Any})
+
+Returns a list of inbound integrations.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"IntegrationArn"`: The Amazon Resource Name (ARN) of the inbound integration.
+- `"Marker"`: An optional parameter that specifies the starting point to return a set of
+  response records. When the results of a DescribeInboundIntegrations request exceed the
+  value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of
+  the response. You can retrieve the next set of response records by providing the returned
+  marker value in the Marker parameter and retrying the request.
+- `"MaxRecords"`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.  Default: 100  Constraints: minimum
+  20, maximum 100.
+- `"TargetArn"`: The Amazon Resource Name (ARN) of the target of an inbound integration.
+"""
+function describe_inbound_integrations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift(
+        "DescribeInboundIntegrations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_inbound_integrations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeInboundIntegrations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_logging_status(cluster_identifier)
     describe_logging_status(cluster_identifier, params::Dict{String,<:Any})
 
@@ -3603,6 +3947,46 @@ function describe_partners(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_redshift_idc_applications()
+    describe_redshift_idc_applications(params::Dict{String,<:Any})
+
+Lists the Amazon Redshift IAM Identity Center applications.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Marker"`: A value that indicates the starting point for the next set of response
+  records in a subsequent request. If a value is returned in a response, you can retrieve the
+  next set of records by providing this returned marker value in the Marker parameter and
+  retrying the command. If the Marker field is empty, all response records have been
+  retrieved for the request.
+- `"MaxRecords"`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+- `"RedshiftIdcApplicationArn"`: The ARN for the Redshift application that integrates with
+  IAM Identity Center.
+"""
+function describe_redshift_idc_applications(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeRedshiftIdcApplications";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_redshift_idc_applications(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "DescribeRedshiftIdcApplications",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4175,8 +4559,8 @@ From a datashare consumer account, remove association for the specified datashar
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"ConsumerArn"`: The Amazon Resource Name (ARN) of the consumer that association for the
-  datashare is removed from.
+- `"ConsumerArn"`: The Amazon Resource Name (ARN) of the consumer namespace that
+  association for the datashare is removed from.
 - `"ConsumerRegion"`: From a datashare consumer account, removes association of a datashare
   from all the existing and future namespaces in the specified Amazon Web Services Region.
 - `"DisassociateEntireAccount"`: A value that specifies whether association for the
@@ -4323,8 +4707,47 @@ function enable_snapshot_copy(
 end
 
 """
-    get_cluster_credentials(cluster_identifier, db_user)
-    get_cluster_credentials(cluster_identifier, db_user, params::Dict{String,<:Any})
+    failover_primary_compute(cluster_identifier)
+    failover_primary_compute(cluster_identifier, params::Dict{String,<:Any})
+
+Fails over the primary compute unit of the specified Multi-AZ cluster to another
+Availability Zone.
+
+# Arguments
+- `cluster_identifier`: The unique identifier of the cluster for which the primary compute
+  unit will be failed over to another Availability Zone.
+
+"""
+function failover_primary_compute(
+    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "FailoverPrimaryCompute",
+        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function failover_primary_compute(
+    ClusterIdentifier,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "FailoverPrimaryCompute",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_cluster_credentials(db_user)
+    get_cluster_credentials(db_user, params::Dict{String,<:Any})
 
 Returns a database user name and temporary password with temporary authorization to log on
 to an Amazon Redshift database. The action returns the database user name prefixed with
@@ -4344,8 +4767,6 @@ specified, the IAM policy must allow access to the resource dbname for the speci
 database name.
 
 # Arguments
-- `cluster_identifier`: The unique identifier of the cluster that contains the database for
-  which you are requesting credentials. This parameter is case sensitive.
 - `db_user`: The name of a database user. If a user name matching DbUser exists in the
   database, the temporary user credentials have the same permissions as the existing user. If
   DbUser doesn't exist in the database and Autocreate is True, a new user is created using
@@ -4363,6 +4784,9 @@ database name.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AutoCreate"`: Create a database user with the name specified for the user named in
   DbUser if one does not exist.
+- `"ClusterIdentifier"`: The unique identifier of the cluster that contains the database
+  for which you are requesting credentials. This parameter is case sensitive.
+- `"CustomDomainName"`: The custom domain name for the cluster credentials.
 - `"DbGroups"`: A list of the names of existing database groups that the user named in
   DbUser will join for the current session, in addition to any group memberships for an
   existing user. If not specified, a new user is added only to PUBLIC. Database group name
@@ -4381,41 +4805,28 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DurationSeconds"`: The number of seconds until the returned temporary password expires.
   Constraint: minimum 900, maximum 3600. Default: 900
 """
-function get_cluster_credentials(
-    ClusterIdentifier, DbUser; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function get_cluster_credentials(DbUser; aws_config::AbstractAWSConfig=global_aws_config())
     return redshift(
         "GetClusterCredentials",
-        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier, "DbUser" => DbUser);
+        Dict{String,Any}("DbUser" => DbUser);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_cluster_credentials(
-    ClusterIdentifier,
-    DbUser,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    DbUser, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift(
         "GetClusterCredentials",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "ClusterIdentifier" => ClusterIdentifier, "DbUser" => DbUser
-                ),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("DbUser" => DbUser), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 
 """
-    get_cluster_credentials_with_iam(cluster_identifier)
-    get_cluster_credentials_with_iam(cluster_identifier, params::Dict{String,<:Any})
+    get_cluster_credentials_with_iam()
+    get_cluster_credentials_with_iam(params::Dict{String,<:Any})
 
 Returns a database user name and temporary password with temporary authorization to log in
 to an Amazon Redshift database. The database user is mapped 1:1 to the source Identity and
@@ -4426,12 +4837,11 @@ operation must have an IAM policy attached that allows access to all necessary a
 resources. For more information about permissions, see Using identity-based policies (IAM
 policies) in the Amazon Redshift Cluster Management Guide.
 
-# Arguments
-- `cluster_identifier`: The unique identifier of the cluster that contains the database for
-  which you are requesting credentials.
-
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClusterIdentifier"`: The unique identifier of the cluster that contains the database
+  for which you are requesting credentials.
+- `"CustomDomainName"`: The custom domain name for the IAM message cluster credentials.
 - `"DbName"`: The name of the database for which you are requesting credentials. If the
   database name is specified, the IAM policy must allow access to the resource dbname for the
   specified database name. If the database name is not specified, access to all databases is
@@ -4439,28 +4849,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DurationSeconds"`: The number of seconds until the returned temporary password expires.
   Range: 900-3600. Default: 900.
 """
-function get_cluster_credentials_with_iam(
-    ClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+function get_cluster_credentials_with_iam(;
+    aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift(
-        "GetClusterCredentialsWithIAM",
-        Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier);
+        "GetClusterCredentialsWithIAM";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function get_cluster_credentials_with_iam(
-    ClusterIdentifier,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return redshift(
         "GetClusterCredentialsWithIAM",
-        Dict{String,Any}(
-            mergewith(
-                _merge, Dict{String,Any}("ClusterIdentifier" => ClusterIdentifier), params
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4557,6 +4960,83 @@ function get_reserved_node_exchange_offerings(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ReservedNodeId" => ReservedNodeId), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resource_policy(resource_arn)
+    get_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Get the resource policy for a specified resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource of which its resource
+  policy is fetched.
+
+"""
+function get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift(
+        "GetResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "GetResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_recommendations()
+    list_recommendations(params::Dict{String,<:Any})
+
+List the Amazon Redshift Advisor recommendations for one or multiple Amazon Redshift
+clusters in an Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClusterIdentifier"`: The unique identifier of the Amazon Redshift cluster for which the
+  list of Advisor recommendations is returned. If the neither the cluster identifier and the
+  cluster namespace ARN parameters are specified, then recommendations for all clusters in
+  the account are returned.
+- `"Marker"`: A value that indicates the starting point for the next set of response
+  records in a subsequent request. If a value is returned in a response, you can retrieve the
+  next set of records by providing this returned marker value in the Marker parameter and
+  retrying the command. If the Marker field is empty, all response records have been
+  retrieved for the request.
+- `"MaxRecords"`: The maximum number of response records to return in each call. If the
+  number of remaining response records exceeds the specified MaxRecords value, a value is
+  returned in a marker field of the response. You can retrieve the next set of records by
+  retrying the command with the returned marker value.
+- `"NamespaceArn"`: The Amazon Redshift cluster namespace Amazon Resource Name (ARN) for
+  which the list of Advisor recommendations is returned. If the neither the cluster
+  identifier and the cluster namespace ARN parameters are specified, then recommendations for
+  all clusters in the account are returned.
+"""
+function list_recommendations(; aws_config::AbstractAWSConfig=global_aws_config())
+    return redshift(
+        "ListRecommendations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ListRecommendations",
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4725,6 +5205,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon Redshift cluster uses to retrieve the data encryption keys stored in an HSM.
 - `"HsmConfigurationIdentifier"`: Specifies the name of the HSM configuration that contains
   the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
+- `"IpAddressType"`: The IP address types that the cluster supports. Possible values are
+  ipv4 and dualstack.
 - `"KmsKeyId"`: The Key Management Service (KMS) key ID of the encryption key that you want
   to use to encrypt data in the cluster.
 - `"MaintenanceTrackName"`: The name for the maintenance track that you want to assign for
@@ -4732,20 +5214,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   PendingModifiedValues for the cluster until the next maintenance window. When the
   maintenance track changes, the cluster is switched to the latest cluster release available
   for the maintenance track. At this point, the maintenance track name is applied.
+- `"ManageMasterPassword"`: If true, Amazon Redshift uses Secrets Manager to manage this
+  cluster's admin credentials. You can't use MasterUserPassword if ManageMasterPassword is
+  true. If ManageMasterPassword is false or not set, Amazon Redshift uses MasterUserPassword
+  for the admin user account's password.
 - `"ManualSnapshotRetentionPeriod"`: The default for number of days that a newly created
   manual snapshot is retained. If the value is -1, the manual snapshot is retained
   indefinitely. This value doesn't retroactively change the retention periods of existing
   manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The
   default value is -1.
+- `"MasterPasswordSecretKmsKeyId"`: The ID of the Key Management Service (KMS) key used to
+  encrypt and store the cluster's admin credentials secret. You can only use this parameter
+  if ManageMasterPassword is true.
 - `"MasterUserPassword"`: The new password for the cluster admin user. This change is
   asynchronously applied as soon as possible. Between the time of the request and the
   completion of the request, the MasterUserPassword element exists in the
-  PendingModifiedValues element of the operation response.   Operations never return the
-  password, so this operation provides a way to regain access to the admin user for a cluster
-  if the password is lost.  Default: Uses existing setting. Constraints:   Must be between 8
-  and 64 characters in length.   Must contain at least one uppercase letter.   Must contain
-  at least one lowercase letter.   Must contain one number.   Can be any printable ASCII
-  character (ASCII code 33-126) except ' (single quote), \" (double quote), , /, or @.
+  PendingModifiedValues element of the operation response.  You can't use MasterUserPassword
+  if ManageMasterPassword is true.  Operations never return the password, so this operation
+  provides a way to regain access to the admin user account for a cluster if the password is
+  lost.  Default: Uses existing setting. Constraints:   Must be between 8 and 64 characters
+  in length.   Must contain at least one uppercase letter.   Must contain at least one
+  lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII
+  code 33-126) except ' (single quote), \" (double quote), , /, or @.
+- `"MultiAZ"`: If true and the cluster is currently only deployed in a single Availability
+  Zone, the cluster will be modified to be deployed in two Availability Zones.
 - `"NewClusterIdentifier"`: The new identifier for the cluster. Constraints:   Must contain
   from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.
     First character must be a letter.   Cannot end with a hyphen or contain two consecutive
@@ -4754,13 +5246,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NodeType"`: The new node type of the cluster. If you specify a new node type, you must
   also specify the number of nodes parameter.  For more information about resizing clusters,
   go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster Management Guide.
-  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge | dc2.large | dc2.8xlarge
-  | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
+  Valid Values: dc2.large | dc2.8xlarge | ra3.xlplus | ra3.4xlarge | ra3.16xlarge
 - `"NumberOfNodes"`: The new number of nodes of the cluster. If you specify a new number of
   nodes, you must also specify the node type parameter.  For more information about resizing
   clusters, go to Resizing Clusters in Amazon Redshift in the Amazon Redshift Cluster
   Management Guide. Valid Values: Integer greater than 0.
-- `"Port"`: The option to change the port of an Amazon Redshift cluster.
+- `"Port"`: The option to change the port of an Amazon Redshift cluster. Valid Values:
+  For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If
+  you have an existing cluster with ra3 nodes, it isn't required that you change the port to
+  these ranges.)   For clusters with dc2 nodes - Select a port within the range 1150-65535.
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which system
   maintenance can occur, if necessary. If system maintenance is necessary during the window,
   it may result in an outage. This maintenance window change is made immediately. If the new
@@ -5153,6 +5647,62 @@ function modify_cluster_subnet_group(
 end
 
 """
+    modify_custom_domain_association(cluster_identifier, custom_domain_certificate_arn, custom_domain_name)
+    modify_custom_domain_association(cluster_identifier, custom_domain_certificate_arn, custom_domain_name, params::Dict{String,<:Any})
+
+Contains information for changing a custom domain association.
+
+# Arguments
+- `cluster_identifier`: The identifier of the cluster to change a custom domain association
+  for.
+- `custom_domain_certificate_arn`: The certificate Amazon Resource Name (ARN) for the
+  changed custom domain association.
+- `custom_domain_name`: The custom domain name for a changed custom domain association.
+
+"""
+function modify_custom_domain_association(
+    ClusterIdentifier,
+    CustomDomainCertificateArn,
+    CustomDomainName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyCustomDomainAssociation",
+        Dict{String,Any}(
+            "ClusterIdentifier" => ClusterIdentifier,
+            "CustomDomainCertificateArn" => CustomDomainCertificateArn,
+            "CustomDomainName" => CustomDomainName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_custom_domain_association(
+    ClusterIdentifier,
+    CustomDomainCertificateArn,
+    CustomDomainName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyCustomDomainAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ClusterIdentifier" => ClusterIdentifier,
+                    "CustomDomainCertificateArn" => CustomDomainCertificateArn,
+                    "CustomDomainName" => CustomDomainName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     modify_endpoint_access(endpoint_name)
     modify_endpoint_access(endpoint_name, params::Dict{String,<:Any})
 
@@ -5244,6 +5794,60 @@ function modify_event_subscription(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("SubscriptionName" => SubscriptionName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_redshift_idc_application(redshift_idc_application_arn)
+    modify_redshift_idc_application(redshift_idc_application_arn, params::Dict{String,<:Any})
+
+Changes an existing Amazon Redshift IAM Identity Center application.
+
+# Arguments
+- `redshift_idc_application_arn`: The ARN for the Redshift application that integrates with
+  IAM Identity Center.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AuthorizedTokenIssuerList"`: The authorized token issuer list for the Amazon Redshift
+  IAM Identity Center application to change.
+- `"IamRoleArn"`: The IAM role ARN associated with the Amazon Redshift IAM Identity Center
+  application to change. It has the required permissions to be assumed and invoke the IDC
+  Identity Center API.
+- `"IdcDisplayName"`: The display name for the Amazon Redshift IAM Identity Center
+  application to change. It appears on the console.
+- `"IdentityNamespace"`: The namespace for the Amazon Redshift IAM Identity Center
+  application to change. It determines which managed application verifies the connection
+  token.
+- `"ServiceIntegrations"`: A collection of service integrations associated with the
+  application.
+"""
+function modify_redshift_idc_application(
+    RedshiftIdcApplicationArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "ModifyRedshiftIdcApplication",
+        Dict{String,Any}("RedshiftIdcApplicationArn" => RedshiftIdcApplicationArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_redshift_idc_application(
+    RedshiftIdcApplicationArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "ModifyRedshiftIdcApplication",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("RedshiftIdcApplicationArn" => RedshiftIdcApplicationArn),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -5553,6 +6157,48 @@ function purchase_reserved_node_offering(
 end
 
 """
+    put_resource_policy(policy, resource_arn)
+    put_resource_policy(policy, resource_arn, params::Dict{String,<:Any})
+
+Updates the resource policy for a specified resource.
+
+# Arguments
+- `policy`: The content of the resource policy being updated.
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource of which its resource
+  policy is updated.
+
+"""
+function put_resource_policy(
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return redshift(
+        "PutResourcePolicy",
+        Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_resource_policy(
+    Policy,
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return redshift(
+        "PutResourcePolicy",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     reboot_cluster(cluster_identifier)
     reboot_cluster(cluster_identifier, params::Dict{String,<:Any})
 
@@ -5681,10 +6327,9 @@ Changes the size of the cluster. You can change the cluster's type, or change th
 type of nodes. The default behavior is to use the elastic resize method. With an elastic
 resize, your cluster is available for read and write operations more quickly than with the
 classic resize method.  Elastic resize operations have the following restrictions:   You
-can only resize clusters of the following types:   dc1.large (if your cluster is in a VPC)
- dc1.8xlarge (if your cluster is in a VPC)   dc2.large   dc2.8xlarge   ds2.xlarge
-ds2.8xlarge   ra3.xlplus   ra3.4xlarge   ra3.16xlarge     The type of nodes that you add
-must match the node type for the cluster.
+can only resize clusters of the following types:   dc2.large   dc2.8xlarge   ra3.xlplus
+ra3.4xlarge   ra3.16xlarge     The type of nodes that you add must match the node type for
+the cluster.
 
 # Arguments
 - `cluster_identifier`: The unique identifier for the cluster to resize.
@@ -5802,6 +6447,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   their Amazon Resource Name (ARN) format.  The maximum number of IAM roles that you can
   associate is subject to a quota. For more information, go to Quotas and limits in the
   Amazon Redshift Cluster Management Guide.
+- `"IpAddressType"`: The IP address type for the cluster. Possible values are ipv4 and
+  dualstack.
 - `"KmsKeyId"`: The Key Management Service (KMS) key ID of the encryption key that encrypts
   data in the cluster restored from a shared snapshot. You can also provide the key ID when
   you restore from an unencrypted snapshot to an encrypted cluster in the same account.
@@ -5814,25 +6461,30 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the snapshot. For example, suppose that you take a snapshot of a cluster that is on the
   current track and then change the cluster to be on the trailing track. In this case, the
   snapshot and the source cluster are on different tracks.
+- `"ManageMasterPassword"`: If true, Amazon Redshift uses Secrets Manager to manage the
+  restored cluster's admin credentials. If ManageMasterPassword is false or not set, Amazon
+  Redshift uses the admin credentials the cluster had at the time the snapshot was taken.
 - `"ManualSnapshotRetentionPeriod"`: The default number of days to retain a manual
   snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't
   change the retention period of existing snapshots. The value must be either -1 or an
   integer between 1 and 3,653.
-- `"NodeType"`: The node type that the restored cluster will be provisioned with. Default:
-  The node type of the cluster from which the snapshot was taken. You can modify this if you
-  are using any DS node type. In that case, you can choose to restore into another DS node
-  type of the same size. For example, you can restore ds1.8xlarge into ds2.8xlarge, or
-  ds1.xlarge into ds2.xlarge. If you have a DC instance type, you must restore into that same
-  instance type and size. In other words, you can only restore a dc1.large instance type into
-  another dc1.large instance type or dc2.large instance type. You can't restore dc1.8xlarge
-  to dc2.8xlarge. First restore to a dc1.8xlarge cluster, then resize to a dc2.8large
-  cluster. For more information about node types, see  About Clusters and Nodes in the Amazon
-  Redshift Cluster Management Guide.
+- `"MasterPasswordSecretKmsKeyId"`: The ID of the Key Management Service (KMS) key used to
+  encrypt and store the cluster's admin credentials secret. You can only use this parameter
+  if ManageMasterPassword is true.
+- `"MultiAZ"`: If true, the snapshot will be restored to a cluster deployed in two
+  Availability Zones.
+- `"NodeType"`: The node type that the restored cluster will be provisioned with. If you
+  have a DC instance type, you must restore into that same instance type and size. In other
+  words, you can only restore a dc2.large node type into another dc2 type. For more
+  information about node types, see  About Clusters and Nodes in the Amazon Redshift Cluster
+  Management Guide.
 - `"NumberOfNodes"`: The number of nodes specified when provisioning the restored cluster.
 - `"OwnerAccount"`: The Amazon Web Services account used to create or copy the snapshot.
   Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
 - `"Port"`: The port number on which the cluster accepts connections. Default: The same
-  port as the original cluster. Constraints: Must be between 1115 and 65535.
+  port as the original cluster. Valid values: For clusters with DC2 nodes, must be within the
+  range 1150-65535. For clusters with ra3 nodes, must be within the ranges 5431-5455 or
+  8191-8215.
 - `"PreferredMaintenanceWindow"`: The weekly time range (in UTC) during which automated
   cluster maintenance can occur.  Format: ddd:hh24:mi-ddd:hh24:mi   Default: The value
   selected for the cluster from which the snapshot was taken. For more information about the
@@ -5845,8 +6497,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   message to restore from a cluster. You must specify this parameter or snapshotIdentifier,
   but not both.
 - `"SnapshotClusterIdentifier"`: The name of the cluster the source snapshot was created
-  from. This parameter is required if your IAM user or role has a policy containing a
-  snapshot resource element that specifies anything other than * for the cluster name.
+  from. This parameter is required if your IAM user has a policy containing a snapshot
+  resource element that specifies anything other than * for the cluster name.
 - `"SnapshotIdentifier"`: The name of the snapshot from which to create the new cluster.
   This parameter isn't case sensitive. You must specify this parameter or snapshotArn, but
   not both. Example: my-snapshot-id
@@ -6111,8 +6763,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SnapshotArn"`: The Amazon Resource Name (ARN) of the snapshot associated with the
   message to revoke access.
 - `"SnapshotClusterIdentifier"`: The identifier of the cluster the snapshot was created
-  from. This parameter is required if your IAM user or role has a policy containing a
-  snapshot resource element that specifies anything other than * for the cluster name.
+  from. This parameter is required if your IAM user has a policy containing a snapshot
+  resource element that specifies anything other than * for the cluster name.
 - `"SnapshotIdentifier"`: The identifier of the snapshot that the account can no longer
   access.
 """

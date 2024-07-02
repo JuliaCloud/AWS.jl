@@ -66,9 +66,9 @@ and then add a different role to an instance profile. You must then wait for the
 appear across all of Amazon Web Services because of eventual consistency. To force the
 change, you must disassociate the instance profile and then associate the instance profile,
 or you can stop your instance and then restart it.  The caller of this operation must be
-granted the PassRole permission on the IAM role by a permissions policy.  For more
-information about roles, see Working with roles. For more information about instance
-profiles, see About instance profiles.
+granted the PassRole permission on the IAM role by a permissions policy.   For more
+information about roles, see IAM roles in the IAM User Guide. For more information about
+instance profiles, see Using instance profiles in the IAM User Guide.
 
 # Arguments
 - `instance_profile_name`: The name of the instance profile to update. This parameter
@@ -165,7 +165,7 @@ end
 
 Attaches the specified managed policy to the specified IAM group. You use this operation to
 attach a managed policy to a group. To embed an inline policy in a group, use
-PutGroupPolicy. As a best practice, you can validate your IAM policies. To learn more, see
+PutGroupPolicy . As a best practice, you can validate your IAM policies. To learn more, see
 Validating IAM policies in the IAM User Guide. For more information about policies, see
 Managed policies and inline policies in the IAM User Guide.
 
@@ -216,9 +216,9 @@ end
 Attaches the specified managed policy to the specified IAM role. When you attach a managed
 policy to a role, the managed policy becomes part of the role's permission (access) policy.
  You cannot use a managed policy as the role's trust policy. The role's trust policy is
-created at the same time as the role, using CreateRole. You can update a role's trust
-policy using UpdateAssumeRolePolicy.  Use this operation to attach a managed policy to a
-role. To embed an inline policy in a role, use PutRolePolicy. For more information about
+created at the same time as the role, using  CreateRole . You can update a role's trust
+policy using  UpdateAssumerolePolicy .  Use this operation to attach a managed policy to a
+role. To embed an inline policy in a role, use  PutRolePolicy . For more information about
 policies, see Managed policies and inline policies in the IAM User Guide. As a best
 practice, you can validate your IAM policies. To learn more, see Validating IAM policies in
 the IAM User Guide.
@@ -268,8 +268,8 @@ end
     attach_user_policy(policy_arn, user_name, params::Dict{String,<:Any})
 
 Attaches the specified managed policy to the specified user. You use this operation to
-attach a managed policy to a user. To embed an inline policy in a user, use PutUserPolicy.
-As a best practice, you can validate your IAM policies. To learn more, see Validating IAM
+attach a managed policy to a user. To embed an inline policy in a user, use  PutUserPolicy
+. As a best practice, you can validate your IAM policies. To learn more, see Validating IAM
 policies in the IAM User Guide. For more information about policies, see Managed policies
 and inline policies in the IAM User Guide.
 
@@ -608,8 +608,8 @@ function create_login_profile(
 end
 
 """
-    create_open_idconnect_provider(thumbprint_list, url)
-    create_open_idconnect_provider(thumbprint_list, url, params::Dict{String,<:Any})
+    create_open_idconnect_provider(url)
+    create_open_idconnect_provider(url, params::Dict{String,<:Any})
 
 Creates an IAM entity to describe an identity provider (IdP) that supports OpenID Connect
 (OIDC). The OIDC provider that you create with this operation can be used as a principal in
@@ -626,28 +626,15 @@ OIDC provider   A list of tags that are attached to the specified IAM OIDC provi
 list of thumbprints of one or more server certificates that the IdP uses   You get all of
 this information from the OIDC IdP you want to use to access Amazon Web Services.  Amazon
 Web Services secures communication with some OIDC identity providers (IdPs) through our
-library of trusted certificate authorities (CAs) instead of using a certificate thumbprint
-to verify your IdP server certificate. These OIDC IdPs include Google, Auth0, and those
-that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases,
-your legacy thumbprint remains in your configuration, but is no longer used for validation.
-  The trust for the OIDC provider is derived from the IAM provider that this operation
-creates. Therefore, it is best to limit access to the CreateOpenIDConnectProvider operation
-to highly privileged users.
+library of trusted root certificate authorities (CAs) instead of using a certificate
+thumbprint to verify your IdP server certificate. In these cases, your legacy thumbprint
+remains in your configuration, but is no longer used for validation. These OIDC IdPs
+include Auth0, GitHub, GitLab, Google, and those that use an Amazon S3 bucket to host a
+JSON Web Key Set (JWKS) endpoint.   The trust for the OIDC provider is derived from the IAM
+provider that this operation creates. Therefore, it is best to limit access to the
+CreateOpenIDConnectProvider operation to highly privileged users.
 
 # Arguments
-- `thumbprint_list`: A list of server certificate thumbprints for the OpenID Connect (OIDC)
-  identity provider's server certificates. Typically this list includes only one entry.
-  However, IAM lets you have up to five thumbprints for an OIDC provider. This lets you
-  maintain multiple thumbprints if the identity provider is rotating certificates. The server
-  certificate thumbprint is the hex-encoded SHA-1 hash value of the X.509 certificate used by
-  the domain where the OpenID Connect provider makes its keys available. It is always a
-  40-character string. You must provide at least one thumbprint when creating an IAM OIDC
-  provider. For example, assume that the OIDC provider is server.example.com and the provider
-  stores its keys at https://keys.server.example.com/openid-connect. In that case, the
-  thumbprint string would be the hex-encoded SHA-1 hash value of the certificate used by
-  https://keys.server.example.com.  For more information about obtaining the OIDC provider
-  thumbprint, see Obtaining the thumbprint for an OpenID Connect provider in the IAM user
-  Guide.
 - `url`: The URL of the identity provider. The URL must begin with https:// and should
   correspond to the iss claim in the provider's OpenID Connect ID tokens. Per the OIDC
   standard, path components are allowed but query parameters are not. Typically the URL
@@ -672,32 +659,38 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   about tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is
   invalid or if you exceed the allowed maximum number of tags, then the entire request fails
   and the resource is not created.
+- `"ThumbprintList"`: A list of server certificate thumbprints for the OpenID Connect
+  (OIDC) identity provider's server certificates. Typically this list includes only one
+  entry. However, IAM lets you have up to five thumbprints for an OIDC provider. This lets
+  you maintain multiple thumbprints if the identity provider is rotating certificates. This
+  parameter is optional. If it is not included, IAM will retrieve and use the top
+  intermediate certificate authority (CA) thumbprint of the OpenID Connect identity provider
+  server certificate. The server certificate thumbprint is the hex-encoded SHA-1 hash value
+  of the X.509 certificate used by the domain where the OpenID Connect provider makes its
+  keys available. It is always a 40-character string. For example, assume that the OIDC
+  provider is server.example.com and the provider stores its keys at
+  https://keys.server.example.com/openid-connect. In that case, the thumbprint string would
+  be the hex-encoded SHA-1 hash value of the certificate used by
+  https://keys.server.example.com.  For more information about obtaining the OIDC provider
+  thumbprint, see Obtaining the thumbprint for an OpenID Connect provider in the IAM user
+  Guide.
 """
 function create_open_idconnect_provider(
-    ThumbprintList, Url; aws_config::AbstractAWSConfig=global_aws_config()
+    Url; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iam(
         "CreateOpenIDConnectProvider",
-        Dict{String,Any}("ThumbprintList" => ThumbprintList, "Url" => Url);
+        Dict{String,Any}("Url" => Url);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_open_idconnect_provider(
-    ThumbprintList,
-    Url,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    Url, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return iam(
         "CreateOpenIDConnectProvider",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}("ThumbprintList" => ThumbprintList, "Url" => Url),
-                params,
-            ),
-        );
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Url" => Url), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -856,9 +849,9 @@ end
     create_role(assume_role_policy_document, role_name)
     create_role(assume_role_policy_document, role_name, params::Dict{String,<:Any})
 
-Creates a new role for your Amazon Web Services account. For more information about roles,
-see IAM roles. For information about quotas for role names and the number of roles you can
-create, see IAM and STS quotas in the IAM User Guide.
+Creates a new role for your Amazon Web Services account.  For more information about roles,
+see IAM roles in the IAM User Guide. For information about quotas for role names and the
+number of roles you can create, see IAM and STS quotas in the IAM User Guide.
 
 # Arguments
 - `assume_role_policy_document`: The trust relationship policy document that grants an
@@ -1503,7 +1496,7 @@ Deletes the specified instance profile. The instance profile must not have an as
 role.  Make sure that you do not have any Amazon EC2 instances running with the instance
 profile you are about to delete. Deleting a role or instance profile that is associated
 with a running instance will break any applications running on the instance.  For more
-information about instance profiles, see About instance profiles.
+information about instance profiles, see Using instance profiles in the IAM User Guide.
 
 # Arguments
 - `instance_profile_name`: The name of the instance profile to delete. This parameter
@@ -2689,7 +2682,9 @@ Generates a report that includes details about when an IAM resource (user, group
 policy) was last used in an attempt to access Amazon Web Services services. Recent activity
 usually appears within four hours. IAM reports activity for at least the last 400 days, or
 less if your Region began supporting this feature within the last year. For more
-information, see Regions where data is tracked.  The service last accessed data
+information, see Regions where data is tracked. For more information about services and
+actions for which action last accessed information is displayed, see IAM action last
+accessed information services and actions.  The service last accessed data
 includes all attempts to access an Amazon Web Services API, not just the successful ones.
 This includes all attempts that were made using the Amazon Web Services Management Console,
 the Amazon Web Services API through any of the SDKs, or any of the command line tools. An
@@ -3137,7 +3132,7 @@ end
 
  Retrieves information about the specified instance profile, including the instance
 profile's path, GUID, ARN, and role. For more information about instance profiles, see
-About instance profiles in the IAM User Guide.
+Using instance profiles in the IAM User Guide.
 
 # Arguments
 - `instance_profile_name`: The name of the instance profile to get information about. This
@@ -3213,6 +3208,43 @@ function get_login_profile(
         "GetLoginProfile",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("UserName" => UserName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_mfadevice(serial_number)
+    get_mfadevice(serial_number, params::Dict{String,<:Any})
+
+Retrieves information about an MFA device for a specified user.
+
+# Arguments
+- `serial_number`: Serial number that uniquely identifies the MFA device. For this API, we
+  only accept FIDO security key ARNs.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"UserName"`: The friendly name identifying the user.
+"""
+function get_mfadevice(SerialNumber; aws_config::AbstractAWSConfig=global_aws_config())
+    return iam(
+        "GetMFADevice",
+        Dict{String,Any}("SerialNumber" => SerialNumber);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_mfadevice(
+    SerialNumber,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return iam(
+        "GetMFADevice",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SerialNumber" => SerialNumber), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3426,11 +3458,11 @@ end
 
 Retrieves information about the specified role, including the role's path, GUID, ARN, and
 the role's trust policy that grants permission to assume the role. For more information
-about roles, see Working with roles.  Policies returned by this operation are URL-encoded
-compliant with RFC 3986. You can use a URL decoding method to convert the policy back to
-plain JSON text. For example, if you use Java, you can use the decode method of the
-java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide similar
-functionality.
+about roles, see IAM roles in the IAM User Guide.  Policies returned by this operation are
+URL-encoded compliant with RFC 3986. You can use a URL decoding method to convert the
+policy back to plain JSON text. For example, if you use Java, you can use the decode method
+of the java.net.URLDecoder utility class in the Java SDK. Other languages and SDKs provide
+similar functionality.
 
 # Arguments
 - `role_name`: The name of the IAM role to get information about. This parameter allows
@@ -3474,8 +3506,8 @@ Java SDK. Other languages and SDKs provide similar functionality.  An IAM role c
 have managed policies attached to it. To retrieve a managed policy document that is
 attached to a role, use GetPolicy to determine the policy's default version, then use
 GetPolicyVersion to retrieve the policy document. For more information about policies, see
-Managed policies and inline policies in the IAM User Guide. For more information about
-roles, see Using roles to delegate permissions and federate identities.
+Managed policies and inline policies in the IAM User Guide.  For more information about
+roles, see IAM roles in the IAM User Guide.
 
 # Arguments
 - `policy_name`: The name of the policy document to get. This parameter allows (through its
@@ -3938,10 +3970,10 @@ parameters. If the UserName is not specified, the user name is determined implic
 on the Amazon Web Services access key ID used to sign the request. If a temporary access
 key is used, then UserName is required. If a long-term key is assigned to the user, then
 UserName is not required. This operation works for access keys under the Amazon Web
-Services account. Consequently, you can use this operation to manage Amazon Web Services
-account root user credentials even if the Amazon Web Services account has no associated
-users.  To ensure the security of your Amazon Web Services account, the secret access key
-is accessible only during key and user creation.
+Services account. If the Amazon Web Services account has no associated users, the root user
+returns it's own access key IDs by running this command.  To ensure the security of your
+Amazon Web Services account, the secret access key is accessible only during key and user
+creation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4458,12 +4490,12 @@ end
     list_instance_profiles(params::Dict{String,<:Any})
 
 Lists the instance profiles that have the specified path prefix. If there are none, the
-operation returns an empty list. For more information about instance profiles, see About
-instance profiles.  IAM resource-listing operations return a subset of the available
-attributes for the resource. For example, this operation does not return tags, even though
-they are an attribute of the returned object. To view all of the information for an
-instance profile, see GetInstanceProfile.  You can paginate the results using the MaxItems
-and Marker parameters.
+operation returns an empty list. For more information about instance profiles, see Using
+instance profiles in the IAM User Guide.  IAM resource-listing operations return a subset
+of the available attributes for the resource. For example, this operation does not return
+tags, even though they are an attribute of the returned object. To view all of the
+information for an instance profile, see GetInstanceProfile.  You can paginate the results
+using the MaxItems and Marker parameters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -4508,8 +4540,8 @@ end
 
 Lists the instance profiles that have the specified associated IAM role. If there are none,
 the operation returns an empty list. For more information about instance profiles, go to
-About instance profiles. You can paginate the results using the MaxItems and Marker
-parameters.
+Using instance profiles in the IAM User Guide. You can paginate the results using the
+MaxItems and Marker parameters.
 
 # Arguments
 - `role_name`: The name of the role to list instance profiles for. This parameter allows
@@ -5064,11 +5096,12 @@ end
     list_roles(params::Dict{String,<:Any})
 
 Lists the IAM roles that have the specified path prefix. If there are none, the operation
-returns an empty list. For more information about roles, see Working with roles.  IAM
-resource-listing operations return a subset of the available attributes for the resource.
-For example, this operation does not return tags, even though they are an attribute of the
-returned object. To view all of the information for a role, see GetRole.  You can paginate
-the results using the MaxItems and Marker parameters.
+returns an empty list. For more information about roles, see IAM roles in the IAM User
+Guide.  IAM resource-listing operations return a subset of the available attributes for the
+resource. This operation does not return the following attributes, even though they are an
+attribute of the returned object:   PermissionsBoundary   RoleLastUsed   Tags   To view all
+of the information for a role, see GetRole.  You can paginate the results using the
+MaxItems and Marker parameters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5525,10 +5558,10 @@ end
 Lists the IAM users that have the specified path prefix. If no path prefix is specified,
 the operation returns all users in the Amazon Web Services account. If there are none, the
 operation returns an empty list.  IAM resource-listing operations return a subset of the
-available attributes for the resource. For example, this operation does not return tags,
-even though they are an attribute of the returned object. To view all of the information
-for a user, see GetUser.  You can paginate the results using the MaxItems and Marker
-parameters.
+available attributes for the resource. This operation does not return the following
+attributes, even though they are an attribute of the returned object:   PermissionsBoundary
+  Tags   To view all of the information for a user, see GetUser.  You can paginate the
+results using the MaxItems and Marker parameters.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5610,10 +5643,10 @@ end
 
 Adds or updates an inline policy document that is embedded in the specified IAM group. A
 user can also have managed policies attached to it. To attach a managed policy to a group,
-use AttachGroupPolicy. To create a new managed policy, use CreatePolicy. For information
-about policies, see Managed policies and inline policies in the IAM User Guide. For
-information about the maximum number of inline policies that you can embed in a group, see
-IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you
+use  AttachGroupPolicy . To create a new managed policy, use  CreatePolicy . For
+information about policies, see Managed policies and inline policies in the IAM User Guide.
+For information about the maximum number of inline policies that you can embed in a group,
+see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you
 should use POST rather than GET when calling PutGroupPolicy. For general information about
 using the Query API with IAM, see Making query requests in the IAM User Guide.
 
@@ -5625,7 +5658,7 @@ using the Query API with IAM, see Making query requests in the IAM User Guide.
 - `policy_document`: The policy document. You must provide policies in JSON format in IAM.
   However, for CloudFormation templates formatted in YAML, you can provide the policy in JSON
   or YAML format. CloudFormation always converts a YAML policy to JSON format before
-  submitting it to = IAM. The regex pattern used to validate this parameter is a string of
+  submitting it to IAM. The regex pattern used to validate this parameter is a string of
   characters consisting of the following:   Any printable ASCII character ranging from the
   space character (u0020) through the end of the ASCII character range   The printable
   characters in the Basic Latin and Latin-1 Supplement character set (through u00FF)   The
@@ -5739,16 +5772,15 @@ end
 Adds or updates an inline policy document that is embedded in the specified IAM role. When
 you embed an inline policy in a role, the inline policy is used as part of the role's
 access (permissions) policy. The role's trust policy is created at the same time as the
-role, using CreateRole. You can update a role's trust policy using UpdateAssumeRolePolicy.
-For more information about IAM roles, see Using roles to delegate permissions and federate
-identities. A role can also have a managed policy attached to it. To attach a managed
-policy to a role, use AttachRolePolicy. To create a new managed policy, use CreatePolicy.
-For information about policies, see Managed policies and inline policies in the IAM User
-Guide. For information about the maximum number of inline policies that you can embed with
-a role, see IAM and STS quotas in the IAM User Guide.  Because policy documents can be
-large, you should use POST rather than GET when calling PutRolePolicy. For general
-information about using the Query API with IAM, see Making query requests in the IAM User
-Guide.
+role, using  CreateRole . You can update a role's trust policy using
+UpdateAssumeRolePolicy . For more information about roles, see IAM roles in the IAM User
+Guide. A role can also have a managed policy attached to it. To attach a managed policy to
+a role, use  AttachRolePolicy . To create a new managed policy, use  CreatePolicy . For
+information about policies, see Managed policies and inline policies in the IAM User Guide.
+For information about the maximum number of inline policies that you can embed with a role,
+see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you
+should use POST rather than GET when calling PutRolePolicy. For general information about
+using the Query API with IAM, see Making query requests in the IAM User Guide.
 
 # Arguments
 - `policy_document`: The policy document. You must provide policies in JSON format in IAM.
@@ -5871,7 +5903,7 @@ end
 
 Adds or updates an inline policy document that is embedded in the specified IAM user. An
 IAM user can also have a managed policy attached to it. To attach a managed policy to a
-user, use AttachUserPolicy. To create a new managed policy, use CreatePolicy. For
+user, use  AttachUserPolicy . To create a new managed policy, use  CreatePolicy . For
 information about policies, see Managed policies and inline policies in the IAM User Guide.
 For information about the maximum number of inline policies that you can embed in a user,
 see IAM and STS quotas in the IAM User Guide.  Because policy documents can be large, you
@@ -5992,12 +6024,12 @@ end
     remove_role_from_instance_profile(instance_profile_name, role_name)
     remove_role_from_instance_profile(instance_profile_name, role_name, params::Dict{String,<:Any})
 
-Removes the specified IAM role from the specified EC2 instance profile.  Make sure that you
-do not have any Amazon EC2 instances running with the role you are about to remove from the
-instance profile. Removing a role from an instance profile that is associated with a
-running instance might break any applications running on the instance.   For more
-information about IAM roles, see Working with roles. For more information about instance
-profiles, see About instance profiles.
+Removes the specified IAM role from the specified Amazon EC2 instance profile.  Make sure
+that you do not have any Amazon EC2 instances running with the role you are about to remove
+from the instance profile. Removing a role from an instance profile that is associated with
+a running instance might break any applications running on the instance.   For more
+information about roles, see IAM roles in the IAM User Guide. For more information about
+instance profiles, see Using instance profiles in the IAM User Guide.
 
 # Arguments
 - `instance_profile_name`: The name of the instance profile to update. This parameter
@@ -6413,16 +6445,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enforce the presence of the required resources to ensure reliable simulation results. If
   your simulation does not match one of the following scenarios, then you can omit this
   parameter. The following list shows each of the supported scenario values and the resources
-  that you must define to run the simulation. Each of the EC2 scenarios requires that you
-  specify instance, image, and security group resources. If your scenario includes an EBS
-  volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC,
-  then you must supply the network interface resource. If it includes an IP subnet, then you
-  must specify the subnet resource. For more information on the EC2 scenario options, see
-  Supported platforms in the Amazon EC2 User Guide.    EC2-VPC-InstanceStore  instance,
-  image, security group, network interface    EC2-VPC-InstanceStore-Subnet  instance, image,
-  security group, network interface, subnet    EC2-VPC-EBS  instance, image, security group,
-  network interface, volume    EC2-VPC-EBS-Subnet  instance, image, security group, network
-  interface, subnet, volume
+  that you must define to run the simulation. Each of the Amazon EC2 scenarios requires that
+  you specify instance, image, and security group resources. If your scenario includes an EBS
+  volume, then you must specify that volume as a resource. If the Amazon EC2 scenario
+  includes VPC, then you must supply the network interface resource. If it includes an IP
+  subnet, then you must specify the subnet resource. For more information on the Amazon EC2
+  scenario options, see Supported platforms in the Amazon EC2 User Guide.
+  EC2-VPC-InstanceStore  instance, image, security group, network interface
+  EC2-VPC-InstanceStore-Subnet  instance, image, security group, network interface, subnet
+  EC2-VPC-EBS  instance, image, security group, network interface, volume
+  EC2-VPC-EBS-Subnet  instance, image, security group, network interface, subnet, volume
 - `"ResourceOwner"`: An ARN representing the Amazon Web Services account ID that specifies
   the owner of any simulated resource that does not identify its owner in the resource ARN.
   Examples of resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it
@@ -6588,16 +6620,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enforce the presence of the required resources to ensure reliable simulation results. If
   your simulation does not match one of the following scenarios, then you can omit this
   parameter. The following list shows each of the supported scenario values and the resources
-  that you must define to run the simulation. Each of the EC2 scenarios requires that you
-  specify instance, image, and security group resources. If your scenario includes an EBS
-  volume, then you must specify that volume as a resource. If the EC2 scenario includes VPC,
-  then you must supply the network interface resource. If it includes an IP subnet, then you
-  must specify the subnet resource. For more information on the EC2 scenario options, see
-  Supported platforms in the Amazon EC2 User Guide.    EC2-VPC-InstanceStore  instance,
-  image, security group, network interface    EC2-VPC-InstanceStore-Subnet  instance, image,
-  security group, network interface, subnet    EC2-VPC-EBS  instance, image, security group,
-  network interface, volume    EC2-VPC-EBS-Subnet  instance, image, security group, network
-  interface, subnet, volume
+  that you must define to run the simulation. Each of the Amazon EC2 scenarios requires that
+  you specify instance, image, and security group resources. If your scenario includes an EBS
+  volume, then you must specify that volume as a resource. If the Amazon EC2 scenario
+  includes VPC, then you must supply the network interface resource. If it includes an IP
+  subnet, then you must specify the subnet resource. For more information on the Amazon EC2
+  scenario options, see Supported platforms in the Amazon EC2 User Guide.
+  EC2-VPC-InstanceStore  instance, image, security group, network interface
+  EC2-VPC-InstanceStore-Subnet  instance, image, security group, network interface, subnet
+  EC2-VPC-EBS  instance, image, security group, network interface, volume
+  EC2-VPC-EBS-Subnet  instance, image, security group, network interface, subnet, volume
 - `"ResourceOwner"`: An Amazon Web Services account ID that specifies the owner of any
   simulated resource that does not identify its owner in the resource ARN. Examples of
   resource ARNs include an S3 bucket or object. If ResourceOwner is specified, it is also
@@ -7832,14 +7864,14 @@ are not merged.) Typically, you need to update a thumbprint only when the identi
 certificate changes, which occurs rarely. However, if the provider's certificate does
 change, any attempt to assume an IAM role that specifies the OIDC provider as a principal
 fails until the certificate thumbprint is updated.  Amazon Web Services secures
-communication with some OIDC identity providers (IdPs) through our library of trusted
+communication with some OIDC identity providers (IdPs) through our library of trusted root
 certificate authorities (CAs) instead of using a certificate thumbprint to verify your IdP
-server certificate. These OIDC IdPs include Google, Auth0, and those that use an Amazon S3
-bucket to host a JSON Web Key Set (JWKS) endpoint. In these cases, your legacy thumbprint
-remains in your configuration, but is no longer used for validation.   Trust for the OIDC
-provider is derived from the provider certificate and is validated by the thumbprint.
-Therefore, it is best to limit access to the UpdateOpenIDConnectProviderThumbprint
-operation to highly privileged users.
+server certificate. In these cases, your legacy thumbprint remains in your configuration,
+but is no longer used for validation. These OIDC IdPs include Auth0, GitHub, GitLab,
+Google, and those that use an Amazon S3 bucket to host a JSON Web Key Set (JWKS) endpoint.
+ Trust for the OIDC provider is derived from the provider certificate and is validated by
+the thumbprint. Therefore, it is best to limit access to the
+UpdateOpenIDConnectProviderThumbprint operation to highly privileged users.
 
 # Arguments
 - `open_idconnect_provider_arn`: The Amazon Resource Name (ARN) of the IAM OIDC provider
@@ -7911,7 +7943,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   credentials are valid for one hour by default. This applies when you use the AssumeRole*
   API operations or the assume-role* CLI operations but does not apply when you use those
   operations to create a console URL. For more information, see Using IAM roles in the IAM
-  User Guide.
+  User Guide.  IAM role credentials provided by Amazon EC2 instances assigned to the role are
+  not subject to the specified maximum session duration.
 """
 function update_role(RoleName; aws_config::AbstractAWSConfig=global_aws_config())
     return iam(
