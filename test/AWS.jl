@@ -809,7 +809,7 @@ end
             SQS.send_message(expected_message, queue_url)
 
             response = SQS.receive_message(queue_url)
-            receipt_handle = response["Message"]["ReceiptHandle"]
+            receipt_handle = only(response["Messages"])["ReceiptHandle"]
 
             response = SQS.delete_message_batch(
                 [
@@ -826,7 +826,7 @@ end
             SQS.send_message(expected_message, queue_url)
 
             result = SQS.receive_message(queue_url)
-            message = result["Message"]["Body"]
+            message = only(result["Messages"])["Body"]
             @test message == expected_message
         finally
             SQS.delete_queue(queue_url)
@@ -863,7 +863,7 @@ end
             response = AWSServices.sqs(
                 "ReceiveMessage", LittleDict("QueueUrl" => queue_url)
             )
-            receipt_handle = response["Message"]["ReceiptHandle"]
+            receipt_handle = only(response["Messages"])["ReceiptHandle"]
 
             response = AWSServices.sqs(
                 "DeleteMessageBatch",
@@ -889,7 +889,7 @@ end
 
             # Receive Message
             result = AWSServices.sqs("ReceiveMessage", LittleDict("QueueUrl" => queue_url))
-            message = result["Message"]["Body"]
+            message = only(result["Messages"])["Body"]
             @test message == expected_message
         finally
             AWSServices.sqs("DeleteQueue", LittleDict("QueueUrl" => queue_url))
