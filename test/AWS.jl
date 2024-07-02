@@ -1,6 +1,6 @@
 @testset "service module" begin
     @service S3
-    @test :S3 in names(Main)
+    @test isdefined(@__MODULE__, :S3)
 end
 
 @testset "global config, kwargs" begin
