@@ -2,7 +2,11 @@ const TOP_LEVEL_STUFF = quote
     using AWS
     using AWS: AWSCredentials, AWSServices, assume_role_creds
     using AWS.AWSExceptions:
-        AWSException, IMDSUnavailable, InvalidFileName, NoCredentials, ProtocolNotDefined
+        AWSException,
+        IMDSUnavailable,
+        InvalidFileName,
+        NoCredentials,
+        ProtocolNotDefined
     using AWS.AWSMetadata:
         ServiceFile,
         _clean_documentation,
@@ -42,8 +46,10 @@ const TOP_LEVEL_STUFF = quote
     include("patch.jl")
     include("resources/totp.jl")
 
+    const _NOW_FMT = DateFormat("yyyymmdd\\THHMMSSsss\\Z")
+
     function _now_formatted()
-        return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
+        return lowercase(Dates.format(now(Dates.UTC), _NOW_FMT))
     end
 
     testset_role(role_name) = string("AWS.jl-", role_name)
