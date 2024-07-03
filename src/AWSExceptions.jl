@@ -98,7 +98,11 @@ function AWSException(e::HTTP.StatusError, body::AbstractString)
             end
 
             # Extract API error code from XML error message...
-            if endswith(content_type, "/xml") || startswith(body, "<?xml")
+            if (
+                endswith(content_type, "/xml") ||
+                startswith(body, "<?xml") ||
+                startswith(body, r"<\w+ xmlns=")
+            )
                 info = parse_xml(body)
             end
         elseif parse(Int, HTTP.header(e.response, "Content-Length", "0")) > 0
