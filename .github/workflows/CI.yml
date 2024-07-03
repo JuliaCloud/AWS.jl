@@ -65,7 +65,7 @@ jobs:
           chmod +x ./minio
           ./minio server --compat --quiet data 2>&1 > minio.log &
           env | grep ^MINIO_ | tee -a "$GITHUB_ENV"
-      - uses: julia-actions/setup-julia@v1
+      - uses: julia-actions/setup-julia@v2
         with:
           version: ${{ matrix.version }}
           arch: ${{ matrix.arch }}
@@ -80,7 +80,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: julia-actions/setup-julia@v1
+      - uses: julia-actions/setup-julia@v2
         with:
           version: '1'
       - uses: julia-actions/julia-buildpkg@latest
