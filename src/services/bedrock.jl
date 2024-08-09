@@ -10,7 +10,7 @@ using AWS.UUIDs
 
 API operation for creating and managing Amazon Bedrock automatic model evaluation jobs and
 model evaluation jobs that use human workers. To learn more about the requirements for
-creating a model evaluation job see, Model evaluations.
+creating a model evaluation job see, Model evaluation.
 
 # Arguments
 - `evaluation_config`: Specifies whether the model evaluation job is automatic or uses
@@ -98,22 +98,20 @@ end
     create_guardrail(blocked_input_messaging, blocked_outputs_messaging, name)
     create_guardrail(blocked_input_messaging, blocked_outputs_messaging, name, params::Dict{String,<:Any})
 
-Creates a guardrail to block topics and to filter out harmful content.   Specify a name and
-optional description.   Specify messages for when the guardrail successfully blocks a
-prompt or a model response in the blockedInputMessaging and blockedOutputsMessaging fields.
-  Specify topics for the guardrail to deny in the topicPolicyConfig object. Each
-GuardrailTopicConfig object in the topicsConfig list pertains to one topic.   Give a name
-and description so that the guardrail can properly identify the topic.   Specify DENY in
-the type field.   (Optional) Provide up to five prompts that you would categorize as
-belonging to the topic in the examples list.     Specify filter strengths for the harmful
-categories defined in Amazon Bedrock in the contentPolicyConfig object. Each
-GuardrailContentFilterConfig object in the filtersConfig list pertains to a harmful
-category. For more information, see Content filters. For more information about the fields
-in a content filter, see GuardrailContentFilterConfig.   Specify the category in the type
-field.   Specify the strength of the filter for prompts in the inputStrength field and for
-model responses in the strength field of the GuardrailContentFilterConfig.     (Optional)
-For security, include the ARN of a KMS key in the kmsKeyId field.   (Optional) Attach any
-tags to the guardrail in the tags object. For more information, see Tag resources.
+Creates a guardrail to block topics and to implement safeguards for your generative AI
+applications. You can configure the following policies in a guardrail to avoid undesirable
+and harmful content, filter out denied topics and words, and remove sensitive information
+for privacy protection.    Content filters - Adjust filter strengths to block input prompts
+or model responses containing harmful content.    Denied topics - Define a set of topics
+that are undesirable in the context of your application. These topics will be blocked if
+detected in user queries or model responses.    Word filters - Configure filters to block
+undesirable words, phrases, and profanity. Such words can include offensive terms,
+competitor names etc.    Sensitive information filters - Block or mask sensitive
+information such as personally identifiable information (PII) or custom regex in user
+inputs and model responses.   In addition to the above policies, you can also configure the
+messages to be returned to the user if a user input or model response is in violation of
+the policies defined in the guardrail. For more information, see Guardrails for Amazon
+Bedrock in the Amazon Bedrock User Guide.
 
 # Arguments
 - `blocked_input_messaging`: The message to return when the guardrail blocks a prompt.
@@ -128,6 +126,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Bedrock ignores the request, but does not return an error. For more information, see
   Ensuring idempotency in the Amazon S3 User Guide.
 - `"contentPolicyConfig"`: The content filter policies to configure for the guardrail.
+- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used
+  to create a guardrail.
 - `"description"`: A description of the guardrail.
 - `"kmsKeyId"`: The ARN of the KMS key that you use to encrypt the guardrail.
 - `"sensitiveInformationPolicyConfig"`: The sensitive information policy to configure for
@@ -191,7 +191,8 @@ you are satisfied with a configuration, or to compare the configuration with ano
 version.
 
 # Arguments
-- `guardrail_identifier`: The unique identifier of the guardrail.
+- `guardrail_identifier`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -223,6 +224,67 @@ function create_guardrail_version(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("clientRequestToken" => string(uuid4())), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_model_copy_job(source_model_arn, target_model_name)
+    create_model_copy_job(source_model_arn, target_model_name, params::Dict{String,<:Any})
+
+Copies a model to another region so that it can be used there. For more information, see
+Copy models to be used in other regions in the Amazon Bedrock User Guide.
+
+# Arguments
+- `source_model_arn`: The Amazon Resource Name (ARN) of the model to be copied.
+- `target_model_name`: A name for the copied model.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"clientRequestToken"`: A unique, case-sensitive identifier to ensure that the API
+  request completes no more than one time. If this token matches a previous request, Amazon
+  Bedrock ignores the request, but does not return an error. For more information, see
+  Ensuring idempotency.
+- `"modelKmsKeyId"`: The ARN of the KMS key that you use to encrypt the model copy.
+- `"targetModelTags"`: Tags to associate with the target model. For more information, see
+  Tag resources in the Amazon Bedrock User Guide.
+"""
+function create_model_copy_job(
+    sourceModelArn, targetModelName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return bedrock(
+        "POST",
+        "/model-copy-jobs",
+        Dict{String,Any}(
+            "sourceModelArn" => sourceModelArn,
+            "targetModelName" => targetModelName,
+            "clientRequestToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_model_copy_job(
+    sourceModelArn,
+    targetModelName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return bedrock(
+        "POST",
+        "/model-copy-jobs",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "sourceModelArn" => sourceModelArn,
+                    "targetModelName" => targetModelName,
+                    "clientRequestToken" => string(uuid4()),
+                ),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -461,7 +523,8 @@ guardrailIdentifier field. If you delete a guardrail, all of its versions will b
 guardrailIdentifier field and the version in the guardrailVersion field.
 
 # Arguments
-- `guardrail_identifier`: The unique identifier of the guardrail.
+- `guardrail_identifier`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -597,7 +660,7 @@ end
     get_evaluation_job(job_identifier, params::Dict{String,<:Any})
 
 Retrieves the properties associated with a model evaluation job, including the status of
-the job. For more information, see Model evaluations.
+the job. For more information, see Model evaluation.
 
 # Arguments
 - `job_identifier`: The Amazon Resource Name (ARN) of the model evaluation job.
@@ -670,6 +733,7 @@ details for the DRAFT version.
 
 # Arguments
 - `guardrail_identifier`: The unique identifier of the guardrail for which to get details.
+  This can be an ID or the ARN.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -694,6 +758,37 @@ function get_guardrail(
     return bedrock(
         "GET",
         "/guardrails/$(guardrailIdentifier)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_model_copy_job(job_arn)
+    get_model_copy_job(job_arn, params::Dict{String,<:Any})
+
+Retrieves information about a model copy job. For more information, see Copy models to be
+used in other regions in the Amazon Bedrock User Guide.
+
+# Arguments
+- `job_arn`: The Amazon Resource Name (ARN) of the model copy job.
+
+"""
+function get_model_copy_job(jobArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return bedrock(
+        "GET",
+        "/model-copy-jobs/$(jobArn)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_model_copy_job(
+    jobArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-copy-jobs/$(jobArn)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -816,10 +911,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"creationTimeBefore"`: Return custom models created before the specified time.
 - `"foundationModelArnEquals"`: Return custom models only if the foundation model Amazon
   Resource Name (ARN) matches this parameter.
-- `"maxResults"`: Maximum number of results to return in the response.
+- `"isOwned"`: Return custom models depending on if the current account owns them (true) or
+  if they were shared with the current account (false).
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in the
+  nextToken field when making another request to return the next batch of results.
 - `"nameContains"`: Return custom models only if the job name contains these characters.
-- `"nextToken"`: Continuation token from the previous response, for Amazon Bedrock to list
-  the next set of results.
+- `"nextToken"`: If the total number of results is greater than the maxResults value
+  provided in the request, enter the token returned in the nextToken field in the response in
+  this field to return the next batch of results.
 - `"sortBy"`: The field to sort by in the returned list of models.
 - `"sortOrder"`: The sort order of the results.
 """
@@ -924,7 +1024,8 @@ another ListGuardrails request to see the next batch of results.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"guardrailIdentifier"`: The unique identifier of the guardrail.
+- `"guardrailIdentifier"`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 - `"maxResults"`: The maximum number of results to return in the response.
 - `"nextToken"`: If there are more results than were returned in the response, the response
   returns a nextToken that you can send in another ListGuardrails request to see the next
@@ -944,6 +1045,52 @@ function list_guardrails(
 end
 
 """
+    list_model_copy_jobs()
+    list_model_copy_jobs(params::Dict{String,<:Any})
+
+Returns a list of model copy jobs that you have submitted. You can filter the jobs to
+return based on one or more criteria. For more information, see Copy models to be used in
+other regions in the Amazon Bedrock User Guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"creationTimeAfter"`: Filters for model copy jobs created after the specified time.
+- `"creationTimeBefore"`: Filters for model copy jobs created before the specified time.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in the
+  nextToken field when making another request to return the next batch of results.
+- `"nextToken"`: If the total number of results is greater than the maxResults value
+  provided in the request, enter the token returned in the nextToken field in the response in
+  this field to return the next batch of results.
+- `"outputModelNameContains"`: Filters for model copy jobs in which the name of the copied
+  model contains the string that you specify.
+- `"sortBy"`: The field to sort by in the returned list of model copy jobs.
+- `"sortOrder"`: Specifies whether to sort the results in ascending or descending order.
+- `"sourceAccountEquals"`: Filters for model copy jobs in which the account that the source
+  model belongs to is equal to the value that you specify.
+- `"sourceModelArnEquals"`: Filters for model copy jobs in which the Amazon Resource Name
+  (ARN) of the source model to is equal to the value that you specify.
+- `"statusEquals"`: Filters for model copy jobs whose status matches the value that you
+  specify.
+"""
+function list_model_copy_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return bedrock(
+        "GET", "/model-copy-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_model_copy_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return bedrock(
+        "GET",
+        "/model-copy-jobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_model_customization_jobs()
     list_model_customization_jobs(params::Dict{String,<:Any})
 
@@ -955,11 +1102,14 @@ Amazon Bedrock User Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"creationTimeAfter"`: Return customization jobs created after the specified time.
 - `"creationTimeBefore"`: Return customization jobs created before the specified time.
-- `"maxResults"`: Maximum number of results to return in the response.
+- `"maxResults"`: The maximum number of results to return in the response. If the total
+  number of results is greater than this value, use the token returned in the response in the
+  nextToken field when making another request to return the next batch of results.
 - `"nameContains"`: Return customization jobs only if the job name contains these
   characters.
-- `"nextToken"`: Continuation token from the previous response, for Amazon Bedrock to list
-  the next set of results.
+- `"nextToken"`: If the total number of results is greater than the maxResults value
+  provided in the request, enter the token returned in the nextToken field in the response in
+  this field to return the next batch of results.
 - `"sortBy"`: The field to sort by in the returned list of jobs.
 - `"sortOrder"`: The sort order of the results.
 - `"statusEquals"`: Return customization jobs with the specified status.
@@ -1282,19 +1432,21 @@ filters. For more information about the fields in a content filter, see
 GuardrailContentFilterConfig.   Specify the category in the type field.   Specify the
 strength of the filter for prompts in the inputStrength field and for model responses in
 the strength field of the GuardrailContentFilterConfig.     (Optional) For security,
-include the ARN of a KMS key in the kmsKeyId field.   (Optional) Attach any tags to the
-guardrail in the tags object. For more information, see Tag resources.
+include the ARN of a KMS key in the kmsKeyId field.
 
 # Arguments
 - `blocked_input_messaging`: The message to return when the guardrail blocks a prompt.
 - `blocked_outputs_messaging`: The message to return when the guardrail blocks a model
   response.
-- `guardrail_identifier`: The unique identifier of the guardrail
+- `guardrail_identifier`: The unique identifier of the guardrail. This can be an ID or the
+  ARN.
 - `name`: A name for the guardrail.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"contentPolicyConfig"`: The content policy to configure for the guardrail.
+- `"contextualGroundingPolicyConfig"`: The contextual grounding policy configuration used
+  to update a guardrail.
 - `"description"`: A description of the guardrail.
 - `"kmsKeyId"`: The ARN of the KMS key with which to encrypt the guardrail.
 - `"sensitiveInformationPolicyConfig"`: The sensitive information policy to configure for

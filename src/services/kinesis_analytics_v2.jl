@@ -1013,6 +1013,52 @@ function describe_application(
 end
 
 """
+    describe_application_operation(application_name, operation_id)
+    describe_application_operation(application_name, operation_id, params::Dict{String,<:Any})
+
+Returns information about a specific operation performed on a Managed Service for Apache
+Flink application
+
+# Arguments
+- `application_name`:
+- `operation_id`:
+
+"""
+function describe_application_operation(
+    ApplicationName, OperationId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_analytics_v2(
+        "DescribeApplicationOperation",
+        Dict{String,Any}(
+            "ApplicationName" => ApplicationName, "OperationId" => OperationId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_application_operation(
+    ApplicationName,
+    OperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_analytics_v2(
+        "DescribeApplicationOperation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName, "OperationId" => OperationId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_application_snapshot(application_name, snapshot_name)
     describe_application_snapshot(application_name, snapshot_name, params::Dict{String,<:Any})
 
@@ -1157,6 +1203,50 @@ function discover_input_schema(
                 _merge,
                 Dict{String,Any}("ServiceExecutionRole" => ServiceExecutionRole),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_application_operations(application_name)
+    list_application_operations(application_name, params::Dict{String,<:Any})
+
+Lists information about operations performed on a Managed Service for Apache Flink
+application
+
+# Arguments
+- `application_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`:
+- `"NextToken"`:
+- `"Operation"`:
+- `"OperationStatus"`:
+"""
+function list_application_operations(
+    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return kinesis_analytics_v2(
+        "ListApplicationOperations",
+        Dict{String,Any}("ApplicationName" => ApplicationName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_application_operations(
+    ApplicationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_analytics_v2(
+        "ListApplicationOperations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
             ),
         );
         aws_config=aws_config,
@@ -1324,11 +1414,10 @@ end
     rollback_application(application_name, current_application_version_id, params::Dict{String,<:Any})
 
 Reverts the application to the previous running version. You can roll back an application
-if you suspect it is stuck in a transient status.  You can roll back an application only if
-it is in the UPDATING or AUTOSCALING status. When you rollback an application, it loads
-state data from the last successful snapshot. If the application has no snapshots, Managed
-Service for Apache Flink rejects the rollback request. This action is not supported for
-Managed Service for Apache Flink for SQL applications.
+if you suspect it is stuck in a transient status or in the running status.  You can roll
+back an application only if it is in the UPDATING, AUTOSCALING, or RUNNING statuses. When
+you rollback an application, it loads state data from the last successful snapshot. If the
+application has no snapshots, Managed Service for Apache Flink rejects the rollback request.
 
 # Arguments
 - `application_name`: The name of the application.

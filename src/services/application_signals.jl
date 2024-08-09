@@ -168,7 +168,8 @@ Returns information about a service discovered by Application Signals.
 
 # Arguments
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
-  HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057
+  HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your
+  requested start time will be rounded to the nearest hour.
 - `key_attributes`: Use this field to specify which service you want to retrieve
   information for. You must specify at least the Type, Name, and Environment attributes. This
   is a string-to-string map. It can include the following fields.    Type designates the type
@@ -180,6 +181,7 @@ Returns information about a service discovered by Application Signals.
   Environment specifies the location where this object is hosted, or what it belongs to.
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057
+  Your requested start time will be rounded to the nearest hour.
 
 """
 function get_service(
@@ -256,7 +258,8 @@ services.
 
 # Arguments
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
-  HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057
+  HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your
+  requested end time will be rounded to the nearest hour.
 - `key_attributes`: Use this field to specify which service you want to retrieve
   information for. You must specify at least the Type, Name, and Environment attributes. This
   is a string-to-string map. It can include the following fields.    Type designates the type
@@ -268,6 +271,7 @@ services.
   Environment specifies the location where this object is hosted, or what it belongs to.
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -325,7 +329,8 @@ are instrumented with CloudWatch RUM app monitors.
 
 # Arguments
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
-  HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057
+  HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your
+  requested start time will be rounded to the nearest hour.
 - `key_attributes`: Use this field to specify which service you want to retrieve
   information for. You must specify at least the Type, Name, and Environment attributes. This
   is a string-to-string map. It can include the following fields.    Type designates the type
@@ -337,6 +342,7 @@ are instrumented with CloudWatch RUM app monitors.
   Environment specifies the location where this object is hosted, or what it belongs to.
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -429,7 +435,8 @@ Signals. Only the operations that were invoked during the specified time range a
 
 # Arguments
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
-  HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057
+  HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your
+  requested end time will be rounded to the nearest hour.
 - `key_attributes`: Use this field to specify which service you want to retrieve
   information for. You must specify at least the Type, Name, and Environment attributes. This
   is a string-to-string map. It can include the following fields.    Type designates the type
@@ -441,6 +448,7 @@ Signals. Only the operations that were invoked during the specified time range a
   Environment specifies the location where this object is hosted, or what it belongs to.
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -498,9 +506,11 @@ Services are discovered through Application Signals instrumentation.
 
 # Arguments
 - `end_time`: The end of the time period to retrieve information about. When used in a raw
-  HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057
+  HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057  Your
+  requested start time will be rounded to the nearest hour.
 - `start_time`: The start of the time period to retrieve information about. When used in a
   raw HTTP Query API, it is formatted as be epoch time in seconds. For example: 1698778057
+  Your requested start time will be rounded to the nearest hour.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:

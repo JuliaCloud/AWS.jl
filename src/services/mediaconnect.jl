@@ -1861,6 +1861,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   represents the minimal potential latency of that connection. The latency of the stream is
   set to the highest number between the sender’s minimum latency and the receiver’s
   minimum latency.
+- `"outputStatus"`: An indication of whether the output should transmit data or not. If you
+  don't specify the outputStatus field in your request, MediaConnect leaves the value
+  unchanged.
 - `"port"`: The port to use when content is distributed to this output.
 - `"protocol"`: The protocol to use for the output.
 - `"remoteId"`: The remote ID for the Zixi-pull stream.

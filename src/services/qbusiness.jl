@@ -191,6 +191,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"identityCenterInstanceArn"`:  The Amazon Resource Name (ARN) of the IAM Identity Center
   instance you are either creating for—or connecting to—your Amazon Q Business
   application.
+- `"personalizationConfiguration"`: Configuration information about chat response
+  personalization. For more information, see Personalizing chat responses
 - `"qAppsConfiguration"`: An option to allow end users to create and use Amazon Q Apps in
   the web experience.
 - `"roleArn"`:  The Amazon Resource Name (ARN) of an IAM role with permissions to access
@@ -2140,6 +2142,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"identityCenterInstanceArn"`:  The Amazon Resource Name (ARN) of the IAM Identity Center
   instance you are either creating for—or connecting to—your Amazon Q Business
   application.
+- `"personalizationConfiguration"`: Configuration information about chat response
+  personalization. For more information, see Personalizing chat responses.
 - `"qAppsConfiguration"`: An option to allow end users to create and use Amazon Q Apps in
   the web experience.
 - `"roleArn"`: An Amazon Web Services Identity and Access Management (IAM) role that gives

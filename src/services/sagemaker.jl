@@ -3533,6 +3533,101 @@ function create_notebook_instance_lifecycle_config(
 end
 
 """
+    create_optimization_job(deployment_instance_type, model_source, optimization_configs, optimization_job_name, output_config, role_arn, stopping_condition)
+    create_optimization_job(deployment_instance_type, model_source, optimization_configs, optimization_job_name, output_config, role_arn, stopping_condition, params::Dict{String,<:Any})
+
+Creates a job that optimizes a model for inference performance. To create the job, you
+provide the location of a source model, and you provide the settings for the optimization
+techniques that you want the job to apply. When the job completes successfully, SageMaker
+uploads the new optimized model to the output destination that you specify. For more
+information about how to use this action, and about the supported optimization techniques,
+see Optimize model inference with Amazon SageMaker.
+
+# Arguments
+- `deployment_instance_type`: The type of instance that hosts the optimized model that you
+  create with the optimization job.
+- `model_source`: The location of the source model to optimize with an optimization job.
+- `optimization_configs`: Settings for each of the optimization techniques that the job
+  applies.
+- `optimization_job_name`: A custom name for the new optimization job.
+- `output_config`: Details for where to store the optimized model that you create with the
+  optimization job.
+- `role_arn`: The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker
+  to perform tasks on your behalf.  During model optimization, Amazon SageMaker needs your
+  permission to:   Read input data from an S3 bucket   Write model artifacts to an S3 bucket
+   Write logs to Amazon CloudWatch Logs   Publish metrics to Amazon CloudWatch   You grant
+  permissions for all of these tasks to an IAM role. To pass this role to Amazon SageMaker,
+  the caller of this API must have the iam:PassRole permission. For more information, see
+  Amazon SageMaker Roles.
+- `stopping_condition`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"OptimizationEnvironment"`: The environment variables to set in the model container.
+- `"Tags"`: A list of key-value pairs associated with the optimization job. For more
+  information, see Tagging Amazon Web Services resources in the Amazon Web Services General
+  Reference Guide.
+- `"VpcConfig"`: A VPC in Amazon VPC that your optimized model has access to.
+"""
+function create_optimization_job(
+    DeploymentInstanceType,
+    ModelSource,
+    OptimizationConfigs,
+    OptimizationJobName,
+    OutputConfig,
+    RoleArn,
+    StoppingCondition;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "CreateOptimizationJob",
+        Dict{String,Any}(
+            "DeploymentInstanceType" => DeploymentInstanceType,
+            "ModelSource" => ModelSource,
+            "OptimizationConfigs" => OptimizationConfigs,
+            "OptimizationJobName" => OptimizationJobName,
+            "OutputConfig" => OutputConfig,
+            "RoleArn" => RoleArn,
+            "StoppingCondition" => StoppingCondition,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_optimization_job(
+    DeploymentInstanceType,
+    ModelSource,
+    OptimizationConfigs,
+    OptimizationJobName,
+    OutputConfig,
+    RoleArn,
+    StoppingCondition,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "CreateOptimizationJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DeploymentInstanceType" => DeploymentInstanceType,
+                    "ModelSource" => ModelSource,
+                    "OptimizationConfigs" => OptimizationConfigs,
+                    "OptimizationJobName" => OptimizationJobName,
+                    "OutputConfig" => OutputConfig,
+                    "RoleArn" => RoleArn,
+                    "StoppingCondition" => StoppingCondition,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     create_pipeline(client_request_token, pipeline_name, role_arn)
     create_pipeline(client_request_token, pipeline_name, role_arn, params::Dict{String,<:Any})
 
@@ -5503,7 +5598,8 @@ Delete a hub content reference in order to remove a model from a private hub.
 
 # Arguments
 - `hub_content_name`: The name of the hub content to delete.
-- `hub_content_type`: The type of hub content to delete.
+- `hub_content_type`: The type of hub content reference to delete. The only supported type
+  of hub content reference to delete is ModelReference.
 - `hub_name`: The name of the hub to delete the hub content reference from.
 
 """
@@ -6232,6 +6328,45 @@ function delete_notebook_instance_lifecycle_config(
                     "NotebookInstanceLifecycleConfigName" =>
                         NotebookInstanceLifecycleConfigName,
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_optimization_job(optimization_job_name)
+    delete_optimization_job(optimization_job_name, params::Dict{String,<:Any})
+
+Deletes an optimization job.
+
+# Arguments
+- `optimization_job_name`: The name that you assigned to the optimization job.
+
+"""
+function delete_optimization_job(
+    OptimizationJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "DeleteOptimizationJob",
+        Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_optimization_job(
+    OptimizationJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DeleteOptimizationJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OptimizationJobName" => OptimizationJobName),
                 params,
             ),
         );
@@ -8485,6 +8620,45 @@ function describe_notebook_instance_lifecycle_config(
                     "NotebookInstanceLifecycleConfigName" =>
                         NotebookInstanceLifecycleConfigName,
                 ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_optimization_job(optimization_job_name)
+    describe_optimization_job(optimization_job_name, params::Dict{String,<:Any})
+
+Provides the properties of the specified optimization job.
+
+# Arguments
+- `optimization_job_name`: The name that you assigned to the optimization job.
+
+"""
+function describe_optimization_job(
+    OptimizationJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "DescribeOptimizationJob",
+        Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_optimization_job(
+    OptimizationJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "DescribeOptimizationJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OptimizationJobName" => OptimizationJobName),
                 params,
             ),
         );
@@ -11783,6 +11957,53 @@ function list_notebook_instances(
 end
 
 """
+    list_optimization_jobs()
+    list_optimization_jobs(params::Dict{String,<:Any})
+
+Lists the optimization jobs in your account and their properties.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"CreationTimeAfter"`: Filters the results to only those optimization jobs that were
+  created after the specified time.
+- `"CreationTimeBefore"`: Filters the results to only those optimization jobs that were
+  created before the specified time.
+- `"LastModifiedTimeAfter"`: Filters the results to only those optimization jobs that were
+  updated after the specified time.
+- `"LastModifiedTimeBefore"`: Filters the results to only those optimization jobs that were
+  updated before the specified time.
+- `"MaxResults"`: The maximum number of optimization jobs to return in the response. The
+  default is 50.
+- `"NameContains"`: Filters the results to only those optimization jobs with a name that
+  contains the specified string.
+- `"NextToken"`: A token that you use to get the next set of results following a truncated
+  response. If the response to the previous request was truncated, that response provides the
+  value for this token.
+- `"OptimizationContains"`: Filters the results to only those optimization jobs that apply
+  the specified optimization techniques. You can specify either Quantization or Compilation.
+- `"SortBy"`: The field by which to sort the optimization jobs in the response. The default
+  is CreationTime
+- `"SortOrder"`: The sort order for results. The default is Ascending
+- `"StatusEquals"`: Filters the results to only those optimization jobs with the specified
+  status.
+"""
+function list_optimization_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+    return sagemaker(
+        "ListOptimizationJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_optimization_jobs(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "ListOptimizationJobs",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_pipeline_execution_steps()
     list_pipeline_execution_steps(params::Dict{String,<:Any})
 
@@ -13655,6 +13876,45 @@ function stop_notebook_instance(
             mergewith(
                 _merge,
                 Dict{String,Any}("NotebookInstanceName" => NotebookInstanceName),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_optimization_job(optimization_job_name)
+    stop_optimization_job(optimization_job_name, params::Dict{String,<:Any})
+
+Ends a running inference optimization job.
+
+# Arguments
+- `optimization_job_name`: The name that you assigned to the optimization job.
+
+"""
+function stop_optimization_job(
+    OptimizationJobName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return sagemaker(
+        "StopOptimizationJob",
+        Dict{String,Any}("OptimizationJobName" => OptimizationJobName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_optimization_job(
+    OptimizationJobName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return sagemaker(
+        "StopOptimizationJob",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("OptimizationJobName" => OptimizationJobName),
                 params,
             ),
         );
