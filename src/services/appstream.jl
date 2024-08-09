@@ -765,7 +765,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   active after users disconnect. If users try to reconnect to the streaming session after a
   disconnection or network interruption within this time interval, they are connected to
   their previous session. Otherwise, they are connected to a new session with a new streaming
-  instance.  Specify a value between 60 and 360000.
+  instance.  Specify a value between 60 and 36000.
 - `"DisplayName"`: The fleet name to display.
 - `"DomainJoinInfo"`: The name of the directory and organizational unit (OU) to use to join
   the fleet to a Microsoft Active Directory domain. This is not allowed for Elastic fleets.
@@ -793,13 +793,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   out, and pixels changing do not qualify as user activity. If users continue to be idle
   after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.
   To prevent users from being disconnected due to inactivity, specify a value of 0.
-  Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this
-  feature, we recommend that you specify a value that corresponds exactly to a whole number
-  of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to
-  the nearest minute. For example, if you specify a value of 70, users are disconnected after
-  1 minute of inactivity. If you specify a value that is at the midpoint between two
-  different minutes, the value is rounded up. For example, if you specify a value of 90,
-  users are disconnected after 2 minutes of inactivity.
+  Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable
+  this feature, we recommend that you specify a value that corresponds exactly to a whole
+  number of minutes (for example, 60, 120, and 180). If you don't do this, the value is
+  rounded to the nearest minute. For example, if you specify a value of 70, users are
+  disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint
+  between two different minutes, the value is rounded up. For example, if you specify a value
+  of 90, users are disconnected after 2 minutes of inactivity.
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
 - `"ImageName"`: The name of the image used to create the fleet.
 - `"MaxConcurrentSessions"`: The maximum concurrent sessions of the Elastic fleet. This is
@@ -3147,7 +3147,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   active after users disconnect. If users try to reconnect to the streaming session after a
   disconnection or network interruption within this time interval, they are connected to
   their previous session. Otherwise, they are connected to a new session with a new streaming
-  instance.  Specify a value between 60 and 360000.
+  instance.  Specify a value between 60 and 36000.
 - `"DisplayName"`: The fleet name to display.
 - `"DomainJoinInfo"`: The name of the directory and organizational unit (OU) to use to join
   the fleet to a Microsoft Active Directory domain.
@@ -3170,13 +3170,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   out, and pixels changing do not qualify as user activity. If users continue to be idle
   after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.
   To prevent users from being disconnected due to inactivity, specify a value of 0.
-  Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this
-  feature, we recommend that you specify a value that corresponds exactly to a whole number
-  of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to
-  the nearest minute. For example, if you specify a value of 70, users are disconnected after
-  1 minute of inactivity. If you specify a value that is at the midpoint between two
-  different minutes, the value is rounded up. For example, if you specify a value of 90,
-  users are disconnected after 2 minutes of inactivity.
+  Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable
+  this feature, we recommend that you specify a value that corresponds exactly to a whole
+  number of minutes (for example, 60, 120, and 180). If you don't do this, the value is
+  rounded to the nearest minute. For example, if you specify a value of 70, users are
+  disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint
+  between two different minutes, the value is rounded up. For example, if you specify a value
+  of 90, users are disconnected after 2 minutes of inactivity.
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
 - `"ImageName"`: The name of the image used to create the fleet.
 - `"InstanceType"`: The instance type to use when launching fleet instances. The following

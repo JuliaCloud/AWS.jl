@@ -245,8 +245,8 @@ operation.
   action. This IAM role must allow the Amazon Redshift scheduler to schedule creating
   snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your
   behalf. For more information about the IAM role to use with the Amazon Redshift scheduler,
-  see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Cluster
-  Management Guide
+  see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Management
+  Guide
 - `schedule`: The schedule for a one-time (at timestamp format) or recurring (cron format)
   scheduled action. Schedule invocations must be separated by at least one hour. Times are in
   UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.
@@ -501,6 +501,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC instead of over the internet.
+- `"ipAddressType"`: The IP address type that the workgroup supports. Possible values are
+  ipv4 and dualstack.
 - `"maxCapacity"`: The maximum data-warehouse capacity Amazon Redshift Serverless uses to
   serve queries. The max capacity is specified in RPUs.
 - `"port"`: The custom port to use when connecting to a workgroup. Valid port ranges are
@@ -2201,8 +2203,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action. This IAM role must allow the Amazon Redshift scheduler to schedule creating
   snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your
   behalf. For more information about the IAM role to use with the Amazon Redshift scheduler,
-  see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Cluster
-  Management Guide
+  see Using Identity-Based Policies for Amazon Redshift in the Amazon Redshift Management
+  Guide
 - `"schedule"`: The schedule for a one-time (at timestamp format) or recurring (cron
   format) scheduled action. Schedule invocations must be separated by at least one hour.
   Times are in UTC.   Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example,
@@ -2389,6 +2391,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enhancedVpcRouting"`: The value that specifies whether to turn on enhanced virtual
   private cloud (VPC) routing, which forces Amazon Redshift Serverless to route traffic
   through your VPC.
+- `"ipAddressType"`: The IP address type that the workgroup supports. Possible values are
+  ipv4 and dualstack.
 - `"maxCapacity"`: The maximum data-warehouse capacity Amazon Redshift Serverless uses to
   serve queries. The max capacity is specified in RPUs.
 - `"port"`: The custom port to use when connecting to a workgroup. Valid port ranges are

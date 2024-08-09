@@ -543,6 +543,7 @@ exactly
   two source URLs for redundancy.
 Only specify sources for PULL type Inputs. Leave
   Destinations empty.
+- `"srtSettings"`: The settings associated with an SRT input.
 - `"tags"`: A collection of key-value pairs.
 - `"type"`:
 - `"vpc"`:
@@ -3294,6 +3295,7 @@ exactly
   two source URLs for redundancy.
 Only specify sources for PULL type Inputs. Leave
   Destinations empty.
+- `"srtSettings"`: The settings associated with an SRT input.
 """
 function update_input(inputId; aws_config::AbstractAWSConfig=global_aws_config())
     return medialive(

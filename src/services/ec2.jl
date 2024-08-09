@@ -4108,10 +4108,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"PreserveClientIp"`: Indicates whether your client's IP address is preserved as the
-  source. The value is true or false.   If true, your client's IP address is used when you
-  connect to a resource.   If false, the elastic network interface IP address is used when
-  you connect to a resource.   Default: true
+- `"PreserveClientIp"`: Indicates whether the client IP address is preserved as the source.
+  The following are the possible values.    true - Use the client IP address as the source.
+   false - Use the network interface IP address as the source.   Default: false
 - `"SecurityGroupId"`: One or more security groups to associate with the endpoint. If you
   don't specify a security group, the default security group for your VPC will be associated
   with the endpoint.
@@ -4309,6 +4308,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"EnablePrivateGua"`: Enable this option to use your own GUA ranges as private IPv6
+  addresses. This option is disabled by default.
 - `"OperatingRegion"`: The operating Regions for the IPAM. Operating Regions are Amazon Web
   Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers
   and monitors resources in the Amazon Web Services Regions you select as operating Regions.
@@ -4337,6 +4338,54 @@ function create_ipam(
         "CreateIpam",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_ipam_external_resource_verification_token(ipam_id)
+    create_ipam_external_resource_verification_token(ipam_id, params::Dict{String,<:Any})
+
+Create a verification token. A verification token is an Amazon Web Services-generated
+random value that you can use to prove ownership of an external resource. For example, you
+can use a verification token to validate that you control a public IP address range when
+you bring an IP address range to Amazon Web Services (BYOIP).
+
+# Arguments
+- `ipam_id`: The ID of the IPAM that will create the token.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring idempotency.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"TagSpecification"`: Token tags.
+"""
+function create_ipam_external_resource_verification_token(
+    IpamId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "CreateIpamExternalResourceVerificationToken",
+        Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_ipam_external_resource_verification_token(
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "CreateIpamExternalResourceVerificationToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4())),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4392,13 +4441,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"Locale"`: In IPAM, the locale is the Amazon Web Services Region where you want to make
-  an IPAM pool available for allocations. Only resources in the same Region as the locale of
-  the pool can get IP address allocations from the pool. You can only allocate a CIDR for a
-  VPC, for example, from an IPAM pool that shares a locale with the VPC’s Region. Note that
-  once you choose a Locale for a pool, you cannot modify it. If you do not choose a locale,
-  resources in Regions others than the IPAM's home region cannot use CIDRs from this pool.
-  Possible values: Any Amazon Web Services Region, such as us-east-1.
+- `"Locale"`: The locale for the pool should be one of the following:   An Amazon Web
+  Services Region where you want this IPAM pool to be available for allocations.   The
+  network border group for an Amazon Web Services Local Zone where you want this IPAM pool to
+  be available for allocations (supported Local Zones). This option is only available for
+  IPAM IPv4 pools in the public scope.   If you do not choose a locale, resources in Regions
+  others than the IPAM's home region cannot use CIDRs from this pool. Possible values: Any
+  Amazon Web Services Region or supported Amazon Web Services Local Zone.
 - `"PublicIpSource"`: The IP address source for pools in the public scope. Only used for
   provisioning IP address CIDRs to pools in the public scope. Default is byoip. For more
   information, see Create IPv6 pools in the Amazon VPC IPAM User Guide. By default, you can
@@ -5546,6 +5595,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"NetworkBorderGroup"`: The Availability Zone (AZ) or Local Zone (LZ) network border
+  group that the resource that the IP address is assigned to is in. Defaults to an AZ network
+  border group. For more information on available Local Zones, see Local Zone availability in
+  the Amazon EC2 User Guide.
 - `"TagSpecification"`: The key/value combination of a tag assigned to the resource. Use
   the tag key in the filter name and the tag value as the filter value. For example, to find
   all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
@@ -7549,7 +7602,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enable Multi-Attach, you can attach the volume to up to 16 Instances built on the Nitro
   System in the same Availability Zone. This parameter is supported with io1 and io2 volumes
   only. For more information, see  Amazon EBS Multi-Attach in the Amazon EBS User Guide.
-- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost.
+- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost on which to create the
+  volume. If you intend to use a volume with an instance running on an outpost, then you must
+  create the volume on the same outpost as the instance. You can't use a volume created in an
+  Amazon Web Services Region with an instance on an Amazon Web Services outpost, or the other
+  way around.
 - `"Size"`: The size of the volume, in GiBs. You must specify either a snapshot ID or a
   volume size. If you specify a snapshot, the default is the snapshot size. You can specify a
   volume size that is equal to or larger than the snapshot size. The following are the
@@ -8749,6 +8806,60 @@ function delete_ipam(
 end
 
 """
+    delete_ipam_external_resource_verification_token(ipam_external_resource_verification_token_id)
+    delete_ipam_external_resource_verification_token(ipam_external_resource_verification_token_id, params::Dict{String,<:Any})
+
+Delete a verification token. A verification token is an Amazon Web Services-generated
+random value that you can use to prove ownership of an external resource. For example, you
+can use a verification token to validate that you control a public IP address range when
+you bring an IP address range to Amazon Web Services (BYOIP).
+
+# Arguments
+- `ipam_external_resource_verification_token_id`: The token ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_ipam_external_resource_verification_token(
+    IpamExternalResourceVerificationTokenId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeleteIpamExternalResourceVerificationToken",
+        Dict{String,Any}(
+            "IpamExternalResourceVerificationTokenId" =>
+                IpamExternalResourceVerificationTokenId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_ipam_external_resource_verification_token(
+    IpamExternalResourceVerificationTokenId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeleteIpamExternalResourceVerificationToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamExternalResourceVerificationTokenId" =>
+                        IpamExternalResourceVerificationTokenId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_ipam_pool(ipam_pool_id)
     delete_ipam_pool(ipam_pool_id, params::Dict{String,<:Any})
 
@@ -9693,6 +9804,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"NetworkBorderGroup"`: The Availability Zone (AZ) or Local Zone (LZ) network border
+  group that the resource that the IP address is assigned to is in. Defaults to an AZ network
+  border group. For more information on available Local Zones, see Local Zone availability in
+  the Amazon EC2 User Guide.
 """
 function delete_public_ipv4_pool(PoolId; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2(
@@ -14556,6 +14671,49 @@ function describe_ipam_byoasn(
 end
 
 """
+    describe_ipam_external_resource_verification_tokens()
+    describe_ipam_external_resource_verification_tokens(params::Dict{String,<:Any})
+
+Describe verification tokens. A verification token is an Amazon Web Services-generated
+random value that you can use to prove ownership of an external resource. For example, you
+can use a verification token to validate that you control a public IP address range when
+you bring an IP address range to Amazon Web Services (BYOIP).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters for the request. For more information about filtering,
+  see Filtering CLI output. Available filters:    ipam-arn
+  ipam-external-resource-verification-token-arn
+  ipam-external-resource-verification-token-id     ipam-id     ipam-region     state
+  status     token-name     token-value
+- `"IpamExternalResourceVerificationTokenId"`: Verification token IDs.
+- `"MaxResults"`: The maximum number of tokens to return in one page of results.
+- `"NextToken"`: The token for the next page of results.
+"""
+function describe_ipam_external_resource_verification_tokens(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeIpamExternalResourceVerificationTokens";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_ipam_external_resource_verification_tokens(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeIpamExternalResourceVerificationTokens",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_ipam_pools()
     describe_ipam_pools(params::Dict{String,<:Any})
 
@@ -15743,8 +15901,11 @@ end
     describe_placement_groups()
     describe_placement_groups(params::Dict{String,<:Any})
 
-Describes the specified placement groups or all of your placement groups. For more
-information, see Placement groups in the Amazon EC2 User Guide.
+Describes the specified placement groups or all of your placement groups.  To describe a
+specific placement group that is shared with your account, you must specify the ID of the
+placement group using the GroupId parameter. Specifying the name of a shared placement
+group using the GroupNames parameter will result in an error.  For more information, see
+Placement groups in the Amazon EC2 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -15762,8 +15923,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"groupName"`: The names of the placement groups. Default: Describes all your placement
-  groups, or only those otherwise specified.
+- `"groupName"`: The names of the placement groups. Constraints:   You can specify a name
+  only if the placement group is owned by your account.   If a placement group is shared with
+  your account, specifying the name results in an error. You must use the GroupId parameter
+  instead.
 """
 function describe_placement_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2(
@@ -18215,7 +18378,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume
   ID.    volume-type - The Amazon EBS volume type (gp2 | gp3 | io1 | io2 | st1 | sc1|
   standard)
-- `"VolumeId"`: The volume IDs.
+- `"VolumeId"`: The volume IDs. If not specified, then all volumes are included in the
+  response.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18240,11 +18404,9 @@ end
     describe_volumes_modifications()
     describe_volumes_modifications(params::Dict{String,<:Any})
 
-Describes the most recent volume modification request for the specified EBS volumes. If a
-volume has never been modified, some information in the output will be null. If a volume
-has been modified more than once, the output includes only the most recent modification
-request. For more information, see  Monitor the progress of volume modifications in the
-Amazon EBS User Guide.
+Describes the most recent volume modification request for the specified EBS volumes. For
+more information, see  Monitor the progress of volume modifications in the Amazon EBS User
+Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -21818,13 +21980,8 @@ end
 Gets the console output for the specified instance. For Linux instances, the instance
 console output displays the exact console output that would normally be displayed on a
 physical monitor attached to a computer. For Windows instances, the instance console output
-includes the last three system event log errors. By default, the console output returns
-buffered information that was posted shortly after an instance transition state (start,
-stop, reboot, or terminate). This information is available for at least one hour after the
-most recent post. Only the most recent 64 KB of console output is available. You can
-optionally retrieve the latest serial console output at any time during the instance
-lifecycle. This option is supported on instance types that use the Nitro hypervisor. For
-more information, see Instance console output in the Amazon EC2 User Guide.
+includes the last three system event log errors. For more information, see Instance console
+output in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The ID of the instance.
@@ -25306,9 +25463,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Virtual Function interface for the instance. There is no way to disable enhanced networking
   with the Intel 82599 Virtual Function interface at this time. This option is supported only
   for HVM instances. Specifying this option with a PV instance can make it unreachable.
-- `"userData"`: Changes the instance's user data to the specified value. If you are using
-  an Amazon Web Services SDK or command line tool, base64-encoding is performed for you, and
-  you can load the text from a file. Otherwise, you must provide base64-encoded text.
+- `"userData"`: Changes the instance's user data to the specified value. User data must be
+  base64-encoded. Depending on the tool or SDK that you're using, the base64-encoding might
+  be performed for you. For more information, see Work with instance user data.
 - `"value"`: A new value for the attribute. Use only with the kernel, ramdisk, userData,
   disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
 """
@@ -25810,6 +25967,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"EnablePrivateGua"`: Enable this option to use your own GUA ranges as private IPv6
+  addresses. This option is disabled by default.
 - `"RemoveOperatingRegion"`: The operating Regions to remove.
 - `"Tier"`: IPAM is offered in a Free Tier and an Advanced Tier. For more information about
   the features available in each tier and the costs associated with the tiers, see Amazon VPC
@@ -28455,17 +28614,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"Cidr\" is required. This value will be null if you specify \"NetmaskLength\" and will be
   filled in during the provisioning process.
 - `"CidrAuthorizationContext"`: A signed document that proves that you are authorized to
-  bring a specified IP address range to Amazon using BYOIP. This option applies to public
-  pools only.
+  bring a specified IP address range to Amazon using BYOIP. This option only applies to IPv4
+  and IPv6 pools in the public scope.
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see Ensuring idempotency.
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"IpamExternalResourceVerificationTokenId"`: Verification token ID. This option only
+  applies to IPv4 and IPv6 pools in the public scope.
 - `"NetmaskLength"`: The netmask length of the CIDR you'd like to provision to a pool. Can
   be used for provisioning Amazon-provided IPv6 CIDRs to top-level pools and for provisioning
   CIDRs to pools with source pools. Cannot be used to provision BYOIP CIDRs to top-level
   pools. Either \"NetmaskLength\" or \"Cidr\" is required.
+- `"VerificationMethod"`: The method for verifying control of a public IP address range.
+  Defaults to remarks-x509 if not specified. This option only applies to IPv4 and IPv6 pools
+  in the public scope.
 """
 function provision_ipam_pool_cidr(
     IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -28508,7 +28672,7 @@ in the Amazon VPC IPAM User Guide.
 # Arguments
 - `ipam_pool_id`: The ID of the IPAM pool you would like to use to allocate this CIDR.
 - `netmask_length`: The netmask length of the CIDR you would like to allocate to the public
-  IPv4 pool.
+  IPv4 pool. The least specific netmask length you can define is 24.
 - `pool_id`: The ID of the public IPv4 pool you would like to use for this CIDR.
 
 # Optional Parameters
@@ -28516,6 +28680,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"NetworkBorderGroup"`: The Availability Zone (AZ) or Local Zone (LZ) network border
+  group that the resource that the IP address is assigned to is in. Defaults to an AZ network
+  border group. For more information on available Local Zones, see Local Zone availability in
+  the Amazon EC2 User Guide.
 """
 function provision_public_ipv4_pool_cidr(
     IpamPoolId, NetmaskLength, PoolId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -30951,11 +31119,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   launch. You can specify tags for the following resources only:   Instances   Volumes   Spot
   Instance requests   Network interfaces   To tag a resource after it has been created, see
   CreateTags.
-- `"UserData"`: The user data script to make available to the instance. For more
-  information, see Run commands on your Amazon EC2 instance at launch in the Amazon EC2 User
-  Guide. If you are using a command line tool, base64-encoding is performed for you, and you
-  can load the text from a file. Otherwise, you must provide base64-encoded text. User data
-  is limited to 16 KB.
+- `"UserData"`: The user data to make available to the instance. User data must be
+  base64-encoded. Depending on the tool or SDK that you're using, the base64-encoding might
+  be performed for you. For more information, see Work with instance user data.
 - `"additionalInfo"`: Reserved.
 - `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, a randomly generated token is used

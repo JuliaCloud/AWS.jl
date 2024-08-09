@@ -301,30 +301,29 @@ Amazon Web Services Identity and Access Management (IAM) identity-based policies
 Express One Zone in the Amazon S3 User Guide.    Response and special errors  When the
 request is an HTTP 1.1 request, the response is chunk encoded. When the request is not an
 HTTP 1.1 request, the response would not contain the Content-Length. You always need to
-read the entire response body to check if the copy succeeds. to keep the connection alive
-while we copy the data.    If the copy is successful, you receive a response with
-information about the copied object.   A copy request might return an error when Amazon S3
-receives the copy request or while Amazon S3 is copying the files. A 200 OK response can
-contain either a success or an error.   If the error occurs before the copy action starts,
-you receive a standard Amazon S3 error.   If the error occurs during the copy operation,
-the error response is embedded in the 200 OK response. For example, in a cross-region copy,
-you may encounter throttling and receive a 200 OK response. For more information, see
-Resolve the Error 200 response when copying objects to Amazon S3. The 200 OK status code
-means the copy was accepted, but it doesn't mean the copy is complete. Another example is
-when you disconnect from Amazon S3 before the copy is complete, Amazon S3 might cancel the
-copy and you may receive a 200 OK response. You must stay connected to Amazon S3 until the
-entire response is successfully received and processed. If you call this API operation
-directly, make sure to design your application to parse the content of the response and
-handle it appropriately. If you use Amazon Web Services SDKs, SDKs handle this condition.
-The SDKs detect the embedded error and apply error handling per your configuration settings
-(including automatically retrying the request as appropriate). If the condition persists,
-the SDKs throw an exception (or, for the SDKs that don't use exceptions, they return an
-error).      Charge  The copy request charge is based on the storage class and Region that
-you specify for the destination object. The request can also result in a data retrieval
-charge for the source if the source storage class bills for data retrieval. If the copy
-source is in a different region, the data transfer is billed to the copy source account.
-For pricing information, see Amazon S3 pricing.  HTTP Host header syntax   Directory
-buckets  - The HTTP Host header syntax is
+read the entire response body to check if the copy succeeds.    If the copy is successful,
+you receive a response with information about the copied object.   A copy request might
+return an error when Amazon S3 receives the copy request or while Amazon S3 is copying the
+files. A 200 OK response can contain either a success or an error.   If the error occurs
+before the copy action starts, you receive a standard Amazon S3 error.   If the error
+occurs during the copy operation, the error response is embedded in the 200 OK response.
+For example, in a cross-region copy, you may encounter throttling and receive a 200 OK
+response. For more information, see Resolve the Error 200 response when copying objects to
+Amazon S3. The 200 OK status code means the copy was accepted, but it doesn't mean the copy
+is complete. Another example is when you disconnect from Amazon S3 before the copy is
+complete, Amazon S3 might cancel the copy and you may receive a 200 OK response. You must
+stay connected to Amazon S3 until the entire response is successfully received and
+processed. If you call this API operation directly, make sure to design your application to
+parse the content of the response and handle it appropriately. If you use Amazon Web
+Services SDKs, SDKs handle this condition. The SDKs detect the embedded error and apply
+error handling per your configuration settings (including automatically retrying the
+request as appropriate). If the condition persists, the SDKs throw an exception (or, for
+the SDKs that don't use exceptions, they return an error).      Charge  The copy request
+charge is based on the storage class and Region that you specify for the destination
+object. The request can also result in a data retrieval charge for the source if the source
+storage class bills for data retrieval. If the copy source is in a different region, the
+data transfer is billed to the copy source account. For pricing information, see Amazon S3
+pricing.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
 Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
 CopyObject:    PutObject     GetObject
 
@@ -2012,7 +2011,7 @@ Permissions     General purpose bucket permissions - The following permissions a
 in your policies when your DeleteObjects request includes specific headers.
 s3:DeleteObject  - To delete an object from a bucket, you must always specify the
 s3:DeleteObject permission.     s3:DeleteObjectVersion  - To delete a specific version of
-an object from a versiong-enabled bucket, you must specify the s3:DeleteObjectVersion
+an object from a versioning-enabled bucket, you must specify the s3:DeleteObjectVersion
 permission.      Directory bucket permissions - To grant access to this API operation on a
 directory bucket, we recommend that you use the  CreateSession  API operation for
 session-based authorization. Specifically, you grant the s3express:CreateSession permission
@@ -4150,6 +4149,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"partNumber"`: Part number of the object being read. This is a positive integer between
   1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful
   querying about the size of the part and the number of parts in this object.
+- `"response-cache-control"`: Sets the Cache-Control header of the response.
+- `"response-content-disposition"`: Sets the Content-Disposition header of the response.
+- `"response-content-encoding"`: Sets the Content-Encoding header of the response.
+- `"response-content-language"`: Sets the Content-Language header of the response.
+- `"response-content-type"`: Sets the Content-Type header of the response.
+- `"response-expires"`: Sets the Expires header of the response.
 - `"versionId"`: Version ID used to reference a specific version of the object.  For
   directory buckets in this API operation, only the null value of the version ID is
   supported.
@@ -7804,12 +7809,12 @@ bucket, you must have the  s3:GetObject  permission to read the source object th
 copied.    If the destination bucket is a general purpose bucket, you must have the
 s3:PutObject  permission to write the object copy to the destination bucket.    For
 information about permissions required to use the multipart upload API, see Multipart
-Upload and Permissions in the Amazon S3 User Guide.    Directory bucket permissions - You
-must have permissions in a bucket policy or an IAM identity-based policy based on the
+upload API and permissions in the Amazon S3 User Guide.    Directory bucket permissions -
+You must have permissions in a bucket policy or an IAM identity-based policy based on the
 source and destination bucket types in an UploadPartCopy operation.   If the source object
 that you want to copy is in a directory bucket, you must have the  s3express:CreateSession
-permission in the Action element of a policy to read the object . By default, the session
-is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the
+permission in the Action element of a policy to read the object. By default, the session is
+in the ReadWrite mode. If you want to restrict the access, you can explicitly set the
 s3express:SessionMode condition key to ReadOnly on the copy source bucket.   If the copy
 destination is a directory bucket, you must have the  s3express:CreateSession  permission
 in the Action element of a policy to write the object to the destination. The
