@@ -63,20 +63,18 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     # Authentication scope string...
     authentication_scope = join(authentication_scope, "/")
 
-    # SHA256 hash of content...
-    content_hash = bytes2hex(digest(MD_SHA256, request.content))
+    # SHA256 hash of content if data is in memory
+    if !haskey(request.headers, "x-amz-content-sha256")
+        content_hash = bytes2hex(digest(MD_SHA256, request.content))
+        request.headers["x-amz-content-sha256"] = content_hash
+    else
+        content_hash = "UNSIGNED-PAYLOAD"
+    end
 
     # HTTP headers...
     delete!(request.headers, "Authorization")
 
-    merge!(
-        request.headers,
-        Dict(
-            "x-amz-content-sha256" => content_hash,
-            "x-amz-date" => datetime,
-            "Content-MD5" => base64encode(digest(MD_MD5, request.content)),
-        ),
-    )
+    merge!(request.headers, Dict("x-amz-date" => datetime))
 
     if !isempty(creds.token)
         request.headers["x-amz-security-token"] = creds.token
