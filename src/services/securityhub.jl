@@ -851,22 +851,24 @@ Hub User Guide.
   Regions in the current partition. Also determines whether to automatically aggregate
   findings from new Regions as Security Hub supports them and you opt into them. The selected
   option also determines how to use the Regions provided in the Regions list. The options are
-  as follows:    ALL_REGIONS - Indicates to aggregate findings from all of the Regions where
-  Security Hub is enabled. When you choose this option, Security Hub also automatically
-  aggregates findings from new Regions as Security Hub supports them and you opt into them.
-    ALL_REGIONS_EXCEPT_SPECIFIED - Indicates to aggregate findings from all of the Regions
-  where Security Hub is enabled, except for the Regions listed in the Regions parameter. When
-  you choose this option, Security Hub also automatically aggregates findings from new
-  Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS -
-  Indicates to aggregate findings only from the Regions listed in the Regions parameter.
-  Security Hub does not automatically aggregate findings from new Regions.
+  as follows:    ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub
+  is enabled. When you choose this option, Security Hub also automatically aggregates
+  findings from new Regions as Security Hub supports them and you opt into them.
+  ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security
+  Hub is enabled, except for the Regions listed in the Regions parameter. When you choose
+  this option, Security Hub also automatically aggregates findings from new Regions as
+  Security Hub supports them and you opt into them.     SPECIFIED_REGIONS - Aggregates
+  findings only from the Regions listed in the Regions parameter. Security Hub does not
+  automatically aggregate findings from new Regions.     NO_REGIONS - Aggregates no data
+  because no Regions are selected as linked Regions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Regions"`: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a
   space-separated list of Regions that do not aggregate findings to the aggregation Region.
   If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions
-  that do aggregate findings to the aggregation Region.
+  that do aggregate findings to the aggregation Region.  An InvalidInputException error
+  results if you populate this field while RegionLinkingMode is NO_REGIONS.
 """
 function create_finding_aggregator(
     RegionLinkingMode; aws_config::AbstractAWSConfig=global_aws_config()
@@ -3037,22 +3039,24 @@ Region.
   Regions in the current partition. Also determines whether to automatically aggregate
   findings from new Regions as Security Hub supports them and you opt into them. The selected
   option also determines how to use the Regions provided in the Regions list. The options are
-  as follows:    ALL_REGIONS - Indicates to aggregate findings from all of the Regions where
-  Security Hub is enabled. When you choose this option, Security Hub also automatically
-  aggregates findings from new Regions as Security Hub supports them and you opt into them.
-    ALL_REGIONS_EXCEPT_SPECIFIED - Indicates to aggregate findings from all of the Regions
-  where Security Hub is enabled, except for the Regions listed in the Regions parameter. When
-  you choose this option, Security Hub also automatically aggregates findings from new
-  Regions as Security Hub supports them and you opt into them.     SPECIFIED_REGIONS -
-  Indicates to aggregate findings only from the Regions listed in the Regions parameter.
-  Security Hub does not automatically aggregate findings from new Regions.
+  as follows:    ALL_REGIONS - Aggregates findings from all of the Regions where Security Hub
+  is enabled. When you choose this option, Security Hub also automatically aggregates
+  findings from new Regions as Security Hub supports them and you opt into them.
+  ALL_REGIONS_EXCEPT_SPECIFIED - Aggregates findings from all of the Regions where Security
+  Hub is enabled, except for the Regions listed in the Regions parameter. When you choose
+  this option, Security Hub also automatically aggregates findings from new Regions as
+  Security Hub supports them and you opt into them.     SPECIFIED_REGIONS - Aggregates
+  findings only from the Regions listed in the Regions parameter. Security Hub does not
+  automatically aggregate findings from new Regions.     NO_REGIONS - Aggregates no data
+  because no Regions are selected as linked Regions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Regions"`: If RegionLinkingMode is ALL_REGIONS_EXCEPT_SPECIFIED, then this is a
   space-separated list of Regions that do not aggregate findings to the aggregation Region.
   If RegionLinkingMode is SPECIFIED_REGIONS, then this is a space-separated list of Regions
-  that do aggregate findings to the aggregation Region.
+  that do aggregate findings to the aggregation Region. An InvalidInputException error
+  results if you populate this field while RegionLinkingMode is NO_REGIONS.
 """
 function update_finding_aggregator(
     FindingAggregatorArn,
@@ -3099,11 +3103,12 @@ end
     update_findings(filters, params::Dict{String,<:Any})
 
  UpdateFindings is a deprecated operation. Instead of UpdateFindings, use the
-BatchUpdateFindings operation. Updates the Note and RecordState of the Security
-Hub-aggregated findings that the filter attributes specify. Any member account that can
-view the finding also sees the update to the finding. Finding updates made with
-UpdateFindings might not be persisted if the same finding is later updated by the finding
-provider through the BatchImportFindings operation.
+BatchUpdateFindings operation. The UpdateFindings operation updates the Note and
+RecordState of the Security Hub aggregated findings that the filter attributes specify. Any
+member account that can view the finding can also see the update to the finding. Finding
+updates made with UpdateFindings aren't persisted if the same finding is later updated by
+the finding provider through the BatchImportFindings operation. In addition, Security Hub
+doesn't record updates made with UpdateFindings in the finding history.
 
 # Arguments
 - `filters`: A collection of attributes that specify which findings you want to update.

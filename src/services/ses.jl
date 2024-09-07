@@ -1863,8 +1863,8 @@ function send_bounce(
 end
 
 """
-    send_bulk_templated_email(destinations, source, template)
-    send_bulk_templated_email(destinations, source, template, params::Dict{String,<:Any})
+    send_bulk_templated_email(default_template_data, destinations, source, template)
+    send_bulk_templated_email(default_template_data, destinations, source, template, params::Dict{String,<:Any})
 
 Composes an email message to multiple destinations. The message body is created using an
 email template. To send email using this operation, your call must meet the following
@@ -1885,6 +1885,11 @@ send the message to each group.   The number of destinations you can contact in 
 call can be limited by your account's maximum sending rate.
 
 # Arguments
+- `default_template_data`: A list of replacement values to apply to the template when
+  replacement data is not specified in a Destination object. These values act as a default or
+  fallback option when no other data is available. The template data is a JSON object,
+  typically consisting of key-value pairs in which the keys correspond to replacement tags in
+  the email template.
 - `destinations`: One or more Destination objects. All of the recipients in a Destination
   receive the same version of the email. You can specify up to 50 Destination objects within
   a Destinations array.
@@ -1910,11 +1915,6 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using SendBulkTemplatedEmail.
 - `"DefaultTags"`: A list of tags, in the form of name/value pairs, to apply to an email
   that you send to a destination using SendBulkTemplatedEmail.
-- `"DefaultTemplateData"`: A list of replacement values to apply to the template when
-  replacement data is not specified in a Destination object. These values act as a default or
-  fallback option when no other data is available. The template data is a JSON object,
-  typically consisting of key-value pairs in which the keys correspond to replacement tags in
-  the email template.
 - `"ReplyToAddresses"`: The reply-to email address(es) for the message. If the recipient
   replies to the message, each reply-to address receives the reply.
 - `"ReturnPath"`: The email address that bounces and complaints are forwarded to when
@@ -1942,18 +1942,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TemplateArn"`: The ARN of the template to use when sending this email.
 """
 function send_bulk_templated_email(
-    Destinations, Source, Template; aws_config::AbstractAWSConfig=global_aws_config()
+    DefaultTemplateData,
+    Destinations,
+    Source,
+    Template;
+    aws_config::AbstractAWSConfig=global_aws_config(),
 )
     return ses(
         "SendBulkTemplatedEmail",
         Dict{String,Any}(
-            "Destinations" => Destinations, "Source" => Source, "Template" => Template
+            "DefaultTemplateData" => DefaultTemplateData,
+            "Destinations" => Destinations,
+            "Source" => Source,
+            "Template" => Template,
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function send_bulk_templated_email(
+    DefaultTemplateData,
     Destinations,
     Source,
     Template,
@@ -1966,6 +1974,7 @@ function send_bulk_templated_email(
             mergewith(
                 _merge,
                 Dict{String,Any}(
+                    "DefaultTemplateData" => DefaultTemplateData,
                     "Destinations" => Destinations,
                     "Source" => Source,
                     "Template" => Template,

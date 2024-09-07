@@ -112,7 +112,9 @@ for this API: recommendationIds, resourceArns, and resourceIds.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"filter"`:
-- `"maxResults"`: The maximum number of recommendations that are returned for the request.
+- `"maxResults"`: The maximum number of recommendations to be returned for the request.
+- `"metrics"`: Additional metrics to be returned for the request. The only valid value is
+  savingsPercentage.
 - `"nextToken"`: The token to retrieve the next set of results.
 """
 function list_recommendation_summaries(
@@ -172,11 +174,11 @@ end
     update_enrollment_status(status, params::Dict{String,<:Any})
 
 Updates the enrollment (opt in and opt out) status of an account to the Cost Optimization
-Hub service. If the account is a management account of an organization, this action can
-also be used to enroll member accounts of the organization. You must have the appropriate
-permissions to opt in to Cost Optimization Hub and to view its recommendations. When you
-opt in, Cost Optimization Hub automatically creates a service-linked role in your account
-to access its data.
+Hub service. If the account is a management account or delegated administrator of an
+organization, this action can also be used to enroll member accounts of the organization.
+You must have the appropriate permissions to opt in to Cost Optimization Hub and to view
+its recommendations. When you opt in, Cost Optimization Hub automatically creates a
+service-linked role in your account to access its data.
 
 # Arguments
 - `status`: Sets the account status.
@@ -184,7 +186,7 @@ to access its data.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"includeMemberAccounts"`: Indicates whether to enroll member accounts of the
-  organization if the account is the management account.
+  organization if the account is the management account or delegated administrator.
 """
 function update_enrollment_status(status; aws_config::AbstractAWSConfig=global_aws_config())
     return cost_optimization_hub(

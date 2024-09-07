@@ -408,12 +408,17 @@ end
     create_hosted_configuration_version(application_id, configuration_profile_id, content, content-_type)
     create_hosted_configuration_version(application_id, configuration_profile_id, content, content-_type, params::Dict{String,<:Any})
 
-Creates a new configuration in the AppConfig hosted configuration store.
+Creates a new configuration in the AppConfig hosted configuration store. If you're creating
+a feature flag, we recommend you familiarize yourself with the JSON schema for feature flag
+data. For more information, see Type reference for AWS.AppConfig.FeatureFlags in the
+AppConfig User Guide.
 
 # Arguments
 - `application_id`: The application ID.
 - `configuration_profile_id`: The configuration profile ID.
-- `content`: The content of the configuration or the configuration data.
+- `content`: The configuration data, as bytes.  AppConfig accepts any type of data,
+  including text formats like JSON or TOML, or binary formats like protocol buffers or
+  compressed data.
 - `content-_type`: A standard MIME type describing the format of the configuration content.
   For more information, see Content-Type.
 
@@ -476,7 +481,7 @@ end
     delete_application(application_id)
     delete_application(application_id, params::Dict{String,<:Any})
 
-Deletes an application. Deleting an application does not delete a configuration from a host.
+Deletes an application.
 
 # Arguments
 - `application_id`: The ID of the application to delete.
@@ -510,14 +515,27 @@ end
     delete_configuration_profile(application_id, configuration_profile_id)
     delete_configuration_profile(application_id, configuration_profile_id, params::Dict{String,<:Any})
 
-Deletes a configuration profile. Deleting a configuration profile does not delete a
-configuration from a host.
+Deletes a configuration profile. To prevent users from unintentionally deleting
+actively-used configuration profiles, enable deletion protection.
 
 # Arguments
 - `application_id`: The application ID that includes the configuration profile you want to
   delete.
 - `configuration_profile_id`: The ID of the configuration profile you want to delete.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amzn-deletion-protection-check"`: A parameter to configure deletion protection. If
+  enabled, deletion protection prevents a user from deleting a configuration profile if your
+  application has called either GetLatestConfiguration or for the configuration profile
+  during the specified interval.  This parameter supports the following values:    BYPASS:
+  Instructs AppConfig to bypass the deletion protection check and delete a configuration
+  profile even if deletion protection would have otherwise prevented it.     APPLY: Instructs
+  the deletion protection check to run, even if deletion protection is disabled at the
+  account level. APPLY also forces the deletion protection check to run against resources
+  created in the past hour, which are normally excluded from deletion protection checks.
+  ACCOUNT_DEFAULT: The default setting, which instructs AppConfig to implement the deletion
+  protection value specified in the UpdateAccountSettings API.
 """
 function delete_configuration_profile(
     ApplicationId, ConfigurationProfileId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -548,8 +566,7 @@ end
     delete_deployment_strategy(deployment_strategy_id)
     delete_deployment_strategy(deployment_strategy_id, params::Dict{String,<:Any})
 
-Deletes a deployment strategy. Deleting a deployment strategy does not delete a
-configuration from a host.
+Deletes a deployment strategy.
 
 # Arguments
 - `deployment_strategy_id`: The ID of the deployment strategy you want to delete.
@@ -583,13 +600,27 @@ end
     delete_environment(application_id, environment_id)
     delete_environment(application_id, environment_id, params::Dict{String,<:Any})
 
-Deletes an environment. Deleting an environment does not delete a configuration from a host.
+Deletes an environment. To prevent users from unintentionally deleting actively-used
+environments, enable deletion protection.
 
 # Arguments
 - `application_id`: The application ID that includes the environment that you want to
   delete.
 - `environment_id`: The ID of the environment that you want to delete.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"x-amzn-deletion-protection-check"`: A parameter to configure deletion protection. If
+  enabled, deletion protection prevents a user from deleting an environment if your
+  application called either GetLatestConfiguration or in the environment during the specified
+  interval.  This parameter supports the following values:    BYPASS: Instructs AppConfig to
+  bypass the deletion protection check and delete a configuration profile even if deletion
+  protection would have otherwise prevented it.     APPLY: Instructs the deletion protection
+  check to run, even if deletion protection is disabled at the account level. APPLY also
+  forces the deletion protection check to run against resources created in the past hour,
+  which are normally excluded from deletion protection checks.     ACCOUNT_DEFAULT: The
+  default setting, which instructs AppConfig to implement the deletion protection value
+  specified in the UpdateAccountSettings API.
 """
 function delete_environment(
     ApplicationId, EnvironmentId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -729,6 +760,26 @@ function delete_hosted_configuration_version(
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_account_settings()
+    get_account_settings(params::Dict{String,<:Any})
+
+Returns information about the status of the DeletionProtection parameter.
+
+"""
+function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig(
+        "GET", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "GET", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 
@@ -1626,6 +1677,33 @@ function untag_resource(
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("tagKeys" => tagKeys), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_account_settings()
+    update_account_settings(params::Dict{String,<:Any})
+
+Updates the value of the DeletionProtection parameter.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DeletionProtection"`: A parameter to configure deletion protection. If enabled,
+  deletion protection prevents a user from deleting a configuration profile or an environment
+  if AppConfig has called either GetLatestConfiguration or for the configuration profile or
+  from the environment during the specified interval. Deletion protection is disabled by
+  default. The default interval for ProtectionPeriodInMinutes is 60.
+"""
+function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+    return appconfig(
+        "PATCH", "/settings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function update_account_settings(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appconfig(
+        "PATCH", "/settings", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 

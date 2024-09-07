@@ -397,6 +397,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   let Amazon EC2 select an address from the address pool. Alternatively, specify a specific
   address from the address pool.
 - `"Domain"`: The network (vpc).
+- `"IpamPoolId"`: The ID of an IPAM pool.
 - `"NetworkBorderGroup"`:  A unique set of Availability Zones, Local Zones, or Wavelength
   Zones from which Amazon Web Services advertises IP addresses. Use this parameter to limit
   the IP address to this location. IP addresses cannot move between network border groups.
@@ -2811,21 +2812,15 @@ end
     copy_image(name, source_image_id, source_region)
     copy_image(name, source_image_id, source_region, params::Dict{String,<:Any})
 
-Initiates the copy of an AMI. You can copy an AMI from one Region to another, or from a
+Initiates an AMI copy operation. You can copy an AMI from one Region to another, or from a
 Region to an Outpost. You can't copy an AMI from an Outpost to a Region, from one Outpost
 to another, or within the same Outpost. To copy an AMI to another partition, see
-CreateStoreImageTask. To copy an AMI from one Region to another, specify the source Region
-using the SourceRegion parameter, and specify the destination Region using its endpoint.
-Copies of encrypted backing snapshots for the AMI are encrypted. Copies of unencrypted
-backing snapshots remain unencrypted, unless you set Encrypted during the copy operation.
-You cannot create an unencrypted copy of an encrypted backing snapshot. To copy an AMI from
-a Region to an Outpost, specify the source Region using the SourceRegion parameter, and
-specify the ARN of the destination Outpost using DestinationOutpostArn. Backing snapshots
-copied to an Outpost are encrypted by default using the default encryption key for the
-Region, or a different key that you specify in the request using KmsKeyId. Outposts do not
-support unencrypted snapshots. For more information,  Amazon EBS local snapshots on
-Outposts in the Amazon EBS User Guide. For more information about the prerequisites and
-limits when copying an AMI, see Copy an AMI in the Amazon EC2 User Guide.
+CreateStoreImageTask. When you copy an AMI from one Region to another, the destination
+Region is the current Region. When you copy an AMI from a Region to an Outpost, specify the
+ARN of the Outpost as the destination. Backing snapshots copied to an Outpost are encrypted
+by default using the default encryption key for the Region or the key that you specify.
+Outposts do not support unencrypted snapshots. For information about the prerequisites when
+copying an AMI, see Copy an AMI in the Amazon EC2 User Guide.
 
 # Arguments
 - `name`: The name of the new AMI in the destination Region.
@@ -2859,7 +2854,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encrypted. You can encrypt a copy of an unencrypted snapshot, but you cannot create an
   unencrypted copy of an encrypted snapshot. The default KMS key for Amazon EBS is used
   unless you specify a non-default Key Management Service (KMS) KMS key using KmsKeyId. For
-  more information, see Amazon EBS encryption in the Amazon EBS User Guide.
+  more information, see Use encryption with EBS-backed AMIs in the Amazon EC2 User Guide.
 - `"kmsKeyId"`: The identifier of the symmetric Key Management Service (KMS) KMS key to use
   when creating encrypted volumes. If this parameter is not specified, your Amazon Web
   Services managed KMS key for Amazon EBS is used. If you specify a KMS key, you must also
@@ -3123,6 +3118,69 @@ function create_capacity_reservation(
                     "InstanceCount" => InstanceCount,
                     "InstancePlatform" => InstancePlatform,
                     "InstanceType" => InstanceType,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_capacity_reservation_by_splitting(instance_count, source_capacity_reservation_id)
+    create_capacity_reservation_by_splitting(instance_count, source_capacity_reservation_id, params::Dict{String,<:Any})
+
+ Create a new Capacity Reservation by splitting the available capacity of the source
+Capacity Reservation. The new Capacity Reservation will have the same attributes as the
+source Capacity Reservation except for tags. The source Capacity Reservation must be active
+and owned by your Amazon Web Services account.
+
+# Arguments
+- `instance_count`:  The number of instances to split from the source Capacity Reservation.
+- `source_capacity_reservation_id`:  The ID of the Capacity Reservation from which you want
+  to split the available capacity.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensure Idempotency.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"TagSpecification"`:  The tags to apply to the new Capacity Reservation.
+"""
+function create_capacity_reservation_by_splitting(
+    InstanceCount,
+    SourceCapacityReservationId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "CreateCapacityReservationBySplitting",
+        Dict{String,Any}(
+            "InstanceCount" => InstanceCount,
+            "SourceCapacityReservationId" => SourceCapacityReservationId,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_capacity_reservation_by_splitting(
+    InstanceCount,
+    SourceCapacityReservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "CreateCapacityReservationBySplitting",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InstanceCount" => InstanceCount,
+                    "SourceCapacityReservationId" => SourceCapacityReservationId,
+                    "ClientToken" => string(uuid4()),
                 ),
                 params,
             ),
@@ -4108,10 +4166,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"PreserveClientIp"`: Indicates whether your client's IP address is preserved as the
-  source. The value is true or false.   If true, your client's IP address is used when you
-  connect to a resource.   If false, the elastic network interface IP address is used when
-  you connect to a resource.   Default: true
+- `"PreserveClientIp"`: Indicates whether the client IP address is preserved as the source.
+  The following are the possible values.    true - Use the client IP address as the source.
+   false - Use the network interface IP address as the source.   Default: false
 - `"SecurityGroupId"`: One or more security groups to associate with the endpoint. If you
   don't specify a security group, the default security group for your VPC will be associated
   with the endpoint.
@@ -4309,6 +4366,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"EnablePrivateGua"`: Enable this option to use your own GUA ranges as private IPv6
+  addresses. This option is disabled by default.
 - `"OperatingRegion"`: The operating Regions for the IPAM. Operating Regions are Amazon Web
   Services Regions where the IPAM is allowed to manage IP address CIDRs. IPAM only discovers
   and monitors resources in the Amazon Web Services Regions you select as operating Regions.
@@ -4337,6 +4396,54 @@ function create_ipam(
         "CreateIpam",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ClientToken" => string(uuid4())), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_ipam_external_resource_verification_token(ipam_id)
+    create_ipam_external_resource_verification_token(ipam_id, params::Dict{String,<:Any})
+
+Create a verification token. A verification token is an Amazon Web Services-generated
+random value that you can use to prove ownership of an external resource. For example, you
+can use a verification token to validate that you control a public IP address range when
+you bring an IP address range to Amazon Web Services (BYOIP).
+
+# Arguments
+- `ipam_id`: The ID of the IPAM that will create the token.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensuring idempotency.
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"TagSpecification"`: Token tags.
+"""
+function create_ipam_external_resource_verification_token(
+    IpamId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "CreateIpamExternalResourceVerificationToken",
+        Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4()));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_ipam_external_resource_verification_token(
+    IpamId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "CreateIpamExternalResourceVerificationToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("IpamId" => IpamId, "ClientToken" => string(uuid4())),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -4392,13 +4499,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"Locale"`: In IPAM, the locale is the Amazon Web Services Region where you want to make
-  an IPAM pool available for allocations. Only resources in the same Region as the locale of
-  the pool can get IP address allocations from the pool. You can only allocate a CIDR for a
-  VPC, for example, from an IPAM pool that shares a locale with the VPC’s Region. Note that
-  once you choose a Locale for a pool, you cannot modify it. If you do not choose a locale,
-  resources in Regions others than the IPAM's home region cannot use CIDRs from this pool.
-  Possible values: Any Amazon Web Services Region, such as us-east-1.
+- `"Locale"`: The locale for the pool should be one of the following:   An Amazon Web
+  Services Region where you want this IPAM pool to be available for allocations.   The
+  network border group for an Amazon Web Services Local Zone where you want this IPAM pool to
+  be available for allocations (supported Local Zones). This option is only available for
+  IPAM IPv4 pools in the public scope.   If you do not choose a locale, resources in Regions
+  others than the IPAM's home region cannot use CIDRs from this pool. Possible values: Any
+  Amazon Web Services Region or supported Amazon Web Services Local Zone.
 - `"PublicIpSource"`: The IP address source for pools in the public scope. Only used for
   provisioning IP address CIDRs to pools in the public scope. Default is byoip. For more
   information, see Create IPv6 pools in the Amazon VPC IPAM User Guide. By default, you can
@@ -5450,7 +5557,7 @@ Services account only, and only one account at a time.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"AwsAccountId"`: The Amazon Web Services account ID.
-- `"AwsService"`: The Amazon Web Service. Currently not supported.
+- `"AwsService"`: The Amazon Web Services service. Currently not supported.
 - `"DryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -5546,6 +5653,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"NetworkBorderGroup"`: The Availability Zone (AZ) or Local Zone (LZ) network border
+  group that the resource that the IP address is assigned to is in. Defaults to an AZ network
+  border group. For more information on available Local Zones, see Local Zone availability in
+  the Amazon EC2 User Guide.
 - `"TagSpecification"`: The key/value combination of a tag assigned to the resource. Use
   the tag key in the filter name and the tag value as the filter value. For example, to find
   all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for
@@ -7549,7 +7660,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enable Multi-Attach, you can attach the volume to up to 16 Instances built on the Nitro
   System in the same Availability Zone. This parameter is supported with io1 and io2 volumes
   only. For more information, see  Amazon EBS Multi-Attach in the Amazon EBS User Guide.
-- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost.
+- `"OutpostArn"`: The Amazon Resource Name (ARN) of the Outpost on which to create the
+  volume. If you intend to use a volume with an instance running on an outpost, then you must
+  create the volume on the same outpost as the instance. You can't use a volume created in an
+  Amazon Web Services Region with an instance on an Amazon Web Services outpost, or the other
+  way around.
 - `"Size"`: The size of the volume, in GiBs. You must specify either a snapshot ID or a
   volume size. If you specify a snapshot, the default is the snapshot size. You can specify a
   volume size that is equal to or larger than the snapshot size. The following are the
@@ -8749,6 +8864,60 @@ function delete_ipam(
 end
 
 """
+    delete_ipam_external_resource_verification_token(ipam_external_resource_verification_token_id)
+    delete_ipam_external_resource_verification_token(ipam_external_resource_verification_token_id, params::Dict{String,<:Any})
+
+Delete a verification token. A verification token is an Amazon Web Services-generated
+random value that you can use to prove ownership of an external resource. For example, you
+can use a verification token to validate that you control a public IP address range when
+you bring an IP address range to Amazon Web Services (BYOIP).
+
+# Arguments
+- `ipam_external_resource_verification_token_id`: The token ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function delete_ipam_external_resource_verification_token(
+    IpamExternalResourceVerificationTokenId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeleteIpamExternalResourceVerificationToken",
+        Dict{String,Any}(
+            "IpamExternalResourceVerificationTokenId" =>
+                IpamExternalResourceVerificationTokenId,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_ipam_external_resource_verification_token(
+    IpamExternalResourceVerificationTokenId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "DeleteIpamExternalResourceVerificationToken",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "IpamExternalResourceVerificationTokenId" =>
+                        IpamExternalResourceVerificationTokenId,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_ipam_pool(ipam_pool_id)
     delete_ipam_pool(ipam_pool_id, params::Dict{String,<:Any})
 
@@ -9693,6 +9862,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"NetworkBorderGroup"`: The Availability Zone (AZ) or Local Zone (LZ) network border
+  group that the resource that the IP address is assigned to is in. Defaults to an AZ network
+  border group. For more information on available Local Zones, see Local Zone availability in
+  the Amazon EC2 User Guide.
 """
 function delete_public_ipv4_pool(PoolId; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2(
@@ -9844,8 +10017,8 @@ end
     delete_security_group(params::Dict{String,<:Any})
 
 Deletes a security group. If you attempt to delete a security group that is associated with
-an instance or network interface or is referenced by another security group, the operation
-fails with DependencyViolation.
+an instance or network interface or is referenced by another security group in the same
+VPC, the operation fails with DependencyViolation.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -11775,7 +11948,7 @@ source account starts the transfer, the transfer account has seven days to accep
 Elastic IP address transfer. During those seven days, the source account can view the
 pending transfer by using this action. After seven days, the transfer expires and ownership
 of the Elastic IP address returns to the source account. Accepted transfers are visible to
-the source account for three days after the transfers have been accepted.
+the source account for 14 days after the transfers have been accepted.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -14024,7 +14197,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
      system-status.reachability - Filters on system status where the name is reachability
   (passed | failed | initializing | insufficient-data).    system-status.status - The system
   status of the instance (ok | impaired | initializing | insufficient-data | not-applicable).
-  
+     attached-ebs-status.status - The status of the attached EBS volume for the instance (ok
+  | impaired | initializing | insufficient-data | not-applicable).
 - `"InstanceId"`: The instance IDs. Default: Describes all your instances. Constraints:
   Maximum 100 explicitly specified instance IDs.
 - `"MaxResults"`: The maximum number of items to return for this request. To get the next
@@ -14552,6 +14726,49 @@ function describe_ipam_byoasn(
 )
     return ec2(
         "DescribeIpamByoasn", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_ipam_external_resource_verification_tokens()
+    describe_ipam_external_resource_verification_tokens(params::Dict{String,<:Any})
+
+Describe verification tokens. A verification token is an Amazon Web Services-generated
+random value that you can use to prove ownership of an external resource. For example, you
+can use a verification token to validate that you control a public IP address range when
+you bring an IP address range to Amazon Web Services (BYOIP).
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"DryRun"`: A check for whether you have the required permissions for the action without
+  actually making the request and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"Filter"`: One or more filters for the request. For more information about filtering,
+  see Filtering CLI output. Available filters:    ipam-arn
+  ipam-external-resource-verification-token-arn
+  ipam-external-resource-verification-token-id     ipam-id     ipam-region     state
+  status     token-name     token-value
+- `"IpamExternalResourceVerificationTokenId"`: Verification token IDs.
+- `"MaxResults"`: The maximum number of tokens to return in one page of results.
+- `"NextToken"`: The token for the next page of results.
+"""
+function describe_ipam_external_resource_verification_tokens(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeIpamExternalResourceVerificationTokens";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_ipam_external_resource_verification_tokens(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ec2(
+        "DescribeIpamExternalResourceVerificationTokens",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -15620,7 +15837,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   network-interface-permission.network-interface-permission-id - The ID of the permission.
   network-interface-permission.network-interface-id - The ID of the network interface.
   network-interface-permission.aws-account-id - The Amazon Web Services account ID.
-  network-interface-permission.aws-service - The Amazon Web Service.
+  network-interface-permission.aws-service - The Amazon Web Services service.
   network-interface-permission.permission - The type of permission (INSTANCE-ATTACH |
   EIP-ASSOCIATE).
 - `"MaxResults"`: The maximum number of items to return for this request. To get the next
@@ -15708,8 +15925,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (IPv4).    private-ip-address - The private IPv4 address or addresses of the network
   interface.    requester-id - The alias or Amazon Web Services account ID of the principal
   or service that created the network interface.    requester-managed - Indicates whether the
-  network interface is being managed by an Amazon Web Service (for example, Amazon Web
-  Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates
+  network interface is being managed by an Amazon Web Services service (for example, Amazon
+  Web Services Management Console, Auto Scaling, and so on).    source-dest-check - Indicates
   whether the network interface performs source/destination checking. A value of true means
   checking is enabled, and false means checking is disabled. The value must be false for the
   network interface to perform network address translation (NAT) in your VPC.     status -
@@ -15743,8 +15960,11 @@ end
     describe_placement_groups()
     describe_placement_groups(params::Dict{String,<:Any})
 
-Describes the specified placement groups or all of your placement groups. For more
-information, see Placement groups in the Amazon EC2 User Guide.
+Describes the specified placement groups or all of your placement groups.  To describe a
+specific placement group that is shared with your account, you must specify the ID of the
+placement group using the GroupId parameter. Specifying the name of a shared placement
+group using the GroupNames parameter will result in an error.  For more information, see
+Placement groups in the Amazon EC2 User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -15762,8 +15982,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
-- `"groupName"`: The names of the placement groups. Default: Describes all your placement
-  groups, or only those otherwise specified.
+- `"groupName"`: The names of the placement groups. Constraints:   You can specify a name
+  only if the placement group is owned by your account.   If a placement group is shared with
+  your account, specifying the name results in an error. You must use the GroupId parameter
+  instead.
 """
 function describe_placement_groups(; aws_config::AbstractAWSConfig=global_aws_config())
     return ec2(
@@ -16239,26 +16461,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the route table.    route-table-id - The ID of the route table.
   route.destination-cidr-block - The IPv4 CIDR range specified in a route in the table.
   route.destination-ipv6-cidr-block - The IPv6 CIDR range specified in a route in the route
-  table.    route.destination-prefix-list-id - The ID (prefix) of the Amazon Web Service
-  specified in a route in the table.    route.egress-only-internet-gateway-id - The ID of an
-  egress-only Internet gateway specified in a route in the route table.    route.gateway-id -
-  The ID of a gateway specified in a route in the table.    route.instance-id - The ID of an
-  instance specified in a route in the table.    route.nat-gateway-id - The ID of a NAT
-  gateway.    route.transit-gateway-id - The ID of a transit gateway.    route.origin -
-  Describes how the route was created. CreateRouteTable indicates that the route was
-  automatically created when the route table was created; CreateRoute indicates that the
-  route was manually added to the route table; EnableVgwRoutePropagation indicates that the
-  route was propagated by route propagation.    route.state - The state of a route in the
-  route table (active | blackhole). The blackhole state indicates that the route's target
-  isn't available (for example, the specified gateway isn't attached to the VPC, the
-  specified NAT instance has been terminated, and so on).    route.vpc-peering-connection-id
-  - The ID of a VPC peering connection specified in a route in the table.    tag:&lt;key&gt;
-  - The key/value combination of a tag assigned to the resource. Use the tag key in the
-  filter name and the tag value as the filter value. For example, to find all resources that
-  have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name
-  and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use
-  this filter to find all resources assigned a tag with a specific key, regardless of the tag
-  value.    vpc-id - The ID of the VPC for the route table.
+  table.    route.destination-prefix-list-id - The ID (prefix) of the Amazon Web Services
+  service specified in a route in the table.    route.egress-only-internet-gateway-id - The
+  ID of an egress-only Internet gateway specified in a route in the route table.
+  route.gateway-id - The ID of a gateway specified in a route in the table.
+  route.instance-id - The ID of an instance specified in a route in the table.
+  route.nat-gateway-id - The ID of a NAT gateway.    route.transit-gateway-id - The ID of a
+  transit gateway.    route.origin - Describes how the route was created. CreateRouteTable
+  indicates that the route was automatically created when the route table was created;
+  CreateRoute indicates that the route was manually added to the route table;
+  EnableVgwRoutePropagation indicates that the route was propagated by route propagation.
+  route.state - The state of a route in the route table (active | blackhole). The blackhole
+  state indicates that the route's target isn't available (for example, the specified gateway
+  isn't attached to the VPC, the specified NAT instance has been terminated, and so on).
+  route.vpc-peering-connection-id - The ID of a VPC peering connection specified in a route
+  in the table.    tag:&lt;key&gt; - The key/value combination of a tag assigned to the
+  resource. Use the tag key in the filter name and the tag value as the filter value. For
+  example, to find all resources that have a tag with the key Owner and the value TeamA,
+  specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key
+  of a tag assigned to the resource. Use this filter to find all resources assigned a tag
+  with a specific key, regardless of the tag value.    vpc-id - The ID of the VPC for the
+  route table.
 - `"MaxResults"`: The maximum number of items to return for this request. To get the next
   page of items, make another request with the token returned in the output. For more
   information, see Pagination.
@@ -17033,9 +17256,9 @@ end
     describe_stale_security_groups(vpc_id, params::Dict{String,<:Any})
 
 Describes the stale security group rules for security groups in a specified VPC. Rules are
-stale when they reference a deleted security group in the same VPC or peered VPC. Rules can
-also be stale if they reference a security group in a peer VPC for which the VPC peering
-connection has been deleted.
+stale when they reference a deleted security group in a peered VPC. Rules can also be stale
+if they reference a security group in a peer VPC for which the VPC peering connection has
+been deleted.
 
 # Arguments
 - `vpc_id`: The ID of the VPC.
@@ -18215,7 +18438,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   assigned a tag with a specific key, regardless of the tag value.    volume-id - The volume
   ID.    volume-type - The Amazon EBS volume type (gp2 | gp3 | io1 | io2 | st1 | sc1|
   standard)
-- `"VolumeId"`: The volume IDs.
+- `"VolumeId"`: The volume IDs. If not specified, then all volumes are included in the
+  response.
 - `"dryRun"`: Checks whether you have the required permissions for the action, without
   actually making the request, and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
@@ -18240,11 +18464,9 @@ end
     describe_volumes_modifications()
     describe_volumes_modifications(params::Dict{String,<:Any})
 
-Describes the most recent volume modification request for the specified EBS volumes. If a
-volume has never been modified, some information in the output will be null. If a volume
-has been modified more than once, the output includes only the most recent modification
-request. For more information, see  Monitor the progress of volume modifications in the
-Amazon EBS User Guide.
+Describes the most recent volume modification request for the specified EBS volumes. For
+more information, see  Monitor the progress of volume modifications in the Amazon EBS User
+Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -19642,11 +19864,13 @@ end
 
 Disables the block public access for snapshots setting at the account level for the
 specified Amazon Web Services Region. After you disable block public access for snapshots
-in a Region, users can publicly share snapshots in that Region. If block public access is
-enabled in block-all-sharing mode, and you disable block public access, all snapshots that
-were previously publicly shared are no longer treated as private and they become publicly
-accessible again. For more information, see  Block public access for snapshots in the
-Amazon EBS User Guide .
+in a Region, users can publicly share snapshots in that Region.  Enabling block public
+access for snapshots in block-all-sharing mode does not change the permissions for
+snapshots that are already publicly shared. Instead, it prevents these snapshots from be
+publicly visible and publicly accessible. Therefore, the attributes for these snapshots
+still indicate that they are publicly shared, even though they are not publicly available.
+If you disable block public access , these snapshots will become publicly available again.
+For more information, see  Block public access for snapshots in the Amazon EBS User Guide .
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -21108,26 +21332,24 @@ Enables or modifies the block public access for snapshots setting at the account
 the specified Amazon Web Services Region. After you enable block public access for
 snapshots in a Region, users can no longer request public sharing for snapshots in that
 Region. Snapshots that are already publicly shared are either treated as private or they
-remain publicly shared, depending on the State that you specify. If block public access is
-enabled in block-all-sharing mode, and you change the mode to block-new-sharing, all
-snapshots that were previously publicly shared are no longer treated as private and they
-become publicly accessible again. For more information, see  Block public access for
-snapshots in the Amazon EBS User Guide.
+remain publicly shared, depending on the State that you specify.  Enabling block public
+access for snapshots in block all sharing mode does not change the permissions for
+snapshots that are already publicly shared. Instead, it prevents these snapshots from be
+publicly visible and publicly accessible. Therefore, the attributes for these snapshots
+still indicate that they are publicly shared, even though they are not publicly available.
+If you later disable block public access or change the mode to block new sharing, these
+snapshots will become publicly available again.  For more information, see  Block public
+access for snapshots in the Amazon EBS User Guide.
 
 # Arguments
 - `state`: The mode in which to enable block public access for snapshots for the Region.
   Specify one of the following values:    block-all-sharing - Prevents all public sharing of
   snapshots in the Region. Users in the account will no longer be able to request new public
   sharing. Additionally, snapshots that are already publicly shared are treated as private
-  and they are no longer publicly available.  If you enable block public access for snapshots
-  in block-all-sharing mode, it does not change the permissions for snapshots that are
-  already publicly shared. Instead, it prevents these snapshots from be publicly visible and
-  publicly accessible. Therefore, the attributes for these snapshots still indicate that they
-  are publicly shared, even though they are not publicly available.     block-new-sharing -
-  Prevents only new public sharing of snapshots in the Region. Users in the account will no
-  longer be able to request new public sharing. However, snapshots that are already publicly
-  shared, remain publicly available.    unblocked is not a valid value for
-  EnableSnapshotBlockPublicAccess.
+  and they are no longer publicly available.    block-new-sharing - Prevents only new public
+  sharing of snapshots in the Region. Users in the account will no longer be able to request
+  new public sharing. However, snapshots that are already publicly shared, remain publicly
+  available.    unblocked is not a valid value for EnableSnapshotBlockPublicAccess.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -21818,13 +22040,8 @@ end
 Gets the console output for the specified instance. For Linux instances, the instance
 console output displays the exact console output that would normally be displayed on a
 physical monitor attached to a computer. For Windows instances, the instance console output
-includes the last three system event log errors. By default, the console output returns
-buffered information that was posted shortly after an instance transition state (start,
-stop, reboot, or terminate). This information is available for at least one hour after the
-most recent post. Only the most recent 64 KB of console output is available. You can
-optionally retrieve the latest serial console output at any time during the instance
-lifecycle. This option is supported on instance types that use the Nitro hypervisor. For
-more information, see Instance console output in the Amazon EC2 User Guide.
+includes the last three system event log errors. For more information, see Instance console
+output in the Amazon EC2 User Guide.
 
 # Arguments
 - `instance_id`: The ID of the instance.
@@ -24564,11 +24781,12 @@ end
     modify_capacity_reservation(capacity_reservation_id)
     modify_capacity_reservation(capacity_reservation_id, params::Dict{String,<:Any})
 
-Modifies a Capacity Reservation's capacity and the conditions under which it is to be
-released. You cannot change a Capacity Reservation's instance type, EBS optimization,
-instance store settings, platform, Availability Zone, or instance eligibility. If you need
+Modifies a Capacity Reservation's capacity, instance eligibility, and the conditions under
+which it is to be released. You can't modify a Capacity Reservation's instance type, EBS
+optimization, platform, instance store settings, Availability Zone, or tenancy. If you need
 to modify any of these attributes, we recommend that you cancel the Capacity Reservation,
-and then create a new one with the required attributes.
+and then create a new one with the required attributes. For more information, see Modify an
+active Capacity Reservation.
 
 # Arguments
 - `capacity_reservation_id`: The ID of the Capacity Reservation.
@@ -24594,6 +24812,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a specified date and time. You must provide an EndDate value if EndDateType is limited.
 - `"InstanceCount"`: The number of instances for which to reserve capacity. The number of
   instances can't be increased or decreased by more than 1000 in a single request.
+- `"InstanceMatchCriteria"`:  The matching criteria (instance eligibility) that you want to
+  use in the modified Capacity Reservation. If you change the instance eligibility of an
+  existing Capacity Reservation from targeted to open, any running instances that match the
+  attributes of the Capacity Reservation, have the CapacityReservationPreference set to open,
+  and are not yet running in the Capacity Reservation, will automatically use the modified
+  Capacity Reservation.  To modify the instance eligibility, the Capacity Reservation must be
+  completely idle (zero usage).
 """
 function modify_capacity_reservation(
     CapacityReservationId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -25306,9 +25531,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Virtual Function interface for the instance. There is no way to disable enhanced networking
   with the Intel 82599 Virtual Function interface at this time. This option is supported only
   for HVM instances. Specifying this option with a PV instance can make it unreachable.
-- `"userData"`: Changes the instance's user data to the specified value. If you are using
-  an Amazon Web Services SDK or command line tool, base64-encoding is performed for you, and
-  you can load the text from a file. Otherwise, you must provide base64-encoded text.
+- `"userData"`: Changes the instance's user data to the specified value. User data must be
+  base64-encoded. Depending on the tool or SDK that you're using, the base64-encoding might
+  be performed for you. For more information, see Work with instance user data.
 - `"value"`: A new value for the attribute. Use only with the kernel, ramdisk, userData,
   disableApiTermination, or instanceInitiatedShutdownBehavior attribute.
 """
@@ -25810,6 +26035,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"EnablePrivateGua"`: Enable this option to use your own GUA ranges as private IPv6
+  addresses. This option is disabled by default.
 - `"RemoveOperatingRegion"`: The operating Regions to remove.
 - `"Tier"`: IPAM is offered in a Free Tier and an Advanced Tier. For more information about
   the features available in each tier and the costs associated with the tiers, see Amazon VPC
@@ -26625,7 +26852,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DisableLniAtDeviceIndex"`:  Specify true to indicate that local network interfaces at
   the current position should be disabled.
 - `"EnableDns64"`: Indicates whether DNS queries made to the Amazon-provided DNS Resolver
-  in this subnet should return synthetic IPv6 addresses for IPv4-only destinations.
+  in this subnet should return synthetic IPv6 addresses for IPv4-only destinations.  You must
+  first configure a NAT gateway in a public subnet (separate from the subnet containing the
+  IPv6-only workloads). For example, the subnet containing the NAT gateway should have a
+  0.0.0.0/0 route pointing to the internet gateway. For more information, see Configure DNS64
+  and NAT64 in the Amazon VPC User Guide.
 - `"EnableLniAtDeviceIndex"`:  Indicates the device position for local network interfaces
   in this subnet. For example, 1 indicates local network interfaces in this subnet are the
   secondary network interface (eth1). A local network interface cannot be the primary network
@@ -28316,6 +28547,76 @@ function move_byoip_cidr_to_ipam(
 end
 
 """
+    move_capacity_reservation_instances(destination_capacity_reservation_id, instance_count, source_capacity_reservation_id)
+    move_capacity_reservation_instances(destination_capacity_reservation_id, instance_count, source_capacity_reservation_id, params::Dict{String,<:Any})
+
+Move available capacity from a source Capacity Reservation to a destination Capacity
+Reservation. The source Capacity Reservation and the destination Capacity Reservation must
+be active, owned by your Amazon Web Services account, and share the following:    Instance
+type   Platform   Availability Zone   Tenancy   Placement group   Capacity Reservation end
+time - At specific time or Manually.
+
+# Arguments
+- `destination_capacity_reservation_id`:  The ID of the Capacity Reservation that you want
+  to move capacity into.
+- `instance_count`: The number of instances that you want to move from the source Capacity
+  Reservation.
+- `source_capacity_reservation_id`:  The ID of the Capacity Reservation from which you want
+  to move capacity.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Unique, case-sensitive identifier that you provide to ensure the
+  idempotency of the request. For more information, see Ensure Idempotency.
+- `"DryRun"`: Checks whether you have the required permissions for the action, without
+  actually making the request, and provides an error response. If you have the required
+  permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+"""
+function move_capacity_reservation_instances(
+    DestinationCapacityReservationId,
+    InstanceCount,
+    SourceCapacityReservationId;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "MoveCapacityReservationInstances",
+        Dict{String,Any}(
+            "DestinationCapacityReservationId" => DestinationCapacityReservationId,
+            "InstanceCount" => InstanceCount,
+            "SourceCapacityReservationId" => SourceCapacityReservationId,
+            "ClientToken" => string(uuid4()),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function move_capacity_reservation_instances(
+    DestinationCapacityReservationId,
+    InstanceCount,
+    SourceCapacityReservationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ec2(
+        "MoveCapacityReservationInstances",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "DestinationCapacityReservationId" => DestinationCapacityReservationId,
+                    "InstanceCount" => InstanceCount,
+                    "SourceCapacityReservationId" => SourceCapacityReservationId,
+                    "ClientToken" => string(uuid4()),
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     provision_byoip_cidr(cidr)
     provision_byoip_cidr(cidr, params::Dict{String,<:Any})
 
@@ -28455,17 +28756,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"Cidr\" is required. This value will be null if you specify \"NetmaskLength\" and will be
   filled in during the provisioning process.
 - `"CidrAuthorizationContext"`: A signed document that proves that you are authorized to
-  bring a specified IP address range to Amazon using BYOIP. This option applies to public
-  pools only.
+  bring a specified IP address range to Amazon using BYOIP. This option only applies to IPv4
+  and IPv6 pools in the public scope.
 - `"ClientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request. For more information, see Ensuring idempotency.
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"IpamExternalResourceVerificationTokenId"`: Verification token ID. This option only
+  applies to IPv4 and IPv6 pools in the public scope.
 - `"NetmaskLength"`: The netmask length of the CIDR you'd like to provision to a pool. Can
   be used for provisioning Amazon-provided IPv6 CIDRs to top-level pools and for provisioning
   CIDRs to pools with source pools. Cannot be used to provision BYOIP CIDRs to top-level
   pools. Either \"NetmaskLength\" or \"Cidr\" is required.
+- `"VerificationMethod"`: The method for verifying control of a public IP address range.
+  Defaults to remarks-x509 if not specified. This option only applies to IPv4 and IPv6 pools
+  in the public scope.
 """
 function provision_ipam_pool_cidr(
     IpamPoolId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -28508,7 +28814,7 @@ in the Amazon VPC IPAM User Guide.
 # Arguments
 - `ipam_pool_id`: The ID of the IPAM pool you would like to use to allocate this CIDR.
 - `netmask_length`: The netmask length of the CIDR you would like to allocate to the public
-  IPv4 pool.
+  IPv4 pool. The least specific netmask length you can define is 24.
 - `pool_id`: The ID of the public IPv4 pool you would like to use for this CIDR.
 
 # Optional Parameters
@@ -28516,6 +28822,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DryRun"`: A check for whether you have the required permissions for the action without
   actually making the request and provides an error response. If you have the required
   permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+- `"NetworkBorderGroup"`: The Availability Zone (AZ) or Local Zone (LZ) network border
+  group that the resource that the IP address is assigned to is in. Defaults to an AZ network
+  border group. For more information on available Local Zones, see Local Zone availability in
+  the Amazon EC2 User Guide.
 """
 function provision_public_ipv4_pool_cidr(
     IpamPoolId, NetmaskLength, PoolId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -28837,33 +29147,36 @@ end
 
 Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is
 the final step in the creation process. For more information about creating AMIs, see
-Create your own AMI in the Amazon Elastic Compute Cloud User Guide.  For Amazon EBS-backed
-instances, CreateImage creates and registers the AMI in a single request, so you don't have
-to register the AMI yourself. We recommend that you always use CreateImage unless you have
-a specific reason to use RegisterImage.  If needed, you can deregister an AMI at any time.
-Any modifications you make to an AMI backed by an instance store volume invalidates its
-registration. If you make changes to an image, deregister the previous image and register
-the new image.  Register a snapshot of a root device volume  You can use RegisterImage to
-create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify
-the snapshot using a block device mapping. You can't set the encryption state of the volume
-using the block device mapping. If the snapshot is encrypted, or encryption by default is
-enabled, the root volume of an instance launched from the AMI is encrypted. For more
-information, see Create a Linux AMI from a snapshot and Use encryption with Amazon
-EBS-backed AMIs in the Amazon Elastic Compute Cloud User Guide.  Amazon Web Services
-Marketplace product codes  If any snapshots have Amazon Web Services Marketplace product
-codes, they are copied to the new AMI. Windows and some Linux distributions, such as Red
-Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the Amazon EC2
-billing product code associated with an AMI to verify the subscription status for package
-updates. To create a new AMI for operating systems that require a billing product code,
-instead of registering the AMI, do the following to preserve the billing product code
-association:   Launch an instance from an existing AMI with that billing product code.
-Customize the instance.   Create an AMI from the instance using CreateImage.   If you
-purchase a Reserved Instance to apply to an On-Demand Instance that was launched from an
-AMI with a billing product code, make sure that the Reserved Instance has the matching
-billing product code. If you purchase a Reserved Instance without the matching billing
-product code, the Reserved Instance will not be applied to the On-Demand Instance. For
-information about how to obtain the platform details and billing information of an AMI, see
-Understand AMI billing information in the Amazon EC2 User Guide.
+Create an AMI from a snapshot and Create an instance-store backed AMI in the Amazon EC2
+User Guide.  For Amazon EBS-backed instances, CreateImage creates and registers the AMI in
+a single request, so you don't have to register the AMI yourself. We recommend that you
+always use CreateImage unless you have a specific reason to use RegisterImage.  If needed,
+you can deregister an AMI at any time. Any modifications you make to an AMI backed by an
+instance store volume invalidates its registration. If you make changes to an image,
+deregister the previous image and register the new image.  Register a snapshot of a root
+device volume  You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a
+snapshot of a root device volume. You specify the snapshot using a block device mapping.
+You can't set the encryption state of the volume using the block device mapping. If the
+snapshot is encrypted, or encryption by default is enabled, the root volume of an instance
+launched from the AMI is encrypted. For more information, see Create an AMI from a snapshot
+and Use encryption with Amazon EBS-backed AMIs in the Amazon EC2 User Guide.  Amazon Web
+Services Marketplace product codes  If any snapshots have Amazon Web Services Marketplace
+product codes, they are copied to the new AMI. In most cases, AMIs for Windows, RedHat,
+SUSE, and SQL Server require correct licensing information to be present on the AMI. For
+more information, see Understand AMI billing information in the Amazon EC2 User Guide. When
+creating an AMI from a snapshot, the RegisterImage operation derives the correct billing
+information from the snapshot's metadata, but this requires the appropriate metadata to be
+present. To verify if the correct billing information was applied, check the
+PlatformDetails field on the new AMI. If the field is empty or doesn't match the expected
+operating system code (for example, Windows, RedHat, SUSE, or SQL), the AMI creation was
+unsuccessful, and you should discard the AMI and instead create the AMI from an instance
+using CreateImage. For more information, see Create an AMI from an instance  in the Amazon
+EC2 User Guide. If you purchase a Reserved Instance to apply to an On-Demand Instance that
+was launched from an AMI with a billing product code, make sure that the Reserved Instance
+has the matching billing product code. If you purchase a Reserved Instance without the
+matching billing product code, the Reserved Instance will not be applied to the On-Demand
+Instance. For information about how to obtain the platform details and billing information
+of an AMI, see Understand AMI billing information in the Amazon EC2 User Guide.
 
 # Arguments
 - `name`: A name for your AMI. Constraints: 3-128 alphanumeric characters, parentheses
@@ -30951,11 +31264,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   launch. You can specify tags for the following resources only:   Instances   Volumes   Spot
   Instance requests   Network interfaces   To tag a resource after it has been created, see
   CreateTags.
-- `"UserData"`: The user data script to make available to the instance. For more
-  information, see Run commands on your Amazon EC2 instance at launch in the Amazon EC2 User
-  Guide. If you are using a command line tool, base64-encoding is performed for you, and you
-  can load the text from a file. Otherwise, you must provide base64-encoded text. User data
-  is limited to 16 KB.
+- `"UserData"`: The user data to make available to the instance. User data must be
+  base64-encoded. Depending on the tool or SDK that you're using, the base64-encoding might
+  be performed for you. For more information, see Work with instance user data.
 - `"additionalInfo"`: Reserved.
 - `"clientToken"`: Unique, case-sensitive identifier you provide to ensure the idempotency
   of the request. If you do not specify a client token, a randomly generated token is used

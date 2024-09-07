@@ -257,14 +257,17 @@ Creates a compute fleet.
   Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific
   (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East
   (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is
-  available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
-  Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The
-  environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N.
-  Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and
-  Asia Pacific (Mumbai).   For more information, see Build environment compute types in the
-  CodeBuild user guide.
+  (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium
+  fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
+  Pacific (Sydney), and EU (Frankfurt)   The environment type MAC_ARM is available for Large
+  fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia
+  Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in
+  regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),
+  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type
+  WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East
+  (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Sydney), Asia Pacific
+  (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).
+  For more information, see Build environment compute types in the CodeBuild user guide.
 - `name`: The name of the compute fleet.
 
 # Optional Parameters
@@ -272,6 +275,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"fleetServiceRole"`: The service role associated with the compute fleet. For more
   information, see  Allow a user to add a permission policy for a fleet service role in the
   CodeBuild User Guide.
+- `"imageId"`: The Amazon Machine Image (AMI) of the compute fleet.
 - `"overflowBehavior"`: The compute fleet overflow behavior.   For overflow behavior QUEUE,
   your overflow builds need to wait on the existing fleet instance to become available.   For
   overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you
@@ -997,17 +1001,18 @@ end
     import_source_credentials(auth_type, server_type, token, params::Dict{String,<:Any})
 
  Imports the source repository credentials for an CodeBuild project that has its source
-code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
+code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket
+repository.
 
 # Arguments
 - `auth_type`:  The type of authentication used to connect to a GitHub, GitHub Enterprise,
   GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported
-  by the API and must be created using the CodeBuild console. Note that CODECONNECTIONS is
-  only valid for GitLab and GitLab Self Managed.
+  by the API and must be created using the CodeBuild console.
 - `server_type`:  The source provider used for this project.
 - `token`:  For GitHub or GitHub Enterprise, this is the personal access token. For
   Bitbucket, this is either the access token or the app password. For the authType
-  CODECONNECTIONS, this is the connectionArn.
+  CODECONNECTIONS, this is the connectionArn. For the authType SECRETS_MANAGER, this is the
+  secretArn.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2017,17 +2022,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific
   (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East
   (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is
-  available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
-  Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The
-  environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N.
-  Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and
-  Asia Pacific (Mumbai).   For more information, see Build environment compute types in the
-  CodeBuild user guide.
+  (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium
+  fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
+  Pacific (Sydney), and EU (Frankfurt)   The environment type MAC_ARM is available for Large
+  fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia
+  Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in
+  regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),
+  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type
+  WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East
+  (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Sydney), Asia Pacific
+  (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).
+  For more information, see Build environment compute types in the CodeBuild user guide.
 - `"fleetServiceRole"`: The service role associated with the compute fleet. For more
   information, see  Allow a user to add a permission policy for a fleet service role in the
   CodeBuild User Guide.
+- `"imageId"`: The Amazon Machine Image (AMI) of the compute fleet.
 - `"overflowBehavior"`: The compute fleet overflow behavior.   For overflow behavior QUEUE,
   your overflow builds need to wait on the existing fleet instance to become available.   For
   overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you

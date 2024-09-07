@@ -1146,7 +1146,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DBSubnetGroupName"`: A DB subnet group to associate with this DB cluster. This setting
   is required to create a Multi-AZ DB cluster. Valid for Cluster Type: Aurora DB clusters and
   Multi-AZ DB clusters Constraints:   Must match the name of an existing DB subnet group.
-  Must not be default.   Example: mydbsubnetgroup
+  Example: mydbsubnetgroup
 - `"DBSystemId"`: Reserved for future use.
 - `"DatabaseName"`: The name for your database of up to 64 alphanumeric characters. A
   database named postgres is always created. If this parameter is specified, an additional
@@ -1365,22 +1365,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Tue | Wed | Thu | Fri | Sat | Sun.   Must be in Universal Coordinated Time (UTC).   Must be
   at least 30 minutes.
 - `"PubliclyAccessible"`: Specifies whether the DB cluster is publicly accessible. When the
-  DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the
-  private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to
-  the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is
-  ultimately controlled by the security group it uses. That public access isn't permitted if
-  the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't
-  publicly accessible, it is an internal DB cluster with a DNS name that resolves to a
-  private IP address. Valid for Cluster Type: Multi-AZ DB clusters only Default: The default
-  behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName
-  isn't specified, and PubliclyAccessible isn't specified, the following applies:   If the
-  default VPC in the target Region doesn’t have an internet gateway attached to it, the DB
-  cluster is private.   If the default VPC in the target Region has an internet gateway
-  attached to it, the DB cluster is public.   If DBSubnetGroupName is specified, and
-  PubliclyAccessible isn't specified, the following applies:   If the subnets are part of a
-  VPC that doesn’t have an internet gateway attached to it, the DB cluster is private.   If
-  the subnets are part of a VPC that has an internet gateway attached to it, the DB cluster
-  is public.
+  DB cluster is publicly accessible and you connect from outside of the DB cluster's virtual
+  private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public IP
+  address. When you connect from within the same VPC as the DB cluster, the endpoint resolves
+  to the private IP address. Access to the DB cluster is ultimately controlled by the
+  security group it uses. That public access isn't permitted if the security group assigned
+  to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is
+  an internal DB cluster with a DNS name that resolves to a private IP address. Valid for
+  Cluster Type: Multi-AZ DB clusters only Default: The default behavior varies depending on
+  whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and
+  PubliclyAccessible isn't specified, the following applies:   If the default VPC in the
+  target Region doesn’t have an internet gateway attached to it, the DB cluster is private.
+    If the default VPC in the target Region has an internet gateway attached to it, the DB
+  cluster is public.   If DBSubnetGroupName is specified, and PubliclyAccessible isn't
+  specified, the following applies:   If the subnets are part of a VPC that doesn’t have an
+  internet gateway attached to it, the DB cluster is private.   If the subnets are part of a
+  VPC that has an internet gateway attached to it, the DB cluster is public.
 - `"RdsCustomClusterConfiguration"`: Reserved for future use.
 - `"ReplicationSourceIdentifier"`: The Amazon Resource Name (ARN) of the source DB instance
   or DB cluster if this DB cluster is created as a read replica. Valid for Cluster Type:
@@ -2049,21 +2049,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide. This setting
   doesn't apply to RDS Custom DB instances. Default: 1  Valid Values: 0 - 15
 - `"PubliclyAccessible"`: Specifies whether the DB instance is publicly accessible. When
-  the DB instance is publicly accessible, its Domain Name System (DNS) endpoint resolves to
-  the private IP address from within the DB instance's virtual private cloud (VPC). It
-  resolves to the public IP address from outside of the DB instance's VPC. Access to the DB
-  instance is ultimately controlled by the security group it uses. That public access is not
-  permitted if the security group assigned to the DB instance doesn't permit it. When the DB
-  instance isn't publicly accessible, it is an internal DB instance with a DNS name that
-  resolves to a private IP address. Default: The default behavior varies depending on whether
-  DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and
-  PubliclyAccessible isn't specified, the following applies:   If the default VPC in the
-  target Region doesn’t have an internet gateway attached to it, the DB instance is
-  private.   If the default VPC in the target Region has an internet gateway attached to it,
-  the DB instance is public.   If DBSubnetGroupName is specified, and PubliclyAccessible
-  isn't specified, the following applies:   If the subnets are part of a VPC that doesn’t
-  have an internet gateway attached to it, the DB instance is private.   If the subnets are
-  part of a VPC that has an internet gateway attached to it, the DB instance is public.
+  the DB instance is publicly accessible and you connect from outside of the DB instance's
+  virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public
+  IP address. When you connect from within the same VPC as the DB instance, the endpoint
+  resolves to the private IP address. Access to the DB instance is ultimately controlled by
+  the security group it uses. That public access is not permitted if the security group
+  assigned to the DB instance doesn't permit it. When the DB instance isn't publicly
+  accessible, it is an internal DB instance with a DNS name that resolves to a private IP
+  address. Default: The default behavior varies depending on whether DBSubnetGroupName is
+  specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified,
+  the following applies:   If the default VPC in the target Region doesn’t have an internet
+  gateway attached to it, the DB instance is private.   If the default VPC in the target
+  Region has an internet gateway attached to it, the DB instance is public.   If
+  DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following
+  applies:   If the subnets are part of a VPC that doesn’t have an internet gateway
+  attached to it, the DB instance is private.   If the subnets are part of a VPC that has an
+  internet gateway attached to it, the DB instance is public.
 - `"StorageEncrypted"`: Specifes whether the DB instance is encrypted. By default, it isn't
   encrypted. For RDS Custom DB instances, either enable this setting or leave it unset.
   Otherwise, Amazon RDS reports an error. This setting doesn't apply to Amazon Aurora DB
@@ -2757,6 +2758,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - Creates a primary DB instance and a standby instance in a different Availability Zone
   (AZ) for each physical shard.   2 - Creates a primary DB instance and two standby instances
   in different AZs for each physical shard.
+- `"MinACU"`: The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
 - `"PubliclyAccessible"`: Specifies whether the DB shard group is publicly accessible. When
   the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves
   to the private IP address from within the DB shard group's virtual private cloud (VPC). It
@@ -3432,16 +3434,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   after the DB cluster is deleted. This parameter isn't case-sensitive. The default is to
   remove automated backups immediately after the DB cluster is deleted.
 - `"FinalDBSnapshotIdentifier"`: The DB cluster snapshot identifier of the new DB cluster
-  snapshot created when SkipFinalSnapshot is disabled.  Specifying this parameter and also
-  skipping the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter
-  results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First
-  character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
+  snapshot created when SkipFinalSnapshot is disabled.  If you specify this parameter and
+  also skip the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter,
+  the request results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or
+  hyphens.   First character must be a letter   Can't end with a hyphen or contain two
+  consecutive hyphens
 - `"SkipFinalSnapshot"`: Specifies whether to skip the creation of a final DB cluster
-  snapshot before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is
-  created. If skip isn't specified, a DB cluster snapshot is created before the DB cluster is
-  deleted. By default, skip isn't specified, and the DB cluster snapshot is created. By
-  default, this parameter is disabled.  You must specify a FinalDBSnapshotIdentifier
-  parameter if SkipFinalSnapshot is disabled.
+  snapshot before RDS deletes the DB cluster. If you set this value to true, RDS doesn't
+  create a final DB cluster snapshot. If you set this value to false or don't specify it, RDS
+  creates a DB cluster snapshot before it deletes the DB cluster. By default, this parameter
+  is disabled, so RDS creates a final DB cluster snapshot.  If SkipFinalSnapshot is disabled,
+  you must specify a value for the FinalDBSnapshotIdentifier parameter.
 """
 function delete_dbcluster(
     DBClusterIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
@@ -6204,7 +6207,11 @@ end
     describe_pending_maintenance_actions(params::Dict{String,<:Any})
 
 Returns a list of resources (for example, DB instances) that have at least one pending
-maintenance action.
+maintenance action. This API follows an eventual consistency model. This means that the
+result of the DescribePendingMaintenanceActions command might not be immediately visible to
+all subsequent RDS commands. Keep this in mind when you use
+DescribePendingMaintenanceActions immediately after using a previous API command such as
+ApplyPendingMaintenanceActions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -7872,16 +7879,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide. This setting
   doesn't apply to RDS Custom DB instances. Default: 1  Valid Values: 0 - 15
 - `"PubliclyAccessible"`: Specifies whether the DB instance is publicly accessible. When
-  the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to
-  the private IP address from within the DB cluster's virtual private cloud (VPC). It
-  resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB
-  cluster is ultimately controlled by the security group it uses. That public access isn't
-  permitted if the security group assigned to the DB cluster doesn't permit it. When the DB
-  instance isn't publicly accessible, it is an internal DB instance with a DNS name that
-  resolves to a private IP address.  PubliclyAccessible only applies to DB instances in a
-  VPC. The DB instance must be part of a public subnet and PubliclyAccessible must be enabled
-  for it to be publicly accessible. Changes to the PubliclyAccessible parameter are applied
-  immediately regardless of the value of the ApplyImmediately parameter.
+  the DB instance is publicly accessible and you connect from outside of the DB instance's
+  virtual private cloud (VPC), its Domain Name System (DNS) endpoint resolves to the public
+  IP address. When you connect from within the same VPC as the DB instance, the endpoint
+  resolves to the private IP address. Access to the DB instance is ultimately controlled by
+  the security group it uses. That public access isn't permitted if the security group
+  assigned to the DB instance doesn't permit it. When the DB instance isn't publicly
+  accessible, it is an internal DB instance with a DNS name that resolves to a private IP
+  address.  PubliclyAccessible only applies to DB instances in a VPC. The DB instance must be
+  part of a public subnet and PubliclyAccessible must be enabled for it to be publicly
+  accessible. Changes to the PubliclyAccessible parameter are applied immediately regardless
+  of the value of the ApplyImmediately parameter.
 - `"ReplicaMode"`: A value that sets the open mode of a replica database to either mounted
   or read-only.  Currently, this parameter is only supported for Oracle DB instances.
   Mounted DB replicas are included in Oracle Enterprise Edition. The main use case for
@@ -8252,6 +8260,7 @@ more settings by specifying these parameters and the new values in the request.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"MaxACU"`: The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+- `"MinACU"`: The minimum capacity of the DB shard group in Aurora capacity units (ACUs).
 """
 function modify_dbshard_group(
     DBShardGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
@@ -11051,11 +11060,10 @@ end
 
 Starts an export of DB snapshot or DB cluster data to Amazon S3. The provided IAM role must
 have access to the S3 bucket. You can't export snapshot data from Db2 or RDS Custom DB
-instances. You can't export cluster data from Multi-AZ DB clusters. For more information on
-exporting DB snapshot data, see Exporting DB snapshot data to Amazon S3 in the Amazon RDS
-User Guide or Exporting DB cluster snapshot data to Amazon S3 in the Amazon Aurora User
-Guide. For more information on exporting DB cluster data, see Exporting DB cluster data to
-Amazon S3 in the Amazon Aurora User Guide.
+instances. For more information on exporting DB snapshot data, see Exporting DB snapshot
+data to Amazon S3 in the Amazon RDS User Guide or Exporting DB cluster snapshot data to
+Amazon S3 in the Amazon Aurora User Guide. For more information on exporting DB cluster
+data, see Exporting DB cluster data to Amazon S3 in the Amazon Aurora User Guide.
 
 # Arguments
 - `export_task_identifier`: A unique identifier for the export task. This ID isn't an

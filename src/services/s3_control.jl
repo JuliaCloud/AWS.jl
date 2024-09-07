@@ -23,7 +23,7 @@ sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.
   IAM Identity Center instance is your corporate identity directory that you added to the IAM
   Identity Center. You can use the ListInstances API operation to retrieve a list of your
   Identity Center instances and their ARNs.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function associate_access_grants_identity_center(
@@ -93,7 +93,7 @@ identitystore:DescribeUser  For directory groups - identitystore:DescribeGroup
   to one of the following values:    READ – Grant read-only access to the S3 data.    WRITE
   – Grant write-only access to the S3 data.    READWRITE – Grant both read and write
   access to the S3 data.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -172,7 +172,7 @@ instance, you must also have the sso:DescribeInstance, sso:CreateApplication,
 sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod permissions.
 
 # Arguments
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -247,7 +247,7 @@ iam:PassRole
   string of characters at the beginning of an object key name used to organize the objects
   that you store in your S3 buckets. For example, object key names that start with the
   engineering/ prefix or object key names that start with the marketing/campaigns/ prefix.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -739,7 +739,7 @@ must have the s3:DeleteAccessGrant permission to use this operation.
 # Arguments
 - `id`: The ID of the access grant. S3 Access Grants auto-generates this ID when you create
   the access grant.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function delete_access_grant(
@@ -791,7 +791,7 @@ AssociateAccessGrantsIdentityCenter and DissociateAccessGrantsIdentityCenter.  P
 You must have the s3:DeleteAccessGrantsInstance permission to use this operation.
 
 # Arguments
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function delete_access_grants_instance(
@@ -840,7 +840,7 @@ Permissions  You must have the s3:DeleteAccessGrantsInstanceResourcePolicy permi
 use this operation.
 
 # Arguments
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function delete_access_grants_instance_resource_policy(
@@ -894,7 +894,7 @@ this operation.
   Grants instance. S3 Access Grants assigned this ID when you registered the location. S3
   Access Grants assigns the ID default to the default location s3:// and assigns an
   auto-generated ID to other locations that you register.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function delete_access_grants_location(
@@ -1958,7 +1958,7 @@ permission to use this operation.   Additional Permissions  You must have the
 sso:DeleteApplication permission to use this operation.
 
 # Arguments
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function dissociate_access_grants_identity_center(
@@ -2006,7 +2006,7 @@ must have the s3:GetAccessGrant permission to use this operation.
 # Arguments
 - `id`: The ID of the access grant. S3 Access Grants auto-generates this ID when you create
   the access grant.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function get_access_grant(
@@ -2051,9 +2051,11 @@ end
 
 Retrieves the S3 Access Grants instance for a Region in your account.   Permissions  You
 must have the s3:GetAccessGrantsInstance permission to use this operation.
+GetAccessGrantsInstance is not supported for cross-account access. You can only call the
+API from the account that owns the S3 Access Grants instance.
 
 # Arguments
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function get_access_grants_instance(
@@ -2152,7 +2154,7 @@ Returns the resource policy of the S3 Access Grants instance.   Permissions  You
 the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.
 
 # Arguments
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function get_access_grants_instance_resource_policy(
@@ -2203,7 +2205,7 @@ this operation.
   this ID when you register the location. S3 Access Grants assigns the ID default to the
   default location s3:// and assigns an auto-generated ID to other locations that you
   register.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function get_access_grants_location(
@@ -3059,7 +3061,7 @@ sts:SetSourceIdentity.
 - `target`: The S3 URI path of the data to which you are requesting temporary access
   credentials. If the requesting account has an access grant for this data, S3 Access Grants
   vends temporary access credentials in the response.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3607,7 +3609,7 @@ Returns the list of access grants in your S3 Access Grants instance.  Permission
 have the s3:ListAccessGrants permission to use this operation.
 
 # Arguments
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3684,7 +3686,7 @@ instance per Region per account.  Permissions  You must have the
 s3:ListAccessGrantsInstances permission to use this operation.
 
 # Arguments
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3738,7 +3740,7 @@ Returns a list of the locations registered in your S3 Access Grants instance.  P
 You must have the s3:ListAccessGrantsLocations permission to use this operation.
 
 # Arguments
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -3912,6 +3914,68 @@ function list_access_points_for_object_lambda(
     return s3_control(
         "GET",
         "/v20180820/accesspointforobjectlambda",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_caller_access_grants(x-amz-account-id)
+    list_caller_access_grants(x-amz-account-id, params::Dict{String,<:Any})
+
+Returns a list of the access grants that were given to the caller using S3 Access Grants
+and that allow the caller to access the S3 data of the Amazon Web Services account
+specified in the request.  Permissions  You must have the s3:ListCallerAccessGrants
+permission to use this operation.
+
+# Arguments
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"allowedByApplication"`: If this optional parameter is passed in the request, a filter
+  is applied to the results. The results will include only the access grants for the caller's
+  Identity Center application or for any other applications (ALL).
+- `"grantscope"`: The S3 path of the data that you would like to access. Must start with
+  s3://. You can optionally pass only the beginning characters of a path, and S3 Access
+  Grants will search for all applicable grants for the path fragment.
+- `"maxResults"`: The maximum number of access grants that you would like returned in the
+  List Caller Access Grants response. If the results include the pagination token NextToken,
+  make another call using the NextToken to determine if there are more results.
+- `"nextToken"`: A pagination token to request the next page of results. Pass this value
+  into a subsequent List Caller Access Grants request in order to retrieve the next page of
+  results.
+"""
+function list_caller_access_grants(
+    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/caller/grants",
+        Dict{String,Any}(
+            "headers" => Dict{String,Any}("x-amz-account-id" => x_amz_account_id)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_caller_access_grants(
+    x_amz_account_id,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return s3_control(
+        "GET",
+        "/v20180820/accessgrantsinstance/caller/grants",
         Dict{String,Any}(
             mergewith(
                 _merge,
@@ -4271,7 +4335,7 @@ the s3:PutAccessGrantsInstanceResourcePolicy permission to use this operation.
 
 # Arguments
 - `policy`: The resource policy of the S3 Access Grants instance that you are updating.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -5462,7 +5526,7 @@ iam:PassRole
   that you register.  If you are passing the default location, you cannot create an access
   grant for the entire default location. You must also specify a bucket or a bucket and
   prefix in the Subprefix field.
-- `x-amz-account-id`: The ID of the Amazon Web Services account that is making this request.
+- `x-amz-account-id`: The Amazon Web Services account ID of the S3 Access Grants instance.
 
 """
 function update_access_grants_location(

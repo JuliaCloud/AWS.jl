@@ -326,6 +326,33 @@ function get_experiment_template(
 end
 
 """
+    get_safety_lever(id)
+    get_safety_lever(id, params::Dict{String,<:Any})
+
+ Gets information about the specified safety lever.
+
+# Arguments
+- `id`:  The ID of the safety lever.
+
+"""
+function get_safety_lever(id; aws_config::AbstractAWSConfig=global_aws_config())
+    return fis(
+        "GET", "/safetyLevers/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function get_safety_lever(
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fis(
+        "GET",
+        "/safetyLevers/$(id)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_target_account_configuration(account_id, id)
     get_target_account_configuration(account_id, id, params::Dict{String,<:Any})
 
@@ -845,6 +872,43 @@ function update_experiment_template(
         "PATCH",
         "/experimentTemplates/$(id)",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_safety_lever_state(id, state)
+    update_safety_lever_state(id, state, params::Dict{String,<:Any})
+
+ Updates the specified safety lever state.
+
+# Arguments
+- `id`:  The ID of the safety lever.
+- `state`:  The state of the safety lever.
+
+"""
+function update_safety_lever_state(
+    id, state; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return fis(
+        "PATCH",
+        "/safetyLevers/$(id)/state",
+        Dict{String,Any}("state" => state);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_safety_lever_state(
+    id,
+    state,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return fis(
+        "PATCH",
+        "/safetyLevers/$(id)/state",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("state" => state), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

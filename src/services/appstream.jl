@@ -749,7 +749,9 @@ applications and desktops.
   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge
   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge
   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge
-   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge
+   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge
+   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge
+  stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge
   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
   The following instance types are available for Elastic fleets:   stream.standard.small
   stream.standard.medium   stream.standard.large   stream.standard.xlarge
@@ -765,7 +767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   active after users disconnect. If users try to reconnect to the streaming session after a
   disconnection or network interruption within this time interval, they are connected to
   their previous session. Otherwise, they are connected to a new session with a new streaming
-  instance.  Specify a value between 60 and 360000.
+  instance.  Specify a value between 60 and 36000.
 - `"DisplayName"`: The fleet name to display.
 - `"DomainJoinInfo"`: The name of the directory and organizational unit (OU) to use to join
   the fleet to a Microsoft Active Directory domain. This is not allowed for Elastic fleets.
@@ -793,13 +795,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   out, and pixels changing do not qualify as user activity. If users continue to be idle
   after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.
   To prevent users from being disconnected due to inactivity, specify a value of 0.
-  Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this
-  feature, we recommend that you specify a value that corresponds exactly to a whole number
-  of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to
-  the nearest minute. For example, if you specify a value of 70, users are disconnected after
-  1 minute of inactivity. If you specify a value that is at the midpoint between two
-  different minutes, the value is rounded up. For example, if you specify a value of 90,
-  users are disconnected after 2 minutes of inactivity.
+  Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable
+  this feature, we recommend that you specify a value that corresponds exactly to a whole
+  number of minutes (for example, 60, 120, and 180). If you don't do this, the value is
+  rounded to the nearest minute. For example, if you specify a value of 70, users are
+  disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint
+  between two different minutes, the value is rounded up. For example, if you specify a value
+  of 90, users are disconnected after 2 minutes of inactivity.
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
 - `"ImageName"`: The name of the image used to create the fleet.
 - `"MaxConcurrentSessions"`: The maximum concurrent sessions of the Elastic fleet. This is
@@ -1083,6 +1085,83 @@ function create_streaming_url(
                 _merge,
                 Dict{String,Any}(
                     "FleetName" => FleetName, "StackName" => StackName, "UserId" => UserId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_theme_for_stack(favicon_s3_location, organization_logo_s3_location, stack_name, theme_styling, title_text)
+    create_theme_for_stack(favicon_s3_location, organization_logo_s3_location, stack_name, theme_styling, title_text, params::Dict{String,<:Any})
+
+Creates custom branding that customizes the appearance of the streaming application catalog
+page.
+
+# Arguments
+- `favicon_s3_location`: The S3 location of the favicon. The favicon enables users to
+  recognize their application streaming site in a browser full of tabs or bookmarks. It is
+  displayed at the top of the browser tab for the application streaming site during users'
+  streaming sessions.
+- `organization_logo_s3_location`: The organization logo that appears on the streaming
+  application catalog page.
+- `stack_name`: The name of the stack for the theme.
+- `theme_styling`: The color theme that is applied to website links, text, and buttons.
+  These colors are also applied as accents in the background for the streaming application
+  catalog page.
+- `title_text`: The title that is displayed at the top of the browser tab during users'
+  application streaming sessions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FooterLinks"`: The links that are displayed in the footer of the streaming application
+  catalog page. These links are helpful resources for users, such as the organization's IT
+  support and product marketing sites.
+"""
+function create_theme_for_stack(
+    FaviconS3Location,
+    OrganizationLogoS3Location,
+    StackName,
+    ThemeStyling,
+    TitleText;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateThemeForStack",
+        Dict{String,Any}(
+            "FaviconS3Location" => FaviconS3Location,
+            "OrganizationLogoS3Location" => OrganizationLogoS3Location,
+            "StackName" => StackName,
+            "ThemeStyling" => ThemeStyling,
+            "TitleText" => TitleText,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_theme_for_stack(
+    FaviconS3Location,
+    OrganizationLogoS3Location,
+    StackName,
+    ThemeStyling,
+    TitleText,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateThemeForStack",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FaviconS3Location" => FaviconS3Location,
+                    "OrganizationLogoS3Location" => OrganizationLogoS3Location,
+                    "StackName" => StackName,
+                    "ThemeStyling" => ThemeStyling,
+                    "TitleText" => TitleText,
                 ),
                 params,
             ),
@@ -1562,6 +1641,42 @@ function delete_stack(
     return appstream(
         "DeleteStack",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_theme_for_stack(stack_name)
+    delete_theme_for_stack(stack_name, params::Dict{String,<:Any})
+
+Deletes custom branding that customizes the appearance of the streaming application catalog
+page.
+
+# Arguments
+- `stack_name`: The name of the stack for the theme.
+
+"""
+function delete_theme_for_stack(
+    StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DeleteThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DeleteThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2067,6 +2182,42 @@ function describe_stacks(
 )
     return appstream(
         "DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_theme_for_stack(stack_name)
+    describe_theme_for_stack(stack_name, params::Dict{String,<:Any})
+
+Retrieves a list that describes the theme for a specified stack. A theme is custom branding
+that customizes the appearance of the streaming application catalog page.
+
+# Arguments
+- `stack_name`: The name of the stack for the theme.
+
+"""
+function describe_theme_for_stack(
+    StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "DescribeThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DescribeThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -3147,7 +3298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   active after users disconnect. If users try to reconnect to the streaming session after a
   disconnection or network interruption within this time interval, they are connected to
   their previous session. Otherwise, they are connected to a new session with a new streaming
-  instance.  Specify a value between 60 and 360000.
+  instance.  Specify a value between 60 and 36000.
 - `"DisplayName"`: The fleet name to display.
 - `"DomainJoinInfo"`: The name of the directory and organizational unit (OU) to use to join
   the fleet to a Microsoft Active Directory domain.
@@ -3170,13 +3321,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   out, and pixels changing do not qualify as user activity. If users continue to be idle
   after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.
   To prevent users from being disconnected due to inactivity, specify a value of 0.
-  Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this
-  feature, we recommend that you specify a value that corresponds exactly to a whole number
-  of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to
-  the nearest minute. For example, if you specify a value of 70, users are disconnected after
-  1 minute of inactivity. If you specify a value that is at the midpoint between two
-  different minutes, the value is rounded up. For example, if you specify a value of 90,
-  users are disconnected after 2 minutes of inactivity.
+  Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable
+  this feature, we recommend that you specify a value that corresponds exactly to a whole
+  number of minutes (for example, 60, 120, and 180). If you don't do this, the value is
+  rounded to the nearest minute. For example, if you specify a value of 70, users are
+  disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint
+  between two different minutes, the value is rounded up. For example, if you specify a value
+  of 90, users are disconnected after 2 minutes of inactivity.
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
 - `"ImageName"`: The name of the image used to create the fleet.
 - `"InstanceType"`: The instance type to use when launching fleet instances. The following
@@ -3333,6 +3484,60 @@ function update_stack(
     return appstream(
         "UpdateStack",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_theme_for_stack(stack_name)
+    update_theme_for_stack(stack_name, params::Dict{String,<:Any})
+
+Updates custom branding that customizes the appearance of the streaming application catalog
+page.
+
+# Arguments
+- `stack_name`: The name of the stack for the theme.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributesToDelete"`: The attributes to delete.
+- `"FaviconS3Location"`: The S3 location of the favicon. The favicon enables users to
+  recognize their application streaming site in a browser full of tabs or bookmarks. It is
+  displayed at the top of the browser tab for the application streaming site during users'
+  streaming sessions.
+- `"FooterLinks"`: The links that are displayed in the footer of the streaming application
+  catalog page. These links are helpful resources for users, such as the organization's IT
+  support and product marketing sites.
+- `"OrganizationLogoS3Location"`: The organization logo that appears on the streaming
+  application catalog page.
+- `"State"`: Specifies whether custom branding should be applied to catalog page or not.
+- `"ThemeStyling"`: The color theme that is applied to website links, text, and buttons.
+  These colors are also applied as accents in the background for the streaming application
+  catalog page.
+- `"TitleText"`: The title that is displayed at the top of the browser tab during users'
+  application streaming sessions.
+"""
+function update_theme_for_stack(
+    StackName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return appstream(
+        "UpdateThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "UpdateThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

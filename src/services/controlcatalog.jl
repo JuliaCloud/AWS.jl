@@ -5,6 +5,52 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    get_control(control_arn)
+    get_control(control_arn, params::Dict{String,<:Any})
+
+Returns details about a specific control, most notably a list of Amazon Web Services
+Regions where this control is supported. Input a value for the ControlArn parameter, in ARN
+form. GetControl accepts controltower or controlcatalog control ARNs as input. Returns a
+controlcatalog ARN format. In the API response, controls that have the value GLOBAL in the
+Scope field do not show the DeployableRegions field, because it does not apply. Controls
+that have the value REGIONAL in the Scope field return a value for the DeployableRegions
+field, as shown in the example.
+
+# Arguments
+- `control_arn`: The Amazon Resource Name (ARN) of the control. It has one of the following
+  formats:  Global format
+  arn:{PARTITION}:controlcatalog:::control/{CONTROL_CATALOG_OPAQUE_ID}   Or Regional format
+  arn:{PARTITION}:controltower:{REGION}::control/{CONTROL_TOWER_OPAQUE_ID}  Here is a more
+  general pattern that covers Amazon Web Services Control Tower and Control Catalog ARNs:
+  ^arn:(aws(?:[-a-z]*)?):(controlcatalog|controltower):[a-zA-Z0-9-]*::control/[0-9a-zA-Z_-]+
+
+"""
+function get_control(ControlArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return controlcatalog(
+        "POST",
+        "/get-control",
+        Dict{String,Any}("ControlArn" => ControlArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_control(
+    ControlArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return controlcatalog(
+        "POST",
+        "/get-control",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ControlArn" => ControlArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_common_controls()
     list_common_controls(params::Dict{String,<:Any})
 
@@ -31,6 +77,37 @@ function list_common_controls(
     return controlcatalog(
         "POST",
         "/common-controls",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_controls()
+    list_controls(params::Dict{String,<:Any})
+
+Returns a paginated list of all available controls in the Amazon Web Services Control
+Catalog library. Allows you to discover available controls. The list of controls is given
+as structures of type controlSummary. The ARN is returned in the global controlcatalog
+format, as shown in the examples.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results on a page or for an API request call.
+- `"nextToken"`: The pagination token that's used to fetch the next set of results.
+"""
+function list_controls(; aws_config::AbstractAWSConfig=global_aws_config())
+    return controlcatalog(
+        "POST", "/list-controls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_controls(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return controlcatalog(
+        "POST",
+        "/list-controls",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

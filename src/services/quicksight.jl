@@ -5,6 +5,88 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    batch_create_topic_reviewed_answer(answers, aws_account_id, topic_id)
+    batch_create_topic_reviewed_answer(answers, aws_account_id, topic_id, params::Dict{String,<:Any})
+
+Creates new reviewed answers for a Q Topic.
+
+# Arguments
+- `answers`: The definition of the Answers to be created.
+- `aws_account_id`: The ID of the Amazon Web Services account that you want to create a
+  reviewed answer in.
+- `topic_id`: The ID for the topic reviewed answer that you want to create. This ID is
+  unique per Amazon Web Services Region for each Amazon Web Services account.
+
+"""
+function batch_create_topic_reviewed_answer(
+    Answers, AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/batch-create-reviewed-answers",
+        Dict{String,Any}("Answers" => Answers);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_create_topic_reviewed_answer(
+    Answers,
+    AwsAccountId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/batch-create-reviewed-answers",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Answers" => Answers), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_delete_topic_reviewed_answer(aws_account_id, topic_id)
+    batch_delete_topic_reviewed_answer(aws_account_id, topic_id, params::Dict{String,<:Any})
+
+Deletes reviewed answers for Q Topic.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that you want to delete a
+  reviewed answers in.
+- `topic_id`: The ID for the topic reviewed answer that you want to delete. This ID is
+  unique per Amazon Web Services Region for each Amazon Web Services account.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AnswerIds"`: The Answer IDs of the Answers to be deleted.
+"""
+function batch_delete_topic_reviewed_answer(
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/batch-delete-reviewed-answers";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_delete_topic_reviewed_answer(
+    AwsAccountId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "POST",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/batch-delete-reviewed-answers",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     cancel_ingestion(aws_account_id, data_set_id, ingestion_id)
     cancel_ingestion(aws_account_id, data_set_id, ingestion_id, params::Dict{String,<:Any})
 
@@ -5637,6 +5719,44 @@ function list_topic_refresh_schedules(
     return quicksight(
         "GET",
         "/accounts/$(AwsAccountId)/topics/$(TopicId)/schedules",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_topic_reviewed_answers(aws_account_id, topic_id)
+    list_topic_reviewed_answers(aws_account_id, topic_id, params::Dict{String,<:Any})
+
+Lists all reviewed answers for a Q Topic.
+
+# Arguments
+- `aws_account_id`: The ID of the Amazon Web Services account that containd the reviewed
+  answers that you want listed.
+- `topic_id`: The ID for the topic that contains the reviewed answer that you want to list.
+  This ID is unique per Amazon Web Services Region for each Amazon Web Services account.
+
+"""
+function list_topic_reviewed_answers(
+    AwsAccountId, TopicId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/reviewed-answers";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_topic_reviewed_answers(
+    AwsAccountId,
+    TopicId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return quicksight(
+        "GET",
+        "/accounts/$(AwsAccountId)/topics/$(TopicId)/reviewed-answers",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,

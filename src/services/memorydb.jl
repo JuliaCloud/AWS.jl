@@ -158,7 +158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the r6gd node type. This parameter must be set when using r6gd nodes. For more information,
   see Data tiering.
 - `"Description"`: An optional description of the cluster.
-- `"EngineVersion"`: The version number of the Redis engine to be used for the cluster.
+- `"EngineVersion"`: The version number of the Redis OSS engine to be used for the cluster.
 - `"KmsKeyId"`: The ID of the KMS key used to encrypt the cluster.
 - `"MaintenanceWindow"`: Specifies the weekly time range during which maintenance on the
   cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H
@@ -473,7 +473,9 @@ end
     delete_cluster(cluster_name)
     delete_cluster(cluster_name, params::Dict{String,<:Any})
 
-Deletes a cluster. It also deletes all associated nodes and node endpoints
+Deletes a cluster. It also deletes all associated nodes and node endpoints   CreateSnapshot
+permission is required to create a final snapshot. Without this permission, the API call
+will fail with an Access Denied exception.
 
 # Arguments
 - `cluster_name`: The name of the cluster to be deleted
@@ -718,13 +720,13 @@ end
     describe_engine_versions()
     describe_engine_versions(params::Dict{String,<:Any})
 
-Returns a list of the available Redis engine versions.
+Returns a list of the available Redis OSS engine versions.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DefaultOnly"`: If true, specifies that only the default version of the specified engine
   or engine and major version combination is to be returned.
-- `"EngineVersion"`: The Redis engine version
+- `"EngineVersion"`: The Redis OSS engine version
 - `"MaxResults"`: The maximum number of records to include in the response. If more records
   exist than the specified MaxResults value, a token is included in the response so that the
   remaining results can be retrieved.

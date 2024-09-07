@@ -2435,14 +2435,13 @@ function put_account_dedicated_ip_warmup_attributes(
 end
 
 """
-    put_account_details(mail_type, use_case_description, website_url)
-    put_account_details(mail_type, use_case_description, website_url, params::Dict{String,<:Any})
+    put_account_details(mail_type, website_url)
+    put_account_details(mail_type, website_url, params::Dict{String,<:Any})
 
 Update your Amazon SES account details.
 
 # Arguments
 - `mail_type`: The type of email your account will send.
-- `use_case_description`: A description of the types of email that you plan to send.
 - `website_url`: The URL of your website. This information helps us better understand the
   type of content that you plan to send.
 
@@ -2457,28 +2456,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   identities.  If the value is true, then your account has production access. When your
   account has production access, you can send email to any address. The sending quota and
   maximum sending rate for your account vary based on your specific use case.
+- `"UseCaseDescription"`: A description of the types of email that you plan to send.
 """
 function put_account_details(
-    MailType,
-    UseCaseDescription,
-    WebsiteURL;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    MailType, WebsiteURL; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return sesv2(
         "POST",
         "/v2/email/account/details",
-        Dict{String,Any}(
-            "MailType" => MailType,
-            "UseCaseDescription" => UseCaseDescription,
-            "WebsiteURL" => WebsiteURL,
-        );
+        Dict{String,Any}("MailType" => MailType, "WebsiteURL" => WebsiteURL);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function put_account_details(
     MailType,
-    UseCaseDescription,
     WebsiteURL,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -2489,11 +2481,7 @@ function put_account_details(
         Dict{String,Any}(
             mergewith(
                 _merge,
-                Dict{String,Any}(
-                    "MailType" => MailType,
-                    "UseCaseDescription" => UseCaseDescription,
-                    "WebsiteURL" => WebsiteURL,
-                ),
+                Dict{String,Any}("MailType" => MailType, "WebsiteURL" => WebsiteURL),
                 params,
             ),
         );

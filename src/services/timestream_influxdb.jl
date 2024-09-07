@@ -429,9 +429,12 @@ Updates a Timestream for InfluxDB DB instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"dbInstanceType"`: The Timestream for InfluxDB DB instance type to run InfluxDB on.
 - `"dbParameterGroupIdentifier"`: The id of the DB parameter group to assign to your DB
   instance. DB parameter groups specify how the database is configured. For example, DB
   parameter groups can specify the limit for query concurrency.
+- `"deploymentType"`: Specifies whether the DB instance will be deployed as a standalone
+  instance or with a Multi-AZ standby for high availability.
 - `"logDeliveryConfiguration"`: Configuration for sending InfluxDB engine logs to send to
   specified S3 bucket.
 """

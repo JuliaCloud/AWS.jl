@@ -236,10 +236,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value determines the type of fleet resources that you use for this build. If your game
   build contains multiple executables, they all must run on the same operating system. You
   must specify a valid operating system in this request. There is no default value. You can't
-  change a build's operating system later.  If you have active fleets using the Windows
-  Server 2012 operating system, you can continue to create new builds using this OS until
-  October 10, 2023, when Microsoft ends its support. All others must use Windows Server 2016
-  when creating new Windows-based builds.
+  change a build's operating system later.  Amazon Linux 2 (AL2) will reach end of support on
+  6/30/2025. See more details in the Amazon Linux 2 FAQs. For game servers that are hosted on
+  AL2 and use Amazon GameLift server SDK 4.x., first update the game server build to server
+  SDK 5.x, and then deploy to AL2023 instances. See  Migrate to Amazon GameLift server SDK
+  version 5.
 - `"ServerSdkVersion"`: A server SDK version you used when integrating your game server
   build with Amazon GameLift. For more information see Integrate games with custom game
   servers. By default Amazon GameLift sets this value to 4.0.2.
@@ -307,7 +308,11 @@ design guide     Create a container definition as a JSON file
 - `name`: A descriptive identifier for the container group definition. The name value must
   be unique in an Amazon Web Services Region.
 - `operating_system`: The platform that is used by containers in the container group
-  definition. All containers in a group must run on the same operating system.
+  definition. All containers in a group must run on the same operating system.  Amazon Linux
+  2 (AL2) will reach end of support on 6/30/2025. See more details in the Amazon Linux 2
+  FAQs. For game servers that are hosted on AL2 and use Amazon GameLift server SDK 4.x.,
+  first update the game server build to server SDK 5.x, and then deploy to AL2023 instances.
+  See  Migrate to Amazon GameLift server SDK version 5.
 - `total_cpu_limit`: The maximum amount of CPU units to allocate to the container group.
   Set this parameter to an integer value in CPU units (1 vCPU is equal to 1024 CPU units).
   All containers in the group share this memory. If you specify CPU limits for individual
@@ -489,12 +494,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   integrated with server SDK version 5.x. For more information about using shared
   credentials, see  Communicate with other Amazon Web Services resources from your fleets.
 - `"Locations"`: A set of remote locations to deploy additional instances to and manage as
-  part of the fleet. This parameter can only be used when creating fleets in Amazon Web
-  Services Regions that support multiple locations. You can add any Amazon GameLift-supported
-  Amazon Web Services Region as a remote location, in the form of an Amazon Web Services
-  Region code, such as us-west-2 or Local Zone code. To create a fleet with instances in the
-  home Region only, don't set this parameter.  When using this parameter, Amazon GameLift
-  requires you to include your home location in the request.
+  a multi-location fleet. Use this parameter when creating a fleet in Amazon Web Services
+  Regions that support multiple locations. You can add any Amazon Web Services Region or
+  Local Zone that's supported by Amazon GameLift. Provide a list of one or more Amazon Web
+  Services Region codes, such as us-west-2, or Local Zone names. When using this parameter,
+  Amazon GameLift requires you to include your home location in the request. For a list of
+  supported Regions and Local Zones, see  Amazon GameLift service locations for managed
+  hosting.
 - `"LogPaths"`:  This parameter is no longer used. To specify where Amazon GameLift should
   store log files once a server process shuts down, use the Amazon GameLift server API
   ProcessReady() and specify one or more directory paths in logParameters. For more
@@ -574,7 +580,7 @@ one or more locations.  If successful, this operation returns the list of added 
 with their status set to NEW. Amazon GameLift initiates the process of starting an instance
 in each added location. You can track the status of each new location by monitoring
 location creation events using DescribeFleetEvents.  Learn more   Setting up fleets
-Multi-location fleets
+Update fleet locations    Amazon GameLift service locations for managed hosting.
 
 # Arguments
 - `fleet_id`: A unique identifier for the fleet to add locations to. You can use either the
@@ -962,10 +968,10 @@ Creates a custom location for use in an Anywhere fleet.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Tags"`: A list of labels to assign to the new matchmaking configuration resource. Tags
-  are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for
-  resource management, access management and cost allocation. For more information, see
-  Tagging Amazon Web Services Resources in the Amazon Web Services General Rareference.
+- `"Tags"`: A list of labels to assign to the new resource. Tags are developer-defined
+  key-value pairs. Tagging Amazon Web Services resources are useful for resource management,
+  access management, and cost allocation. For more information, see  Tagging Amazon Web
+  Services Resources in the Amazon Web Services General Rareference.
 """
 function create_location(LocationName; aws_config::AbstractAWSConfig=global_aws_config())
     return gamelift(
@@ -2539,6 +2545,7 @@ set of sequential pages.  If successful, a LocationAttributes object is returned
 requested location. If the fleet does not have a requested location, no information is
 returned. This operation does not return the home Region. To get information on a fleet's
 home Region, call DescribeFleetAttributes.  Learn more   Setting up Amazon GameLift fleets
+  Amazon GameLift service locations for managed hosting
 
 # Arguments
 - `fleet_id`: A unique identifier for the fleet to retrieve remote locations for. You can
@@ -2586,7 +2593,8 @@ container groups. Use this operation to retrieve capacity information for a flee
 location or home Region (you can also retrieve home Region capacity by calling
 DescribeFleetCapacity). To retrieve capacity data, identify a fleet and location.  If
 successful, a FleetCapacity object is returned for the requested fleet location.   Learn
-more   Setting up Amazon GameLift fleets   GameLift metrics for fleets
+more   Setting up Amazon GameLift fleets    Amazon GameLift service locations for managed
+hosting  GameLift metrics for fleets
 
 # Arguments
 - `fleet_id`: A unique identifier for the fleet to request location capacity for. You can
@@ -2634,8 +2642,8 @@ current game hosting activity at the requested location. Use this operation to r
 utilization information for a fleet's remote location or home Region (you can also retrieve
 home Region utilization by calling DescribeFleetUtilization). To retrieve utilization data,
 identify a fleet and location.  If successful, a FleetUtilization object is returned for
-the requested fleet location.   Learn more   Setting up Amazon GameLift fleets   GameLift
-metrics for fleets
+the requested fleet location.   Learn more   Setting up Amazon GameLift fleets    Amazon
+GameLift service locations for managed hosting  GameLift metrics for fleets
 
 # Arguments
 - `fleet_id`: A unique identifier for the fleet to request location utilization for. You
@@ -3562,7 +3570,7 @@ EC2 Systems Manager User Guide.  Container fleets  With a container fleet (where
 type is CONTAINER), use these credentials and the target value with SSM to connect to the
 fleet instance where the container is running. After you're connected to the instance, use
 Docker commands to interact with the container.  Learn more     Remotely connect to fleet
-instances     Debug fleet issues      Remotely connect to a container fleet
+instances     Debug fleet issues
 
 # Arguments
 - `compute_name`: A unique identifier for the compute resource that you want to connect to.
@@ -4307,9 +4315,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DnsName"`: The DNS name of the compute resource. Amazon GameLift requires either a DNS
   name or IP address.
 - `"IpAddress"`: The IP address of the compute resource. Amazon GameLift requires either a
-  DNS name or IP address.
+  DNS name or IP address. When registering an Anywhere fleet, an IP address is required.
 - `"Location"`: The name of a custom location to associate with the compute resource being
-  registered.
+  registered. This parameter is required when registering a compute for an Anywhere fleet.
 """
 function register_compute(
     ComputeName, FleetId; aws_config::AbstractAWSConfig=global_aws_config()
