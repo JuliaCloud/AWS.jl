@@ -311,6 +311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"outputs"`: The outputs that you want to add to this flow.
 - `"source"`:
 - `"sourceFailoverConfig"`:
+- `"sourceMonitoringConfig"`:
 - `"sources"`:
 - `"vpcInterfaces"`: The VPC interfaces you want on the flow.
 """
@@ -616,6 +617,38 @@ function describe_flow_source_metadata(
     return mediaconnect(
         "GET",
         "/v1/flows/$(flowArn)/source-metadata",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_flow_source_thumbnail(flow_arn)
+    describe_flow_source_thumbnail(flow_arn, params::Dict{String,<:Any})
+
+Displays the thumbnail details of a flow's source stream.
+
+# Arguments
+- `flow_arn`: The Amazon Resource Name (ARN) of the flow.
+
+"""
+function describe_flow_source_thumbnail(
+    flowArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/flows/$(flowArn)/source-thumbnail";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_flow_source_thumbnail(
+    flowArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return mediaconnect(
+        "GET",
+        "/v1/flows/$(flowArn)/source-thumbnail",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1715,6 +1748,7 @@ Updates flow
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"maintenance"`:
 - `"sourceFailoverConfig"`:
+- `"sourceMonitoringConfig"`:
 """
 function update_flow(flowArn; aws_config::AbstractAWSConfig=global_aws_config())
     return mediaconnect(
@@ -1861,6 +1895,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   represents the minimal potential latency of that connection. The latency of the stream is
   set to the highest number between the sender’s minimum latency and the receiver’s
   minimum latency.
+- `"outputStatus"`: An indication of whether the output should transmit data or not. If you
+  don't specify the outputStatus field in your request, MediaConnect leaves the value
+  unchanged.
 - `"port"`: The port to use when content is distributed to this output.
 - `"protocol"`: The protocol to use for the output.
 - `"remoteId"`: The remote ID for the Zixi-pull stream.

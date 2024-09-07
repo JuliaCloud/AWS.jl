@@ -95,10 +95,14 @@ end
     send_data_integration_event(data, event_group_id, event_type, instance_id)
     send_data_integration_event(data, event_group_id, event_type, instance_id, params::Dict{String,<:Any})
 
-Send transactional data events with real-time data for analysis or monitoring.
+Send the transactional data payload for the event with real-time data for analysis or
+monitoring. The real-time data events are stored in an Amazon Web Services service before
+being processed and stored in data lake. New data events are synced with data lake at 5 PM
+GMT everyday. The updated transactional data is available in data lake after ingestion.
 
 # Arguments
-- `data`: The data payload of the event.
+- `data`: The data payload of the event. For more information on the data schema to use,
+  see Data entities supported in AWS Supply Chain .
 - `event_group_id`: Event identifier (for example, orderId for InboundOrder) used for data
   sharing or partitioning.
 - `event_type`: The data event type.

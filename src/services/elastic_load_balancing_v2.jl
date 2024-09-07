@@ -617,6 +617,49 @@ function delete_rule(
 end
 
 """
+    delete_shared_trust_store_association(resource_arn, trust_store_arn)
+    delete_shared_trust_store_association(resource_arn, trust_store_arn, params::Dict{String,<:Any})
+
+Deletes a shared trust store association.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+- `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
+
+"""
+function delete_shared_trust_store_association(
+    ResourceArn, TrustStoreArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "DeleteSharedTrustStoreAssociation",
+        Dict{String,Any}("ResourceArn" => ResourceArn, "TrustStoreArn" => TrustStoreArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_shared_trust_store_association(
+    ResourceArn,
+    TrustStoreArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DeleteSharedTrustStoreAssociation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ResourceArn" => ResourceArn, "TrustStoreArn" => TrustStoreArn
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_target_group(target_group_arn)
     delete_target_group(target_group_arn, params::Dict{String,<:Any})
 
@@ -765,6 +808,41 @@ function describe_account_limits(
     return elastic_load_balancing_v2(
         "DescribeAccountLimits",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_listener_attributes(listener_arn)
+    describe_listener_attributes(listener_arn, params::Dict{String,<:Any})
+
+Describes the attributes for the specified listener.
+
+# Arguments
+- `listener_arn`: The Amazon Resource Name (ARN) of the listener.
+
+"""
+function describe_listener_attributes(
+    ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "DescribeListenerAttributes",
+        Dict{String,Any}("ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_listener_attributes(
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "DescribeListenerAttributes",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1095,7 +1173,7 @@ Describes the health of the specified targets or all of your targets.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"Include"`: Used to inclue anomaly detection information.
+- `"Include"`: Used to include anomaly detection information.
 - `"Targets"`: The targets.
 """
 function describe_target_health(
@@ -1167,7 +1245,7 @@ end
     describe_trust_store_revocations(trust_store_arn)
     describe_trust_store_revocations(trust_store_arn, params::Dict{String,<:Any})
 
-Describes the revocation files in use by the specified trust store arn, or revocation ID.
+Describes the revocation files in use by the specified trust store or revocation files.
 
 # Arguments
 - `trust_store_arn`: The Amazon Resource Name (ARN) of the trust store.
@@ -1208,7 +1286,7 @@ end
     describe_trust_stores()
     describe_trust_stores(params::Dict{String,<:Any})
 
-Describes all trust stores for a given account by trust store arn’s or name.
+Describes all trust stores for the specified account.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1229,6 +1307,39 @@ function describe_trust_stores(
     return elastic_load_balancing_v2(
         "DescribeTrustStores",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_resource_policy(resource_arn)
+    get_resource_policy(resource_arn, params::Dict{String,<:Any})
+
+Retrieves the resource policy for a specified resource.
+
+# Arguments
+- `resource_arn`: The Amazon Resource Name (ARN) of the resource.
+
+"""
+function get_resource_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+    return elastic_load_balancing_v2(
+        "GetResourcePolicy",
+        Dict{String,Any}("ResourceArn" => ResourceArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_resource_policy(
+    ResourceArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "GetResourcePolicy",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceArn" => ResourceArn), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1367,6 +1478,47 @@ function modify_listener(
         "ModifyListener",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("ListenerArn" => ListenerArn), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    modify_listener_attributes(attributes, listener_arn)
+    modify_listener_attributes(attributes, listener_arn, params::Dict{String,<:Any})
+
+Modifies the specified attributes of the specified listener.
+
+# Arguments
+- `attributes`: The listener attributes.
+- `listener_arn`: The Amazon Resource Name (ARN) of the listener.
+
+"""
+function modify_listener_attributes(
+    Attributes, ListenerArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return elastic_load_balancing_v2(
+        "ModifyListenerAttributes",
+        Dict{String,Any}("Attributes" => Attributes, "ListenerArn" => ListenerArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_listener_attributes(
+    Attributes,
+    ListenerArn,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return elastic_load_balancing_v2(
+        "ModifyListenerAttributes",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("Attributes" => Attributes, "ListenerArn" => ListenerArn),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1525,7 +1677,7 @@ end
 Modifies the specified attributes of the specified target group.
 
 # Arguments
-- `attributes`: The attributes.
+- `attributes`: The target group attributes.
 - `target_group_arn`: The Amazon Resource Name (ARN) of the target group.
 
 """
@@ -1565,7 +1717,7 @@ end
     modify_trust_store(ca_certificates_bundle_s3_bucket, ca_certificates_bundle_s3_key, trust_store_arn)
     modify_trust_store(ca_certificates_bundle_s3_bucket, ca_certificates_bundle_s3_key, trust_store_arn, params::Dict{String,<:Any})
 
-Update the ca certificate bundle for a given trust store.
+Update the ca certificate bundle for the specified trust store.
 
 # Arguments
 - `ca_certificates_bundle_s3_bucket`: The Amazon S3 bucket for the ca certificates bundle.
@@ -1810,7 +1962,10 @@ Sets the type of IP addresses used by the subnets of the specified load balancer
 - `ip_address_type`: Note: Internal load balancers must use the ipv4 IP address type.
   [Application Load Balancers] The IP address type. The possible values are ipv4 (for only
   IPv4 addresses), dualstack (for IPv4 and IPv6 addresses), and dualstack-without-public-ipv4
-  (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). [Network Load
+  (for IPv6 only public addresses, with private IPv4 and IPv6 addresses). Note: Application
+  Load Balancer authentication only supports IPv4 addresses when connecting to an Identity
+  Provider (IdP) or Amazon Cognito endpoint. Without a public IPv4 address the load balancer
+  cannot complete the authentication process, resulting in HTTP 500 errors. [Network Load
   Balancers] The IP address type. The possible values are ipv4 (for only IPv4 addresses) and
   dualstack (for IPv4 and IPv6 addresses). You can’t specify dualstack for a load balancer
   with a UDP or TCP_UDP listener. [Gateway Load Balancers] The IP address type. The possible

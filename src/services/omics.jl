@@ -439,7 +439,8 @@ end
     create_run_group(request_id)
     create_run_group(request_id, params::Dict{String,<:Any})
 
-Creates a run group.
+You can optionally create a run group to limit the compute resources for the runs that you
+add to the group.
 
 # Arguments
 - `request_id`: To ensure that requests don't run multiple times, specify a unique ID for
@@ -447,10 +448,13 @@ Creates a run group.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxCpus"`: The maximum number of CPUs to use in the group.
-- `"maxDuration"`: A maximum run time for the group in minutes.
-- `"maxGpus"`: The maximum GPUs that can be used by a run group.
-- `"maxRuns"`: The maximum number of concurrent runs for the group.
+- `"maxCpus"`: The maximum number of CPUs that can run concurrently across all active runs
+  in the run group.
+- `"maxDuration"`: The maximum time for each run (in minutes). If a run exceeds the maximum
+  run time, the run fails automatically.
+- `"maxGpus"`: The maximum number of GPUs that can run concurrently across all active runs
+  in the run group.
+- `"maxRuns"`: The maximum number of runs that can be running at the same time.
 - `"name"`: A name for the group.
 - `"tags"`: Tags for the group.
 """
@@ -526,8 +530,8 @@ end
 
 Creates a cross-account shared resource. The resource owner makes an offer to share the
 resource with the principal subscriber (an AWS user with a different account than the
-resource owner). The following resources support cross-account sharing:   Healthomics
-variant stores   Healthomics annotation stores   Private workflows
+resource owner). The following resources support cross-account sharing:   HealthOmics
+variant stores   HealthOmics annotation stores   Private workflows
 
 # Arguments
 - `principal_subscriber`: The principal subscriber is the account being offered shared
@@ -636,7 +640,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"main"`: The path of the main definition file for the workflow.
 - `"name"`: A name for the workflow.
 - `"parameterTemplate"`: A parameter template for the workflow.
-- `"storageCapacity"`: The storage capacity for the workflow in gibibytes.
+- `"storageCapacity"`: The default storage capacity for the workflow runs, in gibibytes.
 - `"tags"`: Tags for the workflow.
 """
 function create_workflow(requestId; aws_config::AbstractAWSConfig=global_aws_config())

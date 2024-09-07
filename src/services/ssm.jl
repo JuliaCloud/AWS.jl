@@ -838,14 +838,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   About package name formats for approved and rejected patch lists in the Amazon Web Services
   Systems Manager User Guide.
 - `"RejectedPatchesAction"`: The action for Patch Manager to take on patches included in
-  the RejectedPackages list.     ALLOW_AS_DEPENDENCY : A package in the Rejected patches list
-  is installed only if it is a dependency of another package. It is considered compliant with
-  the patch baseline, and its status is reported as InstalledOther. This is the default
-  action if no option is specified.    BLOCK: Packages in the Rejected patches list, and
-  packages that include them as dependencies, aren't installed by Patch Manager under any
-  circumstances. If a package was installed before it was added to the Rejected patches list,
-  or is installed outside of Patch Manager afterward, it's considered noncompliant with the
-  patch baseline and its status is reported as InstalledRejected.
+  the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the
+  rejected patches list is installed only if it is a dependency of another package. It is
+  considered compliant with the patch baseline, and its status is reported as
+  INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server:
+  Windows Server doesn't support the concept of package dependencies. If a package in the
+  rejected patches list and already installed on the node, its status is reported as
+  INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the
+  default action if no option is specified.  BLOCK   All OSs: Packages in the rejected
+  patches list, and packages that include them as dependencies, aren't installed by Patch
+  Manager under any circumstances. If a package was installed before it was added to the
+  rejected patches list, or is installed outside of Patch Manager afterward, it's considered
+  noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
 - `"Sources"`: Information about the patches to use to update the managed nodes, including
   target operating systems and source repositories. Applies to Linux managed nodes only.
 - `"Tags"`: Optional metadata that you assign to a resource. Tags enable you to categorize
@@ -2099,9 +2103,9 @@ not return information for nodes that are either Stopped or Terminated. If you s
 or more node IDs, the operation returns information for those managed nodes. If you don't
 specify node IDs, it returns information for all your managed nodes. If you specify a node
 ID that isn't valid or a node that you don't own, you receive an error.  The IamRole field
-returned for this API operation is the Identity and Access Management (IAM) role assigned
-to on-premises managed nodes. This operation does not return the IAM role for EC2
-instances.
+returned for this API operation is the role assigned to an Amazon EC2 instance configured
+with a Systems Manager Quick Setup host management configuration or the role assigned to an
+on-premises managed node.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2884,13 +2888,13 @@ CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and
 DescribePatchBaselines. The following section lists the properties that can be used in
 filters for each major operating system type:  AMAZON_LINUX  Valid properties: PRODUCT |
 CLASSIFICATION | SEVERITY   AMAZON_LINUX_2  Valid properties: PRODUCT | CLASSIFICATION |
-SEVERITY   CENTOS  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   DEBIAN  Valid
-properties: PRODUCT | PRIORITY   MACOS  Valid properties: PRODUCT | CLASSIFICATION
-ORACLE_LINUX  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY
-REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   SUSE
-Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   UBUNTU  Valid properties: PRODUCT |
-PRIORITY   WINDOWS  Valid properties: PRODUCT | PRODUCT_FAMILY | CLASSIFICATION |
-MSRC_SEVERITY
+SEVERITY   AMAZON_LINUX_2023  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY
+CENTOS  Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   DEBIAN  Valid properties:
+PRODUCT | PRIORITY   MACOS  Valid properties: PRODUCT | CLASSIFICATION   ORACLE_LINUX
+Valid properties: PRODUCT | CLASSIFICATION | SEVERITY   REDHAT_ENTERPRISE_LINUX  Valid
+properties: PRODUCT | CLASSIFICATION | SEVERITY   SUSE  Valid properties: PRODUCT |
+CLASSIFICATION | SEVERITY   UBUNTU  Valid properties: PRODUCT | PRIORITY   WINDOWS  Valid
+properties: PRODUCT | PRODUCT_FAMILY | CLASSIFICATION | MSRC_SEVERITY
 
 # Arguments
 - `operating_system`: The operating system type for which to list patches.
@@ -3117,10 +3121,15 @@ end
     get_command_invocation(command_id, instance_id)
     get_command_invocation(command_id, instance_id, params::Dict{String,<:Any})
 
-Returns detailed information about command execution for an invocation or plugin.
-GetCommandInvocation only gives the execution status of a plugin in a document. To get the
-command execution status on a specific managed node, use ListCommandInvocations. To get the
-command execution status across managed nodes, use ListCommands.
+Returns detailed information about command execution for an invocation or plugin. The Run
+Command API follows an eventual consistency model, due to the distributed nature of the
+system supporting the API. This means that the result of an API command you run that
+affects your resources might not be immediately visible to all subsequent commands you run.
+You should keep this in mind when you carry out an API command that immediately follows a
+previous API command.  GetCommandInvocation only gives the execution status of a plugin in
+a document. To get the command execution status on a specific managed node, use
+ListCommandInvocations. To get the command execution status across managed nodes, use
+ListCommands.
 
 # Arguments
 - `command_id`: (Required) The parent command ID of the invocation plugin.
@@ -6848,14 +6857,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   About package name formats for approved and rejected patch lists in the Amazon Web Services
   Systems Manager User Guide.
 - `"RejectedPatchesAction"`: The action for Patch Manager to take on patches included in
-  the RejectedPackages list.     ALLOW_AS_DEPENDENCY : A package in the Rejected patches list
-  is installed only if it is a dependency of another package. It is considered compliant with
-  the patch baseline, and its status is reported as InstalledOther. This is the default
-  action if no option is specified.    BLOCK: Packages in the Rejected patches list, and
-  packages that include them as dependencies, aren't installed by Patch Manager under any
-  circumstances. If a package was installed before it was added to the Rejected patches list,
-  or is installed outside of Patch Manager afterward, it's considered noncompliant with the
-  patch baseline and its status is reported as InstalledRejected.
+  the RejectedPackages list.  ALLOW_AS_DEPENDENCY   Linux and macOS: A package in the
+  rejected patches list is installed only if it is a dependency of another package. It is
+  considered compliant with the patch baseline, and its status is reported as
+  INSTALLED_OTHER. This is the default action if no option is specified.  Windows Server:
+  Windows Server doesn't support the concept of package dependencies. If a package in the
+  rejected patches list and already installed on the node, its status is reported as
+  INSTALLED_OTHER. Any package not already installed on the node is skipped. This is the
+  default action if no option is specified.  BLOCK   All OSs: Packages in the rejected
+  patches list, and packages that include them as dependencies, aren't installed by Patch
+  Manager under any circumstances. If a package was installed before it was added to the
+  rejected patches list, or is installed outside of Patch Manager afterward, it's considered
+  noncompliant with the patch baseline and its status is reported as INSTALLED_REJECTED.
 - `"Replace"`: If True, then all fields that are required by the CreatePatchBaseline
   operation are also required for this API request. Optional fields that aren't specified are
   set to null.

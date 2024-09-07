@@ -30,6 +30,7 @@ case, tags will not be updated, even if they are different.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"encryptionConfiguration"`: Settings to configure server-side encryption.
 - `"tags"`: The list of tags to add to a resource. An array of key-value pairs. For more
   information, see Using Cost Allocation Tags in the Amazon Web Services Billing and Cost
   Management User Guide, and Controlling Access Using IAM Tags. Tags may only contain Unicode
@@ -63,15 +64,19 @@ work (Task states), determine to which states to transition next (Choice states)
 execution with an error (Fail states), and so on. State machines are specified using a
 JSON-based, structured language. For more information, see Amazon States Language in the
 Step Functions User Guide. If you set the publish parameter of this API action to true, it
-publishes version 1 as the first revision of the state machine.  This operation is
-eventually consistent. The results are best effort and may not reflect very recent updates
-and changes.    CreateStateMachine is an idempotent API. Subsequent requests won’t create
-a duplicate resource if it was already created. CreateStateMachine's idempotency check is
-based on the state machine name, definition, type, LoggingConfiguration, and
-TracingConfiguration. The check is also based on the publish and versionDescription
-parameters. If a following request has a different roleArn or tags, Step Functions will
-ignore these differences and treat it as an idempotent request of the previous. In this
-case, roleArn and tags will not be updated, even if they are different.
+publishes version 1 as the first revision of the state machine.  For additional control
+over security, you can encrypt your data using a customer-managed key for Step Functions
+state machines. You can configure a symmetric KMS key and data key reuse period when
+creating or updating a State Machine. The execution history and state machine definition
+will be encrypted with the key applied to the State Machine.   This operation is eventually
+consistent. The results are best effort and may not reflect very recent updates and
+changes.    CreateStateMachine is an idempotent API. Subsequent requests won’t create a
+duplicate resource if it was already created. CreateStateMachine's idempotency check is
+based on the state machine name, definition, type, LoggingConfiguration,
+TracingConfiguration, and EncryptionConfiguration The check is also based on the publish
+and versionDescription parameters. If a following request has a different roleArn or tags,
+Step Functions will ignore these differences and treat it as an idempotent request of the
+previous. In this case, roleArn and tags will not be updated, even if they are different.
 
 # Arguments
 - `definition`: The Amazon States Language definition of the state machine. See Amazon
@@ -84,6 +89,7 @@ case, roleArn and tags will not be updated, even if they are different.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"encryptionConfiguration"`: Settings to configure server-side encryption.
 - `"loggingConfiguration"`: Defines what execution history events are logged and where they
   are logged.  By default, the level is set to OFF. For more information see Log Levels in
   the Step Functions User Guide.
@@ -425,6 +431,12 @@ supported by DescribeExecution unless a Map Run dispatched them.
 # Arguments
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution to describe.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
+  must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call
+  DescribeStateMachine API with includedData = METADATA_ONLY to get a successful response
+  without the encrypted definition.
 """
 function describe_execution(executionArn; aws_config::AbstractAWSConfig=global_aws_config())
     return sfn(
@@ -514,6 +526,15 @@ changes.
   about that version. The version ARN is a combination of state machine ARN and the version
   number separated by a colon (:). For example, stateMachineARN:1.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
+  must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the
+  API with includedData = METADATA_ONLY to get a successful response without the encrypted
+  definition.   When calling a labelled ARN for an encrypted state machine, the includedData
+  = METADATA_ONLY parameter will not apply because Step Functions needs to decrypt the entire
+  state machine definition to get the Distributed Map state’s definition. In this case, the
+  API caller needs to have kms:Decrypt permission.
 """
 function describe_state_machine(
     stateMachineArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -598,6 +619,12 @@ supported by EXPRESS state machines.
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution you want state machine
   information for.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
+  must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the
+  API with includedData = METADATA_ONLY to get a successful response without the encrypted
+  definition.
 """
 function describe_state_machine_for_execution(
     executionArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1180,7 +1207,11 @@ end
     send_task_failure(task_token, params::Dict{String,<:Any})
 
 Used by activity workers, Task states using the callback pattern, and optionally Task
-states using the job run pattern to report that the task identified by the taskToken failed.
+states using the job run pattern to report that the task identified by the taskToken
+failed. For an execution with encryption enabled, Step Functions will encrypt the error and
+cause fields using the KMS key for the execution role. A caller can mark a task as fail
+without using any KMS permissions in the execution role if the caller provides a null value
+for both error and cause fields because no data needs to be encrypted.
 
 # Arguments
 - `task_token`: The token that represents this task. Task tokens are generated by Step
@@ -1412,6 +1443,10 @@ configuration.    This API action isn't logged in CloudTrail.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"includedData"`: If your state machine definition is encrypted with a KMS key, callers
+  must have kms:Decrypt permission to decrypt the definition. Alternatively, you can call the
+  API with includedData = METADATA_ONLY to get a successful response without the encrypted
+  definition.
 - `"input"`: The string that contains the JSON input data for the execution, for example:
   \"input\": \"{\"first_name\" : \"test\"}\"   If you don't include any JSON input data, you
   still must include the two braces, for example: \"input\": \"{}\"   Length constraints
@@ -1451,7 +1486,11 @@ end
     stop_execution(execution_arn)
     stop_execution(execution_arn, params::Dict{String,<:Any})
 
-Stops an execution. This API action is not supported by EXPRESS state machines.
+Stops an execution. This API action is not supported by EXPRESS state machines. For an
+execution with encryption enabled, Step Functions will encrypt the error and cause fields
+using the KMS key for the execution role. A caller can stop an execution without using any
+KMS permissions in the execution role if the caller provides a null value for both error
+and cause fields because no data needs to be encrypted.
 
 # Arguments
 - `execution_arn`: The Amazon Resource Name (ARN) of the execution to stop.
@@ -1686,11 +1725,12 @@ end
     update_state_machine(state_machine_arn)
     update_state_machine(state_machine_arn, params::Dict{String,<:Any})
 
-Updates an existing state machine by modifying its definition, roleArn, or
-loggingConfiguration. Running executions will continue to use the previous definition and
-roleArn. You must include at least one of definition or roleArn or you will receive a
-MissingRequiredParameter error. A qualified state machine ARN refers to a Distributed Map
-state defined within a state machine. For example, the qualified state machine ARN
+Updates an existing state machine by modifying its definition, roleArn,
+loggingConfiguration, or EncryptionConfiguration. Running executions will continue to use
+the previous definition and roleArn. You must include at least one of definition or roleArn
+or you will receive a MissingRequiredParameter error. A qualified state machine ARN refers
+to a Distributed Map state defined within a state machine. For example, the qualified state
+machine ARN
 arn:partition:states:region:account-id:stateMachine:stateMachineName/mapStateLabel refers
 to a Distributed Map state with a label mapStateLabel in the state machine named
 stateMachineName. A qualified state machine ARN can either refer to a Distributed Map state
@@ -1721,6 +1761,7 @@ call UpdateStateMachine may use the previous state machine definition and roleAr
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"definition"`: The Amazon States Language definition of the state machine. See Amazon
   States Language.
+- `"encryptionConfiguration"`: Settings to configure server-side encryption.
 - `"loggingConfiguration"`: Use the LoggingConfiguration data type to set CloudWatch Logs
   options.
 - `"publish"`: Specifies whether the state machine version is published. The default is
@@ -1833,6 +1874,13 @@ elements, rather than raise an exception.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of diagnostics that are returned per call. The default
+  and maximum value is 100. Setting the value to 0 will also use the default of 100. If the
+  number of diagnostics returned in the response exceeds maxResults, the value of the
+  truncated field in the response will be set to true.
+- `"severity"`: Minimum level of diagnostics to return. ERROR returns only ERROR
+  diagnostics, whereas WARNING returns both WARNING and ERROR diagnostics. The default is
+  ERROR.
 - `"type"`: The target type of state machine for this definition. The default is STANDARD.
 """
 function validate_state_machine_definition(

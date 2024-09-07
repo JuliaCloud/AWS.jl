@@ -19,6 +19,8 @@ You use profiles to intersect permissions with IAM managed policies.  Required p
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"acceptRoleSessionName"`: Used to determine if a custom role session name will be
+  accepted in a temporary credential request.
 - `"durationSeconds"`:  Used to determine how long sessions vended using this profile are
   valid for. See the Expiration section of the CreateSession API documentation page for more
   details. In requests, if this value is not provided, the default value will be 3600.
@@ -1071,6 +1073,8 @@ permissions:  rolesanywhere:UpdateProfile.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"acceptRoleSessionName"`: Used to determine if a custom role session name will be
+  accepted in a temporary credential request.
 - `"durationSeconds"`:  Used to determine how long sessions vended using this profile are
   valid for. See the Expiration section of the CreateSession API documentation page for more
   details. In requests, if this value is not provided, the default value will be 3600.

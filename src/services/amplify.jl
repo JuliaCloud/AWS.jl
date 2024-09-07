@@ -32,6 +32,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must base64-encode the authorization credentials and provide them in the format
   user:password.
 - `"buildSpec"`: The build specification (build spec) for an Amplify app.
+- `"cacheConfig"`: The cache configuration for the Amplify app.
 - `"customHeaders"`: The custom HTTP headers for an Amplify app.
 - `"customRules"`: The custom rewrite and redirect rules for an Amplify app.
 - `"description"`: The description of the Amplify app.
@@ -1360,6 +1361,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must base64-encode the authorization credentials and provide them in the format
   user:password.
 - `"buildSpec"`: The build specification (build spec) for an Amplify app.
+- `"cacheConfig"`: The cache configuration for the Amplify app.
 - `"customHeaders"`: The custom HTTP headers for an Amplify app.
 - `"customRules"`: The custom redirect and rewrite rules for an Amplify app.
 - `"description"`: The description for an Amplify app.
