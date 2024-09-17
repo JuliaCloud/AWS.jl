@@ -50,7 +50,7 @@ const aws_config = Ref{AbstractAWSConfig}()
 """
     FeatureSet
 
-Allows end users to opt-in to new breaking behaviors prior before a major/breaking package
+Allows end users to opt-in to new breaking behaviors prior to a major/breaking package
 release. Each field of this struct contains a default which specifies uses the original
 non-breaking behavior.
 
@@ -60,8 +60,19 @@ non-breaking behavior.
   call response typically be parsed but will vary depending on the following parameters:
   "return_headers", "return_stream", "return_raw", "response_dict_type".
 """
-Base.@kwdef struct FeatureSet
+Base.@kwdef mutable struct FeatureSet
     use_response_type::Bool = false
+end
+
+# Reset the given `FeatureSet` to have the features specified via keyword arguments.
+# Notably, if no keyword arguments are provided, the `FeatureSet` is reset to defaults.
+# This is used internally by `@service` when a module already exists.
+function set_features!(fs::FeatureSet; kwargs...)
+    new = FeatureSet(; kwargs...)
+    for field in fieldnames(FeatureSet)
+        setfield!(fs, field, getfield(new, field))
+    end
+    return fs
 end
 
 """
@@ -141,6 +152,10 @@ using AWS: @service
 
 # Using a feature
 @service Secrets_Manager use_response_type = true
+
+# Reset a feature to its default by calling `@service` again
+@service Secrets_Manager use_response_type = true
+@service Secrets_Manager
 ```
 
 # Arguments
@@ -160,8 +175,16 @@ macro service(module_name::Symbol, features...)
         const SERVICE_FEATURE_SET = FeatureSet(; $(features...))
         include($service_name)
     end
+    module_def = Expr(:toplevel, Expr(:module, true, esc(module_name), esc(module_block)))
 
-    return Expr(:toplevel, Expr(:module, true, esc(module_name), esc(module_block)))
+    service_module = :($__module__.$module_name)
+    reset_block = quote
+        $set_features!($service_module.SERVICE_FEATURE_SET; $(features...))
+        $service_module
+    end
+    check = :($(Core.isdefined)($__module__, $(QuoteNode(module_name))))
+
+    return Expr(:if, esc(check), esc(reset_block), module_def)
 end
 
 abstract type Service end

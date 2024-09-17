@@ -1,6 +1,10 @@
 @testset "service module" begin
     @service S3
     @test :S3 in names(Main)
+    @service S3 use_response_type = true
+    features = S3.SERVICE_FEATURE_SET
+    @service S3
+    @test features === S3.SERVICE_FEATURE_SET  # ensures the module wasn't replaced
 end
 
 @testset "global config, kwargs" begin
