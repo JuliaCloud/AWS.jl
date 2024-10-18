@@ -19,10 +19,7 @@ which defaults to an empty dictionary. This field provides
 default options to use, which can be any of the keyword
 arguments to [`HTTP.request`](https://juliaweb.github.io/HTTP.jl/stable/public_interface/#HTTP.request). These options are overwritten by any per-request options.
 
-This is the default backend, and the only option until AWS.jl v1.57.0. Therefore, it has
-been used more often in practice, and may be more mature. Note, however, HTTP.jl currently
-(March 2022) has issues with concurrency (see [HTTP.jl#517](https://github.com/JuliaWeb/HTTP.jl/issues/517)). Therefore, it may be advisable to switch to the [`DownloadsBackend`](@ref) if you
-are using concurrency.
+This is the default backend.
 """
 struct HTTPBackend <: AbstractBackend
     http_options::AbstractDict{Symbol,<:Any}
