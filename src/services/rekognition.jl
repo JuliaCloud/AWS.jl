@@ -349,6 +349,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   existing dataset or specify the Amazon S3 bucket location of an Amazon Sagemaker format
   manifest file. If you don't specify datasetSource, an empty dataset is created. To add
   labeled images to the dataset, You can use the console or call UpdateDatasetEntries.
+- `"Tags"`: A set of tags (key-value pairs) that you want to attach to the dataset.
 """
 function create_dataset(
     DatasetType, ProjectArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -441,6 +442,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for Content Moderation. Applicable only to adapters.
 - `"Feature"`: Specifies feature that is being customized. If no value is provided
   CUSTOM_LABELS is used as a default.
+- `"Tags"`: A set of tags (key-value pairs) that you want to attach to the project.
 """
 function create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config())
     return rekognition(
@@ -2148,7 +2150,9 @@ in the sample seen below.  Use MaxResults parameter to limit the number of label
 If there are more results than specified in MaxResults, the value of NextToken in the
 operation response contains a pagination token for getting the next set of results. To get
 the next page of results, call GetlabelDetection and populate the NextToken request
-parameter with the token value returned from the previous call to GetLabelDetection.
+parameter with the token value returned from the previous call to GetLabelDetection. If you
+are retrieving results while using the Amazon Simple Notification Service, note that you
+will receive an \"ERROR\" notification if the job encounters an issue.
 
 # Arguments
 - `job_id`: Job identifier for the label detection operation for which you want results

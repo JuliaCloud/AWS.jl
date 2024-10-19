@@ -561,7 +561,9 @@ Creates a budget to set spending thresholds for your rendering activity.
 # Arguments
 - `actions`: The budget actions to specify what happens when the budget runs out.
 - `approximate_dollar_limit`: The dollar limit based on consumed usage.
-- `display_name`: The display name of the budget.
+- `display_name`: The display name of the budget.  This field can store any content. Escape
+  or encode this content before displaying it on a webpage or any other system that might
+  interpret the content of this field.
 - `farm_id`: The farm ID to include in this budget.
 - `schedule`: The schedule to associate with this budget.
 - `usage_tracking_resource`: The queue ID provided to this budget to track usage.
@@ -570,7 +572,9 @@ Creates a budget to set spending thresholds for your rendering activity.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
-- `"description"`: The description of the budget.
+- `"description"`: The description of the budget.  This field can store any content. Escape
+  or encode this content before displaying it on a webpage or any other system that might
+  interpret the content of this field.
 """
 function create_budget(
     actions,
@@ -638,13 +642,17 @@ budgets and allow you to enforce permissions. Deadline Cloud farms are a useful 
 for large projects.
 
 # Arguments
-- `display_name`: The display name of the farm.
+- `display_name`: The display name of the farm.  This field can store any content. Escape
+  or encode this content before displaying it on a webpage or any other system that might
+  interpret the content of this field.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
-- `"description"`: The description of the farm.
+- `"description"`: The description of the farm.  This field can store any content. Escape
+  or encode this content before displaying it on a webpage or any other system that might
+  interpret the content of this field.
 - `"kmsKeyArn"`: The ARN of the KMS key to use on the farm.
 - `"tags"`: The tags to add to your farm. Each tag consists of a tag key and a tag value.
   Tag keys and values are both required, but tag values can be empty strings.
@@ -693,7 +701,9 @@ managed by Deadline Cloud.
 # Arguments
 - `configuration`: The configuration settings for the fleet. Customer managed fleets are
   self-managed. Service managed Amazon EC2 fleets are managed by Deadline Cloud.
-- `display_name`: The display name of the fleet.
+- `display_name`: The display name of the fleet.  This field can store any content. Escape
+  or encode this content before displaying it on a webpage or any other system that might
+  interpret the content of this field.
 - `farm_id`: The farm ID of the farm to connect to the fleet.
 - `max_worker_count`: The maximum number of workers for the fleet.
 - `role_arn`: The IAM role ARN for the role that the fleet's workers will use.
@@ -702,7 +712,9 @@ managed by Deadline Cloud.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
-- `"description"`: The description of the fleet.
+- `"description"`: The description of the fleet.  This field can store any content. Escape
+  or encode this content before displaying it on a webpage or any other system that might
+  interpret the content of this field.
 - `"minWorkerCount"`: The minimum number of workers for the fleet.
 - `"tags"`: Each tag consists of a tag key and a tag value. Tag keys and values are both
   required, but tag values can be empty strings.
@@ -763,12 +775,13 @@ end
     create_job(farm_id, priority, queue_id, template, template_type)
     create_job(farm_id, priority, queue_id, template, template_type, params::Dict{String,<:Any})
 
-Creates a job. A job is a render submission submitted by a user. It contains specific job
-properties outlined as steps and tasks.
+Creates a job. A job is a set of instructions that AWS Deadline Cloud uses to schedule and
+run work on available workers. For more information, see Deadline Cloud jobs.
 
 # Arguments
 - `farm_id`: The farm ID of the farm to connect to the job.
-- `priority`: The priority of the job on a scale of 1 to 100. The highest priority is 1.
+- `priority`: The priority of the job on a scale of 0 to 100. The highest priority (first
+  scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
 - `queue_id`: The ID of the queue that the job is submitted to.
 - `template`: The job template to use for this job.
 - `template_type`: The file type for the job template.
@@ -781,12 +794,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a render job.
 - `"maxFailedTasksCount"`: The number of task failures before the job stops running and is
   marked as FAILED.
-- `"maxRetriesPerTask"`: The maximum number of retries for a job.
+- `"maxRetriesPerTask"`: The maximum number of retries for each task.
 - `"parameters"`: The parameters for the job.
 - `"storageProfileId"`: The storage profile ID for the storage profile to connect to the
   job.
-- `"targetTaskRunStatus"`: The initial status of the job's tasks when they are created.
-  Tasks that are created with a SUSPENDED status will not run until you update their status.
+- `"targetTaskRunStatus"`: The initial job status when it is created. Jobs that are created
+  with a SUSPENDED status will not run until manually requeued.
 """
 function create_job(
     farmId,
@@ -910,7 +923,9 @@ steps that make up the job, and then download the job's results.
 
 # Arguments
 - `display_name`: The name that you give the monitor that is displayed in the Deadline
-  Cloud console.
+  Cloud console.  This field can store any content. Escape or encode this content before
+  displaying it on a webpage or any other system that might interpret the content of this
+  field.
 - `identity_center_instance_arn`: The Amazon Resource Name (ARN) of the IAM Identity Center
   instance that authenticates monitor users.
 - `role_arn`: The Amazon Resource Name (ARN) of the IAM role that the monitor uses to
@@ -982,7 +997,9 @@ Creates a queue to coordinate the order in which jobs run on a farm. A queue can
 specify where to pull resources and indicate where to output completed jobs.
 
 # Arguments
-- `display_name`: The display name of the queue.
+- `display_name`: The display name of the queue.  This field can store any content. Escape
+  or encode this content before displaying it on a webpage or any other system that might
+  interpret the content of this field.
 - `farm_id`: The farm ID of the farm to connect to the queue.
 
 # Optional Parameters
@@ -992,7 +1009,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"allowedStorageProfileIds"`: The storage profile IDs to include in the queue.
 - `"defaultBudgetAction"`: The default action to take on a queue if a budget isn't
   configured.
-- `"description"`: The description of the queue.
+- `"description"`: The description of the queue.  This field can store any content. Escape
+  or encode this content before displaying it on a webpage or any other system that might
+  interpret the content of this field.
 - `"jobAttachmentSettings"`: The job attachment settings for the queue. These are the
   Amazon S3 bucket name and the Amazon S3 prefix.
 - `"jobRunAsUser"`: The jobs in the queue run as the specified POSIX user.
@@ -1159,7 +1178,9 @@ Creates a storage profile that specifies the operating system, file type, and fi
 of resources used on a farm.
 
 # Arguments
-- `display_name`: The display name of the storage profile.
+- `display_name`: The display name of the storage profile.  This field can store any
+  content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
 - `farm_id`: The farm ID of the farm to connect to the storage profile.
 - `os_family`: The type of operating system (OS) for the storage profile.
 
@@ -1473,7 +1494,8 @@ end
     delete_queue(farm_id, queue_id)
     delete_queue(farm_id, queue_id, params::Dict{String,<:Any})
 
-Deletes a queue.
+Deletes a queue.  You can't recover the jobs in a queue if you delete the queue. Deleting
+the queue also deletes the jobs in that queue.
 
 # Arguments
 - `farm_id`: The ID of the farm from which to remove the queue.
@@ -2635,7 +2657,9 @@ Lists fleets.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"displayName"`: The display names of a list of fleets.
+- `"displayName"`: The display names of a list of fleets.  This field can store any
+  content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
   NextToken to get results as a set of sequential pages.
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
@@ -2983,8 +3007,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return. Use this parameter with
   NextToken to get results as a set of sequential pages.
 - `"nextToken"`: The token for the next set of results, or null to start from the beginning.
-- `"principalId"`: The principal ID. This filter is only valid when using Nimble Studio
-  credentials and should match the user ID in the credentials of the caller.
+- `"principalId"`: The principal IDs to include in the list of queues.
 - `"status"`: The status of the queues listed.    ACTIVE–The queues are active.
   SCHEDULING–The queues are scheduling.    SCHEDULING_BLOCKED–The queue scheduling is
   blocked for these queues.
@@ -3718,8 +3741,11 @@ end
     start_sessions_statistics_aggregation(end_time, farm_id, group_by, resource_ids, start_time, statistics, params::Dict{String,<:Any})
 
 Starts an asynchronous request for getting aggregated statistics about queues and farms.
-Get the statistics using the GetSessionsStatisticsAggregation operation. Statistics are
-available for 1 hour after you call the StartSessionsStatisticsAggregation operation.
+Get the statistics using the GetSessionsStatisticsAggregation operation. You can only have
+one running aggregation for your Deadline Cloud farm. Call the
+GetSessionsStatisticsAggregation operation and check the status field to see if an
+aggregation is running. Statistics are available for 1 hour after you call the
+StartSessionsStatisticsAggregation operation.
 
 # Arguments
 - `end_time`: The Linux timestamp of the date and time that the statistics end.
@@ -3881,8 +3907,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"actionsToRemove"`: The budget actions to remove from the budget.
 - `"approximateDollarLimit"`: The dollar limit to update on the budget. Based on consumed
   usage.
-- `"description"`: The description of the budget to update.
-- `"displayName"`: The display name of the budget to update.
+- `"description"`: The description of the budget to update.  This field can store any
+  content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
+- `"displayName"`: The display name of the budget to update.  This field can store any
+  content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
 - `"schedule"`: The schedule to update.
 - `"status"`: Updates the status of the budget.    ACTIVE–The budget is being evaluated.
     INACTIVE–The budget is inactive. This can include Expired, Canceled, or deleted Deleted
@@ -3927,8 +3957,12 @@ Updates a farm.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"description"`: The description of the farm to update.
-- `"displayName"`: The display name of the farm to update.
+- `"description"`: The description of the farm to update.  This field can store any
+  content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
+- `"displayName"`: The display name of the farm to update.  This field can store any
+  content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
 """
 function update_farm(farmId; aws_config::AbstractAWSConfig=global_aws_config())
     return deadline(
@@ -3965,8 +3999,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
 - `"configuration"`: The fleet configuration to update.
-- `"description"`: The description of the fleet to update.
-- `"displayName"`: The display name of the fleet to update.
+- `"description"`: The description of the fleet to update.  This field can store any
+  content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
+- `"displayName"`: The display name of the fleet to update.  This field can store any
+  content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
 - `"maxWorkerCount"`: The maximum number of workers in the fleet.
 - `"minWorkerCount"`: The minimum number of workers in the fleet.
 - `"roleArn"`: The IAM role ARN that the fleet's workers assume while running jobs.
@@ -4003,7 +4041,9 @@ end
     update_job(farm_id, job_id, queue_id)
     update_job(farm_id, job_id, queue_id, params::Dict{String,<:Any})
 
-Updates a job.
+Updates a job.  When you change the status of the job to ARCHIVED, the job can't be
+scheduled or archived.  An archived jobs and its steps and tasks are deleted after 120
+days. The job can't be recovered.
 
 # Arguments
 - `farm_id`: The farm ID of the job to update.
@@ -4014,7 +4054,9 @@ Updates a job.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
-- `"lifecycleStatus"`: The status of a job in its lifecycle.
+- `"lifecycleStatus"`: The status of a job in its lifecycle. When you change the status of
+  the job to ARCHIVED, the job can't be scheduled or archived.  An archived jobs and its
+  steps and tasks are deleted after 120 days. The job can't be recovered.
 - `"maxFailedTasksCount"`: The number of task failures before the job stops running and is
   marked as FAILED.
 - `"maxRetriesPerTask"`: The maximum number of retries for a job.
@@ -4064,7 +4106,9 @@ settings when you call UpdateMonitor.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"displayName"`: The new value to use for the monitor's display name.
+- `"displayName"`: The new value to use for the monitor's display name.  This field can
+  store any content. Escape or encode this content before displaying it on a webpage or any
+  other system that might interpret the content of this field.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the new IAM role to use with the monitor.
 - `"subdomain"`: The new value of the subdomain to use when forming the monitor URL.
 """
@@ -4107,8 +4151,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"allowedStorageProfileIdsToRemove"`: The storage profile ID to remove.
 - `"defaultBudgetAction"`: The default action to take for a queue update if a budget isn't
   configured.
-- `"description"`: The description of the queue to update.
-- `"displayName"`: The display name of the queue to update.
+- `"description"`: The description of the queue to update.  This field can store any
+  content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
+- `"displayName"`: The display name of the queue to update.  This field can store any
+  content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
 - `"jobAttachmentSettings"`: The job attachment settings to update for the queue.
 - `"jobRunAsUser"`: Update the jobs in the queue to run as a specified POSIX user.
 - `"requiredFileSystemLocationNamesToAdd"`: The required file system location names to add
@@ -4378,7 +4426,9 @@ Updates a storage profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"X-Amz-Client-Token"`: The unique token which the server uses to recognize retries of
   the same request.
-- `"displayName"`: The display name of the storage profile to update.
+- `"displayName"`: The display name of the storage profile to update.  This field can store
+  any content. Escape or encode this content before displaying it on a webpage or any other
+  system that might interpret the content of this field.
 - `"fileSystemLocationsToAdd"`: The file system location names to add.
 - `"fileSystemLocationsToRemove"`: The file system location names to remove.
 - `"osFamily"`: The OS system to update.

@@ -184,12 +184,12 @@ end
     create_event_destination(configuration_set_name, event_destination_name, matching_event_types, params::Dict{String,<:Any})
 
 Creates a new event destination in a configuration set. An event destination is a location
-where you send message events. The event options are Amazon CloudWatch, Amazon Kinesis Data
+where you send message events. The event options are Amazon CloudWatch, Amazon Data
 Firehose, or Amazon SNS. For example, when a message is delivered successfully, you can
 send information about that event to an event destination, or send notifications to
 endpoints that are subscribed to an Amazon SNS topic. Each configuration set can contain
 between 0 and 5 event destinations. Each event destination can contain a reference to a
-single destination, such as a CloudWatch or Kinesis Data Firehose destination.
+single destination, such as a CloudWatch or Firehose destination.
 
 # Arguments
 - `configuration_set_name`: Either the name of the configuration set or the configuration
@@ -197,8 +197,8 @@ single destination, such as a CloudWatch or Kinesis Data Firehose destination.
   found using the DescribeConfigurationSets action.
 - `event_destination_name`: The name that identifies the event destination.
 - `matching_event_types`: An array of event types that determine which events to log. If
-  \"ALL\" is used, then Amazon Pinpoint logs every event type.  The TEXT_SENT event type is
-  not supported.
+  \"ALL\" is used, then AWS End User Messaging SMS and Voice logs every event type.  The
+  TEXT_SENT event type is not supported.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -208,7 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CloudWatchLogsDestination"`: An object that contains information about an event
   destination for logging to Amazon CloudWatch Logs.
 - `"KinesisFirehoseDestination"`: An object that contains information about an event
-  destination for logging to Amazon Kinesis Data Firehose.
+  destination for logging to Amazon Data Firehose.
 - `"SnsDestination"`: An object that contains information about an event destination for
   logging to Amazon SNS.
 """
@@ -265,7 +265,7 @@ An opt-out list is a list of phone numbers that are opted out, meaning you can't
 or voice messages to them. If end user replies with the keyword \"STOP,\" an entry for the
 phone number is added to the opt-out list. In addition to STOP, your recipients can use any
 supported opt-out keyword, such as CANCEL or OPTOUT. For a list of supported opt-out
-keywords, see  SMS opt out  in the Amazon Pinpoint User Guide.
+keywords, see  SMS opt out  in the AWS End User Messaging SMS User Guide.
 
 # Arguments
 - `opt_out_list_name`: The name of the new OptOutList.
@@ -328,11 +328,12 @@ be associated with multiple pools.
   country or region of the new pool.
 - `message_type`: The type of message. Valid values are TRANSACTIONAL for messages that are
   critical or time-sensitive and PROMOTIONAL for messages that aren't critical or
-  time-sensitive.
+  time-sensitive. After the pool is created the MessageType can't be changed.
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
   PhoneNumberArn, SenderId or SenderIdArn. You can use DescribePhoneNumbers to find the
   values for PhoneNumberId and PhoneNumberArn while DescribeSenderIds can be used to get the
-  values for SenderId and SenderIdArn.
+  values for SenderId and SenderIdArn. After the pool is created you can add more origination
+  identities to the pool by using AssociateOriginationIdentity.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -871,8 +872,8 @@ Deletes an existing keyword from an origination phone number or pool. A keyword 
 that you can search for on a particular phone number or pool. It is also a specific word or
 phrase that an end user can send to your number to elicit a response, such as an
 informational message or a special offer. When your number receives a message that begins
-with a keyword, Amazon Pinpoint responds with a customizable message. Keywords \"HELP\" and
-\"STOP\" can't be deleted or modified.
+with a keyword, AWS End User Messaging SMS and Voice responds with a customizable message.
+Keywords \"HELP\" and \"STOP\" can't be deleted or modified.
 
 # Arguments
 - `keyword`: The keyword to delete.
@@ -1230,8 +1231,8 @@ end
 
 Deletes an account-level monthly spending limit override for sending text messages.
 Deleting a spend limit override will set the EnforcedLimit to equal the MaxLimit, which is
-controlled by Amazon Web Services. For more information on spend limits (quotas) see Amazon
-Pinpoint quotas  in the Amazon Pinpoint Developer Guide.
+controlled by Amazon Web Services. For more information on spend limits (quotas) see Quotas
+ in the AWS End User Messaging SMS User Guide.
 
 """
 function delete_text_message_spend_limit_override(;
@@ -1302,8 +1303,8 @@ end
 
 Deletes an account level monthly spend limit override for sending voice messages. Deleting
 a spend limit override sets the EnforcedLimit equal to the MaxLimit, which is controlled by
-Amazon Web Services. For more information on spending limits (quotas) see Amazon Pinpoint
-quotas in the Amazon Pinpoint Developer Guide.
+Amazon Web Services. For more information on spending limits (quotas) see Quotas  in the
+AWS End User Messaging SMS User Guide.
 
 """
 function delete_voice_message_spend_limit_override(;
@@ -1333,9 +1334,9 @@ end
 Describes attributes of your Amazon Web Services account. The supported account attributes
 include account tier, which indicates whether your account is in the sandbox or production
 environment. When you're ready to move your account out of the sandbox, create an Amazon
-Web Services Support case for a service limit increase request. New Amazon Pinpoint
-accounts are placed into an SMS or voice sandbox. The sandbox protects both Amazon Web
-Services end recipients and SMS or voice recipients from fraud and abuse.
+Web Services Support case for a service limit increase request. New accounts are placed
+into an SMS or voice sandbox. The sandbox protects both Amazon Web Services end recipients
+and SMS or voice recipients from fraud and abuse.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1363,12 +1364,12 @@ end
     describe_account_limits()
     describe_account_limits(params::Dict{String,<:Any})
 
-Describes the current Amazon Pinpoint SMS Voice V2 resource quotas for your account. The
-description for a quota includes the quota name, current usage toward that quota, and the
-quota's maximum value. When you establish an Amazon Web Services account, the account has
-initial quotas on the maximum number of configuration sets, opt-out lists, phone numbers,
-and pools that you can create in a given Region. For more information see  Amazon Pinpoint
-quotas  in the Amazon Pinpoint Developer Guide.
+Describes the current AWS End User Messaging SMS and Voice SMS Voice V2 resource quotas for
+your account. The description for a quota includes the quota name, current usage toward
+that quota, and the quota's maximum value. When you establish an Amazon Web Services
+account, the account has initial quotas on the maximum number of configuration sets,
+opt-out lists, phone numbers, and pools that you can create in a given Region. For more
+information see Quotas  in the AWS End User Messaging SMS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1436,8 +1437,8 @@ Describes the specified keywords or all keywords on your origination phone numbe
 A keyword is a word that you can search for on a particular phone number or pool. It is
 also a specific word or phrase that an end user can send to your number to elicit a
 response, such as an informational message or a special offer. When your number receives a
-message that begins with a keyword, Amazon Pinpoint responds with a customizable message.
-If you specify a keyword that isn't valid, an error is returned.
+message that begins with a keyword, AWS End User Messaging SMS and Voice responds with a
+customizable message. If you specify a keyword that isn't valid, an error is returned.
 
 # Arguments
 - `origination_identity`: The origination identity to use such as a PhoneNumberId,
@@ -1987,11 +1988,11 @@ end
     describe_spend_limits()
     describe_spend_limits(params::Dict{String,<:Any})
 
-Describes the current Amazon Pinpoint monthly spend limits for sending voice and text
-messages. When you establish an Amazon Web Services account, the account has initial
-monthly spend limit in a given Region. For more information on increasing your monthly
-spend limit, see  Requesting increases to your monthly SMS spending quota for Amazon
-Pinpoint  in the Amazon Pinpoint User Guide.
+Describes the current monthly spend limits for sending voice and text messages. When you
+establish an Amazon Web Services account, the account has initial monthly spend limit in a
+given Region. For more information on increasing your monthly spend limit, see  Requesting
+increases to your monthly SMS, MMS, or Voice spending quota  in the AWS End User Messaging
+SMS User Guide.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -2377,8 +2378,8 @@ Creates or updates a keyword configuration on an origination phone number or poo
 keyword is a word that you can search for on a particular phone number or pool. It is also
 a specific word or phrase that an end user can send to your number to elicit a response,
 such as an informational message or a special offer. When your number receives a message
-that begins with a keyword, Amazon Pinpoint responds with a customizable message. If you
-specify a keyword that isn't valid, an error is returned.
+that begins with a keyword, AWS End User Messaging SMS and Voice responds with a
+customizable message. If you specify a keyword that isn't valid, an error is returned.
 
 # Arguments
 - `keyword`: The new keyword to add.
@@ -2618,7 +2619,7 @@ end
     request_phone_number(iso_country_code, message_type, number_capabilities, number_type, params::Dict{String,<:Any})
 
 Request an origination phone number for use in your account. For more information on phone
-number request see  Requesting a number  in the Amazon Pinpoint User Guide.
+number request see Request a phone number in the AWS End User Messaging SMS User Guide.
 
 # Arguments
 - `iso_country_code`: The two-character code, in ISO 3166-1 alpha-2 format, for the country
@@ -2892,11 +2893,12 @@ end
     send_text_message(destination_phone_number)
     send_text_message(destination_phone_number, params::Dict{String,<:Any})
 
-Creates a new text message and sends it to a recipient's phone number. SMS throughput
-limits are measured in Message Parts per Second (MPS). Your MPS limit depends on the
-destination country of your messages, as well as the type of phone number (origination
-number) that you use to send the message. For more information, see Message Parts per
-Second (MPS) limits in the Amazon Pinpoint User Guide.
+Creates a new text message and sends it to a recipient's phone number. SendTextMessage only
+sends an SMS message to one recipient each time it is invoked. SMS throughput limits are
+measured in Message Parts per Second (MPS). Your MPS limit depends on the destination
+country of your messages, as well as the type of phone number (origination number) that you
+use to send the message. For more information about MPS, see Message Parts per Second (MPS)
+limits in the AWS End User Messaging SMS User Guide.
 
 # Arguments
 - `destination_phone_number`: The destination phone number in E.164 format.
@@ -2910,20 +2912,31 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DestinationCountryParameters"`: This field is used for any country-specific
   registration requirements. Currently, this setting is only used when you send messages to
   recipients in India using a sender ID. For more information see Special requirements for
-  sending SMS messages to recipients in India.
+  sending SMS messages to recipients in India.     IN_ENTITY_ID The entity ID or Principal
+  Entity (PE) ID that you received after completing the sender ID registration process.
+  IN_TEMPLATE_ID The template ID that you received after completing the sender ID
+  registration process.  Make sure that the Template ID that you specify matches your message
+  template exactly. If your message doesn't match the template that you provided during the
+  registration process, the mobile carriers might reject your message.
 - `"DryRun"`: When set to true, the message is checked and validated, but isn't sent to the
-  end recipient.
+  end recipient. You are not charged for using DryRun. The Message Parts per Second (MPS)
+  limit when using DryRun is five. If your origination identity has a lower MPS limit then
+  the lower MPS limit is used. For more information about MPS limits, see Message Parts per
+  Second (MPS) limits in the AWS End User Messaging SMS User Guide..
 - `"Keyword"`: When you register a short code in the US, you must specify a program name.
   If you don’t have a US short code, omit this attribute.
 - `"MaxPrice"`: The maximum amount that you want to spend, in US dollars, per each text
-  message part. A text message can contain multiple parts.
+  message. If the calculated amount to send the text message is greater than MaxPrice, the
+  message is not sent and an error is returned.
 - `"MessageBody"`: The body of the text message.
 - `"MessageType"`: The type of message. Valid values are for messages that are critical or
   time-sensitive and PROMOTIONAL for messages that aren't critical or time-sensitive.
 - `"OriginationIdentity"`: The origination identity of the message. This can be either the
   PhoneNumber, PhoneNumberId, PhoneNumberArn, SenderId, SenderIdArn, PoolId, or PoolArn.
 - `"ProtectConfigurationId"`: The unique identifier for the protect configuration.
-- `"TimeToLive"`: How long the text message is valid for. By default this is 72 hours.
+- `"TimeToLive"`: How long the text message is valid for, in seconds. By default this is 72
+  hours. If the messages isn't handed off before the TTL expires we stop attempting to hand
+  off the message and return TTL_EXPIRED event.
 """
 function send_text_message(
     DestinationPhoneNumber; aws_config::AbstractAWSConfig=global_aws_config()
@@ -2958,8 +2971,8 @@ end
     send_voice_message(destination_phone_number, origination_identity)
     send_voice_message(destination_phone_number, origination_identity, params::Dict{String,<:Any})
 
-Allows you to send a request that sends a voice message through Amazon Pinpoint. This
-operation uses Amazon Polly to convert a text script into a voice message.
+Allows you to send a request that sends a voice message. This operation uses Amazon Polly
+to convert a text script into a voice message.
 
 # Arguments
 - `destination_phone_number`: The destination phone number in E.164 format.
@@ -3320,11 +3333,11 @@ end
     tag_resource(resource_arn, tags)
     tag_resource(resource_arn, tags, params::Dict{String,<:Any})
 
-Adds or overwrites only the specified tags for the specified Amazon Pinpoint SMS Voice,
-version 2 resource. When you specify an existing tag key, the value is overwritten with the
-new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and an
-optional value. Tag keys must be unique per resource. For more information about tags, see
-Tagging Amazon Pinpoint resources in the Amazon Pinpoint Developer Guide.
+Adds or overwrites only the specified tags for the specified resource. When you specify an
+existing tag key, the value is overwritten with the new value. Each resource can have a
+maximum of 50 tags. Each tag consists of a key and an optional value. Tag keys must be
+unique per resource. For more information about tags, see Tags  in the AWS End User
+Messaging SMS User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
@@ -3363,9 +3376,8 @@ end
     untag_resource(resource_arn, tag_keys)
     untag_resource(resource_arn, tag_keys, params::Dict{String,<:Any})
 
-Removes the association of the specified tags from an Amazon Pinpoint SMS Voice V2
-resource. For more information on tags see  Tagging Amazon Pinpoint resources in the Amazon
-Pinpoint Developer Guide.
+Removes the association of the specified tags from a resource. For more information on tags
+see Tags  in the AWS End User Messaging SMS User Guide.
 
 # Arguments
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
@@ -3407,10 +3419,10 @@ end
     update_event_destination(configuration_set_name, event_destination_name, params::Dict{String,<:Any})
 
 Updates an existing event destination in a configuration set. You can update the IAM role
-ARN for CloudWatch Logs and Kinesis Data Firehose. You can also enable or disable the event
-destination. You may want to update an event destination to change its matching event types
-or updating the destination resource ARN. You can't change an event destination's type
-between CloudWatch Logs, Kinesis Data Firehose, and Amazon SNS.
+ARN for CloudWatch Logs and Firehose. You can also enable or disable the event destination.
+You may want to update an event destination to change its matching event types or updating
+the destination resource ARN. You can't change an event destination's type between
+CloudWatch Logs, Firehose, and Amazon SNS.
 
 # Arguments
 - `configuration_set_name`: The configuration set to update with the new event destination.
@@ -3423,7 +3435,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   destination that sends data to CloudWatch Logs.
 - `"Enabled"`: When set to true logging is enabled.
 - `"KinesisFirehoseDestination"`: An object that contains information about an event
-  destination for logging to Kinesis Data Firehose.
+  destination for logging to Firehose.
 - `"MatchingEventTypes"`: An array of event types that determine which events to log.  The
   TEXT_SENT event type is not supported.
 - `"SnsDestination"`: An object that contains information about an event destination that
@@ -3487,10 +3499,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OptOutListName"`: The OptOutList to add the phone number to. Valid values for this
   field can be either the OutOutListName or OutOutListArn.
 - `"SelfManagedOptOutsEnabled"`: By default this is set to false. When an end recipient
-  sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon
-  Pinpoint automatically replies with a customizable message and adds the end recipient to
-  the OptOutList. When set to true you're responsible for responding to HELP and STOP
-  requests. You're also responsible for tracking and honoring opt-out requests.
+  sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End
+  User Messaging SMS and Voice automatically replies with a customizable message and adds the
+  end recipient to the OptOutList. When set to true you're responsible for responding to HELP
+  and STOP requests. You're also responsible for tracking and honoring opt-out requests.
 - `"TwoWayChannelArn"`: The Amazon Resource Name (ARN) of the two way channel.
 - `"TwoWayChannelRole"`: An optional IAM Role Arn for a service to assume, to be able to
   post inbound SMS messages.
@@ -3540,10 +3552,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"OptOutListName"`: The OptOutList to associate with the pool. Valid values are either
   OptOutListName or OptOutListArn.
 - `"SelfManagedOptOutsEnabled"`: By default this is set to false. When an end recipient
-  sends a message that begins with HELP or STOP to one of your dedicated numbers, Amazon
-  Pinpoint automatically replies with a customizable message and adds the end recipient to
-  the OptOutList. When set to true you're responsible for responding to HELP and STOP
-  requests. You're also responsible for tracking and honoring opt-out requests.
+  sends a message that begins with HELP or STOP to one of your dedicated numbers, AWS End
+  User Messaging SMS and Voice automatically replies with a customizable message and adds the
+  end recipient to the OptOutList. When set to true you're responsible for responding to HELP
+  and STOP requests. You're also responsible for tracking and honoring opt-out requests.
 - `"SharedRoutesEnabled"`: Indicates whether shared routes are enabled for the pool.
 - `"TwoWayChannelArn"`: The Amazon Resource Name (ARN) of the two way channel.
 - `"TwoWayChannelRole"`: An optional IAM Role Arn for a service to assume, to be able to
@@ -3625,7 +3637,7 @@ only applied to the specified NumberCapability type.
 - `country_rule_set_updates`: A map of ProtectConfigurationCountryRuleSetInformation
   objects that contain the details for the requested NumberCapability. The Key is the
   two-letter ISO country code. For a list of supported ISO country codes, see Supported
-  countries and regions (SMS channel) in the Amazon Pinpoint SMS user guide.
+  countries and regions (SMS channel) in the AWS End User Messaging SMS User Guide.
 - `number_capability`: The number capability to apply the CountryRuleSetUpdates updates to.
 - `protect_configuration_id`: The unique identifier for the protect configuration.
 

@@ -620,7 +620,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   The maximum value supported for MaxQueryTCU is 1000. To request an increase to this soft
   limit, contact Amazon Web Services Support. For information about the default quota for
   maxQueryTCU, see Default quotas.
-- `"QueryPricingModel"`: The pricing model for queries in an account.
+- `"QueryPricingModel"`: The pricing model for queries in an account.  The
+  QueryPricingModel parameter is used by several Timestream operations; however, the
+  UpdateAccountSettings API operation doesn't recognize any values other than COMPUTE_UNITS.
 """
 function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
     return timestream_query(

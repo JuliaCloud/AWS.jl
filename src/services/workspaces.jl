@@ -727,7 +727,9 @@ WorkSpaces are created.    The MANUAL running mode value is only supported by Am
 WorkSpaces Core. Contact your account team to be allow-listed to use this value. For more
 information, see Amazon WorkSpaces Core.   You don't need to specify the PCOIP protocol for
 Linux bundles because WSP is the default protocol for those bundles.   User-decoupled
-WorkSpaces are only supported by Amazon WorkSpaces Core.
+WorkSpaces are only supported by Amazon WorkSpaces Core.   Review your running mode to
+ensure you are using one that is optimal for your needs and budget. For more information on
+switching running modes, see  Can I switch between hourly and monthly billing?
 
 # Arguments
 - `workspaces`: The WorkSpaces to create. You can specify up to 25 WorkSpaces.
@@ -750,6 +752,75 @@ function create_workspaces(
         "CreateWorkspaces",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("Workspaces" => Workspaces), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_workspaces_pool(bundle_id, capacity, description, directory_id, pool_name)
+    create_workspaces_pool(bundle_id, capacity, description, directory_id, pool_name, params::Dict{String,<:Any})
+
+Creates a pool of WorkSpaces.
+
+# Arguments
+- `bundle_id`: The identifier of the bundle for the pool.
+- `capacity`: The user capacity of the pool.
+- `description`: The pool description.
+- `directory_id`: The identifier of the directory for the pool.
+- `pool_name`: The name of the pool.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationSettings"`: Indicates the application settings of the pool.
+- `"Tags"`: The tags for the pool.
+- `"TimeoutSettings"`: Indicates the timeout settings of the pool.
+"""
+function create_workspaces_pool(
+    BundleId,
+    Capacity,
+    Description,
+    DirectoryId,
+    PoolName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateWorkspacesPool",
+        Dict{String,Any}(
+            "BundleId" => BundleId,
+            "Capacity" => Capacity,
+            "Description" => Description,
+            "DirectoryId" => DirectoryId,
+            "PoolName" => PoolName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_workspaces_pool(
+    BundleId,
+    Capacity,
+    Description,
+    DirectoryId,
+    PoolName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "CreateWorkspacesPool",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "BundleId" => BundleId,
+                    "Capacity" => Capacity,
+                    "Description" => Description,
+                    "DirectoryId" => DirectoryId,
+                    "PoolName" => PoolName,
+                ),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -1695,9 +1766,11 @@ Describes the available directories that are registered with Amazon WorkSpaces.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"DirectoryIds"`: The identifiers of the directories. If the value is null, all
   directories are retrieved.
+- `"Filters"`: The filter condition for the WorkSpaces.
 - `"Limit"`: The maximum number of directories to return.
 - `"NextToken"`: If you received a NextToken from a previous call that was paginated,
   provide this token to receive the next set of results.
+- `"WorkspaceDirectoryNames"`: The names of the WorkSpace directories.
 """
 function describe_workspace_directories(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces(
@@ -1884,6 +1957,73 @@ function describe_workspaces_connection_status(
 )
     return workspaces(
         "DescribeWorkspacesConnectionStatus",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_workspaces_pool_sessions(pool_id)
+    describe_workspaces_pool_sessions(pool_id, params::Dict{String,<:Any})
+
+Retrieves a list that describes the streaming sessions for a specified pool.
+
+# Arguments
+- `pool_id`: The identifier of the pool.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`: The maximum number of items to return.
+- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+  provide this token to receive the next set of results.
+- `"UserId"`: The identifier of the user.
+"""
+function describe_workspaces_pool_sessions(
+    PoolId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeWorkspacesPoolSessions",
+        Dict{String,Any}("PoolId" => PoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_workspaces_pool_sessions(
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeWorkspacesPoolSessions",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_workspaces_pools()
+    describe_workspaces_pools(params::Dict{String,<:Any})
+
+Describes the specified WorkSpaces Pools.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Filters"`: The filter conditions for the WorkSpaces Pool to return.
+- `"Limit"`: The maximum number of items to return.
+- `"NextToken"`: If you received a NextToken from a previous call that was paginated,
+  provide this token to receive the next set of results.
+- `"PoolIds"`: The identifier of the WorkSpaces Pools.
+"""
+function describe_workspaces_pools(; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "DescribeWorkspacesPools"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function describe_workspaces_pools(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "DescribeWorkspacesPools",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2115,8 +2255,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Applications"`: If specified, the version of Microsoft Office to subscribe to. Valid
   only for Windows 10 and 11 BYOL images. For more information about subscribing to Office
   for BYOL images, see  Bring Your Own Windows Desktop Licenses.    Although this parameter
-  is an array, only one item is allowed at this time.   Windows 11 only supports
-  Microsoft_Office_2019.
+  is an array, only one item is allowed at this time.   During the image import process,
+  non-GPU WSP WorkSpaces with Windows 11 support only Microsoft_Office_2019. GPU WSP
+  WorkSpaces with Windows 11 do not support Office installation.
 - `"Tags"`: The tags. Each WorkSpaces resource can have a maximum of 50 tags.
 """
 function import_workspace_image(
@@ -2502,6 +2643,44 @@ function modify_selfservice_permissions(
 end
 
 """
+    modify_streaming_properties(resource_id)
+    modify_streaming_properties(resource_id, params::Dict{String,<:Any})
+
+Modifies the specified streaming properties.
+
+# Arguments
+- `resource_id`: The identifier of the resource.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StreamingProperties"`: The streaming properties to configure.
+"""
+function modify_streaming_properties(
+    ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "ModifyStreamingProperties",
+        Dict{String,Any}("ResourceId" => ResourceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function modify_streaming_properties(
+    ResourceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "ModifyStreamingProperties",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ResourceId" => ResourceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     modify_workspace_access_properties(resource_id, workspace_access_properties)
     modify_workspace_access_properties(resource_id, workspace_access_properties, params::Dict{String,<:Any})
 
@@ -2775,29 +2954,30 @@ function rebuild_workspaces(
 end
 
 """
-    register_workspace_directory(directory_id, enable_work_docs)
-    register_workspace_directory(directory_id, enable_work_docs, params::Dict{String,<:Any})
+    register_workspace_directory()
+    register_workspace_directory(params::Dict{String,<:Any})
 
 Registers the specified directory. This operation is asynchronous and returns before the
 WorkSpace directory is registered. If this is the first time you are registering a
 directory, you will need to create the workspaces_DefaultRole role before you can register
 a directory. For more information, see  Creating the workspaces_DefaultRole Role.
 
-# Arguments
-- `directory_id`: The identifier of the directory. You cannot register a directory if it
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ActiveDirectoryConfig"`: The active directory config of the directory.
+- `"DirectoryId"`: The identifier of the directory. You cannot register a directory if it
   does not have a status of Active. If the directory does not have a status of Active, you
   will receive an InvalidResourceStateException error. If you have already registered the
   maximum number of directories that you can register with Amazon WorkSpaces, you will
   receive a ResourceLimitExceededException error. Deregister directories that you are not
   using for WorkSpaces, and try again.
-- `enable_work_docs`: Indicates whether Amazon WorkDocs is enabled or disabled. If you have
-  enabled this parameter and WorkDocs is not available in the Region, you will receive an
-  OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
-
-# Optional Parameters
-Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"EnableSelfService"`: Indicates whether self-service capabilities are enabled or
   disabled.
+- `"EnableWorkDocs"`: Indicates whether Amazon WorkDocs is enabled or disabled. If you have
+  enabled this parameter and WorkDocs is not available in the Region, you will receive an
+  OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
+- `"IdcInstanceArn"`: The Amazon Resource Name (ARN) of the identity center instance.
+- `"MicrosoftEntraConfig"`: The details about Microsoft Entra config.
 - `"SubnetIds"`: The identifiers of the subnets for your virtual private cloud (VPC). Make
   sure that the subnets are in supported Availability Zones. The subnets must also be in
   separate Availability Zones. If these conditions are not met, you will receive an
@@ -2808,34 +2988,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Web Services account must be enabled for BYOL. If your account has not been enabled for
   BYOL, you will receive an InvalidParameterValuesException error. For more information about
   BYOL images, see Bring Your Own Windows Desktop Images.
+- `"UserIdentityType"`: The type of identity management the user is using.
+- `"WorkspaceDirectoryDescription"`: Description of the directory to register.
+- `"WorkspaceDirectoryName"`: The name of the directory to register.
+- `"WorkspaceType"`: Indicates whether the directory's WorkSpace type is personal or pools.
 """
-function register_workspace_directory(
-    DirectoryId, EnableWorkDocs; aws_config::AbstractAWSConfig=global_aws_config()
-)
+function register_workspace_directory(; aws_config::AbstractAWSConfig=global_aws_config())
     return workspaces(
-        "RegisterWorkspaceDirectory",
-        Dict{String,Any}("DirectoryId" => DirectoryId, "EnableWorkDocs" => EnableWorkDocs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
+        "RegisterWorkspaceDirectory"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function register_workspace_directory(
-    DirectoryId,
-    EnableWorkDocs,
-    params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return workspaces(
         "RegisterWorkspaceDirectory",
-        Dict{String,Any}(
-            mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "DirectoryId" => DirectoryId, "EnableWorkDocs" => EnableWorkDocs
-                ),
-                params,
-            ),
-        );
+        params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -2958,7 +3126,7 @@ end
     start_workspaces(start_workspace_requests, params::Dict{String,<:Any})
 
 Starts the specified WorkSpaces. You cannot start a WorkSpace unless it has a running mode
-of AutoStop and a state of STOPPED.
+of AutoStop or Manual and a state of STOPPED.
 
 # Arguments
 - `start_workspace_requests`: The WorkSpaces to start. You can specify up to 25 WorkSpaces.
@@ -2994,11 +3162,41 @@ function start_workspaces(
 end
 
 """
+    start_workspaces_pool(pool_id)
+    start_workspaces_pool(pool_id, params::Dict{String,<:Any})
+
+Starts the specified pool. You cannot start a pool unless it has a running mode of AutoStop
+and a state of STOPPED.
+
+# Arguments
+- `pool_id`: The identifier of the pool.
+
+"""
+function start_workspaces_pool(PoolId; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "StartWorkspacesPool",
+        Dict{String,Any}("PoolId" => PoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_workspaces_pool(
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "StartWorkspacesPool",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     stop_workspaces(stop_workspace_requests)
     stop_workspaces(stop_workspace_requests, params::Dict{String,<:Any})
 
- Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode
-of AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+Stops the specified WorkSpaces. You cannot stop a WorkSpace unless it has a running mode of
+AutoStop or Manual and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
 
 # Arguments
 - `stop_workspace_requests`: The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
@@ -3028,6 +3226,36 @@ function stop_workspaces(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    stop_workspaces_pool(pool_id)
+    stop_workspaces_pool(pool_id, params::Dict{String,<:Any})
+
+Stops the specified pool. You cannot stop a WorkSpace pool unless it has a running mode of
+AutoStop and a state of AVAILABLE, IMPAIRED, UNHEALTHY, or ERROR.
+
+# Arguments
+- `pool_id`: The identifier of the pool.
+
+"""
+function stop_workspaces_pool(PoolId; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "StopWorkspacesPool",
+        Dict{String,Any}("PoolId" => PoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function stop_workspaces_pool(
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "StopWorkspacesPool",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -3084,6 +3312,72 @@ function terminate_workspaces(
                 ),
                 params,
             ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    terminate_workspaces_pool(pool_id)
+    terminate_workspaces_pool(pool_id, params::Dict{String,<:Any})
+
+Terminates the specified pool.
+
+# Arguments
+- `pool_id`: The identifier of the pool.
+
+"""
+function terminate_workspaces_pool(
+    PoolId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "TerminateWorkspacesPool",
+        Dict{String,Any}("PoolId" => PoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function terminate_workspaces_pool(
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "TerminateWorkspacesPool",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    terminate_workspaces_pool_session(session_id)
+    terminate_workspaces_pool_session(session_id, params::Dict{String,<:Any})
+
+Terminates the pool session.
+
+# Arguments
+- `session_id`: The identifier of the pool session.
+
+"""
+function terminate_workspaces_pool_session(
+    SessionId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "TerminateWorkspacesPoolSession",
+        Dict{String,Any}("SessionId" => SessionId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function terminate_workspaces_pool_session(
+    SessionId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return workspaces(
+        "TerminateWorkspacesPoolSession",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("SessionId" => SessionId), params)
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -3330,6 +3624,43 @@ function update_workspace_image_permission(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_workspaces_pool(pool_id)
+    update_workspaces_pool(pool_id, params::Dict{String,<:Any})
+
+Updates the specified pool.
+
+# Arguments
+- `pool_id`: The identifier of the specified pool to update.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ApplicationSettings"`: The persistent application settings for users in the pool.
+- `"BundleId"`: The identifier of the bundle.
+- `"Capacity"`: The desired capacity for the pool.
+- `"Description"`: Describes the specified pool to update.
+- `"DirectoryId"`: The identifier of the directory.
+- `"TimeoutSettings"`: Indicates the timeout settings of the specified pool.
+"""
+function update_workspaces_pool(PoolId; aws_config::AbstractAWSConfig=global_aws_config())
+    return workspaces(
+        "UpdateWorkspacesPool",
+        Dict{String,Any}("PoolId" => PoolId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_workspaces_pool(
+    PoolId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return workspaces(
+        "UpdateWorkspacesPool",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("PoolId" => PoolId), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

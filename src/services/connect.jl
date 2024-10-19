@@ -585,7 +585,7 @@ security key to the instance.
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
   ID in the Amazon Resource Name (ARN) of the instance.
-- `key`: A valid security key in PEM format.
+- `key`: A valid security key in PEM format as a String.
 
 """
 function associate_security_key(
@@ -1048,7 +1048,7 @@ provided in the StartAttachedFileUpload API.
 
 # Arguments
 - `file_id`: The unique identifier of the attached file resource.
-- `instance_id`: The unique identifier of the Connect instance.
+- `instance_id`: The unique identifier of the Amazon Connect instance.
 - `associated_resource_arn`: The resource to which the attached file is (being) uploaded
   to. Cases are the only current supported resource.  This value must be a valid ARN.
 
@@ -1381,11 +1381,12 @@ end
 This API is in preview release for Amazon Connect and is subject to change. Initiates an
 Amazon Connect instance with all the supported channels enabled. It does not attach any
 storage, such as Amazon Simple Storage Service (Amazon S3) or Amazon Kinesis. It also does
-not allow for any configurations on features, such as Contact Lens for Amazon Connect.
-Amazon Connect enforces a limit on the total number of instances that you can create or
-delete in 30 days. If you exceed this limit, you will get an error message indicating there
-has been an excessive number of attempts at creating or deleting instances. You must wait
-30 days before you can restart creating and deleting instances in your account.
+not allow for any configurations on features, such as Contact Lens for Amazon Connect.  For
+more information, see Create an Amazon Connect instance in the Amazon Connect Administrator
+Guide. Amazon Connect enforces a limit on the total number of instances that you can create
+or delete in 30 days. If you exceed this limit, you will get an error message indicating
+there has been an excessive number of attempts at creating or deleting instances. You must
+wait 30 days before you can restart creating and deleting instances in your account.
 
 # Arguments
 - `identity_management_type`: The type of identity management for your Amazon Connect users.
@@ -1670,7 +1671,10 @@ end
     create_predefined_attribute(instance_id, name, values)
     create_predefined_attribute(instance_id, name, values, params::Dict{String,<:Any})
 
-Creates a new predefined attribute for the specified Amazon Connect instance.
+Creates a new predefined attribute for the specified Amazon Connect instance. Predefined
+attributes are attributes in an Amazon Connect instance that can be used to route contacts
+to an agent or pools of agents within a queue. For more information, see Create predefined
+attributes for routing contacts to agents.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -2040,7 +2044,9 @@ end
     create_security_profile(instance_id, security_profile_name)
     create_security_profile(instance_id, security_profile_name, params::Dict{String,<:Any})
 
-Creates a security profile.
+Creates a security profile. For information about security profiles, see Security Profiles
+in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface
+name of the security profile permissions, see List of security profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -2892,11 +2898,12 @@ end
     delete_instance(instance_id, params::Dict{String,<:Any})
 
 This API is in preview release for Amazon Connect and is subject to change. Deletes the
-Amazon Connect instance. Amazon Connect enforces a limit on the total number of instances
-that you can create or delete in 30 days. If you exceed this limit, you will get an error
-message indicating there has been an excessive number of attempts at creating or deleting
-instances. You must wait 30 days before you can restart creating and deleting instances in
-your account.
+Amazon Connect instance. For more information, see Delete your Amazon Connect instance in
+the Amazon Connect Administrator Guide. Amazon Connect enforces a limit on the total number
+of instances that you can create or delete in 30 days. If you exceed this limit, you will
+get an error message indicating there has been an excessive number of attempts at creating
+or deleting instances. You must wait 30 days before you can restart creating and deleting
+instances in your account.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -3041,7 +3048,8 @@ end
     delete_queue(instance_id, queue_id)
     delete_queue(instance_id, queue_id, params::Dict{String,<:Any})
 
-Deletes a queue.
+Deletes a queue. It isn't possible to delete a queue by using the Amazon Connect admin
+website.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -3575,6 +3583,45 @@ function describe_agent_status(
 end
 
 """
+    describe_authentication_profile(authentication_profile_id, instance_id)
+    describe_authentication_profile(authentication_profile_id, instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. To request
+access to this API, contact Amazon Web Services Support. Describes the target
+authentication profile.
+
+# Arguments
+- `authentication_profile_id`: A unique identifier for the authentication profile.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+"""
+function describe_authentication_profile(
+    AuthenticationProfileId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_authentication_profile(
+    AuthenticationProfileId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     describe_contact(contact_id, instance_id)
     describe_contact(contact_id, instance_id, params::Dict{String,<:Any})
 
@@ -3981,7 +4028,10 @@ end
     describe_predefined_attribute(instance_id, name)
     describe_predefined_attribute(instance_id, name, params::Dict{String,<:Any})
 
-Describes a predefined attribute for the specified Amazon Connect instance.
+Describes a predefined attribute for the specified Amazon Connect instance. Predefined
+attributes are attributes in an Amazon Connect instance that can be used to route contacts
+to an agent or pools of agents within a queue. For more information, see Create predefined
+attributes for routing contacts to agents.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -4204,7 +4254,10 @@ end
     describe_security_profile(instance_id, security_profile_id)
     describe_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
 
-Gets basic information about the security profle.
+Gets basic information about the security profile. For information about security profiles,
+see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of the API
+name and user interface name of the security profile permissions, see List of security
+profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -5528,32 +5581,35 @@ definitions in the Amazon Connect Administrator Guide.
   interval for the retrieval of historical metrics data. The time must be later than the
   start time timestamp. It cannot be later than the current timestamp.
 - `filters`: The filters to apply to returned metrics. You can filter on the following
-  resources:   Agents   Channels   Feature   Queues   Routing profiles   Routing step
-  expression   User hierarchy groups   At least one filter must be passed from queues,
-  routing profiles, agents, or user hierarchy groups. To filter by phone number, see Create a
-  historical metrics report in the Amazon Connect Administrator Guide. Note the following
-  limits:    Filter keys: A maximum of 5 filter keys are supported in a single request. Valid
-  filter keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO |
-  AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE |
+  resources:   Agents   Campaigns   Channels   Feature   Queues   Routing profiles   Routing
+  step expression   User hierarchy groups   At least one filter must be passed from queues,
+  routing profiles, agents, or user hierarchy groups. For metrics for outbound campaigns
+  analytics, you can also use campaigns to satisfy at least one filter requirement. To filter
+  by phone number, see Create a historical metrics report in the Amazon Connect Administrator
+  Guide. Note the following limits:    Filter keys: A maximum of 5 filter keys are supported
+  in a single request. Valid filter keys: AGENT | AGENT_HIERARCHY_LEVEL_ONE |
+  AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE | AGENT_HIERARCHY_LEVEL_FOUR |
+  AGENT_HIERARCHY_LEVEL_FIVE | ANSWERING_MACHINE_DETECTION_STATUS | CAMPAIGN |
   CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL | contact/segmentAttributes/connect:Subtype |
-  FEATURE | FLOW_TYPE | FLOWS_NEXT_RESOURCE_ID | FLOWS_NEXT_RESOURCE_QUEUE_ID |
-  FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | INITIATION_METHOD | RESOURCE_PUBLISHED_TIMESTAMP |
-  ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | QUEUE | Q_CONNECT_ENABLED |     Filter values:
-  A maximum of 100 filter values are supported in a single request. VOICE, CHAT, and TASK are
-  valid filterValue for the CHANNEL filter key. They do not count towards limitation of 100
-  filter values. For example, a GetMetricDataV2 request can filter by 50 queues, 35 agents,
-  and 15 routing profiles for a total of 100 filter values, along with 3 channel filters.
-  contact_lens_conversational_analytics is a valid filterValue for the FEATURE filter key. It
-  is available only to contacts analyzed by Contact Lens conversational analytics.
-  connect:Chat, connect:SMS, connect:Telephony, and connect:WebRTC are valid filterValue
-  examples (not exhaustive) for the contact/segmentAttributes/connect:Subtype filter key.
-  ROUTING_STEP_EXPRESSION is a valid filter key with a filter value up to 3000 length. This
-  filter is case and order sensitive. JSON string fields must be sorted in ascending order
-  and JSON array order should be kept as is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only
-  valid filterValues for the Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that
-  had Amazon Q in Connect enabled as part of the flow.   FALSE includes all contacts that did
-  not have Amazon Q in Connect enabled as part of the flow   This filter is available only
-  for contact record-driven metrics.
+  DISCONNECT_REASON | FEATURE | FLOW_TYPE | FLOWS_NEXT_RESOURCE_ID |
+  FLOWS_NEXT_RESOURCE_QUEUE_ID | FLOWS_OUTCOME_TYPE | FLOWS_RESOURCE_ID | INITIATION_METHOD |
+  RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE | ROUTING_STEP_EXPRESSION | QUEUE |
+  Q_CONNECT_ENABLED |     Filter values: A maximum of 100 filter values are supported in a
+  single request. VOICE, CHAT, and TASK are valid filterValue for the CHANNEL filter key.
+  They do not count towards limitation of 100 filter values. For example, a GetMetricDataV2
+  request can filter by 50 queues, 35 agents, and 15 routing profiles for a total of 100
+  filter values, along with 3 channel filters.   contact_lens_conversational_analytics is a
+  valid filterValue for the FEATURE filter key. It is available only to contacts analyzed by
+  Contact Lens conversational analytics.  connect:Chat, connect:SMS, connect:Telephony, and
+  connect:WebRTC are valid filterValue examples (not exhaustive) for the
+  contact/segmentAttributes/connect:Subtype filter key.  ROUTING_STEP_EXPRESSION is a valid
+  filter key with a filter value up to 3000 length. This filter is case and order sensitive.
+  JSON string fields must be sorted in ascending order and JSON array order should be kept as
+  is.  Q_CONNECT_ENABLED. TRUE and FALSE are the only valid filterValues for the
+  Q_CONNECT_ENABLED filter key.    TRUE includes all contacts that had Amazon Q in Connect
+  enabled as part of the flow.   FALSE includes all contacts that did not have Amazon Q in
+  Connect enabled as part of the flow   This filter is available only for contact
+  record-driven metrics.   Campaign ARNs are valid filterValues for the CAMPAIGN filter key.
 - `metrics`: The metrics to retrieve. Specify the name, groupings, and filters for each
   metric. The following historical metrics are available. For a description of each metric,
   see Historical metrics definitions in the Amazon Connect Administrator Guide.
@@ -5603,10 +5659,13 @@ definitions in the Amazon Connect Administrator Guide.
   Feature is a valid filter but not a valid grouping.   AVG_CONVERSATION_DURATION  Unit:
   Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
   Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name:
-  Average conversation duration   AVG_FLOW_TIME  Unit: Seconds Valid groupings and filters:
-  Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID,
-  Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource
-  ID, Initiation method, Resource published timestamp UI name: Average flow time
+  Average conversation duration   AVG_DIALS_PER_MINUTE  This metric is available only for
+  contacts analyzed by outbound campaigns analytics. Unit: Count Valid groupings and filters:
+  Campaign, Agent, Queue, Routing Profile UI name: Average dials per minute   AVG_FLOW_TIME
+  Unit: Seconds Valid groupings and filters: Channel,
+  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next
+  resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID,
+  Initiation method, Resource published timestamp UI name: Average flow time
   AVG_GREETING_TIME_AGENT  This metric is available only for contacts analyzed by Contact
   Lens conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel,
   Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in
@@ -5655,26 +5714,25 @@ definitions in the Amazon Connect Administrator Guide.
   AVG_TALK_TIME_CUSTOMER  This metric is available only for contacts analyzed by Contact Lens
   conversational analytics. Unit: Seconds Valid groupings and filters: Queue, Channel,
   Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in
-  Connect UI name: Average customer talk time   CASES_CREATED  Unit: Count Required filter
-  key: CASE_TEMPLATE_ARN Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name:
-  Cases created   CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API|
-  Incoming | Outbound | Transfer | Callback | Queue_Transfer| Disconnect    Valid groupings
-  and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
-  contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name:
-  Contact abandoned   CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters:
-  Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect
-  Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in
-  seconds. For Comparison, you must enter LT (for \"Less than\").  UI name: Contacts
-  abandoned in X seconds   CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and filters:
-  Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect
-  Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in
-  seconds. For Comparison, you must enter LT (for \"Less than\").  UI name: Contacts answered
-  in X seconds   CONTACTS_CREATED  Unit: Count Valid metric filter key: INITIATION_METHOD
-  Valid groupings and filters: Queue, Channel, Routing Profile, Feature,
-  contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts created   Feature
-  is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit: Count Valid metric
-  filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and filters: Queue,
-  Channel, Routing Profile, Agent, Agent Hierarchy, Feature,
+  Connect UI name: Average customer talk time   AVG_WAIT_TIME_AFTER_CUSTOMER_CONNECTION  This
+  metric is available only for contacts analyzed by outbound campaigns analytics. Unit:
+  Seconds Valid groupings and filters: Campaign UI name: Average wait time after customer
+  connection   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X  This metric is available only for
+  contacts analyzed by outbound campaigns analytics. Unit: Count Valid groupings and filters:
+  Campaign, Agent  Threshold: For ThresholdValue, enter any whole number from 1 to 604800
+  (inclusive), in seconds. For Comparison, you must enter GT (for Greater than). UI name:
+  Campaign contacts abandoned after X   CAMPAIGN_CONTACTS_ABANDONED_AFTER_X_RATE  This metric
+  is available only for contacts analyzed by outbound campaigns analytics. Unit: Percent
+  Valid groupings and filters: Campaign, Agent  Threshold: For ThresholdValue, enter any
+  whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter GT
+  (for Greater than). UI name: Campaign contacts abandoned after X rate   CASES_CREATED
+  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings and filters:
+  CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases created   CONTACTS_CREATED  Unit: Count Valid
+  metric filter key: INITIATION_METHOD  Valid groupings and filters: Queue, Channel, Routing
+  Profile, Feature, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts
+  created   Feature is a valid filter but not a valid grouping.   CONTACTS_HANDLED  Unit:
+  Count Valid metric filter key: INITIATION_METHOD, DISCONNECT_REASON  Valid groupings and
+  filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Feature,
   contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name: API
   contacts handled   Feature is a valid filter but not a valid grouping.
   CONTACTS_HANDLED_BY_CONNECTED_TO_AGENT  Unit: Count Valid metric filter key:
@@ -5698,53 +5756,72 @@ definitions in the Amazon Connect Administrator Guide.
   contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts queued
   CONTACTS_QUEUED_BY_ENQUEUE  Unit: Count Valid groupings and filters: Queue, Channel, Agent,
   Agent Hierarchy, contact/segmentAttributes/connect:Subtype UI name: Contacts queued
-  (enqueue timestamp)   CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters:
-  Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect
-  Threshold: For ThresholdValue enter any whole number from 1 to 604800 (inclusive), in
-  seconds. For Comparison, you must enter LT (for \"Less than\"). UI name: Contacts resolved
-  in X   CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel,
-  Routing Profile, Agent, Agent Hierarchy, Feature,
+  (enqueue timestamp)   CONTACTS_REMOVED_FROM_QUEUE_IN_X  Unit: Count Valid groupings and
+  filters: Queue, Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter
+  any whole number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter
+  LT (for \"Less than\"). UI name: Contacts removed from queue in X seconds
+  CONTACTS_RESOLVED_IN_X  Unit: Count Valid groupings and filters: Queue, Channel, Routing
+  Profile, contact/segmentAttributes/connect:Subtype, Q in Connect Threshold: For
+  ThresholdValue enter any whole number from 1 to 604800 (inclusive), in seconds. For
+  Comparison, you must enter LT (for \"Less than\"). UI name: Contacts resolved in X
+  CONTACTS_TRANSFERRED_OUT  Unit: Count Valid groupings and filters: Queue, Channel, Routing
+  Profile, Agent, Agent Hierarchy, Feature, contact/segmentAttributes/connect:Subtype, Q in
+  Connect UI name: Contacts transferred out   Feature is a valid filter but not a valid
+  grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT  Unit: Count Valid groupings and filters:
+  Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
   contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out
-  Feature is a valid filter but not a valid grouping.   CONTACTS_TRANSFERRED_OUT_BY_AGENT
-  Unit: Count Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts
-  transferred out by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings
-  and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
+  by agent   CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: Count Valid groupings and filters:
+  Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
   contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contacts transferred out
   queue   CURRENT_CASES  Unit: Count Required filter key: CASE_TEMPLATE_ARN Valid groupings
-  and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   FLOWS_OUTCOME  Unit:
-  Count Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow
-  type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID, Flows
-  outcome type, Flows resource ID, Initiation method, Resource published timestamp UI name:
-  Flows outcome   FLOWS_STARTED  Unit: Count Valid groupings and filters: Channel,
-  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows
-  resource ID, Initiation method, Resource published timestamp UI name: Flows started
-  MAX_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel,
-  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next
-  resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID,
-  Initiation method, Resource published timestamp UI name: Maximum flow time
-  MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing
-  Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI
-  name: Maximum queued time   MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters:
+  and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Current cases   DELIVERY_ATTEMPTS
+  This metric is available only for contacts analyzed by outbound campaigns analytics. Unit:
+  Count Valid metric filter key: ANSWERING_MACHINE_DETECTION_STATUS, DISCONNECT_REASON  Valid
+  groupings and filters: Campaign, Agent, Queue, Routing Profile, Answering Machine Detection
+  Status, Disconnect Reason UI name: Delivery attempts   DELIVERY_ATTEMPT_DISPOSITION_RATE
+  This metric is available only for contacts analyzed by outbound campaigns analytics, and
+  with the answering machine detection enabled. Unit: Percent Valid metric filter key:
+  ANSWERING_MACHINE_DETECTION_STATUS, DISCONNECT_REASON  Valid groupings and filters:
+  Campaign, Agent, Answering Machine Detection Status, Disconnect Reason  Answering Machine
+  Detection Status and Disconnect Reason are valid filters but not valid groupings.  UI name:
+  Delivery attempt disposition rate   FLOWS_OUTCOME  Unit: Count Valid groupings and filters:
   Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID,
   Flows next resource ID, Flows next resource queue ID, Flows outcome type, Flows resource
-  ID, Initiation method, Resource published timestamp UI name: Minimum flow time
+  ID, Initiation method, Resource published timestamp UI name: Flows outcome   FLOWS_STARTED
+  Unit: Count Valid groupings and filters: Channel,
+  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows
+  resource ID, Initiation method, Resource published timestamp UI name: Flows started
+  HUMAN_ANSWERED_CALLS  This metric is available only for contacts analyzed by outbound
+  campaigns analytics, and with the answering machine detection enabled. Unit: Count Valid
+  groupings and filters: Campaign, Agent UI name: Human answered   MAX_FLOW_TIME  Unit:
+  Seconds Valid groupings and filters: Channel, contact/segmentAttributes/connect:Subtype,
+  Flow type, Flows module resource ID, Flows next resource ID, Flows next resource queue ID,
+  Flows outcome type, Flows resource ID, Initiation method, Resource published timestamp UI
+  name: Maximum flow time   MAX_QUEUED_TIME  Unit: Seconds Valid groupings and filters:
+  Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
+  contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Maximum queued time
+  MIN_FLOW_TIME  Unit: Seconds Valid groupings and filters: Channel,
+  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next
+  resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID,
+  Initiation method, Resource published timestamp UI name: Minimum flow time
   PERCENT_CASES_FIRST_CONTACT_RESOLVED  Unit: Percent Required filter key: CASE_TEMPLATE_ARN
   Valid groupings and filters: CASE_TEMPLATE_ARN, CASE_STATUS UI name: Cases resolved on
   first contact   PERCENT_CONTACTS_STEP_EXPIRED  Unit: Percent Valid groupings and filters:
-  Queue, RoutingStepExpression UI name: Not available   PERCENT_CONTACTS_STEP_JOINED  Unit:
-  Percent Valid groupings and filters: Queue, RoutingStepExpression UI name: Not available
-  PERCENT_FLOWS_OUTCOME  Unit: Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid
-  groupings and filters: Channel, contact/segmentAttributes/connect:Subtype, Flow type, Flows
-  module resource ID, Flows next resource ID, Flows next resource queue ID, Flows outcome
-  type, Flows resource ID, Initiation method, Resource published timestamp UI name: Flows
-  outcome percentage.  The FLOWS_OUTCOME_TYPE is not a valid grouping.
-  PERCENT_NON_TALK_TIME  This metric is available only for contacts analyzed by Contact Lens
-  conversational analytics. Unit: Percentage Valid groupings and filters: Queue, Channel,
-  Routing Profile, Agent, Agent Hierarchy, contact/segmentAttributes/connect:Subtype, Q in
-  Connect UI name: Non-talk time percent   PERCENT_TALK_TIME  This metric is available only
-  for contacts analyzed by Contact Lens conversational analytics. Unit: Percentage Valid
-  groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
+  Queue, RoutingStepExpression UI name: This metric is available in Real-time Metrics UI but
+  not on the Historical Metrics UI.  PERCENT_CONTACTS_STEP_JOINED  Unit: Percent Valid
+  groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in
+  Real-time Metrics UI but not on the Historical Metrics UI.  PERCENT_FLOWS_OUTCOME  Unit:
+  Percent Valid metric filter key: FLOWS_OUTCOME_TYPE  Valid groupings and filters: Channel,
+  contact/segmentAttributes/connect:Subtype, Flow type, Flows module resource ID, Flows next
+  resource ID, Flows next resource queue ID, Flows outcome type, Flows resource ID,
+  Initiation method, Resource published timestamp UI name: Flows outcome percentage.  The
+  FLOWS_OUTCOME_TYPE is not a valid grouping.   PERCENT_NON_TALK_TIME  This metric is
+  available only for contacts analyzed by Contact Lens conversational analytics. Unit:
+  Percentage Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  Hierarchy, contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Non-talk time
+  percent   PERCENT_TALK_TIME  This metric is available only for contacts analyzed by Contact
+  Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue,
+  Channel, Routing Profile, Agent, Agent Hierarchy,
   contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Talk time percent
   PERCENT_TALK_TIME_AGENT  This metric is available only for contacts analyzed by Contact
   Lens conversational analytics. Unit: Percentage Valid groupings and filters: Queue,
@@ -5762,27 +5839,40 @@ definitions in the Amazon Connect Administrator Guide.
   Channel, Routing Profile, Q in Connect Threshold: For ThresholdValue, enter any whole
   number from 1 to 604800 (inclusive), in seconds. For Comparison, you must enter LT (for
   \"Less than\").  UI name: Service level X   STEP_CONTACTS_QUEUED  Unit: Count Valid
-  groupings and filters: Queue, RoutingStepExpression UI name: Not available
-  SUM_AFTER_CONTACT_WORK_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel,
-  Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: After contact work time
-  SUM_CONNECTING_TIME_AGENT  Unit: Seconds Valid metric filter key: INITIATION_METHOD. This
-  metric only supports the following filter keys as INITIATION_METHOD: INBOUND | OUTBOUND |
-  CALLBACK | API  Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  Hierarchy UI name: Agent API connecting time   The Negate key in Metric Level Filters is
-  not applicable for this metric.   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and
-  filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name:
-  Contact flow time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters:
-  Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent on contact time
-  SUM_CONTACTS_DISCONNECTED   Valid metric filter key: DISCONNECT_REASON  Unit: Count Valid
-  groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy,
+  groupings and filters: Queue, RoutingStepExpression UI name: This metric is available in
+  Real-time Metrics UI but not on the Historical Metrics UI.  SUM_AFTER_CONTACT_WORK_TIME
+  Unit: Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
+  Hierarchy, Q in Connect UI name: After contact work time   SUM_CONNECTING_TIME_AGENT  Unit:
+  Seconds Valid metric filter key: INITIATION_METHOD. This metric only supports the following
+  filter keys as INITIATION_METHOD: INBOUND | OUTBOUND | CALLBACK | API  Valid groupings and
+  filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy UI name: Agent API
+  connecting time   The Negate key in Metric Level Filters is not applicable for this metric.
+    CONTACTS_ABANDONED  Unit: Count Metric filter:    Valid values: API| Incoming | Outbound
+  | Transfer | Callback | Queue_Transfer| Disconnect    Valid groupings and filters: Queue,
+  Channel, Routing Profile, Agent, Agent Hierarchy,
+  contact/segmentAttributes/connect:Subtype, RoutingStepExpression, Q in Connect UI name:
+  Contact abandoned   SUM_CONTACTS_ABANDONED_IN_X  Unit: Count Valid groupings and filters:
+  Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in Connect
+  Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive), in
+  seconds. For Comparison, you must enter LT (for \"Less than\").  UI name: Contacts
+  abandoned in X seconds   SUM_CONTACTS_ANSWERED_IN_X  Unit: Count Valid groupings and
+  filters: Queue, Channel, Routing Profile, contact/segmentAttributes/connect:Subtype, Q in
+  Connect Threshold: For ThresholdValue, enter any whole number from 1 to 604800 (inclusive),
+  in seconds. For Comparison, you must enter LT (for \"Less than\").  UI name: Contacts
+  answered in X seconds   SUM_CONTACT_FLOW_TIME  Unit: Seconds Valid groupings and filters:
+  Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Contact flow
+  time   SUM_CONTACT_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile,
+  Agent, Agent Hierarchy UI name: Agent on contact time   SUM_CONTACTS_DISCONNECTED   Valid
+  metric filter key: DISCONNECT_REASON  Unit: Count Valid groupings and filters: Queue,
+  Channel, Routing Profile, Agent, Agent Hierarchy,
   contact/segmentAttributes/connect:Subtype, Q in Connect UI name: Contact disconnected
-  SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Queue, Channel,
-  Routing Profile, Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit:
-  Seconds Valid groupings and filters: Queue, Channel, Routing Profile, Agent, Agent
-  Hierarchy, Q in Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid
+  SUM_ERROR_STATUS_TIME_AGENT  Unit: Seconds Valid groupings and filters: Routing Profile,
+  Agent, Agent Hierarchy UI name: Error status time   SUM_HANDLE_TIME  Unit: Seconds Valid
   groupings and filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in
-  Connect UI name: Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings
-  and filters: Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time
+  Connect UI name: Contact handle time   SUM_HOLD_TIME  Unit: Count Valid groupings and
+  filters: Queue, Channel, Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name:
+  Customer hold time   SUM_IDLE_TIME_AGENT  Unit: Seconds Valid groupings and filters:
+  Routing Profile, Agent, Agent Hierarchy UI name: Agent idle time
   SUM_INTERACTION_AND_HOLD_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel,
   Routing Profile, Agent, Agent Hierarchy, Q in Connect UI name: Agent interaction and hold
   time   SUM_INTERACTION_TIME  Unit: Seconds Valid groupings and filters: Queue, Channel,
@@ -5808,8 +5898,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are returned apply to the metrics for each queue. They are not aggregated for all queues.
   If no grouping is specified, a summary of all metrics is returned. Valid grouping keys:
   AGENT | AGENT_HIERARCHY_LEVEL_ONE | AGENT_HIERARCHY_LEVEL_TWO | AGENT_HIERARCHY_LEVEL_THREE
-  | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE | CASE_TEMPLATE_ARN | CASE_STATUS
-  | CHANNEL | contact/segmentAttributes/connect:Subtype | FLOWS_RESOURCE_ID |
+  | AGENT_HIERARCHY_LEVEL_FOUR | AGENT_HIERARCHY_LEVEL_FIVE |
+  ANSWERING_MACHINE_DETECTION_STATUS | CAMPAIGN | CASE_TEMPLATE_ARN | CASE_STATUS | CHANNEL |
+  contact/segmentAttributes/connect:Subtype | DISCONNECT_REASON | FLOWS_RESOURCE_ID |
   FLOWS_MODULE_RESOURCE_ID | FLOW_TYPE | FLOWS_OUTCOME_TYPE | INITIATION_METHOD |
   Q_CONNECT_ENABLED | QUEUE | RESOURCE_PUBLISHED_TIMESTAMP | ROUTING_PROFILE |
   ROUTING_STEP_EXPRESSION
@@ -5999,7 +6090,20 @@ end
 
 Imports a claimed phone number from an external service, such as Amazon Pinpoint, into an
 Amazon Connect instance. You can call this API only in the same Amazon Web Services Region
-where the Amazon Connect instance was created.
+where the Amazon Connect instance was created.  Call the DescribePhoneNumber API to verify
+the status of a previous ImportPhoneNumber operation.   If you plan to claim or import
+numbers and then release numbers frequently, contact us for a service quota exception.
+Otherwise, it is possible you will be blocked from claiming and releasing any more numbers
+until up to 180 days past the oldest number released has expired.   By default you can
+claim or import and then release up to 200% of your maximum number of active phone numbers.
+If you claim or import and then release phone numbers using the UI or API during a rolling
+180 day cycle that exceeds 200% of your phone number service level quota, you will be
+blocked from claiming or importing any more numbers until 180 days past the oldest number
+released has expired.  For example, if you already have 99 claimed or imported numbers and
+a service level quota of 99 phone numbers, and in any 180 day period you release 99, claim
+99, and then release 99, you will have exceeded the 200% limit. At that point you are
+blocked from claiming any more numbers until you open an Amazon Web Services Support
+ticket.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -6174,6 +6278,48 @@ function list_approved_origins(
     return connect(
         "GET",
         "/instance/$(InstanceId)/approved-origins",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_authentication_profiles(instance_id)
+    list_authentication_profiles(instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. To request
+access to this API, contact Amazon Web Services Support. Provides summary information about
+the authentication profiles in a specified Amazon Connect instance.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of results to return per page.
+- `"nextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+"""
+function list_authentication_profiles(
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "GET",
+        "/authentication-profiles-summary/$(InstanceId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_authentication_profiles(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "GET",
+        "/authentication-profiles-summary/$(InstanceId)",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6961,7 +7107,10 @@ end
     list_predefined_attributes(instance_id)
     list_predefined_attributes(instance_id, params::Dict{String,<:Any})
 
-Lists predefined attributes for the specified Amazon Connect instance.
+Lists predefined attributes for the specified Amazon Connect instance. Predefined
+attributes are attributes in an Amazon Connect instance that can be used to route contacts
+to an agent or pools of agents within a queue. For more information, see Create predefined
+attributes for routing contacts to agents.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -7437,7 +7586,10 @@ end
     list_security_profile_permissions(instance_id, security_profile_id)
     list_security_profile_permissions(instance_id, security_profile_id, params::Dict{String,<:Any})
 
-Lists the permissions granted to a security profile.
+Lists the permissions granted to a security profile. For information about security
+profiles, see Security Profiles in the Amazon Connect Administrator Guide. For a mapping of
+the API name and user interface name of the security profile permissions, see List of
+security profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -7481,7 +7633,8 @@ end
 
 Provides summary information about the security profiles for the specified Amazon Connect
 instance. For more information about security profiles, see Security Profiles in the Amazon
-Connect Administrator Guide.
+Connect Administrator Guide. For a mapping of the API name and user interface name of the
+security profile permissions, see List of security profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -8319,6 +8472,51 @@ function resume_contact_recording(
 end
 
 """
+    search_agent_statuses(instance_id)
+    search_agent_statuses(instance_id, params::Dict{String,<:Any})
+
+Searches AgentStatuses in an Amazon Connect instance, with optional filtering.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per page.
+- `"NextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"SearchCriteria"`: The search criteria to be used to return agent statuses.
+- `"SearchFilter"`: Filters to be applied to search results.
+"""
+function search_agent_statuses(
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/search-agent-statuses",
+        Dict{String,Any}("InstanceId" => InstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_agent_statuses(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/search-agent-statuses",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     search_available_phone_numbers(phone_number_country_code, phone_number_type)
     search_available_phone_numbers(phone_number_country_code, phone_number_type, params::Dict{String,<:Any})
 
@@ -8579,7 +8777,10 @@ end
     search_predefined_attributes(instance_id)
     search_predefined_attributes(instance_id, params::Dict{String,<:Any})
 
-Predefined attributes that meet certain criteria.
+Searches predefined attributes that meet certain criteria. Predefined attributes are
+attributes in an Amazon Connect instance that can be used to route contacts to an agent or
+pools of agents within a queue. For more information, see Create predefined attributes for
+routing contacts to agents.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -8770,7 +8971,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"ResourceTypes"`: The list of resource types to be used to search tags from. If not
   provided or if any empty list is provided, this API will search from all supported resource
-  types.
+  types.  Supported resource types    AGENT   ROUTING_PROFILE   STANDARD_QUEUE
+  SECURITY_PROFILE   OPERATING_HOURS   PROMPT   CONTACT_FLOW   FLOW_MODULE
 - `"SearchCriteria"`: The search criteria to be used to return tags.
 """
 function search_resource_tags(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
@@ -8850,7 +9052,10 @@ end
     search_security_profiles(instance_id)
     search_security_profiles(instance_id, params::Dict{String,<:Any})
 
-Searches security profiles in an Amazon Connect instance, with optional filtering.
+Searches security profiles in an Amazon Connect instance, with optional filtering. For
+information about security profiles, see Security Profiles in the Amazon Connect
+Administrator Guide. For a mapping of the API name and user interface name of the security
+profile permissions, see List of security profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -8886,6 +9091,53 @@ function search_security_profiles(
     return connect(
         "POST",
         "/search-security-profiles",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    search_user_hierarchy_groups(instance_id)
+    search_user_hierarchy_groups(instance_id, params::Dict{String,<:Any})
+
+Searches UserHierarchyGroups in an Amazon Connect instance, with optional filtering.  The
+UserHierarchyGroup with \"LevelId\": \"0\" is the foundation for building levels on top of
+an instance. It is not user-definable, nor is it visible in the UI.
+
+# Arguments
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instanceId
+  in the ARN of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return per page.
+- `"NextToken"`: The token for the next set of results. Use the value returned in the
+  previous response in the next request to retrieve the next set of results.
+- `"SearchCriteria"`: The search criteria to be used to return UserHierarchyGroups.
+- `"SearchFilter"`: Filters to be applied to search results.
+"""
+function search_user_hierarchy_groups(
+    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/search-user-hierarchy-groups",
+        Dict{String,Any}("InstanceId" => InstanceId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function search_user_hierarchy_groups(
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/search-user-hierarchy-groups",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("InstanceId" => InstanceId), params)
         );
@@ -9054,13 +9306,13 @@ end
     start_attached_file_upload(file_name, file_size_in_bytes, file_use_case_type, instance_id, associated_resource_arn, params::Dict{String,<:Any})
 
 Provides a pre-signed Amazon S3 URL in response for uploading your content.  You may only
-use this API to upload attachments to a Connect Case.
+use this API to upload attachments to an Amazon Connect Case.
 
 # Arguments
 - `file_name`: A case-sensitive name of the attached file being uploaded.
 - `file_size_in_bytes`: The size of the attached file in bytes.
 - `file_use_case_type`: The use case for the file.
-- `instance_id`: The unique identifier of the Connect instance.
+- `instance_id`: The unique identifier of the Amazon Connect instance.
 - `associated_resource_arn`: The resource to which the attached file is (being) uploaded
   to. Cases are the only current supported resource.  This value must be a valid ARN.
 
@@ -9141,8 +9393,9 @@ throttling returns a TooManyRequests exception.   The quota for concurrent activ
 exceeded. Active chat throttling returns a LimitExceededException.   If you use the
 ChatDurationInMinutes parameter and receive a 400 error, your account may not support the
 ability to configure custom chat durations. For more information, contact Amazon Web
-Services Support.  For more information about chat, see Chat in the Amazon Connect
-Administrator Guide.
+Services Support.  For more information about chat, see the following topics in the Amazon
+Connect Administrator Guide:     Concepts: Web and mobile messaging capabilities in Amazon
+Connect     Amazon Connect Chat security best practices
 
 # Arguments
 - `contact_flow_id`: The identifier of the flow for initiating the chat. To see the
@@ -9384,7 +9637,9 @@ end
 
  Initiates real-time message streaming for a new chat contact.  For more information about
 message streaming, see Enable real-time chat message streaming in the Amazon Connect
-Administrator Guide.
+Administrator Guide. For more information about chat, see the following topics in the
+Amazon Connect Administrator Guide:     Concepts: Web and mobile messaging capabilities in
+Amazon Connect     Amazon Connect Chat security best practices
 
 # Arguments
 - `chat_streaming_configuration`: The streaming configuration, such as the Amazon SNS
@@ -9674,8 +9929,8 @@ Amazon Connect instance (specified as InstanceId).
 
 # Arguments
 - `contact_flow_id`: The identifier of the flow for the call. To see the ContactFlowId in
-  the Amazon Connect admin website, on the navigation menu go to Routing, Contact Flows.
-  Choose the flow. On the flow page, under the name of the flow, choose Show additional flow
+  the Amazon Connect admin website, on the navigation menu go to Routing, Flows. Choose the
+  flow. On the flow page, under the name of the flow, choose Show additional flow
   information. The ContactFlowId is the last part of the ARN, shown here in bold:
   arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact
   -flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
@@ -10318,6 +10573,61 @@ function update_agent_status(
 end
 
 """
+    update_authentication_profile(authentication_profile_id, instance_id)
+    update_authentication_profile(authentication_profile_id, instance_id, params::Dict{String,<:Any})
+
+This API is in preview release for Amazon Connect and is subject to change. To request
+access to this API, contact Amazon Web Services Support. Updates the selected
+authentication profile.
+
+# Arguments
+- `authentication_profile_id`: A unique identifier for the authentication profile.
+- `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
+  ID in the Amazon Resource Name (ARN) of the instance.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AllowedIps"`: A list of IP address range strings that are allowed to access the
+  instance. For more information on how to configure IP addresses, seeConfigure session
+  timeouts in the Amazon Connect Administrator Guide.
+- `"BlockedIps"`: A list of IP address range strings that are blocked from accessing the
+  instance. For more information on how to configure IP addresses, For more information on
+  how to configure IP addresses, see Configure IP-based access control in the Amazon Connect
+  Administrator Guide.
+- `"Description"`: The description for the authentication profile.
+- `"Name"`: The name for the authentication profile.
+- `"PeriodicSessionDuration"`: The short lived session duration configuration for users
+  logged in to Amazon Connect, in minutes. This value determines the maximum possible time
+  before an agent is authenticated. For more information, For more information on how to
+  configure IP addresses, see Configure session timeouts in the Amazon Connect Administrator
+  Guide.
+"""
+function update_authentication_profile(
+    AuthenticationProfileId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return connect(
+        "POST",
+        "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_authentication_profile(
+    AuthenticationProfileId,
+    InstanceId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return connect(
+        "POST",
+        "/authentication-profiles/$(InstanceId)/$(AuthenticationProfileId)",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     update_contact(contact_id, instance_id)
     update_contact(contact_id, instance_id, params::Dict{String,<:Any})
 
@@ -10730,6 +11040,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   contact's routing age. Contacts are routed to agents on a first-come, first-serve basis.
   This means that changing their amount of time in queue compared to others also changes
   their position in queue.
+- `"RoutingCriteria"`: Updates the routing criteria on the contact. These properties can be
+  used to change how a&#x2028; contact is routed within the queue.
 """
 function update_contact_routing_data(
     ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
@@ -11188,7 +11500,10 @@ end
     update_predefined_attribute(instance_id, name)
     update_predefined_attribute(instance_id, name, params::Dict{String,<:Any})
 
-Updates a predefined attribute for the specified Amazon Connect instance.
+Updates a predefined attribute for the specified Amazon Connect instance. Predefined
+attributes are attributes in an Amazon Connect instance that can be used to route contacts
+to an agent or pools of agents within a queue. For more information, see Create predefined
+attributes for routing contacts to agents.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance
@@ -11906,7 +12221,9 @@ end
     update_security_profile(instance_id, security_profile_id)
     update_security_profile(instance_id, security_profile_id, params::Dict{String,<:Any})
 
-Updates a security profile.
+Updates a security profile. For information about security profiles, see Security Profiles
+in the Amazon Connect Administrator Guide. For a mapping of the API name and user interface
+name of the security profile permissions, see List of security profile permissions.
 
 # Arguments
 - `instance_id`: The identifier of the Amazon Connect instance. You can find the instance

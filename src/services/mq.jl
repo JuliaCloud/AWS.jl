@@ -5,8 +5,8 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
-    create_broker(auto_minor_version_upgrade, broker_name, deployment_mode, engine_type, engine_version, host_instance_type, publicly_accessible, users)
-    create_broker(auto_minor_version_upgrade, broker_name, deployment_mode, engine_type, engine_version, host_instance_type, publicly_accessible, users, params::Dict{String,<:Any})
+    create_broker(broker_name, deployment_mode, engine_type, host_instance_type, publicly_accessible, users)
+    create_broker(broker_name, deployment_mode, engine_type, host_instance_type, publicly_accessible, users, params::Dict{String,<:Any})
 
 Creates a broker. Note: This API is asynchronous. To create a broker, you must either use
 the AmazonMQFullAccess IAM policy or include the following EC2 permissions in your IAM
@@ -21,10 +21,6 @@ Your Amazon Web Services Credentials and Never Modify or Delete the Amazon MQ El
 Network Interface in the Amazon MQ Developer Guide.
 
 # Arguments
-- `auto_minor_version_upgrade`: Enables automatic upgrades to new minor versions for
-  brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur
-  during the scheduled maintenance window of the broker or after a manual broker reboot. Set
-  to true by default, if no value is specified.
 - `broker_name`: Required. The broker's name. This value must be unique in your Amazon Web
   Services account, 1-50 characters long, must contain only letters, numbers, dashes, and
   underscores, and must not contain white spaces, brackets, wildcard characters, or special
@@ -35,8 +31,6 @@ Network Interface in the Amazon MQ Developer Guide.
 - `deployment_mode`: Required. The broker's deployment mode.
 - `engine_type`: Required. The type of broker engine. Currently, Amazon MQ supports
   ACTIVEMQ and RABBITMQ.
-- `engine_version`: Required. The broker engine's version. For a list of supported engine
-  versions, see Supported engines.
 - `host_instance_type`: Required. The broker's instance type.
 - `publicly_accessible`: Enables connections from applications outside of the VPC that
   hosts the broker's subnets. Set to false by default, if no value is provided.
@@ -49,6 +43,11 @@ Network Interface in the Amazon MQ Developer Guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authenticationStrategy"`: Optional. The authentication strategy used to secure the
   broker. The default is SIMPLE.
+- `"autoMinorVersionUpgrade"`: Enables automatic upgrades to new patch versions for brokers
+  as new versions are released and supported by Amazon MQ. Automatic upgrades occur during
+  the scheduled maintenance window or after a manual broker reboot. Set to true by default,
+  if no value is specified. Must be set to true for ActiveMQ brokers version 5.18 and above
+  and for RabbitMQ brokers version 3.13 and above.
 - `"configuration"`: A list of information about the configuration.
 - `"creatorRequestId"`: The unique ID that the requester receives for the created broker.
   Amazon MQ passes your ID with the API action. We recommend using a Universally Unique
@@ -59,6 +58,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that is used to replicate data from in a data replication pair, and is applied to the
   replica broker. Must be set when dataReplicationMode is set to CRDR.
 - `"encryptionOptions"`: Encryption options for the broker.
+- `"engineVersion"`: The broker engine version. Defaults to the latest available version
+  for the specified broker engine type. For more information, see the ActiveMQ version
+  management and the RabbitMQ version management sections in the Amazon MQ Developer Guide.
 - `"ldapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate
   and authorize connections to the broker. Does not apply to RabbitMQ brokers.
 - `"logs"`: Enables Amazon CloudWatch logging for brokers.
@@ -81,11 +83,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Create tags when creating the broker.
 """
 function create_broker(
-    autoMinorVersionUpgrade,
     brokerName,
     deploymentMode,
     engineType,
-    engineVersion,
     hostInstanceType,
     publiclyAccessible,
     users;
@@ -95,11 +95,9 @@ function create_broker(
         "POST",
         "/v1/brokers",
         Dict{String,Any}(
-            "autoMinorVersionUpgrade" => autoMinorVersionUpgrade,
             "brokerName" => brokerName,
             "deploymentMode" => deploymentMode,
             "engineType" => engineType,
-            "engineVersion" => engineVersion,
             "hostInstanceType" => hostInstanceType,
             "publiclyAccessible" => publiclyAccessible,
             "users" => users,
@@ -110,11 +108,9 @@ function create_broker(
     )
 end
 function create_broker(
-    autoMinorVersionUpgrade,
     brokerName,
     deploymentMode,
     engineType,
-    engineVersion,
     hostInstanceType,
     publiclyAccessible,
     users,
@@ -128,11 +124,9 @@ function create_broker(
             mergewith(
                 _merge,
                 Dict{String,Any}(
-                    "autoMinorVersionUpgrade" => autoMinorVersionUpgrade,
                     "brokerName" => brokerName,
                     "deploymentMode" => deploymentMode,
                     "engineType" => engineType,
-                    "engineVersion" => engineVersion,
                     "hostInstanceType" => hostInstanceType,
                     "publiclyAccessible" => publiclyAccessible,
                     "users" => users,
@@ -147,8 +141,8 @@ function create_broker(
 end
 
 """
-    create_configuration(engine_type, engine_version, name)
-    create_configuration(engine_type, engine_version, name, params::Dict{String,<:Any})
+    create_configuration(engine_type, name)
+    create_configuration(engine_type, name, params::Dict{String,<:Any})
 
 Creates a new configuration for the specified configuration name. Amazon MQ uses the
 default configuration (the engine type and version).
@@ -156,8 +150,6 @@ default configuration (the engine type and version).
 # Arguments
 - `engine_type`: Required. The type of broker engine. Currently, Amazon MQ supports
   ACTIVEMQ and RABBITMQ.
-- `engine_version`: Required. The broker engine's version. For a list of supported engine
-  versions, see Supported engines.
 - `name`: Required. The name of the configuration. This value can contain only alphanumeric
   characters, dashes, periods, underscores, and tildes (- . _ ~). This value must be 1-150
   characters long.
@@ -166,24 +158,24 @@ default configuration (the engine type and version).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authenticationStrategy"`: Optional. The authentication strategy associated with the
   configuration. The default is SIMPLE.
+- `"engineVersion"`: The broker engine version. Defaults to the latest available version
+  for the specified broker engine type. For more information, see the ActiveMQ version
+  management and the RabbitMQ version management sections in the Amazon MQ Developer Guide.
 - `"tags"`: Create tags when creating the configuration.
 """
 function create_configuration(
-    engineType, engineVersion, name; aws_config::AbstractAWSConfig=global_aws_config()
+    engineType, name; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return mq(
         "POST",
         "/v1/configurations",
-        Dict{String,Any}(
-            "engineType" => engineType, "engineVersion" => engineVersion, "name" => name
-        );
+        Dict{String,Any}("engineType" => engineType, "name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
 end
 function create_configuration(
     engineType,
-    engineVersion,
     name,
     params::AbstractDict{String};
     aws_config::AbstractAWSConfig=global_aws_config(),
@@ -193,13 +185,7 @@ function create_configuration(
         "/v1/configurations",
         Dict{String,Any}(
             mergewith(
-                _merge,
-                Dict{String,Any}(
-                    "engineType" => engineType,
-                    "engineVersion" => engineVersion,
-                    "name" => name,
-                ),
-                params,
+                _merge, Dict{String,Any}("engineType" => engineType, "name" => name), params
             ),
         );
         aws_config=aws_config,
@@ -861,13 +847,16 @@ Adds a pending configuration change to a broker.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authenticationStrategy"`: Optional. The authentication strategy used to secure the
   broker. The default is SIMPLE.
-- `"autoMinorVersionUpgrade"`: Enables automatic upgrades to new minor versions for
-  brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur
-  during the scheduled maintenance window of the broker or after a manual broker reboot.
+- `"autoMinorVersionUpgrade"`: Enables automatic upgrades to new patch versions for brokers
+  as new versions are released and supported by Amazon MQ. Automatic upgrades occur during
+  the scheduled maintenance window or after a manual broker reboot. Must be set to true for
+  ActiveMQ brokers version 5.18 and above and for RabbitMQ brokers version 3.13 and above.
 - `"configuration"`: A list of information about the configuration.
 - `"dataReplicationMode"`: Defines whether this broker is a part of a data replication pair.
-- `"engineVersion"`: The broker engine version. For a list of supported engine versions,
-  see Supported engines.
+- `"engineVersion"`: The broker engine version. For more information, see the ActiveMQ
+  version management and the RabbitMQ version management sections in the Amazon MQ Developer
+  Guide. When upgrading to ActiveMQ version 5.18 and above or RabbitMQ version 3.13 and
+  above, you must have autoMinorVersionUpgrade set to true for the broker.
 - `"hostInstanceType"`: The broker's host instance type to upgrade to. For a list of
   supported instance types, see Broker instance types.
 - `"ldapServerMetadata"`: Optional. The metadata of the LDAP server used to authenticate

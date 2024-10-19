@@ -873,6 +873,76 @@ function list_pipelines(
 end
 
 """
+    list_rule_executions(pipeline_name)
+    list_rule_executions(pipeline_name, params::Dict{String,<:Any})
+
+Lists the rule executions that have occurred in a pipeline configured for conditions with
+rules.
+
+# Arguments
+- `pipeline_name`: The name of the pipeline for which you want to get execution summary
+  information.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"filter"`: Input information used to filter rule execution history.
+- `"maxResults"`: The maximum number of results to return in a single call. To retrieve the
+  remaining results, make another call with the returned nextToken value. Pipeline history is
+  limited to the most recent 12 months, based on pipeline execution start times. Default
+  value is 100.
+- `"nextToken"`: The token that was returned from the previous ListRuleExecutions call,
+  which can be used to return the next set of rule executions in the list.
+"""
+function list_rule_executions(
+    pipelineName; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codepipeline(
+        "ListRuleExecutions",
+        Dict{String,Any}("pipelineName" => pipelineName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_rule_executions(
+    pipelineName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codepipeline(
+        "ListRuleExecutions",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("pipelineName" => pipelineName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_rule_types()
+    list_rule_types(params::Dict{String,<:Any})
+
+Lists the rules for the condition.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"regionFilter"`: The rule Region to filter on.
+- `"ruleOwnerFilter"`: The rule owner to filter on.
+"""
+function list_rule_types(; aws_config::AbstractAWSConfig=global_aws_config())
+    return codepipeline(
+        "ListRuleTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_rule_types(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return codepipeline(
+        "ListRuleTypes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
     list_tags_for_resource(resource_arn)
     list_tags_for_resource(resource_arn, params::Dict{String,<:Any})
 
@@ -919,7 +989,7 @@ end
 
 Gets a listing of all the webhooks in this Amazon Web Services Region for this account. The
 output lists all webhooks and includes the webhook URL and ARN and the configuration for
-each webhook.
+each webhook.  If a secret token was provided, it will be redacted in the response.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -938,6 +1008,66 @@ function list_webhooks(
 )
     return codepipeline(
         "ListWebhooks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    override_stage_condition(condition_type, pipeline_execution_id, pipeline_name, stage_name)
+    override_stage_condition(condition_type, pipeline_execution_id, pipeline_name, stage_name, params::Dict{String,<:Any})
+
+Used to override a stage condition.
+
+# Arguments
+- `condition_type`: The type of condition to override for the stage, such as entry
+  conditions, failure conditions, or success conditions.
+- `pipeline_execution_id`: The ID of the pipeline execution for the override.
+- `pipeline_name`: The name of the pipeline with the stage that will override the condition.
+- `stage_name`: The name of the stage for the override.
+
+"""
+function override_stage_condition(
+    conditionType,
+    pipelineExecutionId,
+    pipelineName,
+    stageName;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codepipeline(
+        "OverrideStageCondition",
+        Dict{String,Any}(
+            "conditionType" => conditionType,
+            "pipelineExecutionId" => pipelineExecutionId,
+            "pipelineName" => pipelineName,
+            "stageName" => stageName,
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function override_stage_condition(
+    conditionType,
+    pipelineExecutionId,
+    pipelineName,
+    stageName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return codepipeline(
+        "OverrideStageCondition",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "conditionType" => conditionType,
+                    "pipelineExecutionId" => pipelineExecutionId,
+                    "pipelineName" => pipelineName,
+                    "stageName" => stageName,
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -1360,7 +1490,14 @@ change. When CodePipeline receives a POST request on this URL, the pipeline defi
 webhook is started as long as the POST request satisfied the authentication and filtering
 requirements supplied when defining the webhook. RegisterWebhookWithThirdParty and
 DeregisterWebhookWithThirdParty APIs can be used to automatically configure supported third
-parties to call the generated webhook URL.
+parties to call the generated webhook URL.  When creating CodePipeline webhooks, do not use
+your own credentials or reuse the same secret token across multiple webhooks. For optimal
+security, generate a unique secret token for each webhook you create. The secret token is
+an arbitrary string that you provide, which GitHub uses to compute and sign the webhook
+payloads sent to CodePipeline, for protecting the integrity and authenticity of the webhook
+payloads. Using your own credentials or reusing the same token across multiple webhooks can
+lead to security vulnerabilities.   If a secret token was provided, it will be redacted in
+the response.
 
 # Arguments
 - `webhook`: The detail provided in an input file to create the webhook, such as the
