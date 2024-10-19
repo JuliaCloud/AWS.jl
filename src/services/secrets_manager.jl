@@ -133,7 +133,10 @@ secretsmanager:TagResource. To add replica Regions, you must also have
 secretsmanager:ReplicateSecretToRegions. For more information, see  IAM policy actions for
 Secrets Manager and Authentication and access control in Secrets Manager.  To encrypt the
 secret with a KMS key other than aws/secretsmanager, you need kms:GenerateDataKey and
-kms:Decrypt permission to the key.
+kms:Decrypt permission to the key.   When you enter commands in a command shell, there is a
+risk of the command history being accessed or utilities having access to your command
+parameters. This is a concern if the command includes the value of a secret. Learn how to
+Mitigate the risks of using command-line tools to store Secrets Manager secrets.
 
 # Arguments
 - `name`: The name of the new secret. The secret name can contain ASCII letters, numbers,
@@ -725,7 +728,11 @@ log entry when you call this action. Do not include sensitive information in req
 parameters except SecretBinary, SecretString, or RotationToken because it might be logged.
 For more information, see Logging Secrets Manager events with CloudTrail.  Required
 permissions:  secretsmanager:PutSecretValue. For more information, see  IAM policy actions
-for Secrets Manager and Authentication and access control in Secrets Manager.
+for Secrets Manager and Authentication and access control in Secrets Manager.   When you
+enter commands in a command shell, there is a risk of the command history being accessed or
+utilities having access to your command parameters. This is a concern if the command
+includes the value of a secret. Learn how to Mitigate the risks of using command-line tools
+to store Secrets Manager secrets.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret to add a new version to. For an ARN, we
@@ -1215,8 +1222,12 @@ secretsmanager:UpdateSecret. For more information, see  IAM policy actions for S
 Manager and Authentication and access control in Secrets Manager. If you use a customer
 managed key, you must also have kms:GenerateDataKey, kms:Encrypt, and kms:Decrypt
 permissions on the key. If you change the KMS key and you don't have kms:Encrypt permission
-to the new key, Secrets Manager does not re-ecrypt existing secret versions with the new
-key. For more information, see  Secret encryption and decryption.
+to the new key, Secrets Manager does not re-encrypt existing secret versions with the new
+key. For more information, see  Secret encryption and decryption.  When you enter commands
+in a command shell, there is a risk of the command history being accessed or utilities
+having access to your command parameters. This is a concern if the command includes the
+value of a secret. Learn how to Mitigate the risks of using command-line tools to store
+Secrets Manager secrets.
 
 # Arguments
 - `secret_id`: The ARN or name of the secret. For an ARN, we recommend that you specify a
@@ -1239,13 +1250,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"KmsKeyId"`: The ARN, key ID, or alias of the KMS key that Secrets Manager uses to
   encrypt new secret versions as well as any existing versions with the staging labels
   AWSCURRENT, AWSPENDING, or AWSPREVIOUS. If you don't have kms:Encrypt permission to the new
-  key, Secrets Manager does not re-ecrypt existing secret versions with the new key. For more
-  information about versions and staging labels, see Concepts: Version. A key alias is always
-  prefixed by alias/, for example alias/aws/secretsmanager. For more information, see About
-  aliases. If you set this to an empty string, Secrets Manager uses the Amazon Web Services
-  managed key aws/secretsmanager. If this key doesn't already exist in your account, then
-  Secrets Manager creates it for you automatically. All users and roles in the Amazon Web
-  Services account automatically have access to use aws/secretsmanager. Creating
+  key, Secrets Manager does not re-encrypt existing secret versions with the new key. For
+  more information about versions and staging labels, see Concepts: Version. A key alias is
+  always prefixed by alias/, for example alias/aws/secretsmanager. For more information, see
+  About aliases. If you set this to an empty string, Secrets Manager uses the Amazon Web
+  Services managed key aws/secretsmanager. If this key doesn't already exist in your account,
+  then Secrets Manager creates it for you automatically. All users and roles in the Amazon
+  Web Services account automatically have access to use aws/secretsmanager. Creating
   aws/secretsmanager can result in a one-time significant delay in returning the result.
   You can only use the Amazon Web Services managed key aws/secretsmanager if you call this
   operation using credentials from the same Amazon Web Services account that owns the secret.

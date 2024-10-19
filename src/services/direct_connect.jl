@@ -69,7 +69,7 @@ end
     allocate_connection_on_interconnect(bandwidth, connection_name, interconnect_id, owner_account, vlan)
     allocate_connection_on_interconnect(bandwidth, connection_name, interconnect_id, owner_account, vlan, params::Dict{String,<:Any})
 
-Deprecated. Use AllocateHostedConnection instead. Creates a hosted connection on an
+ Deprecated. Use AllocateHostedConnection instead.  Creates a hosted connection on an
 interconnect. Allocates a VLAN number and a specified amount of bandwidth for use by a
 hosted connection on the specified interconnect.  Intended for use by Direct Connect
 Partners only.
@@ -149,9 +149,9 @@ Intended for use by Direct Connect Partners only.
 
 # Arguments
 - `bandwidth`: The bandwidth of the connection. The possible values are 50Mbps, 100Mbps,
-  200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those
-  Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps,
-  2Gbps, 5Gbps or 10Gbps hosted connection.
+  200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, 10Gbps, and 25Gbps. Note that only
+  those Direct Connect Partners who have met specific requirements are allowed to create a
+  1Gbps, 2Gbps, 5Gbps, 10Gbps, or 25Gbps hosted connection.
 - `connection_id`: The ID of the interconnect or LAG.
 - `connection_name`: The name of the hosted connection.
 - `owner_account`: The ID of the Amazon Web Services account ID of the customer for the
@@ -1098,7 +1098,7 @@ the VLAN assigned to them by the Direct Connect Partner.  Intended for use by Di
 Connect Partners only.
 
 # Arguments
-- `bandwidth`: The port bandwidth, in Gbps. The possible values are 1 and 10.
+- `bandwidth`: The port bandwidth, in Gbps. The possible values are 1, 10, and 100.
 - `interconnect_name`: The name of the interconnect.
 - `location`: The location of the interconnect.
 
@@ -1155,28 +1155,28 @@ Creates a link aggregation group (LAG) with the specified number of bundled phys
 dedicated connections between the customer network and a specific Direct Connect location.
 A LAG is a logical interface that uses the Link Aggregation Control Protocol (LACP) to
 aggregate multiple interfaces, enabling you to treat them as a single interface. All
-connections in a LAG must use the same bandwidth (either 1Gbps or 10Gbps) and must
-terminate at the same Direct Connect endpoint. You can have up to 10 dedicated connections
-per LAG. Regardless of this limit, if you request more connections for the LAG than Direct
-Connect can allocate on a single endpoint, no LAG is created. You can specify an existing
-physical dedicated connection or interconnect to include in the LAG (which counts towards
-the total number of connections). Doing so interrupts the current physical dedicated
-connection, and re-establishes them as a member of the LAG. The LAG will be created on the
-same Direct Connect endpoint to which the dedicated connection terminates. Any virtual
-interfaces associated with the dedicated connection are automatically disassociated and
-re-associated with the LAG. The connection ID does not change. If the Amazon Web Services
-account used to create a LAG is a registered Direct Connect Partner, the LAG is
-automatically enabled to host sub-connections. For a LAG owned by a partner, any associated
-virtual interfaces cannot be directly configured.
+connections in a LAG must use the same bandwidth (either 1Gbps, 10Gbps, 100Gbps, or
+400Gbps) and must terminate at the same Direct Connect endpoint. You can have up to 10
+dedicated connections per location. Regardless of this limit, if you request more
+connections for the LAG than Direct Connect can allocate on a single endpoint, no LAG is
+created.. You can specify an existing physical dedicated connection or interconnect to
+include in the LAG (which counts towards the total number of connections). Doing so
+interrupts the current physical dedicated connection, and re-establishes them as a member
+of the LAG. The LAG will be created on the same Direct Connect endpoint to which the
+dedicated connection terminates. Any virtual interfaces associated with the dedicated
+connection are automatically disassociated and re-associated with the LAG. The connection
+ID does not change. If the Amazon Web Services account used to create a LAG is a registered
+Direct Connect Partner, the LAG is automatically enabled to host sub-connections. For a LAG
+owned by a partner, any associated virtual interfaces cannot be directly configured.
 
 # Arguments
 - `connections_bandwidth`: The bandwidth of the individual physical dedicated connections
-  bundled by the LAG. The possible values are 1Gbps and 10Gbps.
+  bundled by the LAG. The possible values are 1Gbps,10Gbps, 100Gbps, and 400Gbps.
 - `lag_name`: The name of the LAG.
 - `location`: The location for the LAG.
 - `number_of_connections`: The number of physical dedicated connections initially
   provisioned and bundled by the LAG. You can have a maximum of four connections when the
-  port speed is 1G or 10G, or two when the port speed is 100G.
+  port speed is 1Gbps or 10Gbps, or two when the port speed is 100Gbps or 400Gbps.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1245,7 +1245,7 @@ gateway or a Virtual Private Gateway (VGW). Connecting the private virtual inter
 Direct Connect gateway enables the possibility for connecting to multiple VPCs, including
 VPCs in different Amazon Web Services Regions. Connecting the private virtual interface to
 a VGW only provides access to a single VPC within the same Region. Setting the MTU of a
-virtual interface to 9001 (jumbo frames) can cause an update to the underlying physical
+virtual interface to 8500 (jumbo frames) can cause an update to the underlying physical
 connection if it wasn't updated to support jumbo frames. Updating the connection disrupts
 network connectivity for all virtual interfaces associated with the connection for up to 30
 seconds. To check whether your connection supports jumbo frames, call DescribeConnections.
@@ -1691,7 +1691,7 @@ end
     describe_connection_loa(connection_id)
     describe_connection_loa(connection_id, params::Dict{String,<:Any})
 
-Deprecated. Use DescribeLoa instead. Gets the LOA-CFA for a connection. The Letter of
+ Deprecated. Use DescribeLoa instead.  Gets the LOA-CFA for a connection. The Letter of
 Authorization - Connecting Facility Assignment (LOA-CFA) is a document that your APN
 partner or service provider uses when establishing your cross connect to Amazon Web
 Services at the colocation facility. For more information, see Requesting Cross Connects at
@@ -1763,7 +1763,7 @@ end
     describe_connections_on_interconnect(interconnect_id)
     describe_connections_on_interconnect(interconnect_id, params::Dict{String,<:Any})
 
-Deprecated. Use DescribeHostedConnections instead. Lists the connections that have been
+ Deprecated. Use DescribeHostedConnections instead.  Lists the connections that have been
 provisioned on the specified interconnect.  Intended for use by Direct Connect Partners
 only.
 
@@ -2017,7 +2017,7 @@ end
     describe_interconnect_loa(interconnect_id)
     describe_interconnect_loa(interconnect_id, params::Dict{String,<:Any})
 
-Deprecated. Use DescribeLoa instead. Gets the LOA-CFA for the specified interconnect. The
+ Deprecated. Use DescribeLoa instead.  Gets the LOA-CFA for the specified interconnect. The
 Letter of Authorization - Connecting Facility Assignment (LOA-CFA) is a document that is
 used when establishing your cross connect to Amazon Web Services at the colocation
 facility. For more information, see Requesting Cross Connects at Direct Connect Locations
@@ -2252,8 +2252,10 @@ end
     describe_virtual_gateways()
     describe_virtual_gateways(params::Dict{String,<:Any})
 
-Lists the virtual private gateways owned by the Amazon Web Services account. You can create
-one or more Direct Connect private virtual interfaces linked to a virtual private gateway.
+ Deprecated. Use DescribeVpnGateways instead. See DescribeVPNGateways in the Amazon Elastic
+Compute Cloud API Reference.  Lists the virtual private gateways owned by the Amazon Web
+Services account. You can create one or more Direct Connect private virtual interfaces
+linked to a virtual private gateway.
 
 """
 function describe_virtual_gateways(; aws_config::AbstractAWSConfig=global_aws_config())
@@ -2773,7 +2775,7 @@ end
     update_virtual_interface_attributes(virtual_interface_id, params::Dict{String,<:Any})
 
 Updates the specified attributes of the specified virtual private interface. Setting the
-MTU of a virtual interface to 9001 (jumbo frames) can cause an update to the underlying
+MTU of a virtual interface to 8500 (jumbo frames) can cause an update to the underlying
 physical connection if it wasn't updated to support jumbo frames. Updating the connection
 disrupts network connectivity for all virtual interfaces associated with the connection for
 up to 30 seconds. To check whether your connection supports jumbo frames, call
@@ -2787,7 +2789,7 @@ DescribeVirtualInterfaces.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"enableSiteLink"`: Indicates whether to enable or disable SiteLink.
 - `"mtu"`: The maximum transmission unit (MTU), in bytes. The supported values are 1500 and
-  9001. The default value is 1500.
+  8500. The default value is 1500.
 - `"virtualInterfaceName"`: The name of the virtual private interface.
 """
 function update_virtual_interface_attributes(

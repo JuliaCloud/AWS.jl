@@ -116,19 +116,16 @@ end
     admin_confirm_sign_up(user_pool_id, username)
     admin_confirm_sign_up(user_pool_id, username, params::Dict{String,<:Any})
 
-This IAM-authenticated API operation provides a code that Amazon Cognito sent to your user
-when they signed up in your user pool. After your user enters their code, they confirm
-ownership of the email address or phone number that they provided, and their user account
-becomes active. Depending on your user pool configuration, your users will receive their
-confirmation code in an email or SMS message. Local users who signed up in your user pool
-are the only type of user who can confirm sign-up with a code. Users who federate through
-an external identity provider (IdP) have already been confirmed by their IdP.
-Administrator-created users confirm their accounts when they respond to their invitation
-email message and choose a password.  Amazon Cognito evaluates Identity and Access
-Management (IAM) policies in requests for this API operation. For this operation, you must
-use IAM credentials to authorize requests, and you must grant yourself the corresponding
-IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests
-Using the Amazon Cognito user pools API and user pool endpoints
+This IAM-authenticated API operation confirms user sign-up as an administrator. Unlike
+ConfirmSignUp, your IAM credentials authorize user account confirmation. No confirmation
+code is required. This request sets a user account active in a user pool that requires
+confirmation of new user accounts before they can sign in. You can configure your user pool
+to not send confirmation codes to new users and instead confirm them with this API
+operation on the back end.  Amazon Cognito evaluates Identity and Access Management (IAM)
+policies in requests for this API operation. For this operation, you must use IAM
+credentials to authorize requests, and you must grant yourself the corresponding IAM
+permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using
+the Amazon Cognito user pools API and user pool endpoints
 
 # Arguments
 - `user_pool_id`: The user pool ID for which you want to confirm user registration.
@@ -196,17 +193,17 @@ phone number before you can send SMS messages to US phone numbers. If you use SM
 messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon
 Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
 receive SMS messages might not be able to sign up, activate their accounts, or sign in. If
-you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service,
-Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox
-mode , you can send messages only to verified phone numbers. After you test your app while
-in the sandbox environment, you can move out of the sandbox and into production. For more
-information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito
-Developer Guide.  This message is based on a template that you configured in your call to
-create or update a user pool. This template includes your custom sign-up instructions and
-placeholders for user name and temporary password. Alternatively, you can call
-AdminCreateUser with SUPPRESS for the MessageAction parameter, and Amazon Cognito won't
-send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state until
-they sign in and change their password.  Amazon Cognito evaluates Identity and Access
+you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services
+service, Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ sandbox mode , you can send messages only to verified phone numbers. After you test your
+app while in the sandbox environment, you can move out of the sandbox and into production.
+For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon
+Cognito Developer Guide.  This message is based on a template that you configured in your
+call to create or update a user pool. This template includes your custom sign-up
+instructions and placeholders for user name and temporary password. Alternatively, you can
+call AdminCreateUser with SUPPRESS for the MessageAction parameter, and Amazon Cognito
+won't send any email.  In either case, the user will be in the FORCE_CHANGE_PASSWORD state
+until they sign in and change their password.  Amazon Cognito evaluates Identity and Access
 Management (IAM) policies in requests for this API operation. For this operation, you must
 use IAM credentials to authorize requests, and you must grant yourself the corresponding
 IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests
@@ -764,11 +761,11 @@ SMS text messages in Amazon Cognito, you must register a phone number with Amazo
 Amazon Cognito uses the registered number automatically. Otherwise, Amazon Cognito users
 who must receive SMS messages might not be able to sign up, activate their accounts, or
 sign in. If you have never used SMS text messages with Amazon Cognito or any other Amazon
-Web Service, Amazon Simple Notification Service might place your account in the SMS
-sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After you
-test your app while in the sandbox environment, you can move out of the sandbox and into
-production. For more information, see  SMS message settings for Amazon Cognito user pools
-in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access
+Web Services service, Amazon Simple Notification Service might place your account in the
+SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers. After
+you test your app while in the sandbox environment, you can move out of the sandbox and
+into production. For more information, see  SMS message settings for Amazon Cognito user
+pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and Access
 Management (IAM) policies in requests for this API operation. For this operation, you must
 use IAM credentials to authorize requests, and you must grant yourself the corresponding
 IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests
@@ -1198,19 +1195,19 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically.
 Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place
-your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified
-phone numbers. After you test your app while in the sandbox environment, you can move out
-of the sandbox and into production. For more information, see  SMS message settings for
-Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Deactivates a user's
-password, requiring them to change it. If a user tries to sign in after the API is called,
-Amazon Cognito responds with a PasswordResetRequiredException error. Your app must then
-perform the actions that reset your user's password: the forgot-password flow. In addition,
-if the user pool has phone verification selected and a verified phone number exists for the
-user, or if email verification is selected and a verified email exists for the user,
-calling this API will also result in sending a message to the end user with the code to
-change their password.  Amazon Cognito evaluates Identity and Access Management (IAM)
-policies in requests for this API operation. For this operation, you must use IAM
+Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might
+place your account in the SMS sandbox. In  sandbox mode , you can send messages only to
+verified phone numbers. After you test your app while in the sandbox environment, you can
+move out of the sandbox and into production. For more information, see  SMS message
+settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Deactivates
+a user's password, requiring them to change it. If a user tries to sign in after the API is
+called, Amazon Cognito responds with a PasswordResetRequiredException error. Your app must
+then perform the actions that reset your user's password: the forgot-password flow. In
+addition, if the user pool has phone verification selected and a verified phone number
+exists for the user, or if email verification is selected and a verified email exists for
+the user, calling this API will also result in sending a message to the end user with the
+code to change their password.  Amazon Cognito evaluates Identity and Access Management
+(IAM) policies in requests for this API operation. For this operation, you must use IAM
 credentials to authorize requests, and you must grant yourself the corresponding IAM
 permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using
 the Amazon Cognito user pools API and user pool endpoints
@@ -1287,15 +1284,15 @@ If you use SMS text messages in Amazon Cognito, you must register a phone number
 Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon
 Cognito users who must receive SMS messages might not be able to sign up, activate their
 accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any
-other Amazon Web Service, Amazon Simple Notification Service might place your account in
-the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers.
-After you test your app while in the sandbox environment, you can move out of the sandbox
-and into production. For more information, see  SMS message settings for Amazon Cognito
-user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates Identity and
-Access Management (IAM) policies in requests for this API operation. For this operation,
-you must use IAM credentials to authorize requests, and you must grant yourself the
-corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services API
-Requests     Using the Amazon Cognito user pools API and user pool endpoints
+other Amazon Web Services service, Amazon Simple Notification Service might place your
+account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone
+numbers. After you test your app while in the sandbox environment, you can move out of the
+sandbox and into production. For more information, see  SMS message settings for Amazon
+Cognito user pools in the Amazon Cognito Developer Guide.   Amazon Cognito evaluates
+Identity and Access Management (IAM) policies in requests for this API operation. For this
+operation, you must use IAM credentials to authorize requests, and you must grant yourself
+the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services
+API Requests     Using the Amazon Cognito user pools API and user pool endpoints
 
 # Arguments
 - `challenge_name`: The challenge name. For more information, see AdminInitiateAuth.
@@ -1741,20 +1738,20 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically.
 Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place
-your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified
-phone numbers. After you test your app while in the sandbox environment, you can move out
-of the sandbox and into production. For more information, see  SMS message settings for
-Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Updates the specified
-user's attributes, including developer attributes, as an administrator. Works on any user.
-To delete an attribute from your user, submit the attribute in your API request with a
-blank value. For custom attributes, you must prepend the custom: prefix to the attribute
-name. In addition to updating user attributes, this API can also be used to mark phone and
-email as verified.  Amazon Cognito evaluates Identity and Access Management (IAM) policies
-in requests for this API operation. For this operation, you must use IAM credentials to
-authorize requests, and you must grant yourself the corresponding IAM permission in a
-policy.  Learn more     Signing Amazon Web Services API Requests     Using the Amazon
-Cognito user pools API and user pool endpoints
+Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might
+place your account in the SMS sandbox. In  sandbox mode , you can send messages only to
+verified phone numbers. After you test your app while in the sandbox environment, you can
+move out of the sandbox and into production. For more information, see  SMS message
+settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Updates the
+specified user's attributes, including developer attributes, as an administrator. Works on
+any user. To delete an attribute from your user, submit the attribute in your API request
+with a blank value. For custom attributes, you must prepend the custom: prefix to the
+attribute name. In addition to updating user attributes, this API can also be used to mark
+phone and email as verified.  Amazon Cognito evaluates Identity and Access Management (IAM)
+policies in requests for this API operation. For this operation, you must use IAM
+credentials to authorize requests, and you must grant yourself the corresponding IAM
+permission in a policy.  Learn more     Signing Amazon Web Services API Requests     Using
+the Amazon Cognito user pools API and user pool endpoints
 
 # Arguments
 - `user_attributes`: An array of name-value pairs representing user attributes. For custom
@@ -1904,7 +1901,7 @@ token, or a session string from a challenge response that you received from Amaz
  VerifySoftwareToken API request. If you don't verify the software token and your user pool
 doesn't require MFA, the user can then authenticate with user name and password credentials
 alone. If your user pool requires TOTP MFA, Amazon Cognito generates an MFA_SETUP or
-SOFTWARE_TOKEN_SETUP challenge each time your user signs. Complete setup with
+SOFTWARE_TOKEN_SETUP challenge each time your user signs in. Complete setup with
 AssociateSoftwareToken and VerifySoftwareToken. After you set up software token MFA for
 your user, Amazon Cognito generates a SOFTWARE_TOKEN_MFA challenge when they authenticate.
 Respond to this challenge with your user's TOTP.   Amazon Cognito doesn't evaluate Identity
@@ -2567,17 +2564,18 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically.
 Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place
-your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified
-phone numbers. After you test your app while in the sandbox environment, you can move out
-of the sandbox and into production. For more information, see  SMS message settings for
-Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Creates a new Amazon
-Cognito user pool and sets the password policy for the pool.  If you don't provide a value
-for an attribute, Amazon Cognito sets it to its default value.   Amazon Cognito evaluates
-Identity and Access Management (IAM) policies in requests for this API operation. For this
-operation, you must use IAM credentials to authorize requests, and you must grant yourself
-the corresponding IAM permission in a policy.  Learn more     Signing Amazon Web Services
-API Requests     Using the Amazon Cognito user pools API and user pool endpoints
+Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might
+place your account in the SMS sandbox. In  sandbox mode , you can send messages only to
+verified phone numbers. After you test your app while in the sandbox environment, you can
+move out of the sandbox and into production. For more information, see  SMS message
+settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Creates a
+new Amazon Cognito user pool and sets the password policy for the pool.  If you don't
+provide a value for an attribute, Amazon Cognito sets it to its default value.   Amazon
+Cognito evaluates Identity and Access Management (IAM) policies in requests for this API
+operation. For this operation, you must use IAM credentials to authorize requests, and you
+must grant yourself the corresponding IAM permission in a policy.  Learn more     Signing
+Amazon Web Services API Requests     Using the Amazon Cognito user pools API and user pool
+endpoints
 
 # Arguments
 - `pool_name`: A string used to name the user pool.
@@ -2792,7 +2790,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a simulated destination. When set to LEGACY, those APIs return a UserNotFoundException
   exception if the user doesn't exist in the user pool. Valid values include:    ENABLED -
   This prevents user existence-related errors.    LEGACY - This represents the early behavior
-  of Amazon Cognito where user existence related errors aren't prevented.
+  of Amazon Cognito where user existence related errors aren't prevented.   Defaults to
+  LEGACY when you don't provide a value.
 - `"ReadAttributes"`: The list of user attributes that you want your app client to have
   read-only access to. After your user authenticates in your app, their access token
   authorizes them to read their own attribute value for any attribute in this list. An
@@ -3605,10 +3604,10 @@ number before you can send SMS messages to US phone numbers. If you use SMS text
 in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito
 uses the registered number automatically. Otherwise, Amazon Cognito users who must receive
 SMS messages might not be able to sign up, activate their accounts, or sign in. If you have
-never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon
-Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode ,
-you can send messages only to verified phone numbers. After you test your app while in the
-sandbox environment, you can move out of the sandbox and into production. For more
+never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
+Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox
+mode , you can send messages only to verified phone numbers. After you test your app while
+in the sandbox environment, you can move out of the sandbox and into production. For more
 information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito
 Developer Guide.
 
@@ -3839,11 +3838,11 @@ end
     get_log_delivery_configuration(user_pool_id)
     get_log_delivery_configuration(user_pool_id, params::Dict{String,<:Any})
 
-Gets the detailed activity logging configuration for a user pool.
+Gets the logging configuration of a user pool.
 
 # Arguments
-- `user_pool_id`: The ID of the user pool where you want to view detailed activity logging
-  configuration.
+- `user_pool_id`: The ID of the user pool that has the logging configuration that you want
+  to view.
 
 """
 function get_log_delivery_configuration(
@@ -4005,12 +4004,12 @@ phone number before you can send SMS messages to US phone numbers. If you use SM
 messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon
 Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
 receive SMS messages might not be able to sign up, activate their accounts, or sign in. If
-you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service,
-Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox
-mode , you can send messages only to verified phone numbers. After you test your app while
-in the sandbox environment, you can move out of the sandbox and into production. For more
-information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito
-Developer Guide.
+you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services
+service, Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ sandbox mode , you can send messages only to verified phone numbers. After you test your
+app while in the sandbox environment, you can move out of the sandbox and into production.
+For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon
+Cognito Developer Guide.
 
 # Arguments
 - `access_token`: A non-expired access token for the user whose attribute verification code
@@ -4170,10 +4169,10 @@ number before you can send SMS messages to US phone numbers. If you use SMS text
 in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon Cognito
 uses the registered number automatically. Otherwise, Amazon Cognito users who must receive
 SMS messages might not be able to sign up, activate their accounts, or sign in. If you have
-never used SMS text messages with Amazon Cognito or any other Amazon Web Service, Amazon
-Simple Notification Service might place your account in the SMS sandbox. In  sandbox mode ,
-you can send messages only to verified phone numbers. After you test your app while in the
-sandbox environment, you can move out of the sandbox and into production. For more
+never used SMS text messages with Amazon Cognito or any other Amazon Web Services service,
+Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox
+mode , you can send messages only to verified phone numbers. After you test your app while
+in the sandbox environment, you can move out of the sandbox and into production. For more
 information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito
 Developer Guide.
 
@@ -4762,7 +4761,7 @@ can send SMS messages to US phone numbers. If you use SMS text messages in Amazo
 you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered
 number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might
 not be able to sign up, activate their accounts, or sign in. If you have never used SMS
-text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple
+text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple
 Notification Service might place your account in the SMS sandbox. In  sandbox mode , you
 can send messages only to verified phone numbers. After you test your app while in the
 sandbox environment, you can move out of the sandbox and into production. For more
@@ -4852,11 +4851,11 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically.
 Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place
-your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified
-phone numbers. After you test your app while in the sandbox environment, you can move out
-of the sandbox and into production. For more information, see  SMS message settings for
-Amazon Cognito user pools in the Amazon Cognito Developer Guide.
+Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might
+place your account in the SMS sandbox. In  sandbox mode , you can send messages only to
+verified phone numbers. After you test your app while in the sandbox environment, you can
+move out of the sandbox and into production. For more information, see  SMS message
+settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.
 
 # Arguments
 - `challenge_name`: The challenge name. For more information, see InitiateAuth.
@@ -5009,13 +5008,12 @@ end
     set_log_delivery_configuration(log_configurations, user_pool_id)
     set_log_delivery_configuration(log_configurations, user_pool_id, params::Dict{String,<:Any})
 
-Sets up or modifies the detailed activity logging configuration of a user pool.
+Sets up or modifies the logging configuration of a user pool. User pools can export user
+notification logs and advanced security features user activity logs.
 
 # Arguments
-- `log_configurations`: A collection of all of the detailed activity logging configurations
-  for a user pool.
-- `user_pool_id`: The ID of the user pool where you want to configure detailed activity
-  logging .
+- `log_configurations`: A collection of the logging configurations for a user pool.
+- `user_pool_id`: The ID of the user pool where you want to configure logging.
 
 """
 function set_log_delivery_configuration(
@@ -5211,11 +5209,11 @@ If you use SMS text messages in Amazon Cognito, you must register a phone number
 Amazon Pinpoint. Amazon Cognito uses the registered number automatically. Otherwise, Amazon
 Cognito users who must receive SMS messages might not be able to sign up, activate their
 accounts, or sign in. If you have never used SMS text messages with Amazon Cognito or any
-other Amazon Web Service, Amazon Simple Notification Service might place your account in
-the SMS sandbox. In  sandbox mode , you can send messages only to verified phone numbers.
-After you test your app while in the sandbox environment, you can move out of the sandbox
-and into production. For more information, see  SMS message settings for Amazon Cognito
-user pools in the Amazon Cognito Developer Guide.
+other Amazon Web Services service, Amazon Simple Notification Service might place your
+account in the SMS sandbox. In  sandbox mode , you can send messages only to verified phone
+numbers. After you test your app while in the sandbox environment, you can move out of the
+sandbox and into production. For more information, see  SMS message settings for Amazon
+Cognito user pools in the Amazon Cognito Developer Guide.
 
 # Arguments
 - `user_pool_id`: The user pool ID.
@@ -5321,7 +5319,7 @@ can send SMS messages to US phone numbers. If you use SMS text messages in Amazo
 you must register a phone number with Amazon Pinpoint. Amazon Cognito uses the registered
 number automatically. Otherwise, Amazon Cognito users who must receive SMS messages might
 not be able to sign up, activate their accounts, or sign in. If you have never used SMS
-text messages with Amazon Cognito or any other Amazon Web Service, Amazon Simple
+text messages with Amazon Cognito or any other Amazon Web Services service, Amazon Simple
 Notification Service might place your account in the SMS sandbox. In  sandbox mode , you
 can send messages only to verified phone numbers. After you test your app while in the
 sandbox environment, you can move out of the sandbox and into production. For more
@@ -5959,12 +5957,12 @@ phone number before you can send SMS messages to US phone numbers. If you use SM
 messages in Amazon Cognito, you must register a phone number with Amazon Pinpoint. Amazon
 Cognito uses the registered number automatically. Otherwise, Amazon Cognito users who must
 receive SMS messages might not be able to sign up, activate their accounts, or sign in. If
-you have never used SMS text messages with Amazon Cognito or any other Amazon Web Service,
-Amazon Simple Notification Service might place your account in the SMS sandbox. In  sandbox
-mode , you can send messages only to verified phone numbers. After you test your app while
-in the sandbox environment, you can move out of the sandbox and into production. For more
-information, see  SMS message settings for Amazon Cognito user pools in the Amazon Cognito
-Developer Guide.
+you have never used SMS text messages with Amazon Cognito or any other Amazon Web Services
+service, Amazon Simple Notification Service might place your account in the SMS sandbox. In
+ sandbox mode , you can send messages only to verified phone numbers. After you test your
+app while in the sandbox environment, you can move out of the sandbox and into production.
+For more information, see  SMS message settings for Amazon Cognito user pools in the Amazon
+Cognito Developer Guide.
 
 # Arguments
 - `access_token`: A valid access token that Amazon Cognito issued to the user whose user
@@ -6037,14 +6035,14 @@ phone numbers. If you use SMS text messages in Amazon Cognito, you must register
 number with Amazon Pinpoint. Amazon Cognito uses the registered number automatically.
 Otherwise, Amazon Cognito users who must receive SMS messages might not be able to sign up,
 activate their accounts, or sign in. If you have never used SMS text messages with Amazon
-Cognito or any other Amazon Web Service, Amazon Simple Notification Service might place
-your account in the SMS sandbox. In  sandbox mode , you can send messages only to verified
-phone numbers. After you test your app while in the sandbox environment, you can move out
-of the sandbox and into production. For more information, see  SMS message settings for
-Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Updates the specified
-user pool with the specified attributes. You can get a list of the current user pool
-settings using DescribeUserPool.  If you don't provide a value for an attribute, Amazon
-Cognito sets it to its default value.   Amazon Cognito evaluates Identity and Access
+Cognito or any other Amazon Web Services service, Amazon Simple Notification Service might
+place your account in the SMS sandbox. In  sandbox mode , you can send messages only to
+verified phone numbers. After you test your app while in the sandbox environment, you can
+move out of the sandbox and into production. For more information, see  SMS message
+settings for Amazon Cognito user pools in the Amazon Cognito Developer Guide.  Updates the
+specified user pool with the specified attributes. You can get a list of the current user
+pool settings using DescribeUserPool.  If you don't provide a value for an attribute,
+Amazon Cognito sets it to its default value.   Amazon Cognito evaluates Identity and Access
 Management (IAM) policies in requests for this API operation. For this operation, you must
 use IAM credentials to authorize requests, and you must grant yourself the corresponding
 IAM permission in a policy.  Learn more     Signing Amazon Web Services API Requests
@@ -6243,7 +6241,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a simulated destination. When set to LEGACY, those APIs return a UserNotFoundException
   exception if the user doesn't exist in the user pool. Valid values include:    ENABLED -
   This prevents user existence-related errors.    LEGACY - This represents the early behavior
-  of Amazon Cognito where user existence related errors aren't prevented.
+  of Amazon Cognito where user existence related errors aren't prevented.   Defaults to
+  LEGACY when you don't provide a value.
 - `"ReadAttributes"`: The list of user attributes that you want your app client to have
   read-only access to. After your user authenticates in your app, their access token
   authorizes them to read their own attribute value for any attribute in this list. An

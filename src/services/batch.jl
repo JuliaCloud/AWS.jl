@@ -8,15 +8,14 @@ using AWS.UUIDs
     cancel_job(job_id, reason)
     cancel_job(job_id, reason, params::Dict{String,<:Any})
 
-Cancels a job in an Batch job queue. Jobs that are in the SUBMITTED or PENDING are
-canceled. A job inRUNNABLE remains in RUNNABLE until it reaches the head of the job queue.
-Then the job status is updated to FAILED.  A PENDING job is canceled after all dependency
-jobs are completed. Therefore, it may take longer than expected to cancel a job in PENDING
-status. When you try to cancel an array parent job in PENDING, Batch attempts to cancel all
-child jobs. The array parent job is canceled when all child jobs are completed.  Jobs that
-progressed to the STARTING or RUNNING state aren't canceled. However, the API operation
-still succeeds, even if no job is canceled. These jobs must be terminated with the
-TerminateJob operation.
+Cancels a job in an Batch job queue. Jobs that are in a SUBMITTED, PENDING, or RUNNABLE
+state are cancelled and the job status is updated to FAILED.  A PENDING job is canceled
+after all dependency jobs are completed. Therefore, it may take longer than expected to
+cancel a job in PENDING status. When you try to cancel an array parent job in PENDING,
+Batch attempts to cancel all child jobs. The array parent job is canceled when all child
+jobs are completed.  Jobs that progressed to the STARTING or RUNNING state aren't canceled.
+However, the API operation still succeeds, even if no job is canceled. These jobs must be
+terminated with the TerminateJob operation.
 
 # Arguments
 - `job_id`: The Batch job ID of the job to cancel.
@@ -122,6 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"computeResources"`: Details about the compute resources managed by the compute
   environment. This parameter is required for managed compute environments. For more
   information, see Compute Environments in the Batch User Guide.
+- `"context"`: Reserved.
 - `"eksConfiguration"`: The details for the Amazon EKS cluster that supports the compute
   environment.
 - `"serviceRole"`: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to
@@ -1245,6 +1245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"computeResources"`: Details of the compute resources managed by the compute
   environment. Required for a managed compute environment. For more information, see Compute
   Environments in the Batch User Guide.
+- `"context"`: Reserved.
 - `"serviceRole"`: The full Amazon Resource Name (ARN) of the IAM role that allows Batch to
   make calls to other Amazon Web Services services on your behalf. For more information, see
   Batch service IAM role in the Batch User Guide.  If the compute environment has a

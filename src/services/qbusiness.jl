@@ -183,14 +183,20 @@ assign subscription tiers to users.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"attachmentsConfiguration"`: An option to allow end users to upload files directly
   during chat.
+- `"clientIdsForOIDC"`: The OIDC client ID for a Amazon Q Business application.
 - `"clientToken"`: A token that you provide to identify the request to create your Amazon Q
   Business application.
 - `"description"`: A description for the Amazon Q Business application.
 - `"encryptionConfiguration"`: The identifier of the KMS key that is used to encrypt your
   data. Amazon Q Business doesn't support asymmetric keys.
+- `"iamIdentityProviderArn"`: The Amazon Resource Name (ARN) of an identity provider being
+  used by an Amazon Q Business application.
 - `"identityCenterInstanceArn"`:  The Amazon Resource Name (ARN) of the IAM Identity Center
   instance you are either creating for—or connecting to—your Amazon Q Business
   application.
+- `"identityType"`: The authentication type being used by a Amazon Q Business application.
+- `"personalizationConfiguration"`: Configuration information about chat response
+  personalization. For more information, see Personalizing chat responses
 - `"qAppsConfiguration"`: An option to allow end users to create and use Amazon Q Apps in
   the web experience.
 - `"roleArn"`:  The Amazon Resource Name (ARN) of an IAM role with permissions to access
@@ -242,8 +248,16 @@ created. Otherwise, an exception is raised.
 # Arguments
 - `application_id`:  The identifier of the Amazon Q Business application the data source
   will be attached to.
-- `configuration`: Configuration information to connect to your data source repository. For
-  configuration templates for your specific data source, see Supported connectors.
+- `configuration`: Configuration information to connect your data source repository to
+  Amazon Q Business. Use this parameter to provide a JSON schema with configuration
+  information specific to your data source connector. Each data source has a JSON schema
+  provided by Amazon Q Business that you must use. For example, the Amazon S3 and Web Crawler
+  connectors require the following JSON schemas:    Amazon S3 JSON schema     Web Crawler
+  JSON schema    You can find configuration templates for your specific data source using the
+  following steps:   Navigate to the Supported connectors page in the Amazon Q Business User
+  Guide, and select the data source of your choice.   Then, from your specific data source
+  connector page, select Using the API. You will find the JSON schema for your data source,
+  including parameter descriptions, in this section.
 - `display_name`: A name for the data source connector.
 - `index_id`: The identifier of the index that you want to use with the data source
   connector.
@@ -581,8 +595,12 @@ Creates an Amazon Q Business web experience.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: A token you provide to identify a request to create an Amazon Q Business
   web experience.
+- `"identityProviderConfiguration"`: Information about the identity provider (IdP) used to
+  authenticate end users of an Amazon Q Business web experience.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the service role attached to your web
-  experience.
+  experience.  You must provide this value if you're using IAM Identity Center to manage end
+  user access to your application. If you're using legacy identity management to manage user
+  access, you don't need to provide this value.
 - `"samplePromptsControlMode"`: Determines whether sample prompts are enabled in the web
   experience for an end user.
 - `"subtitle"`: A subtitle to personalize your Amazon Q Business web experience.
@@ -1904,11 +1922,7 @@ top-secret company documents in their Amazon Q Business chat results.
 - `group_members`:
 - `group_name`: The list that contains your users or sub groups that belong the same group.
   For example, the group \"Company\" includes the user \"CEO\" and the sub groups
-  \"Research\", \"Engineering\", and \"Sales and Marketing\". If you have more than 1000
-  users and/or sub groups for a single group, you need to provide the path to the S3 file
-  that lists your users and sub groups for a group. Your sub groups can contain more than
-  1000 users, but the list of sub groups that belong to a group (and/or users) must be no
-  more than 1000.
+  \"Research\", \"Engineering\", and \"Sales and Marketing\".
 - `index_id`: The identifier of the index in which you want to map users to their groups.
 - `type`: The type of the group.
 
@@ -2135,11 +2149,16 @@ Updates an existing Amazon Q Business application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"attachmentsConfiguration"`: An option to allow end users to upload files directly
   during chat.
+- `"autoSubscriptionConfiguration"`: An option to enable updating the default subscription
+  type assigned to an Amazon Q Business application using IAM identity federation for user
+  management.
 - `"description"`: A description for the Amazon Q Business application.
 - `"displayName"`: A name for the Amazon Q Business application.
 - `"identityCenterInstanceArn"`:  The Amazon Resource Name (ARN) of the IAM Identity Center
   instance you are either creating for—or connecting to—your Amazon Q Business
   application.
+- `"personalizationConfiguration"`: Configuration information about chat response
+  personalization. For more information, see Personalizing chat responses.
 - `"qAppsConfiguration"`: An option to allow end users to create and use Amazon Q Apps in
   the web experience.
 - `"roleArn"`: An Amazon Web Services Identity and Access Management (IAM) role that gives
@@ -2458,6 +2477,8 @@ Updates an Amazon Q Business web experience.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"authenticationConfiguration"`: The authentication configuration of the Amazon Q
   Business web experience.
+- `"identityProviderConfiguration"`: Information about the identity provider (IdP) used to
+  authenticate end users of an Amazon Q Business web experience.
 - `"roleArn"`: The Amazon Resource Name (ARN) of the role with permission to access the
   Amazon Q Business web experience and required resources.
 - `"samplePromptsControlMode"`: Determines whether sample prompts are enabled in the web

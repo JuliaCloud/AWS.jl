@@ -5,13 +5,59 @@ using AWS.Compat
 using AWS.UUIDs
 
 """
+    accept_resource_grouping_recommendations(app_arn, entries)
+    accept_resource_grouping_recommendations(app_arn, entries, params::Dict{String,<:Any})
+
+Accepts the resource grouping recommendations suggested by Resilience Hub for your
+application.
+
+# Arguments
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
+  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
+  guide.
+- `entries`: Indicates the list of resource grouping recommendations you want to include in
+  your application.
+
+"""
+function accept_resource_grouping_recommendations(
+    appArn, entries; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/accept-resource-grouping-recommendations",
+        Dict{String,Any}("appArn" => appArn, "entries" => entries);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function accept_resource_grouping_recommendations(
+    appArn,
+    entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/accept-resource-grouping-recommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("appArn" => appArn, "entries" => entries), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     add_draft_app_version_resource_mappings(app_arn, resource_mappings)
     add_draft_app_version_resource_mappings(app_arn, resource_mappings, params::Dict{String,<:Any})
 
 Adds the source of resource-maps to the draft version of an application. During assessment,
 Resilience Hub will use these resource-maps to resolve the latest physical ID for each
 resource in the application template. For more information about different types of
-resources suported by Resilience Hub and how to add them in your application, see Step 2:
+resources supported by Resilience Hub and how to add them in your application, see Step 2:
 How is your application managed? in the Resilience Hub User Guide.
 
 # Arguments
@@ -1017,7 +1063,7 @@ end
     describe_app_version_resource(app_arn, app_version, params::Dict{String,<:Any})
 
 Describes a resource of the Resilience Hub application.  This API accepts only one of the
-following parameters to descibe the resource:    resourceName     logicalResourceId
+following parameters to describe the resource:    resourceName     logicalResourceId
 physicalResourceId (Along with physicalResourceId, you can also provide awsAccountId, and
 awsRegion)
 
@@ -1246,6 +1292,46 @@ function describe_resiliency_policy(
 end
 
 """
+    describe_resource_grouping_recommendation_task(app_arn)
+    describe_resource_grouping_recommendation_task(app_arn, params::Dict{String,<:Any})
+
+Describes the resource grouping recommendation tasks run by Resilience Hub for your
+application.
+
+# Arguments
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
+  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
+  guide.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"groupingId"`: Indicates the identifier of the grouping recommendation task.
+"""
+function describe_resource_grouping_recommendation_task(
+    appArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/describe-resource-grouping-recommendation-task",
+        Dict{String,Any}("appArn" => appArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_resource_grouping_recommendation_task(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/describe-resource-grouping-recommendation-task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     import_resources_to_draft_app_version(app_arn)
     import_resources_to_draft_app_version(app_arn, params::Dict{String,<:Any})
 
@@ -1351,9 +1437,8 @@ List of compliance drifts that were detected while running an assessment.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
-- `"maxResults"`: Indicates the maximum number of applications requested.
-- `"nextToken"`: Indicates the unique token number of the next application to be checked
-  for compliance and regulatory requirements from the list of applications.
+- `"maxResults"`: Indicates the maximum number of compliance drifts requested.
+- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 """
 function list_app_assessment_compliance_drifts(
     assessmentArn; aws_config::AbstractAWSConfig=global_aws_config()
@@ -1842,7 +1927,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Null, or the token from a previous call to get the next set of results.
 - `"reverseOrder"`: The application list is sorted based on the values of
   lastAppComplianceEvaluationTime field. By default, application list is sorted in ascending
-  order. To sort the appliation list in descending order, set this field to True.
+  order. To sort the application list in descending order, set this field to True.
 - `"toLastAssessmentTime"`: Indicates the upper limit of the range that is used to filter
   the applications based on their last assessment times.
 """
@@ -1930,6 +2015,45 @@ function list_resiliency_policies(
     return resiliencehub(
         "GET",
         "/list-resiliency-policies",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_resource_grouping_recommendations()
+    list_resource_grouping_recommendations(params::Dict{String,<:Any})
+
+Lists the resource grouping recommendations suggested by Resilience Hub for your
+application.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"appArn"`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
+  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
+  guide.
+- `"maxResults"`: Maximum number of grouping recommendations to be displayed per Resilience
+  Hub application.
+- `"nextToken"`: Null, or the token from a previous call to get the next set of results.
+"""
+function list_resource_grouping_recommendations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-resource-grouping-recommendations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_resource_grouping_recommendations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resiliencehub(
+        "GET",
+        "/list-resource-grouping-recommendations",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -2289,6 +2413,51 @@ function put_draft_app_version_template(
 end
 
 """
+    reject_resource_grouping_recommendations(app_arn, entries)
+    reject_resource_grouping_recommendations(app_arn, entries, params::Dict{String,<:Any})
+
+Rejects resource grouping recommendations.
+
+# Arguments
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
+  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
+  guide.
+- `entries`: Indicates the list of resource grouping recommendations you have selected to
+  exclude from your application.
+
+"""
+function reject_resource_grouping_recommendations(
+    appArn, entries; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/reject-resource-grouping-recommendations",
+        Dict{String,Any}("appArn" => appArn, "entries" => entries);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function reject_resource_grouping_recommendations(
+    appArn,
+    entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return resiliencehub(
+        "POST",
+        "/reject-resource-grouping-recommendations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("appArn" => appArn, "entries" => entries), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     remove_draft_app_version_resource_mappings(app_arn)
     remove_draft_app_version_resource_mappings(app_arn, params::Dict{String,<:Any})
 
@@ -2445,6 +2614,42 @@ function start_app_assessment(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    start_resource_grouping_recommendation_task(app_arn)
+    start_resource_grouping_recommendation_task(app_arn, params::Dict{String,<:Any})
+
+Starts grouping recommendation task.
+
+# Arguments
+- `app_arn`: Amazon Resource Name (ARN) of the Resilience Hub application. The format for
+  this ARN is: arn:partition:resiliencehub:region:account:app/app-id. For more information
+  about ARNs, see  Amazon Resource Names (ARNs) in the Amazon Web Services General Reference
+  guide.
+
+"""
+function start_resource_grouping_recommendation_task(
+    appArn; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/start-resource-grouping-recommendation-task",
+        Dict{String,Any}("appArn" => appArn);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function start_resource_grouping_recommendation_task(
+    appArn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return resiliencehub(
+        "POST",
+        "/start-resource-grouping-recommendation-task",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("appArn" => appArn), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

@@ -286,7 +286,6 @@ see Using pull through cache rules in the Amazon Elastic Container Registry User
   Hub (docker-hub) - registry-1.docker.io    Quay (quay) - quay.io    Kubernetes (k8s) -
   registry.k8s.io    GitHub Container Registry (github-container-registry) - ghcr.io
   Microsoft Azure Container Registry (azure-container-registry) - &lt;custom&gt;.azurecr.io
-   GitLab Container Registry (gitlab-container-registry) - registry.gitlab.com
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -386,6 +385,83 @@ function create_repository(
         "CreateRepository",
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_repository_creation_template(applied_for, prefix)
+    create_repository_creation_template(applied_for, prefix, params::Dict{String,<:Any})
+
+Creates a repository creation template. This template is used to define the settings for
+repositories created by Amazon ECR on your behalf. For example, repositories created
+through pull through cache actions. For more information, see Private repository creation
+templates in the Amazon Elastic Container Registry User Guide.
+
+# Arguments
+- `applied_for`: A list of enumerable strings representing the Amazon ECR repository
+  creation scenarios that this template will apply towards. The two supported scenarios are
+  PULL_THROUGH_CACHE and REPLICATION
+- `prefix`: The repository namespace prefix to associate with the template. All
+  repositories created using this namespace prefix will have the settings defined in this
+  template applied. For example, a prefix of prod would apply to all repositories beginning
+  with prod/. Similarly, a prefix of prod/team would apply to all repositories beginning with
+  prod/team/. To apply a template to all repositories in your registry that don't have an
+  associated creation template, you can use ROOT as the prefix.  There is always an assumed /
+  applied to the end of the prefix. If you specify ecr-public as the prefix, Amazon ECR
+  treats that as ecr-public/. When using a pull through cache rule, the repository prefix you
+  specify during rule creation is what you should specify as your repository creation
+  template prefix as well.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"customRoleArn"`: The ARN of the role to be assumed by Amazon ECR. This role must be in
+  the same account as the registry that you are configuring. Amazon ECR will assume your
+  supplied role when the customRoleArn is specified. When this field isn't specified, Amazon
+  ECR will use the service-linked role for the repository creation template.
+- `"description"`: A description for the repository creation template.
+- `"encryptionConfiguration"`: The encryption configuration to use for repositories created
+  using the template.
+- `"imageTagMutability"`: The tag mutability setting for the repository. If this parameter
+  is omitted, the default setting of MUTABLE will be used which will allow image tags to be
+  overwritten. If IMMUTABLE is specified, all image tags within the repository will be
+  immutable which will prevent them from being overwritten.
+- `"lifecyclePolicy"`: The lifecycle policy to use for repositories created using the
+  template.
+- `"repositoryPolicy"`: The repository policy to apply to repositories created using the
+  template. A repository policy is a permissions policy associated with a repository to
+  control access permissions.
+- `"resourceTags"`: The metadata to apply to the repository to help you categorize and
+  organize. Each tag consists of a key and an optional value, both of which you define. Tag
+  keys can have a maximum character length of 128 characters, and tag values can have a
+  maximum length of 256 characters.
+"""
+function create_repository_creation_template(
+    appliedFor, prefix; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "CreateRepositoryCreationTemplate",
+        Dict{String,Any}("appliedFor" => appliedFor, "prefix" => prefix);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function create_repository_creation_template(
+    appliedFor,
+    prefix,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecr(
+        "CreateRepositoryCreationTemplate",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("appliedFor" => appliedFor, "prefix" => prefix),
+                params,
+            ),
         );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -538,6 +614,38 @@ function delete_repository(
         Dict{String,Any}(
             mergewith(_merge, Dict{String,Any}("repositoryName" => repositoryName), params)
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    delete_repository_creation_template(prefix)
+    delete_repository_creation_template(prefix, params::Dict{String,<:Any})
+
+Deletes a repository creation template.
+
+# Arguments
+- `prefix`: The repository namespace prefix associated with the repository creation
+  template.
+
+"""
+function delete_repository_creation_template(
+    prefix; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "DeleteRepositoryCreationTemplate",
+        Dict{String,Any}("prefix" => prefix);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function delete_repository_creation_template(
+    prefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "DeleteRepositoryCreationTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("prefix" => prefix), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -847,6 +955,82 @@ function describe_repositories(
     return ecr(
         "DescribeRepositories",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_repository_creation_templates()
+    describe_repository_creation_templates(params::Dict{String,<:Any})
+
+Returns details about the repository creation templates in a registry. The prefixes request
+parameter can be used to return the details for a specific repository creation template.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"maxResults"`: The maximum number of repository results returned by
+  DescribeRepositoryCreationTemplatesRequest in paginated output. When this parameter is
+  used, DescribeRepositoryCreationTemplatesRequest only returns maxResults results in a
+  single page along with a nextToken response element. The remaining results of the initial
+  request can be seen by sending another DescribeRepositoryCreationTemplatesRequest request
+  with the returned nextToken value. This value can be between 1 and 1000. If this parameter
+  is not used, then DescribeRepositoryCreationTemplatesRequest returns up to 100 results and
+  a nextToken value, if applicable.
+- `"nextToken"`: The nextToken value returned from a previous paginated
+  DescribeRepositoryCreationTemplates request where maxResults was used and the results
+  exceeded the value of that parameter. Pagination continues from the end of the previous
+  results that returned the nextToken value. This value is null when there are no more
+  results to return.  This token should be treated as an opaque identifier that is only used
+  to retrieve the next items in a list and not for other programmatic purposes.
+- `"prefixes"`: The repository namespace prefixes associated with the repository creation
+  templates to describe. If this value is not specified, all repository creation templates
+  are returned.
+"""
+function describe_repository_creation_templates(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "DescribeRepositoryCreationTemplates";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function describe_repository_creation_templates(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "DescribeRepositoryCreationTemplates",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_account_setting(name)
+    get_account_setting(name, params::Dict{String,<:Any})
+
+Retrieves the basic scan type version name.
+
+# Arguments
+- `name`: Basic scan type version name.
+
+"""
+function get_account_setting(name; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecr(
+        "GetAccountSetting",
+        Dict{String,Any}("name" => name);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_account_setting(
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "GetAccountSetting",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("name" => name), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -1257,6 +1441,43 @@ function list_tags_for_resource(
 end
 
 """
+    put_account_setting(name, value)
+    put_account_setting(name, value, params::Dict{String,<:Any})
+
+Allows you to change the basic scan type version by setting the name parameter to either
+CLAIR to AWS_NATIVE.
+
+# Arguments
+- `name`: Basic scan type version name.
+- `value`: Setting value that determines what basic scan type is being used: AWS_NATIVE or
+  CLAIR.
+
+"""
+function put_account_setting(name, value; aws_config::AbstractAWSConfig=global_aws_config())
+    return ecr(
+        "PutAccountSetting",
+        Dict{String,Any}("name" => name, "value" => value);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_account_setting(
+    name,
+    value,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return ecr(
+        "PutAccountSetting",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("name" => name, "value" => value), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     put_image(image_manifest, repository_name)
     put_image(image_manifest, repository_name, params::Dict{String,<:Any})
 
@@ -1569,9 +1790,10 @@ configuration for a repository can be retrieved with the DescribeRegistry API ac
 first time the PutReplicationConfiguration API is called, a service-linked IAM role is
 created in your account for the replication process. For more information, see Using
 service-linked roles for Amazon ECR in the Amazon Elastic Container Registry User Guide.
-When configuring cross-account replication, the destination account must grant the source
-account permission to replicate. This permission is controlled using a registry permissions
-policy. For more information, see PutRegistryPolicy.
+For more information on the custom role for replication, see Creating an IAM role for
+replication.  When configuring cross-account replication, the destination account must
+grant the source account permission to replicate. This permission is controlled using a
+registry permissions policy. For more information, see PutRegistryPolicy.
 
 # Arguments
 - `replication_configuration`: An object representing the replication configuration for a
@@ -1884,6 +2106,66 @@ function update_pull_through_cache_rule(
                 params,
             ),
         );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_repository_creation_template(prefix)
+    update_repository_creation_template(prefix, params::Dict{String,<:Any})
+
+Updates an existing repository creation template.
+
+# Arguments
+- `prefix`: The repository namespace prefix that matches an existing repository creation
+  template in the registry. All repositories created using this namespace prefix will have
+  the settings defined in this template applied. For example, a prefix of prod would apply to
+  all repositories beginning with prod/. This includes a repository named prod/team1 as well
+  as a repository named prod/repository1. To apply a template to all repositories in your
+  registry that don't have an associated creation template, you can use ROOT as the prefix.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"appliedFor"`: Updates the list of enumerable strings representing the Amazon ECR
+  repository creation scenarios that this template will apply towards. The two supported
+  scenarios are PULL_THROUGH_CACHE and REPLICATION
+- `"customRoleArn"`: The ARN of the role to be assumed by Amazon ECR. This role must be in
+  the same account as the registry that you are configuring. Amazon ECR will assume your
+  supplied role when the customRoleArn is specified. When this field isn't specified, Amazon
+  ECR will use the service-linked role for the repository creation template.
+- `"description"`: A description for the repository creation template.
+- `"encryptionConfiguration"`:
+- `"imageTagMutability"`: Updates the tag mutability setting for the repository. If this
+  parameter is omitted, the default setting of MUTABLE will be used which will allow image
+  tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository
+  will be immutable which will prevent them from being overwritten.
+- `"lifecyclePolicy"`: Updates the lifecycle policy associated with the specified
+  repository creation template.
+- `"repositoryPolicy"`: Updates the repository policy created using the template. A
+  repository policy is a permissions policy associated with a repository to control access
+  permissions.
+- `"resourceTags"`: The metadata to apply to the repository to help you categorize and
+  organize. Each tag consists of a key and an optional value, both of which you define. Tag
+  keys can have a maximum character length of 128 characters, and tag values can have a
+  maximum length of 256 characters.
+"""
+function update_repository_creation_template(
+    prefix; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "UpdateRepositoryCreationTemplate",
+        Dict{String,Any}("prefix" => prefix);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function update_repository_creation_template(
+    prefix, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return ecr(
+        "UpdateRepositoryCreationTemplate",
+        Dict{String,Any}(mergewith(_merge, Dict{String,Any}("prefix" => prefix), params));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

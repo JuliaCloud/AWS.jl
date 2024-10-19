@@ -1356,8 +1356,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Inferred workload types in the Compute Optimizer User Guide.
 - `"lookBackPeriod"`:  The preference to control the number of days the utilization metrics
   of the Amazon Web Services resource are analyzed. When this preference isn't specified, we
-  use the default value DAYS_14.   You can only set this preference for the Amazon EC2
-  instance and Auto Scaling group resource types.
+  use the default value DAYS_14.  You can only set this preference for the Amazon EC2
+  instance and Auto Scaling group resource types.     Amazon EC2 instance lookback
+  preferences can be set at the organization, account, and resource levels.   Auto Scaling
+  group lookback preferences can only be set at the resource level.
 - `"preferredResources"`:  The preference to control which resource type values are
   considered when generating rightsizing recommendations. You can specify this preference as
   a combination of include and exclude lists. You must specify either an includeList or

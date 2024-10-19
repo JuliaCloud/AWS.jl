@@ -394,6 +394,10 @@ Launching Amazon EKS nodes in the Amazon EKS User Guide.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accessConfig"`: The access configuration for the cluster.
+- `"bootstrapSelfManagedAddons"`: If you set this value to False when creating a cluster,
+  the default networking add-ons will not be installed. The default networking addons include
+  vpc-cni, coredns, and kube-proxy. Use this option when you plan to install third-party
+  alternative add-ons or self-manage the default networking add-ons.
 - `"clientRequestToken"`: A unique, case-sensitive identifier that you provide to ensure
   the idempotency of the request.
 - `"encryptionConfig"`: The encryption configuration for the cluster.
@@ -411,6 +415,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Metadata that assists with categorization and organization. Each tag consists
   of a key and an optional value. You define both. Tags don't propagate to any other cluster
   or Amazon Web Services resources.
+- `"upgradePolicy"`: New clusters, by default, have extended support enabled. You can
+  disable extended support when creating a cluster by setting this value to STANDARD.
 - `"version"`: The desired Kubernetes version for your cluster. If you don't specify a
   value here, the default version available in Amazon EKS is used.  The default version might
   not be the latest version available.
@@ -2591,6 +2597,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon EKS User Guide .  CloudWatch Logs ingestion, archive storage, and data scanning
   rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
 - `"resourcesVpcConfig"`:
+- `"upgradePolicy"`: You can enable or disable extended support for clusters currently on
+  standard support. You cannot disable extended support once it starts. You must enable
+  extended support before your cluster exits standard support.
 """
 function update_cluster_config(name; aws_config::AbstractAWSConfig=global_aws_config())
     return eks(

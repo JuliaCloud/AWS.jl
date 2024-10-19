@@ -702,7 +702,7 @@ a Policy for Cross-Account Access.
 # Arguments
 - `resource_arn`: The Amazon Resource Number (ARN) of the private CA that will have its
   policy retrieved. You can find the CA's ARN by calling the ListCertificateAuthorities
-  action.
+  action.  &lt;/p&gt;
 
 """
 function get_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
@@ -754,15 +754,14 @@ certificate signed by the preceding subordinate CA must come next, and so on unt
 chain is built.    The chain must be PEM-encoded.   The maximum allowed size of a
 certificate is 32 KB.   The maximum allowed size of a certificate chain is 2 MB.
 Enforcement of Critical Constraints  Amazon Web Services Private CA allows the following
-extensions to be marked critical in the imported CA certificate or chain.   Authority key
-identifier   Basic constraints (must be marked critical)   Certificate policies   Extended
-key usage   Inhibit anyPolicy   Issuer alternative name   Key usage   Name constraints
-Policy mappings   Subject alternative name   Subject directory attributes   Subject key
-identifier   Subject information access   Amazon Web Services Private CA rejects the
-following extensions when they are marked critical in an imported CA certificate or chain.
- Authority information access   CRL distribution points   Freshest CRL   Policy constraints
-  Amazon Web Services Private Certificate Authority will also reject any other extension
-marked as critical not contained on the preceding list of allowed extensions.
+extensions to be marked critical in the imported CA certificate or chain.   Basic
+constraints (must be marked critical)   Subject alternative names   Key usage   Extended
+key usage   Authority key identifier   Subject key identifier   Issuer alternative name
+Subject directory attributes   Subject information access   Certificate policies   Policy
+mappings   Inhibit anyPolicy   Amazon Web Services Private CA rejects the following
+extensions when they are marked critical in an imported CA certificate or chain.   Name
+constraints   Policy constraints   CRL distribution points   Authority information access
+Freshest CRL   Any other extension
 
 # Arguments
 - `certificate`: The PEM-encoded certificate for a private CA. This may be a self-signed

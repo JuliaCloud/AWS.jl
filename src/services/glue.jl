@@ -658,6 +658,48 @@ function batch_get_workflows(
 end
 
 """
+    batch_put_data_quality_statistic_annotation(inclusion_annotations)
+    batch_put_data_quality_statistic_annotation(inclusion_annotations, params::Dict{String,<:Any})
+
+Annotate datapoints over time for a specific data quality statistic.
+
+# Arguments
+- `inclusion_annotations`: A list of DatapointInclusionAnnotation's.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Client Token.
+"""
+function batch_put_data_quality_statistic_annotation(
+    InclusionAnnotations; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "BatchPutDataQualityStatisticAnnotation",
+        Dict{String,Any}("InclusionAnnotations" => InclusionAnnotations);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function batch_put_data_quality_statistic_annotation(
+    InclusionAnnotations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "BatchPutDataQualityStatisticAnnotation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InclusionAnnotations" => InclusionAnnotations),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     batch_stop_job_run(job_name, job_run_ids)
     batch_stop_job_run(job_name, job_run_ids, params::Dict{String,<:Any})
 
@@ -1200,6 +1242,8 @@ see the Glue developer guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Used for idempotency and is recommended to be set to a random ID (such
   as a UUID) to avoid creating or starting multiple instances of the same resource.
+- `"DataQualitySecurityConfiguration"`: The name of the security configuration created with
+  the data quality encryption option.
 - `"Description"`: A description of the data quality ruleset.
 - `"Tags"`: A list of tags applied to the data quality ruleset.
 - `"TargetTable"`: A target table associated with the data quality ruleset.
@@ -1414,6 +1458,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive
   sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the
   default value.
+- `"JobRunQueuingEnabled"`: Specifies whether job run queuing is enabled for the job runs
+  for this job. A value of true means job run queuing is enabled for the job runs. If false
+  or not populated, the job runs will not be considered for queueing. If this field does not
+  match the value set in the job run, then the value from the job run field will be used.
 - `"LogUri"`: This field is reserved for future use.
 - `"MaintenanceWindow"`: This field specifies a day of the week and hour for a maintenance
   window for streaming jobs. Glue periodically performs maintenance activities. During these
@@ -4027,6 +4075,86 @@ function get_data_catalog_encryption_settings(
 end
 
 """
+    get_data_quality_model(profile_id)
+    get_data_quality_model(profile_id, params::Dict{String,<:Any})
+
+Retrieve the training status of the model along with more information (CompletedOn,
+StartedOn, FailureReason).
+
+# Arguments
+- `profile_id`: The Profile ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StatisticId"`: The Statistic ID.
+"""
+function get_data_quality_model(
+    ProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetDataQualityModel",
+        Dict{String,Any}("ProfileId" => ProfileId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_quality_model(
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetDataQualityModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_quality_model_result(profile_id, statistic_id)
+    get_data_quality_model_result(profile_id, statistic_id, params::Dict{String,<:Any})
+
+Retrieve a statistic's predictions for a given Profile ID.
+
+# Arguments
+- `profile_id`: The Profile ID.
+- `statistic_id`: The Statistic ID.
+
+"""
+function get_data_quality_model_result(
+    ProfileId, StatisticId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "GetDataQualityModelResult",
+        Dict{String,Any}("ProfileId" => ProfileId, "StatisticId" => StatisticId);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function get_data_quality_model_result(
+    ProfileId,
+    StatisticId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetDataQualityModelResult",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ProfileId" => ProfileId, "StatisticId" => StatisticId),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     get_data_quality_result(result_id)
     get_data_quality_result(result_id, params::Dict{String,<:Any})
 
@@ -4194,6 +4322,8 @@ Retrieves all databases defined in a given Data Catalog.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributesToGet"`: Specifies the database fields returned by the GetDatabases call.
+  This parameter doesn’t accept an empty list. The request must include the NAME.
 - `"CatalogId"`: The ID of the Data Catalog from which to retrieve Databases. If none is
   provided, the Amazon Web Services account ID is used by default.
 - `"MaxResults"`: The maximum number of databases to return in one response.
@@ -5283,6 +5413,8 @@ Retrieves the Table definition in a Data Catalog for a specified table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `"IncludeStatusDetails"`: Specifies whether to include status details related to a
+  request to create or update an Glue Data Catalog view.
 - `"QueryAsOfTime"`: The time as of when to read the table contents. If not set, the most
   recent transaction commit time will be used. Cannot be specified along with TransactionId.
 - `"TransactionId"`: The transaction ID at which to read the table contents.
@@ -5484,10 +5616,16 @@ Retrieves the definitions of some or all of the tables in a given Database.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributesToGet"`:  Specifies the table fields returned by the GetTables call. This
+  parameter doesn’t accept an empty list. The request must include NAME. The following are
+  the valid combinations of values:    NAME - Names of all tables in the database.    NAME,
+  TABLE_TYPE - Names of all tables and the table types.
 - `"CatalogId"`: The ID of the Data Catalog where the tables reside. If none is provided,
   the Amazon Web Services account ID is used by default.
 - `"Expression"`: A regular expression pattern. If present, only those tables whose names
   match the pattern are returned.
+- `"IncludeStatusDetails"`: Specifies whether to include status details related to a
+  request to create or update an Glue Data Catalog view.
 - `"MaxResults"`: The maximum number of tables to return in a single response.
 - `"NextToken"`: A continuation token, included if this is a continuation call.
 - `"QueryAsOfTime"`: The time as of when to read the table contents. If not set, the most
@@ -6425,6 +6563,70 @@ function list_data_quality_rulesets(
 end
 
 """
+    list_data_quality_statistic_annotations()
+    list_data_quality_statistic_annotations(params::Dict{String,<:Any})
+
+Retrieve annotations for a data quality statistic.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in this request.
+- `"NextToken"`: A pagination token to retrieve the next set of results.
+- `"ProfileId"`: The Profile ID.
+- `"StatisticId"`: The Statistic ID.
+- `"TimestampFilter"`: A timestamp filter.
+"""
+function list_data_quality_statistic_annotations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityStatisticAnnotations";
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function list_data_quality_statistic_annotations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityStatisticAnnotations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_quality_statistics()
+    list_data_quality_statistics(params::Dict{String,<:Any})
+
+Retrieves a list of data quality statistics.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in this request.
+- `"NextToken"`: A pagination token to request the next page of results.
+- `"ProfileId"`: The Profile ID.
+- `"StatisticId"`: The Statistic ID.
+- `"TimestampFilter"`: A timestamp filter.
+"""
+function list_data_quality_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
+    return glue(
+        "ListDataQualityStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+function list_data_quality_statistics(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityStatistics",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     list_dev_endpoints()
     list_dev_endpoints(params::Dict{String,<:Any})
 
@@ -6836,6 +7038,51 @@ function put_data_catalog_encryption_settings(
                 _merge,
                 Dict{String,Any}(
                     "DataCatalogEncryptionSettings" => DataCatalogEncryptionSettings
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_data_quality_profile_annotation(inclusion_annotation, profile_id)
+    put_data_quality_profile_annotation(inclusion_annotation, profile_id, params::Dict{String,<:Any})
+
+Annotate all datapoints for a Profile.
+
+# Arguments
+- `inclusion_annotation`: The inclusion annotation value to apply to the profile.
+- `profile_id`: The ID of the data quality monitoring profile to annotate.
+
+"""
+function put_data_quality_profile_annotation(
+    InclusionAnnotation, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "PutDataQualityProfileAnnotation",
+        Dict{String,Any}(
+            "InclusionAnnotation" => InclusionAnnotation, "ProfileId" => ProfileId
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+function put_data_quality_profile_annotation(
+    InclusionAnnotation,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "PutDataQualityProfileAnnotation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InclusionAnnotation" => InclusionAnnotation, "ProfileId" => ProfileId
                 ),
                 params,
             ),
@@ -7264,6 +7511,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exact-match compared with the Value member of PropertyPredicate. For example, if Key=Name
   and Value=link, tables named customer-link and xx-link-yy are returned, but xxlinkyy is not
   returned.
+- `"IncludeStatusDetails"`: Specifies whether to include status details related to a
+  request to create or update an Glue Data Catalog view.
 - `"MaxResults"`: The maximum number of tables to return in a single response.
 - `"NextToken"`: A continuation token, included if this is a continuation call.
 - `"ResourceShareType"`: Allows you to specify that you want to search the tables shared
@@ -7471,6 +7720,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Used for idempotency and is recommended to be set to a random ID (such
   as a UUID) to avoid creating or starting multiple instances of the same resource.
 - `"CreatedRulesetName"`: A name for the ruleset.
+- `"DataQualitySecurityConfiguration"`: The name of the security configuration created with
+  the data quality encryption option.
 - `"NumberOfWorkers"`: The number of G.1X workers to be used in the run. The default is 5.
 - `"Timeout"`: The timeout for a run in minutes. This is the maximum time that a run can
   consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
@@ -7716,6 +7967,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with Glue version 3.0 and above and command type glueetl will be allowed to set
   ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
 - `"JobRunId"`: The ID of a previous JobRun to retry.
+- `"JobRunQueuingEnabled"`: Specifies whether job run queuing is enabled for the job run. A
+  value of true means job run queuing is enabled for the job run. If false or not populated,
+  the job run will not be considered for queueing.
 - `"MaxCapacity"`: For Glue version 1.0 or earlier jobs, using the standard worker type,
   the number of Glue data processing units (DPUs) that can be allocated when this job runs. A
   DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity
