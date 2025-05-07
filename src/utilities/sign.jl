@@ -88,7 +88,8 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
     )
     signed_headers = join(sort!([lowercase(k) for k in keys(request.headers)]), ";")
 
-    # Sort Query String...
+    # Sort query parameters...
+    # Ensure we retain duplicate query parameters when computing the signature
     uri = HTTP.URI(request.url)
     query = HTTP.URIs.queryparampairs(uri.query)
     query = sort!(query)
