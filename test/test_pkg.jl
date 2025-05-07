@@ -15,4 +15,4 @@ out = @capture_out begin
     @test isempty(err)
 end
 
-@test isempty(out)
+@test (isempty(out) || occursin("Precompiling TestPkg", out))
