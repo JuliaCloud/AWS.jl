@@ -1,34 +1,39 @@
 name: AWS
 on:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 6 a.m. UTC
+    - cron: "0 6 * * *"  # Daily at 6 a.m. UTC
   workflow_dispatch:
 
 jobs:
-  AWS:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        julia-version: [1]
-        julia-arch: [x86]
-        os: [ubuntu-latest]
+  update-apis:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: julia-actions/setup-julia@latest
         with:
-          version: ${{ matrix.julia-version }}
-      - uses: julia-actions/julia-buildpkg@latest
-      - name: UpdateAPI
-        # Run against the latest version, since everything merged into master will be tagged.
-        run: julia --threads=auto --project -e 'using AWS; AWS.AWSMetadata.parse_aws_metadata();'
+          version: "1"
+      - uses: julia-actions/cache@v2
+      - name: Install JuliaFormatter
+        shell: julia --project=@format --color=yes {0}
+        run: |
+          using Pkg
+          Pkg.add(PackageSpec(; name="JuliaFormatter", version="1"))
+      - uses: julia-actions/julia-buildpkg@v1
+      # Run against the latest version, since everything merged into master will be tagged.
+      - name: Update API
+        shell: julia --threads=auto --project {0}
+        run: |
+          using AWS
+          AWS.AWSMetadata.parse_aws_metadata()
         env:
           GITHUB_AUTH: ${{ secrets.GITHUB_TOKEN }}
-      - name: FormatCode
+      - name: Format code
+        shell: julia --project=@format --color=yes {0}
         run: |
-          julia -e 'using Pkg; Pkg.add(name="JuliaFormatter", version="1.0.34")'
-          julia -e 'using JuliaFormatter; format(".", BlueStyle(); verbose=true)'
+          using JuliaFormatter
+          format("."; verbose=true)
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v7
         with:
           commit-message: AWS API Definitions Updated
           reviewers: mattBrzezinski
