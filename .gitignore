@@ -1,4 +1,5 @@
 /Manifest.toml
+/test/resources/TestPkg/Manifest.toml
 .idea/*
 .DS_Store
 

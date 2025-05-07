@@ -1,10 +1,7 @@
 path = joinpath(@__DIR__, "resources", "TestPkg")
 
-if VERSION >= v"1.5"
-    Pkg.develop(; path=path)
-else
-    Pkg.develop(PackageSpec(; path=path))
-end
+Pkg.develop(; path=path)
+VERSION >= v"1.8" && Pkg.precompile("TestPkg")
 
 # Check to see if we get any warnings when using AWS.jl inside of another package.
 out = @capture_out begin

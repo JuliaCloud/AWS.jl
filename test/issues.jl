@@ -21,11 +21,11 @@ try
     end
 
     @testset "issue 227" begin
-        @testset "s3 public bucket" begin
-            # https://github.com/JuliaCloud/AWS.jl/issues/227
-            config = AWSConfig(; creds=nothing)
-            resp = S3.get_object("julialang2", "bin/versions.json"; aws_config=config)
+        # https://github.com/JuliaCloud/AWS.jl/issues/227
+        config = AWSConfig(; creds=nothing)
 
+        @testset "s3 public bucket" begin
+            resp = S3.get_object("julialang2", "bin/versions.json"; aws_config=config)
             @test !isempty(resp)
         end
 
@@ -38,7 +38,7 @@ try
                 S3.put_object(bucket_name, file_name)
 
                 @test_throws AWSException S3.get_object(
-                    bucket_name, file_name; aws_config=AWSConfig(; creds=nothing)
+                    bucket_name, file_name; aws_config=config
                 )
             finally
                 S3.delete_object(bucket_name, file_name)
@@ -48,10 +48,7 @@ try
 
         @testset "lambda" begin
             @service Lambda
-
-            @test_throws NoCredentials Lambda.list_functions(;
-                aws_config=AWSConfig(; creds=nothing)
-            )
+            @test_throws NoCredentials Lambda.list_functions(; aws_config=config)
         end
     end
 

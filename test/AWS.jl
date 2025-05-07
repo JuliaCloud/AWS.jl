@@ -67,6 +67,7 @@ end
 
     @testset "sign v2" begin
         result = AWS.sign_aws2!(aws, request, time)
+        @test result === request
         content = result.content
         content_type = result.headers["Content-Type"]
 
@@ -91,26 +92,49 @@ end
     end
 
     @testset "sign v4" begin
-        expected_x_amz_content_sha256 = bytes2hex(digest(MD_SHA256, request.content))
-        expected_content_md5 = base64encode(digest(MD_MD5, request.content))
-        expected_x_amz_date = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
+        @testset "basic" begin
+            expected_x_amz_content_sha256 = bytes2hex(digest(MD_SHA256, request.content))
+            expected_content_md5 = base64encode(digest(MD_MD5, request.content))
+            expected_x_amz_date = Dates.format(time, dateformat"yyyymmdd\THHMMSS\Z")
 
-        result = AWS.sign_aws4!(aws, request, time)
-        headers = result.headers
+            result = AWS.sign_aws4!(aws, request, time)
+            @test result === request
+            headers = result.headers
 
-        @test headers["x-amz-content-sha256"] == expected_x_amz_content_sha256
-        @test headers["Content-MD5"] == expected_content_md5
-        @test headers["x-amz-date"] == expected_x_amz_date
+            @test headers["x-amz-content-sha256"] == expected_x_amz_content_sha256
+            @test headers["Content-MD5"] == expected_content_md5
+            @test headers["x-amz-date"] == expected_x_amz_date
 
-        authorization_header = split(headers["Authorization"], ' ')
-        @test length(authorization_header) == 4
-        @test authorization_header[1] == "AWS4-HMAC-SHA256"
-        @test authorization_header[2] ==
-            "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
-        @test authorization_header[3] ==
-            "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
-        @test authorization_header[4] ==
-            "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
+            authorization_header = split(headers["Authorization"], ' ')
+            @test length(authorization_header) == 4
+            @test authorization_header[1] == "AWS4-HMAC-SHA256"
+            @test authorization_header[2] ==
+                "Credential=$access_key/$date/us-east-1/$(request.service)/aws4_request,"
+            @test authorization_header[3] ==
+                "SignedHeaders=content-md5;content-type;host;user-agent;x-amz-content-sha256;x-amz-date,"
+            @test authorization_header[4] ==
+                "Signature=0f292eaf0b66cf353bafcb1b9b6d90ee27064236a60f17f6fc5bd7d40173a0be"
+        end
+
+        @testset "duplicate query params" begin
+            request_query = deepcopy(request)
+            request_query.url = "https://s3.us-east-1.amazonaws.com/test-resource?versions"
+
+            request_dup = deepcopy(request)
+            request_dup.url = "https://s3.us-east-1.amazonaws.com/test-resource?versions&versions="
+
+            AWS.sign_aws4!(aws, request_query, time)
+            AWS.sign_aws4!(aws, request_dup, time)
+
+            authorization_header_query = split(request_query.headers["Authorization"], ' ')
+            authorization_header_dup = split(request_dup.headers["Authorization"], ' ')
+
+            @test length(authorization_header_query) == 4
+            @test length(authorization_header_dup) == 4
+
+            # Signatures should differ
+            @test authorization_header_query[4] != authorization_header_dup[4]
+        end
     end
 end
 
