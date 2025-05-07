@@ -1,5 +1,8 @@
 name: AWS
 on:
+  pull_request:
+    paths:
+      - ".github/workflows/update_apis.yml"
   schedule:
     - cron: "0 6 * * *"  # Daily at 6 a.m. UTC
   workflow_dispatch:
@@ -34,6 +37,7 @@ jobs:
           format("."; verbose=true)
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
+        if: ${{ github.event_name != 'pull_request' }}
         with:
           commit-message: AWS API Definitions Updated
           reviewers: mattBrzezinski
