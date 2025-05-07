@@ -90,8 +90,8 @@ function sign_aws4!(aws::AbstractAWSConfig, request::Request, time::DateTime)
 
     # Sort Query String...
     uri = HTTP.URI(request.url)
-    query = HTTP.URIs.queryparams(uri.query)
-    query = [k => query[k] for k in sort!(collect(keys(query)))]
+    query = HTTP.URIs.queryparampairs(uri.query)
+    query = sort!(query)
 
     # Create hash of canonical request...
     canonical_form = string(
