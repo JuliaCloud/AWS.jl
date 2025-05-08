@@ -32,6 +32,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must base64-encode the authorization credentials and provide them in the format
   user:password.
 - `"buildSpec"`: The build specification (build spec) for an Amplify app.
+- `"cacheConfig"`: The cache configuration for the Amplify app.
 - `"customHeaders"`: The custom HTTP headers for an Amplify app.
 - `"customRules"`: The custom rewrite and redirect rules for an Amplify app.
 - `"description"`: The description of the Amplify app.
@@ -62,15 +63,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"repository"`: The Git repository for the Amplify app.
 - `"tags"`: The tag for an Amplify app.
 """
-function create_app(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "POST",
-        "/apps",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_app(name; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "POST",
+    "/apps",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_app(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -102,17 +101,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deploymentArtifacts"`: The name of deployment artifacts.
 - `"stackName"`: The AWS CloudFormation stack name of a backend environment.
 """
-function create_backend_environment(
+create_backend_environment(
     appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = amplify(
+    "POST",
+    "/apps/$(appId)/backendenvironments",
+    Dict{String,Any}("environmentName" => environmentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return amplify(
-        "POST",
-        "/apps/$(appId)/backendenvironments",
-        Dict{String,Any}("environmentName" => environmentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_backend_environment(
     appId,
     environmentName,
@@ -172,15 +169,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`:  The tag for the branch.
 - `"ttl"`:  The content Time To Live (TTL) for the website in seconds.
 """
-function create_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
+create_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "POST",
         "/apps/$(appId)/branches",
         Dict{String,Any}("branchName" => branchName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_branch(
     appId,
     branchName,
@@ -218,16 +214,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unique upload URL per file. Otherwise, the service will only generate a single upload URL
   for the zipped files.
 """
-function create_deployment(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return amplify(
+create_deployment(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "POST",
         "/apps/$(appId)/branches/$(branchName)/deployments";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_deployment(
     appId,
     branchName,
@@ -266,19 +259,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provisions and manages for you.
 - `"enableAutoSubDomain"`:  Enables the automated creation of subdomains for branches.
 """
-function create_domain_association(
+create_domain_association(
     appId, domainName, subDomainSettings; aws_config::AbstractAWSConfig=global_aws_config()
+) = amplify(
+    "POST",
+    "/apps/$(appId)/domains",
+    Dict{String,Any}("domainName" => domainName, "subDomainSettings" => subDomainSettings);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return amplify(
-        "POST",
-        "/apps/$(appId)/domains",
-        Dict{String,Any}(
-            "domainName" => domainName, "subDomainSettings" => subDomainSettings
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_domain_association(
     appId,
     domainName,
@@ -317,17 +306,14 @@ Creates a new webhook on an Amplify app.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"description"`: The description for a webhook.
 """
-function create_webhook(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return amplify(
+create_webhook(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "POST",
         "/apps/$(appId)/webhooks",
         Dict{String,Any}("branchName" => branchName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_webhook(
     appId,
     branchName,
@@ -355,11 +341,9 @@ Deletes an existing Amplify app specified by an app ID.
 - `app_id`: The unique ID for an Amplify app.
 
 """
-function delete_app(appId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "DELETE", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_app(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "DELETE", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function delete_app(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -387,16 +371,14 @@ using Typescript code.
 - `environment_name`: The name of a backend environment of an Amplify app.
 
 """
-function delete_backend_environment(
+delete_backend_environment(
     appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = amplify(
+    "DELETE",
+    "/apps/$(appId)/backendenvironments/$(environmentName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return amplify(
-        "DELETE",
-        "/apps/$(appId)/backendenvironments/$(environmentName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_backend_environment(
     appId,
     environmentName,
@@ -423,14 +405,13 @@ end
 - `branch_name`: The name of the branch.
 
 """
-function delete_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
+delete_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "DELETE",
         "/apps/$(appId)/branches/$(branchName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_branch(
     appId,
     branchName,
@@ -457,16 +438,14 @@ Deletes a domain association for an Amplify app.
 - `domain_name`:  The name of the domain.
 
 """
-function delete_domain_association(
+delete_domain_association(
     appId, domainName; aws_config::AbstractAWSConfig=global_aws_config()
+) = amplify(
+    "DELETE",
+    "/apps/$(appId)/domains/$(domainName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return amplify(
-        "DELETE",
-        "/apps/$(appId)/domains/$(domainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_domain_association(
     appId,
     domainName,
@@ -494,16 +473,13 @@ end
 - `job_id`:  The unique ID for the job.
 
 """
-function delete_job(
-    appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return amplify(
+delete_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "DELETE",
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_job(
     appId,
     branchName,
@@ -530,14 +506,12 @@ Deletes a webhook.
 - `webhook_id`: The unique ID for a webhook.
 
 """
-function delete_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "DELETE",
-        "/webhooks/$(webhookId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "DELETE",
+    "/webhooks/$(webhookId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_webhook(
     webhookId,
     params::AbstractDict{String};
@@ -569,17 +543,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"startTime"`: The time at which the logs should start. The time range specified is
   inclusive of the start time.
 """
-function generate_access_logs(
-    appId, domainName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return amplify(
+generate_access_logs(appId, domainName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "POST",
         "/apps/$(appId)/accesslogs",
         Dict{String,Any}("domainName" => domainName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function generate_access_logs(
     appId,
     domainName,
@@ -607,11 +578,8 @@ Returns an existing Amplify app specified by an app ID.
 - `app_id`: The unique ID for an Amplify app.
 
 """
-function get_app(appId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "GET", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_app(appId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify("GET", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_app(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -634,14 +602,12 @@ Returns the artifact info that corresponds to an artifact id.
 - `artifact_id`: The unique ID for an artifact.
 
 """
-function get_artifact_url(artifactId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "GET",
-        "/artifacts/$(artifactId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_artifact_url(artifactId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "GET",
+    "/artifacts/$(artifactId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_artifact_url(
     artifactId,
     params::AbstractDict{String};
@@ -671,16 +637,14 @@ using Typescript code.
 - `environment_name`: The name for the backend environment.
 
 """
-function get_backend_environment(
+get_backend_environment(
     appId, environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = amplify(
+    "GET",
+    "/apps/$(appId)/backendenvironments/$(environmentName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return amplify(
-        "GET",
-        "/apps/$(appId)/backendenvironments/$(environmentName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_backend_environment(
     appId,
     environmentName,
@@ -707,14 +671,12 @@ end
 - `branch_name`: The name of the branch.
 
 """
-function get_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "GET",
-        "/apps/$(appId)/branches/$(branchName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "GET",
+    "/apps/$(appId)/branches/$(branchName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_branch(
     appId,
     branchName,
@@ -741,16 +703,14 @@ Returns the domain information for an Amplify app.
 - `domain_name`:  The name of the domain.
 
 """
-function get_domain_association(
+get_domain_association(
     appId, domainName; aws_config::AbstractAWSConfig=global_aws_config()
+) = amplify(
+    "GET",
+    "/apps/$(appId)/domains/$(domainName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return amplify(
-        "GET",
-        "/apps/$(appId)/domains/$(domainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_domain_association(
     appId,
     domainName,
@@ -778,16 +738,13 @@ end
 - `job_id`: The unique ID for the job.
 
 """
-function get_job(
-    appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return amplify(
+get_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "GET",
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_job(
     appId,
     branchName,
@@ -814,14 +771,12 @@ Returns the webhook information that corresponds to a specified webhook ID.
 - `webhook_id`: The unique ID for a webhook.
 
 """
-function get_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "GET",
-        "/webhooks/$(webhookId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "GET",
+    "/webhooks/$(webhookId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_webhook(
     webhookId,
     params::AbstractDict{String};
@@ -848,9 +803,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token. If non-null, the pagination token is returned in a
   result. Pass its value in another request to retrieve more entries.
 """
-function list_apps(; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify("GET", "/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_apps(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify("GET", "/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_apps(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -877,16 +831,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a non-null pagination token is returned in a result, pass its value in here to list more
   artifacts.
 """
-function list_artifacts(
+list_artifacts(
     appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()
+) = amplify(
+    "GET",
+    "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return amplify(
-        "GET",
-        "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/artifacts";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_artifacts(
     appId,
     branchName,
@@ -924,14 +876,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the start. If a non-null pagination token is returned in a result, pass its value in here
   to list more backend environments.
 """
-function list_backend_environments(appId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
+list_backend_environments(appId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "GET",
         "/apps/$(appId)/backendenvironments";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_backend_environments(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -960,14 +911,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If a non-null pagination token is returned in a result, pass its value in here to list more
   branches.
 """
-function list_branches(appId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "GET",
-        "/apps/$(appId)/branches";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_branches(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "GET",
+    "/apps/$(appId)/branches";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_branches(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -996,14 +945,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   non-null, a pagination token is returned in a result. Pass its value in here to list more
   projects.
 """
-function list_domain_associations(appId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
+list_domain_associations(appId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "GET",
         "/apps/$(appId)/domains";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_domain_associations(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1033,14 +981,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   a non-null pagination token is returned in a result, pass its value in here to list more
   steps.
 """
-function list_jobs(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "GET",
-        "/apps/$(appId)/branches/$(branchName)/jobs";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_jobs(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "GET",
+    "/apps/$(appId)/branches/$(branchName)/jobs";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_jobs(
     appId,
     branchName,
@@ -1066,16 +1012,13 @@ Returns a list of tags for a specified Amazon Resource Name (ARN).
 - `resource_arn`: The Amazon Resource Name (ARN) to use to list tags.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return amplify(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1106,14 +1049,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If non-null,the pagination token is returned in a result. Pass its value in here to list
   more webhooks.
 """
-function list_webhooks(appId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "GET",
-        "/apps/$(appId)/webhooks";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_webhooks(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "GET",
+    "/apps/$(appId)/webhooks";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_webhooks(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1146,16 +1087,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   without create deployment. The source URL can be any HTTP GET URL that is publicly
   accessible and downloads a single .zip file.
 """
-function start_deployment(
-    appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return amplify(
+start_deployment(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "POST",
         "/apps/$(appId)/branches/$(branchName)/deployments/start";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_deployment(
     appId,
     branchName,
@@ -1195,17 +1133,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RETRY.
 - `"jobReason"`: A descriptive reason for starting the job.
 """
-function start_job(
-    appId, branchName, jobType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return amplify(
+start_job(appId, branchName, jobType; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "POST",
         "/apps/$(appId)/branches/$(branchName)/jobs",
         Dict{String,Any}("jobType" => jobType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_job(
     appId,
     branchName,
@@ -1234,16 +1169,13 @@ end
 - `job_id`:  The unique id for the job.
 
 """
-function stop_job(
-    appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return amplify(
+stop_job(appId, branchName, jobId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "DELETE",
         "/apps/$(appId)/branches/$(branchName)/jobs/$(jobId)/stop";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_job(
     appId,
     branchName,
@@ -1271,15 +1203,14 @@ Tags the resource with a tag key and value.
 - `tags`: The tags used to tag the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -1306,17 +1237,14 @@ Untags a resource with a specified Amazon Resource Name (ARN).
 - `tag_keys`: The tag keys to use to untag a resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return amplify(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1360,6 +1288,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   must base64-encode the authorization credentials and provide them in the format
   user:password.
 - `"buildSpec"`: The build specification (build spec) for an Amplify app.
+- `"cacheConfig"`: The cache configuration for the Amplify app.
 - `"customHeaders"`: The custom HTTP headers for an Amplify app.
 - `"customRules"`: The custom redirect and rewrite rules for an Amplify app.
 - `"description"`: The description for an Amplify app.
@@ -1387,11 +1316,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   WEB_DYNAMIC.
 - `"repository"`: The name of the Git repository for an Amplify app.
 """
-function update_app(appId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "POST", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+update_app(appId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "POST", "/apps/$(appId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function update_app(
     appId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1443,14 +1370,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"stage"`:  Describes the current stage for the branch.
 - `"ttl"`:  The content Time to Live (TTL) for the website in seconds.
 """
-function update_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
+update_branch(appId, branchName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    amplify(
         "POST",
         "/apps/$(appId)/branches/$(branchName)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_branch(
     appId,
     branchName,
@@ -1486,16 +1412,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"enableAutoSubDomain"`:  Enables the automated creation of subdomains for branches.
 - `"subDomainSettings"`:  Describes the settings for the subdomain.
 """
-function update_domain_association(
+update_domain_association(
     appId, domainName; aws_config::AbstractAWSConfig=global_aws_config()
+) = amplify(
+    "POST",
+    "/apps/$(appId)/domains/$(domainName)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return amplify(
-        "POST",
-        "/apps/$(appId)/domains/$(domainName)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_domain_association(
     appId,
     domainName,
@@ -1525,14 +1449,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"branchName"`: The name for a branch that is part of an Amplify app.
 - `"description"`: The description for a webhook.
 """
-function update_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config())
-    return amplify(
-        "POST",
-        "/webhooks/$(webhookId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_webhook(webhookId; aws_config::AbstractAWSConfig=global_aws_config()) = amplify(
+    "POST",
+    "/webhooks/$(webhookId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_webhook(
     webhookId,
     params::AbstractDict{String};

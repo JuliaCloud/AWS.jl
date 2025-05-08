@@ -27,17 +27,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
-function accept_resource_share_invitation(
+accept_resource_share_invitation(
     resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/acceptresourceshareinvitation",
+    Dict{String,Any}("resourceShareInvitationArn" => resourceShareInvitationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/acceptresourceshareinvitation",
-        Dict{String,Any}("resourceShareInvitationArn" => resourceShareInvitationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function accept_resource_share_invitation(
     resourceShareInvitationArn,
     params::AbstractDict{String};
@@ -101,17 +99,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sources"`: Specifies from which source accounts the service principal has access to the
   resources in this resource share.
 """
-function associate_resource_share(
+associate_resource_share(
     resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/associateresourceshare",
+    Dict{String,Any}("resourceShareArn" => resourceShareArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/associateresourceshare",
-        Dict{String,Any}("resourceShareArn" => resourceShareArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_resource_share(
     resourceShareArn,
     params::AbstractDict{String};
@@ -172,19 +168,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and you don't set replace to true then the operation returns an error. This helps prevent
   accidental overwriting of a permission.
 """
-function associate_resource_share_permission(
+associate_resource_share_permission(
     permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/associateresourcesharepermission",
+    Dict{String,Any}(
+        "permissionArn" => permissionArn, "resourceShareArn" => resourceShareArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/associateresourcesharepermission",
-        Dict{String,Any}(
-            "permissionArn" => permissionArn, "resourceShareArn" => resourceShareArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_resource_share_permission(
     permissionArn,
     resourceShareArn,
@@ -251,21 +245,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Specifies a list of one or more tag key and value pairs to attach to the
   permission.
 """
-function create_permission(
+create_permission(
     name, policyTemplate, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/createpermission",
+    Dict{String,Any}(
+        "name" => name,
+        "policyTemplate" => policyTemplate,
+        "resourceType" => resourceType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/createpermission",
-        Dict{String,Any}(
-            "name" => name,
-            "policyTemplate" => policyTemplate,
-            "resourceType" => resourceType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_permission(
     name,
     policyTemplate,
@@ -331,19 +323,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
-function create_permission_version(
+create_permission_version(
     permissionArn, policyTemplate; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/createpermissionversion",
+    Dict{String,Any}("permissionArn" => permissionArn, "policyTemplate" => policyTemplate);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/createpermissionversion",
-        Dict{String,Any}(
-            "permissionArn" => permissionArn, "policyTemplate" => policyTemplate
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_permission_version(
     permissionArn,
     policyTemplate,
@@ -417,15 +405,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Specifies one or more tags to attach to the resource share itself. It doesn't
   attach the tags to the resources associated with the resource share.
 """
-function create_resource_share(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "POST",
-        "/createresourceshare",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_resource_share(name; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "POST",
+    "/createresourceshare",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_resource_share(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -462,15 +448,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
-function delete_permission(permissionArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "DELETE",
-        "/deletepermission",
-        Dict{String,Any}("permissionArn" => permissionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_permission(permissionArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "DELETE",
+    "/deletepermission",
+    Dict{String,Any}("permissionArn" => permissionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_permission(
     permissionArn,
     params::AbstractDict{String};
@@ -519,19 +503,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
-function delete_permission_version(
+delete_permission_version(
     permissionArn, permissionVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "DELETE",
+    "/deletepermissionversion",
+    Dict{String,Any}(
+        "permissionArn" => permissionArn, "permissionVersion" => permissionVersion
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "DELETE",
-        "/deletepermissionversion",
-        Dict{String,Any}(
-            "permissionArn" => permissionArn, "permissionVersion" => permissionVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_permission_version(
     permissionArn,
     permissionVersion,
@@ -579,17 +561,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
-function delete_resource_share(
-    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ram(
+delete_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ram(
         "DELETE",
         "/deleteresourceshare",
         Dict{String,Any}("resourceShareArn" => resourceShareArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_resource_share(
     resourceShareArn,
     params::AbstractDict{String};
@@ -646,17 +625,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sources"`: Specifies from which source accounts the service principal no longer has
   access to the resources in this resource share.
 """
-function disassociate_resource_share(
+disassociate_resource_share(
     resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/disassociateresourceshare",
+    Dict{String,Any}("resourceShareArn" => resourceShareArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/disassociateresourceshare",
-        Dict{String,Any}("resourceShareArn" => resourceShareArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_resource_share(
     resourceShareArn,
     params::AbstractDict{String};
@@ -701,19 +678,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
-function disassociate_resource_share_permission(
+disassociate_resource_share_permission(
     permissionArn, resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/disassociateresourcesharepermission",
+    Dict{String,Any}(
+        "permissionArn" => permissionArn, "resourceShareArn" => resourceShareArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/disassociateresourcesharepermission",
-        Dict{String,Any}(
-            "permissionArn" => permissionArn, "resourceShareArn" => resourceShareArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_resource_share_permission(
     permissionArn,
     resourceShareArn,
@@ -752,16 +727,13 @@ Amazon Web Services accounts, or for supported resource types, IAM roles and use
 must call this operation from an IAM role or user in the organization's management account.
 
 """
-function enable_sharing_with_aws_organization(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ram(
+enable_sharing_with_aws_organization(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ram(
         "POST",
         "/enablesharingwithawsorganization";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function enable_sharing_with_aws_organization(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -792,15 +764,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you don't specify this parameter, the operation retrieves the default version. To see the
   list of available versions, use ListPermissionVersions.
 """
-function get_permission(permissionArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "POST",
-        "/getpermission",
-        Dict{String,Any}("permissionArn" => permissionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_permission(permissionArn; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "POST",
+    "/getpermission",
+    Dict{String,Any}("permissionArn" => permissionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_permission(
     permissionArn,
     params::AbstractDict{String};
@@ -843,17 +813,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken response to request the next page of results.
 - `"principal"`: Specifies the principal.
 """
-function get_resource_policies(
-    resourceArns; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ram(
+get_resource_policies(resourceArns; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ram(
         "POST",
         "/getresourcepolicies",
         Dict{String,Any}("resourceArns" => resourceArns);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_resource_policies(
     resourceArns,
     params::AbstractDict{String};
@@ -908,17 +875,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceShareArns"`: Specifies a list of Amazon Resource Names (ARNs) of the resource
   share whose associations you want to retrieve.
 """
-function get_resource_share_associations(
+get_resource_share_associations(
     associationType; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/getresourceshareassociations",
+    Dict{String,Any}("associationType" => associationType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/getresourceshareassociations",
-        Dict{String,Any}("associationType" => associationType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_resource_share_associations(
     associationType,
     params::AbstractDict{String};
@@ -962,14 +927,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceShareInvitationArns"`: Specifies the Amazon Resource Names (ARNs) of the
   resource share invitations you want information about.
 """
-function get_resource_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "POST",
-        "/getresourceshareinvitations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_resource_share_invitations(; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "POST",
+    "/getresourceshareinvitations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_resource_share_invitations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1021,17 +984,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tagFilters"`: Specifies that you want to retrieve details of only those resource shares
   that match the specified tag keys and values.
 """
-function get_resource_shares(
-    resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()
+get_resource_shares(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "POST",
+    "/getresourceshares",
+    Dict{String,Any}("resourceOwner" => resourceOwner);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/getresourceshares",
-        Dict{String,Any}("resourceOwner" => resourceOwner);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_resource_shares(
     resourceOwner,
     params::AbstractDict{String};
@@ -1080,17 +1039,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource types.    REGIONAL – the results include only regional resources or resource
   types.   The default value is ALL.
 """
-function list_pending_invitation_resources(
+list_pending_invitation_resources(
     resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/listpendinginvitationresources",
+    Dict{String,Any}("resourceShareInvitationArn" => resourceShareInvitationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/listpendinginvitationresources",
-        Dict{String,Any}("resourceShareInvitationArn" => resourceShareInvitationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_pending_invitation_resources(
     resourceShareInvitationArn,
     params::AbstractDict{String};
@@ -1151,14 +1108,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceType"`: Specifies that you want to list only those associations with resource
   shares that include at least one resource of this resource type.
 """
-function list_permission_associations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "POST",
-        "/listpermissionassociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_permission_associations(; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "POST",
+    "/listpermissionassociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_permission_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1197,17 +1152,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more output is available. Set this parameter to the value provided by the previous call's
   NextToken response to request the next page of results.
 """
-function list_permission_versions(
-    permissionArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ram(
+list_permission_versions(permissionArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ram(
         "POST",
         "/listpermissionversions",
         Dict{String,Any}("permissionArn" => permissionArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_permission_versions(
     permissionArn,
     params::AbstractDict{String};
@@ -1255,11 +1207,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only permissions that apply to Amazon EC2 subnets, specify ec2:subnet. You can use the
   ListResourceTypes operation to get the specific string required.
 """
-function list_permissions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "POST", "/listpermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_permissions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ram("POST", "/listpermissions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_permissions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1316,15 +1265,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associated with resource shares that include the specified resource type. For a list of
   valid values, query the ListResourceTypes operation.
 """
-function list_principals(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "POST",
-        "/listprincipals",
-        Dict{String,Any}("resourceOwner" => resourceOwner);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_principals(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "POST",
+    "/listprincipals",
+    Dict{String,Any}("resourceOwner" => resourceOwner);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_principals(
     resourceOwner,
     params::AbstractDict{String};
@@ -1368,16 +1315,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   replacePermissionAssociationsWorkstructure returned by the ReplacePermissionAssociations
   operation.
 """
-function list_replace_permission_associations_work(;
+list_replace_permission_associations_work(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/listreplacepermissionassociationswork";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/listreplacepermissionassociationswork";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_replace_permission_associations_work(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1415,17 +1360,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more output is available. Set this parameter to the value provided by the previous call's
   NextToken response to request the next page of results.
 """
-function list_resource_share_permissions(
+list_resource_share_permissions(
     resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/listresourcesharepermissions",
+    Dict{String,Any}("resourceShareArn" => resourceShareArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/listresourcesharepermissions",
-        Dict{String,Any}("resourceShareArn" => resourceShareArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_resource_share_permissions(
     resourceShareArn,
     params::AbstractDict{String};
@@ -1470,11 +1413,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource types.    REGIONAL – the results include only regional resources or resource
   types.   The default value is ALL.
 """
-function list_resource_types(; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "POST", "/listresourcetypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_resource_types(; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "POST", "/listresourcetypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_resource_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1528,15 +1469,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources of the specified resource type. For valid values, query the ListResourceTypes
   operation.
 """
-function list_resources(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "POST",
-        "/listresources",
-        Dict{String,Any}("resourceOwner" => resourceOwner);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_resources(resourceOwner; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "POST",
+    "/listresources",
+    Dict{String,Any}("resourceOwner" => resourceOwner);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_resources(
     resourceOwner,
     params::AbstractDict{String};
@@ -1592,17 +1531,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
-function promote_permission_created_from_policy(
+promote_permission_created_from_policy(
     name, permissionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/promotepermissioncreatedfrompolicy",
+    Dict{String,Any}("name" => name, "permissionArn" => permissionArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/promotepermissioncreatedfrompolicy",
-        Dict{String,Any}("name" => name, "permissionArn" => permissionArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function promote_permission_created_from_policy(
     name,
     permissionArn,
@@ -1646,17 +1583,15 @@ CREATED_FROM_POLICY permission, then this operation fails.
   promote.
 
 """
-function promote_resource_share_created_from_policy(
+promote_resource_share_created_from_policy(
     resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/promoteresourcesharecreatedfrompolicy",
+    Dict{String,Any}("resourceShareArn" => resourceShareArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/promoteresourcesharecreatedfrompolicy",
-        Dict{String,Any}("resourceShareArn" => resourceShareArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function promote_resource_share_created_from_policy(
     resourceShareArn,
     params::AbstractDict{String};
@@ -1696,17 +1631,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
-function reject_resource_share_invitation(
+reject_resource_share_invitation(
     resourceShareInvitationArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/rejectresourceshareinvitation",
+    Dict{String,Any}("resourceShareInvitationArn" => resourceShareInvitationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/rejectresourceshareinvitation",
-        Dict{String,Any}("resourceShareInvitationArn" => resourceShareInvitationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function reject_resource_share_invitation(
     resourceShareInvitationArn,
     params::AbstractDict{String};
@@ -1766,19 +1699,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"fromPermissionVersion"`: Specifies that you want to updated the permissions for only
   those resource shares that use the specified version of the managed permission.
 """
-function replace_permission_associations(
+replace_permission_associations(
     fromPermissionArn, toPermissionArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/replacepermissionassociations",
+    Dict{String,Any}(
+        "fromPermissionArn" => fromPermissionArn, "toPermissionArn" => toPermissionArn
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/replacepermissionassociations",
-        Dict{String,Any}(
-            "fromPermissionArn" => fromPermissionArn, "toPermissionArn" => toPermissionArn
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function replace_permission_associations(
     fromPermissionArn,
     toPermissionArn,
@@ -1830,19 +1761,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken, but with different parameters, the retry fails with an
   IdempotentParameterMismatch error.
 """
-function set_default_permission_version(
+set_default_permission_version(
     permissionArn, permissionVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = ram(
+    "POST",
+    "/setdefaultpermissionversion",
+    Dict{String,Any}(
+        "permissionArn" => permissionArn, "permissionVersion" => permissionVersion
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return ram(
-        "POST",
-        "/setdefaultpermissionversion",
-        Dict{String,Any}(
-            "permissionArn" => permissionArn, "permissionVersion" => permissionVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function set_default_permission_version(
     permissionArn,
     permissionVersion,
@@ -1889,15 +1818,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   you want to add tags to. You must specify either resourceShareArn, or resourceArn, but not
   both.
 """
-function tag_resource(tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "POST",
-        "/tagresource",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(tags; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "POST",
+    "/tagresource",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     tags, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1930,15 +1857,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources in the resource share. You must specify either resourceShareArn, or resourceArn,
   but not both.
 """
-function untag_resource(tagKeys; aws_config::AbstractAWSConfig=global_aws_config())
-    return ram(
-        "POST",
-        "/untagresource",
-        Dict{String,Any}("tagKeys" => tagKeys);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+untag_resource(tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) = ram(
+    "POST",
+    "/untagresource",
+    Dict{String,Any}("tagKeys" => tagKeys);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function untag_resource(
     tagKeys, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1975,17 +1900,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IdempotentParameterMismatch error.
 - `"name"`: If specified, the new name that you want to attach to the resource share.
 """
-function update_resource_share(
-    resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return ram(
+update_resource_share(resourceShareArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    ram(
         "POST",
         "/updateresourceshare",
         Dict{String,Any}("resourceShareArn" => resourceShareArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_resource_share(
     resourceShareArn,
     params::AbstractDict{String};

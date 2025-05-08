@@ -27,21 +27,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   can retrieve the application version ID using DescribeApplication. For better concurrency
   support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
-function add_application_cloud_watch_logging_option(
+add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "AddApplicationCloudWatchLoggingOption",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "CloudWatchLoggingOption" => CloudWatchLoggingOption,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationCloudWatchLoggingOption",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CloudWatchLoggingOption" => CloudWatchLoggingOption,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOption,
@@ -85,23 +83,21 @@ operation to find the current application version.
 - `input`: The Input to add.
 
 """
-function add_application_input(
+add_application_input(
     ApplicationName,
     CurrentApplicationVersionId,
     Input;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "AddApplicationInput",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+        "Input" => Input,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationInput",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "Input" => Input,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_application_input(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -149,25 +145,23 @@ executes. Currently, the only input processor available is Amazon Lambda.
   application.
 
 """
-function add_application_input_processing_configuration(
+add_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
     InputId,
     InputProcessingConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "AddApplicationInputProcessingConfiguration",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+        "InputId" => InputId,
+        "InputProcessingConfiguration" => InputProcessingConfiguration,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationInputProcessingConfiguration",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "InputId" => InputId,
-            "InputProcessingConfiguration" => InputProcessingConfiguration,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -224,23 +218,21 @@ to find the current application version.
   function), and record the formation to use when writing to the destination.
 
 """
-function add_application_output(
+add_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
     Output;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "AddApplicationOutput",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+        "Output" => Output,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationOutput",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "Output" => Output,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -289,23 +281,21 @@ columns in the resulting in-application table.
   in-application table that is created.
 
 """
-function add_application_reference_data_source(
+add_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
     ReferenceDataSource;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "AddApplicationReferenceDataSource",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+        "ReferenceDataSource" => ReferenceDataSource,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationReferenceDataSource",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "ReferenceDataSource" => ReferenceDataSource,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -359,18 +349,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ConcurrentModificationException is returned. For better concurrency support, use the
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
-function add_application_vpc_configuration(
+add_application_vpc_configuration(
     ApplicationName, VpcConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "AddApplicationVpcConfiguration",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName, "VpcConfiguration" => VpcConfiguration
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "AddApplicationVpcConfiguration",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName, "VpcConfiguration" => VpcConfiguration
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function add_application_vpc_configuration(
     ApplicationName,
     VpcConfiguration,
@@ -422,23 +410,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   includes system tags. The maximum number of user-defined application tags is 50. For more
   information, see Using Tagging.
 """
-function create_application(
+create_application(
     ApplicationName,
     RuntimeEnvironment,
     ServiceExecutionRole;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "CreateApplication",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "RuntimeEnvironment" => RuntimeEnvironment,
+        "ServiceExecutionRole" => ServiceExecutionRole,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "CreateApplication",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "RuntimeEnvironment" => RuntimeEnvironment,
-            "ServiceExecutionRole" => ServiceExecutionRole,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_application(
     ApplicationName,
     RuntimeEnvironment,
@@ -489,16 +475,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SessionExpirationDurationInSeconds"`: The duration in seconds for which the returned
   URL will be valid.
 """
-function create_application_presigned_url(
+create_application_presigned_url(
     ApplicationName, UrlType; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "CreateApplicationPresignedUrl",
+    Dict{String,Any}("ApplicationName" => ApplicationName, "UrlType" => UrlType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "CreateApplicationPresignedUrl",
-        Dict{String,Any}("ApplicationName" => ApplicationName, "UrlType" => UrlType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_application_presigned_url(
     ApplicationName,
     UrlType,
@@ -532,18 +516,14 @@ Creates a snapshot of the application's state data.
 - `snapshot_name`: An identifier for the application snapshot.
 
 """
-function create_application_snapshot(
+create_application_snapshot(
     ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "CreateApplicationSnapshot",
+    Dict{String,Any}("ApplicationName" => ApplicationName, "SnapshotName" => SnapshotName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "CreateApplicationSnapshot",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName, "SnapshotName" => SnapshotName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_application_snapshot(
     ApplicationName,
     SnapshotName,
@@ -578,18 +558,16 @@ execution and deletes the application.
 - `create_timestamp`: Use the DescribeApplication operation to get this value.
 
 """
-function delete_application(
+delete_application(
     ApplicationName, CreateTimestamp; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "DeleteApplication",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName, "CreateTimestamp" => CreateTimestamp
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplication",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName, "CreateTimestamp" => CreateTimestamp
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_application(
     ApplicationName,
     CreateTimestamp,
@@ -638,21 +616,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version ID using DescribeApplication. For better concurrency support, use the
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
-function delete_application_cloud_watch_logging_option(
+delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "DeleteApplicationCloudWatchLoggingOption",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "CloudWatchLoggingOptionId" => CloudWatchLoggingOptionId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationCloudWatchLoggingOption",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CloudWatchLoggingOptionId" => CloudWatchLoggingOptionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_application_cloud_watch_logging_option(
     ApplicationName,
     CloudWatchLoggingOptionId,
@@ -692,23 +668,21 @@ Deletes an InputProcessingConfiguration from an input.
   DescribeApplication operation.
 
 """
-function delete_application_input_processing_configuration(
+delete_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
     InputId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "DeleteApplicationInputProcessingConfiguration",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+        "InputId" => InputId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationInputProcessingConfiguration",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "InputId" => InputId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_application_input_processing_configuration(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -754,23 +728,21 @@ corresponding in-application stream to the external output destination.
   configuration. You can use the DescribeApplication operation to get the specific OutputId.
 
 """
-function delete_application_output(
+delete_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
     OutputId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "DeleteApplicationOutput",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+        "OutputId" => OutputId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationOutput",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "OutputId" => OutputId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_application_output(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -815,23 +787,21 @@ AddApplicationReferenceDataSource operation.
   assigns an ID. You can use the DescribeApplication operation to get the reference ID.
 
 """
-function delete_application_reference_data_source(
+delete_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
     ReferenceId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "DeleteApplicationReferenceDataSource",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+        "ReferenceId" => ReferenceId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationReferenceDataSource",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-            "ReferenceId" => ReferenceId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_application_reference_data_source(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -870,23 +840,21 @@ Deletes a snapshot of application state.
 - `snapshot_name`: The identifier for the snapshot delete.
 
 """
-function delete_application_snapshot(
+delete_application_snapshot(
     ApplicationName,
     SnapshotCreationTimestamp,
     SnapshotName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "DeleteApplicationSnapshot",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "SnapshotCreationTimestamp" => SnapshotCreationTimestamp,
+        "SnapshotName" => SnapshotName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationSnapshot",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "SnapshotCreationTimestamp" => SnapshotCreationTimestamp,
-            "SnapshotName" => SnapshotName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_application_snapshot(
     ApplicationName,
     SnapshotCreationTimestamp,
@@ -934,18 +902,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   version ID using DescribeApplication. For better concurrency support, use the
   ConditionalToken parameter instead of CurrentApplicationVersionId.
 """
-function delete_application_vpc_configuration(
+delete_application_vpc_configuration(
     ApplicationName, VpcConfigurationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "DeleteApplicationVpcConfiguration",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName, "VpcConfigurationId" => VpcConfigurationId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "DeleteApplicationVpcConfiguration",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName, "VpcConfigurationId" => VpcConfigurationId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_application_vpc_configuration(
     ApplicationName,
     VpcConfigurationId,
@@ -985,16 +951,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeAdditionalDetails"`: Displays verbose information about a Managed Service for
   Apache Flink application, including the application's job plan.
 """
-function describe_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
+describe_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_analytics_v2(
         "DescribeApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1005,6 +968,48 @@ function describe_application(
         Dict{String,Any}(
             mergewith(
                 _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    describe_application_operation(application_name, operation_id)
+    describe_application_operation(application_name, operation_id, params::Dict{String,<:Any})
+
+Returns information about a specific operation performed on a Managed Service for Apache
+Flink application
+
+# Arguments
+- `application_name`:
+- `operation_id`:
+
+"""
+describe_application_operation(
+    ApplicationName, OperationId; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "DescribeApplicationOperation",
+    Dict{String,Any}("ApplicationName" => ApplicationName, "OperationId" => OperationId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function describe_application_operation(
+    ApplicationName,
+    OperationId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_analytics_v2(
+        "DescribeApplicationOperation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "ApplicationName" => ApplicationName, "OperationId" => OperationId
+                ),
+                params,
             ),
         );
         aws_config=aws_config,
@@ -1024,18 +1029,14 @@ Returns information about a snapshot of application state data.
   using .
 
 """
-function describe_application_snapshot(
+describe_application_snapshot(
     ApplicationName, SnapshotName; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "DescribeApplicationSnapshot",
+    Dict{String,Any}("ApplicationName" => ApplicationName, "SnapshotName" => SnapshotName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "DescribeApplicationSnapshot",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName, "SnapshotName" => SnapshotName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_application_snapshot(
     ApplicationName,
     SnapshotName,
@@ -1073,19 +1074,17 @@ operation is supported only for Managed Service for Apache Flink.
   description.
 
 """
-function describe_application_version(
+describe_application_version(
     ApplicationName, ApplicationVersionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "DescribeApplicationVersion",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "ApplicationVersionId" => ApplicationVersionId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "DescribeApplicationVersion",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "ApplicationVersionId" => ApplicationVersionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_application_version(
     ApplicationName,
     ApplicationVersionId,
@@ -1135,16 +1134,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"S3Configuration"`: Specify this parameter to discover a schema from data in an Amazon
   S3 object.
 """
-function discover_input_schema(
+discover_input_schema(
     ServiceExecutionRole; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "DiscoverInputSchema",
+    Dict{String,Any}("ServiceExecutionRole" => ServiceExecutionRole);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "DiscoverInputSchema",
-        Dict{String,Any}("ServiceExecutionRole" => ServiceExecutionRole);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function discover_input_schema(
     ServiceExecutionRole,
     params::AbstractDict{String};
@@ -1157,6 +1154,48 @@ function discover_input_schema(
                 _merge,
                 Dict{String,Any}("ServiceExecutionRole" => ServiceExecutionRole),
                 params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_application_operations(application_name)
+    list_application_operations(application_name, params::Dict{String,<:Any})
+
+Lists information about operations performed on a Managed Service for Apache Flink
+application
+
+# Arguments
+- `application_name`:
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"Limit"`:
+- `"NextToken"`:
+- `"Operation"`:
+- `"OperationStatus"`:
+"""
+list_application_operations(
+    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "ListApplicationOperations",
+    Dict{String,Any}("ApplicationName" => ApplicationName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_application_operations(
+    ApplicationName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return kinesis_analytics_v2(
+        "ListApplicationOperations",
+        Dict{String,Any}(
+            mergewith(
+                _merge, Dict{String,Any}("ApplicationName" => ApplicationName), params
             ),
         );
         aws_config=aws_config,
@@ -1180,16 +1219,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request that indicates that there is more output available. Set it to the value of the
   previous call's NextToken response to indicate where the output should continue from.
 """
-function list_application_snapshots(
+list_application_snapshots(
     ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "ListApplicationSnapshots",
+    Dict{String,Any}("ApplicationName" => ApplicationName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "ListApplicationSnapshots",
-        Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_application_snapshots(
     ApplicationName,
     params::AbstractDict{String};
@@ -1227,16 +1264,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pass it into this value to retrieve the next set of results. For more information about
   pagination, see Using the Amazon Command Line Interface's Pagination Options.
 """
-function list_application_versions(
+list_application_versions(
     ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
+) = kinesis_analytics_v2(
+    "ListApplicationVersions",
+    Dict{String,Any}("ApplicationName" => ApplicationName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "ListApplicationVersions",
-        Dict{String,Any}("ApplicationName" => ApplicationName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_application_versions(
     ApplicationName,
     params::AbstractDict{String};
@@ -1270,11 +1305,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to retrieve the next set of results. For more information about pagination, see Using the
   Amazon Command Line Interface's Pagination Options.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_analytics_v2(
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_analytics_v2(
         "ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1294,16 +1328,13 @@ Using Tagging.
 - `resource_arn`: The ARN of the application for which to retrieve tags.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_analytics_v2(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -1324,11 +1355,10 @@ end
     rollback_application(application_name, current_application_version_id, params::Dict{String,<:Any})
 
 Reverts the application to the previous running version. You can roll back an application
-if you suspect it is stuck in a transient status.  You can roll back an application only if
-it is in the UPDATING or AUTOSCALING status. When you rollback an application, it loads
-state data from the last successful snapshot. If the application has no snapshots, Managed
-Service for Apache Flink rejects the rollback request. This action is not supported for
-Managed Service for Apache Flink for SQL applications.
+if you suspect it is stuck in a transient status or in the running status.  You can roll
+back an application only if it is in the UPDATING, AUTOSCALING, or RUNNING statuses. When
+you rollback an application, it loads state data from the last successful snapshot. If the
+application has no snapshots, Managed Service for Apache Flink rejects the rollback request.
 
 # Arguments
 - `application_name`: The name of the application.
@@ -1336,21 +1366,19 @@ Managed Service for Apache Flink for SQL applications.
   the application version ID using DescribeApplication.
 
 """
-function rollback_application(
+rollback_application(
     ApplicationName,
     CurrentApplicationVersionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "RollbackApplication",
+    Dict{String,Any}(
+        "ApplicationName" => ApplicationName,
+        "CurrentApplicationVersionId" => CurrentApplicationVersionId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "RollbackApplication",
-        Dict{String,Any}(
-            "ApplicationName" => ApplicationName,
-            "CurrentApplicationVersionId" => CurrentApplicationVersionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function rollback_application(
     ApplicationName,
     CurrentApplicationVersionId,
@@ -1389,16 +1417,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RunConfiguration"`: Identifies the run configuration (start parameters) of a Managed
   Service for Apache Flink application.
 """
-function start_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
+start_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_analytics_v2(
         "StartApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1439,16 +1464,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or
   RUNNING status.
 """
-function stop_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
+stop_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_analytics_v2(
         "StopApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1479,14 +1501,13 @@ user-defined application tags is 50. For more information, see Using Tagging.
 - `tags`: The key-value tags to assign to the application.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return kinesis_analytics_v2(
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_analytics_v2(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceARN,
     Tags,
@@ -1520,16 +1541,13 @@ information, see Using Tagging.
 - `tag_keys`: A list of keys of tags to remove from the specified application.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_analytics_v2(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -1584,16 +1602,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is compatible with the snapshot from which your application will start
 - `"ServiceExecutionRoleUpdate"`: Describes updates to the service execution role.
 """
-function update_application(
-    ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return kinesis_analytics_v2(
+update_application(ApplicationName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    kinesis_analytics_v2(
         "UpdateApplication",
         Dict{String,Any}("ApplicationName" => ApplicationName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_application(
     ApplicationName,
     params::AbstractDict{String};
@@ -1636,22 +1651,20 @@ operation is supported only for Managed Service for Apache Flink.
   maintenance configuration.
 
 """
-function update_application_maintenance_configuration(
+update_application_maintenance_configuration(
     ApplicationMaintenanceConfigurationUpdate,
     ApplicationName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = kinesis_analytics_v2(
+    "UpdateApplicationMaintenanceConfiguration",
+    Dict{String,Any}(
+        "ApplicationMaintenanceConfigurationUpdate" =>
+            ApplicationMaintenanceConfigurationUpdate,
+        "ApplicationName" => ApplicationName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return kinesis_analytics_v2(
-        "UpdateApplicationMaintenanceConfiguration",
-        Dict{String,Any}(
-            "ApplicationMaintenanceConfigurationUpdate" =>
-                ApplicationMaintenanceConfigurationUpdate,
-            "ApplicationName" => ApplicationName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_application_maintenance_configuration(
     ApplicationMaintenanceConfigurationUpdate,
     ApplicationName,

@@ -40,21 +40,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SupportedLoginProviders"`: Optional key:value pairs mapping provider names to provider
   app IDs.
 """
-function create_identity_pool(
+create_identity_pool(
     AllowUnauthenticatedIdentities,
     IdentityPoolName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cognito_identity(
+    "CreateIdentityPool",
+    Dict{String,Any}(
+        "AllowUnauthenticatedIdentities" => AllowUnauthenticatedIdentities,
+        "IdentityPoolName" => IdentityPoolName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "CreateIdentityPool",
-        Dict{String,Any}(
-            "AllowUnauthenticatedIdentities" => AllowUnauthenticatedIdentities,
-            "IdentityPoolName" => IdentityPoolName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_identity_pool(
     AllowUnauthenticatedIdentities,
     IdentityPoolName,
@@ -89,16 +87,13 @@ you want to delete. You must use AWS Developer credentials to call this API.
 - `identity_ids_to_delete`: A list of 1-60 identities that you want to delete.
 
 """
-function delete_identities(
-    IdentityIdsToDelete; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cognito_identity(
+delete_identities(IdentityIdsToDelete; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "DeleteIdentities",
         Dict{String,Any}("IdentityIdsToDelete" => IdentityIdsToDelete);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_identities(
     IdentityIdsToDelete,
     params::AbstractDict{String};
@@ -129,16 +124,13 @@ with the pool. You must use AWS Developer credentials to call this API.
 - `identity_pool_id`: An identity pool ID in the format REGION:GUID.
 
 """
-function delete_identity_pool(
-    IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cognito_identity(
+delete_identity_pool(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "DeleteIdentityPool",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_identity_pool(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -165,14 +157,13 @@ any associated linked logins. You must use AWS Developer credentials to call thi
 - `identity_id`: A unique identifier in the format REGION:GUID.
 
 """
-function describe_identity(IdentityId; aws_config::AbstractAWSConfig=global_aws_config())
-    return cognito_identity(
+describe_identity(IdentityId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "DescribeIdentity",
         Dict{String,Any}("IdentityId" => IdentityId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_identity(
     IdentityId,
     params::AbstractDict{String};
@@ -200,16 +191,13 @@ this API.
 - `identity_pool_id`: An identity pool ID in the format REGION:GUID.
 
 """
-function describe_identity_pool(
-    IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cognito_identity(
+describe_identity_pool(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "DescribeIdentityPool",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_identity_pool(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -251,16 +239,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see the code examples in the External Identity Providers section of the Amazon Cognito
   Developer Guide.
 """
-function get_credentials_for_identity(
+get_credentials_for_identity(
     IdentityId; aws_config::AbstractAWSConfig=global_aws_config()
+) = cognito_identity(
+    "GetCredentialsForIdentity",
+    Dict{String,Any}("IdentityId" => IdentityId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "GetCredentialsForIdentity",
-        Dict{String,Any}("IdentityId" => IdentityId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_credentials_for_identity(
     IdentityId,
     params::AbstractDict{String};
@@ -296,14 +282,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789.    Google: accounts.google.com
   Amazon: www.amazon.com    Twitter: api.twitter.com    Digits: www.digits.com
 """
-function get_id(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config())
-    return cognito_identity(
+get_id(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "GetId",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_id(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -330,16 +315,13 @@ API.
 - `identity_pool_id`: An identity pool ID in the format REGION:GUID.
 
 """
-function get_identity_pool_roles(
-    IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cognito_identity(
+get_identity_pool_roles(IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "GetIdentityPoolRoles",
         Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_identity_pool_roles(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -374,14 +356,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from the provider's authflow. For accounts.google.com, an Amazon Cognito user pool
   provider, or any other OpenID Connect provider, always include the id_token.
 """
-function get_open_id_token(IdentityId; aws_config::AbstractAWSConfig=global_aws_config())
-    return cognito_identity(
+get_open_id_token(IdentityId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "GetOpenIdToken",
         Dict{String,Any}("IdentityId" => IdentityId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_open_id_token(
     IdentityId,
     params::AbstractDict{String};
@@ -438,16 +419,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to access your AWS resources for the token's duration.  Please provide for a small grace
   period, usually no more than 5 minutes, to account for clock skew.
 """
-function get_open_id_token_for_developer_identity(
+get_open_id_token_for_developer_identity(
     IdentityPoolId, Logins; aws_config::AbstractAWSConfig=global_aws_config()
+) = cognito_identity(
+    "GetOpenIdTokenForDeveloperIdentity",
+    Dict{String,Any}("IdentityPoolId" => IdentityPoolId, "Logins" => Logins);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "GetOpenIdTokenForDeveloperIdentity",
-        Dict{String,Any}("IdentityPoolId" => IdentityPoolId, "Logins" => Logins);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_open_id_token_for_developer_identity(
     IdentityPoolId,
     Logins,
@@ -481,19 +460,17 @@ attributes.
 - `identity_provider_name`: You can use this operation to get the provider name.
 
 """
-function get_principal_tag_attribute_map(
+get_principal_tag_attribute_map(
     IdentityPoolId, IdentityProviderName; aws_config::AbstractAWSConfig=global_aws_config()
+) = cognito_identity(
+    "GetPrincipalTagAttributeMap",
+    Dict{String,Any}(
+        "IdentityPoolId" => IdentityPoolId,
+        "IdentityProviderName" => IdentityProviderName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "GetPrincipalTagAttributeMap",
-        Dict{String,Any}(
-            "IdentityPoolId" => IdentityPoolId,
-            "IdentityProviderName" => IdentityProviderName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_principal_tag_attribute_map(
     IdentityPoolId,
     IdentityProviderName,
@@ -535,16 +512,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response.
 - `"NextToken"`: A pagination token.
 """
-function list_identities(
+list_identities(
     IdentityPoolId, MaxResults; aws_config::AbstractAWSConfig=global_aws_config()
+) = cognito_identity(
+    "ListIdentities",
+    Dict{String,Any}("IdentityPoolId" => IdentityPoolId, "MaxResults" => MaxResults);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "ListIdentities",
-        Dict{String,Any}("IdentityPoolId" => IdentityPoolId, "MaxResults" => MaxResults);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_identities(
     IdentityPoolId,
     MaxResults,
@@ -581,14 +556,13 @@ Developer credentials to call this API.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"NextToken"`: A pagination token.
 """
-function list_identity_pools(MaxResults; aws_config::AbstractAWSConfig=global_aws_config())
-    return cognito_identity(
+list_identity_pools(MaxResults; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "ListIdentityPools",
         Dict{String,Any}("MaxResults" => MaxResults);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_identity_pools(
     MaxResults,
     params::AbstractDict{String};
@@ -618,16 +592,13 @@ second, per account.
   assigned to.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cognito_identity(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -676,16 +647,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service will return a pagination token as a part of the response. This token can be used to
   call the API again and get results starting from the 11th match.
 """
-function lookup_developer_identity(
+lookup_developer_identity(
     IdentityPoolId; aws_config::AbstractAWSConfig=global_aws_config()
+) = cognito_identity(
+    "LookupDeveloperIdentity",
+    Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "LookupDeveloperIdentity",
-        Dict{String,Any}("IdentityPoolId" => IdentityPoolId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function lookup_developer_identity(
     IdentityPoolId,
     params::AbstractDict{String};
@@ -729,25 +698,23 @@ will be thrown. You must use AWS Developer credentials to call this API.
   DeveloperUserIdentifier.
 
 """
-function merge_developer_identities(
+merge_developer_identities(
     DestinationUserIdentifier,
     DeveloperProviderName,
     IdentityPoolId,
     SourceUserIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cognito_identity(
+    "MergeDeveloperIdentities",
+    Dict{String,Any}(
+        "DestinationUserIdentifier" => DestinationUserIdentifier,
+        "DeveloperProviderName" => DeveloperProviderName,
+        "IdentityPoolId" => IdentityPoolId,
+        "SourceUserIdentifier" => SourceUserIdentifier,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "MergeDeveloperIdentities",
-        Dict{String,Any}(
-            "DestinationUserIdentifier" => DestinationUserIdentifier,
-            "DeveloperProviderName" => DeveloperProviderName,
-            "IdentityPoolId" => IdentityPoolId,
-            "SourceUserIdentifier" => SourceUserIdentifier,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function merge_developer_identities(
     DestinationUserIdentifier,
     DeveloperProviderName,
@@ -795,16 +762,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"cognito-idp.us-east-1.amazonaws.com/us-east-1_abcdefghi:app_client_id\". Up to 25 rules
   can be specified per identity provider.
 """
-function set_identity_pool_roles(
+set_identity_pool_roles(
     IdentityPoolId, Roles; aws_config::AbstractAWSConfig=global_aws_config()
+) = cognito_identity(
+    "SetIdentityPoolRoles",
+    Dict{String,Any}("IdentityPoolId" => IdentityPoolId, "Roles" => Roles);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "SetIdentityPoolRoles",
-        Dict{String,Any}("IdentityPoolId" => IdentityPoolId, "Roles" => Roles);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function set_identity_pool_roles(
     IdentityPoolId,
     Roles,
@@ -842,19 +807,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UseDefaults"`: You can use this operation to use default (username and clientID)
   attribute mappings.
 """
-function set_principal_tag_attribute_map(
+set_principal_tag_attribute_map(
     IdentityPoolId, IdentityProviderName; aws_config::AbstractAWSConfig=global_aws_config()
+) = cognito_identity(
+    "SetPrincipalTagAttributeMap",
+    Dict{String,Any}(
+        "IdentityPoolId" => IdentityPoolId,
+        "IdentityProviderName" => IdentityProviderName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "SetPrincipalTagAttributeMap",
-        Dict{String,Any}(
-            "IdentityPoolId" => IdentityPoolId,
-            "IdentityProviderName" => IdentityProviderName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function set_principal_tag_attribute_map(
     IdentityPoolId,
     IdentityProviderName,
@@ -900,14 +863,13 @@ can have as many as 50 tags.
 - `tags`: The tags to assign to the identity pool.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return cognito_identity(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -945,25 +907,23 @@ identity becomes inaccessible. You must use AWS Developer credentials to call th
 - `identity_pool_id`: An identity pool ID in the format REGION:GUID.
 
 """
-function unlink_developer_identity(
+unlink_developer_identity(
     DeveloperProviderName,
     DeveloperUserIdentifier,
     IdentityId,
     IdentityPoolId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cognito_identity(
+    "UnlinkDeveloperIdentity",
+    Dict{String,Any}(
+        "DeveloperProviderName" => DeveloperProviderName,
+        "DeveloperUserIdentifier" => DeveloperUserIdentifier,
+        "IdentityId" => IdentityId,
+        "IdentityPoolId" => IdentityPoolId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "UnlinkDeveloperIdentity",
-        Dict{String,Any}(
-            "DeveloperProviderName" => DeveloperProviderName,
-            "DeveloperUserIdentifier" => DeveloperUserIdentifier,
-            "IdentityId" => IdentityId,
-            "IdentityPoolId" => IdentityPoolId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function unlink_developer_identity(
     DeveloperProviderName,
     DeveloperUserIdentifier,
@@ -1006,20 +966,18 @@ API.
 - `logins_to_remove`: Provider names to unlink from this identity.
 
 """
-function unlink_identity(
+unlink_identity(
     IdentityId, Logins, LoginsToRemove; aws_config::AbstractAWSConfig=global_aws_config()
+) = cognito_identity(
+    "UnlinkIdentity",
+    Dict{String,Any}(
+        "IdentityId" => IdentityId,
+        "Logins" => Logins,
+        "LoginsToRemove" => LoginsToRemove,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "UnlinkIdentity",
-        Dict{String,Any}(
-            "IdentityId" => IdentityId,
-            "Logins" => Logins,
-            "LoginsToRemove" => LoginsToRemove,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function unlink_identity(
     IdentityId,
     Logins,
@@ -1057,16 +1015,13 @@ this action up to 5 times per second, per account
 - `tag_keys`: The keys of the tags to remove from the user pool.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cognito_identity(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cognito_identity(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -1116,23 +1071,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SupportedLoginProviders"`: Optional key:value pairs mapping provider names to provider
   app IDs.
 """
-function update_identity_pool(
+update_identity_pool(
     AllowUnauthenticatedIdentities,
     IdentityPoolId,
     IdentityPoolName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = cognito_identity(
+    "UpdateIdentityPool",
+    Dict{String,Any}(
+        "AllowUnauthenticatedIdentities" => AllowUnauthenticatedIdentities,
+        "IdentityPoolId" => IdentityPoolId,
+        "IdentityPoolName" => IdentityPoolName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cognito_identity(
-        "UpdateIdentityPool",
-        Dict{String,Any}(
-            "AllowUnauthenticatedIdentities" => AllowUnauthenticatedIdentities,
-            "IdentityPoolId" => IdentityPoolId,
-            "IdentityPoolName" => IdentityPoolName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_identity_pool(
     AllowUnauthenticatedIdentities,
     IdentityPoolId,

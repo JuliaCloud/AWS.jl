@@ -23,17 +23,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource policy includes an external ID. This value can be any string, such as a passphrase
   or account number.
 """
-function put_audit_events(
+put_audit_events(
     auditEvents, channelArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloudtrail_data(
+    "POST",
+    "/PutAuditEvents",
+    Dict{String,Any}("auditEvents" => auditEvents, "channelArn" => channelArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloudtrail_data(
-        "POST",
-        "/PutAuditEvents",
-        Dict{String,Any}("auditEvents" => auditEvents, "channelArn" => channelArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_audit_events(
     auditEvents,
     channelArn,

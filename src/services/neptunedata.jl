@@ -17,14 +17,13 @@ IAM action in that cluster.
 - `query_id`: The unique identifier that identifies the query to be canceled.
 
 """
-function cancel_gremlin_query(queryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+cancel_gremlin_query(queryId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "DELETE",
         "/gremlin/status/$(queryId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_gremlin_query(
     queryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -50,14 +49,12 @@ that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
 - `load_id`: The ID of the load job to be deleted.
 
 """
-function cancel_loader_job(loadId; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "DELETE",
-        "/loader/$(loadId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_loader_job(loadId; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "DELETE",
+    "/loader/$(loadId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function cancel_loader_job(
     loadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -90,14 +87,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function cancel_mldata_processing_job(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+cancel_mldata_processing_job(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "DELETE",
         "/ml/dataprocessing/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_mldata_processing_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -130,14 +126,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function cancel_mlmodel_training_job(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+cancel_mlmodel_training_job(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "DELETE",
         "/ml/modeltraining/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_mlmodel_training_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -170,14 +165,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function cancel_mlmodel_transform_job(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+cancel_mlmodel_transform_job(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "DELETE",
         "/ml/modeltransform/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_mlmodel_transform_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -207,16 +201,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"silent"`: If set to TRUE, causes the cancelation of the openCypher query to happen
   silently.
 """
-function cancel_open_cypher_query(
-    queryId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return neptunedata(
+cancel_open_cypher_query(queryId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "DELETE",
         "/opencypher/status/$(queryId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function cancel_open_cypher_query(
     queryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -267,11 +258,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SageMaker uses to encrypt data on the storage volume attached to the ML compute instances
   that run the training job. The default is None.
 """
-function create_mlendpoint(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "POST", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+create_mlendpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "POST", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function create_mlendpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -304,14 +293,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will be thrown.
 """
-function delete_mlendpoint(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "DELETE",
-        "/ml/endpoints/$(id)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_mlendpoint(id; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "DELETE",
+    "/ml/endpoints/$(id)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_mlendpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -334,16 +321,13 @@ making the request must have a policy attached that allows the neptune-db:Delete
 IAM action in that cluster.
 
 """
-function delete_propertygraph_statistics(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return neptunedata(
+delete_propertygraph_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "DELETE",
         "/propertygraph/statistics";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_propertygraph_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -365,14 +349,12 @@ authentication enabled, the IAM user or role making the request must have a poli
 that allows the neptune-db:DeleteStatistics IAM action in that cluster.
 
 """
-function delete_sparql_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "DELETE",
-        "/sparql/statistics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_sparql_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "DELETE",
+    "/sparql/statistics";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -407,15 +389,13 @@ have a policy attached that allows the neptune-db:ResetDatabase IAM action in th
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"token"`: The fast-reset token to initiate the reset.
 """
-function execute_fast_reset(action; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "POST",
-        "/system",
-        Dict{String,Any}("action" => action);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+execute_fast_reset(action; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "POST",
+    "/system",
+    Dict{String,Any}("action" => action);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function execute_fast_reset(
     action, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -451,17 +431,14 @@ condition key can be used in the policy document to restrict the use of Gremlin 
 - `gremlin`: The Gremlin explain query string.
 
 """
-function execute_gremlin_explain_query(
-    gremlin; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return neptunedata(
+execute_gremlin_explain_query(gremlin; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "POST",
         "/gremlin/explain",
         Dict{String,Any}("gremlin" => gremlin);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function execute_gremlin_explain_query(
     gremlin, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -502,17 +479,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response message in the format specified by this parameter. See Gremlin profile API in
   Neptune for more information.
 """
-function execute_gremlin_profile_query(
-    gremlin; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return neptunedata(
+execute_gremlin_profile_query(gremlin; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "POST",
         "/gremlin/profile",
         Dict{String,Any}("gremlin" => gremlin);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function execute_gremlin_profile_query(
     gremlin, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -552,15 +526,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the format specified by this parameter. See the GraphSON section in the TinkerPop
   documentation for a list of the formats that are currently supported.
 """
-function execute_gremlin_query(gremlin; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+execute_gremlin_query(gremlin; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "POST",
         "/gremlin",
         Dict{String,Any}("gremlin" => gremlin);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function execute_gremlin_query(
     gremlin, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -593,17 +566,15 @@ data-access policy statements).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"parameters"`: The openCypher query parameters.
 """
-function execute_open_cypher_explain_query(
+execute_open_cypher_explain_query(
     explain, query; aws_config::AbstractAWSConfig=global_aws_config()
+) = neptunedata(
+    "POST",
+    "/opencypher/explain",
+    Dict{String,Any}("explain" => explain, "query" => query);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return neptunedata(
-        "POST",
-        "/opencypher/explain",
-        Dict{String,Any}("explain" => explain, "query" => query);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function execute_open_cypher_explain_query(
     explain,
     query,
@@ -650,15 +621,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameters"`: The openCypher query parameters for query execution. See Examples of
   openCypher parameterized queries for more information.
 """
-function execute_open_cypher_query(query; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+execute_open_cypher_query(query; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "POST",
         "/opencypher",
         Dict{String,Any}("query" => query);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function execute_open_cypher_query(
     query, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -681,11 +651,8 @@ request must have a policy attached that allows the neptune-db:GetEngineStatus I
 in that cluster.
 
 """
-function get_engine_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "GET", "/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_engine_status(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata("GET", "/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_engine_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -709,16 +676,13 @@ Neptune IAM data-access policy statements).
 - `query_id`: The unique identifier that identifies the Gremlin query.
 
 """
-function get_gremlin_query_status(
-    queryId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return neptunedata(
+get_gremlin_query_status(queryId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET",
         "/gremlin/status/$(queryId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_gremlin_query_status(
     queryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -756,11 +720,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"page"`: The error page number (a positive integer; the default is 1). Only valid when
   the errors parameter is set to TRUE.
 """
-function get_loader_job_status(loadId; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+get_loader_job_status(loadId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET", "/loader/$(loadId)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function get_loader_job_status(
     loadId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -791,14 +754,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function get_mldata_processing_job(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+get_mldata_processing_job(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET",
         "/ml/dataprocessing/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_mldata_processing_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -829,11 +791,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function get_mlendpoint(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "GET", "/ml/endpoints/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_mlendpoint(id; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "GET", "/ml/endpoints/$(id)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_mlendpoint(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -864,14 +824,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function get_mlmodel_training_job(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+get_mlmodel_training_job(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET",
         "/ml/modeltraining/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_mlmodel_training_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -902,14 +861,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function get_mlmodel_transform_job(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+get_mlmodel_transform_job(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET",
         "/ml/modeltransform/$(id)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_mlmodel_transform_job(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -937,16 +895,13 @@ available in Neptune IAM data-access policy statements).
 - `query_id`: The unique ID of the openCypher query for which to retrieve the query status.
 
 """
-function get_open_cypher_query_status(
-    queryId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return neptunedata(
+get_open_cypher_query_status(queryId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET",
         "/opencypher/status/$(queryId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_open_cypher_query_status(
     queryId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -969,14 +924,13 @@ request must have a policy attached that allows the neptune-db:GetStatisticsStat
 action in that cluster.
 
 """
-function get_propertygraph_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+get_propertygraph_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET",
         "/propertygraph/statistics";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_propertygraph_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1031,14 +985,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"opNum"`: The operation sequence number within the specified commit to start reading
   from in the change-log stream data. The default is 1.
 """
-function get_propertygraph_stream(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "GET",
-        "/propertygraph/stream";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_propertygraph_stream(; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "GET",
+    "/propertygraph/stream";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_propertygraph_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1064,14 +1016,13 @@ cluster.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"mode"`: Mode can take one of two values: BASIC (the default), and DETAILED.
 """
-function get_propertygraph_summary(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+get_propertygraph_summary(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET",
         "/propertygraph/statistics/summary";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_propertygraph_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1096,14 +1047,12 @@ policy attached that allows the neptune-db:GetGraphSummary IAM action in that cl
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"mode"`: Mode can take one of two values: BASIC (the default), and DETAILED.
 """
-function get_rdfgraph_summary(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "GET",
-        "/rdf/statistics/summary";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_rdfgraph_summary(; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "GET",
+    "/rdf/statistics/summary";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_rdfgraph_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1123,11 +1072,9 @@ end
 Gets RDF statistics (SPARQL).
 
 """
-function get_sparql_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "GET", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_sparql_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "GET", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1179,11 +1126,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"opNum"`: The operation sequence number within the specified commit to start reading
   from in the change-log stream data. The default is 1.
 """
-function get_sparql_stream(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "GET", "/sparql/stream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_sparql_stream(; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "GET", "/sparql/stream"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_sparql_stream(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1213,11 +1158,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeWaiting"`: If set to TRUE, the list returned includes waiting queries. The
   default is FALSE;
 """
-function list_gremlin_queries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "GET", "/gremlin/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_gremlin_queries(; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "GET", "/gremlin/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_gremlin_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1247,11 +1190,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"limit"`: The number of load IDs to list. Must be a positive integer greater than zero
   and not more than 100 (which is the default).
 """
-function list_loader_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "GET", "/loader"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_loader_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata("GET", "/loader"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_loader_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1277,11 +1217,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function list_mldata_processing_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+list_mldata_processing_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET", "/ml/dataprocessing"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_mldata_processing_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1310,11 +1249,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function list_mlendpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "GET", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_mlendpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "GET", "/ml/endpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_mlendpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1343,11 +1280,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function list_mlmodel_training_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+list_mlmodel_training_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET", "/ml/modeltraining"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_mlmodel_training_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1376,11 +1312,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and Amazon S3 resources. This must be listed in your DB cluster parameter group or an error
   will occur.
 """
-function list_mlmodel_transform_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
+list_mlmodel_transform_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "GET", "/ml/modeltransform"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_mlmodel_transform_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1410,11 +1345,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeWaiting"`:  When set to TRUE and other parameters are not present, causes status
   information to be returned for waiting queries as well as for running queries.
 """
-function list_open_cypher_queries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "GET", "/opencypher/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_open_cypher_queries(; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "GET", "/opencypher/status"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_open_cypher_queries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1442,16 +1375,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ENABLE_AUTOCOMPUTE, or REFRESH, the last of which manually triggers DFE statistics
   generation.
 """
-function manage_propertygraph_statistics(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return neptunedata(
+manage_propertygraph_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    neptunedata(
         "POST",
         "/propertygraph/statistics";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function manage_propertygraph_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1479,11 +1409,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ENABLE_AUTOCOMPUTE, or REFRESH, the last of which manually triggers DFE statistics
   generation.
 """
-function manage_sparql_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return neptunedata(
-        "POST", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+manage_sparql_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = neptunedata(
+    "POST", "/sparql/statistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function manage_sparql_statistics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1618,22 +1546,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if any relationship file has had to be corrected, and must instead reload all the
   relationships.
 """
-function start_loader_job(
+start_loader_job(
     format, iamRoleArn, region, source; aws_config::AbstractAWSConfig=global_aws_config()
+) = neptunedata(
+    "POST",
+    "/loader",
+    Dict{String,Any}(
+        "format" => format,
+        "iamRoleArn" => iamRoleArn,
+        "region" => region,
+        "source" => source,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return neptunedata(
-        "POST",
-        "/loader",
-        Dict{String,Any}(
-            "format" => format,
-            "iamRoleArn" => iamRoleArn,
-            "region" => region,
-            "source" => source,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_loader_job(
     format,
     iamRoleArn,
@@ -1712,22 +1638,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SageMaker uses to encrypt data on the storage volume attached to the ML compute instances
   that run the training job. The default is None.
 """
-function start_mldata_processing_job(
+start_mldata_processing_job(
     inputDataS3Location,
     processedDataS3Location;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = neptunedata(
+    "POST",
+    "/ml/dataprocessing",
+    Dict{String,Any}(
+        "inputDataS3Location" => inputDataS3Location,
+        "processedDataS3Location" => processedDataS3Location,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return neptunedata(
-        "POST",
-        "/ml/dataprocessing",
-        Dict{String,Any}(
-            "inputDataS3Location" => inputDataS3Location,
-            "processedDataS3Location" => processedDataS3Location,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_mldata_processing_job(
     inputDataS3Location,
     processedDataS3Location,
@@ -1809,22 +1733,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   uses to encrypt data on the storage volume attached to the ML compute instances that run
   the training job. The default is None.
 """
-function start_mlmodel_training_job(
+start_mlmodel_training_job(
     dataProcessingJobId,
     trainModelS3Location;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = neptunedata(
+    "POST",
+    "/ml/modeltraining",
+    Dict{String,Any}(
+        "dataProcessingJobId" => dataProcessingJobId,
+        "trainModelS3Location" => trainModelS3Location,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return neptunedata(
-        "POST",
-        "/ml/modeltraining",
-        Dict{String,Any}(
-            "dataProcessingJobId" => dataProcessingJobId,
-            "trainModelS3Location" => trainModelS3Location,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_mlmodel_training_job(
     dataProcessingJobId,
     trainModelS3Location,
@@ -1895,19 +1817,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   uses to encrypt data on the storage volume attached to the ML compute instances that run
   the training job. The default is None.
 """
-function start_mlmodel_transform_job(
+start_mlmodel_transform_job(
     modelTransformOutputS3Location; aws_config::AbstractAWSConfig=global_aws_config()
+) = neptunedata(
+    "POST",
+    "/ml/modeltransform",
+    Dict{String,Any}("modelTransformOutputS3Location" => modelTransformOutputS3Location);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return neptunedata(
-        "POST",
-        "/ml/modeltransform",
-        Dict{String,Any}(
-            "modelTransformOutputS3Location" => modelTransformOutputS3Location
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_mlmodel_transform_job(
     modelTransformOutputS3Location,
     params::AbstractDict{String};
