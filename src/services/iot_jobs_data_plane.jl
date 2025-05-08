@@ -21,16 +21,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"includeJobDocument"`: Optional. When set to true, the response contains the job
   document. The default is false.
 """
-function describe_job_execution(
+describe_job_execution(
     jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()
+) = iot_jobs_data_plane(
+    "GET",
+    "/things/$(thingName)/jobs/$(jobId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iot_jobs_data_plane(
-        "GET",
-        "/things/$(thingName)/jobs/$(jobId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_job_execution(
     jobId,
     thingName,
@@ -56,16 +54,13 @@ Gets the list of all jobs for a thing that are not in a terminal status.
 - `thing_name`: The name of the thing that is executing the job.
 
 """
-function get_pending_job_executions(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return iot_jobs_data_plane(
+get_pending_job_executions(thingName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    iot_jobs_data_plane(
         "GET",
         "/things/$(thingName)/jobs";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_pending_job_executions(
     thingName,
     params::AbstractDict{String};
@@ -101,16 +96,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   timeout has no effect on that job execution timeout which may have been specified when the
   job was created (CreateJob using field timeoutConfig).
 """
-function start_next_pending_job_execution(
+start_next_pending_job_execution(
     thingName; aws_config::AbstractAWSConfig=global_aws_config()
+) = iot_jobs_data_plane(
+    "PUT",
+    "/things/$(thingName)/jobs/$next";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iot_jobs_data_plane(
-        "PUT",
-        "/things/$(thingName)/jobs/$next";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_next_pending_job_execution(
     thingName,
     params::AbstractDict{String};
@@ -161,17 +154,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this timeout has no effect on that job execution timeout which may have been specified when
   the job was created (CreateJob using field timeoutConfig).
 """
-function update_job_execution(
+update_job_execution(
     jobId, status, thingName; aws_config::AbstractAWSConfig=global_aws_config()
+) = iot_jobs_data_plane(
+    "POST",
+    "/things/$(thingName)/jobs/$(jobId)",
+    Dict{String,Any}("status" => status);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iot_jobs_data_plane(
-        "POST",
-        "/things/$(thingName)/jobs/$(jobId)",
-        Dict{String,Any}("status" => status);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_job_execution(
     jobId,
     status,

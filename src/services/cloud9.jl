@@ -56,18 +56,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: An array of key-value pairs that will be associated with the new Cloud9
   development environment.
 """
-function create_environment_ec2(
+create_environment_ec2(
     imageId, instanceType, name; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloud9(
+    "CreateEnvironmentEC2",
+    Dict{String,Any}("imageId" => imageId, "instanceType" => instanceType, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloud9(
-        "CreateEnvironmentEC2",
-        Dict{String,Any}(
-            "imageId" => imageId, "instanceType" => instanceType, "name" => name
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_environment_ec2(
     imageId,
     instanceType,
@@ -106,20 +102,18 @@ Adds an environment member to an Cloud9 development environment.
 - `user_arn`: The Amazon Resource Name (ARN) of the environment member you want to add.
 
 """
-function create_environment_membership(
+create_environment_membership(
     environmentId, permissions, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloud9(
+    "CreateEnvironmentMembership",
+    Dict{String,Any}(
+        "environmentId" => environmentId,
+        "permissions" => permissions,
+        "userArn" => userArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloud9(
-        "CreateEnvironmentMembership",
-        Dict{String,Any}(
-            "environmentId" => environmentId,
-            "permissions" => permissions,
-            "userArn" => userArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_environment_membership(
     environmentId,
     permissions,
@@ -156,16 +150,13 @@ environment, also terminates the instance.
 - `environment_id`: The ID of the environment to delete.
 
 """
-function delete_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloud9(
+delete_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloud9(
         "DeleteEnvironment",
         Dict{String,Any}("environmentId" => environmentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_environment(
     environmentId,
     params::AbstractDict{String};
@@ -193,16 +184,14 @@ Deletes an environment member from a development environment.
   environment.
 
 """
-function delete_environment_membership(
+delete_environment_membership(
     environmentId, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloud9(
+    "DeleteEnvironmentMembership",
+    Dict{String,Any}("environmentId" => environmentId, "userArn" => userArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloud9(
-        "DeleteEnvironmentMembership",
-        Dict{String,Any}("environmentId" => environmentId, "userArn" => userArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_environment_membership(
     environmentId,
     userArn,
@@ -246,15 +235,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about. If no value is specified, information about all environment members are
   returned.
 """
-function describe_environment_memberships(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloud9(
+describe_environment_memberships(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloud9(
         "DescribeEnvironmentMemberships";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_environment_memberships(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -276,16 +262,14 @@ Gets status information for an Cloud9 development environment.
 - `environment_id`: The ID of the environment to get status information about.
 
 """
-function describe_environment_status(
+describe_environment_status(
     environmentId; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloud9(
+    "DescribeEnvironmentStatus",
+    Dict{String,Any}("environmentId" => environmentId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloud9(
-        "DescribeEnvironmentStatus",
-        Dict{String,Any}("environmentId" => environmentId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_environment_status(
     environmentId,
     params::AbstractDict{String};
@@ -311,16 +295,13 @@ Gets information about Cloud9 development environments.
 - `environment_ids`: The IDs of individual environments to get information about.
 
 """
-function describe_environments(
-    environmentIds; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloud9(
+describe_environments(environmentIds; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloud9(
         "DescribeEnvironments",
         Dict{String,Any}("environmentIds" => environmentIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_environments(
     environmentIds,
     params::AbstractDict{String};
@@ -351,11 +332,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   call. To get all of the items in the list, keep calling this operation with each subsequent
   next token that is returned, until no more next tokens are returned.
 """
-function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloud9(
-        "ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_environments(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloud9("ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -375,16 +353,13 @@ Gets a list of the tags associated with an Cloud9 development environment.
   get the tags for.
 
 """
-function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloud9(
+list_tags_for_resource(ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloud9(
         "ListTagsForResource",
         Dict{String,Any}("ResourceARN" => ResourceARN);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
@@ -413,14 +388,12 @@ by using this method will NOT be automatically propagated to underlying resource
 - `tags`: The list of tags to add to the given Cloud9 development environment.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return cloud9(
-        "TagResource",
-        Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config()) = cloud9(
+    "TagResource",
+    Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     ResourceARN,
     Tags,
@@ -454,16 +427,13 @@ Removes tags from an Cloud9 development environment.
   environment.
 
 """
-function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloud9(
+untag_resource(ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloud9(
         "UntagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceARN,
     TagKeys,
@@ -504,16 +474,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment owner.
 - `"name"`: A replacement name for the environment.
 """
-function update_environment(
-    environmentId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return cloud9(
+update_environment(environmentId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    cloud9(
         "UpdateEnvironment",
         Dict{String,Any}("environmentId" => environmentId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_environment(
     environmentId,
     params::AbstractDict{String};
@@ -547,20 +514,18 @@ environment.
   want to change.
 
 """
-function update_environment_membership(
+update_environment_membership(
     environmentId, permissions, userArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = cloud9(
+    "UpdateEnvironmentMembership",
+    Dict{String,Any}(
+        "environmentId" => environmentId,
+        "permissions" => permissions,
+        "userArn" => userArn,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return cloud9(
-        "UpdateEnvironmentMembership",
-        Dict{String,Any}(
-            "environmentId" => environmentId,
-            "permissions" => permissions,
-            "userArn" => userArn,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_environment_membership(
     environmentId,
     permissions,

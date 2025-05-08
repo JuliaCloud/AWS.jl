@@ -22,23 +22,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the catalog in which the partition is to be created. Currently,
   this should be the Amazon Web Services account ID.
 """
-function batch_create_partition(
+batch_create_partition(
     DatabaseName,
     PartitionInputList,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "BatchCreatePartition",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "PartitionInputList" => PartitionInputList,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "BatchCreatePartition",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "PartitionInputList" => PartitionInputList,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_create_partition(
     DatabaseName,
     PartitionInputList,
@@ -78,16 +76,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the connections reside. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
-function batch_delete_connection(
+batch_delete_connection(
     ConnectionNameList; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "BatchDeleteConnection",
+    Dict{String,Any}("ConnectionNameList" => ConnectionNameList);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "BatchDeleteConnection",
-        Dict{String,Any}("ConnectionNameList" => ConnectionNameList);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_delete_connection(
     ConnectionNameList,
     params::AbstractDict{String};
@@ -122,23 +118,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partition to be deleted resides. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
-function batch_delete_partition(
+batch_delete_partition(
     DatabaseName,
     PartitionsToDelete,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "BatchDeletePartition",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "PartitionsToDelete" => PartitionsToDelete,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "BatchDeletePartition",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "PartitionsToDelete" => PartitionsToDelete,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_delete_partition(
     DatabaseName,
     PartitionsToDelete,
@@ -186,18 +180,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services account ID is used by default.
 - `"TransactionId"`: The transaction ID at which to delete the table contents.
 """
-function batch_delete_table(
+batch_delete_table(
     DatabaseName, TablesToDelete; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "BatchDeleteTable",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "TablesToDelete" => TablesToDelete);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "BatchDeleteTable",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName, "TablesToDelete" => TablesToDelete
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_delete_table(
     DatabaseName,
     TablesToDelete,
@@ -239,20 +229,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the tables reside. If none is provided,
   the Amazon Web Services account ID is used by default.
 """
-function batch_delete_table_version(
+batch_delete_table_version(
     DatabaseName, TableName, VersionIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "BatchDeleteTableVersion",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+        "VersionIds" => VersionIds,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "BatchDeleteTableVersion",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-            "VersionIds" => VersionIds,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_delete_table_version(
     DatabaseName,
     TableName,
@@ -293,14 +281,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeParameterSpec"`: Specifies whether or not to include the parameters, as a JSON
   string, for the blueprint in the response.
 """
-function batch_get_blueprints(Names; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "BatchGetBlueprints",
-        Dict{String,Any}("Names" => Names);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_blueprints(Names; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "BatchGetBlueprints",
+    Dict{String,Any}("Names" => Names);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_blueprints(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -326,14 +312,12 @@ conditions that uses tags.
   ListCrawlers operation.
 
 """
-function batch_get_crawlers(CrawlerNames; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "BatchGetCrawlers",
-        Dict{String,Any}("CrawlerNames" => CrawlerNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_crawlers(CrawlerNames; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "BatchGetCrawlers",
+    Dict{String,Any}("CrawlerNames" => CrawlerNames);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_crawlers(
     CrawlerNames,
     params::AbstractDict{String};
@@ -359,16 +343,13 @@ Retrieves the details for the custom patterns specified by a list of names.
 - `names`: A list of names of the custom patterns that you want to retrieve.
 
 """
-function batch_get_custom_entity_types(
-    Names; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+batch_get_custom_entity_types(Names; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "BatchGetCustomEntityTypes",
         Dict{String,Any}("Names" => Names);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_get_custom_entity_types(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -390,16 +371,14 @@ Retrieves a list of data quality results for the specified result IDs.
 - `result_ids`: A list of unique result IDs for the data quality results.
 
 """
-function batch_get_data_quality_result(
+batch_get_data_quality_result(
     ResultIds; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "BatchGetDataQualityResult",
+    Dict{String,Any}("ResultIds" => ResultIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "BatchGetDataQualityResult",
-        Dict{String,Any}("ResultIds" => ResultIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_data_quality_result(
     ResultIds,
     params::AbstractDict{String};
@@ -429,16 +408,14 @@ including permission conditions that uses tags.
   from the ListDevEndpoint operation.
 
 """
-function batch_get_dev_endpoints(
+batch_get_dev_endpoints(
     DevEndpointNames; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "BatchGetDevEndpoints",
+    Dict{String,Any}("DevEndpointNames" => DevEndpointNames);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "BatchGetDevEndpoints",
-        Dict{String,Any}("DevEndpointNames" => DevEndpointNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_dev_endpoints(
     DevEndpointNames,
     params::AbstractDict{String};
@@ -470,14 +447,12 @@ conditions that uses tags.
   operation.
 
 """
-function batch_get_jobs(JobNames; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "BatchGetJobs",
-        Dict{String,Any}("JobNames" => JobNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_jobs(JobNames; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "BatchGetJobs",
+    Dict{String,Any}("JobNames" => JobNames);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_jobs(
     JobNames,
     params::AbstractDict{String};
@@ -509,23 +484,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
-function batch_get_partition(
+batch_get_partition(
     DatabaseName,
     PartitionsToGet,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "BatchGetPartition",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "PartitionsToGet" => PartitionsToGet,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "BatchGetPartition",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "PartitionsToGet" => PartitionsToGet,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_partition(
     DatabaseName,
     PartitionsToGet,
@@ -562,16 +535,13 @@ Returns the configuration for the specified table optimizers.
   to retrieve.
 
 """
-function batch_get_table_optimizer(
-    Entries; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+batch_get_table_optimizer(Entries; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "BatchGetTableOptimizer",
         Dict{String,Any}("Entries" => Entries);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_get_table_optimizer(
     Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -597,14 +567,12 @@ conditions that uses tags.
   ListTriggers operation.
 
 """
-function batch_get_triggers(TriggerNames; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "BatchGetTriggers",
-        Dict{String,Any}("TriggerNames" => TriggerNames);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_triggers(TriggerNames; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "BatchGetTriggers",
+    Dict{String,Any}("TriggerNames" => TriggerNames);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_triggers(
     TriggerNames,
     params::AbstractDict{String};
@@ -638,20 +606,58 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeGraph"`: Specifies whether to include a graph when returning the workflow
   resource metadata.
 """
-function batch_get_workflows(Names; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "BatchGetWorkflows",
-        Dict{String,Any}("Names" => Names);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_workflows(Names; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "BatchGetWorkflows",
+    Dict{String,Any}("Names" => Names);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_workflows(
     Names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return glue(
         "BatchGetWorkflows",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Names" => Names), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    batch_put_data_quality_statistic_annotation(inclusion_annotations)
+    batch_put_data_quality_statistic_annotation(inclusion_annotations, params::Dict{String,<:Any})
+
+Annotate datapoints over time for a specific data quality statistic.
+
+# Arguments
+- `inclusion_annotations`: A list of DatapointInclusionAnnotation's.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"ClientToken"`: Client Token.
+"""
+batch_put_data_quality_statistic_annotation(
+    InclusionAnnotations; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "BatchPutDataQualityStatisticAnnotation",
+    Dict{String,Any}("InclusionAnnotations" => InclusionAnnotations);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function batch_put_data_quality_statistic_annotation(
+    InclusionAnnotations,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "BatchPutDataQualityStatisticAnnotation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("InclusionAnnotations" => InclusionAnnotations),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -668,16 +674,13 @@ Stops one or more job runs for a specified job definition.
 - `job_run_ids`: A list of the JobRunIds that should be stopped for that job definition.
 
 """
-function batch_stop_job_run(
-    JobName, JobRunIds; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+batch_stop_job_run(JobName, JobRunIds; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "BatchStopJobRun",
         Dict{String,Any}("JobName" => JobName, "JobRunIds" => JobRunIds);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_stop_job_run(
     JobName,
     JobRunIds,
@@ -715,18 +718,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the catalog in which the partition is to be updated. Currently,
   this should be the Amazon Web Services account ID.
 """
-function batch_update_partition(
+batch_update_partition(
     DatabaseName, Entries, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "BatchUpdatePartition",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName, "Entries" => Entries, "TableName" => TableName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "BatchUpdatePartition",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName, "Entries" => Entries, "TableName" => TableName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_update_partition(
     DatabaseName,
     Entries,
@@ -762,16 +763,14 @@ Cancels the specified recommendation run that was being used to generate rules.
 - `run_id`: The unique run identifier associated with this run.
 
 """
-function cancel_data_quality_rule_recommendation_run(
+cancel_data_quality_rule_recommendation_run(
     RunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CancelDataQualityRuleRecommendationRun",
+    Dict{String,Any}("RunId" => RunId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CancelDataQualityRuleRecommendationRun",
-        Dict{String,Any}("RunId" => RunId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_data_quality_rule_recommendation_run(
     RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -793,16 +792,14 @@ Cancels a run where a ruleset is being evaluated against a data source.
 - `run_id`: The unique run identifier associated with this run.
 
 """
-function cancel_data_quality_ruleset_evaluation_run(
+cancel_data_quality_ruleset_evaluation_run(
     RunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CancelDataQualityRulesetEvaluationRun",
+    Dict{String,Any}("RunId" => RunId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CancelDataQualityRulesetEvaluationRun",
-        Dict{String,Any}("RunId" => RunId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_data_quality_ruleset_evaluation_run(
     RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -828,16 +825,14 @@ transform's TransformID and the task run's TaskRunId.
 - `transform_id`: The unique identifier of the machine learning transform.
 
 """
-function cancel_mltask_run(
+cancel_mltask_run(
     TaskRunId, TransformId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CancelMLTaskRun",
+    Dict{String,Any}("TaskRunId" => TaskRunId, "TransformId" => TransformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CancelMLTaskRun",
-        Dict{String,Any}("TaskRunId" => TaskRunId, "TransformId" => TransformId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_mltask_run(
     TaskRunId,
     TransformId,
@@ -872,14 +867,12 @@ Cancels the statement.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The origin of the request to cancel the statement.
 """
-function cancel_statement(Id, SessionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "CancelStatement",
-        Dict{String,Any}("Id" => Id, "SessionId" => SessionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+cancel_statement(Id, SessionId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "CancelStatement",
+    Dict{String,Any}("Id" => Id, "SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function cancel_statement(
     Id,
     SessionId,
@@ -912,18 +905,14 @@ no compatibility checks are performed.
 - `schema_definition`: The definition of the schema that has to be validated.
 
 """
-function check_schema_version_validity(
+check_schema_version_validity(
     DataFormat, SchemaDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CheckSchemaVersionValidity",
+    Dict{String,Any}("DataFormat" => DataFormat, "SchemaDefinition" => SchemaDefinition);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CheckSchemaVersionValidity",
-        Dict{String,Any}(
-            "DataFormat" => DataFormat, "SchemaDefinition" => SchemaDefinition
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function check_schema_version_validity(
     DataFormat,
     SchemaDefinition,
@@ -961,16 +950,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the blueprint.
 - `"Tags"`: The tags to be applied to this blueprint.
 """
-function create_blueprint(
+create_blueprint(
     BlueprintLocation, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CreateBlueprint",
+    Dict{String,Any}("BlueprintLocation" => BlueprintLocation, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreateBlueprint",
-        Dict{String,Any}("BlueprintLocation" => BlueprintLocation, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_blueprint(
     BlueprintLocation,
     Name,
@@ -1005,9 +992,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JsonClassifier"`: A JsonClassifier object specifying the classifier to create.
 - `"XMLClassifier"`: An XMLClassifier object specifying the classifier to create.
 """
-function create_classifier(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("CreateClassifier"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+create_classifier(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("CreateClassifier"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function create_classifier(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1032,16 +1018,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the Amazon Web Services account ID is used by default.
 - `"Tags"`: The tags you assign to the connection.
 """
-function create_connection(
-    ConnectionInput; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+create_connection(ConnectionInput; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "CreateConnection",
         Dict{String,Any}("ConnectionInput" => ConnectionInput);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_connection(
     ConnectionInput,
     params::AbstractDict{String};
@@ -1100,16 +1083,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the crawler. For more information about tags in Glue, see Amazon Web Services Tags in Glue
   in the developer guide.
 """
-function create_crawler(
-    Name, Role, Targets; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+create_crawler(Name, Role, Targets; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "CreateCrawler",
         Dict{String,Any}("Name" => Name, "Role" => Role, "Targets" => Targets);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_crawler(
     Name,
     Role,
@@ -1153,16 +1133,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   data. If no context words are passed only a regular expression is checked.
 - `"Tags"`: A list of tags applied to the custom entity type.
 """
-function create_custom_entity_type(
+create_custom_entity_type(
     Name, RegexString; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CreateCustomEntityType",
+    Dict{String,Any}("Name" => Name, "RegexString" => RegexString);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreateCustomEntityType",
-        Dict{String,Any}("Name" => Name, "RegexString" => RegexString);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_custom_entity_type(
     Name,
     RegexString,
@@ -1200,20 +1178,20 @@ see the Glue developer guide.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ClientToken"`: Used for idempotency and is recommended to be set to a random ID (such
   as a UUID) to avoid creating or starting multiple instances of the same resource.
+- `"DataQualitySecurityConfiguration"`: The name of the security configuration created with
+  the data quality encryption option.
 - `"Description"`: A description of the data quality ruleset.
 - `"Tags"`: A list of tags applied to the data quality ruleset.
 - `"TargetTable"`: A target table associated with the data quality ruleset.
 """
-function create_data_quality_ruleset(
+create_data_quality_ruleset(
     Name, Ruleset; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CreateDataQualityRuleset",
+    Dict{String,Any}("Name" => Name, "Ruleset" => Ruleset);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreateDataQualityRuleset",
-        Dict{String,Any}("Name" => Name, "Ruleset" => Ruleset);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_data_quality_ruleset(
     Name,
     Ruleset,
@@ -1247,14 +1225,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided, the Amazon Web Services account ID is used by default.
 - `"Tags"`: The tags you assign to the database.
 """
-function create_database(DatabaseInput; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "CreateDatabase",
-        Dict{String,Any}("DatabaseInput" => DatabaseInput);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_database(DatabaseInput; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "CreateDatabase",
+    Dict{String,Any}("DatabaseInput" => DatabaseInput);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_database(
     DatabaseInput,
     params::AbstractDict{String};
@@ -1331,16 +1307,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of
   memory, and a 64 GB disk.
 """
-function create_dev_endpoint(
+create_dev_endpoint(
     EndpointName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CreateDevEndpoint",
+    Dict{String,Any}("EndpointName" => EndpointName, "RoleArn" => RoleArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreateDevEndpoint",
-        Dict{String,Any}("EndpointName" => EndpointName, "RoleArn" => RoleArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_dev_endpoint(
     EndpointName,
     RoleArn,
@@ -1414,6 +1388,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using the Glue Studio visual editor.    NOTEBOOK - The job was created using an interactive
   sessions notebook.   When the JobMode field is missing or null, SCRIPT is assigned as the
   default value.
+- `"JobRunQueuingEnabled"`: Specifies whether job run queuing is enabled for the job runs
+  for this job. A value of true means job run queuing is enabled for the job runs. If false
+  or not populated, the job runs will not be considered for queueing. If this field does not
+  match the value set in the job run, then the value from the job run field will be used.
 - `"LogUri"`: This field is reserved for future use.
 - `"MaintenanceWindow"`: This field specifies a day of the week and hour for a maintenance
   window for streaming jobs. Glue periodically performs maintenance activities. During these
@@ -1481,14 +1459,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8
   Ray workers based on the autoscaler.
 """
-function create_job(Command, Name, Role; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "CreateJob",
-        Dict{String,Any}("Command" => Command, "Name" => Name, "Role" => Role);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_job(Command, Name, Role; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "CreateJob",
+    Dict{String,Any}("Command" => Command, "Name" => Name, "Role" => Role);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_job(
     Command,
     Name,
@@ -1580,25 +1556,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and
   vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
 """
-function create_mltransform(
+create_mltransform(
     InputRecordTables,
     Name,
     Parameters,
     Role;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "CreateMLTransform",
+    Dict{String,Any}(
+        "InputRecordTables" => InputRecordTables,
+        "Name" => Name,
+        "Parameters" => Parameters,
+        "Role" => Role,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreateMLTransform",
-        Dict{String,Any}(
-            "InputRecordTables" => InputRecordTables,
-            "Name" => Name,
-            "Parameters" => Parameters,
-            "Role" => Role,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_mltransform(
     InputRecordTables,
     Name,
@@ -1643,23 +1617,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The Amazon Web Services account ID of the catalog in which the partition
   is to be created.
 """
-function create_partition(
+create_partition(
     DatabaseName,
     PartitionInput,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "CreatePartition",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "PartitionInput" => PartitionInput,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreatePartition",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "PartitionInput" => PartitionInput,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_partition(
     DatabaseName,
     PartitionInput,
@@ -1702,23 +1674,21 @@ Creates a specified partition index in an existing table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The catalog ID where the table resides.
 """
-function create_partition_index(
+create_partition_index(
     DatabaseName,
     PartitionIndex,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "CreatePartitionIndex",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "PartitionIndex" => PartitionIndex,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreatePartitionIndex",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "PartitionIndex" => PartitionIndex,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_partition_index(
     DatabaseName,
     PartitionIndex,
@@ -1761,14 +1731,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Amazon Web Services tags that contain a key value pair and may be searched by
   console, command line, or API.
 """
-function create_registry(RegistryName; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "CreateRegistry",
-        Dict{String,Any}("RegistryName" => RegistryName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_registry(RegistryName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "CreateRegistry",
+    Dict{String,Any}("RegistryName" => RegistryName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_registry(
     RegistryName,
     params::AbstractDict{String};
@@ -1841,16 +1809,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   console, command line, or API. If specified, follows the Amazon Web Services tags-on-create
   pattern.
 """
-function create_schema(
-    DataFormat, SchemaName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+create_schema(DataFormat, SchemaName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "CreateSchema",
         Dict{String,Any}("DataFormat" => DataFormat, "SchemaName" => SchemaName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_schema(
     DataFormat,
     SchemaName,
@@ -1883,9 +1848,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DagNodes"`: A list of the nodes in the DAG.
 - `"Language"`: The programming language of the resulting code from the DAG.
 """
-function create_script(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("CreateScript"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+create_script(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("CreateScript"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function create_script(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1909,18 +1873,14 @@ Written by Crawlers, Jobs, and Development Endpoints.
 - `name`: The name for the new security configuration.
 
 """
-function create_security_configuration(
+create_security_configuration(
     EncryptionConfiguration, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CreateSecurityConfiguration",
+    Dict{String,Any}("EncryptionConfiguration" => EncryptionConfiguration, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreateSecurityConfiguration",
-        Dict{String,Any}(
-            "EncryptionConfiguration" => EncryptionConfiguration, "Name" => Name
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_security_configuration(
     EncryptionConfiguration,
     Name,
@@ -2000,16 +1960,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   memory) with 128 GB disk (approximately 120GB free), and provides up to 8 Ray workers based
   on the autoscaler.
 """
-function create_session(
-    Command, Id, Role; aws_config::AbstractAWSConfig=global_aws_config()
+create_session(Command, Id, Role; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "CreateSession",
+    Dict{String,Any}("Command" => Command, "Id" => Id, "Role" => Role);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreateSession",
-        Dict{String,Any}("Command" => Command, "Id" => Id, "Role" => Role);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_session(
     Command,
     Id,
@@ -2053,16 +2009,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the table.
 - `"TransactionId"`: The ID of the transaction.
 """
-function create_table(
-    DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+create_table(DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "CreateTable",
         Dict{String,Any}("DatabaseName" => DatabaseName, "TableInput" => TableInput);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_table(
     DatabaseName,
     TableInput,
@@ -2101,27 +2054,25 @@ supported optimizer type.
 - `type`: The type of table optimizer. Currently, the only valid value is compaction.
 
 """
-function create_table_optimizer(
+create_table_optimizer(
     CatalogId,
     DatabaseName,
     TableName,
     TableOptimizerConfiguration,
     Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "CreateTableOptimizer",
+    Dict{String,Any}(
+        "CatalogId" => CatalogId,
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+        "TableOptimizerConfiguration" => TableOptimizerConfiguration,
+        "Type" => Type,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreateTableOptimizer",
-        Dict{String,Any}(
-            "CatalogId" => CatalogId,
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-            "TableOptimizerConfiguration" => TableOptimizerConfiguration,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -2179,16 +2130,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the developer guide.
 - `"WorkflowName"`: The name of the workflow associated with the trigger.
 """
-function create_trigger(
-    Actions, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+create_trigger(Actions, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "CreateTrigger",
         Dict{String,Any}("Actions" => Actions, "Name" => Name, "Type" => Type);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_trigger(
     Actions,
     Name,
@@ -2226,16 +2174,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the usage profile.
 - `"Tags"`: A list of tags applied to the usage profile.
 """
-function create_usage_profile(
+create_usage_profile(
     Configuration, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CreateUsageProfile",
+    Dict{String,Any}("Configuration" => Configuration, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreateUsageProfile",
-        Dict{String,Any}("Configuration" => Configuration, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_usage_profile(
     Configuration,
     Name,
@@ -2272,16 +2218,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which to create the function. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
-function create_user_defined_function(
+create_user_defined_function(
     DatabaseName, FunctionInput; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "CreateUserDefinedFunction",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "FunctionInput" => FunctionInput);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "CreateUserDefinedFunction",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "FunctionInput" => FunctionInput);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user_defined_function(
     DatabaseName,
     FunctionInput,
@@ -2324,14 +2268,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   no limit to the number of concurrent workflow runs.
 - `"Tags"`: The tags to be used with this workflow.
 """
-function create_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "CreateWorkflow",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "CreateWorkflow",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_workflow(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2353,14 +2295,12 @@ Deletes an existing blueprint.
 - `name`: The name of the blueprint to delete.
 
 """
-function delete_blueprint(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteBlueprint",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_blueprint(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteBlueprint",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_blueprint(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2382,14 +2322,12 @@ Removes a classifier from the Data Catalog.
 - `name`: Name of the classifier to remove.
 
 """
-function delete_classifier(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteClassifier",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_classifier(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteClassifier",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_classifier(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2419,25 +2357,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
-function delete_column_statistics_for_partition(
+delete_column_statistics_for_partition(
     ColumnName,
     DatabaseName,
     PartitionValues,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "DeleteColumnStatisticsForPartition",
+    Dict{String,Any}(
+        "ColumnName" => ColumnName,
+        "DatabaseName" => DatabaseName,
+        "PartitionValues" => PartitionValues,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeleteColumnStatisticsForPartition",
-        Dict{String,Any}(
-            "ColumnName" => ColumnName,
-            "DatabaseName" => DatabaseName,
-            "PartitionValues" => PartitionValues,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_column_statistics_for_partition(
     ColumnName,
     DatabaseName,
@@ -2482,20 +2418,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
-function delete_column_statistics_for_table(
+delete_column_statistics_for_table(
     ColumnName, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "DeleteColumnStatisticsForTable",
+    Dict{String,Any}(
+        "ColumnName" => ColumnName,
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeleteColumnStatisticsForTable",
-        Dict{String,Any}(
-            "ColumnName" => ColumnName,
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_column_statistics_for_table(
     ColumnName,
     DatabaseName,
@@ -2535,16 +2469,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the connection resides. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
-function delete_connection(
-    ConnectionName; aws_config::AbstractAWSConfig=global_aws_config()
+delete_connection(ConnectionName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteConnection",
+    Dict{String,Any}("ConnectionName" => ConnectionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeleteConnection",
-        Dict{String,Any}("ConnectionName" => ConnectionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_connection(
     ConnectionName,
     params::AbstractDict{String};
@@ -2570,14 +2500,12 @@ Removes a specified crawler from the Glue Data Catalog, unless the crawler state
 - `name`: The name of the crawler to remove.
 
 """
-function delete_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteCrawler",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteCrawler",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_crawler(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2599,14 +2527,12 @@ Deletes a custom pattern by specifying its name.
 - `name`: The name of the custom pattern that you want to delete.
 
 """
-function delete_custom_entity_type(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteCustomEntityType",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_custom_entity_type(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteCustomEntityType",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_custom_entity_type(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2628,16 +2554,12 @@ Deletes a data quality ruleset.
 - `name`: A name for the data quality ruleset.
 
 """
-function delete_data_quality_ruleset(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
+delete_data_quality_ruleset(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteDataQualityRuleset",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeleteDataQualityRuleset",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_data_quality_ruleset(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2671,14 +2593,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the database resides. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
-function delete_database(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteDatabase",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_database(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteDatabase",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_database(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2700,16 +2620,12 @@ Deletes a specified development endpoint.
 - `endpoint_name`: The name of the DevEndpoint.
 
 """
-function delete_dev_endpoint(
-    EndpointName; aws_config::AbstractAWSConfig=global_aws_config()
+delete_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteDevEndpoint",
+    Dict{String,Any}("EndpointName" => EndpointName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeleteDevEndpoint",
-        Dict{String,Any}("EndpointName" => EndpointName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_dev_endpoint(
     EndpointName,
     params::AbstractDict{String};
@@ -2736,14 +2652,12 @@ thrown.
 - `job_name`: The name of the job definition to delete.
 
 """
-function delete_job(JobName; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteJob",
-        Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_job(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteJob",
+    Dict{String,Any}("JobName" => JobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_job(
     JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2770,14 +2684,12 @@ no longer succeed.
 - `transform_id`: The unique identifier of the transform to delete.
 
 """
-function delete_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteMLTransform",
-        Dict{String,Any}("TransformId" => TransformId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteMLTransform",
+    Dict{String,Any}("TransformId" => TransformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_mltransform(
     TransformId,
     params::AbstractDict{String};
@@ -2809,23 +2721,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partition to be deleted resides. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
-function delete_partition(
+delete_partition(
     DatabaseName,
     PartitionValues,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "DeletePartition",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "PartitionValues" => PartitionValues,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeletePartition",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "PartitionValues" => PartitionValues,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_partition(
     DatabaseName,
     PartitionValues,
@@ -2868,20 +2778,18 @@ Deletes a specified partition index from an existing table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The catalog ID where the table resides.
 """
-function delete_partition_index(
+delete_partition_index(
     DatabaseName, IndexName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "DeletePartitionIndex",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "IndexName" => IndexName,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeletePartitionIndex",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "IndexName" => IndexName,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_partition_index(
     DatabaseName,
     IndexName,
@@ -2921,14 +2829,12 @@ UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.
   Resource Name (ARN).
 
 """
-function delete_registry(RegistryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteRegistry",
-        Dict{String,Any}("RegistryId" => RegistryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_registry(RegistryId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteRegistry",
+    Dict{String,Any}("RegistryId" => RegistryId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_registry(
     RegistryId,
     params::AbstractDict{String};
@@ -2955,11 +2861,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PolicyHashCondition"`: The hash value returned when this policy was set.
 - `"ResourceArn"`: The ARN of the Glue resource for the resource policy to be deleted.
 """
-function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("DeleteResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function delete_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2985,14 +2888,12 @@ GetSchemaByDefinition, and RegisterSchemaVersion APIs.
   Resource Name (ARN).
 
 """
-function delete_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteSchema",
-        Dict{String,Any}("SchemaId" => SchemaId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteSchema",
+    Dict{String,Any}("SchemaId" => SchemaId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_schema(
     SchemaId,
     params::AbstractDict{String};
@@ -3032,16 +2933,14 @@ returned.
   version number, 5   a range, 5-8 : deletes versions 5, 6, 7, 8
 
 """
-function delete_schema_versions(
+delete_schema_versions(
     SchemaId, Versions; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "DeleteSchemaVersions",
+    Dict{String,Any}("SchemaId" => SchemaId, "Versions" => Versions);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeleteSchemaVersions",
-        Dict{String,Any}("SchemaId" => SchemaId, "Versions" => Versions);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_schema_versions(
     SchemaId,
     Versions,
@@ -3072,16 +2971,13 @@ Deletes a specified security configuration.
 - `name`: The name of the security configuration to delete.
 
 """
-function delete_security_configuration(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+delete_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "DeleteSecurityConfiguration",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_security_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3106,14 +3002,12 @@ Deletes the session.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The name of the origin of the delete session request.
 """
-function delete_session(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteSession",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_session(Id; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteSession",
+    Dict{String,Any}("Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_session(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3148,14 +3042,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services account ID is used by default.
 - `"TransactionId"`: The transaction ID at which to delete the table contents.
 """
-function delete_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteTable",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteTable",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_table(
     DatabaseName,
     Name,
@@ -3190,25 +3082,23 @@ longer be performed on the table.
 - `type`: The type of table optimizer.
 
 """
-function delete_table_optimizer(
+delete_table_optimizer(
     CatalogId,
     DatabaseName,
     TableName,
     Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "DeleteTableOptimizer",
+    Dict{String,Any}(
+        "CatalogId" => CatalogId,
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+        "Type" => Type,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeleteTableOptimizer",
-        Dict{String,Any}(
-            "CatalogId" => CatalogId,
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -3255,20 +3145,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the tables reside. If none is provided,
   the Amazon Web Services account ID is used by default.
 """
-function delete_table_version(
+delete_table_version(
     DatabaseName, TableName, VersionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "DeleteTableVersion",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+        "VersionId" => VersionId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeleteTableVersion",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-            "VersionId" => VersionId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_table_version(
     DatabaseName,
     TableName,
@@ -3304,14 +3192,12 @@ Deletes a specified trigger. If the trigger is not found, no exception is thrown
 - `name`: The name of the trigger to delete.
 
 """
-function delete_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteTrigger",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteTrigger",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_trigger(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3333,14 +3219,12 @@ Deletes the Glue specified usage profile.
 - `name`: The name of the usage profile to delete.
 
 """
-function delete_usage_profile(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteUsageProfile",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_usage_profile(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteUsageProfile",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_usage_profile(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3367,16 +3251,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the function to be deleted is located. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
-function delete_user_defined_function(
+delete_user_defined_function(
     DatabaseName, FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "DeleteUserDefinedFunction",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "FunctionName" => FunctionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "DeleteUserDefinedFunction",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "FunctionName" => FunctionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user_defined_function(
     DatabaseName,
     FunctionName,
@@ -3409,14 +3291,12 @@ Deletes a workflow.
 - `name`: Name of the workflow to be deleted.
 
 """
-function delete_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "DeleteWorkflow",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "DeleteWorkflow",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_workflow(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3442,14 +3322,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeBlueprint"`: Specifies whether or not to include the blueprint in the response.
 - `"IncludeParameterSpec"`: Specifies whether or not to include the parameter specification.
 """
-function get_blueprint(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetBlueprint",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_blueprint(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetBlueprint",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_blueprint(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3472,16 +3350,13 @@ Retrieves the details of a blueprint run.
 - `run_id`: The run ID for the blueprint run you want to retrieve.
 
 """
-function get_blueprint_run(
-    BlueprintName, RunId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+get_blueprint_run(BlueprintName, RunId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "GetBlueprintRun",
         Dict{String,Any}("BlueprintName" => BlueprintName, "RunId" => RunId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_blueprint_run(
     BlueprintName,
     RunId,
@@ -3516,16 +3391,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of a list to return.
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
-function get_blueprint_runs(
-    BlueprintName; aws_config::AbstractAWSConfig=global_aws_config()
+get_blueprint_runs(BlueprintName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetBlueprintRuns",
+    Dict{String,Any}("BlueprintName" => BlueprintName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetBlueprintRuns",
-        Dict{String,Any}("BlueprintName" => BlueprintName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_blueprint_runs(
     BlueprintName,
     params::AbstractDict{String};
@@ -3552,11 +3423,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the catalog to migrate. Currently, this should be the Amazon Web
   Services account ID.
 """
-function get_catalog_import_status(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetCatalogImportStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_catalog_import_status(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetCatalogImportStatus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_catalog_import_status(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3578,14 +3446,12 @@ Retrieve a classifier by name.
 - `name`: Name of the classifier to retrieve.
 
 """
-function get_classifier(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetClassifier",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_classifier(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetClassifier",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_classifier(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3608,9 +3474,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The size of the list to return (optional).
 - `"NextToken"`: An optional continuation token.
 """
-function get_classifiers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetClassifiers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_classifiers(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetClassifiers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_classifiers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3637,25 +3502,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
-function get_column_statistics_for_partition(
+get_column_statistics_for_partition(
     ColumnNames,
     DatabaseName,
     PartitionValues,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "GetColumnStatisticsForPartition",
+    Dict{String,Any}(
+        "ColumnNames" => ColumnNames,
+        "DatabaseName" => DatabaseName,
+        "PartitionValues" => PartitionValues,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetColumnStatisticsForPartition",
-        Dict{String,Any}(
-            "ColumnNames" => ColumnNames,
-            "DatabaseName" => DatabaseName,
-            "PartitionValues" => PartitionValues,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_column_statistics_for_partition(
     ColumnNames,
     DatabaseName,
@@ -3700,20 +3563,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
-function get_column_statistics_for_table(
+get_column_statistics_for_table(
     ColumnNames, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetColumnStatisticsForTable",
+    Dict{String,Any}(
+        "ColumnNames" => ColumnNames,
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetColumnStatisticsForTable",
-        Dict{String,Any}(
-            "ColumnNames" => ColumnNames,
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_column_statistics_for_table(
     ColumnNames,
     DatabaseName,
@@ -3750,16 +3611,14 @@ Get the associated metadata/information for a task run, given a task run ID.
   run.
 
 """
-function get_column_statistics_task_run(
+get_column_statistics_task_run(
     ColumnStatisticsTaskRunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetColumnStatisticsTaskRun",
+    Dict{String,Any}("ColumnStatisticsTaskRunId" => ColumnStatisticsTaskRunId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetColumnStatisticsTaskRun",
-        Dict{String,Any}("ColumnStatisticsTaskRunId" => ColumnStatisticsTaskRunId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_column_statistics_task_run(
     ColumnStatisticsTaskRunId,
     params::AbstractDict{String};
@@ -3794,16 +3653,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function get_column_statistics_task_runs(
+get_column_statistics_task_runs(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetColumnStatisticsTaskRuns",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetColumnStatisticsTaskRuns",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_column_statistics_task_runs(
     DatabaseName,
     TableName,
@@ -3843,14 +3700,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to use the KMS key to decrypt the password, but it does have permission to access the rest
   of the connection properties.
 """
-function get_connection(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetConnection",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_connection(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetConnection",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_connection(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3881,9 +3736,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of connections to return in one response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function get_connections(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_connections(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_connections(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3902,14 +3756,12 @@ Retrieves metadata for a specified crawler.
 - `name`: The name of the crawler to retrieve metadata for.
 
 """
-function get_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetCrawler",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetCrawler",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_crawler(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3933,9 +3785,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of a list to return.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function get_crawler_metrics(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetCrawlerMetrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_crawler_metrics(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetCrawlerMetrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_crawler_metrics(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3955,9 +3806,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The number of crawlers to return on each call.
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
-function get_crawlers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetCrawlers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_crawlers(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetCrawlers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_crawlers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3976,14 +3826,12 @@ Retrieves the details of a custom pattern by specifying its name.
 - `name`: The name of the custom pattern that you want to retrieve.
 
 """
-function get_custom_entity_type(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetCustomEntityType",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_custom_entity_type(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetCustomEntityType",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_custom_entity_type(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4006,21 +3854,92 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog to retrieve the security configuration for. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
-function get_data_catalog_encryption_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+get_data_catalog_encryption_settings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "GetDataCatalogEncryptionSettings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_data_catalog_encryption_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return glue(
         "GetDataCatalogEncryptionSettings",
         params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_quality_model(profile_id)
+    get_data_quality_model(profile_id, params::Dict{String,<:Any})
+
+Retrieve the training status of the model along with more information (CompletedOn,
+StartedOn, FailureReason).
+
+# Arguments
+- `profile_id`: The Profile ID.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"StatisticId"`: The Statistic ID.
+"""
+get_data_quality_model(ProfileId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetDataQualityModel",
+    Dict{String,Any}("ProfileId" => ProfileId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_quality_model(
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetDataQualityModel",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("ProfileId" => ProfileId), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    get_data_quality_model_result(profile_id, statistic_id)
+    get_data_quality_model_result(profile_id, statistic_id, params::Dict{String,<:Any})
+
+Retrieve a statistic's predictions for a given Profile ID.
+
+# Arguments
+- `profile_id`: The Profile ID.
+- `statistic_id`: The Statistic ID.
+
+"""
+get_data_quality_model_result(
+    ProfileId, StatisticId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetDataQualityModelResult",
+    Dict{String,Any}("ProfileId" => ProfileId, "StatisticId" => StatisticId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function get_data_quality_model_result(
+    ProfileId,
+    StatisticId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "GetDataQualityModelResult",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}("ProfileId" => ProfileId, "StatisticId" => StatisticId),
+                params,
+            ),
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
@@ -4036,16 +3955,12 @@ Retrieves the result of a data quality rule evaluation.
 - `result_id`: A unique result ID for the data quality result.
 
 """
-function get_data_quality_result(
-    ResultId; aws_config::AbstractAWSConfig=global_aws_config()
+get_data_quality_result(ResultId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetDataQualityResult",
+    Dict{String,Any}("ResultId" => ResultId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetDataQualityResult",
-        Dict{String,Any}("ResultId" => ResultId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_data_quality_result(
     ResultId,
     params::AbstractDict{String};
@@ -4071,16 +3986,14 @@ Gets the specified recommendation run that was used to generate rules.
 - `run_id`: The unique run identifier associated with this run.
 
 """
-function get_data_quality_rule_recommendation_run(
+get_data_quality_rule_recommendation_run(
     RunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetDataQualityRuleRecommendationRun",
+    Dict{String,Any}("RunId" => RunId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetDataQualityRuleRecommendationRun",
-        Dict{String,Any}("RunId" => RunId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_data_quality_rule_recommendation_run(
     RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4102,14 +4015,12 @@ Returns an existing ruleset by identifier or name.
 - `name`: The name of the ruleset.
 
 """
-function get_data_quality_ruleset(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetDataQualityRuleset",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_data_quality_ruleset(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetDataQualityRuleset",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_data_quality_ruleset(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4131,16 +4042,14 @@ Retrieves a specific run where a ruleset is evaluated against a data source.
 - `run_id`: The unique run identifier associated with this run.
 
 """
-function get_data_quality_ruleset_evaluation_run(
+get_data_quality_ruleset_evaluation_run(
     RunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetDataQualityRulesetEvaluationRun",
+    Dict{String,Any}("RunId" => RunId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetDataQualityRulesetEvaluationRun",
-        Dict{String,Any}("RunId" => RunId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_data_quality_ruleset_evaluation_run(
     RunId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4167,14 +4076,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the database resides. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
-function get_database(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetDatabase",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_database(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetDatabase",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_database(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4194,6 +4101,8 @@ Retrieves all databases defined in a given Data Catalog.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributesToGet"`: Specifies the database fields returned by the GetDatabases call.
+  This parameter doesn’t accept an empty list. The request must include the NAME.
 - `"CatalogId"`: The ID of the Data Catalog from which to retrieve Databases. If none is
   provided, the Amazon Web Services account ID is used by default.
 - `"MaxResults"`: The maximum number of databases to return in one response.
@@ -4205,9 +4114,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set to ALL, will list the databases shared with your account, as well as the databases in
   yor local account.
 """
-function get_databases(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_databases(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_databases(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4226,9 +4134,8 @@ Transforms a Python script into a directed acyclic graph (DAG).
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PythonScript"`: The Python script to transform.
 """
-function get_dataflow_graph(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetDataflowGraph"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_dataflow_graph(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetDataflowGraph"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_dataflow_graph(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4250,14 +4157,12 @@ development endpoint, Glue returns only a public IP address.
 - `endpoint_name`: Name of the DevEndpoint to retrieve information for.
 
 """
-function get_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetDevEndpoint",
-        Dict{String,Any}("EndpointName" => EndpointName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetDevEndpoint",
+    Dict{String,Any}("EndpointName" => EndpointName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_dev_endpoint(
     EndpointName,
     params::AbstractDict{String};
@@ -4287,9 +4192,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of information to return.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function get_dev_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetDevEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_dev_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetDevEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_dev_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4308,14 +4212,12 @@ Retrieves an existing job definition.
 - `job_name`: The name of the job definition to retrieve.
 
 """
-function get_job(JobName; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetJob",
-        Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_job(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetJob",
+    Dict{String,Any}("JobName" => JobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_job(
     JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4342,14 +4244,12 @@ by Glue     Job structure
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RunId"`: The unique run identifier associated with this job run.
 """
-function get_job_bookmark(JobName; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetJobBookmark",
-        Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_job_bookmark(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetJobBookmark",
+    Dict{String,Any}("JobName" => JobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_job_bookmark(
     JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4376,14 +4276,12 @@ your workflow and job run.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"PredecessorsIncluded"`: True if a list of predecessor runs should be returned.
 """
-function get_job_run(JobName, RunId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetJobRun",
-        Dict{String,Any}("JobName" => JobName, "RunId" => RunId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_job_run(JobName, RunId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetJobRun",
+    Dict{String,Any}("JobName" => JobName, "RunId" => RunId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_job_run(
     JobName,
     RunId,
@@ -4416,14 +4314,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function get_job_runs(JobName; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetJobRuns",
-        Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_job_runs(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetJobRuns",
+    Dict{String,Any}("JobName" => JobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_job_runs(
     JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4446,9 +4342,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function get_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4469,14 +4364,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Location"`: Parameters for the mapping.
 - `"Sinks"`: A list of target tables.
 """
-function get_mapping(Source; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetMapping",
-        Dict{String,Any}("Source" => Source);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_mapping(Source; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetMapping",
+    Dict{String,Any}("Source" => Source);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_mapping(
     Source, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4502,16 +4395,13 @@ the TaskRunID and its parent transform's TransformID.
 - `transform_id`: The unique identifier of the machine learning transform.
 
 """
-function get_mltask_run(
-    TaskRunId, TransformId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+get_mltask_run(TaskRunId, TransformId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "GetMLTaskRun",
         Dict{String,Any}("TaskRunId" => TaskRunId, "TransformId" => TransformId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_mltask_run(
     TaskRunId,
     TransformId,
@@ -4553,14 +4443,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token for pagination of the results. The default is empty.
 - `"Sort"`: The sorting criteria, in the TaskRunSortCriteria structure, for the task run.
 """
-function get_mltask_runs(TransformId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetMLTaskRuns",
-        Dict{String,Any}("TransformId" => TransformId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_mltask_runs(TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetMLTaskRuns",
+    Dict{String,Any}("TransformId" => TransformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_mltask_runs(
     TransformId,
     params::AbstractDict{String};
@@ -4591,14 +4479,12 @@ calling GetMLTransform.
   transform was created.
 
 """
-function get_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetMLTransform",
-        Dict{String,Any}("TransformId" => TransformId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetMLTransform",
+    Dict{String,Any}("TransformId" => TransformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_mltransform(
     TransformId,
     params::AbstractDict{String};
@@ -4631,9 +4517,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A paginated token to offset the results.
 - `"Sort"`: The sorting criteria.
 """
-function get_mltransforms(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetMLTransforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_mltransforms(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetMLTransforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_mltransforms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4658,23 +4543,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partition in question resides. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
-function get_partition(
+get_partition(
     DatabaseName,
     PartitionValues,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "GetPartition",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "PartitionValues" => PartitionValues,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetPartition",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "PartitionValues" => PartitionValues,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_partition(
     DatabaseName,
     PartitionValues,
@@ -4717,16 +4600,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The catalog ID where the table resides.
 - `"NextToken"`: A continuation token, included if this is a continuation call.
 """
-function get_partition_indexes(
+get_partition_indexes(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetPartitionIndexes",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetPartitionIndexes",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_partition_indexes(
     DatabaseName,
     TableName,
@@ -4795,16 +4676,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Segment"`: The segment of the table's partitions to scan in this request.
 - `"TransactionId"`: The transaction ID at which to read the partition contents.
 """
-function get_partitions(
-    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+get_partitions(DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "GetPartitions",
         Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_partitions(
     DatabaseName,
     TableName,
@@ -4846,14 +4724,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Location"`: The parameters for the mapping.
 - `"Sinks"`: The target tables.
 """
-function get_plan(Mapping, Source; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetPlan",
-        Dict{String,Any}("Mapping" => Mapping, "Source" => Source);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_plan(Mapping, Source; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetPlan",
+    Dict{String,Any}("Mapping" => Mapping, "Source" => Source);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_plan(
     Mapping,
     Source,
@@ -4883,14 +4759,12 @@ Describes the specified registry in detail.
   Resource Name (ARN).
 
 """
-function get_registry(RegistryId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetRegistry",
-        Dict{String,Any}("RegistryId" => RegistryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_registry(RegistryId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetRegistry",
+    Dict{String,Any}("RegistryId" => RegistryId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_registry(
     RegistryId,
     params::AbstractDict{String};
@@ -4920,11 +4794,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of a list to return.
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
-function get_resource_policies(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetResourcePolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_resource_policies(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetResourcePolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_resource_policies(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4949,9 +4820,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   view all existing resource policies. For more information see Specifying Glue Resource
   ARNs.
 """
-function get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetResourcePolicy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_resource_policy(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4973,14 +4843,12 @@ Describes the specified schema in detail.
   of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
 
 """
-function get_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetSchema",
-        Dict{String,Any}("SchemaId" => SchemaId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetSchema",
+    Dict{String,Any}("SchemaId" => SchemaId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_schema(
     SchemaId,
     params::AbstractDict{String};
@@ -5014,16 +4882,14 @@ statuses will not be included in the results.
   One of SchemaArn or SchemaName has to be provided.
 
 """
-function get_schema_by_definition(
+get_schema_by_definition(
     SchemaDefinition, SchemaId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetSchemaByDefinition",
+    Dict{String,Any}("SchemaDefinition" => SchemaDefinition, "SchemaId" => SchemaId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetSchemaByDefinition",
-        Dict{String,Any}("SchemaDefinition" => SchemaDefinition, "SchemaId" => SchemaId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_schema_by_definition(
     SchemaDefinition,
     SchemaId,
@@ -5064,9 +4930,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for fetching by schema ID. Either this or the SchemaId wrapper has to be provided.
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
-function get_schema_version(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetSchemaVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_schema_version(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetSchemaVersion"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_schema_version(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5093,25 +4958,23 @@ between two schema definitions under the same schema.
 - `second_schema_version_number`: The second of the two schema versions to be compared.
 
 """
-function get_schema_versions_diff(
+get_schema_versions_diff(
     FirstSchemaVersionNumber,
     SchemaDiffType,
     SchemaId,
     SecondSchemaVersionNumber;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "GetSchemaVersionsDiff",
+    Dict{String,Any}(
+        "FirstSchemaVersionNumber" => FirstSchemaVersionNumber,
+        "SchemaDiffType" => SchemaDiffType,
+        "SchemaId" => SchemaId,
+        "SecondSchemaVersionNumber" => SecondSchemaVersionNumber,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetSchemaVersionsDiff",
-        Dict{String,Any}(
-            "FirstSchemaVersionNumber" => FirstSchemaVersionNumber,
-            "SchemaDiffType" => SchemaDiffType,
-            "SchemaId" => SchemaId,
-            "SecondSchemaVersionNumber" => SecondSchemaVersionNumber,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_schema_versions_diff(
     FirstSchemaVersionNumber,
     SchemaDiffType,
@@ -5149,14 +5012,12 @@ Retrieves a specified security configuration.
 - `name`: The name of the security configuration to retrieve.
 
 """
-function get_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetSecurityConfiguration",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_security_configuration(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetSecurityConfiguration",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_security_configuration(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5179,11 +5040,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function get_security_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetSecurityConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_security_configurations(; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetSecurityConfigurations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_security_configurations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5208,14 +5067,12 @@ Retrieves the session.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The origin of the request.
 """
-function get_session(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetSession",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_session(Id; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetSession",
+    Dict{String,Any}("Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_session(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5241,14 +5098,12 @@ Retrieves the statement.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The origin of the request.
 """
-function get_statement(Id, SessionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetStatement",
-        Dict{String,Any}("Id" => Id, "SessionId" => SessionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_statement(Id, SessionId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetStatement",
+    Dict{String,Any}("Id" => Id, "SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_statement(
     Id,
     SessionId,
@@ -5283,18 +5138,18 @@ Retrieves the Table definition in a Data Catalog for a specified table.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CatalogId"`: The ID of the Data Catalog where the table resides. If none is provided,
   the Amazon Web Services account ID is used by default.
+- `"IncludeStatusDetails"`: Specifies whether to include status details related to a
+  request to create or update an Glue Data Catalog view.
 - `"QueryAsOfTime"`: The time as of when to read the table contents. If not set, the most
   recent transaction commit time will be used. Cannot be specified along with TransactionId.
 - `"TransactionId"`: The transaction ID at which to read the table contents.
 """
-function get_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetTable",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_table(DatabaseName, Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetTable",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_table(
     DatabaseName,
     Name,
@@ -5328,25 +5183,23 @@ Returns the configuration of all optimizers associated with a specified table.
 - `type`: The type of table optimizer.
 
 """
-function get_table_optimizer(
+get_table_optimizer(
     CatalogId,
     DatabaseName,
     TableName,
     Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "GetTableOptimizer",
+    Dict{String,Any}(
+        "CatalogId" => CatalogId,
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+        "Type" => Type,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetTableOptimizer",
-        Dict{String,Any}(
-            "CatalogId" => CatalogId,
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -5393,16 +5246,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionId"`: The ID value of the table version to be retrieved. A VersionID is a string
   representation of an integer. Each version is incremented by 1.
 """
-function get_table_version(
+get_table_version(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetTableVersion",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetTableVersion",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_table_version(
     DatabaseName,
     TableName,
@@ -5442,16 +5293,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of table versions to return in one response.
 - `"NextToken"`: A continuation token, if this is not the first call.
 """
-function get_table_versions(
+get_table_versions(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetTableVersions",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetTableVersions",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_table_versions(
     DatabaseName,
     TableName,
@@ -5484,24 +5333,28 @@ Retrieves the definitions of some or all of the tables in a given Database.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributesToGet"`:  Specifies the table fields returned by the GetTables call. This
+  parameter doesn’t accept an empty list. The request must include NAME. The following are
+  the valid combinations of values:    NAME - Names of all tables in the database.    NAME,
+  TABLE_TYPE - Names of all tables and the table types.
 - `"CatalogId"`: The ID of the Data Catalog where the tables reside. If none is provided,
   the Amazon Web Services account ID is used by default.
 - `"Expression"`: A regular expression pattern. If present, only those tables whose names
   match the pattern are returned.
+- `"IncludeStatusDetails"`: Specifies whether to include status details related to a
+  request to create or update an Glue Data Catalog view.
 - `"MaxResults"`: The maximum number of tables to return in a single response.
 - `"NextToken"`: A continuation token, included if this is a continuation call.
 - `"QueryAsOfTime"`: The time as of when to read the table contents. If not set, the most
   recent transaction commit time will be used. Cannot be specified along with TransactionId.
 - `"TransactionId"`: The transaction ID at which to read the table contents.
 """
-function get_tables(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetTables",
-        Dict{String,Any}("DatabaseName" => DatabaseName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_tables(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetTables",
+    Dict{String,Any}("DatabaseName" => DatabaseName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_tables(
     DatabaseName,
     params::AbstractDict{String};
@@ -5527,14 +5380,12 @@ Retrieves a list of tags associated with a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
 
 """
-function get_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetTags",
-        Dict{String,Any}("ResourceArn" => ResourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_tags(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetTags",
+    Dict{String,Any}("ResourceArn" => ResourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_tags(
     ResourceArn,
     params::AbstractDict{String};
@@ -5560,14 +5411,12 @@ Retrieves the definition of a trigger.
 - `name`: The name of the trigger to retrieve.
 
 """
-function get_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetTrigger",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetTrigger",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_trigger(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5592,9 +5441,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function get_triggers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("GetTriggers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+get_triggers(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("GetTriggers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_triggers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5626,27 +5474,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Region"`: Specified only if the base tables belong to a different Amazon Web Services
   Region.
 """
-function get_unfiltered_partition_metadata(
+get_unfiltered_partition_metadata(
     CatalogId,
     DatabaseName,
     PartitionValues,
     SupportedPermissionTypes,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "GetUnfilteredPartitionMetadata",
+    Dict{String,Any}(
+        "CatalogId" => CatalogId,
+        "DatabaseName" => DatabaseName,
+        "PartitionValues" => PartitionValues,
+        "SupportedPermissionTypes" => SupportedPermissionTypes,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetUnfilteredPartitionMetadata",
-        Dict{String,Any}(
-            "CatalogId" => CatalogId,
-            "DatabaseName" => DatabaseName,
-            "PartitionValues" => PartitionValues,
-            "SupportedPermissionTypes" => SupportedPermissionTypes,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_unfiltered_partition_metadata(
     CatalogId,
     DatabaseName,
@@ -5722,25 +5568,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Region.
 - `"Segment"`: The segment of the table's partitions to scan in this request.
 """
-function get_unfiltered_partitions_metadata(
+get_unfiltered_partitions_metadata(
     CatalogId,
     DatabaseName,
     SupportedPermissionTypes,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "GetUnfilteredPartitionsMetadata",
+    Dict{String,Any}(
+        "CatalogId" => CatalogId,
+        "DatabaseName" => DatabaseName,
+        "SupportedPermissionTypes" => SupportedPermissionTypes,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetUnfilteredPartitionsMetadata",
-        Dict{String,Any}(
-            "CatalogId" => CatalogId,
-            "DatabaseName" => DatabaseName,
-            "SupportedPermissionTypes" => SupportedPermissionTypes,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_unfiltered_partitions_metadata(
     CatalogId,
     DatabaseName,
@@ -5815,25 +5659,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SupportedDialect"`: A structure specifying the dialect and dialect version used by the
   query engine.
 """
-function get_unfiltered_table_metadata(
+get_unfiltered_table_metadata(
     CatalogId,
     DatabaseName,
     Name,
     SupportedPermissionTypes;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "GetUnfilteredTableMetadata",
+    Dict{String,Any}(
+        "CatalogId" => CatalogId,
+        "DatabaseName" => DatabaseName,
+        "Name" => Name,
+        "SupportedPermissionTypes" => SupportedPermissionTypes,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetUnfilteredTableMetadata",
-        Dict{String,Any}(
-            "CatalogId" => CatalogId,
-            "DatabaseName" => DatabaseName,
-            "Name" => Name,
-            "SupportedPermissionTypes" => SupportedPermissionTypes,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_unfiltered_table_metadata(
     CatalogId,
     DatabaseName,
@@ -5871,14 +5713,12 @@ Retrieves information about the specified Glue usage profile.
 - `name`: The name of the usage profile to retrieve.
 
 """
-function get_usage_profile(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetUsageProfile",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_usage_profile(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetUsageProfile",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_usage_profile(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5905,16 +5745,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the function to be retrieved is located.
   If none is provided, the Amazon Web Services account ID is used by default.
 """
-function get_user_defined_function(
+get_user_defined_function(
     DatabaseName, FunctionName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetUserDefinedFunction",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "FunctionName" => FunctionName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetUserDefinedFunction",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "FunctionName" => FunctionName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_user_defined_function(
     DatabaseName,
     FunctionName,
@@ -5956,16 +5794,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of functions to return in one response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function get_user_defined_functions(
-    Pattern; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+get_user_defined_functions(Pattern; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "GetUserDefinedFunctions",
         Dict{String,Any}("Pattern" => Pattern);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_user_defined_functions(
     Pattern, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5991,14 +5826,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"IncludeGraph"`: Specifies whether to include a graph when returning the workflow
   resource metadata.
 """
-function get_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetWorkflow",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetWorkflow",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_workflow(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6025,14 +5858,12 @@ for your workflow and job run.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"IncludeGraph"`: Specifies whether to include the workflow graph in response or not.
 """
-function get_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetWorkflowRun",
-        Dict{String,Any}("Name" => Name, "RunId" => RunId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetWorkflowRun",
+    Dict{String,Any}("Name" => Name, "RunId" => RunId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_workflow_run(
     Name,
     RunId,
@@ -6060,16 +5891,14 @@ Retrieves the workflow run properties which were set during the run.
 - `run_id`: The ID of the workflow run whose run properties should be returned.
 
 """
-function get_workflow_run_properties(
+get_workflow_run_properties(
     Name, RunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "GetWorkflowRunProperties",
+    Dict{String,Any}("Name" => Name, "RunId" => RunId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "GetWorkflowRunProperties",
-        Dict{String,Any}("Name" => Name, "RunId" => RunId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_workflow_run_properties(
     Name,
     RunId,
@@ -6101,14 +5930,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of workflow runs to be included in the response.
 - `"NextToken"`: The maximum size of the response.
 """
-function get_workflow_runs(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "GetWorkflowRuns",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_workflow_runs(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "GetWorkflowRuns",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_workflow_runs(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6131,11 +5958,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the catalog to import. Currently, this should be the Amazon Web
   Services account ID.
 """
-function import_catalog_to_glue(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "ImportCatalogToGlue"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+import_catalog_to_glue(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ImportCatalogToGlue"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function import_catalog_to_glue(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6159,9 +5983,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 - `"Tags"`: Filters the list by an Amazon Web Services resource tag.
 """
-function list_blueprints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListBlueprints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_blueprints(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListBlueprints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_blueprints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6181,15 +6004,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of the response.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function list_column_statistics_task_runs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+list_column_statistics_task_runs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "ListColumnStatisticsTaskRuns";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_column_statistics_task_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6217,9 +6037,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 - `"Tags"`: Specifies to return only these tagged resources.
 """
-function list_crawlers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListCrawlers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_crawlers(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListCrawlers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_crawlers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6251,14 +6070,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is 100.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function list_crawls(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "ListCrawls",
-        Dict{String,Any}("CrawlerName" => CrawlerName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_crawls(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "ListCrawls",
+    Dict{String,Any}("CrawlerName" => CrawlerName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_crawls(
     CrawlerName,
     params::AbstractDict{String};
@@ -6286,11 +6103,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A paginated token to offset the results.
 - `"Tags"`: A list of key-value pair tags.
 """
-function list_custom_entity_types(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "ListCustomEntityTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_custom_entity_types(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListCustomEntityTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_custom_entity_types(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6314,11 +6128,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A paginated token to offset the results.
 """
-function list_data_quality_results(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "ListDataQualityResults"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_data_quality_results(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListDataQualityResults"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_data_quality_results(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6342,15 +6153,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A paginated token to offset the results.
 """
-function list_data_quality_rule_recommendation_runs(;
+list_data_quality_rule_recommendation_runs(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "ListDataQualityRuleRecommendationRuns";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "ListDataQualityRuleRecommendationRuns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_data_quality_rule_recommendation_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6375,15 +6184,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of results to return.
 - `"NextToken"`: A paginated token to offset the results.
 """
-function list_data_quality_ruleset_evaluation_runs(;
+list_data_quality_ruleset_evaluation_runs(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "ListDataQualityRulesetEvaluationRuns";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "ListDataQualityRulesetEvaluationRuns";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_data_quality_ruleset_evaluation_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6408,16 +6215,73 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A paginated token to offset the results.
 - `"Tags"`: A list of key-value pair tags.
 """
-function list_data_quality_rulesets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "ListDataQualityRulesets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_data_quality_rulesets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListDataQualityRulesets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_data_quality_rulesets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return glue(
         "ListDataQualityRulesets",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_quality_statistic_annotations()
+    list_data_quality_statistic_annotations(params::Dict{String,<:Any})
+
+Retrieve annotations for a data quality statistic.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in this request.
+- `"NextToken"`: A pagination token to retrieve the next set of results.
+- `"ProfileId"`: The Profile ID.
+- `"StatisticId"`: The Statistic ID.
+- `"TimestampFilter"`: A timestamp filter.
+"""
+list_data_quality_statistic_annotations(;
+    aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "ListDataQualityStatisticAnnotations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function list_data_quality_statistic_annotations(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityStatisticAnnotations",
+        params;
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    list_data_quality_statistics()
+    list_data_quality_statistics(params::Dict{String,<:Any})
+
+Retrieves a list of data quality statistics.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"MaxResults"`: The maximum number of results to return in this request.
+- `"NextToken"`: A pagination token to request the next page of results.
+- `"ProfileId"`: The Profile ID.
+- `"StatisticId"`: The Statistic ID.
+- `"TimestampFilter"`: A timestamp filter.
+"""
+list_data_quality_statistics(; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "ListDataQualityStatistics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
+function list_data_quality_statistics(
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+)
+    return glue(
+        "ListDataQualityStatistics",
         params;
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
@@ -6440,9 +6304,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 - `"Tags"`: Specifies to return only these tagged resources.
 """
-function list_dev_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListDevEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_dev_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListDevEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_dev_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6467,9 +6330,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 - `"Tags"`: Specifies to return only these tagged resources.
 """
-function list_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6494,9 +6356,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sort"`: A TransformSortCriteria used to sort the machine learning transforms.
 - `"Tags"`: Specifies to return only these tagged resources.
 """
-function list_mltransforms(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListMLTransforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_mltransforms(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListMLTransforms"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_mltransforms(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6519,9 +6380,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supplied, this will be defaulted to 25 per page.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function list_registries(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListRegistries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_registries(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListRegistries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_registries(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6550,14 +6410,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   supplied, this will be defaulted to 25 per page.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function list_schema_versions(SchemaId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "ListSchemaVersions",
-        Dict{String,Any}("SchemaId" => SchemaId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_schema_versions(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "ListSchemaVersions",
+    Dict{String,Any}("SchemaId" => SchemaId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_schema_versions(
     SchemaId,
     params::AbstractDict{String};
@@ -6590,9 +6448,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RegistryId"`: A wrapper structure that may contain the registry name and Amazon
   Resource Name (ARN).
 """
-function list_schemas(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListSchemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_schemas(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListSchemas"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_schemas(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6615,9 +6472,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RequestOrigin"`: The origin of the request.
 - `"Tags"`: Tags belonging to the session.
 """
-function list_sessions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_sessions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListSessions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_sessions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6640,14 +6496,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation call.
 - `"RequestOrigin"`: The origin of the request to list statements.
 """
-function list_statements(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "ListStatements",
-        Dict{String,Any}("SessionId" => SessionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_statements(SessionId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "ListStatements",
+    Dict{String,Any}("SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_statements(
     SessionId,
     params::AbstractDict{String};
@@ -6680,25 +6534,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of optimizer runs to return on each call.
 - `"NextToken"`: A continuation token, if this is a continuation call.
 """
-function list_table_optimizer_runs(
+list_table_optimizer_runs(
     CatalogId,
     DatabaseName,
     TableName,
     Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "ListTableOptimizerRuns",
+    Dict{String,Any}(
+        "CatalogId" => CatalogId,
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+        "Type" => Type,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "ListTableOptimizerRuns",
-        Dict{String,Any}(
-            "CatalogId" => CatalogId,
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_table_optimizer_runs(
     CatalogId,
     DatabaseName,
@@ -6744,9 +6596,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A continuation token, if this is a continuation request.
 - `"Tags"`: Specifies to return only these tagged resources.
 """
-function list_triggers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListTriggers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_triggers(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListTriggers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_triggers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6766,9 +6617,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum number of usage profiles to return in a single response.
 - `"NextToken"`: A continuation token, included if this is a continuation call.
 """
-function list_usage_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListUsageProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_usage_profiles(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListUsageProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_usage_profiles(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6788,9 +6638,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: The maximum size of a list to return.
 - `"NextToken"`: A continuation token, if this is a continuation request.
 """
-function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_workflows(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_workflows(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -6814,16 +6663,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog to set the security configuration for. If none
   is provided, the Amazon Web Services account ID is used by default.
 """
-function put_data_catalog_encryption_settings(
+put_data_catalog_encryption_settings(
     DataCatalogEncryptionSettings; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "PutDataCatalogEncryptionSettings",
+    Dict{String,Any}("DataCatalogEncryptionSettings" => DataCatalogEncryptionSettings);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "PutDataCatalogEncryptionSettings",
-        Dict{String,Any}("DataCatalogEncryptionSettings" => DataCatalogEncryptionSettings);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_data_catalog_encryption_settings(
     DataCatalogEncryptionSettings,
     params::AbstractDict{String};
@@ -6836,6 +6683,49 @@ function put_data_catalog_encryption_settings(
                 _merge,
                 Dict{String,Any}(
                     "DataCatalogEncryptionSettings" => DataCatalogEncryptionSettings
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    put_data_quality_profile_annotation(inclusion_annotation, profile_id)
+    put_data_quality_profile_annotation(inclusion_annotation, profile_id, params::Dict{String,<:Any})
+
+Annotate all datapoints for a Profile.
+
+# Arguments
+- `inclusion_annotation`: The inclusion annotation value to apply to the profile.
+- `profile_id`: The ID of the data quality monitoring profile to annotate.
+
+"""
+put_data_quality_profile_annotation(
+    InclusionAnnotation, ProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "PutDataQualityProfileAnnotation",
+    Dict{String,Any}(
+        "InclusionAnnotation" => InclusionAnnotation, "ProfileId" => ProfileId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function put_data_quality_profile_annotation(
+    InclusionAnnotation,
+    ProfileId,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return glue(
+        "PutDataQualityProfileAnnotation",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "InclusionAnnotation" => InclusionAnnotation, "ProfileId" => ProfileId
                 ),
                 params,
             ),
@@ -6869,16 +6759,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this parameter if no previous policy has been set.
 - `"ResourceArn"`: Do not use. For internal use only.
 """
-function put_resource_policy(
-    PolicyInJson; aws_config::AbstractAWSConfig=global_aws_config()
+put_resource_policy(PolicyInJson; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "PutResourcePolicy",
+    Dict{String,Any}("PolicyInJson" => PolicyInJson);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "PutResourcePolicy",
-        Dict{String,Any}("PolicyInJson" => PolicyInJson);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_resource_policy(
     PolicyInJson,
     params::AbstractDict{String};
@@ -6910,16 +6796,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionId"`: The unique version ID of the schema version.
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
-function put_schema_version_metadata(
+put_schema_version_metadata(
     MetadataKeyValue; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "PutSchemaVersionMetadata",
+    Dict{String,Any}("MetadataKeyValue" => MetadataKeyValue);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "PutSchemaVersionMetadata",
-        Dict{String,Any}("MetadataKeyValue" => MetadataKeyValue);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_schema_version_metadata(
     MetadataKeyValue,
     params::AbstractDict{String};
@@ -6951,18 +6835,14 @@ property to existing properties.
 - `run_properties`: The properties to put for the specified run.
 
 """
-function put_workflow_run_properties(
+put_workflow_run_properties(
     Name, RunId, RunProperties; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "PutWorkflowRunProperties",
+    Dict{String,Any}("Name" => Name, "RunId" => RunId, "RunProperties" => RunProperties);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "PutWorkflowRunProperties",
-        Dict{String,Any}(
-            "Name" => Name, "RunId" => RunId, "RunProperties" => RunProperties
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_workflow_run_properties(
     Name,
     RunId,
@@ -7004,11 +6884,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionId"`: The unique version ID of the schema version.
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
-function query_schema_version_metadata(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "QuerySchemaVersionMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+query_schema_version_metadata(; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "QuerySchemaVersionMetadata"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function query_schema_version_metadata(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7043,16 +6921,14 @@ of the existing schema is returned to the caller.
   of the schema. Either SchemaArn or SchemaName and RegistryName has to be provided.
 
 """
-function register_schema_version(
+register_schema_version(
     SchemaDefinition, SchemaId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "RegisterSchemaVersion",
+    Dict{String,Any}("SchemaDefinition" => SchemaDefinition, "SchemaId" => SchemaId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "RegisterSchemaVersion",
-        Dict{String,Any}("SchemaDefinition" => SchemaDefinition, "SchemaId" => SchemaId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_schema_version(
     SchemaDefinition,
     SchemaId,
@@ -7092,16 +6968,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionId"`: The unique version ID of the schema version.
 - `"SchemaVersionNumber"`: The version number of the schema.
 """
-function remove_schema_version_metadata(
+remove_schema_version_metadata(
     MetadataKeyValue; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "RemoveSchemaVersionMetadata",
+    Dict{String,Any}("MetadataKeyValue" => MetadataKeyValue);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "RemoveSchemaVersionMetadata",
-        Dict{String,Any}("MetadataKeyValue" => MetadataKeyValue);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_schema_version_metadata(
     MetadataKeyValue,
     params::AbstractDict{String};
@@ -7134,14 +7008,12 @@ structure
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RunId"`: The unique run identifier associated with this job run.
 """
-function reset_job_bookmark(JobName; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "ResetJobBookmark",
-        Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+reset_job_bookmark(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "ResetJobBookmark",
+    Dict{String,Any}("JobName" => JobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function reset_job_bookmark(
     JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7168,16 +7040,14 @@ are run.
 - `run_id`: The ID of the workflow run to resume.
 
 """
-function resume_workflow_run(
+resume_workflow_run(
     Name, NodeIds, RunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "ResumeWorkflowRun",
+    Dict{String,Any}("Name" => Name, "NodeIds" => NodeIds, "RunId" => RunId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "ResumeWorkflowRun",
-        Dict{String,Any}("Name" => Name, "NodeIds" => NodeIds, "RunId" => RunId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function resume_workflow_run(
     Name,
     NodeIds,
@@ -7213,14 +7083,12 @@ Executes the statement.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The origin of the request.
 """
-function run_statement(Code, SessionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "RunStatement",
-        Dict{String,Any}("Code" => Code, "SessionId" => SessionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+run_statement(Code, SessionId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "RunStatement",
+    Dict{String,Any}("Code" => Code, "SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function run_statement(
     Code,
     SessionId,
@@ -7264,6 +7132,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   exact-match compared with the Value member of PropertyPredicate. For example, if Key=Name
   and Value=link, tables named customer-link and xx-link-yy are returned, but xxlinkyy is not
   returned.
+- `"IncludeStatusDetails"`: Specifies whether to include status details related to a
+  request to create or update an Glue Data Catalog view.
 - `"MaxResults"`: The maximum number of tables to return in a single response.
 - `"NextToken"`: A continuation token, included if this is a continuation call.
 - `"ResourceShareType"`: Allows you to specify that you want to search the tables shared
@@ -7275,9 +7145,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SortCriteria"`: A list of criteria for sorting the results by a field name, in an
   ascending or descending order.
 """
-function search_tables(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("SearchTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+search_tables(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("SearchTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function search_tables(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7300,16 +7169,14 @@ Starts a new run of the specified blueprint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Parameters"`: Specifies the parameters as a BlueprintParameters object.
 """
-function start_blueprint_run(
+start_blueprint_run(
     BlueprintName, RoleArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "StartBlueprintRun",
+    Dict{String,Any}("BlueprintName" => BlueprintName, "RoleArn" => RoleArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "StartBlueprintRun",
-        Dict{String,Any}("BlueprintName" => BlueprintName, "RoleArn" => RoleArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_blueprint_run(
     BlueprintName,
     RoleArn,
@@ -7352,18 +7219,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SecurityConfiguration"`: Name of the security configuration that is used to encrypt
   CloudWatch logs for the column stats task run.
 """
-function start_column_statistics_task_run(
+start_column_statistics_task_run(
     DatabaseName, Role, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "StartColumnStatisticsTaskRun",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName, "Role" => Role, "TableName" => TableName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "StartColumnStatisticsTaskRun",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName, "Role" => Role, "TableName" => TableName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_column_statistics_task_run(
     DatabaseName,
     Role,
@@ -7398,14 +7263,12 @@ is already running, returns a CrawlerRunningException.
 - `name`: Name of the crawler to start.
 
 """
-function start_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "StartCrawler",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "StartCrawler",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_crawler(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7428,16 +7291,13 @@ already running or the schedule state is already SCHEDULED.
 - `crawler_name`: Name of the crawler to schedule.
 
 """
-function start_crawler_schedule(
-    CrawlerName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+start_crawler_schedule(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "StartCrawlerSchedule",
         Dict{String,Any}("CrawlerName" => CrawlerName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_crawler_schedule(
     CrawlerName,
     params::AbstractDict{String};
@@ -7471,21 +7331,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientToken"`: Used for idempotency and is recommended to be set to a random ID (such
   as a UUID) to avoid creating or starting multiple instances of the same resource.
 - `"CreatedRulesetName"`: A name for the ruleset.
+- `"DataQualitySecurityConfiguration"`: The name of the security configuration created with
+  the data quality encryption option.
 - `"NumberOfWorkers"`: The number of G.1X workers to be used in the run. The default is 5.
 - `"Timeout"`: The timeout for a run in minutes. This is the maximum time that a run can
   consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
   minutes (48 hours).
 """
-function start_data_quality_rule_recommendation_run(
+start_data_quality_rule_recommendation_run(
     DataSource, Role; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "StartDataQualityRuleRecommendationRun",
+    Dict{String,Any}("DataSource" => DataSource, "Role" => Role);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "StartDataQualityRuleRecommendationRun",
-        Dict{String,Any}("DataSource" => DataSource, "Role" => Role);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_data_quality_rule_recommendation_run(
     DataSource,
     Role,
@@ -7529,18 +7389,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   consume resources before it is terminated and enters TIMEOUT status. The default is 2,880
   minutes (48 hours).
 """
-function start_data_quality_ruleset_evaluation_run(
+start_data_quality_ruleset_evaluation_run(
     DataSource, Role, RulesetNames; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "StartDataQualityRulesetEvaluationRun",
+    Dict{String,Any}(
+        "DataSource" => DataSource, "Role" => Role, "RulesetNames" => RulesetNames
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "StartDataQualityRulesetEvaluationRun",
-        Dict{String,Any}(
-            "DataSource" => DataSource, "Role" => Role, "RulesetNames" => RulesetNames
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_data_quality_ruleset_evaluation_run(
     DataSource,
     Role,
@@ -7584,16 +7442,14 @@ by calling the GetMLTaskRun API.
 - `transform_id`: The unique identifier of the machine learning transform.
 
 """
-function start_export_labels_task_run(
+start_export_labels_task_run(
     OutputS3Path, TransformId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "StartExportLabelsTaskRun",
+    Dict{String,Any}("OutputS3Path" => OutputS3Path, "TransformId" => TransformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "StartExportLabelsTaskRun",
-        Dict{String,Any}("OutputS3Path" => OutputS3Path, "TransformId" => TransformId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_export_labels_task_run(
     OutputS3Path,
     TransformId,
@@ -7650,16 +7506,14 @@ the GetMLTaskRun operation.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"ReplaceAllLabels"`: Indicates whether to overwrite your existing labels.
 """
-function start_import_labels_task_run(
+start_import_labels_task_run(
     InputS3Path, TransformId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "StartImportLabelsTaskRun",
+    Dict{String,Any}("InputS3Path" => InputS3Path, "TransformId" => TransformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "StartImportLabelsTaskRun",
-        Dict{String,Any}("InputS3Path" => InputS3Path, "TransformId" => TransformId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_import_labels_task_run(
     InputS3Path,
     TransformId,
@@ -7716,6 +7570,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with Glue version 3.0 and above and command type glueetl will be allowed to set
   ExecutionClass to FLEX. The flexible execution class is available for Spark jobs.
 - `"JobRunId"`: The ID of a previous JobRun to retry.
+- `"JobRunQueuingEnabled"`: Specifies whether job run queuing is enabled for the job run. A
+  value of true means job run queuing is enabled for the job run. If false or not populated,
+  the job run will not be considered for queueing.
 - `"MaxCapacity"`: For Glue version 1.0 or earlier jobs, using the standard worker type,
   the number of Glue data processing units (DPUs) that can be allocated when this job runs. A
   DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity
@@ -7768,14 +7625,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (8vCPUs, 64 GB of memory) with 128 GB disk (approximately 120GB free), and provides up to 8
   Ray workers based on the autoscaler.
 """
-function start_job_run(JobName; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "StartJobRun",
-        Dict{String,Any}("JobName" => JobName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_job_run(JobName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "StartJobRun",
+    Dict{String,Any}("JobName" => JobName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_job_run(
     JobName, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7801,16 +7656,14 @@ EvaluationTaskRun.
 - `transform_id`: The unique identifier of the machine learning transform.
 
 """
-function start_mlevaluation_task_run(
+start_mlevaluation_task_run(
     TransformId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "StartMLEvaluationTaskRun",
+    Dict{String,Any}("TransformId" => TransformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "StartMLEvaluationTaskRun",
-        Dict{String,Any}("TransformId" => TransformId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_mlevaluation_task_run(
     TransformId,
     params::AbstractDict{String};
@@ -7846,16 +7699,14 @@ use the new and improved labels and perform a higher-quality transformation.
 - `transform_id`: The unique identifier of the machine learning transform.
 
 """
-function start_mllabeling_set_generation_task_run(
+start_mllabeling_set_generation_task_run(
     OutputS3Path, TransformId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "StartMLLabelingSetGenerationTaskRun",
+    Dict{String,Any}("OutputS3Path" => OutputS3Path, "TransformId" => TransformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "StartMLLabelingSetGenerationTaskRun",
-        Dict{String,Any}("OutputS3Path" => OutputS3Path, "TransformId" => TransformId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_mllabeling_set_generation_task_run(
     OutputS3Path,
     TransformId,
@@ -7889,14 +7740,12 @@ of trigger are started.
 - `name`: The name of the trigger to start.
 
 """
-function start_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "StartTrigger",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "StartTrigger",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_trigger(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7921,14 +7770,12 @@ Starts a new run of the specified workflow.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RunProperties"`: The workflow run properties for the new workflow run.
 """
-function start_workflow_run(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "StartWorkflowRun",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_workflow_run(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "StartWorkflowRun",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_workflow_run(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7951,16 +7798,14 @@ Stops a task run for the specified table.
 - `table_name`: The name of the table.
 
 """
-function stop_column_statistics_task_run(
+stop_column_statistics_task_run(
     DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "StopColumnStatisticsTaskRun",
+    Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "StopColumnStatisticsTaskRun",
-        Dict{String,Any}("DatabaseName" => DatabaseName, "TableName" => TableName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_column_statistics_task_run(
     DatabaseName,
     TableName,
@@ -7991,14 +7836,12 @@ If the specified crawler is running, stops the crawl.
 - `name`: Name of the crawler to stop.
 
 """
-function stop_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "StopCrawler",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "StopCrawler",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_crawler(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8021,16 +7864,13 @@ crawler if it is already running.
 - `crawler_name`: Name of the crawler whose schedule state to set.
 
 """
-function stop_crawler_schedule(
-    CrawlerName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+stop_crawler_schedule(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "StopCrawlerSchedule",
         Dict{String,Any}("CrawlerName" => CrawlerName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function stop_crawler_schedule(
     CrawlerName,
     params::AbstractDict{String};
@@ -8059,14 +7899,12 @@ Stops the session.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"RequestOrigin"`: The origin of the request.
 """
-function stop_session(Id; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "StopSession",
-        Dict{String,Any}("Id" => Id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_session(Id; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "StopSession",
+    Dict{String,Any}("Id" => Id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_session(
     Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8088,14 +7926,12 @@ Stops a specified trigger.
 - `name`: The name of the trigger to stop.
 
 """
-function stop_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "StopTrigger",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_trigger(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "StopTrigger",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_trigger(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8118,14 +7954,12 @@ Stops the execution of the specified workflow run.
 - `run_id`: The ID of the workflow run to stop.
 
 """
-function stop_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "StopWorkflowRun",
-        Dict{String,Any}("Name" => Name, "RunId" => RunId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_workflow_run(Name, RunId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "StopWorkflowRun",
+    Dict{String,Any}("Name" => Name, "RunId" => RunId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_workflow_run(
     Name,
     RunId,
@@ -8156,16 +7990,13 @@ you can tag, see Amazon Web Services Tags in Glue.
 - `tags_to_add`: Tags to add to this resource.
 
 """
-function tag_resource(
-    ResourceArn, TagsToAdd; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+tag_resource(ResourceArn, TagsToAdd; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagsToAdd" => TagsToAdd);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     TagsToAdd,
@@ -8198,16 +8029,14 @@ Removes tags from a resource.
 - `tags_to_remove`: Tags to remove from this resource.
 
 """
-function untag_resource(
+untag_resource(
     ResourceArn, TagsToRemove; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "UntagResource",
+    Dict{String,Any}("ResourceArn" => ResourceArn, "TagsToRemove" => TagsToRemove);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UntagResource",
-        Dict{String,Any}("ResourceArn" => ResourceArn, "TagsToRemove" => TagsToRemove);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function untag_resource(
     ResourceArn,
     TagsToRemove,
@@ -8244,16 +8073,14 @@ Updates a registered blueprint.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the blueprint.
 """
-function update_blueprint(
+update_blueprint(
     BlueprintLocation, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "UpdateBlueprint",
+    Dict{String,Any}("BlueprintLocation" => BlueprintLocation, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdateBlueprint",
-        Dict{String,Any}("BlueprintLocation" => BlueprintLocation, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_blueprint(
     BlueprintLocation,
     Name,
@@ -8288,9 +8115,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"JsonClassifier"`: A JsonClassifier object with updated fields.
 - `"XMLClassifier"`: An XMLClassifier object with updated fields.
 """
-function update_classifier(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue("UpdateClassifier"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+update_classifier(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue("UpdateClassifier"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function update_classifier(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8317,25 +8143,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
-function update_column_statistics_for_partition(
+update_column_statistics_for_partition(
     ColumnStatisticsList,
     DatabaseName,
     PartitionValues,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "UpdateColumnStatisticsForPartition",
+    Dict{String,Any}(
+        "ColumnStatisticsList" => ColumnStatisticsList,
+        "DatabaseName" => DatabaseName,
+        "PartitionValues" => PartitionValues,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdateColumnStatisticsForPartition",
-        Dict{String,Any}(
-            "ColumnStatisticsList" => ColumnStatisticsList,
-            "DatabaseName" => DatabaseName,
-            "PartitionValues" => PartitionValues,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_column_statistics_for_partition(
     ColumnStatisticsList,
     DatabaseName,
@@ -8380,23 +8204,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partitions in question reside. If
   none is supplied, the Amazon Web Services account ID is used by default.
 """
-function update_column_statistics_for_table(
+update_column_statistics_for_table(
     ColumnStatisticsList,
     DatabaseName,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "UpdateColumnStatisticsForTable",
+    Dict{String,Any}(
+        "ColumnStatisticsList" => ColumnStatisticsList,
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdateColumnStatisticsForTable",
-        Dict{String,Any}(
-            "ColumnStatisticsList" => ColumnStatisticsList,
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_column_statistics_for_table(
     ColumnStatisticsList,
     DatabaseName,
@@ -8437,16 +8259,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the connection resides. If none is
   provided, the Amazon Web Services account ID is used by default.
 """
-function update_connection(
+update_connection(
     ConnectionInput, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "UpdateConnection",
+    Dict{String,Any}("ConnectionInput" => ConnectionInput, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdateConnection",
-        Dict{String,Any}("ConnectionInput" => ConnectionInput, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_connection(
     ConnectionInput,
     Name,
@@ -8504,14 +8324,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TablePrefix"`: The table prefix used for catalog tables that are created.
 - `"Targets"`: A list of targets to crawl.
 """
-function update_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "UpdateCrawler",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_crawler(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "UpdateCrawler",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_crawler(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8538,16 +8356,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you
   would specify: cron(15 12 * * ? *).
 """
-function update_crawler_schedule(
-    CrawlerName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+update_crawler_schedule(CrawlerName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "UpdateCrawlerSchedule",
         Dict{String,Any}("CrawlerName" => CrawlerName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_crawler_schedule(
     CrawlerName,
     params::AbstractDict{String};
@@ -8578,16 +8393,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Ruleset"`: A Data Quality Definition Language (DQDL) ruleset. For more information, see
   the Glue developer guide.
 """
-function update_data_quality_ruleset(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
+update_data_quality_ruleset(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "UpdateDataQualityRuleset",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdateDataQualityRuleset",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_data_quality_ruleset(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8616,16 +8427,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog in which the metadata database resides. If none
   is provided, the Amazon Web Services account ID is used by default.
 """
-function update_database(
-    DatabaseInput, Name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+update_database(DatabaseInput, Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "UpdateDatabase",
         Dict{String,Any}("DatabaseInput" => DatabaseInput, "Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_database(
     DatabaseInput,
     Name,
@@ -8671,16 +8479,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UpdateEtlLibraries"`:  True if the list of custom libraries to be loaded in the
   development endpoint needs to be updated, or False if otherwise.
 """
-function update_dev_endpoint(
-    EndpointName; aws_config::AbstractAWSConfig=global_aws_config()
+update_dev_endpoint(EndpointName; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "UpdateDevEndpoint",
+    Dict{String,Any}("EndpointName" => EndpointName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdateDevEndpoint",
-        Dict{String,Any}("EndpointName" => EndpointName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_dev_endpoint(
     EndpointName,
     params::AbstractDict{String};
@@ -8709,14 +8513,12 @@ by this information.
   configuration is removed or reset to default values.
 
 """
-function update_job(JobName, JobUpdate; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "UpdateJob",
-        Dict{String,Any}("JobName" => JobName, "JobUpdate" => JobUpdate);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_job(JobName, JobUpdate; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "UpdateJob",
+    Dict{String,Any}("JobName" => JobName, "JobUpdate" => JobUpdate);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_job(
     JobName,
     JobUpdate,
@@ -8762,11 +8564,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   &lt;WorkspaceName&gt;/&lt;RepositoryName&gt;.
 - `"RepositoryOwner"`: The owner of the remote repository that contains the job artifacts.
 """
-function update_job_from_source_control(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "UpdateJobFromSourceControl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+update_job_from_source_control(; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "UpdateJobFromSourceControl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function update_job_from_source_control(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -8823,14 +8623,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of
   memory and a 128GB disk, and 1 executor per worker.
 """
-function update_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "UpdateMLTransform",
-        Dict{String,Any}("TransformId" => TransformId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_mltransform(TransformId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "UpdateMLTransform",
+    Dict{String,Any}("TransformId" => TransformId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_mltransform(
     TransformId,
     params::AbstractDict{String};
@@ -8865,25 +8663,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the partition to be updated resides. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
-function update_partition(
+update_partition(
     DatabaseName,
     PartitionInput,
     PartitionValueList,
     TableName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "UpdatePartition",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "PartitionInput" => PartitionInput,
+        "PartitionValueList" => PartitionValueList,
+        "TableName" => TableName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdatePartition",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "PartitionInput" => PartitionInput,
-            "PartitionValueList" => PartitionValueList,
-            "TableName" => TableName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_partition(
     DatabaseName,
     PartitionInput,
@@ -8926,16 +8722,14 @@ registry.
   Resource Name (ARN).
 
 """
-function update_registry(
+update_registry(
     Description, RegistryId; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "UpdateRegistry",
+    Dict{String,Any}("Description" => Description, "RegistryId" => RegistryId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdateRegistry",
-        Dict{String,Any}("Description" => Description, "RegistryId" => RegistryId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_registry(
     Description,
     RegistryId,
@@ -8981,14 +8775,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SchemaVersionNumber"`: Version number required for check pointing. One of VersionNumber
   or Compatibility has to be provided.
 """
-function update_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "UpdateSchema",
-        Dict{String,Any}("SchemaId" => SchemaId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_schema(SchemaId; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "UpdateSchema",
+    Dict{String,Any}("SchemaId" => SchemaId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_schema(
     SchemaId,
     params::AbstractDict{String};
@@ -9029,11 +8821,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   &lt;WorkspaceName&gt;/&lt;RepositoryName&gt;.
 - `"RepositoryOwner"`: The owner of the remote repository that contains the job artifacts.
 """
-function update_source_control_from_job(; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "UpdateSourceControlFromJob"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+update_source_control_from_job(; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "UpdateSourceControlFromJob"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function update_source_control_from_job(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -9069,16 +8859,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VersionId"`: The version ID at which to update the table contents.
 - `"ViewUpdateAction"`: The operation to be performed when updating the view.
 """
-function update_table(
-    DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+update_table(DatabaseName, TableInput; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "UpdateTable",
         Dict{String,Any}("DatabaseName" => DatabaseName, "TableInput" => TableInput);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_table(
     DatabaseName,
     TableInput,
@@ -9116,27 +8903,25 @@ Updates the configuration for an existing table optimizer.
 - `type`: The type of table optimizer. Currently, the only valid value is compaction.
 
 """
-function update_table_optimizer(
+update_table_optimizer(
     CatalogId,
     DatabaseName,
     TableName,
     TableOptimizerConfiguration,
     Type;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "UpdateTableOptimizer",
+    Dict{String,Any}(
+        "CatalogId" => CatalogId,
+        "DatabaseName" => DatabaseName,
+        "TableName" => TableName,
+        "TableOptimizerConfiguration" => TableOptimizerConfiguration,
+        "Type" => Type,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdateTableOptimizer",
-        Dict{String,Any}(
-            "CatalogId" => CatalogId,
-            "DatabaseName" => DatabaseName,
-            "TableName" => TableName,
-            "TableOptimizerConfiguration" => TableOptimizerConfiguration,
-            "Type" => Type,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_table_optimizer(
     CatalogId,
     DatabaseName,
@@ -9177,16 +8962,13 @@ Updates a trigger definition.
 - `trigger_update`: The new values with which to update the trigger.
 
 """
-function update_trigger(
-    Name, TriggerUpdate; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return glue(
+update_trigger(Name, TriggerUpdate; aws_config::AbstractAWSConfig=global_aws_config()) =
+    glue(
         "UpdateTrigger",
         Dict{String,Any}("Name" => Name, "TriggerUpdate" => TriggerUpdate);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_trigger(
     Name,
     TriggerUpdate,
@@ -9222,16 +9004,14 @@ Update an Glue usage profile.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: A description of the usage profile.
 """
-function update_usage_profile(
+update_usage_profile(
     Configuration, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = glue(
+    "UpdateUsageProfile",
+    Dict{String,Any}("Configuration" => Configuration, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdateUsageProfile",
-        Dict{String,Any}("Configuration" => Configuration, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_usage_profile(
     Configuration,
     Name,
@@ -9269,23 +9049,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CatalogId"`: The ID of the Data Catalog where the function to be updated is located. If
   none is provided, the Amazon Web Services account ID is used by default.
 """
-function update_user_defined_function(
+update_user_defined_function(
     DatabaseName,
     FunctionInput,
     FunctionName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = glue(
+    "UpdateUserDefinedFunction",
+    Dict{String,Any}(
+        "DatabaseName" => DatabaseName,
+        "FunctionInput" => FunctionInput,
+        "FunctionName" => FunctionName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return glue(
-        "UpdateUserDefinedFunction",
-        Dict{String,Any}(
-            "DatabaseName" => DatabaseName,
-            "FunctionInput" => FunctionInput,
-            "FunctionName" => FunctionName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_defined_function(
     DatabaseName,
     FunctionInput,
@@ -9330,14 +9108,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   concurrent runs of any of the component jobs. If you leave this parameter blank, there is
   no limit to the number of concurrent workflow runs.
 """
-function update_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return glue(
-        "UpdateWorkflow",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_workflow(Name; aws_config::AbstractAWSConfig=global_aws_config()) = glue(
+    "UpdateWorkflow",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_workflow(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

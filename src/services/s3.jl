@@ -15,12 +15,16 @@ progress, those part uploads might or might not succeed. As a result, it might b
 to abort a given multipart upload multiple times in order to completely free all storage
 consumed by all parts.  To verify that all parts have been removed and prevent getting
 charged for the part storage, you should call the ListParts API operation and ensure that
-the parts list is empty.   Directory buckets - For directory buckets, you must make
-requests for this API operation to the Zonal endpoint. These endpoints support
-virtual-hosted-style requests in the format
+the parts list is empty.     Directory buckets - If multipart uploads in a directory bucket
+are in progress, you can't delete the bucket until all the in-progress multipart uploads
+are aborted or completed. To delete these in-progress multipart uploads, use the
+ListMultipartUploads operation to list the in-progress multipart uploads in the bucket and
+use the AbortMultupartUpload operation to abort all the in-progress multipart uploads.
+Directory buckets - For directory buckets, you must make requests for this API operation to
+the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format
 https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
 not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
-Guide.   Permissions     General purpose bucket permissions - For information about
+Guide.     Permissions     General purpose bucket permissions - For information about
 permissions required to use the multipart upload, see Multipart Upload and Permissions in
 the Amazon S3 User Guide.    Directory bucket permissions - To grant access to this API
 operation on a directory bucket, we recommend that you use the  CreateSession  API
@@ -69,17 +73,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
-function abort_multipart_upload(
+abort_multipart_upload(
     Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "DELETE",
+    "/$(Bucket)/$(Key)",
+    Dict{String,Any}("uploadId" => uploadId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "DELETE",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}("uploadId" => uploadId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function abort_multipart_upload(
     Bucket,
     Key,
@@ -135,8 +137,11 @@ the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . P
 requests are not supported. For more information, see Regional and Zonal endpoints in the
 Amazon S3 User Guide.   Permissions     General purpose bucket permissions - For
 information about permissions required to use the multipart upload API, see Multipart
-Upload and Permissions in the Amazon S3 User Guide.    Directory bucket permissions - To
-grant access to this API operation on a directory bucket, we recommend that you use the
+Upload and Permissions in the Amazon S3 User Guide. If you provide an additional checksum
+value in your MultipartUpload requests and the object is encrypted with Key Management
+Service, you must have permission to use the kms:Decrypt action for the
+CompleteMultipartUpload request to succeed.    Directory bucket permissions - To grant
+access to this API operation on a directory bucket, we recommend that you use the
 CreateSession  API operation for session-based authorization. Specifically, you grant the
 s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM
 identity-based policy. Then, you make the CreateSession API call on the bucket to obtain a
@@ -144,14 +149,16 @@ session token. With the session token in your request header, you can make API r
 this operation. After the session token expires, you make another CreateSession API call to
 generate a new session token for use. Amazon Web Services CLI or SDKs create session and
 refresh the session token automatically to avoid service interruptions when a session
-expires. For more information about authorization, see  CreateSession .    Special errors
- Error Code: EntityTooSmall    Description: Your proposed upload is smaller than the
-minimum allowed object size. Each part must be at least 5 MB in size, except the last part.
-  HTTP Status Code: 400 Bad Request     Error Code: InvalidPart    Description: One or more
-of the specified parts could not be found. The part might not have been uploaded, or the
-specified ETag might not have matched the uploaded part's ETag.   HTTP Status Code: 400 Bad
-Request     Error Code: InvalidPartOrder    Description: The list of parts was not in
-ascending order. The parts list must be specified in order by part number.   HTTP Status
+expires. For more information about authorization, see  CreateSession . If the object is
+encrypted with SSE-KMS, you must also have the kms:GenerateDataKey and kms:Decrypt
+permissions in IAM identity-based policies and KMS key policies for the KMS key.    Special
+errors    Error Code: EntityTooSmall    Description: Your proposed upload is smaller than
+the minimum allowed object size. Each part must be at least 5 MB in size, except the last
+part.   HTTP Status Code: 400 Bad Request     Error Code: InvalidPart    Description: One
+or more of the specified parts could not be found. The part might not have been uploaded,
+or the specified ETag might not have matched the uploaded part's ETag.   HTTP Status Code:
+400 Bad Request     Error Code: InvalidPartOrder    Description: The list of parts was not
+in ascending order. The parts list must be specified in order by part number.   HTTP Status
 Code: 400 Bad Request     Error Code: NoSuchUpload    Description: The specified multipart
 upload does not exist. The upload ID might be invalid, or the multipart upload might have
 been aborted or completed.   HTTP Status Code: 404 Not Found      HTTP Host header syntax
@@ -189,13 +196,20 @@ CompleteMultipartUpload:    CreateMultipartUpload     UploadPart     AbortMultip
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"CompleteMultipartUpload"`: The container for the multipart upload request information.
+- `"If-None-Match"`: Uploads the object only if the object key name does not already exist
+  in the bucket specified. Otherwise, Amazon S3 returns a 412 Precondition Failed error. If a
+  conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict
+  response. On a 409 failure you should re-initiate the multipart upload with
+  CreateMultipartUpload and re-upload each part. Expects the '*' (asterisk) character. For
+  more information about conditional requests, see RFC 7232, or Conditional requests in the
+  Amazon S3 User Guide.
 - `"x-amz-checksum-crc32"`: This header can be used as a data integrity check to verify
   that the data received is the same data that was originally sent. This header specifies the
-  base64-encoded, 32-bit CRC32 checksum of the object. For more information, see Checking
+  base64-encoded, 32-bit CRC-32 checksum of the object. For more information, see Checking
   object integrity in the Amazon S3 User Guide.
 - `"x-amz-checksum-crc32c"`: This header can be used as a data integrity check to verify
   that the data received is the same data that was originally sent. This header specifies the
-  base64-encoded, 32-bit CRC32C checksum of the object. For more information, see Checking
+  base64-encoded, 32-bit CRC-32C checksum of the object. For more information, see Checking
   object integrity in the Amazon S3 User Guide.
 - `"x-amz-checksum-sha1"`: This header can be used as a data integrity check to verify that
   the data received is the same data that was originally sent. This header specifies the
@@ -223,17 +237,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checksum algorithm. For more information, see Protecting data using SSE-C keys in the
   Amazon S3 User Guide.  This functionality is not supported for directory buckets.
 """
-function complete_multipart_upload(
+complete_multipart_upload(
     Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "POST",
+    "/$(Bucket)/$(Key)",
+    Dict{String,Any}("uploadId" => uploadId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "POST",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}("uploadId" => uploadId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function complete_multipart_upload(
     Bucket,
     Key,
@@ -262,69 +274,73 @@ a single atomic action using this API. However, to copy an object greater than 5
 must use the multipart upload Upload Part - Copy (UploadPartCopy) API. For more
 information, see Copy Object Using the REST Multipart Upload API.  You can copy individual
 objects between general purpose buckets, between directory buckets, and between general
-purpose buckets and directory buckets.   Directory buckets  - For directory buckets, you
-must make requests for this API operation to the Zonal endpoint. These endpoints support
-virtual-hosted-style requests in the format
-https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
-not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
-Guide.  Both the Region that you want to copy the object from and the Region that you want
-to copy the object to must be enabled for your account. For more information about how to
-enable a Region for your account, see Enable or disable a Region for standalone accounts in
-the Amazon Web Services Account Management Guide.  Amazon S3 transfer acceleration does not
-support cross-Region copies. If you request a cross-Region copy using a transfer
-acceleration endpoint, you get a 400 Bad Request error. For more information, see Transfer
-Acceleration.   Authentication and authorization  All CopyObject requests must be
-authenticated and signed by using IAM credentials (access key ID and secret access key for
-the IAM identities). All headers with the x-amz- prefix, including x-amz-copy-source, must
-be signed. For more information, see REST Authentication.  Directory buckets - You must use
-the IAM credentials to authenticate and authorize your access to the CopyObject API
-operation, instead of using the temporary security credentials through the CreateSession
-API operation. Amazon Web Services CLI or SDKs handles authentication and authorization on
-your behalf.  Permissions  You must have read access to the source object and write access
-to the destination bucket.    General purpose bucket permissions - You must have
-permissions in an IAM policy based on the source and destination bucket types in a
-CopyObject operation.   If the source object is in a general purpose bucket, you must have
-s3:GetObject  permission to read the source object that is being copied.    If the
-destination bucket is a general purpose bucket, you must have  s3:PutObject  permission to
-write the object copy to the destination bucket.       Directory bucket permissions - You
-must have permissions in a bucket policy or an IAM identity-based policy based on the
-source and destination bucket types in a CopyObject operation.   If the source object that
-you want to copy is in a directory bucket, you must have the  s3express:CreateSession
-permission in the Action element of a policy to read the object. By default, the session is
-in the ReadWrite mode. If you want to restrict the access, you can explicitly set the
-s3express:SessionMode condition key to ReadOnly on the copy source bucket.   If the copy
-destination is a directory bucket, you must have the  s3express:CreateSession  permission
-in the Action element of a policy to write the object to the destination. The
-s3express:SessionMode condition key can't be set to ReadOnly on the copy destination
-bucket.    For example policies, see Example bucket policies for S3 Express One Zone and
-Amazon Web Services Identity and Access Management (IAM) identity-based policies for S3
-Express One Zone in the Amazon S3 User Guide.    Response and special errors  When the
-request is an HTTP 1.1 request, the response is chunk encoded. When the request is not an
-HTTP 1.1 request, the response would not contain the Content-Length. You always need to
-read the entire response body to check if the copy succeeds. to keep the connection alive
-while we copy the data.    If the copy is successful, you receive a response with
-information about the copied object.   A copy request might return an error when Amazon S3
-receives the copy request or while Amazon S3 is copying the files. A 200 OK response can
-contain either a success or an error.   If the error occurs before the copy action starts,
-you receive a standard Amazon S3 error.   If the error occurs during the copy operation,
-the error response is embedded in the 200 OK response. For example, in a cross-region copy,
-you may encounter throttling and receive a 200 OK response. For more information, see
-Resolve the Error 200 response when copying objects to Amazon S3. The 200 OK status code
-means the copy was accepted, but it doesn't mean the copy is complete. Another example is
-when you disconnect from Amazon S3 before the copy is complete, Amazon S3 might cancel the
-copy and you may receive a 200 OK response. You must stay connected to Amazon S3 until the
-entire response is successfully received and processed. If you call this API operation
-directly, make sure to design your application to parse the content of the response and
-handle it appropriately. If you use Amazon Web Services SDKs, SDKs handle this condition.
-The SDKs detect the embedded error and apply error handling per your configuration settings
-(including automatically retrying the request as appropriate). If the condition persists,
-the SDKs throw an exception (or, for the SDKs that don't use exceptions, they return an
-error).      Charge  The copy request charge is based on the storage class and Region that
-you specify for the destination object. The request can also result in a data retrieval
-charge for the source if the source storage class bills for data retrieval. If the copy
-source is in a different region, the data transfer is billed to the copy source account.
-For pricing information, see Amazon S3 pricing.  HTTP Host header syntax   Directory
-buckets  - The HTTP Host header syntax is
+purpose buckets and directory buckets.    Amazon S3 supports copy operations using
+Multi-Region Access Points only as a destination when using the Multi-Region Access Point
+ARN.     Directory buckets  - For directory buckets, you must make requests for this API
+operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in
+the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style
+requests are not supported. For more information, see Regional and Zonal endpoints in the
+Amazon S3 User Guide.   VPC endpoints don't support cross-Region requests (including
+copies). If you're using VPC endpoints, your source and destination buckets should be in
+the same Amazon Web Services Region as your VPC endpoint.    Both the Region that you want
+to copy the object from and the Region that you want to copy the object to must be enabled
+for your account. For more information about how to enable a Region for your account, see
+Enable or disable a Region for standalone accounts in the Amazon Web Services Account
+Management Guide.  Amazon S3 transfer acceleration does not support cross-Region copies. If
+you request a cross-Region copy using a transfer acceleration endpoint, you get a 400 Bad
+Request error. For more information, see Transfer Acceleration.   Authentication and
+authorization  All CopyObject requests must be authenticated and signed by using IAM
+credentials (access key ID and secret access key for the IAM identities). All headers with
+the x-amz- prefix, including x-amz-copy-source, must be signed. For more information, see
+REST Authentication.  Directory buckets - You must use the IAM credentials to authenticate
+and authorize your access to the CopyObject API operation, instead of using the temporary
+security credentials through the CreateSession API operation. Amazon Web Services CLI or
+SDKs handles authentication and authorization on your behalf.  Permissions  You must have
+read access to the source object and write access to the destination bucket.    General
+purpose bucket permissions - You must have permissions in an IAM policy based on the source
+and destination bucket types in a CopyObject operation.   If the source object is in a
+general purpose bucket, you must have  s3:GetObject  permission to read the source object
+that is being copied.    If the destination bucket is a general purpose bucket, you must
+have  s3:PutObject  permission to write the object copy to the destination bucket.
+Directory bucket permissions - You must have permissions in a bucket policy or an IAM
+identity-based policy based on the source and destination bucket types in a CopyObject
+operation.   If the source object that you want to copy is in a directory bucket, you must
+have the  s3express:CreateSession  permission in the Action element of a policy to read the
+object. By default, the session is in the ReadWrite mode. If you want to restrict the
+access, you can explicitly set the s3express:SessionMode condition key to ReadOnly on the
+copy source bucket.   If the copy destination is a directory bucket, you must have the
+s3express:CreateSession  permission in the Action element of a policy to write the object
+to the destination. The s3express:SessionMode condition key can't be set to ReadOnly on the
+copy destination bucket.    If the object is encrypted with SSE-KMS, you must also have the
+kms:GenerateDataKey and kms:Decrypt permissions in IAM identity-based policies and KMS key
+policies for the KMS key. For example policies, see Example bucket policies for S3 Express
+One Zone and Amazon Web Services Identity and Access Management (IAM) identity-based
+policies for S3 Express One Zone in the Amazon S3 User Guide.    Response and special
+errors  When the request is an HTTP 1.1 request, the response is chunk encoded. When the
+request is not an HTTP 1.1 request, the response would not contain the Content-Length. You
+always need to read the entire response body to check if the copy succeeds.    If the copy
+is successful, you receive a response with information about the copied object.   A copy
+request might return an error when Amazon S3 receives the copy request or while Amazon S3
+is copying the files. A 200 OK response can contain either a success or an error.   If the
+error occurs before the copy action starts, you receive a standard Amazon S3 error.   If
+the error occurs during the copy operation, the error response is embedded in the 200 OK
+response. For example, in a cross-region copy, you may encounter throttling and receive a
+200 OK response. For more information, see Resolve the Error 200 response when copying
+objects to Amazon S3. The 200 OK status code means the copy was accepted, but it doesn't
+mean the copy is complete. Another example is when you disconnect from Amazon S3 before the
+copy is complete, Amazon S3 might cancel the copy and you may receive a 200 OK response.
+You must stay connected to Amazon S3 until the entire response is successfully received and
+processed. If you call this API operation directly, make sure to design your application to
+parse the content of the response and handle it appropriately. If you use Amazon Web
+Services SDKs, SDKs handle this condition. The SDKs detect the embedded error and apply
+error handling per your configuration settings (including automatically retrying the
+request as appropriate). If the condition persists, the SDKs throw an exception (or, for
+the SDKs that don't use exceptions, they return an error).      Charge  The copy request
+charge is based on the storage class and Region that you specify for the destination
+object. The request can also result in a data retrieval charge for the source if the source
+storage class bills for data retrieval. If the copy source is in a different region, the
+data transfer is billed to the copy source account. For pricing information, see Amazon S3
+pricing.  HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
 Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
 CopyObject:    PutObject     GetObject
 
@@ -506,48 +522,84 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of the object copy to expire.  This functionality is not supported for directory buckets.
 - `"x-amz-request-payer"`:
 - `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when storing
-  this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse). Unrecognized or
-  unsupported values won’t write a destination object and will receive a 400 Bad Request
-  response.  Amazon S3 automatically encrypts all new objects that are copied to an S3
-  bucket. When copying an object, if you don't specify encryption information in your copy
-  request, the encryption setting of the target object is set to the default encryption
-  configuration of the destination bucket. By default, all buckets have a base level of
-  encryption configuration that uses server-side encryption with Amazon S3 managed keys
-  (SSE-S3). If the destination bucket has a default encryption configuration that uses
-  server-side encryption with Key Management Service (KMS) keys (SSE-KMS), dual-layer
-  server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), or server-side
-  encryption with customer-provided encryption keys (SSE-C), Amazon S3 uses the corresponding
-  KMS key, or a customer-provided key to encrypt the target object copy. When you perform a
-  CopyObject operation, if you want to use a different type of encryption setting for the
-  target object, you can specify appropriate encryption-related headers to encrypt the target
-  object with an Amazon S3 managed key, a KMS key, or a customer-provided key. If the
-  encryption setting in your request is different from the default encryption configuration
-  of the destination bucket, the encryption setting in your request takes precedence.  With
-  server-side encryption, Amazon S3 encrypts your data as it writes your data to disks in its
-  data centers and decrypts the data when you access it. For more information about
-  server-side encryption, see Using Server-Side Encryption in the Amazon S3 User Guide.  For
-  directory buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3)
-  (AES256) is supported.
-- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the KMS ID (Key ID, Key ARN,
-  or Key Alias) to use for object encryption. All GET and PUT requests for an object
+  this object in Amazon S3. Unrecognized or unsupported values won’t write a destination
+  object and will receive a 400 Bad Request response.  Amazon S3 automatically encrypts all
+  new objects that are copied to an S3 bucket. When copying an object, if you don't specify
+  encryption information in your copy request, the encryption setting of the target object is
+  set to the default encryption configuration of the destination bucket. By default, all
+  buckets have a base level of encryption configuration that uses server-side encryption with
+  Amazon S3 managed keys (SSE-S3). If the destination bucket has a different default
+  encryption configuration, Amazon S3 uses the corresponding encryption key to encrypt the
+  target object copy. With server-side encryption, Amazon S3 encrypts your data as it writes
+  your data to disks in its data centers and decrypts the data when you access it. For more
+  information about server-side encryption, see Using Server-Side Encryption in the Amazon S3
+  User Guide.  General purpose buckets     For general purpose buckets, there are the
+  following supported options for server-side encryption: server-side encryption with Key
+  Management Service (KMS) keys (SSE-KMS), dual-layer server-side encryption with Amazon Web
+  Services KMS keys (DSSE-KMS), and server-side encryption with customer-provided encryption
+  keys (SSE-C). Amazon S3 uses the corresponding KMS key, or a customer-provided key to
+  encrypt the target object copy.   When you perform a CopyObject operation, if you want to
+  use a different type of encryption setting for the target object, you can specify
+  appropriate encryption-related headers to encrypt the target object with an Amazon S3
+  managed key, a KMS key, or a customer-provided key. If the encryption setting in your
+  request is different from the default encryption configuration of the destination bucket,
+  the encryption setting in your request takes precedence.     Directory buckets     For
+  directory buckets, there are only two supported options for server-side encryption:
+  server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side
+  encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default
+  encryption uses the desired encryption configuration and you don't override the bucket
+  default encryption in your CreateSession requests or PUT object requests. Then, new objects
+  are automatically encrypted with the desired encryption settings. For more information, see
+  Protecting data with server-side encryption in the Amazon S3 User Guide. For more
+  information about the encryption overriding behaviors in directory buckets, see Specifying
+  server-side encryption with KMS for new object uploads.   To encrypt new object copies to a
+  directory bucket with SSE-KMS, we recommend you specify SSE-KMS as the directory bucket's
+  default encryption configuration with a KMS key (specifically, a customer managed key). The
+  Amazon Web Services managed key (aws/s3) isn't supported. Your SSE-KMS configuration can
+  only support 1 customer managed key per directory bucket for the lifetime of the bucket.
+  After you specify a customer managed key for SSE-KMS, you can't override the customer
+  managed key for the bucket's SSE-KMS configuration. Then, when you perform a CopyObject
+  operation and want to specify server-side encryption settings for new object copies with
+  SSE-KMS in the encryption-related request headers, you must ensure the encryption key is
+  the same customer managed key that you specified for the directory bucket's default
+  encryption configuration.
+- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the KMS key ID (Key ID, Key
+  ARN, or Key Alias) to use for object encryption. All GET and PUT requests for an object
   protected by KMS will fail if they're not made via SSL or using SigV4. For information
   about configuring any of the officially supported Amazon Web Services SDKs and Amazon Web
   Services CLI, see Specifying the Signature Version in Request Authentication in the Amazon
-  S3 User Guide.  This functionality is not supported when the destination bucket is a
-  directory bucket.
+  S3 User Guide.  Directory buckets - If you specify x-amz-server-side-encryption with
+  aws:kms, the  x-amz-server-side-encryption-aws-kms-key-id header is implicitly assigned the
+  ID of the KMS symmetric encryption customer managed key that's configured for your
+  directory bucket's default encryption setting. If you want to specify the
+  x-amz-server-side-encryption-aws-kms-key-id header explicitly, you can only specify it with
+  the ID (Key ID or Key ARN) of the KMS customer managed key that's configured for your
+  directory bucket's default encryption setting. Otherwise, you get an HTTP 400 Bad Request
+  error. Only use the key ID or key ARN. The key alias format of the KMS key isn't supported.
+  Your SSE-KMS configuration can only support 1 customer managed key per directory bucket for
+  the lifetime of the bucket. The Amazon Web Services managed key (aws/s3) isn't supported.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
   use an S3 Bucket Key for object encryption with server-side encryption using Key Management
   Service (KMS) keys (SSE-KMS). If a target object uses SSE-KMS, you can enable an S3 Bucket
   Key for the object. Setting this header to true causes Amazon S3 to use an S3 Bucket Key
   for object encryption with SSE-KMS. Specifying this header with a COPY action doesn’t
   affect bucket-level settings for S3 Bucket Key. For more information, see Amazon S3 Bucket
-  Keys in the Amazon S3 User Guide.  This functionality is not supported when the destination
-  bucket is a directory bucket.
+  Keys in the Amazon S3 User Guide.   Directory buckets - S3 Bucket Keys aren't supported,
+  when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets,
+  from directory buckets to general purpose buckets, or between directory buckets, through
+  CopyObject. In this case, Amazon S3 makes a call to KMS every time a copy request is made
+  for a KMS-encrypted object.
 - `"x-amz-server-side-encryption-context"`: Specifies the Amazon Web Services KMS
-  Encryption Context to use for object encryption. The value of this header is a
-  base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs. This
-  value must be explicitly added to specify encryption context for CopyObject requests.  This
-  functionality is not supported when the destination bucket is a directory bucket.
+  Encryption Context as an additional encryption context to use for the destination object
+  encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the
+  encryption context key-value pairs.  General purpose buckets - This value must be
+  explicitly added to specify encryption context for CopyObject requests if you want an
+  additional encryption context for your destination object. The additional encryption
+  context of the source object won't be copied to the destination object. For more
+  information, see Encryption context in the Amazon S3 User Guide.  Directory buckets - You
+  can optionally provide an explicit encryption context value. The value must match the
+  default encryption context - the bucket Amazon Resource Name (ARN). An additional
+  encryption context value is not supported.
 - `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
   encrypting the object (for example, AES256). When you perform a CopyObject operation, if
   you want to use a different type of encryption setting for the target object, you can
@@ -637,19 +689,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   x-amz-metadata-directive header.  This functionality is not supported for directory
   buckets.
 """
-function copy_object(
+copy_object(
     Bucket, Key, x_amz_copy_source; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)/$(Key)",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}("x-amz-copy-source" => x_amz_copy_source)
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}("x-amz-copy-source" => x_amz_copy_source)
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function copy_object(
     Bucket,
     Key,
@@ -770,9 +820,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This functionality is not supported for directory buckets.
 - `"x-amz-object-ownership"`:
 """
-function create_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3("PUT", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+create_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("PUT", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function create_bucket(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -809,48 +858,48 @@ regular requests. You initiate a multipart upload, send one or more requests to 
 parts, and then complete the multipart upload process. You sign each request individually.
 There is nothing special about signing multipart upload requests. For more information
 about signing, see Authenticating Requests (Amazon Web Services Signature Version 4) in the
-Amazon S3 User Guide.  Permissions     General purpose bucket permissions - For information
-about the permissions required to use the multipart upload API, see Multipart upload and
-permissions in the Amazon S3 User Guide.  To perform a multipart upload with encryption by
-using an Amazon Web Services KMS key, the requester must have permission to the kms:Decrypt
-and kms:GenerateDataKey* actions on the key. These permissions are required because Amazon
-S3 must decrypt and read data from the encrypted file parts before it completes the
-multipart upload. For more information, see Multipart upload API and permissions and
-Protecting data using server-side encryption with Amazon Web Services KMS in the Amazon S3
-User Guide.    Directory bucket permissions - To grant access to this API operation on a
-directory bucket, we recommend that you use the  CreateSession  API operation for
-session-based authorization. Specifically, you grant the s3express:CreateSession permission
-to the directory bucket in a bucket policy or an IAM identity-based policy. Then, you make
-the CreateSession API call on the bucket to obtain a session token. With the session token
-in your request header, you can make API requests to this operation. After the session
-token expires, you make another CreateSession API call to generate a new session token for
-use. Amazon Web Services CLI or SDKs create session and refresh the session token
-automatically to avoid service interruptions when a session expires. For more information
-about authorization, see  CreateSession .    Encryption     General purpose buckets -
-Server-side encryption is for data encryption at rest. Amazon S3 encrypts your data as it
-writes it to disks in its data centers and decrypts it when you access it. Amazon S3
-automatically encrypts all new objects that are uploaded to an S3 bucket. When doing a
-multipart upload, if you don't specify encryption information in your request, the
-encryption setting of the uploaded parts is set to the default encryption configuration of
-the destination bucket. By default, all buckets have a base level of encryption
-configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). If the
-destination bucket has a default encryption configuration that uses server-side encryption
-with an Key Management Service (KMS) key (SSE-KMS), or a customer-provided encryption key
-(SSE-C), Amazon S3 uses the corresponding KMS key, or a customer-provided key to encrypt
-the uploaded parts. When you perform a CreateMultipartUpload operation, if you want to use
-a different type of encryption setting for the uploaded parts, you can request that Amazon
-S3 encrypts the object with a different encryption key (such as an Amazon S3 managed key, a
-KMS key, or a customer-provided key). When the encryption setting in your request is
-different from the default encryption configuration of the destination bucket, the
-encryption setting in your request takes precedence. If you choose to provide your own
-encryption key, the request headers you provide in UploadPart and UploadPartCopy requests
-must match the headers you used in the CreateMultipartUpload request.   Use KMS keys
-(SSE-KMS) that include the Amazon Web Services managed key (aws/s3) and KMS customer
-managed keys stored in Key Management Service (KMS) – If you want Amazon Web Services to
-manage the keys used to encrypt data, specify the following headers in the request.
-x-amz-server-side-encryption     x-amz-server-side-encryption-aws-kms-key-id
-x-amz-server-side-encryption-context       If you specify
-x-amz-server-side-encryption:aws:kms, but don't provide
+Amazon S3 User Guide.  Permissions     General purpose bucket permissions - To perform a
+multipart upload with encryption using an Key Management Service (KMS) KMS key, the
+requester must have permission to the kms:Decrypt and kms:GenerateDataKey actions on the
+key. The requester must also have permissions for the kms:GenerateDataKey action for the
+CreateMultipartUpload API. Then, the requester needs permissions for the kms:Decrypt action
+on the UploadPart and UploadPartCopy APIs. These permissions are required because Amazon S3
+must decrypt and read data from the encrypted file parts before it completes the multipart
+upload. For more information, see Multipart upload API and permissions and Protecting data
+using server-side encryption with Amazon Web Services KMS in the Amazon S3 User Guide.
+Directory bucket permissions - To grant access to this API operation on a directory bucket,
+we recommend that you use the  CreateSession  API operation for session-based
+authorization. Specifically, you grant the s3express:CreateSession permission to the
+directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the
+CreateSession API call on the bucket to obtain a session token. With the session token in
+your request header, you can make API requests to this operation. After the session token
+expires, you make another CreateSession API call to generate a new session token for use.
+Amazon Web Services CLI or SDKs create session and refresh the session token automatically
+to avoid service interruptions when a session expires. For more information about
+authorization, see  CreateSession .    Encryption     General purpose buckets - Server-side
+encryption is for data encryption at rest. Amazon S3 encrypts your data as it writes it to
+disks in its data centers and decrypts it when you access it. Amazon S3 automatically
+encrypts all new objects that are uploaded to an S3 bucket. When doing a multipart upload,
+if you don't specify encryption information in your request, the encryption setting of the
+uploaded parts is set to the default encryption configuration of the destination bucket. By
+default, all buckets have a base level of encryption configuration that uses server-side
+encryption with Amazon S3 managed keys (SSE-S3). If the destination bucket has a default
+encryption configuration that uses server-side encryption with an Key Management Service
+(KMS) key (SSE-KMS), or a customer-provided encryption key (SSE-C), Amazon S3 uses the
+corresponding KMS key, or a customer-provided key to encrypt the uploaded parts. When you
+perform a CreateMultipartUpload operation, if you want to use a different type of
+encryption setting for the uploaded parts, you can request that Amazon S3 encrypts the
+object with a different encryption key (such as an Amazon S3 managed key, a KMS key, or a
+customer-provided key). When the encryption setting in your request is different from the
+default encryption configuration of the destination bucket, the encryption setting in your
+request takes precedence. If you choose to provide your own encryption key, the request
+headers you provide in UploadPart and UploadPartCopy requests must match the headers you
+used in the CreateMultipartUpload request.   Use KMS keys (SSE-KMS) that include the Amazon
+Web Services managed key (aws/s3) and KMS customer managed keys stored in Key Management
+Service (KMS) – If you want Amazon Web Services to manage the keys used to encrypt data,
+specify the following headers in the request.    x-amz-server-side-encryption
+x-amz-server-side-encryption-aws-kms-key-id     x-amz-server-side-encryption-context
+If you specify x-amz-server-side-encryption:aws:kms, but don't provide
 x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed
 key (aws/s3 key) in KMS to protect the data.   To perform a multipart upload with
 encryption by using an Amazon Web Services KMS key, the requester must have permission to
@@ -874,12 +923,37 @@ x-amz-server-side-encryption-customer-algorithm
 x-amz-server-side-encryption-customer-key     x-amz-server-side-encryption-customer-key-MD5
    For more information about server-side encryption with customer-provided encryption keys
 (SSE-C), see  Protecting data using server-side encryption with customer-provided
-encryption keys (SSE-C) in the Amazon S3 User Guide.      Directory buckets -For directory
-buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) is
-supported.    HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
- Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related
-to CreateMultipartUpload:    UploadPart     CompleteMultipartUpload
-AbortMultipartUpload     ListParts     ListMultipartUploads
+encryption keys (SSE-C) in the Amazon S3 User Guide.      Directory buckets - For directory
+buckets, there are only two supported options for server-side encryption: server-side
+encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with
+KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default encryption uses the
+desired encryption configuration and you don't override the bucket default encryption in
+your CreateSession requests or PUT object requests. Then, new objects are automatically
+encrypted with the desired encryption settings. For more information, see Protecting data
+with server-side encryption in the Amazon S3 User Guide. For more information about the
+encryption overriding behaviors in directory buckets, see Specifying server-side encryption
+with KMS for new object uploads. In the Zonal endpoint API calls (except CopyObject and
+UploadPartCopy) using the REST API, the encryption request headers must match the
+encryption settings that are specified in the CreateSession request. You can't override the
+values of the encryption settings (x-amz-server-side-encryption,
+x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and
+x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession
+request. You don't need to explicitly specify these encryption settings values in Zonal
+endpoint API calls, and Amazon S3 will use the encryption settings values from the
+CreateSession request to protect new objects in the directory bucket.   When you use the
+CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes
+automatically to avoid service interruptions when a session expires. The CLI or the Amazon
+Web Services SDKs use the bucket's default encryption configuration for the CreateSession
+request. It's not supported to override the encryption settings values in the CreateSession
+request. So in the Zonal endpoint API calls (except CopyObject and UploadPartCopy), the
+encryption request headers must match the default encryption configuration of the directory
+bucket.    For directory buckets, when you perform a CreateMultipartUpload operation and an
+UploadPartCopy operation, the request headers you provide in the CreateMultipartUpload
+request must match the default encryption configuration of the destination bucket.
+HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
+CreateMultipartUpload:    UploadPart     CompleteMultipartUpload     AbortMultipartUpload
+  ListParts     ListMultipartUploads
 
 # Arguments
 - `bucket`: The name of the bucket where the multipart upload is initiated and where the
@@ -1020,21 +1094,66 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Object Lock to expire.  This functionality is not supported for directory buckets.
 - `"x-amz-request-payer"`:
 - `"x-amz-server-side-encryption"`: The server-side encryption algorithm used when you
-  store this object in Amazon S3 (for example, AES256, aws:kms).  For directory buckets, only
-  server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) is supported.
-- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the ID (Key ID, Key ARN, or
-  Key Alias) of the symmetric encryption customer managed key to use for object encryption.
-  This functionality is not supported for directory buckets.
+  store this object in Amazon S3 (for example, AES256, aws:kms).    Directory buckets  - For
+  directory buckets, there are only two supported options for server-side encryption:
+  server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side
+  encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default
+  encryption uses the desired encryption configuration and you don't override the bucket
+  default encryption in your CreateSession requests or PUT object requests. Then, new objects
+  are automatically encrypted with the desired encryption settings. For more information, see
+  Protecting data with server-side encryption in the Amazon S3 User Guide. For more
+  information about the encryption overriding behaviors in directory buckets, see Specifying
+  server-side encryption with KMS for new object uploads.  In the Zonal endpoint API calls
+  (except CopyObject and UploadPartCopy) using the REST API, the encryption request headers
+  must match the encryption settings that are specified in the CreateSession request. You
+  can't override the values of the encryption settings (x-amz-server-side-encryption,
+  x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and
+  x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession
+  request. You don't need to explicitly specify these encryption settings values in Zonal
+  endpoint API calls, and Amazon S3 will use the encryption settings values from the
+  CreateSession request to protect new objects in the directory bucket.   When you use the
+  CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes
+  automatically to avoid service interruptions when a session expires. The CLI or the Amazon
+  Web Services SDKs use the bucket's default encryption configuration for the CreateSession
+  request. It's not supported to override the encryption settings values in the CreateSession
+  request. So in the Zonal endpoint API calls (except CopyObject and UploadPartCopy), the
+  encryption request headers must match the default encryption configuration of the directory
+  bucket.
+- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the KMS key ID (Key ID, Key
+  ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same
+  account that's issuing the command, you must use the full Key ARN not the Key ID.  General
+  purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse,
+  this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS key to use. If you
+  specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse,
+  but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon
+  Web Services managed key (aws/s3) to protect the data.  Directory buckets - If you specify
+  x-amz-server-side-encryption with aws:kms, the  x-amz-server-side-encryption-aws-kms-key-id
+  header is implicitly assigned the ID of the KMS symmetric encryption customer managed key
+  that's configured for your directory bucket's default encryption setting. If you want to
+  specify the  x-amz-server-side-encryption-aws-kms-key-id header explicitly, you can only
+  specify it with the ID (Key ID or Key ARN) of the KMS customer managed key that's
+  configured for your directory bucket's default encryption setting. Otherwise, you get an
+  HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS
+  key isn't supported. Your SSE-KMS configuration can only support 1 customer managed key per
+  directory bucket for the lifetime of the bucket. The Amazon Web Services managed key
+  (aws/s3) isn't supported.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
   use an S3 Bucket Key for object encryption with server-side encryption using Key Management
-  Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3
-  Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action
-  doesn’t affect bucket-level settings for S3 Bucket Key.  This functionality is not
-  supported for directory buckets.
+  Service (KMS) keys (SSE-KMS).  General purpose buckets - Setting this header to true causes
+  Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Also, specifying this
+  header with a PUT action doesn't affect bucket-level settings for S3 Bucket Key.  Directory
+  buckets - S3 Bucket Keys are always enabled for GET and PUT operations in a directory
+  bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS
+  encrypted objects from general purpose buckets to directory buckets, from directory buckets
+  to general purpose buckets, or between directory buckets, through CopyObject,
+  UploadPartCopy, the Copy operation in Batch Operations, or the import jobs. In this case,
+  Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
 - `"x-amz-server-side-encryption-context"`: Specifies the Amazon Web Services KMS
   Encryption Context to use for object encryption. The value of this header is a
-  base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.  This
-  functionality is not supported for directory buckets.
+  Base64-encoded string of a UTF-8 encoded JSON, which contains the encryption context as
+  key-value pairs.  Directory buckets - You can optionally provide an explicit encryption
+  context value. The value must match the default encryption context - the bucket Amazon
+  Resource Name (ARN). An additional encryption context value is not supported.
 - `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
   encrypting the object (for example, AES256).  This functionality is not supported for
   directory buckets.
@@ -1061,16 +1180,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   S3 stores the value of this header in the object metadata.  This functionality is not
   supported for directory buckets.
 """
-function create_multipart_upload(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3(
+create_multipart_upload(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3(
         "POST",
         "/$(Bucket)/$(Key)?uploads";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_multipart_upload(
     Bucket,
     Key,
@@ -1091,50 +1207,84 @@ end
     create_session(bucket, params::Dict{String,<:Any})
 
 Creates a session that establishes temporary security credentials to support fast
-authentication and authorization for the Zonal endpoint APIs on directory buckets. For more
-information about Zonal endpoint APIs that include the Availability Zone in the request
-endpoint, see S3 Express One Zone APIs in the Amazon S3 User Guide.  To make Zonal endpoint
-API requests on a directory bucket, use the CreateSession API operation. Specifically, you
-grant s3express:CreateSession permission to a bucket in a bucket policy or an IAM
-identity-based policy. Then, you use IAM credentials to make the CreateSession API request
-on the bucket, which returns temporary security credentials that include the access key ID,
-secret access key, session token, and expiration. These credentials have associated
-permissions to access the Zonal endpoint APIs. After the session is created, you don’t
-need to use other policies to grant permissions to each Zonal endpoint API individually.
-Instead, in your Zonal endpoint API requests, you sign your requests by applying the
-temporary security credentials of the session to the request headers and following the
-SigV4 protocol for authentication. You also apply the session token to the
-x-amz-s3session-token request header for authorization. Temporary security credentials are
-scoped to the bucket and expire after 5 minutes. After the expiration time, any calls that
-you make with those credentials will fail. You must use IAM credentials again to make a
-CreateSession API request that generates a new set of temporary credentials for use.
-Temporary credentials cannot be extended or refreshed beyond the original specified
-interval. If you use Amazon Web Services SDKs, SDKs handle the session token refreshes
-automatically to avoid service interruptions when a session expires. We recommend that you
-use the Amazon Web Services SDKs to initiate and manage requests to the CreateSession API.
-For more information, see Performance guidelines and design patterns in the Amazon S3 User
-Guide.    You must make requests for this API operation to the Zonal endpoint. These
-endpoints support virtual-hosted-style requests in the format
-https://bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not
-supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
-Guide.     CopyObject API operation - Unlike other Zonal endpoint APIs, the CopyObject API
-operation doesn't use the temporary security credentials returned from the CreateSession
-API operation for authentication and authorization. For information about authentication
-and authorization of the CopyObject API operation on directory buckets, see CopyObject.
-HeadBucket API operation - Unlike other Zonal endpoint APIs, the HeadBucket API operation
-doesn't use the temporary security credentials returned from the CreateSession API
-operation for authentication and authorization. For information about authentication and
-authorization of the HeadBucket API operation on directory buckets, see HeadBucket.
-Permissions  To obtain temporary security credentials, you must create a bucket policy or
-an IAM identity-based policy that grants s3express:CreateSession permission to the bucket.
-In a policy, you can have the s3express:SessionMode condition key to control who can create
-a ReadWrite or ReadOnly session. For more information about ReadWrite or ReadOnly sessions,
-see  x-amz-create-session-mode . For example policies, see Example bucket policies for S3
-Express One Zone and Amazon Web Services Identity and Access Management (IAM)
-identity-based policies for S3 Express One Zone in the Amazon S3 User Guide.  To grant
-cross-account access to Zonal endpoint APIs, the bucket policy should also grant both
-accounts the s3express:CreateSession permission.  HTTP Host header syntax   Directory
-buckets  - The HTTP Host header syntax is
+authentication and authorization for the Zonal endpoint API operations on directory
+buckets. For more information about Zonal endpoint API operations that include the
+Availability Zone in the request endpoint, see S3 Express One Zone APIs in the Amazon S3
+User Guide.  To make Zonal endpoint API requests on a directory bucket, use the
+CreateSession API operation. Specifically, you grant s3express:CreateSession permission to
+a bucket in a bucket policy or an IAM identity-based policy. Then, you use IAM credentials
+to make the CreateSession API request on the bucket, which returns temporary security
+credentials that include the access key ID, secret access key, session token, and
+expiration. These credentials have associated permissions to access the Zonal endpoint API
+operations. After the session is created, you don’t need to use other policies to grant
+permissions to each Zonal endpoint API individually. Instead, in your Zonal endpoint API
+requests, you sign your requests by applying the temporary security credentials of the
+session to the request headers and following the SigV4 protocol for authentication. You
+also apply the session token to the x-amz-s3session-token request header for authorization.
+Temporary security credentials are scoped to the bucket and expire after 5 minutes. After
+the expiration time, any calls that you make with those credentials will fail. You must use
+IAM credentials again to make a CreateSession API request that generates a new set of
+temporary credentials for use. Temporary credentials cannot be extended or refreshed beyond
+the original specified interval. If you use Amazon Web Services SDKs, SDKs handle the
+session token refreshes automatically to avoid service interruptions when a session
+expires. We recommend that you use the Amazon Web Services SDKs to initiate and manage
+requests to the CreateSession API. For more information, see Performance guidelines and
+design patterns in the Amazon S3 User Guide.    You must make requests for this API
+operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in
+the format https://bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests
+are not supported. For more information, see Regional and Zonal endpoints in the Amazon S3
+User Guide.     CopyObject API operation - Unlike other Zonal endpoint API operations, the
+CopyObject API operation doesn't use the temporary security credentials returned from the
+CreateSession API operation for authentication and authorization. For information about
+authentication and authorization of the CopyObject API operation on directory buckets, see
+CopyObject.     HeadBucket API operation - Unlike other Zonal endpoint API operations, the
+HeadBucket API operation doesn't use the temporary security credentials returned from the
+CreateSession API operation for authentication and authorization. For information about
+authentication and authorization of the HeadBucket API operation on directory buckets, see
+HeadBucket.     Permissions  To obtain temporary security credentials, you must create a
+bucket policy or an IAM identity-based policy that grants s3express:CreateSession
+permission to the bucket. In a policy, you can have the s3express:SessionMode condition key
+to control who can create a ReadWrite or ReadOnly session. For more information about
+ReadWrite or ReadOnly sessions, see  x-amz-create-session-mode . For example policies, see
+Example bucket policies for S3 Express One Zone and Amazon Web Services Identity and Access
+Management (IAM) identity-based policies for S3 Express One Zone in the Amazon S3 User
+Guide.  To grant cross-account access to Zonal endpoint API operations, the bucket policy
+should also grant both accounts the s3express:CreateSession permission. If you want to
+encrypt objects with SSE-KMS, you must also have the kms:GenerateDataKey and the
+kms:Decrypt permissions in IAM identity-based policies and KMS key policies for the target
+KMS key.  Encryption  For directory buckets, there are only two supported options for
+server-side encryption: server-side encryption with Amazon S3 managed keys (SSE-S3)
+(AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that
+the bucket's default encryption uses the desired encryption configuration and you don't
+override the bucket default encryption in your CreateSession requests or PUT object
+requests. Then, new objects are automatically encrypted with the desired encryption
+settings. For more information, see Protecting data with server-side encryption in the
+Amazon S3 User Guide. For more information about the encryption overriding behaviors in
+directory buckets, see Specifying server-side encryption with KMS for new object uploads.
+For Zonal endpoint (object-level) API operations except CopyObject and UploadPartCopy, you
+authenticate and authorize requests through CreateSession for low latency. To encrypt new
+objects in a directory bucket with SSE-KMS, you must specify SSE-KMS as the directory
+bucket's default encryption configuration with a KMS key (specifically, a customer managed
+key). Then, when a session is created for Zonal endpoint API operations, new objects are
+automatically encrypted and decrypted with SSE-KMS and S3 Bucket Keys during the session.
+Only 1 customer managed key is supported per directory bucket for the lifetime of the
+bucket. The Amazon Web Services managed key (aws/s3) isn't supported. After you specify
+SSE-KMS as your bucket's default encryption configuration with a customer managed key, you
+can't change the customer managed key for the bucket's SSE-KMS configuration.   In the
+Zonal endpoint API calls (except CopyObject and UploadPartCopy) using the REST API, you
+can't override the values of the encryption settings (x-amz-server-side-encryption,
+x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and
+x-amz-server-side-encryption-bucket-key-enabled) from the CreateSession request. You don't
+need to explicitly specify these encryption settings values in Zonal endpoint API calls,
+and Amazon S3 will use the encryption settings values from the CreateSession request to
+protect new objects in the directory bucket.   When you use the CLI or the Amazon Web
+Services SDKs, for CreateSession, the session token refreshes automatically to avoid
+service interruptions when a session expires. The CLI or the Amazon Web Services SDKs use
+the bucket's default encryption configuration for the CreateSession request. It's not
+supported to override the encryption settings values in the CreateSession request. Also, in
+the Zonal endpoint API calls (except CopyObject and UploadPartCopy), it's not supported to
+override the values of the encryption settings from the CreateSession request.    HTTP Host
+header syntax   Directory buckets  - The HTTP Host header syntax is
 Bucket_name.s3express-az_id.region.amazonaws.com.
 
 # Arguments
@@ -1144,15 +1294,47 @@ Bucket_name.s3express-az_id.region.amazonaws.com.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-create-session-mode"`: Specifies the mode of the session that will be created,
   either ReadWrite or ReadOnly. By default, a ReadWrite session is created. A ReadWrite
-  session is capable of executing all the Zonal endpoint APIs on a directory bucket. A
-  ReadOnly session is constrained to execute the following Zonal endpoint APIs: GetObject,
-  HeadObject, ListObjectsV2, GetObjectAttributes, ListParts, and ListMultipartUploads.
+  session is capable of executing all the Zonal endpoint API operations on a directory
+  bucket. A ReadOnly session is constrained to execute the following Zonal endpoint API
+  operations: GetObject, HeadObject, ListObjectsV2, GetObjectAttributes, ListParts, and
+  ListMultipartUploads.
+- `"x-amz-server-side-encryption"`: The server-side encryption algorithm to use when you
+  store objects in the directory bucket. For directory buckets, there are only two supported
+  options for server-side encryption: server-side encryption with Amazon S3 managed keys
+  (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). By default,
+  Amazon S3 encrypts data with SSE-S3. For more information, see Protecting data with
+  server-side encryption in the Amazon S3 User Guide.
+- `"x-amz-server-side-encryption-aws-kms-key-id"`: If you specify
+  x-amz-server-side-encryption with aws:kms, you must specify the
+  x-amz-server-side-encryption-aws-kms-key-id header with the ID (Key ID or Key ARN) of the
+  KMS symmetric encryption customer managed key to use. Otherwise, you get an HTTP 400 Bad
+  Request error. Only use the key ID or key ARN. The key alias format of the KMS key isn't
+  supported. Also, if the KMS key doesn't exist in the same account that't issuing the
+  command, you must use the full Key ARN not the Key ID.  Your SSE-KMS configuration can only
+  support 1 customer managed key per directory bucket for the lifetime of the bucket. The
+  Amazon Web Services managed key (aws/s3) isn't supported.
+- `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
+  use an S3 Bucket Key for object encryption with server-side encryption using KMS keys
+  (SSE-KMS). S3 Bucket Keys are always enabled for GET and PUT operations in a directory
+  bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS
+  encrypted objects from general purpose buckets to directory buckets, from directory buckets
+  to general purpose buckets, or between directory buckets, through CopyObject,
+  UploadPartCopy, the Copy operation in Batch Operations, or the import jobs. In this case,
+  Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
+- `"x-amz-server-side-encryption-context"`: Specifies the Amazon Web Services KMS
+  Encryption Context as an additional encryption context to use for object encryption. The
+  value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the
+  encryption context as key-value pairs. This value is stored as object metadata and
+  automatically gets passed on to Amazon Web Services KMS for future GetObject operations on
+  this object.  General purpose buckets - This value must be explicitly added during
+  CopyObject operations if you want an additional encryption context for your object. For
+  more information, see Encryption context in the Amazon S3 User Guide.  Directory buckets -
+  You can optionally provide an explicit encryption context value. The value must match the
+  default encryption context - the bucket Amazon Resource Name (ARN). An additional
+  encryption context value is not supported.
 """
-function create_session(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)?session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+create_session(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)?session"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function create_session(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1205,11 +1387,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header is not supported in this API operation. If you specify this header, the request
   fails with the HTTP status code 501 Not Implemented.
 """
-function delete_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "DELETE", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("DELETE", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function delete_bucket(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1247,17 +1426,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_bucket_analytics_configuration(
+delete_bucket_analytics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "DELETE",
+    "/$(Bucket)?analytics",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "DELETE",
-        "/$(Bucket)?analytics",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_bucket_analytics_configuration(
     Bucket,
     id,
@@ -1293,11 +1470,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "DELETE", "/$(Bucket)?cors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+delete_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("DELETE", "/$(Bucket)?cors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function delete_bucket_cors(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1314,35 +1488,51 @@ end
     delete_bucket_encryption(bucket)
     delete_bucket_encryption(bucket, params::Dict{String,<:Any})
 
- This operation is not supported by directory buckets.  This implementation of the DELETE
-action resets the default encryption for the bucket as server-side encryption with Amazon
-S3 managed keys (SSE-S3). For information about the bucket default encryption feature, see
-Amazon S3 Bucket Default Encryption in the Amazon S3 User Guide. To use this operation, you
-must have permissions to perform the s3:PutEncryptionConfiguration action. The bucket owner
-has this permission by default. The bucket owner can grant this permission to others. For
-more information about permissions, see Permissions Related to Bucket Subresource
-Operations and Managing Access Permissions to your Amazon S3 Resources in the Amazon S3
-User Guide. The following operations are related to DeleteBucketEncryption:
-PutBucketEncryption     GetBucketEncryption
+This implementation of the DELETE action resets the default encryption for the bucket as
+server-side encryption with Amazon S3 managed keys (SSE-S3).     General purpose buckets -
+For information about the bucket default encryption feature, see Amazon S3 Bucket Default
+Encryption in the Amazon S3 User Guide.    Directory buckets - For directory buckets, there
+are only two supported options for server-side encryption: SSE-S3 and SSE-KMS. For
+information about the default encryption configuration in directory buckets, see Setting
+default server-side encryption behavior for directory buckets.     Permissions     General
+purpose bucket permissions - The s3:PutEncryptionConfiguration permission is required in a
+policy. The bucket owner has this permission by default. The bucket owner can grant this
+permission to others. For more information about permissions, see Permissions Related to
+Bucket Operations and Managing Access Permissions to Your Amazon S3 Resources.    Directory
+bucket permissions - To grant access to this API operation, you must have the
+s3express:PutEncryptionConfiguration permission in an IAM identity-based policy instead of
+a bucket policy. Cross-account access to this API operation isn't supported. This operation
+can only be performed by the Amazon Web Services account that owns the resource. For more
+information about directory bucket policies and permissions, see Amazon Web Services
+Identity and Access Management (IAM) for S3 Express One Zone in the Amazon S3 User Guide.
+ HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
+s3express-control.region.amazonaws.com.   The following operations are related to
+DeleteBucketEncryption:    PutBucketEncryption     GetBucketEncryption
 
 # Arguments
 - `bucket`: The name of the bucket containing the server-side encryption configuration to
-  delete.
+  delete.  Directory buckets  - When you use this operation with a directory bucket, you must
+  use path-style requests in the format
+  https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+  requests aren't supported. Directory bucket names must be unique in the chosen Availability
+  Zone. Bucket names must also follow the format  bucket_base_name--az_id--x-s3 (for example,
+   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   account ID that you provide does not match the actual owner of the bucket, the request
-  fails with the HTTP status code 403 Forbidden (access denied).
+  fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this
+  header is not supported in this API operation. If you specify this header, the request
+  fails with the HTTP status code 501 Not Implemented.
 """
-function delete_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "DELETE",
-        "/$(Bucket)?encryption";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "DELETE",
+    "/$(Bucket)?encryption";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_bucket_encryption(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1382,17 +1572,15 @@ ListBucketIntelligentTieringConfigurations
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
-function delete_bucket_intelligent_tiering_configuration(
+delete_bucket_intelligent_tiering_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "DELETE",
+    "/$(Bucket)?intelligent-tiering",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "DELETE",
-        "/$(Bucket)?intelligent-tiering",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_bucket_intelligent_tiering_configuration(
     Bucket,
     id,
@@ -1432,17 +1620,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_bucket_inventory_configuration(
+delete_bucket_inventory_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "DELETE",
+    "/$(Bucket)?inventory",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "DELETE",
-        "/$(Bucket)?inventory",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_bucket_inventory_configuration(
     Bucket,
     id,
@@ -1483,14 +1669,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "DELETE",
-        "/$(Bucket)?lifecycle";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "DELETE",
+    "/$(Bucket)?lifecycle";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_bucket_lifecycle(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1530,17 +1714,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_bucket_metrics_configuration(
+delete_bucket_metrics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "DELETE",
+    "/$(Bucket)?metrics",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "DELETE",
-        "/$(Bucket)?metrics",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_bucket_metrics_configuration(
     Bucket,
     id,
@@ -1576,16 +1758,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_bucket_ownership_controls(
+delete_bucket_ownership_controls(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "DELETE",
+    "/$(Bucket)?ownershipControls";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "DELETE",
-        "/$(Bucket)?ownershipControls";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_bucket_ownership_controls(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1649,14 +1829,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header is not supported in this API operation. If you specify this header, the request
   fails with the HTTP status code 501 Not Implemented.
 """
-function delete_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "DELETE",
-        "/$(Bucket)?policy";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "DELETE",
+    "/$(Bucket)?policy";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_bucket_policy(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1692,16 +1870,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_bucket_replication(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+delete_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "DELETE",
+    "/$(Bucket)?replication";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "DELETE",
-        "/$(Bucket)?replication";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_bucket_replication(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1733,14 +1907,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "DELETE",
-        "/$(Bucket)?tagging";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "DELETE",
+    "/$(Bucket)?tagging";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_bucket_tagging(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1778,14 +1950,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "DELETE",
-        "/$(Bucket)?website";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "DELETE",
+    "/$(Bucket)?website";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_bucket_website(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1802,56 +1972,36 @@ end
     delete_object(bucket, key)
     delete_object(bucket, key, params::Dict{String,<:Any})
 
-Removes an object from a bucket. The behavior depends on the bucket's versioning state:
-If bucket versioning is not enabled, the operation permanently deletes the object.   If
-bucket versioning is enabled, the operation inserts a delete marker, which becomes the
-current version of the object. To permanently delete an object in a versioned bucket, you
-must include the object’s versionId in the request. For more information about
-versioning-enabled buckets, see Deleting object versions from a versioning-enabled bucket.
- If bucket versioning is suspended, the operation removes the object that has a null
-versionId, if there is one, and inserts a delete marker that becomes the current version of
-the object. If there isn't an object with a null versionId, and all versions of the object
-have a versionId, Amazon S3 does not remove the object and only inserts a delete marker. To
-permanently delete an object that has a versionId, you must include the object’s
-versionId in the request. For more information about versioning-suspended buckets, see
-Deleting objects from versioning-suspended buckets.       Directory buckets - S3 Versioning
-isn't enabled and supported for directory buckets. For this API operation, only the null
-value of the version ID is supported by directory buckets. You can only specify null to the
-versionId query parameter in the request.    Directory buckets - For directory buckets, you
-must make requests for this API operation to the Zonal endpoint. These endpoints support
+Removes an object from a bucket. The behavior depends on the bucket's versioning state. For
+more information, see Best practices to consider before deleting an object. To remove a
+specific version, you must use the versionId query parameter. Using this query parameter
+permanently deletes the version. If the object deleted is a delete marker, Amazon S3 sets
+the response header x-amz-delete-marker to true. If the object you want to delete is in a
+bucket where the bucket versioning configuration is MFA delete enabled, you must include
+the x-amz-mfa request header in the DELETE versionId request. Requests that include
+x-amz-mfa must use HTTPS. For more information about MFA delete and to see example
+requests, see Using MFA delete and Sample request in the Amazon S3 User Guide.    S3
+Versioning isn't enabled and supported for directory buckets. For this API operation, only
+the null value of the version ID is supported by directory buckets. You can only specify
+null to the versionId query parameter in the request.   For directory buckets, you must
+make requests for this API operation to the Zonal endpoint. These endpoints support
 virtual-hosted-style requests in the format
 https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
 not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
-Guide.    To remove a specific version, you must use the versionId query parameter. Using
-this query parameter permanently deletes the version. If the object deleted is a delete
-marker, Amazon S3 sets the response header x-amz-delete-marker to true.  If the object you
-want to delete is in a bucket where the bucket versioning configuration is MFA Delete
-enabled, you must include the x-amz-mfa request header in the DELETE versionId request.
-Requests that include x-amz-mfa must use HTTPS. For more information about MFA Delete, see
-Using MFA Delete in the Amazon S3 User Guide. To see sample requests that use versioning,
-see Sample Request.    Directory buckets - MFA delete is not supported by directory
-buckets.  You can delete objects by explicitly calling DELETE Object or calling
-(PutBucketLifecycle) to enable Amazon S3 to remove them for you. If you want to block users
-or accounts from removing or deleting objects from your bucket, you must deny them the
-s3:DeleteObject, s3:DeleteObjectVersion, and s3:PutLifeCycleConfiguration actions.
-Directory buckets - S3 Lifecycle is not supported by directory buckets.   Permissions
-General purpose bucket permissions - The following permissions are required in your
-policies when your DeleteObjects request includes specific headers.     s3:DeleteObject  -
-To delete an object from a bucket, you must always have the s3:DeleteObject permission.
-s3:DeleteObjectVersion  - To delete a specific version of an object from a
-versioning-enabled bucket, you must have the s3:DeleteObjectVersion permission.
-Directory bucket permissions - To grant access to this API operation on a directory bucket,
-we recommend that you use the  CreateSession  API operation for session-based
-authorization. Specifically, you grant the s3express:CreateSession permission to the
-directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the
-CreateSession API call on the bucket to obtain a session token. With the session token in
-your request header, you can make API requests to this operation. After the session token
-expires, you make another CreateSession API call to generate a new session token for use.
-Amazon Web Services CLI or SDKs create session and refresh the session token automatically
-to avoid service interruptions when a session expires. For more information about
-authorization, see  CreateSession .    HTTP Host header syntax   Directory buckets  - The
-HTTP Host header syntax is  Bucket_name.s3express-az_id.region.amazonaws.com.   The
-following action is related to DeleteObject:    PutObject
+Guide.   MFA delete is not supported by directory buckets.     Permissions     General
+purpose bucket permissions - The following permissions are required in your policies when
+your DeleteObjects request includes specific headers.     s3:DeleteObject  - To delete an
+object from a bucket, you must always have the s3:DeleteObject permission.  You can also
+use PutBucketLifecycle to delete objects in Amazon S3.      s3:DeleteObjectVersion  - To
+delete a specific version of an object from a versioning-enabled bucket, you must have the
+s3:DeleteObjectVersion permission.   If you want to block users or accounts from removing
+or deleting objects from your bucket, you must deny them the s3:DeleteObject,
+s3:DeleteObjectVersion, and s3:PutLifeCycleConfiguration permissions.      Directory
+buckets permissions - To grant access to this API operation on a directory bucket, we
+recommend that you use the CreateSession API operation for session-based authorization.
+HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.   The following action is related to
+DeleteObject:    PutObject
 
 # Arguments
 - `bucket`: The bucket name of the bucket containing the object.   Directory buckets - When
@@ -1895,14 +2045,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   functionality is not supported for directory buckets.
 - `"x-amz-request-payer"`:
 """
-function delete_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "DELETE",
-        "/$(Bucket)/$(Key)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "DELETE",
+    "/$(Bucket)/$(Key)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_object(
     Bucket,
     Key,
@@ -1954,16 +2102,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_object_tagging(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()
+delete_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "DELETE",
+    "/$(Bucket)/$(Key)?tagging";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "DELETE",
-        "/$(Bucket)/$(Key)?tagging";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_object_tagging(
     Bucket,
     Key,
@@ -2012,7 +2156,7 @@ Permissions     General purpose bucket permissions - The following permissions a
 in your policies when your DeleteObjects request includes specific headers.
 s3:DeleteObject  - To delete an object from a bucket, you must always specify the
 s3:DeleteObject permission.     s3:DeleteObjectVersion  - To delete a specific version of
-an object from a versiong-enabled bucket, you must specify the s3:DeleteObjectVersion
+an object from a versioning-enabled bucket, you must specify the s3:DeleteObjectVersion
 permission.      Directory bucket permissions - To grant access to this API operation on a
 directory bucket, we recommend that you use the  CreateSession  API operation for
 session-based authorization. Specifically, you grant the s3express:CreateSession permission
@@ -2082,24 +2226,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if you don't use the SDK. When you send this header, there must be a corresponding
   x-amz-checksum-algorithm  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the
   request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm
-  header, replace  algorithm  with the supported algorithm from the following list:    CRC32
-   CRC32C   SHA1   SHA256   For more information, see Checking object integrity in the Amazon
-  S3 User Guide. If the individual checksum value you provide through
+  header, replace  algorithm  with the supported algorithm from the following list:     CRC32
+      CRC32C     SHA1     SHA256    For more information, see Checking object integrity in
+  the Amazon S3 User Guide. If the individual checksum value you provide through
   x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through
   x-amz-sdk-checksum-algorithm, Amazon S3 ignores any provided ChecksumAlgorithm parameter
   and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm
   . If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm
   parameter.
 """
-function delete_objects(Bucket, Delete; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "POST",
-        "/$(Bucket)?delete",
-        Dict{String,Any}("Delete" => Delete);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_objects(Bucket, Delete; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "POST",
+    "/$(Bucket)?delete",
+    Dict{String,Any}("Delete" => Delete);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_objects(
     Bucket,
     Delete,
@@ -2136,16 +2278,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function delete_public_access_block(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+delete_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "DELETE",
+    "/$(Bucket)?publicAccessBlock";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "DELETE",
-        "/$(Bucket)?publicAccessBlock";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_public_access_block(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2189,16 +2327,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
-function get_bucket_accelerate_configuration(
+get_bucket_accelerate_configuration(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)?accelerate";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?accelerate";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_accelerate_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2246,11 +2382,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)?acl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)?acl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_bucket_acl(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2289,17 +2422,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_analytics_configuration(
+get_bucket_analytics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)?analytics",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?analytics",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_analytics_configuration(
     Bucket,
     id,
@@ -2346,11 +2477,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)?cors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_bucket_cors(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)?cors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_bucket_cors(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2367,35 +2495,52 @@ end
     get_bucket_encryption(bucket)
     get_bucket_encryption(bucket, params::Dict{String,<:Any})
 
- This operation is not supported by directory buckets.  Returns the default encryption
-configuration for an Amazon S3 bucket. By default, all buckets have a default encryption
-configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). For
-information about the bucket default encryption feature, see Amazon S3 Bucket Default
-Encryption in the Amazon S3 User Guide. To use this operation, you must have permission to
-perform the s3:GetEncryptionConfiguration action. The bucket owner has this permission by
-default. The bucket owner can grant this permission to others. For more information about
-permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
-Permissions to Your Amazon S3 Resources. The following operations are related to
-GetBucketEncryption:    PutBucketEncryption     DeleteBucketEncryption
+Returns the default encryption configuration for an Amazon S3 bucket. By default, all
+buckets have a default encryption configuration that uses server-side encryption with
+Amazon S3 managed keys (SSE-S3).      General purpose buckets - For information about the
+bucket default encryption feature, see Amazon S3 Bucket Default Encryption in the Amazon S3
+User Guide.    Directory buckets - For directory buckets, there are only two supported
+options for server-side encryption: SSE-S3 and SSE-KMS. For information about the default
+encryption configuration in directory buckets, see Setting default server-side encryption
+behavior for directory buckets.     Permissions     General purpose bucket permissions -
+The s3:GetEncryptionConfiguration permission is required in a policy. The bucket owner has
+this permission by default. The bucket owner can grant this permission to others. For more
+information about permissions, see Permissions Related to Bucket Operations and Managing
+Access Permissions to Your Amazon S3 Resources.    Directory bucket permissions - To grant
+access to this API operation, you must have the s3express:GetEncryptionConfiguration
+permission in an IAM identity-based policy instead of a bucket policy. Cross-account access
+to this API operation isn't supported. This operation can only be performed by the Amazon
+Web Services account that owns the resource. For more information about directory bucket
+policies and permissions, see Amazon Web Services Identity and Access Management (IAM) for
+S3 Express One Zone in the Amazon S3 User Guide.    HTTP Host header syntax   Directory
+buckets  - The HTTP Host header syntax is s3express-control.region.amazonaws.com.   The
+following operations are related to GetBucketEncryption:    PutBucketEncryption
+DeleteBucketEncryption
 
 # Arguments
 - `bucket`: The name of the bucket from which the server-side encryption configuration is
-  retrieved.
+  retrieved.  Directory buckets  - When you use this operation with a directory bucket, you
+  must use path-style requests in the format
+  https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+  requests aren't supported. Directory bucket names must be unique in the chosen Availability
+  Zone. Bucket names must also follow the format  bucket_base_name--az_id--x-s3 (for example,
+   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   account ID that you provide does not match the actual owner of the bucket, the request
-  fails with the HTTP status code 403 Forbidden (access denied).
+  fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this
+  header is not supported in this API operation. If you specify this header, the request
+  fails with the HTTP status code 501 Not Implemented.
 """
-function get_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)?encryption";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_bucket_encryption(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)?encryption";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_bucket_encryption(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2435,17 +2580,15 @@ DeleteBucketIntelligentTieringConfiguration     PutBucketIntelligentTieringConfi
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
-function get_bucket_intelligent_tiering_configuration(
+get_bucket_intelligent_tiering_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)?intelligent-tiering",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?intelligent-tiering",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_intelligent_tiering_configuration(
     Bucket,
     id,
@@ -2485,17 +2628,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_inventory_configuration(
+get_bucket_inventory_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)?inventory",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?inventory",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_inventory_configuration(
     Bucket,
     id,
@@ -2539,14 +2680,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)?lifecycle";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)?lifecycle";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_bucket_lifecycle(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2593,16 +2732,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_lifecycle_configuration(
+get_bucket_lifecycle_configuration(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)?lifecycle";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?lifecycle";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_lifecycle_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2647,11 +2784,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_location(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)?location"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_bucket_location(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)?location"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_bucket_location(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2681,11 +2815,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_logging(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)?logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_bucket_logging(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)?logging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_bucket_logging(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2725,17 +2856,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_metrics_configuration(
+get_bucket_metrics_configuration(
     Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)?metrics",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?metrics",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_metrics_configuration(
     Bucket,
     id,
@@ -2773,14 +2902,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_notification(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)?notification";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_bucket_notification(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)?notification";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_bucket_notification(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2827,16 +2954,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_notification_configuration(
+get_bucket_notification_configuration(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)?notification";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?notification";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_notification_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2869,16 +2994,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_ownership_controls(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3(
+get_bucket_ownership_controls(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3(
         "GET",
         "/$(Bucket)?ownershipControls";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_bucket_ownership_controls(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2952,11 +3074,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   header is not supported in this API operation. If you specify this header, the request
   fails with the HTTP status code 501 Not Implemented.
 """
-function get_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)?policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_bucket_policy(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)?policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_bucket_policy(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2990,14 +3109,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_policy_status(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)?policyStatus";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_bucket_policy_status(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)?policyStatus";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_bucket_policy_status(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3035,14 +3152,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)?replication";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_bucket_replication(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)?replication";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_bucket_replication(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3073,16 +3188,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_request_payment(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+get_bucket_request_payment(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)?requestPayment";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?requestPayment";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_bucket_request_payment(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3116,11 +3227,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)?tagging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_bucket_tagging(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)?tagging"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_bucket_tagging(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3153,14 +3261,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_versioning(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)?versioning";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_bucket_versioning(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)?versioning";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_bucket_versioning(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3195,11 +3301,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)?website"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_bucket_website(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)?website"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_bucket_website(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3254,7 +3357,9 @@ your request header, you can make API requests to this operation. After the sess
 expires, you make another CreateSession API call to generate a new session token for use.
 Amazon Web Services CLI or SDKs create session and refresh the session token automatically
 to avoid service interruptions when a session expires. For more information about
-authorization, see  CreateSession .    Storage classes  If the object you are retrieving is
+authorization, see  CreateSession . If the object is encrypted using SSE-KMS, you must also
+have the kms:GenerateDataKey and kms:Decrypt permissions in IAM identity-based policies and
+KMS key policies for the KMS key.    Storage classes  If the object you are retrieving is
 stored in the S3 Glacier Flexible Retrieval storage class, the S3 Glacier Deep Archive
 storage class, the S3 Intelligent-Tiering Archive Access tier, or the S3
 Intelligent-Tiering Deep Archive Access tier, before you can retrieve the object you must
@@ -3269,17 +3374,20 @@ uses server-side encryption with Amazon S3 managed encryption keys (SSE-S3), ser
 encryption with Key Management Service (KMS) keys (SSE-KMS), or dual-layer server-side
 encryption with Amazon Web Services KMS keys (DSSE-KMS). If you include the header in your
 GetObject requests for the object that uses these types of keys, you’ll get an HTTP 400
-Bad Request error.  Overriding response header values through the request  There are times
-when you want to override certain response header values of a GetObject response. For
-example, you might override the Content-Disposition response header value through your
-GetObject request. You can override values for a set of response headers. These modified
-response header values are included only in a successful response, that is, when the HTTP
-status code 200 OK is returned. The headers you can override using the following query
-parameters in the request are a subset of the headers that Amazon S3 accepts when you
-create an object.  The response headers that you can override for the GetObject response
-are Cache-Control, Content-Disposition, Content-Encoding, Content-Language, Content-Type,
-and Expires. To override values for a set of response headers in the GetObject response,
-you can use the following query parameters in the request.    response-cache-control
+Bad Request error.  Directory buckets - For directory buckets, there are only two supported
+options for server-side encryption: SSE-S3 and SSE-KMS. SSE-C isn't supported. For more
+information, see Protecting data with server-side encryption in the Amazon S3 User Guide.
+Overriding response header values through the request  There are times when you want to
+override certain response header values of a GetObject response. For example, you might
+override the Content-Disposition response header value through your GetObject request. You
+can override values for a set of response headers. These modified response header values
+are included only in a successful response, that is, when the HTTP status code 200 OK is
+returned. The headers you can override using the following query parameters in the request
+are a subset of the headers that Amazon S3 accepts when you create an object.  The response
+headers that you can override for the GetObject response are Cache-Control,
+Content-Disposition, Content-Encoding, Content-Language, Content-Type, and Expires. To
+override values for a set of response headers in the GetObject response, you can use the
+following query parameters in the request.    response-cache-control
 response-content-disposition     response-content-encoding     response-content-language
  response-content-type     response-expires     When you use these parameters, you must
 sign the request by using either an Authorization header or a presigned URL. These
@@ -3363,7 +3471,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   directory buckets. For this API operation, only the null value of the version ID is
   supported by directory buckets. You can only specify null to the versionId query parameter
   in the request.    For more information about versioning, see PutBucketVersioning.
-- `"x-amz-checksum-mode"`: To retrieve the checksum, this mode must be enabled.
+- `"x-amz-checksum-mode"`: To retrieve the checksum, this mode must be enabled.  General
+  purpose buckets - In addition, if you enable checksum mode and the object is uploaded with
+  a checksum and encrypted with an Key Management Service (KMS) key, you must have permission
+  to use the kms:Decrypt action to retrieve the checksum.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
@@ -3400,11 +3511,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Encryption Keys) in the Amazon S3 User Guide.  This functionality is not supported for
   directory buckets.
 """
-function get_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_object(
     Bucket,
     Key,
@@ -3458,14 +3566,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
-function get_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?acl";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)/$(Key)?acl";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_object_acl(
     Bucket,
     Key,
@@ -3495,29 +3601,31 @@ requests in the format https://bucket_name.s3express-az_id.region.amazonaws.com/
 Path-style requests are not supported. For more information, see Regional and Zonal
 endpoints in the Amazon S3 User Guide.   Permissions     General purpose bucket permissions
 - To use GetObjectAttributes, you must have READ access to the object. The permissions that
-you need to use this operation with depend on whether the bucket is versioned. If the
-bucket is versioned, you need both the s3:GetObjectVersion and
-s3:GetObjectVersionAttributes permissions for this operation. If the bucket is not
-versioned, you need the s3:GetObject and s3:GetObjectAttributes permissions. For more
-information, see Specifying Permissions in a Policy in the Amazon S3 User Guide. If the
-object that you request does not exist, the error Amazon S3 returns depends on whether you
-also have the s3:ListBucket permission.   If you have the s3:ListBucket permission on the
-bucket, Amazon S3 returns an HTTP status code 404 Not Found (\"no such key\") error.   If
-you don't have the s3:ListBucket permission, Amazon S3 returns an HTTP status code 403
-Forbidden (\"access denied\") error.      Directory bucket permissions - To grant access to
-this API operation on a directory bucket, we recommend that you use the  CreateSession  API
-operation for session-based authorization. Specifically, you grant the
-s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM
-identity-based policy. Then, you make the CreateSession API call on the bucket to obtain a
-session token. With the session token in your request header, you can make API requests to
-this operation. After the session token expires, you make another CreateSession API call to
-generate a new session token for use. Amazon Web Services CLI or SDKs create session and
-refresh the session token automatically to avoid service interruptions when a session
-expires. For more information about authorization, see  CreateSession .    Encryption
-Encryption request headers, like x-amz-server-side-encryption, should not be sent for HEAD
-requests if your object uses server-side encryption with Key Management Service (KMS) keys
-(SSE-KMS), dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS),
-or server-side encryption with Amazon S3 managed encryption keys (SSE-S3). The
+you need to use this operation depend on whether the bucket is versioned. If the bucket is
+versioned, you need both the s3:GetObjectVersion and s3:GetObjectVersionAttributes
+permissions for this operation. If the bucket is not versioned, you need the s3:GetObject
+and s3:GetObjectAttributes permissions. For more information, see Specifying Permissions in
+a Policy in the Amazon S3 User Guide. If the object that you request does not exist, the
+error Amazon S3 returns depends on whether you also have the s3:ListBucket permission.   If
+you have the s3:ListBucket permission on the bucket, Amazon S3 returns an HTTP status code
+404 Not Found (\"no such key\") error.   If you don't have the s3:ListBucket permission,
+Amazon S3 returns an HTTP status code 403 Forbidden (\"access denied\") error.
+Directory bucket permissions - To grant access to this API operation on a directory bucket,
+we recommend that you use the  CreateSession  API operation for session-based
+authorization. Specifically, you grant the s3express:CreateSession permission to the
+directory bucket in a bucket policy or an IAM identity-based policy. Then, you make the
+CreateSession API call on the bucket to obtain a session token. With the session token in
+your request header, you can make API requests to this operation. After the session token
+expires, you make another CreateSession API call to generate a new session token for use.
+Amazon Web Services CLI or SDKs create session and refresh the session token automatically
+to avoid service interruptions when a session expires. For more information about
+authorization, see  CreateSession . If the object is encrypted with SSE-KMS, you must also
+have the kms:GenerateDataKey and kms:Decrypt permissions in IAM identity-based policies and
+KMS key policies for the KMS key.    Encryption   Encryption request headers, like
+x-amz-server-side-encryption, should not be sent for HEAD requests if your object uses
+server-side encryption with Key Management Service (KMS) keys (SSE-KMS), dual-layer
+server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), or server-side
+encryption with Amazon S3 managed encryption keys (SSE-S3). The
 x-amz-server-side-encryption header is used when you PUT an object to S3 and want to
 specify the encryption method. If you include this header in a GET request for an object
 that uses these types of keys, you’ll get an HTTP 400 Bad Request error. It's because the
@@ -3530,20 +3638,27 @@ x-amz-server-side-encryption-customer-algorithm
 x-amz-server-side-encryption-customer-key     x-amz-server-side-encryption-customer-key-MD5
    For more information about SSE-C, see Server-Side Encryption (Using Customer-Provided
 Encryption Keys) in the Amazon S3 User Guide.   Directory bucket permissions - For
-directory buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3)
-(AES256) is supported.   Versioning   Directory buckets - S3 Versioning isn't enabled and
-supported for directory buckets. For this API operation, only the null value of the version
-ID is supported by directory buckets. You can only specify null to the versionId query
-parameter in the request.  Conditional request headers  Consider the following when using
-request headers:   If both of the If-Match and If-Unmodified-Since headers are present in
-the request as follows, then Amazon S3 returns the HTTP status code 200 OK and the data
-requested:    If-Match condition evaluates to true.    If-Unmodified-Since condition
-evaluates to false.   For more information about conditional requests, see RFC 7232.   If
-both of the If-None-Match and If-Modified-Since headers are present in the request as
-follows, then Amazon S3 returns the HTTP status code 304 Not Modified:    If-None-Match
-condition evaluates to false.    If-Modified-Since condition evaluates to true.   For more
-information about conditional requests, see RFC 7232.    HTTP Host header syntax
-Directory buckets  - The HTTP Host header syntax is
+directory buckets, there are only two supported options for server-side encryption:
+server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side
+encryption with KMS keys (SSE-KMS) (aws:kms). We recommend that the bucket's default
+encryption uses the desired encryption configuration and you don't override the bucket
+default encryption in your CreateSession requests or PUT object requests. Then, new objects
+are automatically encrypted with the desired encryption settings. For more information, see
+Protecting data with server-side encryption in the Amazon S3 User Guide. For more
+information about the encryption overriding behaviors in directory buckets, see Specifying
+server-side encryption with KMS for new object uploads.   Versioning   Directory buckets -
+S3 Versioning isn't enabled and supported for directory buckets. For this API operation,
+only the null value of the version ID is supported by directory buckets. You can only
+specify null to the versionId query parameter in the request.  Conditional request headers
+Consider the following when using request headers:   If both of the If-Match and
+If-Unmodified-Since headers are present in the request as follows, then Amazon S3 returns
+the HTTP status code 200 OK and the data requested:    If-Match condition evaluates to
+true.    If-Unmodified-Since condition evaluates to false.   For more information about
+conditional requests, see RFC 7232.   If both of the If-None-Match and If-Modified-Since
+headers are present in the request as follows, then Amazon S3 returns the HTTP status code
+304 Not Modified:    If-None-Match condition evaluates to false.    If-Modified-Since
+condition evaluates to true.   For more information about conditional requests, see RFC
+7232.    HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
 Bucket_name.s3express-az_id.region.amazonaws.com.   The following actions are related to
 GetObjectAttributes:    GetObject     GetObjectAcl     GetObjectLegalHold
 GetObjectLockConfiguration     GetObjectRetention     GetObjectTagging     HeadObject
@@ -3602,20 +3717,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   integrity check to ensure that the encryption key was transmitted without error.  This
   functionality is not supported for directory buckets.
 """
-function get_object_attributes(
+get_object_attributes(
     Bucket, Key, x_amz_object_attributes; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)/$(Key)?attributes",
+    Dict{String,Any}(
+        "headers" =>
+            Dict{String,Any}("x-amz-object-attributes" => x_amz_object_attributes),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?attributes",
-        Dict{String,Any}(
-            "headers" =>
-                Dict{String,Any}("x-amz-object-attributes" => x_amz_object_attributes),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_object_attributes(
     Bucket,
     Key,
@@ -3671,16 +3784,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
-function get_object_legal_hold(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()
+get_object_legal_hold(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)/$(Key)?legal-hold";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?legal-hold";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_object_legal_hold(
     Bucket,
     Key,
@@ -3722,16 +3831,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_object_lock_configuration(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3(
+get_object_lock_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3(
         "GET",
         "/$(Bucket)?object-lock";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_object_lock_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3774,16 +3880,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
-function get_object_retention(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()
+get_object_retention(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)/$(Key)?retention";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?retention";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_object_retention(
     Bucket,
     Key,
@@ -3840,14 +3942,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
-function get_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?tagging";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_object_tagging(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)/$(Key)?tagging";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_object_tagging(
     Bucket,
     Key,
@@ -3885,14 +3985,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
-function get_object_torrent(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)?torrent";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_object_torrent(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)/$(Key)?torrent";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_object_torrent(
     Bucket,
     Key,
@@ -3935,14 +4033,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function get_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)?publicAccessBlock";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_public_access_block(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)?publicAccessBlock";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_public_access_block(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3961,32 +4057,34 @@ end
 
 You can use this operation to determine if a bucket exists and if you have permission to
 access it. The action returns a 200 OK if the bucket exists and you have permission to
-access it. If the bucket does not exist or you do not have permission to access it, the
+access it.  If the bucket does not exist or you do not have permission to access it, the
 HEAD request returns a generic 400 Bad Request, 403 Forbidden or 404 Not Found code. A
 message body is not included, so you cannot determine the exception beyond these HTTP
-response codes.   Directory buckets  - You must make requests for this API operation to the
-Zonal endpoint. These endpoints support virtual-hosted-style requests in the format
-https://bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests are not
-supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
-Guide.   Authentication and authorization  All HeadBucket requests must be authenticated
-and signed by using IAM credentials (access key ID and secret access key for the IAM
-identities). All headers with the x-amz- prefix, including x-amz-copy-source, must be
-signed. For more information, see REST Authentication.  Directory bucket - You must use IAM
-credentials to authenticate and authorize your access to the HeadBucket API operation,
-instead of using the temporary security credentials through the CreateSession API
-operation. Amazon Web Services CLI or SDKs handles authentication and authorization on your
-behalf.  Permissions      General purpose bucket permissions - To use this operation, you
-must have permissions to perform the s3:ListBucket action. The bucket owner has this
-permission by default and can grant this permission to others. For more information about
-permissions, see Managing access permissions to your Amazon S3 resources in the Amazon S3
-User Guide.    Directory bucket permissions - You must have the  s3express:CreateSession
-permission in the Action element of a policy. By default, the session is in the ReadWrite
-mode. If you want to restrict the access, you can explicitly set the s3express:SessionMode
-condition key to ReadOnly on the bucket. For more information about example bucket
-policies, see Example bucket policies for S3 Express One Zone and Amazon Web Services
-Identity and Access Management (IAM) identity-based policies for S3 Express One Zone in the
-Amazon S3 User Guide.    HTTP Host header syntax   Directory buckets  - The HTTP Host
-header syntax is  Bucket_name.s3express-az_id.region.amazonaws.com.
+response codes.   Authentication and authorization   General purpose buckets - Request to
+public buckets that grant the s3:ListBucket permission publicly do not need to be signed.
+All other HeadBucket requests must be authenticated and signed by using IAM credentials
+(access key ID and secret access key for the IAM identities). All headers with the x-amz-
+prefix, including x-amz-copy-source, must be signed. For more information, see REST
+Authentication.  Directory buckets - You must use IAM credentials to authenticate and
+authorize your access to the HeadBucket API operation, instead of using the temporary
+security credentials through the CreateSession API operation. Amazon Web Services CLI or
+SDKs handles authentication and authorization on your behalf.  Permissions      General
+purpose bucket permissions - To use this operation, you must have permissions to perform
+the s3:ListBucket action. The bucket owner has this permission by default and can grant
+this permission to others. For more information about permissions, see Managing access
+permissions to your Amazon S3 resources in the Amazon S3 User Guide.    Directory bucket
+permissions - You must have the  s3express:CreateSession  permission in the Action element
+of a policy. By default, the session is in the ReadWrite mode. If you want to restrict the
+access, you can explicitly set the s3express:SessionMode condition key to ReadOnly on the
+bucket. For more information about example bucket policies, see Example bucket policies for
+S3 Express One Zone and Amazon Web Services Identity and Access Management (IAM)
+identity-based policies for S3 Express One Zone in the Amazon S3 User Guide.    HTTP Host
+header syntax   Directory buckets  - The HTTP Host header syntax is
+Bucket_name.s3express-az_id.region.amazonaws.com.  You must make requests for this API
+operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in
+the format https://bucket_name.s3express-az_id.region.amazonaws.com. Path-style requests
+are not supported. For more information, see Regional and Zonal endpoints in the Amazon S3
+User Guide.
 
 # Arguments
 - `bucket`: The bucket name.  Directory buckets - When you use this operation with a
@@ -4021,9 +4119,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function head_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3("HEAD", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+head_bucket(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("HEAD", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function head_bucket(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4037,38 +4134,40 @@ end
     head_object(bucket, key, params::Dict{String,<:Any})
 
 The HEAD operation retrieves metadata from an object without returning the object itself.
-This operation is useful if you're interested only in an object's metadata. A HEAD request
+This operation is useful if you're interested only in an object's metadata.  A HEAD request
 has the same options as a GET operation on an object. The response is identical to the GET
 response except that there is no response body. Because of this, if the HEAD request
 generates an error, it returns a generic code, such as 400 Bad Request, 403 Forbidden, 404
 Not Found, 405 Method Not Allowed, 412 Precondition Failed, or 304 Not Modified. It's not
-possible to retrieve the exact exception of these error codes. Request headers are limited
-to 8 KB in size. For more information, see Common Request Headers.   Directory buckets -
-For directory buckets, you must make requests for this API operation to the Zonal endpoint.
-These endpoints support virtual-hosted-style requests in the format
-https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
-not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
-Guide.   Permissions      General purpose bucket permissions - To use HEAD, you must have
-the s3:GetObject permission. You need the relevant read object (or version) permission for
-this operation. For more information, see Actions, resources, and condition keys for Amazon
-S3 in the Amazon S3 User Guide. If the object you request doesn't exist, the error that
-Amazon S3 returns depends on whether you also have the s3:ListBucket permission.   If you
-have the s3:ListBucket permission on the bucket, Amazon S3 returns an HTTP status code 404
-Not Found error.   If you don’t have the s3:ListBucket permission, Amazon S3 returns an
-HTTP status code 403 Forbidden error.      Directory bucket permissions - To grant access
-to this API operation on a directory bucket, we recommend that you use the  CreateSession
-API operation for session-based authorization. Specifically, you grant the
-s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM
-identity-based policy. Then, you make the CreateSession API call on the bucket to obtain a
-session token. With the session token in your request header, you can make API requests to
-this operation. After the session token expires, you make another CreateSession API call to
-generate a new session token for use. Amazon Web Services CLI or SDKs create session and
-refresh the session token automatically to avoid service interruptions when a session
-expires. For more information about authorization, see  CreateSession .    Encryption
-Encryption request headers, like x-amz-server-side-encryption, should not be sent for HEAD
-requests if your object uses server-side encryption with Key Management Service (KMS) keys
-(SSE-KMS), dual-layer server-side encryption with Amazon Web Services KMS keys (DSSE-KMS),
-or server-side encryption with Amazon S3 managed encryption keys (SSE-S3). The
+possible to retrieve the exact exception of these error codes.  Request headers are limited
+to 8 KB in size. For more information, see Common Request Headers.  Permissions
+General purpose bucket permissions - To use HEAD, you must have the s3:GetObject
+permission. You need the relevant read object (or version) permission for this operation.
+For more information, see Actions, resources, and condition keys for Amazon S3 in the
+Amazon S3 User Guide. For more information about the permissions to S3 API operations by S3
+resource types, see Required permissions for Amazon S3 API operations in the Amazon S3 User
+Guide. If the object you request doesn't exist, the error that Amazon S3 returns depends on
+whether you also have the s3:ListBucket permission.   If you have the s3:ListBucket
+permission on the bucket, Amazon S3 returns an HTTP status code 404 Not Found error.   If
+you don’t have the s3:ListBucket permission, Amazon S3 returns an HTTP status code 403
+Forbidden error.      Directory bucket permissions - To grant access to this API operation
+on a directory bucket, we recommend that you use the  CreateSession  API operation for
+session-based authorization. Specifically, you grant the s3express:CreateSession permission
+to the directory bucket in a bucket policy or an IAM identity-based policy. Then, you make
+the CreateSession API call on the bucket to obtain a session token. With the session token
+in your request header, you can make API requests to this operation. After the session
+token expires, you make another CreateSession API call to generate a new session token for
+use. Amazon Web Services CLI or SDKs create session and refresh the session token
+automatically to avoid service interruptions when a session expires. For more information
+about authorization, see  CreateSession . If you enable x-amz-checksum-mode in the request
+and the object is encrypted with Amazon Web Services Key Management Service (Amazon Web
+Services KMS), you must also have the kms:GenerateDataKey and kms:Decrypt permissions in
+IAM identity-based policies and KMS key policies for the KMS key to retrieve the checksum
+of the object.    Encryption   Encryption request headers, like
+x-amz-server-side-encryption, should not be sent for HEAD requests if your object uses
+server-side encryption with Key Management Service (KMS) keys (SSE-KMS), dual-layer
+server-side encryption with Amazon Web Services KMS keys (DSSE-KMS), or server-side
+encryption with Amazon S3 managed encryption keys (SSE-S3). The
 x-amz-server-side-encryption header is used when you PUT an object to S3 and want to
 specify the encryption method. If you include this header in a HEAD request for an object
 that uses these types of keys, you’ll get an HTTP 400 Bad Request error. It's because the
@@ -4080,9 +4179,10 @@ retrieve the object's metadata. The headers are:
 x-amz-server-side-encryption-customer-algorithm
 x-amz-server-side-encryption-customer-key     x-amz-server-side-encryption-customer-key-MD5
    For more information about SSE-C, see Server-Side Encryption (Using Customer-Provided
-Encryption Keys) in the Amazon S3 User Guide.   Directory bucket permissions - For
-directory buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3)
-(AES256) is supported.   Versioning    If the current version of the object is a delete
+Encryption Keys) in the Amazon S3 User Guide.   Directory bucket  - For directory buckets,
+there are only two supported options for server-side encryption: SSE-S3 and SSE-KMS. SSE-C
+isn't supported. For more information, see Protecting data with server-side encryption in
+the Amazon S3 User Guide.    Versioning    If the current version of the object is a delete
 marker, Amazon S3 behaves as if the object was deleted and includes x-amz-delete-marker:
 true in the response.   If the specified version is a delete marker, the response returns a
 405 Method Not Allowed error and the Last-Modified: timestamp response header.
@@ -4091,8 +4191,13 @@ buckets - S3 Versioning isn't enabled and supported for directory buckets. For t
 operation, only the null value of the version ID is supported by directory buckets. You can
 only specify null to the versionId query parameter in the request.     HTTP Host header
 syntax   Directory buckets  - The HTTP Host header syntax is
-Bucket_name.s3express-az_id.region.amazonaws.com.   The following actions are related to
-HeadObject:    GetObject     GetObjectAttributes
+Bucket_name.s3express-az_id.region.amazonaws.com.  For directory buckets, you must make
+requests for this API operation to the Zonal endpoint. These endpoints support
+virtual-hosted-style requests in the format
+https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
+not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
+Guide.    The following actions are related to HeadObject:    GetObject
+GetObjectAttributes
 
 # Arguments
 - `bucket`: The name of the bucket that contains the object.  Directory buckets - When you
@@ -4150,13 +4255,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"partNumber"`: Part number of the object being read. This is a positive integer between
   1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful
   querying about the size of the part and the number of parts in this object.
+- `"response-cache-control"`: Sets the Cache-Control header of the response.
+- `"response-content-disposition"`: Sets the Content-Disposition header of the response.
+- `"response-content-encoding"`: Sets the Content-Encoding header of the response.
+- `"response-content-language"`: Sets the Content-Language header of the response.
+- `"response-content-type"`: Sets the Content-Type header of the response.
+- `"response-expires"`: Sets the Expires header of the response.
 - `"versionId"`: Version ID used to reference a specific version of the object.  For
   directory buckets in this API operation, only the null value of the version ID is
   supported.
-- `"x-amz-checksum-mode"`: To retrieve the checksum, this parameter must be enabled. In
-  addition, if you enable ChecksumMode and the object is encrypted with Amazon Web Services
-  Key Management Service (Amazon Web Services KMS), you must have permission to use the
-  kms:Decrypt action for the request to succeed.
+- `"x-amz-checksum-mode"`: To retrieve the checksum, this parameter must be enabled.
+  General purpose buckets - If you enable checksum mode and the object is uploaded with a
+  checksum and encrypted with an Key Management Service (KMS) key, you must have permission
+  to use the kms:Decrypt action to retrieve the checksum.  Directory buckets - If you enable
+  ChecksumMode and the object is encrypted with Amazon Web Services Key Management Service
+  (Amazon Web Services KMS), you must also have the kms:GenerateDataKey and kms:Decrypt
+  permissions in IAM identity-based policies and KMS key policies for the KMS key to retrieve
+  the checksum of the object.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
@@ -4175,11 +4290,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   integrity check to ensure that the encryption key was transmitted without error.  This
   functionality is not supported for directory buckets.
 """
-function head_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+head_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("HEAD", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function head_object(
     Bucket,
     Key,
@@ -4227,16 +4339,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function list_bucket_analytics_configurations(
+list_bucket_analytics_configurations(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)?analytics";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?analytics";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_bucket_analytics_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4279,16 +4389,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"continuation-token"`: The ContinuationToken that represents a placeholder from where
   this request should begin.
 """
-function list_bucket_intelligent_tiering_configurations(
+list_bucket_intelligent_tiering_configurations(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)?intelligent-tiering";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?intelligent-tiering";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_bucket_intelligent_tiering_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4335,16 +4443,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function list_bucket_inventory_configurations(
+list_bucket_inventory_configurations(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "GET",
+    "/$(Bucket)?inventory";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)?inventory";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_bucket_inventory_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4392,13 +4498,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function list_bucket_metrics_configurations(
+list_bucket_metrics_configurations(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3(
-        "GET", "/$(Bucket)?metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+) = s3("GET", "/$(Bucket)?metrics"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_bucket_metrics_configurations(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4420,10 +4522,27 @@ by the authenticated sender of the request. To use this operation, you must have
 s3:ListAllMyBuckets permission.  For information about Amazon S3 buckets, see Creating,
 configuring, and working with Amazon S3 buckets.
 
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"bucket-region"`: Limits the response to buckets that are located in the specified
+  Amazon Web Services Region. The Amazon Web Services Region must be expressed according to
+  the Amazon Web Services Region code, such as us-west-2 for the US West (Oregon) Region. For
+  a list of the valid values for all of the Amazon Web Services Regions, see Regions and
+  Endpoints.  Requests made to a Regional endpoint that is different from the bucket-region
+  parameter are not supported. For example, if you want to limit the response to your buckets
+  in Region us-west-2, the request must be made to an endpoint in Region us-west-2.
+- `"continuation-token"`:  ContinuationToken indicates to Amazon S3 that the list is being
+  continued on this bucket with a token. ContinuationToken is obfuscated and is not a real
+  key. You can use this ContinuationToken for pagination of the list results.  Length
+  Constraints: Minimum length of 0. Maximum length of 1024. Required: No.
+- `"max-buckets"`: Maximum number of buckets to be returned in response. When the number is
+  more than the count of buckets that are owned by an Amazon Web Services account, return all
+  the buckets in response.
+- `"prefix"`: Limits the response to bucket names that begin with the specified bucket name
+  prefix.
 """
-function list_buckets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_buckets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4452,15 +4571,15 @@ s3express-control.region.amazonaws.com.
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"continuation-token"`:  ContinuationToken indicates to Amazon S3 that the list is being
-  continued on this bucket with a token. ContinuationToken is obfuscated and is not a real
-  key. You can use this ContinuationToken for pagination of the list results.
+  continued on buckets in this account with a token. ContinuationToken is obfuscated and is
+  not a real bucket name. You can use this ContinuationToken for the pagination of the list
+  results.
 - `"max-directory-buckets"`: Maximum number of buckets to be returned in response. When the
   number is more than the count of buckets that are owned by an Amazon Web Services account,
   return all the buckets in response.
 """
-function list_directory_buckets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_directory_buckets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_directory_buckets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4475,30 +4594,32 @@ This operation lists in-progress multipart uploads in a bucket. An in-progress m
 upload is a multipart upload that has been initiated by the CreateMultipartUpload request,
 but has not yet been completed or aborted.   Directory buckets - If multipart uploads in a
 directory bucket are in progress, you can't delete the bucket until all the in-progress
-multipart uploads are aborted or completed.   The ListMultipartUploads operation returns a
-maximum of 1,000 multipart uploads in the response. The limit of 1,000 multipart uploads is
-also the default value. You can further limit the number of uploads in a response by
-specifying the max-uploads request parameter. If there are more than 1,000 multipart
-uploads that satisfy your ListMultipartUploads request, the response returns an IsTruncated
-element with the value of true, a NextKeyMarker element, and a NextUploadIdMarker element.
-To list the remaining multipart uploads, you need to make subsequent ListMultipartUploads
-requests. In these requests, include two query parameters: key-marker and upload-id-marker.
-Set the value of key-marker to the NextKeyMarker value from the previous response.
-Similarly, set the value of upload-id-marker to the NextUploadIdMarker value from the
-previous response.   Directory buckets - The upload-id-marker element and the
-NextUploadIdMarker element aren't supported by directory buckets. To list the additional
-multipart uploads, you only need to set the value of key-marker to the NextKeyMarker value
-from the previous response.   For more information about multipart uploads, see Uploading
-Objects Using Multipart Upload in the Amazon S3 User Guide.   Directory buckets - For
-directory buckets, you must make requests for this API operation to the Zonal endpoint.
-These endpoints support virtual-hosted-style requests in the format
-https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
-not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
-Guide.   Permissions     General purpose bucket permissions - For information about
-permissions required to use the multipart upload API, see Multipart Upload and Permissions
-in the Amazon S3 User Guide.    Directory bucket permissions - To grant access to this API
-operation on a directory bucket, we recommend that you use the  CreateSession  API
-operation for session-based authorization. Specifically, you grant the
+multipart uploads are aborted or completed. To delete these in-progress multipart uploads,
+use the ListMultipartUploads operation to list the in-progress multipart uploads in the
+bucket and use the AbortMultupartUpload operation to abort all the in-progress multipart
+uploads.   The ListMultipartUploads operation returns a maximum of 1,000 multipart uploads
+in the response. The limit of 1,000 multipart uploads is also the default value. You can
+further limit the number of uploads in a response by specifying the max-uploads request
+parameter. If there are more than 1,000 multipart uploads that satisfy your
+ListMultipartUploads request, the response returns an IsTruncated element with the value of
+true, a NextKeyMarker element, and a NextUploadIdMarker element. To list the remaining
+multipart uploads, you need to make subsequent ListMultipartUploads requests. In these
+requests, include two query parameters: key-marker and upload-id-marker. Set the value of
+key-marker to the NextKeyMarker value from the previous response. Similarly, set the value
+of upload-id-marker to the NextUploadIdMarker value from the previous response.   Directory
+buckets - The upload-id-marker element and the NextUploadIdMarker element aren't supported
+by directory buckets. To list the additional multipart uploads, you only need to set the
+value of key-marker to the NextKeyMarker value from the previous response.   For more
+information about multipart uploads, see Uploading Objects Using Multipart Upload in the
+Amazon S3 User Guide.   Directory buckets - For directory buckets, you must make requests
+for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style
+requests in the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name .
+Path-style requests are not supported. For more information, see Regional and Zonal
+endpoints in the Amazon S3 User Guide.   Permissions     General purpose bucket permissions
+- For information about permissions required to use the multipart upload API, see Multipart
+Upload and Permissions in the Amazon S3 User Guide.    Directory bucket permissions - To
+grant access to this API operation on a directory bucket, we recommend that you use the
+CreateSession  API operation for session-based authorization. Specifically, you grant the
 s3express:CreateSession permission to the directory bucket in a bucket policy or an IAM
 identity-based policy. Then, you make the CreateSession API call on the bucket to obtain a
 session token. With the session token in your request header, you can make API requests to
@@ -4583,11 +4704,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   fails with the HTTP status code 403 Forbidden (access denied).
 - `"x-amz-request-payer"`:
 """
-function list_multipart_uploads(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)?uploads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_multipart_uploads(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)?uploads"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_multipart_uploads(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4644,11 +4762,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned in the response. Fields that you do not specify are not returned.
 - `"x-amz-request-payer"`:
 """
-function list_object_versions(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET", "/$(Bucket)?versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_object_versions(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)?versions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_object_versions(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4716,9 +4831,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the list objects request. Bucket owners need not specify this parameter in their
   requests.
 """
-function list_objects(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3("GET", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_objects(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("GET", "/$(Bucket)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_objects(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4736,12 +4850,15 @@ the request parameters as selection criteria to return a subset of the objects i
 A 200 OK response can contain valid or invalid XML. Make sure to design your application to
 parse the contents of the response and handle it appropriately. For more information about
 listing objects, see Listing object keys programmatically in the Amazon S3 User Guide. To
-get a list of your buckets, see ListBuckets.   Directory buckets - For directory buckets,
-you must make requests for this API operation to the Zonal endpoint. These endpoints
-support virtual-hosted-style requests in the format
+get a list of your buckets, see ListBuckets.     General purpose bucket - For general
+purpose buckets, ListObjectsV2 doesn't return prefixes that are related only to in-progress
+multipart uploads.    Directory buckets - For directory buckets, ListObjectsV2 response
+includes the prefixes that are related only to in-progress multipart uploads.     Directory
+buckets - For directory buckets, you must make requests for this API operation to the Zonal
+endpoint. These endpoints support virtual-hosted-style requests in the format
 https://bucket_name.s3express-az_id.region.amazonaws.com/key-name . Path-style requests are
 not supported. For more information, see Regional and Zonal endpoints in the Amazon S3 User
-Guide.   Permissions     General purpose bucket permissions - To use this operation, you
+Guide.     Permissions     General purpose bucket permissions - To use this operation, you
 must have READ access to the bucket. You must have permission to perform the s3:ListBucket
 action. The bucket owner has this permission by default and can grant this permission to
 others. For more information about permissions, see Permissions Related to Bucket
@@ -4800,9 +4917,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CommonPrefixes response parameter contains the prefixes that are associated with the
   in-progress multipart uploads. For more information about multipart uploads, see Multipart
   Upload Overview in the Amazon S3 User Guide.
-- `"encoding-type"`: Encoding type used by Amazon S3 to encode object keys in the response.
-  If using url, non-ASCII characters used in an object's key name will be URL encoded. For
-  example, the object test_file(3).png will appear as test_file%283%29.png.
+- `"encoding-type"`: Encoding type used by Amazon S3 to encode the object keys in the
+  response. Responses are encoded only in UTF-8. An object key can contain any Unicode
+  character. However, the XML 1.0 parser can't parse certain characters, such as characters
+  with an ASCII value from 0 to 10. For characters that aren't supported in XML 1.0, you can
+  add this parameter to request that Amazon S3 encode the keys in the response. For more
+  information about characters to avoid in object key names, see Object key naming
+  guidelines.  When using the URL encoding type, non-ASCII characters that are used in an
+  object's key name will be percent-encoded according to UTF-8 code values. For example, the
+  object test_file(3).png will appear as test_file%283%29.png.
 - `"fetch-owner"`: The owner field is not present in ListObjectsV2 by default. If you want
   to return the owner field with each key in the result, then set the FetchOwner field to
   true.   Directory buckets - For directory buckets, the bucket owner is returned as the
@@ -4825,14 +4948,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the list objects request in V2 style. Bucket owners need not specify this parameter in
   their requests.  This functionality is not supported for directory buckets.
 """
-function list_objects_v2(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "GET",
-        "/$(Bucket)?list-type=2";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_objects_v2(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)?list-type=2";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_objects_v2(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -4933,17 +5054,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checksum algorithm. For more information, see Protecting data using SSE-C keys in the
   Amazon S3 User Guide.  This functionality is not supported for directory buckets.
 """
-function list_parts(
-    Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
+list_parts(Bucket, Key, uploadId; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "GET",
+    "/$(Bucket)/$(Key)",
+    Dict{String,Any}("uploadId" => uploadId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "GET",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}("uploadId" => uploadId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_parts(
     Bucket,
     Key,
@@ -5000,17 +5117,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_accelerate_configuration(
+put_bucket_accelerate_configuration(
     AccelerateConfiguration, Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?accelerate",
+    Dict{String,Any}("AccelerateConfiguration" => AccelerateConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?accelerate",
-        Dict{String,Any}("AccelerateConfiguration" => AccelerateConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_accelerate_configuration(
     AccelerateConfiguration,
     Bucket,
@@ -5128,11 +5243,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "PUT", "/$(Bucket)?acl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+put_bucket_acl(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("PUT", "/$(Bucket)?acl"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function put_bucket_acl(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5187,17 +5299,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function put_bucket_analytics_configuration(
+put_bucket_analytics_configuration(
     AnalyticsConfiguration, Bucket, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?analytics",
+    Dict{String,Any}("AnalyticsConfiguration" => AnalyticsConfiguration, "id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?analytics",
-        Dict{String,Any}("AnalyticsConfiguration" => AnalyticsConfiguration, "id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_analytics_configuration(
     AnalyticsConfiguration,
     Bucket,
@@ -5272,17 +5382,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_cors(
+put_bucket_cors(
     Bucket, CORSConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?cors",
+    Dict{String,Any}("CORSConfiguration" => CORSConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?cors",
-        Dict{String,Any}("CORSConfiguration" => CORSConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_cors(
     Bucket,
     CORSConfiguration,
@@ -5306,66 +5414,107 @@ end
     put_bucket_encryption(bucket, server_side_encryption_configuration)
     put_bucket_encryption(bucket, server_side_encryption_configuration, params::Dict{String,<:Any})
 
- This operation is not supported by directory buckets.  This action uses the encryption
-subresource to configure default encryption and Amazon S3 Bucket Keys for an existing
-bucket. By default, all buckets have a default encryption configuration that uses
-server-side encryption with Amazon S3 managed keys (SSE-S3). You can optionally configure
-default encryption for a bucket by using server-side encryption with Key Management Service
-(KMS) keys (SSE-KMS) or dual-layer server-side encryption with Amazon Web Services KMS keys
+This operation configures default encryption and Amazon S3 Bucket Keys for an existing
+bucket.   Directory buckets  - For directory buckets, you must make requests for this API
+operation to the Regional endpoint. These endpoints support path-style requests in the
+format https://s3express-control.region_code.amazonaws.com/bucket-name .
+Virtual-hosted-style requests aren't supported. For more information, see Regional and
+Zonal endpoints in the Amazon S3 User Guide.  By default, all buckets have a default
+encryption configuration that uses server-side encryption with Amazon S3 managed keys
+(SSE-S3).     General purpose buckets    You can optionally configure default encryption
+for a bucket by using server-side encryption with Key Management Service (KMS) keys
+(SSE-KMS) or dual-layer server-side encryption with Amazon Web Services KMS keys
 (DSSE-KMS). If you specify default encryption by using SSE-KMS, you can also configure
-Amazon S3 Bucket Keys. If you use PutBucketEncryption to set your default bucket encryption
-to SSE-KMS, you should verify that your KMS key ID is correct. Amazon S3 does not validate
-the KMS key ID provided in PutBucketEncryption requests.  This action requires Amazon Web
-Services Signature Version 4. For more information, see  Authenticating Requests (Amazon
-Web Services Signature Version 4).   To use this operation, you must have permission to
-perform the s3:PutEncryptionConfiguration action. The bucket owner has this permission by
-default. The bucket owner can grant this permission to others. For more information about
-permissions, see Permissions Related to Bucket Subresource Operations and Managing Access
-Permissions to Your Amazon S3 Resources in the Amazon S3 User Guide.  The following
-operations are related to PutBucketEncryption:    GetBucketEncryption
-DeleteBucketEncryption
+Amazon S3 Bucket Keys. For information about the bucket default encryption feature, see
+Amazon S3 Bucket Default Encryption in the Amazon S3 User Guide.    If you use
+PutBucketEncryption to set your default bucket encryption to SSE-KMS, you should verify
+that your KMS key ID is correct. Amazon S3 doesn't validate the KMS key ID provided in
+PutBucketEncryption requests.      Directory buckets  - You can optionally configure
+default encryption for a bucket by using server-side encryption with Key Management Service
+(KMS) keys (SSE-KMS).   We recommend that the bucket's default encryption uses the desired
+encryption configuration and you don't override the bucket default encryption in your
+CreateSession requests or PUT object requests. Then, new objects are automatically
+encrypted with the desired encryption settings. For more information about the encryption
+overriding behaviors in directory buckets, see Specifying server-side encryption with KMS
+for new object uploads.   Your SSE-KMS configuration can only support 1 customer managed
+key per directory bucket for the lifetime of the bucket. The Amazon Web Services managed
+key (aws/s3) isn't supported.    S3 Bucket Keys are always enabled for GET and PUT
+operations in a directory bucket and can’t be disabled. S3 Bucket Keys aren't supported,
+when you copy SSE-KMS encrypted objects from general purpose buckets to directory buckets,
+from directory buckets to general purpose buckets, or between directory buckets, through
+CopyObject, UploadPartCopy, the Copy operation in Batch Operations, or the import jobs. In
+this case, Amazon S3 makes a call to KMS every time a copy request is made for a
+KMS-encrypted object.   When you specify an KMS customer managed key for encryption in your
+directory bucket, only use the key ID or key ARN. The key alias format of the KMS key isn't
+supported.   For directory buckets, if you use PutBucketEncryption to set your default
+bucket encryption to SSE-KMS, Amazon S3 validates the KMS key ID provided in
+PutBucketEncryption requests.       If you're specifying a customer managed KMS key, we
+recommend using a fully qualified KMS key ARN. If you use a KMS key alias instead, then KMS
+resolves the key within the requester’s account. This behavior can result in data that's
+encrypted with a KMS key that belongs to the requester, and not the bucket owner. Also,
+this action requires Amazon Web Services Signature Version 4. For more information, see
+Authenticating Requests (Amazon Web Services Signature Version 4).    Permissions
+General purpose bucket permissions - The s3:PutEncryptionConfiguration permission is
+required in a policy. The bucket owner has this permission by default. The bucket owner can
+grant this permission to others. For more information about permissions, see Permissions
+Related to Bucket Operations and Managing Access Permissions to Your Amazon S3 Resources in
+the Amazon S3 User Guide.    Directory bucket permissions - To grant access to this API
+operation, you must have the s3express:PutEncryptionConfiguration permission in an IAM
+identity-based policy instead of a bucket policy. Cross-account access to this API
+operation isn't supported. This operation can only be performed by the Amazon Web Services
+account that owns the resource. For more information about directory bucket policies and
+permissions, see Amazon Web Services Identity and Access Management (IAM) for S3 Express
+One Zone in the Amazon S3 User Guide. To set a directory bucket default encryption with
+SSE-KMS, you must also have the kms:GenerateDataKey and the kms:Decrypt permissions in IAM
+identity-based policies and KMS key policies for the target KMS key.    HTTP Host header
+syntax   Directory buckets  - The HTTP Host header syntax is
+s3express-control.region.amazonaws.com.   The following operations are related to
+PutBucketEncryption:    GetBucketEncryption     DeleteBucketEncryption
 
 # Arguments
 - `bucket`: Specifies default encryption for a bucket using server-side encryption with
-  different key options. By default, all buckets have a default encryption configuration that
-  uses server-side encryption with Amazon S3 managed keys (SSE-S3). You can optionally
-  configure default encryption for a bucket by using server-side encryption with an Amazon
-  Web Services KMS key (SSE-KMS) or a customer-provided key (SSE-C). For information about
-  the bucket default encryption feature, see Amazon S3 Bucket Default Encryption in the
-  Amazon S3 User Guide.
+  different key options.  Directory buckets  - When you use this operation with a directory
+  bucket, you must use path-style requests in the format
+  https://s3express-control.region_code.amazonaws.com/bucket-name . Virtual-hosted-style
+  requests aren't supported. Directory bucket names must be unique in the chosen Availability
+  Zone. Bucket names must also follow the format  bucket_base_name--az_id--x-s3 (for example,
+   DOC-EXAMPLE-BUCKET--usw2-az1--x-s3). For information about bucket naming restrictions, see
+  Directory bucket naming rules in the Amazon S3 User Guide
 - `server_side_encryption_configuration`:
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Content-MD5"`: The base64-encoded 128-bit MD5 digest of the server-side encryption
   configuration. For requests made using the Amazon Web Services Command Line Interface (CLI)
-  or Amazon Web Services SDKs, this field is calculated automatically.
+  or Amazon Web Services SDKs, this field is calculated automatically.  This functionality is
+  not supported for directory buckets.
 - `"x-amz-expected-bucket-owner"`: The account ID of the expected bucket owner. If the
   account ID that you provide does not match the actual owner of the bucket, the request
-  fails with the HTTP status code 403 Forbidden (access denied).
+  fails with the HTTP status code 403 Forbidden (access denied).  For directory buckets, this
+  header is not supported in this API operation. If you specify this header, the request
+  fails with the HTTP status code 501 Not Implemented.
 - `"x-amz-sdk-checksum-algorithm"`: Indicates the algorithm used to create the checksum for
   the object when you use the SDK. This header will not provide any additional functionality
   if you don't use the SDK. When you send this header, there must be a corresponding
   x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with
   the HTTP status code 400 Bad Request. For more information, see Checking object integrity
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
-  provided ChecksumAlgorithm parameter.
+  provided ChecksumAlgorithm parameter.  For directory buckets, when you use Amazon Web
+  Services SDKs, CRC32 is the default checksum algorithm that's used for performance.
 """
-function put_bucket_encryption(
+put_bucket_encryption(
     Bucket,
     ServerSideEncryptionConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3(
+    "PUT",
+    "/$(Bucket)?encryption",
+    Dict{String,Any}(
+        "ServerSideEncryptionConfiguration" => ServerSideEncryptionConfiguration
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?encryption",
-        Dict{String,Any}(
-            "ServerSideEncryptionConfiguration" => ServerSideEncryptionConfiguration
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_encryption(
     Bucket,
     ServerSideEncryptionConfiguration,
@@ -5427,22 +5576,20 @@ bucket.
 - `id`: The ID used to identify the S3 Intelligent-Tiering configuration.
 
 """
-function put_bucket_intelligent_tiering_configuration(
+put_bucket_intelligent_tiering_configuration(
     Bucket,
     IntelligentTieringConfiguration,
     id;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3(
+    "PUT",
+    "/$(Bucket)?intelligent-tiering",
+    Dict{String,Any}(
+        "IntelligentTieringConfiguration" => IntelligentTieringConfiguration, "id" => id
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?intelligent-tiering",
-        Dict{String,Any}(
-            "IntelligentTieringConfiguration" => IntelligentTieringConfiguration, "id" => id
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_intelligent_tiering_configuration(
     Bucket,
     IntelligentTieringConfiguration,
@@ -5518,17 +5665,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function put_bucket_inventory_configuration(
+put_bucket_inventory_configuration(
     Bucket, InventoryConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?inventory",
+    Dict{String,Any}("InventoryConfiguration" => InventoryConfiguration, "id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?inventory",
-        Dict{String,Any}("InventoryConfiguration" => InventoryConfiguration, "id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_inventory_configuration(
     Bucket,
     InventoryConfiguration,
@@ -5601,14 +5746,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "PUT",
-        "/$(Bucket)?lifecycle";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_bucket_lifecycle(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "PUT",
+    "/$(Bucket)?lifecycle";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function put_bucket_lifecycle(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5629,15 +5772,15 @@ end
 configuration for the bucket or replaces an existing lifecycle configuration. Keep in mind
 that this will overwrite an existing lifecycle configuration, so if you want to retain any
 configuration details, they must be included in the new lifecycle configuration. For
-information about lifecycle configuration, see Managing your storage lifecycle.  Bucket
-lifecycle configuration now supports specifying a lifecycle rule using an object key name
-prefix, one or more object tags, object size, or any combination of these. Accordingly,
-this section describes the latest API. The previous version of the API supported filtering
-based only on an object key name prefix, which is supported for backward compatibility. For
-the related API description, see PutBucketLifecycle.   Rules  You specify the lifecycle
-configuration in your request body. The lifecycle configuration is specified as XML
-consisting of one or more rules. An Amazon S3 Lifecycle configuration can have up to 1,000
-rules. This limit is not adjustable. Each rule consists of the following:   A filter
+information about lifecycle configuration, see Managing your storage lifecycle.  Rules  You
+specify the lifecycle configuration in your request body. The lifecycle configuration is
+specified as XML consisting of one or more rules. An Amazon S3 Lifecycle configuration can
+have up to 1,000 rules. This limit is not adjustable. Bucket lifecycle configuration
+supports specifying a lifecycle rule using an object key name prefix, one or more object
+tags, object size, or any combination of these. Accordingly, this section describes the
+latest API. The previous version of the API supported filtering based only on an object key
+name prefix, which is supported for backward compatibility. For the related API
+description, see PutBucketLifecycle. A lifecycle rule consists of the following:   A filter
 identifying a subset of objects to which the rule applies. The filter can be based on a key
 name prefix, object tags, object size, or any combination of these.   A status indicating
 whether the rule is in effect.   One or more lifecycle transition and expiration actions
@@ -5677,17 +5820,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the HTTP status code 400 Bad Request. For more information, see Checking object integrity
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
+- `"x-amz-transition-default-minimum-object-size"`: Indicates which default minimum object
+  size behavior is applied to the lifecycle configuration.    all_storage_classes_128K -
+  Objects smaller than 128 KB will not transition to any storage class by default.
+  varies_by_storage_class - Objects smaller than 128 KB will transition to Glacier Flexible
+  Retrieval or Glacier Deep Archive storage classes. By default, all other storage classes
+  will prevent transitions smaller than 128 KB.    To customize the minimum object size for
+  any transition you can add a filter that specifies a custom ObjectSizeGreaterThan or
+  ObjectSizeLessThan in the body of your transition rule. Custom filters always take
+  precedence over the default transition behavior.
 """
-function put_bucket_lifecycle_configuration(
+put_bucket_lifecycle_configuration(
     Bucket; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?lifecycle";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?lifecycle";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_lifecycle_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -5755,17 +5905,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_logging(
+put_bucket_logging(
     Bucket, BucketLoggingStatus; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?logging",
+    Dict{String,Any}("BucketLoggingStatus" => BucketLoggingStatus);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?logging",
-        Dict{String,Any}("BucketLoggingStatus" => BucketLoggingStatus);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_logging(
     Bucket,
     BucketLoggingStatus,
@@ -5820,17 +5968,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function put_bucket_metrics_configuration(
+put_bucket_metrics_configuration(
     Bucket, MetricsConfiguration, id; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?metrics",
+    Dict{String,Any}("MetricsConfiguration" => MetricsConfiguration, "id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?metrics",
-        Dict{String,Any}("MetricsConfiguration" => MetricsConfiguration, "id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_metrics_configuration(
     Bucket,
     MetricsConfiguration,
@@ -5882,17 +6028,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_notification(
+put_bucket_notification(
     Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?notification",
+    Dict{String,Any}("NotificationConfiguration" => NotificationConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?notification",
-        Dict{String,Any}("NotificationConfiguration" => NotificationConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_notification(
     Bucket,
     NotificationConfiguration,
@@ -5962,17 +6106,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-skip-destination-validation"`: Skips validation of Amazon SQS, Amazon SNS, and
   Lambda destinations. True or false value.
 """
-function put_bucket_notification_configuration(
+put_bucket_notification_configuration(
     Bucket, NotificationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?notification",
+    Dict{String,Any}("NotificationConfiguration" => NotificationConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?notification",
-        Dict{String,Any}("NotificationConfiguration" => NotificationConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_notification_configuration(
     Bucket,
     NotificationConfiguration,
@@ -6020,17 +6162,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account ID that you provide does not match the actual owner of the bucket, the request
   fails with the HTTP status code 403 Forbidden (access denied).
 """
-function put_bucket_ownership_controls(
+put_bucket_ownership_controls(
     Bucket, OwnershipControls; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?ownershipControls",
+    Dict{String,Any}("OwnershipControls" => OwnershipControls);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?ownershipControls",
-        Dict{String,Any}("OwnershipControls" => OwnershipControls);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_ownership_controls(
     Bucket,
     OwnershipControls,
@@ -6116,26 +6256,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if you don't use the SDK. When you send this header, there must be a corresponding
   x-amz-checksum-algorithm  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the
   request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm
-  header, replace  algorithm  with the supported algorithm from the following list:    CRC32
-   CRC32C   SHA1   SHA256   For more information, see Checking object integrity in the Amazon
-  S3 User Guide. If the individual checksum value you provide through
+  header, replace  algorithm  with the supported algorithm from the following list:     CRC32
+      CRC32C     SHA1     SHA256    For more information, see Checking object integrity in
+  the Amazon S3 User Guide. If the individual checksum value you provide through
   x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through
   x-amz-sdk-checksum-algorithm, Amazon S3 ignores any provided ChecksumAlgorithm parameter
   and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm
   .  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default
   checksum algorithm that's used for performance.
 """
-function put_bucket_policy(
-    Bucket, Policy; aws_config::AbstractAWSConfig=global_aws_config()
+put_bucket_policy(Bucket, Policy; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "PUT",
+    "/$(Bucket)?policy",
+    Dict{String,Any}("Policy" => Policy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?policy",
-        Dict{String,Any}("Policy" => Policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_policy(
     Bucket,
     Policy,
@@ -6212,17 +6348,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_replication(
+put_bucket_replication(
     Bucket, ReplicationConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?replication",
+    Dict{String,Any}("ReplicationConfiguration" => ReplicationConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?replication",
-        Dict{String,Any}("ReplicationConfiguration" => ReplicationConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_replication(
     Bucket,
     ReplicationConfiguration,
@@ -6277,17 +6411,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_request_payment(
+put_bucket_request_payment(
     Bucket, RequestPaymentConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?requestPayment",
+    Dict{String,Any}("RequestPaymentConfiguration" => RequestPaymentConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?requestPayment",
-        Dict{String,Any}("RequestPaymentConfiguration" => RequestPaymentConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_request_payment(
     Bucket,
     RequestPaymentConfiguration,
@@ -6359,17 +6491,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_tagging(
-    Bucket, Tagging; aws_config::AbstractAWSConfig=global_aws_config()
+put_bucket_tagging(Bucket, Tagging; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "PUT",
+    "/$(Bucket)?tagging",
+    Dict{String,Any}("Tagging" => Tagging);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?tagging",
-        Dict{String,Any}("Tagging" => Tagging);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_tagging(
     Bucket,
     Tagging,
@@ -6389,11 +6517,14 @@ end
     put_bucket_versioning(bucket, versioning_configuration)
     put_bucket_versioning(bucket, versioning_configuration, params::Dict{String,<:Any})
 
- This operation is not supported by directory buckets.  Sets the versioning state of an
-existing bucket. You can set the versioning state with one of the following values:
-Enabled—Enables versioning for the objects in the bucket. All objects added to the bucket
-receive a unique version ID.  Suspended—Disables versioning for the objects in the
-bucket. All objects added to the bucket receive the version ID null. If the versioning
+ This operation is not supported by directory buckets.   When you enable versioning on a
+bucket for the first time, it might take a short amount of time for the change to be fully
+propagated. We recommend that you wait for 15 minutes after enabling versioning before
+issuing write operations (PUT or DELETE) on objects in the bucket.   Sets the versioning
+state of an existing bucket. You can set the versioning state with one of the following
+values:  Enabled—Enables versioning for the objects in the bucket. All objects added to
+the bucket receive a unique version ID.  Suspended—Disables versioning for the objects in
+the bucket. All objects added to the bucket receive the version ID null. If the versioning
 state has never been set on a bucket, it has no versioning state; a GetBucketVersioning
 request does not return a versioning state value. In order to enable MFA Delete, you must
 be the bucket owner. If you are the bucket owner and want to enable MFA Delete in the
@@ -6432,17 +6563,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_versioning(
+put_bucket_versioning(
     Bucket, VersioningConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?versioning",
+    Dict{String,Any}("VersioningConfiguration" => VersioningConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?versioning",
-        Dict{String,Any}("VersioningConfiguration" => VersioningConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_versioning(
     Bucket,
     VersioningConfiguration,
@@ -6513,17 +6642,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_bucket_website(
+put_bucket_website(
     Bucket, WebsiteConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)?website",
+    Dict{String,Any}("WebsiteConfiguration" => WebsiteConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?website",
-        Dict{String,Any}("WebsiteConfiguration" => WebsiteConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_bucket_website(
     Bucket,
     WebsiteConfiguration,
@@ -6587,7 +6714,9 @@ your request header, you can make API requests to this operation. After the sess
 expires, you make another CreateSession API call to generate a new session token for use.
 Amazon Web Services CLI or SDKs create session and refresh the session token automatically
 to avoid service interruptions when a session expires. For more information about
-authorization, see  CreateSession .    Data integrity with Content-MD5     General purpose
+authorization, see  CreateSession . If the object is encrypted with SSE-KMS, you must also
+have the kms:GenerateDataKey and kms:Decrypt permissions in IAM identity-based policies and
+KMS key policies for the KMS key.    Data integrity with Content-MD5     General purpose
 bucket - To ensure that data is not corrupted traversing the network, use the Content-MD5
 header. When you use this header, Amazon S3 checks the object against the provided MD5
 value and, if they do not match, Amazon S3 returns an error. Alternatively, when the
@@ -6641,15 +6770,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   headers) according to RFC 1864. This header can be used as a message integrity check to
   verify that the data is the same data that was originally sent. Although it is optional, we
   recommend using the Content-MD5 mechanism as an end-to-end integrity check. For more
-  information about REST request authentication, see REST Authentication.  The Content-MD5
-  header is required for any request to upload an object with a retention period configured
-  using Amazon S3 Object Lock. For more information about Amazon S3 Object Lock, see Amazon
-  S3 Object Lock Overview in the Amazon S3 User Guide.    This functionality is not supported
-  for directory buckets.
+  information about REST request authentication, see REST Authentication.  The Content-MD5 or
+  x-amz-sdk-checksum-algorithm header is required for any request to upload an object with a
+  retention period configured using Amazon S3 Object Lock. For more information, see
+  Uploading objects to an Object Lock enabled bucket  in the Amazon S3 User Guide.   This
+  functionality is not supported for directory buckets.
 - `"Content-Type"`: A standard MIME type describing the format of the contents. For more
   information, see https://www.rfc-editor.org/rfc/rfc9110.html#name-content-type.
 - `"Expires"`: The date and time at which the object is no longer cacheable. For more
   information, see https://www.rfc-editor.org/rfc/rfc7234#section-5.3.
+- `"If-None-Match"`: Uploads the object only if the object key name does not already exist
+  in the bucket specified. Otherwise, Amazon S3 returns a 412 Precondition Failed error. If a
+  conflicting operation occurs during the upload S3 returns a 409 ConditionalRequestConflict
+  response. On a 409 failure you should retry the upload. Expects the '*' (asterisk)
+  character. For more information about conditional requests, see RFC 7232, or Conditional
+  requests in the Amazon S3 User Guide.
 - `"x-amz-acl"`: The canned ACL to apply to the object. For more information, see Canned
   ACL in the Amazon S3 User Guide. When adding a new object, you can use headers to grant
   ACL-based permissions to individual Amazon Web Services accounts or to predefined groups
@@ -6668,11 +6803,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   directory buckets.   This functionality is not supported for Amazon S3 on Outposts.
 - `"x-amz-checksum-crc32"`: This header can be used as a data integrity check to verify
   that the data received is the same data that was originally sent. This header specifies the
-  base64-encoded, 32-bit CRC32 checksum of the object. For more information, see Checking
+  base64-encoded, 32-bit CRC-32 checksum of the object. For more information, see Checking
   object integrity in the Amazon S3 User Guide.
 - `"x-amz-checksum-crc32c"`: This header can be used as a data integrity check to verify
   that the data received is the same data that was originally sent. This header specifies the
-  base64-encoded, 32-bit CRC32C checksum of the object. For more information, see Checking
+  base64-encoded, 32-bit CRC-32C checksum of the object. For more information, see Checking
   object integrity in the Amazon S3 User Guide.
 - `"x-amz-checksum-sha1"`: This header can be used as a data integrity check to verify that
   the data received is the same data that was originally sent. This header specifies the
@@ -6712,16 +6847,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if you don't use the SDK. When you send this header, there must be a corresponding
   x-amz-checksum-algorithm  or x-amz-trailer header sent. Otherwise, Amazon S3 fails the
   request with the HTTP status code 400 Bad Request. For the x-amz-checksum-algorithm
-  header, replace  algorithm  with the supported algorithm from the following list:    CRC32
-   CRC32C   SHA1   SHA256   For more information, see Checking object integrity in the Amazon
-  S3 User Guide. If the individual checksum value you provide through
+  header, replace  algorithm  with the supported algorithm from the following list:     CRC32
+      CRC32C     SHA1     SHA256    For more information, see Checking object integrity in
+  the Amazon S3 User Guide. If the individual checksum value you provide through
   x-amz-checksum-algorithm  doesn't match the checksum algorithm you set through
   x-amz-sdk-checksum-algorithm, Amazon S3 ignores any provided ChecksumAlgorithm parameter
   and uses the checksum algorithm that matches the provided value in x-amz-checksum-algorithm
-  .  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default
+  .  The Content-MD5 or x-amz-sdk-checksum-algorithm header is required for any request to
+  upload an object with a retention period configured using Amazon S3 Object Lock. For more
+  information, see Uploading objects to an Object Lock enabled bucket  in the Amazon S3 User
+  Guide.  For directory buckets, when you use Amazon Web Services SDKs, CRC32 is the default
   checksum algorithm that's used for performance.
 - `"x-amz-server-side-encryption"`: The server-side encryption algorithm that was used when
-  you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).  General
+  you store this object in Amazon S3 (for example, AES256, aws:kms, aws:kms:dsse).    General
   purpose buckets  - You have four mutually exclusive options to protect data using
   server-side encryption in Amazon S3, depending on how you choose to manage the encryption
   keys. Specifically, the encryption key options are Amazon S3 managed keys (SSE-S3), Amazon
@@ -6729,30 +6867,71 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   encrypts data with server-side encryption by using Amazon S3 managed keys (SSE-S3) by
   default. You can optionally tell Amazon S3 to encrypt data at rest by using server-side
   encryption with other key options. For more information, see Using Server-Side Encryption
-  in the Amazon S3 User Guide.  Directory buckets  - For directory buckets, only the
-  server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) value is supported.
-- `"x-amz-server-side-encryption-aws-kms-key-id"`: If x-amz-server-side-encryption has a
-  valid value of aws:kms or aws:kms:dsse, this header specifies the ID (Key ID, Key ARN, or
-  Key Alias) of the Key Management Service (KMS) symmetric encryption customer managed key
-  that was used for the object. If you specify x-amz-server-side-encryption:aws:kms or
-  x-amz-server-side-encryption:aws:kms:dsse, but do not provide
-  x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon Web Services managed
-  key (aws/s3) to protect the data. If the KMS key does not exist in the same account that's
-  issuing the command, you must use the full ARN and not just the ID.   This functionality is
-  not supported for directory buckets.
+  in the Amazon S3 User Guide.    Directory buckets  - For directory buckets, there are only
+  two supported options for server-side encryption: server-side encryption with Amazon S3
+  managed keys (SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS)
+  (aws:kms). We recommend that the bucket's default encryption uses the desired encryption
+  configuration and you don't override the bucket default encryption in your CreateSession
+  requests or PUT object requests. Then, new objects are automatically encrypted with the
+  desired encryption settings. For more information, see Protecting data with server-side
+  encryption in the Amazon S3 User Guide. For more information about the encryption
+  overriding behaviors in directory buckets, see Specifying server-side encryption with KMS
+  for new object uploads.  In the Zonal endpoint API calls (except CopyObject and
+  UploadPartCopy) using the REST API, the encryption request headers must match the
+  encryption settings that are specified in the CreateSession request. You can't override the
+  values of the encryption settings (x-amz-server-side-encryption,
+  x-amz-server-side-encryption-aws-kms-key-id, x-amz-server-side-encryption-context, and
+  x-amz-server-side-encryption-bucket-key-enabled) that are specified in the CreateSession
+  request. You don't need to explicitly specify these encryption settings values in Zonal
+  endpoint API calls, and Amazon S3 will use the encryption settings values from the
+  CreateSession request to protect new objects in the directory bucket.   When you use the
+  CLI or the Amazon Web Services SDKs, for CreateSession, the session token refreshes
+  automatically to avoid service interruptions when a session expires. The CLI or the Amazon
+  Web Services SDKs use the bucket's default encryption configuration for the CreateSession
+  request. It's not supported to override the encryption settings values in the CreateSession
+  request. So in the Zonal endpoint API calls (except CopyObject and UploadPartCopy), the
+  encryption request headers must match the default encryption configuration of the directory
+  bucket.
+- `"x-amz-server-side-encryption-aws-kms-key-id"`: Specifies the KMS key ID (Key ID, Key
+  ARN, or Key Alias) to use for object encryption. If the KMS key doesn't exist in the same
+  account that's issuing the command, you must use the full Key ARN not the Key ID.  General
+  purpose buckets - If you specify x-amz-server-side-encryption with aws:kms or aws:kms:dsse,
+  this header specifies the ID (Key ID, Key ARN, or Key Alias) of the KMS key to use. If you
+  specify x-amz-server-side-encryption:aws:kms or x-amz-server-side-encryption:aws:kms:dsse,
+  but do not provide x-amz-server-side-encryption-aws-kms-key-id, Amazon S3 uses the Amazon
+  Web Services managed key (aws/s3) to protect the data.  Directory buckets - If you specify
+  x-amz-server-side-encryption with aws:kms, the  x-amz-server-side-encryption-aws-kms-key-id
+  header is implicitly assigned the ID of the KMS symmetric encryption customer managed key
+  that's configured for your directory bucket's default encryption setting. If you want to
+  specify the  x-amz-server-side-encryption-aws-kms-key-id header explicitly, you can only
+  specify it with the ID (Key ID or Key ARN) of the KMS customer managed key that's
+  configured for your directory bucket's default encryption setting. Otherwise, you get an
+  HTTP 400 Bad Request error. Only use the key ID or key ARN. The key alias format of the KMS
+  key isn't supported. Your SSE-KMS configuration can only support 1 customer managed key per
+  directory bucket for the lifetime of the bucket. The Amazon Web Services managed key
+  (aws/s3) isn't supported.
 - `"x-amz-server-side-encryption-bucket-key-enabled"`: Specifies whether Amazon S3 should
   use an S3 Bucket Key for object encryption with server-side encryption using Key Management
-  Service (KMS) keys (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3
-  Bucket Key for object encryption with SSE-KMS. Specifying this header with a PUT action
-  doesn’t affect bucket-level settings for S3 Bucket Key.  This functionality is not
-  supported for directory buckets.
+  Service (KMS) keys (SSE-KMS).  General purpose buckets - Setting this header to true causes
+  Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Also, specifying this
+  header with a PUT action doesn't affect bucket-level settings for S3 Bucket Key.  Directory
+  buckets - S3 Bucket Keys are always enabled for GET and PUT operations in a directory
+  bucket and can’t be disabled. S3 Bucket Keys aren't supported, when you copy SSE-KMS
+  encrypted objects from general purpose buckets to directory buckets, from directory buckets
+  to general purpose buckets, or between directory buckets, through CopyObject,
+  UploadPartCopy, the Copy operation in Batch Operations, or the import jobs. In this case,
+  Amazon S3 makes a call to KMS every time a copy request is made for a KMS-encrypted object.
 - `"x-amz-server-side-encryption-context"`: Specifies the Amazon Web Services KMS
-  Encryption Context to use for object encryption. The value of this header is a
-  base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs. This
-  value is stored as object metadata and automatically gets passed on to Amazon Web Services
-  KMS for future GetObject or CopyObject operations on this object. This value must be
-  explicitly added during CopyObject operations.  This functionality is not supported for
-  directory buckets.
+  Encryption Context as an additional encryption context to use for object encryption. The
+  value of this header is a Base64-encoded string of a UTF-8 encoded JSON, which contains the
+  encryption context as key-value pairs. This value is stored as object metadata and
+  automatically gets passed on to Amazon Web Services KMS for future GetObject operations on
+  this object.  General purpose buckets - This value must be explicitly added during
+  CopyObject operations if you want an additional encryption context for your object. For
+  more information, see Encryption context in the Amazon S3 User Guide.  Directory buckets -
+  You can optionally provide an explicit encryption context value. The value must match the
+  default encryption context - the bucket Amazon Resource Name (ARN). An additional
+  encryption context value is not supported.
 - `"x-amz-server-side-encryption-customer-algorithm"`: Specifies the algorithm to use when
   encrypting the object (for example, AES256).  This functionality is not supported for
   directory buckets.
@@ -6787,11 +6966,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Website Page Redirects in the Amazon S3 User Guide.   This functionality is not supported
   for directory buckets.
 """
-function put_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "PUT", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+put_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3("PUT", "/$(Bucket)/$(Key)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function put_object(
     Bucket,
     Key,
@@ -6926,14 +7102,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)?acl";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_object_acl(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "PUT",
+    "/$(Bucket)/$(Key)?acl";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function put_object_acl(
     Bucket,
     Key,
@@ -6989,16 +7163,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_object_legal_hold(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()
+put_object_legal_hold(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "PUT",
+    "/$(Bucket)/$(Key)?legal-hold";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)?legal-hold";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_object_legal_hold(
     Bucket,
     Key,
@@ -7050,16 +7220,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_object_lock_configuration(
-    Bucket; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3(
+put_object_lock_configuration(Bucket; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3(
         "PUT",
         "/$(Bucket)?object-lock";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function put_object_lock_configuration(
     Bucket, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -7118,16 +7285,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_object_retention(
-    Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()
+put_object_retention(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "PUT",
+    "/$(Bucket)/$(Key)?retention";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)?retention";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_object_retention(
     Bucket,
     Key,
@@ -7202,17 +7365,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_object_tagging(
+put_object_tagging(
     Bucket, Key, Tagging; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)/$(Key)?tagging",
+    Dict{String,Any}("Tagging" => Tagging);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)?tagging",
-        Dict{String,Any}("Tagging" => Tagging);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_object_tagging(
     Bucket,
     Key,
@@ -7270,21 +7431,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function put_public_access_block(
+put_public_access_block(
     Bucket,
     PublicAccessBlockConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3(
+    "PUT",
+    "/$(Bucket)?publicAccessBlock",
+    Dict{String,Any}("PublicAccessBlockConfiguration" => PublicAccessBlockConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)?publicAccessBlock",
-        Dict{String,Any}(
-            "PublicAccessBlockConfiguration" => PublicAccessBlockConfiguration
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_public_access_block(
     Bucket,
     PublicAccessBlockConfiguration,
@@ -7421,14 +7578,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any
   provided ChecksumAlgorithm parameter.
 """
-function restore_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3(
-        "POST",
-        "/$(Bucket)/$(Key)?restore";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+restore_object(Bucket, Key; aws_config::AbstractAWSConfig=global_aws_config()) = s3(
+    "POST",
+    "/$(Bucket)/$(Key)?restore";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function restore_object(
     Bucket,
     Key,
@@ -7531,7 +7686,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   checksum algorithm. For more information, see Protecting data using SSE-C keys in the
   Amazon S3 User Guide.
 """
-function select_object_content(
+select_object_content(
     Bucket,
     Expression,
     ExpressionType,
@@ -7539,20 +7694,18 @@ function select_object_content(
     Key,
     OutputSerialization;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3(
+    "POST",
+    "/$(Bucket)/$(Key)?select&select-type=2",
+    Dict{String,Any}(
+        "Expression" => Expression,
+        "ExpressionType" => ExpressionType,
+        "InputSerialization" => InputSerialization,
+        "OutputSerialization" => OutputSerialization,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "POST",
-        "/$(Bucket)/$(Key)?select&select-type=2",
-        Dict{String,Any}(
-            "Expression" => Expression,
-            "ExpressionType" => ExpressionType,
-            "InputSerialization" => InputSerialization,
-            "OutputSerialization" => OutputSerialization,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function select_object_content(
     Bucket,
     Expression,
@@ -7608,8 +7761,16 @@ API operation to the Zonal endpoint. These endpoints support virtual-hosted-styl
 in the format https://bucket_name.s3express-az_id.region.amazonaws.com/key-name .
 Path-style requests are not supported. For more information, see Regional and Zonal
 endpoints in the Amazon S3 User Guide.   Permissions     General purpose bucket permissions
-- For information on the permissions required to use the multipart upload API, see
-Multipart Upload and Permissions in the Amazon S3 User Guide.    Directory bucket
+- To perform a multipart upload with encryption using an Key Management Service key, the
+requester must have permission to the kms:Decrypt and kms:GenerateDataKey actions on the
+key. The requester must also have permissions for the kms:GenerateDataKey action for the
+CreateMultipartUpload API. Then, the requester needs permissions for the kms:Decrypt action
+on the UploadPart and UploadPartCopy APIs. These permissions are required because Amazon S3
+must decrypt and read data from the encrypted file parts before it completes the multipart
+upload. For more information about KMS permissions, see Protecting data using server-side
+encryption with KMS in the Amazon S3 User Guide. For information about the permissions
+required to use the multipart upload API, see Multipart upload and permissions and
+Multipart upload API and permissions in the Amazon S3 User Guide.    Directory bucket
 permissions - To grant access to this API operation on a directory bucket, we recommend
 that you use the  CreateSession  API operation for session-based authorization.
 Specifically, you grant the s3express:CreateSession permission to the directory bucket in a
@@ -7619,8 +7780,10 @@ can make API requests to this operation. After the session token expires, you ma
 CreateSession API call to generate a new session token for use. Amazon Web Services CLI or
 SDKs create session and refresh the session token automatically to avoid service
 interruptions when a session expires. For more information about authorization, see
-CreateSession .    Data integrity   General purpose bucket - To ensure that data is not
-corrupted traversing the network, specify the Content-MD5 header in the upload part
+CreateSession . If the object is encrypted with SSE-KMS, you must also have the
+kms:GenerateDataKey and kms:Decrypt permissions in IAM identity-based policies and KMS key
+policies for the KMS key.    Data integrity   General purpose bucket - To ensure that data
+is not corrupted traversing the network, specify the Content-MD5 header in the upload part
 request. Amazon S3 checks the part data against the provided MD5 value. If they do not
 match, Amazon S3 returns an error. If the upload request is signed with Signature Version
 4, then Amazon Web Services S3 uses the x-amz-content-sha256 header as a checksum instead
@@ -7645,16 +7808,17 @@ server-side encryption using a customer-provided encryption key (SSE-C) in your 
 multipart upload request, you must provide identical encryption information in each part
 upload using the following request headers.
 x-amz-server-side-encryption-customer-algorithm   x-amz-server-side-encryption-customer-key
-  x-amz-server-side-encryption-customer-key-MD5      Directory bucket - For directory
-buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3) (AES256) is
-supported.     For more information, see Using Server-Side Encryption in the Amazon S3 User
-Guide.  Special errors    Error Code: NoSuchUpload    Description: The specified multipart
-upload does not exist. The upload ID might be invalid, or the multipart upload might have
-been aborted or completed.   HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix:
-Client      HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax is
-Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
-UploadPart:    CreateMultipartUpload     CompleteMultipartUpload     AbortMultipartUpload
-  ListParts     ListMultipartUploads
+  x-amz-server-side-encryption-customer-key-MD5    For more information, see Using
+Server-Side Encryption in the Amazon S3 User Guide.    Directory buckets  - For directory
+buckets, there are only two supported options for server-side encryption: server-side
+encryption with Amazon S3 managed keys (SSE-S3) (AES256) and server-side encryption with
+KMS keys (SSE-KMS) (aws:kms).    Special errors    Error Code: NoSuchUpload    Description:
+The specified multipart upload does not exist. The upload ID might be invalid, or the
+multipart upload might have been aborted or completed.   HTTP Status Code: 404 Not Found
+SOAP Fault Code Prefix: Client      HTTP Host header syntax   Directory buckets  - The HTTP
+Host header syntax is  Bucket_name.s3express-az_id.region.amazonaws.com.   The following
+operations are related to UploadPart:    CreateMultipartUpload     CompleteMultipartUpload
+   AbortMultipartUpload     ListParts     ListMultipartUploads
 
 # Arguments
 - `bucket`: The name of the bucket to which the multipart upload was initiated.  Directory
@@ -7694,11 +7858,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   lock parameters are specified.  This functionality is not supported for directory buckets.
 - `"x-amz-checksum-crc32"`: This header can be used as a data integrity check to verify
   that the data received is the same data that was originally sent. This header specifies the
-  base64-encoded, 32-bit CRC32 checksum of the object. For more information, see Checking
+  base64-encoded, 32-bit CRC-32 checksum of the object. For more information, see Checking
   object integrity in the Amazon S3 User Guide.
 - `"x-amz-checksum-crc32c"`: This header can be used as a data integrity check to verify
   that the data received is the same data that was originally sent. This header specifies the
-  base64-encoded, 32-bit CRC32C checksum of the object. For more information, see Checking
+  base64-encoded, 32-bit CRC-32C checksum of the object. For more information, see Checking
   object integrity in the Amazon S3 User Guide.
 - `"x-amz-checksum-sha1"`: This header can be used as a data integrity check to verify that
   the data received is the same data that was originally sent. This header specifies the
@@ -7735,17 +7899,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   integrity check to ensure that the encryption key was transmitted without error.  This
   functionality is not supported for directory buckets.
 """
-function upload_part(
+upload_part(
     Bucket, Key, partNumber, uploadId; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3(
+    "PUT",
+    "/$(Bucket)/$(Key)",
+    Dict{String,Any}("partNumber" => partNumber, "uploadId" => uploadId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}("partNumber" => partNumber, "uploadId" => uploadId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function upload_part(
     Bucket,
     Key,
@@ -7802,33 +7964,52 @@ permissions in a policy based on the bucket types of your source bucket and dest
 bucket in an UploadPartCopy operation.   If the source object is in a general purpose
 bucket, you must have the  s3:GetObject  permission to read the source object that is being
 copied.    If the destination bucket is a general purpose bucket, you must have the
-s3:PutObject  permission to write the object copy to the destination bucket.    For
-information about permissions required to use the multipart upload API, see Multipart
-Upload and Permissions in the Amazon S3 User Guide.    Directory bucket permissions - You
-must have permissions in a bucket policy or an IAM identity-based policy based on the
-source and destination bucket types in an UploadPartCopy operation.   If the source object
-that you want to copy is in a directory bucket, you must have the  s3express:CreateSession
-permission in the Action element of a policy to read the object . By default, the session
-is in the ReadWrite mode. If you want to restrict the access, you can explicitly set the
-s3express:SessionMode condition key to ReadOnly on the copy source bucket.   If the copy
-destination is a directory bucket, you must have the  s3express:CreateSession  permission
-in the Action element of a policy to write the object to the destination. The
-s3express:SessionMode condition key cannot be set to ReadOnly on the copy destination.
-For example policies, see Example bucket policies for S3 Express One Zone and Amazon Web
-Services Identity and Access Management (IAM) identity-based policies for S3 Express One
-Zone in the Amazon S3 User Guide.    Encryption     General purpose buckets  - For
-information about using server-side encryption with customer-provided encryption keys with
-the UploadPartCopy operation, see CopyObject and UploadPart.     Directory buckets  - For
-directory buckets, only server-side encryption with Amazon S3 managed keys (SSE-S3)
-(AES256) is supported.    Special errors    Error Code: NoSuchUpload    Description: The
-specified multipart upload does not exist. The upload ID might be invalid, or the multipart
-upload might have been aborted or completed.   HTTP Status Code: 404 Not Found     Error
-Code: InvalidRequest    Description: The specified copy source is not supported as a
-byte-range copy source.   HTTP Status Code: 400 Bad Request      HTTP Host header syntax
-Directory buckets  - The HTTP Host header syntax is
-Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are related to
-UploadPartCopy:    CreateMultipartUpload     UploadPart     CompleteMultipartUpload
-AbortMultipartUpload     ListParts     ListMultipartUploads
+s3:PutObject  permission to write the object copy to the destination bucket.    To perform
+a multipart upload with encryption using an Key Management Service key, the requester must
+have permission to the kms:Decrypt and kms:GenerateDataKey actions on the key. The
+requester must also have permissions for the kms:GenerateDataKey action for the
+CreateMultipartUpload API. Then, the requester needs permissions for the kms:Decrypt action
+on the UploadPart and UploadPartCopy APIs. These permissions are required because Amazon S3
+must decrypt and read data from the encrypted file parts before it completes the multipart
+upload. For more information about KMS permissions, see Protecting data using server-side
+encryption with KMS in the Amazon S3 User Guide. For information about the permissions
+required to use the multipart upload API, see Multipart upload and permissions and
+Multipart upload API and permissions in the Amazon S3 User Guide.      Directory bucket
+permissions - You must have permissions in a bucket policy or an IAM identity-based policy
+based on the source and destination bucket types in an UploadPartCopy operation.   If the
+source object that you want to copy is in a directory bucket, you must have the
+s3express:CreateSession  permission in the Action element of a policy to read the object.
+By default, the session is in the ReadWrite mode. If you want to restrict the access, you
+can explicitly set the s3express:SessionMode condition key to ReadOnly on the copy source
+bucket.   If the copy destination is a directory bucket, you must have the
+s3express:CreateSession  permission in the Action element of a policy to write the object
+to the destination. The s3express:SessionMode condition key cannot be set to ReadOnly on
+the copy destination.    If the object is encrypted with SSE-KMS, you must also have the
+kms:GenerateDataKey and kms:Decrypt permissions in IAM identity-based policies and KMS key
+policies for the KMS key. For example policies, see Example bucket policies for S3 Express
+One Zone and Amazon Web Services Identity and Access Management (IAM) identity-based
+policies for S3 Express One Zone in the Amazon S3 User Guide.    Encryption     General
+purpose buckets  - For information about using server-side encryption with
+customer-provided encryption keys with the UploadPartCopy operation, see CopyObject and
+UploadPart.     Directory buckets  - For directory buckets, there are only two supported
+options for server-side encryption: server-side encryption with Amazon S3 managed keys
+(SSE-S3) (AES256) and server-side encryption with KMS keys (SSE-KMS) (aws:kms). For more
+information, see Protecting data with server-side encryption in the Amazon S3 User Guide.
+For directory buckets, when you perform a CreateMultipartUpload operation and an
+UploadPartCopy operation, the request headers you provide in the CreateMultipartUpload
+request must match the default encryption configuration of the destination bucket.   S3
+Bucket Keys aren't supported, when you copy SSE-KMS encrypted objects from general purpose
+buckets to directory buckets, from directory buckets to general purpose buckets, or between
+directory buckets, through UploadPartCopy. In this case, Amazon S3 makes a call to KMS
+every time a copy request is made for a KMS-encrypted object.    Special errors    Error
+Code: NoSuchUpload    Description: The specified multipart upload does not exist. The
+upload ID might be invalid, or the multipart upload might have been aborted or completed.
+HTTP Status Code: 404 Not Found     Error Code: InvalidRequest    Description: The
+specified copy source is not supported as a byte-range copy source.   HTTP Status Code: 400
+Bad Request      HTTP Host header syntax   Directory buckets  - The HTTP Host header syntax
+is  Bucket_name.s3express-az_id.region.amazonaws.com.   The following operations are
+related to UploadPartCopy:    CreateMultipartUpload     UploadPart
+CompleteMultipartUpload     AbortMultipartUpload     ListParts     ListMultipartUploads
 
 # Arguments
 - `bucket`: The bucket name.  Directory buckets - When you use this operation with a
@@ -7954,26 +8135,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   owner. If the account ID that you provide does not match the actual owner of the source
   bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
 """
-function upload_part_copy(
+upload_part_copy(
     Bucket,
     Key,
     partNumber,
     uploadId,
     x_amz_copy_source;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3(
+    "PUT",
+    "/$(Bucket)/$(Key)",
+    Dict{String,Any}(
+        "partNumber" => partNumber,
+        "uploadId" => uploadId,
+        "headers" => Dict{String,Any}("x-amz-copy-source" => x_amz_copy_source),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "PUT",
-        "/$(Bucket)/$(Key)",
-        Dict{String,Any}(
-            "partNumber" => partNumber,
-            "uploadId" => uploadId,
-            "headers" => Dict{String,Any}("x-amz-copy-source" => x_amz_copy_source),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function upload_part_copy(
     Bucket,
     Key,
@@ -8073,7 +8252,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-fwd-header-accept-ranges"`: Indicates that a range of bytes was specified.
 - `"x-amz-fwd-header-x-amz-checksum-crc32"`: This header can be used as a data integrity
   check to verify that the data received is the same data that was originally sent. This
-  specifies the base64-encoded, 32-bit CRC32 checksum of the object returned by the Object
+  specifies the base64-encoded, 32-bit CRC-32 checksum of the object returned by the Object
   Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon
   S3 will perform validation of the checksum values only when the original GetObject request
   required checksum validation. For more information about checksums, see Checking object
@@ -8081,7 +8260,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you supply multiple checksum headers, this request will fail.
 - `"x-amz-fwd-header-x-amz-checksum-crc32c"`: This header can be used as a data integrity
   check to verify that the data received is the same data that was originally sent. This
-  specifies the base64-encoded, 32-bit CRC32C checksum of the object returned by the Object
+  specifies the base64-encoded, 32-bit CRC-32C checksum of the object returned by the Object
   Lambda function. This may not match the checksum for the object stored in Amazon S3. Amazon
   S3 will perform validation of the checksum values only when the original GetObject request
   required checksum validation. For more information about checksums, see Checking object
@@ -8156,24 +8335,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Internal Server Error     503 - Service Unavailable
 - `"x-amz-meta-"`: A map of metadata to store with the object in S3.
 """
-function write_get_object_response(
+write_get_object_response(
     x_amz_request_route,
     x_amz_request_token;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = s3(
+    "POST",
+    "/WriteGetObjectResponse",
+    Dict{String,Any}(
+        "headers" => Dict{String,Any}(
+            "x-amz-request-route" => x_amz_request_route,
+            "x-amz-request-token" => x_amz_request_token,
+        ),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3(
-        "POST",
-        "/WriteGetObjectResponse",
-        Dict{String,Any}(
-            "headers" => Dict{String,Any}(
-                "x-amz-request-route" => x_amz_request_route,
-                "x-amz-request-token" => x_amz_request_token,
-            ),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function write_get_object_response(
     x_amz_request_route,
     x_amz_request_token,
