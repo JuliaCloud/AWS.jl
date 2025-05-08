@@ -551,8 +551,6 @@ end
                     end
                 end
 
-                # TODO: Additional, precedence tests should be added for IAM Identity Center
-                # once support has been introduced.
                 @testset "IAM Identity Center preferred over legacy SSO" begin
                     write(
                         config_file,
@@ -570,7 +568,8 @@ end
                     isfile(creds_file) && rm(creds_file)
 
                     apply(Patches.sso_service_patches("AKI_SSO", "SAK_SSO")) do
-                        @test_throws ErrorException AWSCredentials()
+                        creds = AWSCredentials()
+                        @test creds.access_key_id == "AKI_WEB"
                     end
                 end
 
