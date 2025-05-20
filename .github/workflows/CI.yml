@@ -1,7 +1,9 @@
 name: CI
 on:
+  # Avoid running using the `pull_request` trigger for these tests as OIDC role assumption
+  # will fail when running on fork. Instead, we'll make use of GitHub merge queues to
+  # run these tests which run from the source repository.
   merge_group:
-  pull_request:
   push:
     branches:
       - master
@@ -11,7 +13,6 @@ on:
 jobs:
   test:
     name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}
-    if: ${{ github.event_name != 'pull_request' }}  # Avoid running on PRs as OIDC will fail when running on a fork
     permissions:
       # Required for interacting with GitHub's OIDC Token endpoint:
       # - Checking out the repository (`contents: read`)
