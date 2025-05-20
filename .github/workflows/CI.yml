@@ -9,11 +9,22 @@ on:
   schedule:
     - cron: "0 2 * * *"  # Daily at 2 a.m. UTC
 jobs:
+    # Comment 1 (how we decide if we run the `test-*` jobs):
     # If this is not a `pull_request` run: Yes, run the `test-*` jobs.
     # If this is a `pull_request` run, and it is NOT from a fork: Yes, run the `test-*` jobs.
     # If this a `pull_request` run, and it IS from a fork: No, do not run the `test-*` jobs.
     #
     # We avoid running on fork PRs because OIDC will fail on those PRs.
+    #
+    # Comment 2 (why can't we use matrix variables in the job names):
+    # If we were to use a matrix variable in the job name, then:
+    # 1. On skipped runs, the matrix variables wouldn't be expanded, and thus the job name will be e.g.: `Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}`
+    # 2. On non-skipped runs, the matrix variables would be expanded, and thus the job name will be e.g.: `Julia 1 - ubuntu-latest - x64`
+    # Thus, skipped runs and non-skipped runs would have different job names.
+    # In order to use GitHub Merge Queue, we have to add all of our CI jobs as
+    # "required status checks" in the branch protection settings for the `master` branch.
+    # However, we can't add the job as a "required status check" if it has a different name on skipped vs non-skipped runs.
+    # Therefore, in order to use GitHub Merge Queue, we need to ensure that our CI jobs have the same name on skipped vs non-skipped runs.
   test-julia-min:
     if: ${{ github.event_name != 'pull_request' || github.repository == github.event.pull_request.head.repo.full_name }}
     uses: ./.github/workflows/reusable_test_workflow.yml
