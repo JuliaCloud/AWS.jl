@@ -16,7 +16,7 @@ jobs:
     # We avoid running on fork PRs because OIDC will fail on those PRs.
   test-julia-min:
     if: ${{ github.event_name != 'pull_request' || github.repository == github.event.pull_request.head.repo.full_name }}
-    uses: ./.github/workflows/test_reusable_workflow.yml
+    uses: ./.github/workflows/reusable_test_workflow.yml
     with:
       julia-version: 'min' # Oldest supported version
   test-julia-lts:
