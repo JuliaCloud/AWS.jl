@@ -32,12 +32,12 @@ jobs:
       julia-version: 'min' # Oldest supported version
   test-julia-lts:
     if: ${{ github.event_name != 'pull_request' || github.repository == github.event.pull_request.head.repo.full_name }}
-    uses: ./.github/workflows/test_reusable_workflow.yml
+    uses: ./.github/workflows/reusable_test_workflow.yml
     with:
       julia-version: 'lts' # Long Term Stable
   test-julia-v1:
     if: ${{ github.event_name != 'pull_request' || github.repository == github.event.pull_request.head.repo.full_name }}
-    uses: ./.github/workflows/test_reusable_workflow.yml
+    uses: ./.github/workflows/reusable_test_workflow.yml
     with:
       julia-version: '1' # Latest Release
   docs:
