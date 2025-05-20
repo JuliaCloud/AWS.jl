@@ -1,0 +1,56 @@
+name: Reusable Test Workflow
+on:
+  workflow_call:
+    inputs:
+      julia-version:
+        description: "The Julia version that is used for testing"
+        required: true
+        type: string
+jobs:
+  test:
+    permissions:
+      actions: write # Required for deleting old caches: https://github.com/julia-actions/cache#usage
+      contents: read # Required for checking out the repository
+      id-token: write # Required for interacting with GitHub's OIDC Token endpoint:
+      # For more info, see the OIDC docs:
+      # https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-permissions-settings
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assume AWS role
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/AWS.jl
+          aws-region: us-east-1
+      - name: MinIO server setup
+        if: ${{ runner.os != 'Windows' }}
+        env:
+          MINIO_ACCESS_KEY: minio
+          MINIO_SECRET_KEY: minio123
+          MINIO_REGION_NAME: aregion
+        shell: bash
+        run: |
+          case "$RUNNER_OS" in
+            Linux)
+              host_os="linux-amd64"
+              ;;
+            macOS)
+              host_os="darwin-amd64"
+              ;;
+            *)
+              echo "$RUNNER_OS not supported" >&2
+              exit 1
+              ;;
+          esac
+          curl -sSLO "https://dl.minio.io/server/minio/release/${host_os}/minio"
+          mkdir data
+          chmod +x ./minio
+          ./minio server --compat --quiet data 2>&1 > minio.log &
+          env | grep ^MINIO_ | tee -a "$GITHUB_ENV"
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '${{ inputs.julia-version }}'
+      - uses: julia-actions/cache@v2
+      - uses: julia-actions/julia-buildpkg@v1
+      - uses: julia-actions/julia-runtest@v1
