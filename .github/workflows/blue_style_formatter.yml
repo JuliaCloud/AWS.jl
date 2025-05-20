@@ -1,5 +1,6 @@
 name: Format suggestions
 on:
+  merge_group:
   pull_request:
 # These permissions are needed to:
 # - Delete old caches: https://github.com/julia-actions/cache#usage
