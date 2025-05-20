@@ -1,5 +1,7 @@
 module AWS
 
+# Hello world
+
 using Compat: Compat, @compat, @something
 using Base64
 using Dates
