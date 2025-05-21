@@ -37,9 +37,11 @@ Resources:
               StringEquals:
                 token.actions.githubusercontent.com:aud: sts.amazonaws.com
               StringLike:
-                # Allow pull requests, the master branch, and any tag to assume this role
+                # Allow merge queues, the master branch, and any tag to assume this role
                 token.actions.githubusercontent.com:sub:
-                  - !Sub repo:${GitHubOrg}/${GitHubRepo}:pull_request
+                  # - !Sub repo:${GitHubOrg}/${GitHubRepo}:pull_request
+                  # e.g. repo:JuliaCloud/AWS.jl:ref:refs/heads/gh-readonly-queue/main/pr-712-9dd56bded63ab593bd2843d0758ede40039ac943
+                  - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/gh-readonly-queue/*
                   - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/heads/master
                   - !Sub repo:${GitHubOrg}/${GitHubRepo}:ref:refs/tags/*
           # - Effect: Allow
