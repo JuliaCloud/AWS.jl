@@ -1,6 +1,5 @@
 name: Documenter
 on:
-  merge_group:
   pull_request:
     paths:
       - "docs/**"
