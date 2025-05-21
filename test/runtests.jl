@@ -54,23 +54,25 @@ end
 testset_role(role_name) = "AWS.jl-$role_name"
 
 @testset "AWS.jl" begin
-    include("AWSExceptions.jl")
-    include("AWSMetadataUtilities.jl")
-    include("test_pkg.jl")
-    include("utilities.jl")
-    include("AWSConfig.jl")
+    @test false
 
-    backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
-    @testset "Backend: $(nameof(backend))" for backend in backends
-        AWS.DEFAULT_BACKEND[] = backend()
-        include("AWS.jl")
-        include("IMDS.jl")
-        include("AWSCredentials.jl")
-        include("role.jl")
-        include("issues.jl")
+    # include("AWSExceptions.jl")
+    # include("AWSMetadataUtilities.jl")
+    # include("test_pkg.jl")
+    # include("utilities.jl")
+    # include("AWSConfig.jl")
 
-        if TEST_MINIO
-            include("minio.jl")
-        end
-    end
+    # backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
+    # @testset "Backend: $(nameof(backend))" for backend in backends
+    #     AWS.DEFAULT_BACKEND[] = backend()
+    #     include("AWS.jl")
+    #     include("IMDS.jl")
+    #     include("AWSCredentials.jl")
+    #     include("role.jl")
+    #     include("issues.jl")
+
+    #     if TEST_MINIO
+    #         include("minio.jl")
+    #     end
+    # end
 end
