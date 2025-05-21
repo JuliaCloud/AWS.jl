@@ -36,6 +36,10 @@ jobs:
           - x64
     steps:
       - uses: actions/checkout@v4
+      - name: Debug OIDC Claims
+        uses: github/actions-oidc-debugger@v1
+        with:
+          audience: ${{ github.server_url }}/${{ github.repository_owner }}
       - name: Assume AWS role
         uses: aws-actions/configure-aws-credentials@v4
         with:
