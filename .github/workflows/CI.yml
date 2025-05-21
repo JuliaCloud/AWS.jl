@@ -92,3 +92,27 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DOCUMENTER_KEY: ${{ secrets.DOCUMENTER_KEY }}
+
+  # Merge queues only wait for the required status checks to pass which are defined in the
+  # repository settings under the branch protection rules. Unfortunately, the required
+  # status checks for PRs and merge queues must be the identical even though the workflows
+  # themselves are triggered separately (i.e `pull_request` vs. `merge_group`).
+  #
+  # In order to have a status check which allows CI jobs to be skipped in PRs but must pass
+  # in the merge queue we'll make use of this separate workflow job. Additionally, this
+  # works around issues with using matrix jobs as required status checks. Finally, as
+  # required status checks are identified by the job name only some care should be taken to
+  # ensure the job name is unique across all workflows.
+  #
+  # For more information see:
+  # - https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue#configuring-continuous-integration-ci-workflows-for-merge-queues
+  # - https://github.com/orgs/community/discussions/103114#discussioncomment-8359045
+  status-check:
+    name: Status Check (CI)
+    if: ${{ always() && (github.event_name == 'pull_request' || github.event_name == 'merge_group') }}
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - if: ${{ github.event_name == 'merge_group' && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')  || contains(needs.*.result, 'skipped')) }}
+        run: exit 1
