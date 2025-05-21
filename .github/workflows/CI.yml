@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Debug OIDC Claims
-        uses: github/actions-oidc-debugger@v1
+        uses: github/actions-oidc-debugger@main
         with:
           audience: ${{ github.server_url }}/${{ github.repository_owner }}
       - name: Assume AWS role
