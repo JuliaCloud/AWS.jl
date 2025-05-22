@@ -1,8 +1,9 @@
+---
 version: 2
 updates:
   - package-ecosystem: "github-actions"
     groups:
-      # Group all GitHub Actions PRs into a single PR:
+      # Group all GitHub Actions PRs into a single PR
       all-github-actions:
         patterns:
           - "*"
