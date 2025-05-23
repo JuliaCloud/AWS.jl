@@ -17,17 +17,13 @@ Archive application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID.
 """
-function archive_application(
-    applicationID; aws_config::AbstractAWSConfig=global_aws_config()
+archive_application(applicationID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/ArchiveApplication",
+    Dict{String,Any}("applicationID" => applicationID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/ArchiveApplication",
-        Dict{String,Any}("applicationID" => applicationID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function archive_application(
     applicationID,
     params::AbstractDict{String};
@@ -57,15 +53,13 @@ Archive wave.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID.
 """
-function archive_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/ArchiveWave",
-        Dict{String,Any}("waveID" => waveID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+archive_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/ArchiveWave",
+    Dict{String,Any}("waveID" => waveID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function archive_wave(
     waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -92,17 +86,15 @@ Associate applications to wave.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID.
 """
-function associate_applications(
+associate_applications(
     applicationIDs, waveID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/AssociateApplications",
+    Dict{String,Any}("applicationIDs" => applicationIDs, "waveID" => waveID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/AssociateApplications",
-        Dict{String,Any}("applicationIDs" => applicationIDs, "waveID" => waveID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_applications(
     applicationIDs,
     waveID,
@@ -138,19 +130,17 @@ Associate source servers to application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID.
 """
-function associate_source_servers(
+associate_source_servers(
     applicationID, sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/AssociateSourceServers",
+    Dict{String,Any}(
+        "applicationID" => applicationID, "sourceServerIDs" => sourceServerIDs
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/AssociateSourceServers",
-        Dict{String,Any}(
-            "applicationID" => applicationID, "sourceServerIDs" => sourceServerIDs
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_source_servers(
     applicationID,
     sourceServerIDs,
@@ -191,17 +181,15 @@ if the Source Server is already launchable (dataReplicationInfo.lagDuration is n
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: The request to change the source server migration account ID.
 """
-function change_server_life_cycle_state(
+change_server_life_cycle_state(
     lifeCycle, sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/ChangeServerLifeCycleState",
+    Dict{String,Any}("lifeCycle" => lifeCycle, "sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/ChangeServerLifeCycleState",
-        Dict{String,Any}("lifeCycle" => lifeCycle, "sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function change_server_life_cycle_state(
     lifeCycle,
     sourceServerID,
@@ -240,15 +228,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: Application description.
 - `"tags"`: Application tags.
 """
-function create_application(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/CreateApplication",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_application(name; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/CreateApplication",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_application(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -276,17 +262,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ssmCommandConfig"`: Create Connector request SSM command config.
 - `"tags"`: Create Connector request tags.
 """
-function create_connector(
-    name, ssmInstanceID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
+create_connector(name, ssmInstanceID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn(
         "POST",
         "/CreateConnector",
         Dict{String,Any}("name" => name, "ssmInstanceID" => ssmInstanceID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_connector(
     name,
     ssmInstanceID,
@@ -331,16 +314,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Request to associate tags during creation of a Launch Configuration Template.
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
-function create_launch_configuration_template(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
+create_launch_configuration_template(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn(
         "POST",
         "/CreateLaunchConfigurationTemplate";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_launch_configuration_template(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -391,7 +371,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"useFipsEndpoint"`: Request to use Fips Endpoint during Replication Settings template
   creation.
 """
-function create_replication_configuration_template(
+create_replication_configuration_template(
     associateDefaultSecurityGroup,
     bandwidthThrottling,
     createPublicIP,
@@ -404,27 +384,25 @@ function create_replication_configuration_template(
     stagingAreaTags,
     useDedicatedReplicationServer;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mgn(
+    "POST",
+    "/CreateReplicationConfigurationTemplate",
+    Dict{String,Any}(
+        "associateDefaultSecurityGroup" => associateDefaultSecurityGroup,
+        "bandwidthThrottling" => bandwidthThrottling,
+        "createPublicIP" => createPublicIP,
+        "dataPlaneRouting" => dataPlaneRouting,
+        "defaultLargeStagingDiskType" => defaultLargeStagingDiskType,
+        "ebsEncryption" => ebsEncryption,
+        "replicationServerInstanceType" => replicationServerInstanceType,
+        "replicationServersSecurityGroupsIDs" => replicationServersSecurityGroupsIDs,
+        "stagingAreaSubnetId" => stagingAreaSubnetId,
+        "stagingAreaTags" => stagingAreaTags,
+        "useDedicatedReplicationServer" => useDedicatedReplicationServer,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/CreateReplicationConfigurationTemplate",
-        Dict{String,Any}(
-            "associateDefaultSecurityGroup" => associateDefaultSecurityGroup,
-            "bandwidthThrottling" => bandwidthThrottling,
-            "createPublicIP" => createPublicIP,
-            "dataPlaneRouting" => dataPlaneRouting,
-            "defaultLargeStagingDiskType" => defaultLargeStagingDiskType,
-            "ebsEncryption" => ebsEncryption,
-            "replicationServerInstanceType" => replicationServerInstanceType,
-            "replicationServersSecurityGroupsIDs" => replicationServersSecurityGroupsIDs,
-            "stagingAreaSubnetId" => stagingAreaSubnetId,
-            "stagingAreaTags" => stagingAreaTags,
-            "useDedicatedReplicationServer" => useDedicatedReplicationServer,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_replication_configuration_template(
     associateDefaultSecurityGroup,
     bandwidthThrottling,
@@ -483,15 +461,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: Wave description.
 - `"tags"`: Wave tags.
 """
-function create_wave(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/CreateWave",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_wave(name; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/CreateWave",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_wave(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -517,17 +493,13 @@ Delete application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID.
 """
-function delete_application(
-    applicationID; aws_config::AbstractAWSConfig=global_aws_config()
+delete_application(applicationID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/DeleteApplication",
+    Dict{String,Any}("applicationID" => applicationID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/DeleteApplication",
-        Dict{String,Any}("applicationID" => applicationID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_application(
     applicationID,
     params::AbstractDict{String};
@@ -554,15 +526,13 @@ Delete Connector.
 - `connector_id`: Delete Connector request connector ID.
 
 """
-function delete_connector(connectorID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/DeleteConnector",
-        Dict{String,Any}("connectorID" => connectorID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_connector(connectorID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/DeleteConnector",
+    Dict{String,Any}("connectorID" => connectorID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_connector(
     connectorID,
     params::AbstractDict{String};
@@ -592,15 +562,13 @@ Deletes a single Job by ID.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Request to delete Job from service by Account ID.
 """
-function delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/DeleteJob",
-        Dict{String,Any}("jobID" => jobID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_job(jobID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/DeleteJob",
+    Dict{String,Any}("jobID" => jobID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_job(
     jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -623,17 +591,15 @@ Deletes a single Launch Configuration Template by ID.
 - `launch_configuration_template_id`: ID of resource to be deleted.
 
 """
-function delete_launch_configuration_template(
+delete_launch_configuration_template(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/DeleteLaunchConfigurationTemplate",
+    Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/DeleteLaunchConfigurationTemplate",
-        Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_launch_configuration_template(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -667,19 +633,17 @@ Deletes a single Replication Configuration Template by ID
   Template from service by Replication Configuration Template ID.
 
 """
-function delete_replication_configuration_template(
+delete_replication_configuration_template(
     replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/DeleteReplicationConfigurationTemplate",
+    Dict{String,Any}(
+        "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/DeleteReplicationConfigurationTemplate",
-        Dict{String,Any}(
-            "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_replication_configuration_template(
     replicationConfigurationTemplateID,
     params::AbstractDict{String};
@@ -716,17 +680,14 @@ Deletes a single source server by ID.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Request to delete Source Server from service by Account ID.
 """
-function delete_source_server(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
+delete_source_server(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn(
         "POST",
         "/DeleteSourceServer",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_source_server(
     sourceServerID,
     params::AbstractDict{String};
@@ -753,17 +714,14 @@ Deletes a given vCenter client by ID.
 - `vcenter_client_id`: ID of resource to be deleted.
 
 """
-function delete_vcenter_client(
-    vcenterClientID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
+delete_vcenter_client(vcenterClientID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn(
         "POST",
         "/DeleteVcenterClient",
         Dict{String,Any}("vcenterClientID" => vcenterClientID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_vcenter_client(
     vcenterClientID,
     params::AbstractDict{String};
@@ -795,15 +753,13 @@ Delete wave.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID.
 """
-function delete_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/DeleteWave",
-        Dict{String,Any}("waveID" => waveID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/DeleteWave",
+    Dict{String,Any}("waveID" => waveID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_wave(
     waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -831,15 +787,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Request to describe Job log item maximum results.
 - `"nextToken"`: Request to describe Job log next token.
 """
-function describe_job_log_items(jobID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/DescribeJobLogItems",
-        Dict{String,Any}("jobID" => jobID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_job_log_items(jobID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/DescribeJobLogItems",
+    Dict{String,Any}("jobID" => jobID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_job_log_items(
     jobID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -869,11 +823,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Request to describe job log items by max results.
 - `"nextToken"`: Request to describe job log items by next token.
 """
-function describe_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_jobs(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn("POST", "/DescribeJobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_jobs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -899,16 +850,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum results to be returned in DescribeLaunchConfigurationTemplates.
 - `"nextToken"`: Next pagination token returned from DescribeLaunchConfigurationTemplates.
 """
-function describe_launch_configuration_templates(;
+describe_launch_configuration_templates(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/DescribeLaunchConfigurationTemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/DescribeLaunchConfigurationTemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_launch_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -934,16 +883,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"replicationConfigurationTemplateIDs"`: Request to describe Replication Configuration
   template by template IDs.
 """
-function describe_replication_configuration_templates(;
+describe_replication_configuration_templates(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/DescribeReplicationConfigurationTemplates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/DescribeReplicationConfigurationTemplates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_replication_configuration_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -969,14 +916,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Request to filter Source Servers list by maximum results.
 - `"nextToken"`: Request to filter Source Servers list by next token.
 """
-function describe_source_servers(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/DescribeSourceServers";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_source_servers(; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/DescribeSourceServers";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_source_servers(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1000,14 +945,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum results to be returned in DescribeVcenterClients.
 - `"nextToken"`: Next pagination token to be provided for DescribeVcenterClients.
 """
-function describe_vcenter_clients(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "GET",
-        "/DescribeVcenterClients";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_vcenter_clients(; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "GET",
+    "/DescribeVcenterClients";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_vcenter_clients(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1034,17 +977,15 @@ Disassociate applications from wave.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID.
 """
-function disassociate_applications(
+disassociate_applications(
     applicationIDs, waveID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/DisassociateApplications",
+    Dict{String,Any}("applicationIDs" => applicationIDs, "waveID" => waveID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/DisassociateApplications",
-        Dict{String,Any}("applicationIDs" => applicationIDs, "waveID" => waveID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_applications(
     applicationIDs,
     waveID,
@@ -1080,19 +1021,17 @@ Disassociate source servers from application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID.
 """
-function disassociate_source_servers(
+disassociate_source_servers(
     applicationID, sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/DisassociateSourceServers",
+    Dict{String,Any}(
+        "applicationID" => applicationID, "sourceServerIDs" => sourceServerIDs
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/DisassociateSourceServers",
-        Dict{String,Any}(
-            "applicationID" => applicationID, "sourceServerIDs" => sourceServerIDs
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_source_servers(
     applicationID,
     sourceServerIDs,
@@ -1138,17 +1077,14 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be null
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Request to disconnect Source Server from service by Account ID.
 """
-function disconnect_from_service(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
+disconnect_from_service(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn(
         "POST",
         "/DisconnectFromService",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disconnect_from_service(
     sourceServerID,
     params::AbstractDict{String};
@@ -1186,15 +1122,13 @@ dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be null
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Request to finalize Cutover by Source Account ID.
 """
-function finalize_cutover(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/FinalizeCutover",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+finalize_cutover(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/FinalizeCutover",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function finalize_cutover(
     sourceServerID,
     params::AbstractDict{String};
@@ -1224,17 +1158,15 @@ Lists all LaunchConfigurations available, filtered by Source Server IDs.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Request to get Launch Configuration information by Account ID.
 """
-function get_launch_configuration(
+get_launch_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/GetLaunchConfiguration",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/GetLaunchConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_launch_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -1264,17 +1196,15 @@ Lists all ReplicationConfigurations, filtered by Source Server ID.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Request to get Replication Configuration by Account ID.
 """
-function get_replication_configuration(
+get_replication_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/GetReplicationConfiguration",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/GetReplicationConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_replication_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -1298,11 +1228,9 @@ end
 Initialize Application Migration Service.
 
 """
-function initialize_service(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+initialize_service(; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST", "/InitializeService"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function initialize_service(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1328,11 +1256,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum results to return when listing applications.
 - `"nextToken"`: Request next token.
 """
-function list_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST", "/ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_applications(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn("POST", "/ListApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1357,11 +1282,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: List Connectors Request max results.
 - `"nextToken"`: List Connectors Request next token.
 """
-function list_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST", "/ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_connectors(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn("POST", "/ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_connectors(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1388,15 +1310,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: List export errors request max results.
 - `"nextToken"`: List export errors request next token.
 """
-function list_export_errors(exportID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/ListExportErrors",
-        Dict{String,Any}("exportID" => exportID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_export_errors(exportID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/ListExportErrors",
+    Dict{String,Any}("exportID" => exportID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_export_errors(
     exportID,
     params::AbstractDict{String};
@@ -1425,11 +1345,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: List export request max results.
 - `"nextToken"`: List export request next token.
 """
-function list_exports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST", "/ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_exports(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn("POST", "/ListExports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_exports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1456,15 +1373,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: List import errors request max results.
 - `"nextToken"`: List import errors request next token.
 """
-function list_import_errors(importID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/ListImportErrors",
-        Dict{String,Any}("importID" => importID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_import_errors(importID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/ListImportErrors",
+    Dict{String,Any}("importID" => importID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_import_errors(
     importID,
     params::AbstractDict{String};
@@ -1493,11 +1408,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: List imports request max results.
 - `"nextToken"`: List imports request next token.
 """
-function list_imports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST", "/ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_imports(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn("POST", "/ListImports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_imports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1521,14 +1433,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: List managed accounts request max results.
 - `"nextToken"`: List managed accounts request next token.
 """
-function list_managed_accounts(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/ListManagedAccounts";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_managed_accounts(; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/ListManagedAccounts";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_managed_accounts(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1559,17 +1469,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   migration custom actions.
 - `"nextToken"`: Next token to use when listing source server post migration custom actions.
 """
-function list_source_server_actions(
+list_source_server_actions(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/ListSourceServerActions",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/ListSourceServerActions",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_source_server_actions(
     sourceServerID,
     params::AbstractDict{String};
@@ -1596,16 +1504,13 @@ List all tags for your Application Migration Service resources.
 - `resource_arn`: List tags for resource request by ARN.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1636,17 +1541,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   custom actions.
 - `"nextToken"`: Next token to use when listing template post migration custom actions.
 """
-function list_template_actions(
+list_template_actions(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/ListTemplateActions",
+    Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/ListTemplateActions",
-        Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_template_actions(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -1682,9 +1585,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum results to return when listing waves.
 - `"nextToken"`: Request next token.
 """
-function list_waves(; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn("POST", "/ListWaves"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_waves(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn("POST", "/ListWaves"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_waves(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1708,15 +1610,13 @@ lifecycle. state which equals DISCONNECTED or CUTOVER.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Mark as archived by Account ID.
 """
-function mark_as_archived(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/MarkAsArchived",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+mark_as_archived(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/MarkAsArchived",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function mark_as_archived(
     sourceServerID,
     params::AbstractDict{String};
@@ -1746,17 +1646,13 @@ Pause Replication.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Pause Replication Request account ID.
 """
-function pause_replication(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+pause_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/PauseReplication",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/PauseReplication",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function pause_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -1799,28 +1695,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameters"`: Source server post migration custom action parameters.
 - `"timeoutSeconds"`: Source server post migration custom action timeout in seconds.
 """
-function put_source_server_action(
+put_source_server_action(
     actionID,
     actionName,
     documentIdentifier,
     order,
     sourceServerID;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mgn(
+    "POST",
+    "/PutSourceServerAction",
+    Dict{String,Any}(
+        "actionID" => actionID,
+        "actionName" => actionName,
+        "documentIdentifier" => documentIdentifier,
+        "order" => order,
+        "sourceServerID" => sourceServerID,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/PutSourceServerAction",
-        Dict{String,Any}(
-            "actionID" => actionID,
-            "actionName" => actionName,
-            "documentIdentifier" => documentIdentifier,
-            "order" => order,
-            "sourceServerID" => sourceServerID,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_source_server_action(
     actionID,
     actionName,
@@ -1877,28 +1771,26 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameters"`: Template post migration custom action parameters.
 - `"timeoutSeconds"`: Template post migration custom action timeout in seconds.
 """
-function put_template_action(
+put_template_action(
     actionID,
     actionName,
     documentIdentifier,
     launchConfigurationTemplateID,
     order;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mgn(
+    "POST",
+    "/PutTemplateAction",
+    Dict{String,Any}(
+        "actionID" => actionID,
+        "actionName" => actionName,
+        "documentIdentifier" => documentIdentifier,
+        "launchConfigurationTemplateID" => launchConfigurationTemplateID,
+        "order" => order,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/PutTemplateAction",
-        Dict{String,Any}(
-            "actionID" => actionID,
-            "actionName" => actionName,
-            "documentIdentifier" => documentIdentifier,
-            "launchConfigurationTemplateID" => launchConfigurationTemplateID,
-            "order" => order,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_template_action(
     actionID,
     actionName,
@@ -1943,17 +1835,15 @@ Remove source server post migration custom action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Source server post migration account ID.
 """
-function remove_source_server_action(
+remove_source_server_action(
     actionID, sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/RemoveSourceServerAction",
+    Dict{String,Any}("actionID" => actionID, "sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/RemoveSourceServerAction",
-        Dict{String,Any}("actionID" => actionID, "sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_source_server_action(
     actionID,
     sourceServerID,
@@ -1989,22 +1879,20 @@ Remove template post migration custom action.
   migration custom action to remove.
 
 """
-function remove_template_action(
+remove_template_action(
     actionID,
     launchConfigurationTemplateID;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = mgn(
+    "POST",
+    "/RemoveTemplateAction",
+    Dict{String,Any}(
+        "actionID" => actionID,
+        "launchConfigurationTemplateID" => launchConfigurationTemplateID,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/RemoveTemplateAction",
-        Dict{String,Any}(
-            "actionID" => actionID,
-            "launchConfigurationTemplateID" => launchConfigurationTemplateID,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function remove_template_action(
     actionID,
     launchConfigurationTemplateID,
@@ -2042,17 +1930,13 @@ Resume Replication.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Resume Replication Request account ID.
 """
-function resume_replication(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+resume_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/ResumeReplication",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/ResumeReplication",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function resume_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -2085,17 +1969,14 @@ state.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Retry data replication for Account ID.
 """
-function retry_data_replication(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
+retry_data_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn(
         "POST",
         "/RetryDataReplication",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function retry_data_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -2128,15 +2009,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Start Cutover by Account IDs
 - `"tags"`: Start Cutover by Tags.
 """
-function start_cutover(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/StartCutover",
-        Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_cutover(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/StartCutover",
+    Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_cutover(
     sourceServerIDs,
     params::AbstractDict{String};
@@ -2169,15 +2048,13 @@ Start export.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"s3BucketOwner"`: Start export request s3 bucket owner.
 """
-function start_export(s3Bucket, s3Key; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/StartExport",
-        Dict{String,Any}("s3Bucket" => s3Bucket, "s3Key" => s3Key);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_export(s3Bucket, s3Key; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/StartExport",
+    Dict{String,Any}("s3Bucket" => s3Bucket, "s3Key" => s3Key);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_export(
     s3Bucket,
     s3Key,
@@ -2210,17 +2087,13 @@ Start import.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"clientToken"`: Start import request client token.
 """
-function start_import(s3BucketSource; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/StartImport",
-        Dict{String,Any}(
-            "s3BucketSource" => s3BucketSource, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_import(s3BucketSource; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/StartImport",
+    Dict{String,Any}("s3BucketSource" => s3BucketSource, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_import(
     s3BucketSource,
     params::AbstractDict{String};
@@ -2256,17 +2129,13 @@ Starts replication for SNAPSHOT_SHIPPING agents.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID on which to start replication.
 """
-function start_replication(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+start_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/StartReplication",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/StartReplication",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -2299,15 +2168,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Start Test for Account ID.
 - `"tags"`: Start Test by Tags.
 """
-function start_test(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/StartTest",
-        Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_test(sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/StartTest",
+    Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_test(
     sourceServerIDs,
     params::AbstractDict{String};
@@ -2339,15 +2206,13 @@ Stop Replication.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Stop Replication Request account ID.
 """
-function stop_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/StopReplication",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_replication(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/StopReplication",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_replication(
     sourceServerID,
     params::AbstractDict{String};
@@ -2378,15 +2243,13 @@ optional value.
 - `tags`: Tag resource by Tags.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/tags/$(resourceArn)",
-        Dict{String,Any}("tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/tags/$(resourceArn)",
+    Dict{String,Any}("tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     resourceArn,
     tags,
@@ -2418,17 +2281,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Terminate Target instance by Account ID
 - `"tags"`: Terminate Target instance by Tags.
 """
-function terminate_target_instances(
+terminate_target_instances(
     sourceServerIDs; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/TerminateTargetInstances",
+    Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/TerminateTargetInstances",
-        Dict{String,Any}("sourceServerIDs" => sourceServerIDs);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function terminate_target_instances(
     sourceServerIDs,
     params::AbstractDict{String};
@@ -2460,17 +2321,14 @@ Unarchive application.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID.
 """
-function unarchive_application(
-    applicationID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
+unarchive_application(applicationID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn(
         "POST",
         "/UnarchiveApplication",
         Dict{String,Any}("applicationID" => applicationID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function unarchive_application(
     applicationID,
     params::AbstractDict{String};
@@ -2500,15 +2358,13 @@ Unarchive wave.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID.
 """
-function unarchive_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/UnarchiveWave",
-        Dict{String,Any}("waveID" => waveID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+unarchive_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/UnarchiveWave",
+    Dict{String,Any}("waveID" => waveID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function unarchive_wave(
     waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2533,17 +2389,14 @@ resources.
 - `tag_keys`: Untag resource by Keys.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2574,17 +2427,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: Application description.
 - `"name"`: Application name.
 """
-function update_application(
-    applicationID; aws_config::AbstractAWSConfig=global_aws_config()
+update_application(applicationID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/UpdateApplication",
+    Dict{String,Any}("applicationID" => applicationID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/UpdateApplication",
-        Dict{String,Any}("applicationID" => applicationID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_application(
     applicationID,
     params::AbstractDict{String};
@@ -2615,15 +2464,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: Update Connector request name.
 - `"ssmCommandConfig"`: Update Connector request SSM command config.
 """
-function update_connector(connectorID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/UpdateConnector",
-        Dict{String,Any}("connectorID" => connectorID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_connector(connectorID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/UpdateConnector",
+    Dict{String,Any}("connectorID" => connectorID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_connector(
     connectorID,
     params::AbstractDict{String};
@@ -2665,17 +2512,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetInstanceTypeRightSizingMethod"`: Update Launch configuration Target instance
   right sizing request.
 """
-function update_launch_configuration(
+update_launch_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/UpdateLaunchConfiguration",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/UpdateLaunchConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_launch_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -2717,17 +2562,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"smallVolumeMaxSize"`: Small volume maximum size.
 - `"targetInstanceTypeRightSizingMethod"`: Target instance type right-sizing method.
 """
-function update_launch_configuration_template(
+update_launch_configuration_template(
     launchConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/UpdateLaunchConfigurationTemplate",
+    Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/UpdateLaunchConfigurationTemplate",
-        Dict{String,Any}("launchConfigurationTemplateID" => launchConfigurationTemplateID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_launch_configuration_template(
     launchConfigurationTemplateID,
     params::AbstractDict{String};
@@ -2783,17 +2626,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Replication Server request.
 - `"useFipsEndpoint"`: Update replication configuration use Fips Endpoint.
 """
-function update_replication_configuration(
+update_replication_configuration(
     sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/UpdateReplicationConfiguration",
+    Dict{String,Any}("sourceServerID" => sourceServerID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/UpdateReplicationConfiguration",
-        Dict{String,Any}("sourceServerID" => sourceServerID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_replication_configuration(
     sourceServerID,
     params::AbstractDict{String};
@@ -2846,19 +2687,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   dedicated Replication Server request.
 - `"useFipsEndpoint"`: Update replication configuration template use Fips Endpoint request.
 """
-function update_replication_configuration_template(
+update_replication_configuration_template(
     replicationConfigurationTemplateID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/UpdateReplicationConfigurationTemplate",
+    Dict{String,Any}(
+        "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/UpdateReplicationConfigurationTemplate",
-        Dict{String,Any}(
-            "replicationConfigurationTemplateID" => replicationConfigurationTemplateID
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_replication_configuration_template(
     replicationConfigurationTemplateID,
     params::AbstractDict{String};
@@ -2896,17 +2735,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountID"`: Update Source Server request account ID.
 - `"connectorAction"`: Update Source Server request connector action.
 """
-function update_source_server(
-    sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return mgn(
+update_source_server(sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()) =
+    mgn(
         "POST",
         "/UpdateSourceServer",
         Dict{String,Any}("sourceServerID" => sourceServerID);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_source_server(
     sourceServerID,
     params::AbstractDict{String};
@@ -2938,19 +2774,17 @@ replication type.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"accountID"`: Account ID on which to update replication type.
 """
-function update_source_server_replication_type(
+update_source_server_replication_type(
     replicationType, sourceServerID; aws_config::AbstractAWSConfig=global_aws_config()
+) = mgn(
+    "POST",
+    "/UpdateSourceServerReplicationType",
+    Dict{String,Any}(
+        "replicationType" => replicationType, "sourceServerID" => sourceServerID
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mgn(
-        "POST",
-        "/UpdateSourceServerReplicationType",
-        Dict{String,Any}(
-            "replicationType" => replicationType, "sourceServerID" => sourceServerID
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_source_server_replication_type(
     replicationType,
     sourceServerID,
@@ -2989,15 +2823,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: Wave description.
 - `"name"`: Wave name.
 """
-function update_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config())
-    return mgn(
-        "POST",
-        "/UpdateWave",
-        Dict{String,Any}("waveID" => waveID);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_wave(waveID; aws_config::AbstractAWSConfig=global_aws_config()) = mgn(
+    "POST",
+    "/UpdateWave",
+    Dict{String,Any}("waveID" => waveID);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_wave(
     waveID, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

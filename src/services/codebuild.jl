@@ -14,14 +14,12 @@ Deletes one or more builds.
 - `ids`: The IDs of the builds to delete.
 
 """
-function batch_delete_builds(ids; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "BatchDeleteBuilds",
-        Dict{String,Any}("ids" => ids);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_delete_builds(ids; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "BatchDeleteBuilds",
+    Dict{String,Any}("ids" => ids);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_delete_builds(
     ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -43,14 +41,12 @@ Retrieves information about one or more batch builds.
 - `ids`: An array that contains the batch build identifiers to retrieve.
 
 """
-function batch_get_build_batches(ids; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "BatchGetBuildBatches",
-        Dict{String,Any}("ids" => ids);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_build_batches(ids; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "BatchGetBuildBatches",
+    Dict{String,Any}("ids" => ids);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_build_batches(
     ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -72,14 +68,12 @@ Gets information about one or more builds.
 - `ids`: The IDs of the builds.
 
 """
-function batch_get_builds(ids; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "BatchGetBuilds",
-        Dict{String,Any}("ids" => ids);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_builds(ids; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "BatchGetBuilds",
+    Dict{String,Any}("ids" => ids);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_builds(
     ids, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -101,14 +95,12 @@ Gets information about one or more compute fleets.
 - `names`: The names or ARNs of the compute fleets.
 
 """
-function batch_get_fleets(names; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "BatchGetFleets",
-        Dict{String,Any}("names" => names);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_fleets(names; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "BatchGetFleets",
+    Dict{String,Any}("names" => names);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_fleets(
     names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -132,14 +124,12 @@ Gets information about one or more build projects.
   a shared project using its name.
 
 """
-function batch_get_projects(names; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "BatchGetProjects",
-        Dict{String,Any}("names" => names);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+batch_get_projects(names; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "BatchGetProjects",
+    Dict{String,Any}("names" => names);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function batch_get_projects(
     names, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -162,16 +152,14 @@ end
   return.
 
 """
-function batch_get_report_groups(
+batch_get_report_groups(
     reportGroupArns; aws_config::AbstractAWSConfig=global_aws_config()
+) = codebuild(
+    "BatchGetReportGroups",
+    Dict{String,Any}("reportGroupArns" => reportGroupArns);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codebuild(
-        "BatchGetReportGroups",
-        Dict{String,Any}("reportGroupArns" => reportGroupArns);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_get_report_groups(
     reportGroupArns,
     params::AbstractDict{String};
@@ -199,14 +187,13 @@ end
 - `report_arns`:  An array of ARNs that identify the Report objects to return.
 
 """
-function batch_get_reports(reportArns; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
+batch_get_reports(reportArns; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "BatchGetReports",
         Dict{String,Any}("reportArns" => reportArns);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function batch_get_reports(
     reportArns,
     params::AbstractDict{String};
@@ -257,14 +244,17 @@ Creates a compute fleet.
   Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific
   (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East
   (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is
-  available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
-  Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The
-  environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N.
-  Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and
-  Asia Pacific (Mumbai).   For more information, see Build environment compute types in the
-  CodeBuild user guide.
+  (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium
+  fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
+  Pacific (Sydney), and EU (Frankfurt)   The environment type MAC_ARM is available for Large
+  fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia
+  Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in
+  regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),
+  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type
+  WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East
+  (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Sydney), Asia Pacific
+  (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).
+  For more information, see Build environment compute types in the CodeBuild user guide.
 - `name`: The name of the compute fleet.
 
 # Optional Parameters
@@ -272,6 +262,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"fleetServiceRole"`: The service role associated with the compute fleet. For more
   information, see  Allow a user to add a permission policy for a fleet service role in the
   CodeBuild User Guide.
+- `"imageId"`: The Amazon Machine Image (AMI) of the compute fleet.
 - `"overflowBehavior"`: The compute fleet overflow behavior.   For overflow behavior QUEUE,
   your overflow builds need to wait on the existing fleet instance to become available.   For
   overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you
@@ -285,25 +276,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   project tags.
 - `"vpcConfig"`:
 """
-function create_fleet(
+create_fleet(
     baseCapacity,
     computeType,
     environmentType,
     name;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codebuild(
+    "CreateFleet",
+    Dict{String,Any}(
+        "baseCapacity" => baseCapacity,
+        "computeType" => computeType,
+        "environmentType" => environmentType,
+        "name" => name,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codebuild(
-        "CreateFleet",
-        Dict{String,Any}(
-            "baseCapacity" => baseCapacity,
-            "computeType" => computeType,
-            "environmentType" => environmentType,
-            "name" => name,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_fleet(
     baseCapacity,
     computeType,
@@ -399,27 +388,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.  If
   you're using compute fleets during project creation, do not provide vpcConfig.
 """
-function create_project(
+create_project(
     artifacts,
     environment,
     name,
     serviceRole,
     source;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = codebuild(
+    "CreateProject",
+    Dict{String,Any}(
+        "artifacts" => artifacts,
+        "environment" => environment,
+        "name" => name,
+        "serviceRole" => serviceRole,
+        "source" => source,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codebuild(
-        "CreateProject",
-        Dict{String,Any}(
-            "artifacts" => artifacts,
-            "environment" => environment,
-            "name" => name,
-            "serviceRole" => serviceRole,
-            "source" => source,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_project(
     artifacts,
     environment,
@@ -467,16 +454,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tags are available for use by Amazon Web Services services that support CodeBuild report
   group tags.
 """
-function create_report_group(
+create_report_group(
     exportConfig, name, type; aws_config::AbstractAWSConfig=global_aws_config()
+) = codebuild(
+    "CreateReportGroup",
+    Dict{String,Any}("exportConfig" => exportConfig, "name" => name, "type" => type);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codebuild(
-        "CreateReportGroup",
-        Dict{String,Any}("exportConfig" => exportConfig, "name" => name, "type" => type);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_report_group(
     exportConfig,
     name,
@@ -536,14 +521,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Global or organization webhooks are only available for GitHub and Github Enterprise
   webhooks.
 """
-function create_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "CreateWebhook",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "CreateWebhook",
+    Dict{String,Any}("projectName" => projectName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_webhook(
     projectName,
     params::AbstractDict{String};
@@ -569,14 +552,12 @@ Deletes a batch build.
 - `id`: The identifier of the batch build to delete.
 
 """
-function delete_build_batch(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "DeleteBuildBatch",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_build_batch(id; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "DeleteBuildBatch",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_build_batch(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -598,14 +579,12 @@ Deletes a compute fleet. When you delete a compute fleet, its builds are not del
 - `arn`: The ARN of the compute fleet.
 
 """
-function delete_fleet(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "DeleteFleet",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_fleet(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "DeleteFleet",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_fleet(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -627,14 +606,12 @@ end
 - `name`: The name of the build project.
 
 """
-function delete_project(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "DeleteProject",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "DeleteProject",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -656,14 +633,12 @@ end
 - `arn`:  The ARN of the report to delete.
 
 """
-function delete_report(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "DeleteReport",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_report(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "DeleteReport",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_report(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -692,14 +667,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the reports. If you call DeleteReportGroup for a report group that contains one or more
   reports, an exception is thrown.
 """
-function delete_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "DeleteReportGroup",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "DeleteReportGroup",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_report_group(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -721,16 +694,13 @@ end
 - `resource_arn`:  The ARN of the resource that is associated with the resource policy.
 
 """
-function delete_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codebuild(
+delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "DeleteResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -756,14 +726,13 @@ end
 - `arn`:  The Amazon Resource Name (ARN) of the token.
 
 """
-function delete_source_credentials(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
+delete_source_credentials(arn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "DeleteSourceCredentials",
         Dict{String,Any}("arn" => arn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_source_credentials(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -787,14 +756,12 @@ change is pushed to the repository.
 - `project_name`: The name of the CodeBuild project.
 
 """
-function delete_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "DeleteWebhook",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "DeleteWebhook",
+    Dict{String,Any}("projectName" => projectName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_webhook(
     projectName,
     params::AbstractDict{String};
@@ -832,16 +799,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   percentage of lines that are covered.
 - `"sortOrder"`: Specifies if the results are sorted in ascending or descending order.
 """
-function describe_code_coverages(
-    reportArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codebuild(
+describe_code_coverages(reportArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "DescribeCodeCoverages",
         Dict{String,Any}("reportArn" => reportArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_code_coverages(
     reportArn,
     params::AbstractDict{String};
@@ -879,14 +843,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   keep calling this operation with each subsequent next token that is returned, until no more
   next tokens are returned.
 """
-function describe_test_cases(reportArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
+describe_test_cases(reportArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "DescribeTestCases",
         Dict{String,Any}("reportArn" => reportArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_test_cases(
     reportArn,
     params::AbstractDict{String};
@@ -927,16 +890,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"numOfReports"`: The number of reports to analyze. This operation always retrieves the
   most recent reports. If this parameter is omitted, the most recent 100 reports are analyzed.
 """
-function get_report_group_trend(
+get_report_group_trend(
     reportGroupArn, trendField; aws_config::AbstractAWSConfig=global_aws_config()
+) = codebuild(
+    "GetReportGroupTrend",
+    Dict{String,Any}("reportGroupArn" => reportGroupArn, "trendField" => trendField);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codebuild(
-        "GetReportGroupTrend",
-        Dict{String,Any}("reportGroupArn" => reportGroupArn, "trendField" => trendField);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_report_group_trend(
     reportGroupArn,
     trendField,
@@ -969,14 +930,13 @@ end
 - `resource_arn`:  The ARN of the resource that is associated with the resource policy.
 
 """
-function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
+get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "GetResourcePolicy",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -997,17 +957,18 @@ end
     import_source_credentials(auth_type, server_type, token, params::Dict{String,<:Any})
 
  Imports the source repository credentials for an CodeBuild project that has its source
-code stored in a GitHub, GitHub Enterprise, or Bitbucket repository.
+code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket
+repository.
 
 # Arguments
 - `auth_type`:  The type of authentication used to connect to a GitHub, GitHub Enterprise,
   GitLab, GitLab Self Managed, or Bitbucket repository. An OAUTH connection is not supported
-  by the API and must be created using the CodeBuild console. Note that CODECONNECTIONS is
-  only valid for GitLab and GitLab Self Managed.
+  by the API and must be created using the CodeBuild console.
 - `server_type`:  The source provider used for this project.
 - `token`:  For GitHub or GitHub Enterprise, this is the personal access token. For
   Bitbucket, this is either the access token or the app password. For the authType
-  CODECONNECTIONS, this is the connectionArn.
+  CODECONNECTIONS, this is the connectionArn. For the authType SECRETS_MANAGER, this is the
+  secretArn.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
@@ -1017,18 +978,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"username"`:  The Bitbucket username when the authType is BASIC_AUTH. This parameter is
   not valid for other types of source providers or connections.
 """
-function import_source_credentials(
+import_source_credentials(
     authType, serverType, token; aws_config::AbstractAWSConfig=global_aws_config()
+) = codebuild(
+    "ImportSourceCredentials",
+    Dict{String,Any}("authType" => authType, "serverType" => serverType, "token" => token);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codebuild(
-        "ImportSourceCredentials",
-        Dict{String,Any}(
-            "authType" => authType, "serverType" => serverType, "token" => token
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function import_source_credentials(
     authType,
     serverType,
@@ -1062,16 +1019,13 @@ Resets the cache for a project.
 - `project_name`: The name of the CodeBuild build project that the cache is reset for.
 
 """
-function invalidate_project_cache(
-    projectName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codebuild(
+invalidate_project_cache(projectName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "InvalidateProjectCache",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function invalidate_project_cache(
     projectName,
     params::AbstractDict{String};
@@ -1104,11 +1058,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING: List the batch build identifiers in ascending order by identifier.
   DESCENDING: List the batch build identifiers in descending order by identifier.
 """
-function list_build_batches(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "ListBuildBatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_build_batches(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild("ListBuildBatches"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_build_batches(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1135,11 +1086,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING: List the batch build identifiers in ascending order by identifier.
   DESCENDING: List the batch build identifiers in descending order by identifier.
 """
-function list_build_batches_for_project(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
+list_build_batches_for_project(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "ListBuildBatchesForProject"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_build_batches_for_project(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1168,9 +1118,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   build IDs in ascending order by build ID.    DESCENDING: List the build IDs in descending
   order by build ID.
 """
-function list_builds(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_builds(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild("ListBuilds"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_builds(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1203,16 +1152,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number.   If the project has more than 100 builds, setting the sort order will result in an
   error.
 """
-function list_builds_for_project(
-    projectName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codebuild(
+list_builds_for_project(projectName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "ListBuildsForProject",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_builds_for_project(
     projectName,
     params::AbstractDict{String};
@@ -1235,15 +1181,12 @@ end
 Gets information about Docker images that are managed by CodeBuild.
 
 """
-function list_curated_environment_images(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return codebuild(
+list_curated_environment_images(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "ListCuratedEnvironmentImages";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_curated_environment_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1280,9 +1223,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy
   to specify the criterion to be used to list compute fleet names.
 """
-function list_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild("ListFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1314,9 +1256,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.   Use sortBy
   to specify the criterion to be used to list build project names.
 """
-function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_projects(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild("ListProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1349,11 +1290,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`:  Used to specify the order to sort the list of returned report groups.
   Valid values are ASCENDING and DESCENDING.
 """
-function list_report_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "ListReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_report_groups(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild("ListReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_report_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1385,9 +1323,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DESCENDING: return reports in the reverse chronological order based on their creation date.
   
 """
-function list_reports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild("ListReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_reports(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild("ListReports"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1421,16 +1358,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`:  Use to specify whether the results are returned in ascending or
   descending order.
 """
-function list_reports_for_report_group(
+list_reports_for_report_group(
     reportGroupArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = codebuild(
+    "ListReportsForReportGroup",
+    Dict{String,Any}("reportGroupArn" => reportGroupArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codebuild(
-        "ListReportsForReportGroup",
-        Dict{String,Any}("reportGroupArn" => reportGroupArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_reports_for_report_group(
     reportGroupArn,
     params::AbstractDict{String};
@@ -1470,11 +1405,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: The order in which to list shared build projects. Valid values include:
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
-function list_shared_projects(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "ListSharedProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_shared_projects(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild("ListSharedProjects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_shared_projects(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1508,11 +1440,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: The order in which to list shared report groups. Valid values include:
   ASCENDING: List in ascending order.    DESCENDING: List in descending order.
 """
-function list_shared_report_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "ListSharedReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_shared_report_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "ListSharedReportGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_shared_report_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1531,11 +1461,9 @@ end
  Returns a list of SourceCredentialsInfo objects.
 
 """
-function list_source_credentials(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "ListSourceCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_source_credentials(; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "ListSourceCredentials"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_source_credentials(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1560,16 +1488,14 @@ end
   with a resource policy.
 
 """
-function put_resource_policy(
+put_resource_policy(
     policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = codebuild(
+    "PutResourcePolicy",
+    Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codebuild(
-        "PutResourcePolicy",
-        Dict{String,Any}("policy" => policy, "resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_resource_policy(
     policy,
     resourceArn,
@@ -1604,9 +1530,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is valid for five minutes. If you repeat the RetryBuild request with the same token, but
   change a parameter, CodeBuild returns a parameter mismatch error.
 """
-function retry_build(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild("RetryBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+retry_build(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild("RetryBuild"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function retry_build(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1630,11 +1555,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   same token, but change a parameter, CodeBuild returns a parameter mismatch error.
 - `"retryType"`: Specifies the type of retry to perform.
 """
-function retry_build_batch(; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "RetryBuildBatch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+retry_build_batch(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild("RetryBuildBatch"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function retry_build_batch(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1765,14 +1687,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours), that overrides, for this build only, the latest setting already defined in the
   build project.
 """
-function start_build(projectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "StartBuild",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_build(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "StartBuild",
+    Dict{String,Any}("projectName" => projectName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_build(
     projectName,
     params::AbstractDict{String};
@@ -1897,14 +1817,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   level) takes precedence.  For more information, see Source Version Sample with CodeBuild in
   the CodeBuild User Guide.
 """
-function start_build_batch(projectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
+start_build_batch(projectName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    codebuild(
         "StartBuildBatch",
         Dict{String,Any}("projectName" => projectName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_build_batch(
     projectName,
     params::AbstractDict{String};
@@ -1930,14 +1849,12 @@ Attempts to stop running a build.
 - `id`: The ID of the build.
 
 """
-function stop_build(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "StopBuild",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_build(id; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "StopBuild",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_build(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1959,14 +1876,12 @@ Stops a running batch build.
 - `id`: The identifier of the batch build to stop.
 
 """
-function stop_build_batch(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "StopBuildBatch",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_build_batch(id; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "StopBuildBatch",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_build_batch(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2017,17 +1932,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Pacific (Singapore), Asia Pacific (Sydney), South America (São Paulo), and Asia Pacific
   (Mumbai).   The environment type LINUX_GPU_CONTAINER is available only in regions US East
   (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Tokyo), and Asia Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is
-  available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
-  Pacific (Sydney), Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The
-  environment type WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N.
-  Virginia), US East (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific
-  (Sydney), Asia Pacific (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and
-  Asia Pacific (Mumbai).   For more information, see Build environment compute types in the
-  CodeBuild user guide.
+  (Tokyo), and Asia Pacific (Sydney).   The environment type MAC_ARM is available for Medium
+  fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia
+  Pacific (Sydney), and EU (Frankfurt)   The environment type MAC_ARM is available for Large
+  fleets only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), and Asia
+  Pacific (Sydney).   The environment type WINDOWS_SERVER_2019_CONTAINER is available only in
+  regions US East (N. Virginia), US East (Ohio), US West (Oregon), Asia Pacific (Sydney),
+  Asia Pacific (Tokyo), Asia Pacific (Mumbai) and EU (Ireland).   The environment type
+  WINDOWS_SERVER_2022_CONTAINER is available only in regions US East (N. Virginia), US East
+  (Ohio), US West (Oregon), EU (Ireland), EU (Frankfurt), Asia Pacific (Sydney), Asia Pacific
+  (Singapore), Asia Pacific (Tokyo), South America (São Paulo) and Asia Pacific (Mumbai).
+  For more information, see Build environment compute types in the CodeBuild user guide.
 - `"fleetServiceRole"`: The service role associated with the compute fleet. For more
   information, see  Allow a user to add a permission policy for a fleet service role in the
   CodeBuild User Guide.
+- `"imageId"`: The Amazon Machine Image (AMI) of the compute fleet.
 - `"overflowBehavior"`: The compute fleet overflow behavior.   For overflow behavior QUEUE,
   your overflow builds need to wait on the existing fleet instance to become available.   For
   overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.  If you
@@ -2041,14 +1960,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   project tags.
 - `"vpcConfig"`:
 """
-function update_fleet(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "UpdateFleet",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_fleet(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "UpdateFleet",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_fleet(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2128,14 +2045,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   CodeBuild to wait before timing out any related build that did not get marked as completed.
 - `"vpcConfig"`: VpcConfig enables CodeBuild to access resources in an Amazon VPC.
 """
-function update_project(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "UpdateProject",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_project(name; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "UpdateProject",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_project(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2178,18 +2093,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceAccessRole"`: The ARN of the IAM role that enables CodeBuild to access the
   CloudWatch Logs and Amazon S3 artifacts for the project's builds.
 """
-function update_project_visibility(
+update_project_visibility(
     projectArn, projectVisibility; aws_config::AbstractAWSConfig=global_aws_config()
+) = codebuild(
+    "UpdateProjectVisibility",
+    Dict{String,Any}("projectArn" => projectArn, "projectVisibility" => projectVisibility);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return codebuild(
-        "UpdateProjectVisibility",
-        Dict{String,Any}(
-            "projectArn" => projectArn, "projectVisibility" => projectVisibility
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_project_visibility(
     projectArn,
     projectVisibility,
@@ -2230,14 +2141,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   These tags are available for use by Amazon Web Services services that support CodeBuild
   report group tags.
 """
-function update_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "UpdateReportGroup",
-        Dict{String,Any}("arn" => arn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_report_group(arn; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "UpdateReportGroup",
+    Dict{String,Any}("arn" => arn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_report_group(
     arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2273,14 +2182,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository's secret token should be updated. If you use Bitbucket for your repository,
   rotateSecret is ignored.
 """
-function update_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config())
-    return codebuild(
-        "UpdateWebhook",
-        Dict{String,Any}("projectName" => projectName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_webhook(projectName; aws_config::AbstractAWSConfig=global_aws_config()) = codebuild(
+    "UpdateWebhook",
+    Dict{String,Any}("projectName" => projectName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_webhook(
     projectName,
     params::AbstractDict{String};

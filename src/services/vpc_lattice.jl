@@ -19,20 +19,18 @@ with IAM in the Amazon VPC Lattice User Guide.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 """
-function batch_update_rule(
+batch_update_rule(
     listenerIdentifier,
     rules,
     serviceIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "PATCH",
+    "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules",
+    Dict{String,Any}("rules" => rules);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "PATCH",
-        "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules",
-        Dict{String,Any}("rules" => rules);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_update_rule(
     listenerIdentifier,
     rules,
@@ -75,21 +73,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the access log subscription.
 """
-function create_access_log_subscription(
+create_access_log_subscription(
     destinationArn, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "POST",
+    "/accesslogsubscriptions",
+    Dict{String,Any}(
+        "destinationArn" => destinationArn,
+        "resourceIdentifier" => resourceIdentifier,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "POST",
-        "/accesslogsubscriptions",
-        Dict{String,Any}(
-            "destinationArn" => destinationArn,
-            "resourceIdentifier" => resourceIdentifier,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_access_log_subscription(
     destinationArn,
     resourceIdentifier,
@@ -143,26 +139,24 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default is 80. For HTTPS, the default is 443.
 - `"tags"`: The tags for the listener.
 """
-function create_listener(
+create_listener(
     defaultAction,
     name,
     protocol,
     serviceIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "POST",
+    "/services/$(serviceIdentifier)/listeners",
+    Dict{String,Any}(
+        "defaultAction" => defaultAction,
+        "name" => name,
+        "protocol" => protocol,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "POST",
-        "/services/$(serviceIdentifier)/listeners",
-        Dict{String,Any}(
-            "defaultAction" => defaultAction,
-            "name" => name,
-            "protocol" => protocol,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_listener(
     defaultAction,
     name,
@@ -219,7 +213,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the rule.
 """
-function create_rule(
+create_rule(
     action,
     listenerIdentifier,
     match,
@@ -227,21 +221,19 @@ function create_rule(
     priority,
     serviceIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "POST",
+    "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules",
+    Dict{String,Any}(
+        "action" => action,
+        "match" => match,
+        "name" => name,
+        "priority" => priority,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "POST",
-        "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules",
-        Dict{String,Any}(
-            "action" => action,
-            "match" => match,
-            "name" => name,
-            "priority" => priority,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_rule(
     action,
     listenerIdentifier,
@@ -299,15 +291,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"customDomainName"`: The custom domain name of the service.
 - `"tags"`: The tags for the service.
 """
-function create_service(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return vpc_lattice(
-        "POST",
-        "/services",
-        Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_service(name; aws_config::AbstractAWSConfig=global_aws_config()) = vpc_lattice(
+    "POST",
+    "/services",
+    Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -350,15 +340,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the service network.
 """
-function create_service_network(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return vpc_lattice(
+create_service_network(name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "POST",
         "/servicenetworks",
         Dict{String,Any}("name" => name, "clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_service_network(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -404,23 +393,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameters aren't identical, the retry fails.
 - `"tags"`: The tags for the association.
 """
-function create_service_network_service_association(
+create_service_network_service_association(
     serviceIdentifier,
     serviceNetworkIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "POST",
+    "/servicenetworkserviceassociations",
+    Dict{String,Any}(
+        "serviceIdentifier" => serviceIdentifier,
+        "serviceNetworkIdentifier" => serviceNetworkIdentifier,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "POST",
-        "/servicenetworkserviceassociations",
-        Dict{String,Any}(
-            "serviceIdentifier" => serviceIdentifier,
-            "serviceNetworkIdentifier" => serviceNetworkIdentifier,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_service_network_service_association(
     serviceIdentifier,
     serviceNetworkIdentifier,
@@ -480,23 +467,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Guide.
 - `"tags"`: The tags for the association.
 """
-function create_service_network_vpc_association(
+create_service_network_vpc_association(
     serviceNetworkIdentifier,
     vpcIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "POST",
+    "/servicenetworkvpcassociations",
+    Dict{String,Any}(
+        "serviceNetworkIdentifier" => serviceNetworkIdentifier,
+        "vpcIdentifier" => vpcIdentifier,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "POST",
-        "/servicenetworkvpcassociations",
-        Dict{String,Any}(
-            "serviceNetworkIdentifier" => serviceNetworkIdentifier,
-            "vpcIdentifier" => vpcIdentifier,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_service_network_vpc_association(
     serviceNetworkIdentifier,
     vpcIdentifier,
@@ -545,15 +530,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"config"`: The target group configuration.
 - `"tags"`: The tags for the target group.
 """
-function create_target_group(name, type; aws_config::AbstractAWSConfig=global_aws_config())
-    return vpc_lattice(
+create_target_group(name, type; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "POST",
         "/targetgroups",
         Dict{String,Any}("name" => name, "type" => type, "clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_target_group(
     name,
     type,
@@ -588,16 +572,14 @@ Deletes the specified access log subscription.
   log subscription.
 
 """
-function delete_access_log_subscription(
+delete_access_log_subscription(
     accessLogSubscriptionIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "DELETE",
+    "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "DELETE",
-        "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_access_log_subscription(
     accessLogSubscriptionIdentifier,
     params::AbstractDict{String};
@@ -625,16 +607,13 @@ is set, all requests are denied.
 - `resource_identifier`: The ID or Amazon Resource Name (ARN) of the resource.
 
 """
-function delete_auth_policy(
-    resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+delete_auth_policy(resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "DELETE",
         "/authpolicy/$(resourceIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_auth_policy(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -660,16 +639,14 @@ Deletes the specified listener.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 """
-function delete_listener(
+delete_listener(
     listenerIdentifier, serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "DELETE",
+    "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "DELETE",
-        "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_listener(
     listenerIdentifier,
     serviceIdentifier,
@@ -695,16 +672,13 @@ Deletes the specified resource policy.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function delete_resource_policy(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+delete_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "DELETE",
         "/resourcepolicy/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -735,19 +709,17 @@ Guide.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 """
-function delete_rule(
+delete_rule(
     listenerIdentifier,
     ruleIdentifier,
     serviceIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "DELETE",
+    "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "DELETE",
-        "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -777,16 +749,13 @@ more information, see Delete a service in the Amazon VPC Lattice User Guide.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 """
-function delete_service(
-    serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+delete_service(serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "DELETE",
         "/services/$(serviceIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_service(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -815,16 +784,14 @@ Lattice User Guide.
 - `service_network_identifier`: The Amazon Resource Name (ARN) or ID of the service network.
 
 """
-function delete_service_network(
+delete_service_network(
     serviceNetworkIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "DELETE",
+    "/servicenetworks/$(serviceNetworkIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "DELETE",
-        "/servicenetworks/$(serviceNetworkIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_service_network(
     serviceNetworkIdentifier,
     params::AbstractDict{String};
@@ -851,17 +818,15 @@ operation fails if an association is still in progress.
   the association.
 
 """
-function delete_service_network_service_association(
+delete_service_network_service_association(
     serviceNetworkServiceAssociationIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "DELETE",
+    "/servicenetworkserviceassociations/$(serviceNetworkServiceAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "DELETE",
-        "/servicenetworkserviceassociations/$(serviceNetworkServiceAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_service_network_service_association(
     serviceNetworkServiceAssociationIdentifier,
     params::AbstractDict{String};
@@ -888,17 +853,15 @@ a create or update association in progress.
   association.
 
 """
-function delete_service_network_vpc_association(
+delete_service_network_vpc_association(
     serviceNetworkVpcAssociationIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "DELETE",
+    "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "DELETE",
-        "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_service_network_vpc_association(
     serviceNetworkVpcAssociationIdentifier,
     params::AbstractDict{String};
@@ -924,16 +887,14 @@ if the target group creation is in progress.
 - `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
 
 """
-function delete_target_group(
+delete_target_group(
     targetGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "DELETE",
+    "/targetgroups/$(targetGroupIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "DELETE",
-        "/targetgroups/$(targetGroupIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_target_group(
     targetGroupIdentifier,
     params::AbstractDict{String};
@@ -959,17 +920,15 @@ Deregisters the specified targets from the specified target group.
 - `targets`: The targets to deregister.
 
 """
-function deregister_targets(
+deregister_targets(
     targetGroupIdentifier, targets; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "POST",
+    "/targetgroups/$(targetGroupIdentifier)/deregistertargets",
+    Dict{String,Any}("targets" => targets);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "POST",
-        "/targetgroups/$(targetGroupIdentifier)/deregistertargets",
-        Dict{String,Any}("targets" => targets);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function deregister_targets(
     targetGroupIdentifier,
     targets,
@@ -996,16 +955,14 @@ Retrieves information about the specified access log subscription.
   log subscription.
 
 """
-function get_access_log_subscription(
+get_access_log_subscription(
     accessLogSubscriptionIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "GET",
+    "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "GET",
-        "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_access_log_subscription(
     accessLogSubscriptionIdentifier,
     params::AbstractDict{String};
@@ -1031,16 +988,13 @@ Retrieves information about the auth policy for the specified service or service
   service.
 
 """
-function get_auth_policy(
-    resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+get_auth_policy(resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "GET",
         "/authpolicy/$(resourceIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_auth_policy(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -1066,16 +1020,14 @@ Retrieves information about the specified listener for the specified service.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 """
-function get_listener(
+get_listener(
     listenerIdentifier, serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "GET",
+    "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "GET",
-        "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_listener(
     listenerIdentifier,
     serviceIdentifier,
@@ -1102,14 +1054,13 @@ created on behalf of the resource owner when they share a resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the service network or service.
 
 """
-function get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return vpc_lattice(
+get_resource_policy(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "GET",
         "/resourcepolicy/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_resource_policy(
     resourceArn,
     params::AbstractDict{String};
@@ -1138,19 +1089,17 @@ User Guide.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 """
-function get_rule(
+get_rule(
     listenerIdentifier,
     ruleIdentifier,
     serviceIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "GET",
+    "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "GET",
-        "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -1177,14 +1126,13 @@ Retrieves information about the specified service.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 """
-function get_service(serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config())
-    return vpc_lattice(
+get_service(serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "GET",
         "/services/$(serviceIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_service(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -1209,16 +1157,14 @@ Retrieves information about the specified service network.
 - `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
 
 """
-function get_service_network(
+get_service_network(
     serviceNetworkIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "GET",
+    "/servicenetworks/$(serviceNetworkIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "GET",
-        "/servicenetworks/$(serviceNetworkIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_service_network(
     serviceNetworkIdentifier,
     params::AbstractDict{String};
@@ -1245,17 +1191,15 @@ service.
   the association.
 
 """
-function get_service_network_service_association(
+get_service_network_service_association(
     serviceNetworkServiceAssociationIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "GET",
+    "/servicenetworkserviceassociations/$(serviceNetworkServiceAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "GET",
-        "/servicenetworkserviceassociations/$(serviceNetworkServiceAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_service_network_service_association(
     serviceNetworkServiceAssociationIdentifier,
     params::AbstractDict{String};
@@ -1281,17 +1225,15 @@ Retrieves information about the association between a service network and a VPC.
   association.
 
 """
-function get_service_network_vpc_association(
+get_service_network_vpc_association(
     serviceNetworkVpcAssociationIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "GET",
+    "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "GET",
-        "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_service_network_vpc_association(
     serviceNetworkVpcAssociationIdentifier,
     params::AbstractDict{String};
@@ -1316,16 +1258,13 @@ Retrieves information about the specified target group.
 - `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
 
 """
-function get_target_group(
-    targetGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+get_target_group(targetGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "GET",
         "/targetgroups/$(targetGroupIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_target_group(
     targetGroupIdentifier,
     params::AbstractDict{String};
@@ -1355,17 +1294,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 """
-function list_access_log_subscriptions(
+list_access_log_subscriptions(
     resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "GET",
+    "/accesslogsubscriptions",
+    Dict{String,Any}("resourceIdentifier" => resourceIdentifier);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "GET",
-        "/accesslogsubscriptions",
-        Dict{String,Any}("resourceIdentifier" => resourceIdentifier);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_access_log_subscriptions(
     resourceIdentifier,
     params::AbstractDict{String};
@@ -1398,16 +1335,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 """
-function list_listeners(
-    serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+list_listeners(serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "GET",
         "/services/$(serviceIdentifier)/listeners";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_listeners(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -1437,16 +1371,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 """
-function list_rules(
+list_rules(
     listenerIdentifier, serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "GET",
+    "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "GET",
-        "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_rules(
     listenerIdentifier,
     serviceIdentifier,
@@ -1481,16 +1413,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceIdentifier"`: The ID or Amazon Resource Name (ARN) of the service.
 - `"serviceNetworkIdentifier"`: The ID or Amazon Resource Name (ARN) of the service network.
 """
-function list_service_network_service_associations(;
+list_service_network_service_associations(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "GET",
+    "/servicenetworkserviceassociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "GET",
-        "/servicenetworkserviceassociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_service_network_service_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1518,16 +1448,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceNetworkIdentifier"`: The ID or Amazon Resource Name (ARN) of the service network.
 - `"vpcIdentifier"`: The ID or Amazon Resource Name (ARN) of the VPC.
 """
-function list_service_network_vpc_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+list_service_network_vpc_associations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "GET",
         "/servicenetworkvpcassociations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_service_network_vpc_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1552,11 +1479,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 """
-function list_service_networks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return vpc_lattice(
-        "GET", "/servicenetworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_service_networks(; aws_config::AbstractAWSConfig=global_aws_config()) = vpc_lattice(
+    "GET", "/servicenetworks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_service_networks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1580,11 +1505,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return.
 - `"nextToken"`: A pagination token for the next page of results.
 """
-function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
-    return vpc_lattice(
-        "GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_services(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice("GET", "/services"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1603,16 +1525,13 @@ Lists the tags for the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1641,11 +1560,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"targetGroupType"`: The target group type.
 - `"vpcIdentifier"`: The ID or Amazon Resource Name (ARN) of the VPC.
 """
-function list_target_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return vpc_lattice(
-        "GET", "/targetgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_target_groups(; aws_config::AbstractAWSConfig=global_aws_config()) = vpc_lattice(
+    "GET", "/targetgroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_target_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1674,16 +1591,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token for the next page of results.
 - `"targets"`: The targets.
 """
-function list_targets(
-    targetGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+list_targets(targetGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "POST",
         "/targetgroups/$(targetGroupIdentifier)/listtargets";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_targets(
     targetGroupIdentifier,
     params::AbstractDict{String};
@@ -1712,17 +1626,15 @@ blank lines. For more information, see Auth policies in the Amazon VPC Lattice U
   service for which the policy is created.
 
 """
-function put_auth_policy(
+put_auth_policy(
     policy, resourceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "PUT",
+    "/authpolicy/$(resourceIdentifier)",
+    Dict{String,Any}("policy" => policy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "PUT",
-        "/authpolicy/$(resourceIdentifier)",
-        Dict{String,Any}("policy" => policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_auth_policy(
     policy,
     resourceIdentifier,
@@ -1753,17 +1665,15 @@ Access Manager permission for sharing services and service networks.
   for which the policy is created.
 
 """
-function put_resource_policy(
+put_resource_policy(
     policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "PUT",
+    "/resourcepolicy/$(resourceArn)",
+    Dict{String,Any}("policy" => policy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "PUT",
-        "/resourcepolicy/$(resourceArn)",
-        Dict{String,Any}("policy" => policy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_resource_policy(
     policy,
     resourceArn,
@@ -1791,17 +1701,15 @@ target in a target group.
 - `targets`: The targets.
 
 """
-function register_targets(
+register_targets(
     targetGroupIdentifier, targets; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "POST",
+    "/targetgroups/$(targetGroupIdentifier)/registertargets",
+    Dict{String,Any}("targets" => targets);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "POST",
-        "/targetgroups/$(targetGroupIdentifier)/registertargets",
-        Dict{String,Any}("targets" => targets);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function register_targets(
     targetGroupIdentifier,
     targets,
@@ -1828,15 +1736,14 @@ Adds the specified tags to the specified resource.
 - `tags`: The tags for the resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return vpc_lattice(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -1863,17 +1770,14 @@ Removes the specified tags from the specified resource.
 - `tag_keys`: The tag keys of the tags to remove.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -1901,19 +1805,17 @@ Updates the specified access log subscription.
 - `destination_arn`: The Amazon Resource Name (ARN) of the access log destination.
 
 """
-function update_access_log_subscription(
+update_access_log_subscription(
     accessLogSubscriptionIdentifier,
     destinationArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "PATCH",
+    "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)",
+    Dict{String,Any}("destinationArn" => destinationArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "PATCH",
-        "/accesslogsubscriptions/$(accessLogSubscriptionIdentifier)",
-        Dict{String,Any}("destinationArn" => destinationArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_access_log_subscription(
     accessLogSubscriptionIdentifier,
     destinationArn,
@@ -1943,20 +1845,18 @@ Updates the specified listener for the specified service.
 - `service_identifier`: The ID or Amazon Resource Name (ARN) of the service.
 
 """
-function update_listener(
+update_listener(
     defaultAction,
     listenerIdentifier,
     serviceIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "PATCH",
+    "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)",
+    Dict{String,Any}("defaultAction" => defaultAction);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "PATCH",
-        "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)",
-        Dict{String,Any}("defaultAction" => defaultAction);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_listener(
     defaultAction,
     listenerIdentifier,
@@ -1994,19 +1894,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"priority"`: The rule priority. A listener can't have multiple rules with the same
   priority.
 """
-function update_rule(
+update_rule(
     listenerIdentifier,
     ruleIdentifier,
     serviceIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "PATCH",
+    "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "PATCH",
-        "/services/$(serviceIdentifier)/listeners/$(listenerIdentifier)/rules/$(ruleIdentifier)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_rule(
     listenerIdentifier,
     ruleIdentifier,
@@ -2039,16 +1937,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   auth is enabled and an auth policy is required.
 - `"certificateArn"`: The Amazon Resource Name (ARN) of the certificate.
 """
-function update_service(
-    serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return vpc_lattice(
+update_service(serviceIdentifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    vpc_lattice(
         "PATCH",
         "/services/$(serviceIdentifier)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_service(
     serviceIdentifier,
     params::AbstractDict{String};
@@ -2076,17 +1971,15 @@ Updates the specified service network.
 - `service_network_identifier`: The ID or Amazon Resource Name (ARN) of the service network.
 
 """
-function update_service_network(
+update_service_network(
     authType, serviceNetworkIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "PATCH",
+    "/servicenetworks/$(serviceNetworkIdentifier)",
+    Dict{String,Any}("authType" => authType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "PATCH",
-        "/servicenetworks/$(serviceNetworkIdentifier)",
-        Dict{String,Any}("authType" => authType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_service_network(
     authType,
     serviceNetworkIdentifier,
@@ -2120,19 +2013,17 @@ groups.
   association.
 
 """
-function update_service_network_vpc_association(
+update_service_network_vpc_association(
     securityGroupIds,
     serviceNetworkVpcAssociationIdentifier;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = vpc_lattice(
+    "PATCH",
+    "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)",
+    Dict{String,Any}("securityGroupIds" => securityGroupIds);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "PATCH",
-        "/servicenetworkvpcassociations/$(serviceNetworkVpcAssociationIdentifier)",
-        Dict{String,Any}("securityGroupIds" => securityGroupIds);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_service_network_vpc_association(
     securityGroupIds,
     serviceNetworkVpcAssociationIdentifier,
@@ -2163,17 +2054,15 @@ Updates the specified target group.
 - `target_group_identifier`: The ID or Amazon Resource Name (ARN) of the target group.
 
 """
-function update_target_group(
+update_target_group(
     healthCheck, targetGroupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+) = vpc_lattice(
+    "PATCH",
+    "/targetgroups/$(targetGroupIdentifier)",
+    Dict{String,Any}("healthCheck" => healthCheck);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return vpc_lattice(
-        "PATCH",
-        "/targetgroups/$(targetGroupIdentifier)",
-        Dict{String,Any}("healthCheck" => healthCheck);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_target_group(
     healthCheck,
     targetGroupIdentifier,

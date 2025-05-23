@@ -14,14 +14,13 @@ Delete the connection with the provided id.
 - `connection_id`:
 
 """
-function delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return apigatewaymanagementapi(
+delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    apigatewaymanagementapi(
         "DELETE",
         "/@connections/$(connectionId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_connection(
     connectionId,
     params::AbstractDict{String};
@@ -46,14 +45,13 @@ Get information about the connection with the provided id.
 - `connection_id`:
 
 """
-function get_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return apigatewaymanagementapi(
+get_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    apigatewaymanagementapi(
         "GET",
         "/@connections/$(connectionId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_connection(
     connectionId,
     params::AbstractDict{String};
@@ -79,17 +77,14 @@ Sends the provided data to the specified connection.
 - `connection_id`: The identifier of the connection that a specific client is using.
 
 """
-function post_to_connection(
-    Data, connectionId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return apigatewaymanagementapi(
+post_to_connection(Data, connectionId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    apigatewaymanagementapi(
         "POST",
         "/@connections/$(connectionId)",
         Dict{String,Any}("Data" => Data);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function post_to_connection(
     Data,
     connectionId,

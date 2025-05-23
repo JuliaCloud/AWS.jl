@@ -15,18 +15,16 @@ Associates the specified app block builder with the specified app block.
 - `app_block_builder_name`: The name of the app block builder.
 
 """
-function associate_app_block_builder_app_block(
+associate_app_block_builder_app_block(
     AppBlockArn, AppBlockBuilderName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "AssociateAppBlockBuilderAppBlock",
+    Dict{String,Any}(
+        "AppBlockArn" => AppBlockArn, "AppBlockBuilderName" => AppBlockBuilderName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "AssociateAppBlockBuilderAppBlock",
-        Dict{String,Any}(
-            "AppBlockArn" => AppBlockArn, "AppBlockBuilderName" => AppBlockBuilderName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_app_block_builder_app_block(
     AppBlockArn,
     AppBlockBuilderName,
@@ -62,16 +60,14 @@ Elastic fleets.
 - `fleet_name`: The name of the fleet.
 
 """
-function associate_application_fleet(
+associate_application_fleet(
     ApplicationArn, FleetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "AssociateApplicationFleet",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "FleetName" => FleetName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "AssociateApplicationFleet",
-        Dict{String,Any}("ApplicationArn" => ApplicationArn, "FleetName" => FleetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_application_fleet(
     ApplicationArn,
     FleetName,
@@ -106,23 +102,21 @@ Associates an application to entitle.
 - `stack_name`: The name of the stack.
 
 """
-function associate_application_to_entitlement(
+associate_application_to_entitlement(
     ApplicationIdentifier,
     EntitlementName,
     StackName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = appstream(
+    "AssociateApplicationToEntitlement",
+    Dict{String,Any}(
+        "ApplicationIdentifier" => ApplicationIdentifier,
+        "EntitlementName" => EntitlementName,
+        "StackName" => StackName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "AssociateApplicationToEntitlement",
-        Dict{String,Any}(
-            "ApplicationIdentifier" => ApplicationIdentifier,
-            "EntitlementName" => EntitlementName,
-            "StackName" => StackName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_application_to_entitlement(
     ApplicationIdentifier,
     EntitlementName,
@@ -159,16 +153,13 @@ Associates the specified fleet with the specified stack.
 - `stack_name`: The name of the stack.
 
 """
-function associate_fleet(
-    FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+associate_fleet(FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "AssociateFleet",
         Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function associate_fleet(
     FleetName,
     StackName,
@@ -200,16 +191,14 @@ assigned to stacks with fleets that are joined to an Active Directory domain.
 - `user_stack_associations`: The list of UserStackAssociation objects.
 
 """
-function batch_associate_user_stack(
+batch_associate_user_stack(
     UserStackAssociations; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "BatchAssociateUserStack",
+    Dict{String,Any}("UserStackAssociations" => UserStackAssociations);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "BatchAssociateUserStack",
-        Dict{String,Any}("UserStackAssociations" => UserStackAssociations);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_associate_user_stack(
     UserStackAssociations,
     params::AbstractDict{String};
@@ -239,16 +228,14 @@ Disassociates the specified users from the specified stacks.
 - `user_stack_associations`: The list of UserStackAssociation objects.
 
 """
-function batch_disassociate_user_stack(
+batch_disassociate_user_stack(
     UserStackAssociations; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "BatchDisassociateUserStack",
+    Dict{String,Any}("UserStackAssociations" => UserStackAssociations);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "BatchDisassociateUserStack",
-        Dict{String,Any}("UserStackAssociations" => UserStackAssociations);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function batch_disassociate_user_stack(
     UserStackAssociations,
     params::AbstractDict{String};
@@ -287,23 +274,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"DestinationImageDescription"`: The description that the image will have when it is
   copied to the destination.
 """
-function copy_image(
+copy_image(
     DestinationImageName,
     DestinationRegion,
     SourceImageName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = appstream(
+    "CopyImage",
+    Dict{String,Any}(
+        "DestinationImageName" => DestinationImageName,
+        "DestinationRegion" => DestinationRegion,
+        "SourceImageName" => SourceImageName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CopyImage",
-        Dict{String,Any}(
-            "DestinationImageName" => DestinationImageName,
-            "DestinationRegion" => DestinationRegion,
-            "SourceImageName" => SourceImageName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function copy_image(
     DestinationImageName,
     DestinationRegion,
@@ -355,16 +340,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for the CUSTOM PackagingType.
 - `"Tags"`: The tags assigned to the app block.
 """
-function create_app_block(
+create_app_block(
     Name, SourceS3Location; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "CreateAppBlock",
+    Dict{String,Any}("Name" => Name, "SourceS3Location" => SourceS3Location);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateAppBlock",
-        Dict{String,Any}("Name" => Name, "SourceS3Location" => SourceS3Location);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_app_block(
     Name,
     SourceS3Location,
@@ -423,25 +406,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the following special characters:  _ . : / = +  - @ For more information, see Tagging Your
   Resources in the Amazon AppStream 2.0 Administration Guide.
 """
-function create_app_block_builder(
+create_app_block_builder(
     InstanceType,
     Name,
     Platform,
     VpcConfig;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = appstream(
+    "CreateAppBlockBuilder",
+    Dict{String,Any}(
+        "InstanceType" => InstanceType,
+        "Name" => Name,
+        "Platform" => Platform,
+        "VpcConfig" => VpcConfig,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateAppBlockBuilder",
-        Dict{String,Any}(
-            "InstanceType" => InstanceType,
-            "Name" => Name,
-            "Platform" => Platform,
-            "VpcConfig" => VpcConfig,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_app_block_builder(
     InstanceType,
     Name,
@@ -483,16 +464,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 3600 seconds.
 """
-function create_app_block_builder_streaming_url(
+create_app_block_builder_streaming_url(
     AppBlockBuilderName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "CreateAppBlockBuilderStreamingURL",
+    Dict{String,Any}("AppBlockBuilderName" => AppBlockBuilderName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateAppBlockBuilderStreamingURL",
-        Dict{String,Any}("AppBlockBuilderName" => AppBlockBuilderName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_app_block_builder_streaming_url(
     AppBlockBuilderName,
     params::AbstractDict{String};
@@ -543,7 +522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the application.
 - `"WorkingDirectory"`: The working directory of the application.
 """
-function create_application(
+create_application(
     AppBlockArn,
     IconS3Location,
     InstanceFamilies,
@@ -551,21 +530,19 @@ function create_application(
     Name,
     Platforms;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = appstream(
+    "CreateApplication",
+    Dict{String,Any}(
+        "AppBlockArn" => AppBlockArn,
+        "IconS3Location" => IconS3Location,
+        "InstanceFamilies" => InstanceFamilies,
+        "LaunchPath" => LaunchPath,
+        "Name" => Name,
+        "Platforms" => Platforms,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateApplication",
-        Dict{String,Any}(
-            "AppBlockArn" => AppBlockArn,
-            "IconS3Location" => IconS3Location,
-            "InstanceFamilies" => InstanceFamilies,
-            "LaunchPath" => LaunchPath,
-            "Name" => Name,
-            "Platforms" => Platforms,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_application(
     AppBlockArn,
     IconS3Location,
@@ -624,21 +601,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceAccountCredentials"`: The credentials for the service account used by the fleet
   or image builder to connect to the directory.
 """
-function create_directory_config(
+create_directory_config(
     DirectoryName,
     OrganizationalUnitDistinguishedNames;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = appstream(
+    "CreateDirectoryConfig",
+    Dict{String,Any}(
+        "DirectoryName" => DirectoryName,
+        "OrganizationalUnitDistinguishedNames" => OrganizationalUnitDistinguishedNames,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateDirectoryConfig",
-        Dict{String,Any}(
-            "DirectoryName" => DirectoryName,
-            "OrganizationalUnitDistinguishedNames" => OrganizationalUnitDistinguishedNames,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_directory_config(
     DirectoryName,
     OrganizationalUnitDistinguishedNames,
@@ -683,25 +658,23 @@ applications managed by a dynamic app provider using the Dynamic Application Fra
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the entitlement.
 """
-function create_entitlement(
+create_entitlement(
     AppVisibility,
     Attributes,
     Name,
     StackName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = appstream(
+    "CreateEntitlement",
+    Dict{String,Any}(
+        "AppVisibility" => AppVisibility,
+        "Attributes" => Attributes,
+        "Name" => Name,
+        "StackName" => StackName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateEntitlement",
-        Dict{String,Any}(
-            "AppVisibility" => AppVisibility,
-            "Attributes" => Attributes,
-            "Name" => Name,
-            "StackName" => StackName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_entitlement(
     AppVisibility,
     Attributes,
@@ -749,7 +722,9 @@ applications and desktops.
   stream.graphics-design.2xlarge   stream.graphics-design.4xlarge
   stream.graphics-desktop.2xlarge   stream.graphics.g4dn.xlarge
   stream.graphics.g4dn.2xlarge   stream.graphics.g4dn.4xlarge   stream.graphics.g4dn.8xlarge
-   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge
+   stream.graphics.g4dn.12xlarge   stream.graphics.g4dn.16xlarge   stream.graphics.g5.xlarge
+   stream.graphics.g5.2xlarge   stream.graphics.g5.4xlarge   stream.graphics.g5.8xlarge
+  stream.graphics.g5.12xlarge   stream.graphics.g5.16xlarge   stream.graphics.g5.24xlarge
   stream.graphics-pro.4xlarge   stream.graphics-pro.8xlarge   stream.graphics-pro.16xlarge
   The following instance types are available for Elastic fleets:   stream.standard.small
   stream.standard.medium   stream.standard.large   stream.standard.xlarge
@@ -765,7 +740,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   active after users disconnect. If users try to reconnect to the streaming session after a
   disconnection or network interruption within this time interval, they are connected to
   their previous session. Otherwise, they are connected to a new session with a new streaming
-  instance.  Specify a value between 60 and 360000.
+  instance.  Specify a value between 60 and 36000.
 - `"DisplayName"`: The fleet name to display.
 - `"DomainJoinInfo"`: The name of the directory and organizational unit (OU) to use to join
   the fleet to a Microsoft Active Directory domain. This is not allowed for Elastic fleets.
@@ -793,13 +768,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   out, and pixels changing do not qualify as user activity. If users continue to be idle
   after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.
   To prevent users from being disconnected due to inactivity, specify a value of 0.
-  Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this
-  feature, we recommend that you specify a value that corresponds exactly to a whole number
-  of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to
-  the nearest minute. For example, if you specify a value of 70, users are disconnected after
-  1 minute of inactivity. If you specify a value that is at the midpoint between two
-  different minutes, the value is rounded up. For example, if you specify a value of 90,
-  users are disconnected after 2 minutes of inactivity.
+  Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable
+  this feature, we recommend that you specify a value that corresponds exactly to a whole
+  number of minutes (for example, 60, 120, and 180). If you don't do this, the value is
+  rounded to the nearest minute. For example, if you specify a value of 70, users are
+  disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint
+  between two different minutes, the value is rounded up. For example, if you specify a value
+  of 90, users are disconnected after 2 minutes of inactivity.
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
 - `"ImageName"`: The name of the image used to create the fleet.
 - `"MaxConcurrentSessions"`: The maximum concurrent sessions of the Elastic fleet. This is
@@ -832,14 +807,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   but not required for other fleet types. Elastic fleets require that you specify at least
   two subnets in different availability zones.
 """
-function create_fleet(InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
+create_fleet(InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "CreateFleet",
         Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_fleet(
     InstanceType,
     Name,
@@ -913,16 +887,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcConfig"`: The VPC configuration for the image builder. You can specify only one
   subnet.
 """
-function create_image_builder(
+create_image_builder(
     InstanceType, Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "CreateImageBuilder",
+    Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateImageBuilder",
-        Dict{String,Any}("InstanceType" => InstanceType, "Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_image_builder(
     InstanceType,
     Name,
@@ -957,16 +929,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 3600 seconds.
 """
-function create_image_builder_streaming_url(
+create_image_builder_streaming_url(
     Name; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "CreateImageBuilderStreamingURL",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateImageBuilderStreamingURL",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_image_builder_streaming_url(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1015,14 +985,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserSettings"`: The actions that are enabled or disabled for users during their
   streaming sessions. By default, these actions are enabled.
 """
-function create_stack(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "CreateStack",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_stack(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "CreateStack",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_stack(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1057,18 +1025,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Validity"`: The time that the streaming URL will be valid, in seconds. Specify a value
   between 1 and 604800 seconds. The default is 60 seconds.
 """
-function create_streaming_url(
+create_streaming_url(
     FleetName, StackName, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "CreateStreamingURL",
+    Dict{String,Any}(
+        "FleetName" => FleetName, "StackName" => StackName, "UserId" => UserId
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateStreamingURL",
-        Dict{String,Any}(
-            "FleetName" => FleetName, "StackName" => StackName, "UserId" => UserId
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_streaming_url(
     FleetName,
     StackName,
@@ -1083,6 +1049,81 @@ function create_streaming_url(
                 _merge,
                 Dict{String,Any}(
                     "FleetName" => FleetName, "StackName" => StackName, "UserId" => UserId
+                ),
+                params,
+            ),
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    create_theme_for_stack(favicon_s3_location, organization_logo_s3_location, stack_name, theme_styling, title_text)
+    create_theme_for_stack(favicon_s3_location, organization_logo_s3_location, stack_name, theme_styling, title_text, params::Dict{String,<:Any})
+
+Creates custom branding that customizes the appearance of the streaming application catalog
+page.
+
+# Arguments
+- `favicon_s3_location`: The S3 location of the favicon. The favicon enables users to
+  recognize their application streaming site in a browser full of tabs or bookmarks. It is
+  displayed at the top of the browser tab for the application streaming site during users'
+  streaming sessions.
+- `organization_logo_s3_location`: The organization logo that appears on the streaming
+  application catalog page.
+- `stack_name`: The name of the stack for the theme.
+- `theme_styling`: The color theme that is applied to website links, text, and buttons.
+  These colors are also applied as accents in the background for the streaming application
+  catalog page.
+- `title_text`: The title that is displayed at the top of the browser tab during users'
+  application streaming sessions.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"FooterLinks"`: The links that are displayed in the footer of the streaming application
+  catalog page. These links are helpful resources for users, such as the organization's IT
+  support and product marketing sites.
+"""
+create_theme_for_stack(
+    FaviconS3Location,
+    OrganizationLogoS3Location,
+    StackName,
+    ThemeStyling,
+    TitleText;
+    aws_config::AbstractAWSConfig=global_aws_config(),
+) = appstream(
+    "CreateThemeForStack",
+    Dict{String,Any}(
+        "FaviconS3Location" => FaviconS3Location,
+        "OrganizationLogoS3Location" => OrganizationLogoS3Location,
+        "StackName" => StackName,
+        "ThemeStyling" => ThemeStyling,
+        "TitleText" => TitleText,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
+function create_theme_for_stack(
+    FaviconS3Location,
+    OrganizationLogoS3Location,
+    StackName,
+    ThemeStyling,
+    TitleText,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "CreateThemeForStack",
+        Dict{String,Any}(
+            mergewith(
+                _merge,
+                Dict{String,Any}(
+                    "FaviconS3Location" => FaviconS3Location,
+                    "OrganizationLogoS3Location" => OrganizationLogoS3Location,
+                    "StackName" => StackName,
+                    "ThemeStyling" => ThemeStyling,
+                    "TitleText" => TitleText,
                 ),
                 params,
             ),
@@ -1122,18 +1163,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value, the value is set to an empty string. For more information about tags, see Tagging
   Your Resources in the Amazon AppStream 2.0 Administration Guide.
 """
-function create_updated_image(
+create_updated_image(
     existingImageName, newImageName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "CreateUpdatedImage",
+    Dict{String,Any}(
+        "existingImageName" => existingImageName, "newImageName" => newImageName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateUpdatedImage",
-        Dict{String,Any}(
-            "existingImageName" => existingImageName, "newImageName" => newImageName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_updated_image(
     existingImageName,
     newImageName,
@@ -1163,15 +1202,12 @@ end
 Creates a usage report subscription. Usage reports are generated daily.
 
 """
-function create_usage_report_subscription(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+create_usage_report_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "CreateUsageReportSubscription";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_usage_report_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1207,18 +1243,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   days. If users don’t set their passwords within 7 days, you must send them a new welcome
   email.
 """
-function create_user(
+create_user(
     AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "CreateUser",
+    Dict{String,Any}("AuthenticationType" => AuthenticationType, "UserName" => UserName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "CreateUser",
-        Dict{String,Any}(
-            "AuthenticationType" => AuthenticationType, "UserName" => UserName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user(
     AuthenticationType,
     UserName,
@@ -1251,14 +1283,12 @@ Deletes an app block.
 - `name`: The name of the app block.
 
 """
-function delete_app_block(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DeleteAppBlock",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_app_block(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "DeleteAppBlock",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_app_block(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1281,14 +1311,13 @@ association with an app block.
 - `name`: The name of the app block builder.
 
 """
-function delete_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
+delete_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DeleteAppBlockBuilder",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_app_block_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1310,14 +1339,12 @@ Deletes an application.
 - `name`: The name of the application.
 
 """
-function delete_application(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DeleteApplication",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_application(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "DeleteApplication",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_application(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1340,16 +1367,13 @@ information required to join streaming instances to an Active Directory domain.
 - `directory_name`: The name of the directory configuration.
 
 """
-function delete_directory_config(
-    DirectoryName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+delete_directory_config(DirectoryName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DeleteDirectoryConfig",
         Dict{String,Any}("DirectoryName" => DirectoryName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_directory_config(
     DirectoryName,
     params::AbstractDict{String};
@@ -1376,16 +1400,13 @@ Deletes the specified entitlement.
 - `stack_name`: The name of the stack with which the entitlement is associated.
 
 """
-function delete_entitlement(
-    Name, StackName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+delete_entitlement(Name, StackName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DeleteEntitlement",
         Dict{String,Any}("Name" => Name, "StackName" => StackName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_entitlement(
     Name,
     StackName,
@@ -1414,14 +1435,12 @@ Deletes the specified fleet.
 - `name`: The name of the fleet.
 
 """
-function delete_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DeleteFleet",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "DeleteFleet",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_fleet(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1444,14 +1463,12 @@ an image, you cannot provision new capacity using the image.
 - `name`: The name of the image.
 
 """
-function delete_image(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DeleteImage",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_image(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "DeleteImage",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_image(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1473,14 +1490,12 @@ Deletes the specified image builder and releases the capacity.
 - `name`: The name of the image builder.
 
 """
-function delete_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DeleteImageBuilder",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "DeleteImageBuilder",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_image_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1506,16 +1521,14 @@ image.
   permissions.
 
 """
-function delete_image_permissions(
+delete_image_permissions(
     Name, SharedAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "DeleteImagePermissions",
+    Dict{String,Any}("Name" => Name, "SharedAccountId" => SharedAccountId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "DeleteImagePermissions",
-        Dict{String,Any}("Name" => Name, "SharedAccountId" => SharedAccountId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_image_permissions(
     Name,
     SharedAccountId,
@@ -1548,14 +1561,12 @@ made for application streaming sessions for the stack are released.
 - `name`: The name of the stack.
 
 """
-function delete_stack(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DeleteStack",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_stack(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "DeleteStack",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_stack(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1568,21 +1579,51 @@ function delete_stack(
 end
 
 """
+    delete_theme_for_stack(stack_name)
+    delete_theme_for_stack(stack_name, params::Dict{String,<:Any})
+
+Deletes custom branding that customizes the appearance of the streaming application catalog
+page.
+
+# Arguments
+- `stack_name`: The name of the stack for the theme.
+
+"""
+delete_theme_for_stack(StackName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
+        "DeleteThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function delete_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DeleteThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
     delete_usage_report_subscription()
     delete_usage_report_subscription(params::Dict{String,<:Any})
 
 Disables usage report generation.
 
 """
-function delete_usage_report_subscription(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+delete_usage_report_subscription(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DeleteUsageReportSubscription";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_usage_report_subscription(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1605,18 +1646,14 @@ Deletes a user from the user pool.
 - `user_name`: The email address of the user.  Users' email addresses are case-sensitive.
 
 """
-function delete_user(
+delete_user(
     AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "DeleteUser",
+    Dict{String,Any}("AuthenticationType" => AuthenticationType, "UserName" => UserName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "DeleteUser",
-        Dict{String,Any}(
-            "AuthenticationType" => AuthenticationType, "UserName" => UserName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user(
     AuthenticationType,
     UserName,
@@ -1653,15 +1690,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function describe_app_block_builder_app_block_associations(;
+describe_app_block_builder_app_block_associations(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "DescribeAppBlockBuilderAppBlockAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "DescribeAppBlockBuilderAppBlockAssociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_app_block_builder_app_block_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1686,11 +1721,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function describe_app_block_builders(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
+describe_app_block_builders(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DescribeAppBlockBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function describe_app_block_builders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1715,11 +1749,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function describe_app_blocks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DescribeAppBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_app_blocks(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream("DescribeAppBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_app_blocks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1743,15 +1774,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function describe_application_fleet_associations(;
+describe_application_fleet_associations(;
     aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "DescribeApplicationFleetAssociations";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "DescribeApplicationFleetAssociations";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_application_fleet_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1776,11 +1805,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function describe_applications(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_applications(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "DescribeApplications"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_applications(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1810,11 +1837,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function describe_directory_configs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DescribeDirectoryConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_directory_configs(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "DescribeDirectoryConfigs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_directory_configs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1842,14 +1867,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function describe_entitlements(StackName; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
+describe_entitlements(StackName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DescribeEntitlements",
         Dict{String,Any}("StackName" => StackName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_entitlements(
     StackName,
     params::AbstractDict{String};
@@ -1878,11 +1902,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function describe_fleets(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_fleets(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream("DescribeFleets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_fleets(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1905,11 +1926,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function describe_image_builders(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DescribeImageBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_image_builders(; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "DescribeImageBuilders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function describe_image_builders(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1940,14 +1959,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SharedAwsAccountIds"`: The 12-digit identifier of one or more AWS accounts with which
   the image is shared.
 """
-function describe_image_permissions(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
+describe_image_permissions(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DescribeImagePermissions",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_image_permissions(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1975,11 +1993,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation. If this value is null, it retrieves the first page.
 - `"Type"`: The type of image (public, private, or shared) to describe.
 """
-function describe_images(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_images(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream("DescribeImages"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_images(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2014,16 +2029,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserId"`: The user identifier (ID). If you specify a user ID, you must also specify the
   authentication type.
 """
-function describe_sessions(
-    FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+describe_sessions(FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DescribeSessions",
         Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_sessions(
     FleetName,
     StackName,
@@ -2057,16 +2069,46 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+describe_stacks(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream("DescribeStacks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function describe_stacks(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appstream(
         "DescribeStacks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+    )
+end
+
+"""
+    describe_theme_for_stack(stack_name)
+    describe_theme_for_stack(stack_name, params::Dict{String,<:Any})
+
+Retrieves a list that describes the theme for a specified stack. A theme is custom branding
+that customizes the appearance of the streaming application catalog page.
+
+# Arguments
+- `stack_name`: The name of the stack for the theme.
+
+"""
+describe_theme_for_stack(StackName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
+        "DescribeThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function describe_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "DescribeThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
     )
 end
 
@@ -2082,15 +2124,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function describe_usage_report_subscriptions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+describe_usage_report_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DescribeUsageReportSubscriptions";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_usage_report_subscriptions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2121,15 +2160,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserName"`: The email address of the user who is associated with the stack.  Users'
   email addresses are case-sensitive.
 """
-function describe_user_stack_associations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+describe_user_stack_associations(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DescribeUserStackAssociations";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_user_stack_associations(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2157,16 +2193,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function describe_users(
-    AuthenticationType; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+describe_users(AuthenticationType; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "DescribeUsers",
         Dict{String,Any}("AuthenticationType" => AuthenticationType);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_users(
     AuthenticationType,
     params::AbstractDict{String};
@@ -2196,18 +2229,14 @@ they are re-enabled. This action does not delete the user.
 - `user_name`: The email address of the user.  Users' email addresses are case-sensitive.
 
 """
-function disable_user(
+disable_user(
     AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "DisableUser",
+    Dict{String,Any}("AuthenticationType" => AuthenticationType, "UserName" => UserName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "DisableUser",
-        Dict{String,Any}(
-            "AuthenticationType" => AuthenticationType, "UserName" => UserName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disable_user(
     AuthenticationType,
     UserName,
@@ -2241,18 +2270,16 @@ Disassociates a specified app block builder from a specified app block.
 - `app_block_builder_name`: The name of the app block builder.
 
 """
-function disassociate_app_block_builder_app_block(
+disassociate_app_block_builder_app_block(
     AppBlockArn, AppBlockBuilderName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "DisassociateAppBlockBuilderAppBlock",
+    Dict{String,Any}(
+        "AppBlockArn" => AppBlockArn, "AppBlockBuilderName" => AppBlockBuilderName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "DisassociateAppBlockBuilderAppBlock",
-        Dict{String,Any}(
-            "AppBlockArn" => AppBlockArn, "AppBlockBuilderName" => AppBlockBuilderName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_app_block_builder_app_block(
     AppBlockArn,
     AppBlockBuilderName,
@@ -2287,16 +2314,14 @@ Disassociates the specified application from the fleet.
 - `fleet_name`: The name of the fleet.
 
 """
-function disassociate_application_fleet(
+disassociate_application_fleet(
     ApplicationArn, FleetName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "DisassociateApplicationFleet",
+    Dict{String,Any}("ApplicationArn" => ApplicationArn, "FleetName" => FleetName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "DisassociateApplicationFleet",
-        Dict{String,Any}("ApplicationArn" => ApplicationArn, "FleetName" => FleetName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_application_fleet(
     ApplicationArn,
     FleetName,
@@ -2332,23 +2357,21 @@ Deletes the specified application from the specified entitlement.
 - `stack_name`: The name of the stack with which the entitlement is associated.
 
 """
-function disassociate_application_from_entitlement(
+disassociate_application_from_entitlement(
     ApplicationIdentifier,
     EntitlementName,
     StackName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = appstream(
+    "DisassociateApplicationFromEntitlement",
+    Dict{String,Any}(
+        "ApplicationIdentifier" => ApplicationIdentifier,
+        "EntitlementName" => EntitlementName,
+        "StackName" => StackName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "DisassociateApplicationFromEntitlement",
-        Dict{String,Any}(
-            "ApplicationIdentifier" => ApplicationIdentifier,
-            "EntitlementName" => EntitlementName,
-            "StackName" => StackName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_application_from_entitlement(
     ApplicationIdentifier,
     EntitlementName,
@@ -2385,16 +2408,14 @@ Disassociates the specified fleet from the specified stack.
 - `stack_name`: The name of the stack.
 
 """
-function disassociate_fleet(
+disassociate_fleet(
     FleetName, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "DisassociateFleet",
+    Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "DisassociateFleet",
-        Dict{String,Any}("FleetName" => FleetName, "StackName" => StackName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_fleet(
     FleetName,
     StackName,
@@ -2430,18 +2451,14 @@ and open applications from the stacks to which they are assigned.
   exist\" error message displays.
 
 """
-function enable_user(
+enable_user(
     AuthenticationType, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "EnableUser",
+    Dict{String,Any}("AuthenticationType" => AuthenticationType, "UserName" => UserName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "EnableUser",
-        Dict{String,Any}(
-            "AuthenticationType" => AuthenticationType, "UserName" => UserName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function enable_user(
     AuthenticationType,
     UserName,
@@ -2474,14 +2491,12 @@ Immediately stops the specified streaming session.
 - `session_id`: The identifier of the streaming session.
 
 """
-function expire_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "ExpireSession",
-        Dict{String,Any}("SessionId" => SessionId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+expire_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "ExpireSession",
+    Dict{String,Any}("SessionId" => SessionId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function expire_session(
     SessionId,
     params::AbstractDict{String};
@@ -2511,16 +2526,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function list_associated_fleets(
-    StackName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+list_associated_fleets(StackName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "ListAssociatedFleets",
         Dict{String,Any}("StackName" => StackName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_associated_fleets(
     StackName,
     params::AbstractDict{String};
@@ -2550,16 +2562,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token to use to retrieve the next page of results for this
   operation. If this value is null, it retrieves the first page.
 """
-function list_associated_stacks(
-    FleetName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+list_associated_stacks(FleetName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "ListAssociatedStacks",
         Dict{String,Any}("FleetName" => FleetName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_associated_stacks(
     FleetName,
     params::AbstractDict{String};
@@ -2591,16 +2600,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function list_entitled_applications(
+list_entitled_applications(
     EntitlementName, StackName; aws_config::AbstractAWSConfig=global_aws_config()
+) = appstream(
+    "ListEntitledApplications",
+    Dict{String,Any}("EntitlementName" => EntitlementName, "StackName" => StackName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "ListEntitledApplications",
-        Dict{String,Any}("EntitlementName" => EntitlementName, "StackName" => StackName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_entitled_applications(
     EntitlementName,
     StackName,
@@ -2635,16 +2642,13 @@ see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+list_tags_for_resource(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "ListTagsForResource",
         Dict{String,Any}("ResourceArn" => ResourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
@@ -2672,14 +2676,13 @@ to an elastic fleet instance with application builder assistance functionality.
 - `name`: The name of the app block builder.
 
 """
-function start_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
+start_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "StartAppBlockBuilder",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function start_app_block_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2701,14 +2704,12 @@ Starts the specified fleet.
 - `name`: The name of the fleet.
 
 """
-function start_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "StartFleet",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "StartFleet",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_fleet(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2734,14 +2735,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AppstreamAgentVersion"`: The version of the AppStream 2.0 agent to use for this image
   builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
 """
-function start_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "StartImageBuilder",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+start_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "StartImageBuilder",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function start_image_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2764,14 +2763,12 @@ instance state is not persisted.
 - `name`: The name of the app block builder.
 
 """
-function stop_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "StopAppBlockBuilder",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "StopAppBlockBuilder",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_app_block_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2793,14 +2790,12 @@ Stops the specified fleet.
 - `name`: The name of the fleet.
 
 """
-function stop_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "StopFleet",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_fleet(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "StopFleet",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_fleet(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2822,14 +2817,12 @@ Stops the specified image builder.
 - `name`: The name of the image builder.
 
 """
-function stop_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "StopImageBuilder",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+stop_image_builder(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "StopImageBuilder",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function stop_image_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2861,14 +2854,13 @@ see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
   _ . : / = +  - @
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
+tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "TagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "Tags" => Tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     ResourceArn,
     Tags,
@@ -2902,16 +2894,13 @@ tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guid
 - `tag_keys`: The tag keys for the tags to disassociate.
 
 """
-function untag_resource(
-    ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+untag_resource(ResourceArn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "UntagResource",
         Dict{String,Any}("ResourceArn" => ResourceArn, "TagKeys" => TagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     ResourceArn,
     TagKeys,
@@ -2968,14 +2957,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"VpcConfig"`: The VPC configuration for the app block builder. App block builders
   require that you specify at least two subnets in different availability zones.
 """
-function update_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
+update_app_block_builder(Name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "UpdateAppBlockBuilder",
         Dict{String,Any}("Name" => Name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_app_block_builder(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3009,14 +2997,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LaunchPath"`: The launch path of the application.
 - `"WorkingDirectory"`: The working directory of the application.
 """
-function update_application(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "UpdateApplication",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_application(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "UpdateApplication",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_application(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3054,16 +3040,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ServiceAccountCredentials"`: The credentials for the service account used by the fleet
   or image builder to connect to the directory.
 """
-function update_directory_config(
-    DirectoryName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+update_directory_config(DirectoryName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "UpdateDirectoryConfig",
         Dict{String,Any}("DirectoryName" => DirectoryName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_directory_config(
     DirectoryName,
     params::AbstractDict{String};
@@ -3095,16 +3078,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Attributes"`: The attributes of the entitlement.
 - `"Description"`: The description of the entitlement.
 """
-function update_entitlement(
-    Name, StackName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return appstream(
+update_entitlement(Name, StackName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
         "UpdateEntitlement",
         Dict{String,Any}("Name" => Name, "StackName" => StackName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_entitlement(
     Name,
     StackName,
@@ -3147,7 +3127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   active after users disconnect. If users try to reconnect to the streaming session after a
   disconnection or network interruption within this time interval, they are connected to
   their previous session. Otherwise, they are connected to a new session with a new streaming
-  instance.  Specify a value between 60 and 360000.
+  instance.  Specify a value between 60 and 36000.
 - `"DisplayName"`: The fleet name to display.
 - `"DomainJoinInfo"`: The name of the directory and organizational unit (OU) to use to join
   the fleet to a Microsoft Active Directory domain.
@@ -3170,13 +3150,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   out, and pixels changing do not qualify as user activity. If users continue to be idle
   after the time interval in IdleDisconnectTimeoutInSeconds elapses, they are disconnected.
   To prevent users from being disconnected due to inactivity, specify a value of 0.
-  Otherwise, specify a value between 60 and 3600. The default value is 0.  If you enable this
-  feature, we recommend that you specify a value that corresponds exactly to a whole number
-  of minutes (for example, 60, 120, and 180). If you don't do this, the value is rounded to
-  the nearest minute. For example, if you specify a value of 70, users are disconnected after
-  1 minute of inactivity. If you specify a value that is at the midpoint between two
-  different minutes, the value is rounded up. For example, if you specify a value of 90,
-  users are disconnected after 2 minutes of inactivity.
+  Otherwise, specify a value between 60 and 36000. The default value is 0.  If you enable
+  this feature, we recommend that you specify a value that corresponds exactly to a whole
+  number of minutes (for example, 60, 120, and 180). If you don't do this, the value is
+  rounded to the nearest minute. For example, if you specify a value of 70, users are
+  disconnected after 1 minute of inactivity. If you specify a value that is at the midpoint
+  between two different minutes, the value is rounded up. For example, if you specify a value
+  of 90, users are disconnected after 2 minutes of inactivity.
 - `"ImageArn"`: The ARN of the public, private, or shared image to use.
 - `"ImageName"`: The name of the image used to create the fleet.
 - `"InstanceType"`: The instance type to use when launching fleet instances. The following
@@ -3220,9 +3200,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   but not required for other fleet types. Elastic fleets require that you specify at least
   two subnets in different availability zones.
 """
-function update_fleet(; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream("UpdateFleet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+update_fleet(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream("UpdateFleet"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function update_fleet(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3244,23 +3223,21 @@ Adds or updates permissions for the specified private image.
   update image permissions.
 
 """
-function update_image_permissions(
+update_image_permissions(
     ImagePermissions,
     Name,
     SharedAccountId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = appstream(
+    "UpdateImagePermissions",
+    Dict{String,Any}(
+        "ImagePermissions" => ImagePermissions,
+        "Name" => Name,
+        "SharedAccountId" => SharedAccountId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return appstream(
-        "UpdateImagePermissions",
-        Dict{String,Any}(
-            "ImagePermissions" => ImagePermissions,
-            "Name" => Name,
-            "SharedAccountId" => SharedAccountId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_image_permissions(
     ImagePermissions,
     Name,
@@ -3319,20 +3296,69 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserSettings"`: The actions that are enabled or disabled for users during their
   streaming sessions. By default, these actions are enabled.
 """
-function update_stack(Name; aws_config::AbstractAWSConfig=global_aws_config())
-    return appstream(
-        "UpdateStack",
-        Dict{String,Any}("Name" => Name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_stack(Name; aws_config::AbstractAWSConfig=global_aws_config()) = appstream(
+    "UpdateStack",
+    Dict{String,Any}("Name" => Name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_stack(
     Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
     return appstream(
         "UpdateStack",
         Dict{String,Any}(mergewith(_merge, Dict{String,Any}("Name" => Name), params));
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+end
+
+"""
+    update_theme_for_stack(stack_name)
+    update_theme_for_stack(stack_name, params::Dict{String,<:Any})
+
+Updates custom branding that customizes the appearance of the streaming application catalog
+page.
+
+# Arguments
+- `stack_name`: The name of the stack for the theme.
+
+# Optional Parameters
+Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"AttributesToDelete"`: The attributes to delete.
+- `"FaviconS3Location"`: The S3 location of the favicon. The favicon enables users to
+  recognize their application streaming site in a browser full of tabs or bookmarks. It is
+  displayed at the top of the browser tab for the application streaming site during users'
+  streaming sessions.
+- `"FooterLinks"`: The links that are displayed in the footer of the streaming application
+  catalog page. These links are helpful resources for users, such as the organization's IT
+  support and product marketing sites.
+- `"OrganizationLogoS3Location"`: The organization logo that appears on the streaming
+  application catalog page.
+- `"State"`: Specifies whether custom branding should be applied to catalog page or not.
+- `"ThemeStyling"`: The color theme that is applied to website links, text, and buttons.
+  These colors are also applied as accents in the background for the streaming application
+  catalog page.
+- `"TitleText"`: The title that is displayed at the top of the browser tab during users'
+  application streaming sessions.
+"""
+update_theme_for_stack(StackName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    appstream(
+        "UpdateThemeForStack",
+        Dict{String,Any}("StackName" => StackName);
+        aws_config=aws_config,
+        feature_set=SERVICE_FEATURE_SET,
+    )
+function update_theme_for_stack(
+    StackName,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=global_aws_config(),
+)
+    return appstream(
+        "UpdateThemeForStack",
+        Dict{String,Any}(
+            mergewith(_merge, Dict{String,Any}("StackName" => StackName), params)
+        );
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )

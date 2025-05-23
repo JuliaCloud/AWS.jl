@@ -17,16 +17,14 @@ For more information, see Environment account connections in the Proton User gui
 - `id`: The ID of the environment account connection.
 
 """
-function accept_environment_account_connection(
+accept_environment_account_connection(
     id; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "AcceptEnvironmentAccountConnection",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "AcceptEnvironmentAccountConnection",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function accept_environment_account_connection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -50,16 +48,14 @@ Proton User Guide.
 - `component_name`: The name of the component with the deployment to cancel.
 
 """
-function cancel_component_deployment(
+cancel_component_deployment(
     componentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "CancelComponentDeployment",
+    Dict{String,Any}("componentName" => componentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CancelComponentDeployment",
-        Dict{String,Any}("componentName" => componentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_component_deployment(
     componentName,
     params::AbstractDict{String};
@@ -91,16 +87,14 @@ deployment state is SUCCEEDED and the cancellation attempt has no effect.
 - `environment_name`: The name of the environment with the deployment to cancel.
 
 """
-function cancel_environment_deployment(
+cancel_environment_deployment(
     environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "CancelEnvironmentDeployment",
+    Dict{String,Any}("environmentName" => environmentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CancelEnvironmentDeployment",
-        Dict{String,Any}("environmentName" => environmentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_environment_deployment(
     environmentName,
     params::AbstractDict{String};
@@ -135,18 +129,16 @@ deployment state is SUCCEEDED and the cancellation attempt has no effect.
 - `service_name`: The name of the service with the service instance deployment to cancel.
 
 """
-function cancel_service_instance_deployment(
+cancel_service_instance_deployment(
     serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "CancelServiceInstanceDeployment",
+    Dict{String,Any}(
+        "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CancelServiceInstanceDeployment",
-        Dict{String,Any}(
-            "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_service_instance_deployment(
     serviceInstanceName,
     serviceName,
@@ -186,16 +178,14 @@ deployment state is SUCCEEDED and the cancellation attempt has no effect.
 - `service_name`: The name of the service with the service pipeline deployment to cancel.
 
 """
-function cancel_service_pipeline_deployment(
+cancel_service_pipeline_deployment(
     serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "CancelServicePipelineDeployment",
+    Dict{String,Any}("serviceName" => serviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CancelServicePipelineDeployment",
-        Dict{String,Any}("serviceName" => serviceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function cancel_service_pipeline_deployment(
     serviceName,
     params::AbstractDict{String};
@@ -247,21 +237,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   component. A tag is a key-value pair. For more information, see Proton resources and
   tagging in the Proton User Guide.
 """
-function create_component(
+create_component(
     manifest, name, templateFile; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "CreateComponent",
+    Dict{String,Any}(
+        "manifest" => manifest,
+        "name" => name,
+        "templateFile" => templateFile,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CreateComponent",
-        Dict{String,Any}(
-            "manifest" => manifest,
-            "name" => name,
-            "templateFile" => templateFile,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_component(
     manifest,
     name,
@@ -343,25 +331,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   tagging in the Proton User Guide.
 - `"templateMinorVersion"`: The minor version of the environment template.
 """
-function create_environment(
+create_environment(
     name,
     spec,
     templateMajorVersion,
     templateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "CreateEnvironment",
+    Dict{String,Any}(
+        "name" => name,
+        "spec" => spec,
+        "templateMajorVersion" => templateMajorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CreateEnvironment",
-        Dict{String,Any}(
-            "name" => name,
-            "spec" => spec,
-            "templateMajorVersion" => templateMajorVersion,
-            "templateName" => templateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_environment(
     name,
     spec,
@@ -428,20 +414,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment account connection. A tag is a key-value pair. For more information, see Proton
   resources and tagging in the Proton User Guide.
 """
-function create_environment_account_connection(
+create_environment_account_connection(
     environmentName, managementAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "CreateEnvironmentAccountConnection",
+    Dict{String,Any}(
+        "environmentName" => environmentName,
+        "managementAccountId" => managementAccountId,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CreateEnvironmentAccountConnection",
-        Dict{String,Any}(
-            "environmentName" => environmentName,
-            "managementAccountId" => managementAccountId,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_environment_account_connection(
     environmentName,
     managementAccountId,
@@ -495,16 +479,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment template. A tag is a key-value pair. For more information, see Proton resources
   and tagging in the Proton User Guide.
 """
-function create_environment_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+create_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "CreateEnvironmentTemplate",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_environment_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -541,20 +522,18 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   environment template version. A tag is a key-value pair. For more information, see Proton
   resources and tagging in the Proton User Guide.
 """
-function create_environment_template_version(
+create_environment_template_version(
     source, templateName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "CreateEnvironmentTemplateVersion",
+    Dict{String,Any}(
+        "source" => source,
+        "templateName" => templateName,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CreateEnvironmentTemplateVersion",
-        Dict{String,Any}(
-            "source" => source,
-            "templateName" => templateName,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_environment_template_version(
     source,
     templateName,
@@ -605,18 +584,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   repository. A tag is a key-value pair. For more information, see Proton resources and
   tagging in the Proton User Guide.
 """
-function create_repository(
+create_repository(
     connectionArn, name, provider; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "CreateRepository",
+    Dict{String,Any}(
+        "connectionArn" => connectionArn, "name" => name, "provider" => provider
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CreateRepository",
-        Dict{String,Any}(
-            "connectionArn" => connectionArn, "name" => name, "provider" => provider
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_repository(
     connectionArn,
     name,
@@ -675,25 +652,23 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: The minor version of the service template that was used to
   create the service.
 """
-function create_service(
+create_service(
     name,
     spec,
     templateMajorVersion,
     templateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "CreateService",
+    Dict{String,Any}(
+        "name" => name,
+        "spec" => spec,
+        "templateMajorVersion" => templateMajorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CreateService",
-        Dict{String,Any}(
-            "name" => name,
-            "spec" => spec,
-            "templateMajorVersion" => templateMajorVersion,
-            "templateName" => templateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_service(
     name,
     spec,
@@ -743,21 +718,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: To create a new minor version of the service template, include
   a major Version.
 """
-function create_service_instance(
+create_service_instance(
     name, serviceName, spec; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "CreateServiceInstance",
+    Dict{String,Any}(
+        "name" => name,
+        "serviceName" => serviceName,
+        "spec" => spec,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CreateServiceInstance",
-        Dict{String,Any}(
-            "name" => name,
-            "serviceName" => serviceName,
-            "spec" => spec,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_service_instance(
     name,
     serviceName,
@@ -798,27 +771,25 @@ Create the Proton Ops configuration file.
 - `service_name`: The name of the service the Proton Ops file is for.
 
 """
-function create_service_sync_config(
+create_service_sync_config(
     branch,
     filePath,
     repositoryName,
     repositoryProvider,
     serviceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "CreateServiceSyncConfig",
+    Dict{String,Any}(
+        "branch" => branch,
+        "filePath" => filePath,
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "serviceName" => serviceName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CreateServiceSyncConfig",
-        Dict{String,Any}(
-            "branch" => branch,
-            "filePath" => filePath,
-            "repositoryName" => repositoryName,
-            "repositoryProvider" => repositoryProvider,
-            "serviceName" => serviceName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_service_sync_config(
     branch,
     filePath,
@@ -875,14 +846,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service template. A tag is a key-value pair. For more information, see Proton resources and
   tagging in the Proton User Guide.
 """
-function create_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "CreateServiceTemplate",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_service_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "CreateServiceTemplate",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_service_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -926,24 +895,22 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service template version. A tag is a key-value pair. For more information, see Proton
   resources and tagging in the Proton User Guide.
 """
-function create_service_template_version(
+create_service_template_version(
     compatibleEnvironmentTemplates,
     source,
     templateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "CreateServiceTemplateVersion",
+    Dict{String,Any}(
+        "compatibleEnvironmentTemplates" => compatibleEnvironmentTemplates,
+        "source" => source,
+        "templateName" => templateName,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CreateServiceTemplateVersion",
-        Dict{String,Any}(
-            "compatibleEnvironmentTemplates" => compatibleEnvironmentTemplates,
-            "source" => source,
-            "templateName" => templateName,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_service_template_version(
     compatibleEnvironmentTemplates,
     source,
@@ -994,27 +961,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subdirectory"`: A repository subdirectory path to your template bundle directory. When
   included, Proton limits the template bundle search to this repository directory.
 """
-function create_template_sync_config(
+create_template_sync_config(
     branch,
     repositoryName,
     repositoryProvider,
     templateName,
     templateType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "CreateTemplateSyncConfig",
+    Dict{String,Any}(
+        "branch" => branch,
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "templateName" => templateName,
+        "templateType" => templateType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "CreateTemplateSyncConfig",
-        Dict{String,Any}(
-            "branch" => branch,
-            "repositoryName" => repositoryName,
-            "repositoryProvider" => repositoryProvider,
-            "templateName" => templateName,
-            "templateType" => templateType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_template_sync_config(
     branch,
     repositoryName,
@@ -1055,14 +1020,12 @@ components in the Proton User Guide.
 - `name`: The name of the component to delete.
 
 """
-function delete_component(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "DeleteComponent",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_component(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "DeleteComponent",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_component(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1084,14 +1047,12 @@ Delete the deployment.
 - `id`: The ID of the deployment to delete.
 
 """
-function delete_deployment(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "DeleteDeployment",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_deployment(id; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "DeleteDeployment",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_deployment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1113,14 +1074,12 @@ Delete an environment.
 - `name`: The name of the environment to delete.
 
 """
-function delete_environment(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "DeleteEnvironment",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_environment(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "DeleteEnvironment",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_environment(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1147,16 +1106,14 @@ information, see Environment account connections in the Proton User guide.
 - `id`: The ID of the environment account connection to delete.
 
 """
-function delete_environment_account_connection(
+delete_environment_account_connection(
     id; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "DeleteEnvironmentAccountConnection",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "DeleteEnvironmentAccountConnection",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_environment_account_connection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1179,16 +1136,13 @@ environment template.
 - `name`: The name of the environment template to delete.
 
 """
-function delete_environment_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+delete_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "DeleteEnvironmentTemplate",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_environment_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1219,23 +1173,21 @@ version that's backward compatible.
 - `template_name`: The name of the environment template.
 
 """
-function delete_environment_template_version(
+delete_environment_template_version(
     majorVersion,
     minorVersion,
     templateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "DeleteEnvironmentTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "DeleteEnvironmentTemplateVersion",
-        Dict{String,Any}(
-            "majorVersion" => majorVersion,
-            "minorVersion" => minorVersion,
-            "templateName" => templateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_environment_template_version(
     majorVersion,
     minorVersion,
@@ -1272,16 +1224,13 @@ De-register and unlink your repository.
 - `provider`: The repository provider.
 
 """
-function delete_repository(
-    name, provider; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+delete_repository(name, provider; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "DeleteRepository",
         Dict{String,Any}("name" => name, "provider" => provider);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_repository(
     name,
     provider,
@@ -1312,14 +1261,12 @@ components, see Proton components in the Proton User Guide.
 - `name`: The name of the service to delete.
 
 """
-function delete_service(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "DeleteService",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_service(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "DeleteService",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1342,16 +1289,13 @@ Delete the Proton Ops file.
   configuration for.
 
 """
-function delete_service_sync_config(
-    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+delete_service_sync_config(serviceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "DeleteServiceSyncConfig",
         Dict{String,Any}("serviceName" => serviceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_service_sync_config(
     serviceName,
     params::AbstractDict{String};
@@ -1378,14 +1322,12 @@ template.
 - `name`: The name of the service template to delete.
 
 """
-function delete_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "DeleteServiceTemplate",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+delete_service_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "DeleteServiceTemplate",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function delete_service_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1416,23 +1358,21 @@ compatible.
 - `template_name`: The name of the service template.
 
 """
-function delete_service_template_version(
+delete_service_template_version(
     majorVersion,
     minorVersion,
     templateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "DeleteServiceTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "DeleteServiceTemplateVersion",
-        Dict{String,Any}(
-            "majorVersion" => majorVersion,
-            "minorVersion" => minorVersion,
-            "templateName" => templateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_service_template_version(
     majorVersion,
     minorVersion,
@@ -1469,16 +1409,14 @@ Delete a template sync configuration.
 - `template_type`: The template type.
 
 """
-function delete_template_sync_config(
+delete_template_sync_config(
     templateName, templateType; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "DeleteTemplateSyncConfig",
+    Dict{String,Any}("templateName" => templateName, "templateType" => templateType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "DeleteTemplateSyncConfig",
-        Dict{String,Any}("templateName" => templateName, "templateType" => templateType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_template_sync_config(
     templateName,
     templateType,
@@ -1508,11 +1446,8 @@ end
 Get detail data for Proton account-wide settings.
 
 """
-function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton("GetAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1532,14 +1467,12 @@ components in the Proton User Guide.
 - `name`: The name of the component that you want to get the detailed data for.
 
 """
-function get_component(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "GetComponent",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_component(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "GetComponent",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_component(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1568,14 +1501,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deployment ID. serviceName must be specified to identify the service instance.
 - `"serviceName"`: The name of the service associated with the given deployment ID.
 """
-function get_deployment(id; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "GetDeployment",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_deployment(id; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "GetDeployment",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_deployment(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1597,14 +1528,12 @@ Get detailed data for an environment.
 - `name`: The name of the environment that you want to get the detailed data for.
 
 """
-function get_environment(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "GetEnvironment",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_environment(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "GetEnvironment",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_environment(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1628,16 +1557,13 @@ more information, see Environment account connections in the Proton User guide.
   for.
 
 """
-function get_environment_account_connection(
-    id; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+get_environment_account_connection(id; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "GetEnvironmentAccountConnection",
         Dict{String,Any}("id" => id);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_environment_account_connection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1659,14 +1585,12 @@ Get detailed data for an environment template.
 - `name`: The name of the environment template that you want to get the detailed data for.
 
 """
-function get_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "GetEnvironmentTemplate",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "GetEnvironmentTemplate",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_environment_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1693,23 +1617,21 @@ Get detailed data for a major or minor version of an environment template.
   detailed data for.
 
 """
-function get_environment_template_version(
+get_environment_template_version(
     majorVersion,
     minorVersion,
     templateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "GetEnvironmentTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "GetEnvironmentTemplateVersion",
-        Dict{String,Any}(
-            "majorVersion" => majorVersion,
-            "minorVersion" => minorVersion,
-            "templateName" => templateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_environment_template_version(
     majorVersion,
     minorVersion,
@@ -1746,14 +1668,12 @@ Get detail data for a linked repository.
 - `provider`: The repository provider.
 
 """
-function get_repository(name, provider; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "GetRepository",
-        Dict{String,Any}("name" => name, "provider" => provider);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_repository(name, provider; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "GetRepository",
+    Dict{String,Any}("name" => name, "provider" => provider);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_repository(
     name,
     provider,
@@ -1790,25 +1710,23 @@ see ABAC in the Proton User Guide.
 - `sync_type`: The repository sync type.
 
 """
-function get_repository_sync_status(
+get_repository_sync_status(
     branch,
     repositoryName,
     repositoryProvider,
     syncType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "GetRepositorySyncStatus",
+    Dict{String,Any}(
+        "branch" => branch,
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "syncType" => syncType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "GetRepositorySyncStatus",
-        Dict{String,Any}(
-            "branch" => branch,
-            "repositoryName" => repositoryName,
-            "repositoryProvider" => repositoryProvider,
-            "syncType" => syncType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_repository_sync_status(
     branch,
     repositoryName,
@@ -1853,11 +1771,8 @@ the Amazon Web Services account. For more information, see Proton dashboard in t
 User Guide.
 
 """
-function get_resources_summary(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "GetResourcesSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_resources_summary(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton("GetResourcesSummary"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function get_resources_summary(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1879,14 +1794,12 @@ Get detailed data for a service.
 - `name`: The name of the service that you want to get the detailed data for.
 
 """
-function get_service(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "GetService",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_service(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "GetService",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1910,16 +1823,13 @@ template and it runs in a specific environment.
 - `service_name`: The name of the service that you want the service instance input for.
 
 """
-function get_service_instance(
-    name, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+get_service_instance(name, serviceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "GetServiceInstance",
         Dict{String,Any}("name" => name, "serviceName" => serviceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_service_instance(
     name,
     serviceName,
@@ -1952,18 +1862,16 @@ Get the status of the synced service instance.
 - `service_name`: The name of the service that the service instance belongs to.
 
 """
-function get_service_instance_sync_status(
+get_service_instance_sync_status(
     serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "GetServiceInstanceSyncStatus",
+    Dict{String,Any}(
+        "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "GetServiceInstanceSyncStatus",
-        Dict{String,Any}(
-            "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_service_instance_sync_status(
     serviceInstanceName,
     serviceName,
@@ -2003,16 +1911,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   service sync blocker summary for. If given bothe the instance name and the service name,
   only the instance is blocked.
 """
-function get_service_sync_blocker_summary(
+get_service_sync_blocker_summary(
     serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "GetServiceSyncBlockerSummary",
+    Dict{String,Any}("serviceName" => serviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "GetServiceSyncBlockerSummary",
-        Dict{String,Any}("serviceName" => serviceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_service_sync_blocker_summary(
     serviceName,
     params::AbstractDict{String};
@@ -2039,16 +1945,13 @@ Get detailed information for the service sync configuration.
   configuration for.
 
 """
-function get_service_sync_config(
-    serviceName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+get_service_sync_config(serviceName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "GetServiceSyncConfig",
         Dict{String,Any}("serviceName" => serviceName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_service_sync_config(
     serviceName,
     params::AbstractDict{String};
@@ -2074,14 +1977,12 @@ Get detailed data for a service template.
 - `name`: The name of the service template that you want to get detailed data for.
 
 """
-function get_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "GetServiceTemplate",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_service_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "GetServiceTemplate",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_service_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2106,23 +2007,21 @@ Get detailed data for a major or minor version of a service template.
   detailed data for.
 
 """
-function get_service_template_version(
+get_service_template_version(
     majorVersion,
     minorVersion,
     templateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "GetServiceTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "GetServiceTemplateVersion",
-        Dict{String,Any}(
-            "majorVersion" => majorVersion,
-            "minorVersion" => minorVersion,
-            "templateName" => templateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_service_template_version(
     majorVersion,
     minorVersion,
@@ -2159,16 +2058,14 @@ Get detail data for a template sync configuration.
 - `template_type`: The template type.
 
 """
-function get_template_sync_config(
+get_template_sync_config(
     templateName, templateType; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "GetTemplateSyncConfig",
+    Dict{String,Any}("templateName" => templateName, "templateType" => templateType);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "GetTemplateSyncConfig",
-        Dict{String,Any}("templateName" => templateName, "templateType" => templateType);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_template_sync_config(
     templateName,
     templateType,
@@ -2203,23 +2100,21 @@ Get the status of a template sync.
 - `template_version`: The template major version.
 
 """
-function get_template_sync_status(
+get_template_sync_status(
     templateName,
     templateType,
     templateVersion;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "GetTemplateSyncStatus",
+    Dict{String,Any}(
+        "templateName" => templateName,
+        "templateType" => templateType,
+        "templateVersion" => templateVersion,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "GetTemplateSyncStatus",
-        Dict{String,Any}(
-            "templateName" => templateName,
-            "templateType" => templateType,
-            "templateVersion" => templateVersion,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_template_sync_status(
     templateName,
     templateType,
@@ -2261,16 +2156,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
-function list_component_outputs(
-    componentName; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+list_component_outputs(componentName; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "ListComponentOutputs",
         Dict{String,Any}("componentName" => componentName);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_component_outputs(
     componentName,
     params::AbstractDict{String};
@@ -2302,16 +2194,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of provisioned resources, after the list of provisioned resources that was
   previously requested.
 """
-function list_component_provisioned_resources(
+list_component_provisioned_resources(
     componentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "ListComponentProvisionedResources",
+    Dict{String,Any}("componentName" => componentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListComponentProvisionedResources",
-        Dict{String,Any}("componentName" => componentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_component_provisioned_resources(
     componentName,
     params::AbstractDict{String};
@@ -2347,9 +2237,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceName"`: The name of a service for result list filtering. Proton returns
   components attached to service instances of the service.
 """
-function list_components(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_components(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton("ListComponents"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_components(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2379,9 +2268,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceName"`: The name of a service for result list filtering. Proton returns
   deployments associated with service instances of the service.
 """
-function list_deployments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_deployments(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton("ListDeployments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_deployments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2410,16 +2298,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account connections that was previously requested.
 - `"statuses"`: The status details for each listed environment account connection.
 """
-function list_environment_account_connections(
+list_environment_account_connections(
     requestedBy; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "ListEnvironmentAccountConnections",
+    Dict{String,Any}("requestedBy" => requestedBy);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListEnvironmentAccountConnections",
-        Dict{String,Any}("requestedBy" => requestedBy);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_environment_account_connections(
     requestedBy,
     params::AbstractDict{String};
@@ -2451,16 +2337,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   array of environment outputs, after the list of environment outputs that was previously
   requested.
 """
-function list_environment_outputs(
+list_environment_outputs(
     environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "ListEnvironmentOutputs",
+    Dict{String,Any}("environmentName" => environmentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListEnvironmentOutputs",
-        Dict{String,Any}("environmentName" => environmentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_environment_outputs(
     environmentName,
     params::AbstractDict{String};
@@ -2493,16 +2377,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource in the array of environment provisioned resources, after the list of environment
   provisioned resources that was previously requested.
 """
-function list_environment_provisioned_resources(
+list_environment_provisioned_resources(
     environmentName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "ListEnvironmentProvisionedResources",
+    Dict{String,Any}("environmentName" => environmentName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListEnvironmentProvisionedResources",
-        Dict{String,Any}("environmentName" => environmentName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_environment_provisioned_resources(
     environmentName,
     params::AbstractDict{String};
@@ -2540,16 +2422,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of major or minor versions of an environment template, after the list of major or
   minor versions that was previously requested.
 """
-function list_environment_template_versions(
+list_environment_template_versions(
     templateName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "ListEnvironmentTemplateVersions",
+    Dict{String,Any}("templateName" => templateName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListEnvironmentTemplateVersions",
-        Dict{String,Any}("templateName" => templateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_environment_template_versions(
     templateName,
     params::AbstractDict{String};
@@ -2578,11 +2458,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of environment templates, after the list of environment templates that was
   previously requested.
 """
-function list_environment_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "ListEnvironmentTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_environment_templates(; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "ListEnvironmentTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_environment_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2607,11 +2485,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next environment in the array
   of environments, after the list of environments that was previously requested.
 """
-function list_environments(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_environments(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton("ListEnvironments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_environments(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2632,11 +2507,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next repository in the array of
   repositories, after the list of repositories previously requested.
 """
-function list_repositories(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "ListRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_repositories(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton("ListRepositories"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_repositories(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2662,23 +2534,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in the array of repository sync definitions, after the list of repository sync definitions
   previously requested.
 """
-function list_repository_sync_definitions(
+list_repository_sync_definitions(
     repositoryName,
     repositoryProvider,
     syncType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "ListRepositorySyncDefinitions",
+    Dict{String,Any}(
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "syncType" => syncType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListRepositorySyncDefinitions",
-        Dict{String,Any}(
-            "repositoryName" => repositoryName,
-            "repositoryProvider" => repositoryProvider,
-            "syncType" => syncType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_repository_sync_definitions(
     repositoryName,
     repositoryProvider,
@@ -2720,18 +2590,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
-function list_service_instance_outputs(
+list_service_instance_outputs(
     serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "ListServiceInstanceOutputs",
+    Dict{String,Any}(
+        "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListServiceInstanceOutputs",
-        Dict{String,Any}(
-            "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_service_instance_outputs(
     serviceInstanceName,
     serviceName,
@@ -2772,18 +2640,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of provisioned resources, after the list of provisioned resources that was
   previously requested.
 """
-function list_service_instance_provisioned_resources(
+list_service_instance_provisioned_resources(
     serviceInstanceName, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "ListServiceInstanceProvisionedResources",
+    Dict{String,Any}(
+        "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListServiceInstanceProvisionedResources",
-        Dict{String,Any}(
-            "serviceInstanceName" => serviceInstanceName, "serviceName" => serviceName
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_service_instance_provisioned_resources(
     serviceInstanceName,
     serviceName,
@@ -2827,11 +2693,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Default: serviceName
 - `"sortOrder"`: Result list sort order. Default: ASCENDING
 """
-function list_service_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "ListServiceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_service_instances(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton("ListServiceInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_service_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -2858,16 +2721,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next output in the array of
   outputs, after the list of outputs that was previously requested.
 """
-function list_service_pipeline_outputs(
+list_service_pipeline_outputs(
     serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "ListServicePipelineOutputs",
+    Dict{String,Any}("serviceName" => serviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListServicePipelineOutputs",
-        Dict{String,Any}("serviceName" => serviceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_service_pipeline_outputs(
     serviceName,
     params::AbstractDict{String};
@@ -2898,16 +2759,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of provisioned resources, after the list of provisioned resources that was
   previously requested.
 """
-function list_service_pipeline_provisioned_resources(
+list_service_pipeline_provisioned_resources(
     serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "ListServicePipelineProvisionedResources",
+    Dict{String,Any}("serviceName" => serviceName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListServicePipelineProvisionedResources",
-        Dict{String,Any}("serviceName" => serviceName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_service_pipeline_provisioned_resources(
     serviceName,
     params::AbstractDict{String};
@@ -2943,16 +2802,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the array of major or minor versions of a service template, after the list of major or
   minor versions that was previously requested.
 """
-function list_service_template_versions(
+list_service_template_versions(
     templateName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "ListServiceTemplateVersions",
+    Dict{String,Any}("templateName" => templateName);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "ListServiceTemplateVersions",
-        Dict{String,Any}("templateName" => templateName);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_service_template_versions(
     templateName,
     params::AbstractDict{String};
@@ -2980,11 +2837,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next service template in the
   array of service templates, after the list of service templates previously requested.
 """
-function list_service_templates(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "ListServiceTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_service_templates(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton("ListServiceTemplates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_service_templates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3008,9 +2862,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next service in the array of
   services, after the list of services that was previously requested.
 """
-function list_services(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
-end
+list_services(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton("ListServices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function list_services(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3035,16 +2888,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A token that indicates the location of the next resource tag in the array
   of resource tags, after the list of resource tags that was previously requested.
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -3077,16 +2927,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of your provisioned resource.
 - `"statusMessage"`: The deployment status message for your provisioned resource.
 """
-function notify_resource_deployment_status_change(
+notify_resource_deployment_status_change(
     resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "NotifyResourceDeploymentStatusChange",
+    Dict{String,Any}("resourceArn" => resourceArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "NotifyResourceDeploymentStatusChange",
-        Dict{String,Any}("resourceArn" => resourceArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function notify_resource_deployment_status_change(
     resourceArn,
     params::AbstractDict{String};
@@ -3116,16 +2964,14 @@ account connections in the Proton User guide.
 - `id`: The ID of the environment account connection to reject.
 
 """
-function reject_environment_account_connection(
+reject_environment_account_connection(
     id; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "RejectEnvironmentAccountConnection",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "RejectEnvironmentAccountConnection",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function reject_environment_account_connection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3150,14 +2996,12 @@ resource. For more information, see Proton resources and tagging in the Proton U
 - `tags`: A list of customer tags to apply to the Proton resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "TagResource",
-        Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "TagResource",
+    Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function tag_resource(
     resourceArn,
     tags,
@@ -3193,16 +3037,13 @@ Proton User Guide.
   from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -3249,11 +3090,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provisioning, and by customer-owned automation for self-managed provisioning. To remove a
   previously configured ARN, specify an empty string.
 """
-function update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+update_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton("UpdateAccountSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 function update_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3301,10 +3139,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   infrastructure that a custom component provisions.  Components support a single IaC file,
   even if you use Terraform as your template language.
 """
-function update_component(
-    deploymentType, name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+update_component(deploymentType, name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "UpdateComponent",
         Dict{String,Any}(
             "deploymentType" => deploymentType,
@@ -3314,7 +3150,6 @@ function update_component(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_component(
     deploymentType,
     name,
@@ -3410,16 +3245,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMajorVersion"`: The major version of the environment to update.
 - `"templateMinorVersion"`: The minor version of the environment to update.
 """
-function update_environment(
+update_environment(
     deploymentType, name; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "UpdateEnvironment",
+    Dict{String,Any}("deploymentType" => deploymentType, "name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "UpdateEnvironment",
-        Dict{String,Any}("deploymentType" => deploymentType, "name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_environment(
     deploymentType,
     name,
@@ -3464,16 +3297,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The Amazon Resource Name (ARN) of the IAM service role that's associated
   with the environment account connection to update.
 """
-function update_environment_account_connection(
+update_environment_account_connection(
     id; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "UpdateEnvironmentAccountConnection",
+    Dict{String,Any}("id" => id);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "UpdateEnvironmentAccountConnection",
-        Dict{String,Any}("id" => id);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_environment_account_connection(
     id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3500,16 +3331,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The name of the environment template to update as displayed in the
   developer interface.
 """
-function update_environment_template(
-    name; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return proton(
+update_environment_template(name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    proton(
         "UpdateEnvironmentTemplate",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_environment_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3539,23 +3367,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of environment template version to update.
 - `"status"`: The status of the environment template minor version to update.
 """
-function update_environment_template_version(
+update_environment_template_version(
     majorVersion,
     minorVersion,
     templateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "UpdateEnvironmentTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "UpdateEnvironmentTemplateVersion",
-        Dict{String,Any}(
-            "majorVersion" => majorVersion,
-            "minorVersion" => minorVersion,
-            "templateName" => templateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_environment_template_version(
     majorVersion,
     minorVersion,
@@ -3603,14 +3429,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the existing service instances or pipeline. For more information, see Edit a service in the
   Proton User Guide.
 """
-function update_service(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "UpdateService",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_service(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "UpdateService",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_service(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3654,21 +3478,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMajorVersion"`: The major version of the service template to update.
 - `"templateMinorVersion"`: The minor version of the service template to update.
 """
-function update_service_instance(
+update_service_instance(
     deploymentType, name, serviceName; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "UpdateServiceInstance",
+    Dict{String,Any}(
+        "deploymentType" => deploymentType,
+        "name" => name,
+        "serviceName" => serviceName,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "UpdateServiceInstance",
-        Dict{String,Any}(
-            "deploymentType" => deploymentType,
-            "name" => name,
-            "serviceName" => serviceName,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_service_instance(
     deploymentType,
     name,
@@ -3735,18 +3557,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"templateMinorVersion"`: The minor version of the service template that was used to
   create the service that the pipeline is associated with.
 """
-function update_service_pipeline(
+update_service_pipeline(
     deploymentType, serviceName, spec; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "UpdateServicePipeline",
+    Dict{String,Any}(
+        "deploymentType" => deploymentType, "serviceName" => serviceName, "spec" => spec
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "UpdateServicePipeline",
-        Dict{String,Any}(
-            "deploymentType" => deploymentType, "serviceName" => serviceName, "spec" => spec
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_service_pipeline(
     deploymentType,
     serviceName,
@@ -3783,16 +3603,14 @@ Update the service sync blocker by resolving it.
 - `resolved_reason`: The reason the service sync blocker was resolved.
 
 """
-function update_service_sync_blocker(
+update_service_sync_blocker(
     id, resolvedReason; aws_config::AbstractAWSConfig=global_aws_config()
+) = proton(
+    "UpdateServiceSyncBlocker",
+    Dict{String,Any}("id" => id, "resolvedReason" => resolvedReason);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "UpdateServiceSyncBlocker",
-        Dict{String,Any}("id" => id, "resolvedReason" => resolvedReason);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_service_sync_blocker(
     id,
     resolvedReason,
@@ -3828,27 +3646,25 @@ Update the Proton Ops config file.
 - `service_name`: The name of the service the Proton Ops file is for.
 
 """
-function update_service_sync_config(
+update_service_sync_config(
     branch,
     filePath,
     repositoryName,
     repositoryProvider,
     serviceName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "UpdateServiceSyncConfig",
+    Dict{String,Any}(
+        "branch" => branch,
+        "filePath" => filePath,
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "serviceName" => serviceName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "UpdateServiceSyncConfig",
-        Dict{String,Any}(
-            "branch" => branch,
-            "filePath" => filePath,
-            "repositoryName" => repositoryName,
-            "repositoryProvider" => repositoryProvider,
-            "serviceName" => serviceName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_service_sync_config(
     branch,
     filePath,
@@ -3893,14 +3709,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The name of the service template to update that's displayed in the
   developer interface.
 """
-function update_service_template(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return proton(
-        "UpdateServiceTemplate",
-        Dict{String,Any}("name" => name);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+update_service_template(name; aws_config::AbstractAWSConfig=global_aws_config()) = proton(
+    "UpdateServiceTemplate",
+    Dict{String,Any}("name" => name);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function update_service_template(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -3937,23 +3751,21 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   associations.  For more information about components, see Proton components in the Proton
   User Guide.
 """
-function update_service_template_version(
+update_service_template_version(
     majorVersion,
     minorVersion,
     templateName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "UpdateServiceTemplateVersion",
+    Dict{String,Any}(
+        "majorVersion" => majorVersion,
+        "minorVersion" => minorVersion,
+        "templateName" => templateName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "UpdateServiceTemplateVersion",
-        Dict{String,Any}(
-            "majorVersion" => majorVersion,
-            "minorVersion" => minorVersion,
-            "templateName" => templateName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_service_template_version(
     majorVersion,
     minorVersion,
@@ -4000,27 +3812,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subdirectory"`: A subdirectory path to your template bundle version. When included,
   limits the template bundle search to this repository directory.
 """
-function update_template_sync_config(
+update_template_sync_config(
     branch,
     repositoryName,
     repositoryProvider,
     templateName,
     templateType;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = proton(
+    "UpdateTemplateSyncConfig",
+    Dict{String,Any}(
+        "branch" => branch,
+        "repositoryName" => repositoryName,
+        "repositoryProvider" => repositoryProvider,
+        "templateName" => templateName,
+        "templateType" => templateType,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return proton(
-        "UpdateTemplateSyncConfig",
-        Dict{String,Any}(
-            "branch" => branch,
-            "repositoryName" => repositoryName,
-            "repositoryProvider" => repositoryProvider,
-            "templateName" => templateName,
-            "templateType" => templateType,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_template_sync_config(
     branch,
     repositoryName,

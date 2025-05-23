@@ -21,20 +21,18 @@ any number of attribute or metric values.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"x-amz-Client-Context-Encoding"`: The encoding used for the client context.
 """
-function put_events(
+put_events(
     events, x_amz_Client_Context; aws_config::AbstractAWSConfig=global_aws_config()
+) = mobile_analytics(
+    "POST",
+    "/2014-06-05/events",
+    Dict{String,Any}(
+        "events" => events,
+        "headers" => Dict{String,Any}("x-amz-Client-Context" => x_amz_Client_Context),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return mobile_analytics(
-        "POST",
-        "/2014-06-05/events",
-        Dict{String,Any}(
-            "events" => events,
-            "headers" => Dict{String,Any}("x-amz-Client-Context" => x_amz_Client_Context),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function put_events(
     events,
     x_amz_Client_Context,
