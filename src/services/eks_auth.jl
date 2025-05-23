@@ -19,17 +19,15 @@ automatically.
 - `token`: The token of the Kubernetes service account for the pod.
 
 """
-function assume_role_for_pod_identity(
+assume_role_for_pod_identity(
     clusterName, token; aws_config::AbstractAWSConfig=global_aws_config()
+) = eks_auth(
+    "POST",
+    "/clusters/$(clusterName)/assume-role-for-pod-identity",
+    Dict{String,Any}("token" => token);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return eks_auth(
-        "POST",
-        "/clusters/$(clusterName)/assume-role-for-pod-identity",
-        Dict{String,Any}("token" => token);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function assume_role_for_pod_identity(
     clusterName,
     token,

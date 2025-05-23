@@ -28,21 +28,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CustomerOwnedIpv4Pool"`: The ID of the customer-owned IPv4 address pool (CoIP pool) for
   the endpoint. IP addresses are allocated from this pool for the endpoint.
 """
-function create_endpoint(
+create_endpoint(
     OutpostId, SecurityGroupId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
+) = s3outposts(
+    "POST",
+    "/S3Outposts/CreateEndpoint",
+    Dict{String,Any}(
+        "OutpostId" => OutpostId,
+        "SecurityGroupId" => SecurityGroupId,
+        "SubnetId" => SubnetId,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return s3outposts(
-        "POST",
-        "/S3Outposts/CreateEndpoint",
-        Dict{String,Any}(
-            "OutpostId" => OutpostId,
-            "SecurityGroupId" => SecurityGroupId,
-            "SubnetId" => SubnetId,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_endpoint(
     OutpostId,
     SecurityGroupId,
@@ -81,17 +79,14 @@ actions include:    CreateEndpoint     ListEndpoints
 - `outpost_id`: The ID of the Outposts.
 
 """
-function delete_endpoint(
-    endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return s3outposts(
+delete_endpoint(endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3outposts(
         "DELETE",
         "/S3Outposts/DeleteEndpoint",
         Dict{String,Any}("endpointId" => endpointId, "outpostId" => outpostId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_endpoint(
     endpointId,
     outpostId,
@@ -126,14 +121,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If a previous response from this operation included a NextToken value,
   provide that value here to retrieve the next page of results.
 """
-function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3outposts(
-        "GET",
-        "/S3Outposts/ListEndpoints";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts(
+    "GET",
+    "/S3Outposts/ListEndpoints";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_endpoints(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -161,14 +154,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional Outposts.
 """
-function list_outposts_with_s3(; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3outposts(
-        "GET",
-        "/S3Outposts/ListOutpostsWithS3";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+list_outposts_with_s3(; aws_config::AbstractAWSConfig=global_aws_config()) = s3outposts(
+    "GET",
+    "/S3Outposts/ListOutpostsWithS3";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function list_outposts_with_s3(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -198,15 +189,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If a previous response from this operation included a NextToken value, you
   can provide that value here to retrieve the next page of results.
 """
-function list_shared_endpoints(outpostId; aws_config::AbstractAWSConfig=global_aws_config())
-    return s3outposts(
+list_shared_endpoints(outpostId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    s3outposts(
         "GET",
         "/S3Outposts/ListSharedEndpoints",
         Dict{String,Any}("outpostId" => outpostId);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_shared_endpoints(
     outpostId,
     params::AbstractDict{String};

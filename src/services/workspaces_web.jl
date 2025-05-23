@@ -15,17 +15,15 @@ Associates a browser settings resource with a web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function associate_browser_settings(
+associate_browser_settings(
     browserSettingsArn, portalArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "PUT",
+    "/portals/$(portalArn)/browserSettings",
+    Dict{String,Any}("browserSettingsArn" => browserSettingsArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PUT",
-        "/portals/$(portalArn)/browserSettings",
-        Dict{String,Any}("browserSettingsArn" => browserSettingsArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_browser_settings(
     browserSettingsArn,
     portalArn,
@@ -56,17 +54,15 @@ Associates an IP access settings resource with a web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function associate_ip_access_settings(
+associate_ip_access_settings(
     ipAccessSettingsArn, portalArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "PUT",
+    "/portals/$(portalArn)/ipAccessSettings",
+    Dict{String,Any}("ipAccessSettingsArn" => ipAccessSettingsArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PUT",
-        "/portals/$(portalArn)/ipAccessSettings",
-        Dict{String,Any}("ipAccessSettingsArn" => ipAccessSettingsArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_ip_access_settings(
     ipAccessSettingsArn,
     portalArn,
@@ -99,17 +95,15 @@ Associates a network settings resource with a web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function associate_network_settings(
+associate_network_settings(
     networkSettingsArn, portalArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "PUT",
+    "/portals/$(portalArn)/networkSettings",
+    Dict{String,Any}("networkSettingsArn" => networkSettingsArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PUT",
-        "/portals/$(portalArn)/networkSettings",
-        Dict{String,Any}("networkSettingsArn" => networkSettingsArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_network_settings(
     networkSettingsArn,
     portalArn,
@@ -140,17 +134,15 @@ Associates a trust store with a web portal.
 - `trust_store_arn`: The ARN of the trust store.
 
 """
-function associate_trust_store(
+associate_trust_store(
     portalArn, trustStoreArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "PUT",
+    "/portals/$(portalArn)/trustStores",
+    Dict{String,Any}("trustStoreArn" => trustStoreArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PUT",
-        "/portals/$(portalArn)/trustStores",
-        Dict{String,Any}("trustStoreArn" => trustStoreArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_trust_store(
     portalArn,
     trustStoreArn,
@@ -179,19 +171,17 @@ Associates a user access logging settings resource with a web portal.
 - `user_access_logging_settings_arn`: The ARN of the user access logging settings.
 
 """
-function associate_user_access_logging_settings(
+associate_user_access_logging_settings(
     portalArn,
     userAccessLoggingSettingsArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workspaces_web(
+    "PUT",
+    "/portals/$(portalArn)/userAccessLoggingSettings",
+    Dict{String,Any}("userAccessLoggingSettingsArn" => userAccessLoggingSettingsArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PUT",
-        "/portals/$(portalArn)/userAccessLoggingSettings",
-        Dict{String,Any}("userAccessLoggingSettingsArn" => userAccessLoggingSettingsArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_user_access_logging_settings(
     portalArn,
     userAccessLoggingSettingsArn,
@@ -226,17 +216,15 @@ Associates a user settings resource with a web portal.
 - `user_settings_arn`: The ARN of the user settings.
 
 """
-function associate_user_settings(
+associate_user_settings(
     portalArn, userSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "PUT",
+    "/portals/$(portalArn)/userSettings",
+    Dict{String,Any}("userSettingsArn" => userSettingsArn);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PUT",
-        "/portals/$(portalArn)/userSettings",
-        Dict{String,Any}("userSettingsArn" => userSettingsArn);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function associate_user_settings(
     portalArn,
     userSettingsArn,
@@ -280,10 +268,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"customerManagedKey"`: The custom managed key of the browser settings.
 - `"tags"`: The tags to add to the browser settings resource. A tag is a key-value pair.
 """
-function create_browser_settings(
-    browserPolicy; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+create_browser_settings(browserPolicy; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "POST",
         "/browserSettings",
         Dict{String,Any}(
@@ -292,7 +278,6 @@ function create_browser_settings(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_browser_settings(
     browserPolicy,
     params::AbstractDict{String};
@@ -349,27 +334,25 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services SDK.
 - `"tags"`: The tags to add to the identity provider resource. A tag is a key-value pair.
 """
-function create_identity_provider(
+create_identity_provider(
     identityProviderDetails,
     identityProviderName,
     identityProviderType,
     portalArn;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workspaces_web(
+    "POST",
+    "/identityProviders",
+    Dict{String,Any}(
+        "identityProviderDetails" => identityProviderDetails,
+        "identityProviderName" => identityProviderName,
+        "identityProviderType" => identityProviderType,
+        "portalArn" => portalArn,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "POST",
-        "/identityProviders",
-        Dict{String,Any}(
-            "identityProviderDetails" => identityProviderDetails,
-            "identityProviderName" => identityProviderName,
-            "identityProviderType" => identityProviderType,
-            "portalArn" => portalArn,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_identity_provider(
     identityProviderDetails,
     identityProviderName,
@@ -422,17 +405,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The display name of the IP access settings.
 - `"tags"`: The tags to add to the IP access settings resource. A tag is a key-value pair.
 """
-function create_ip_access_settings(
-    ipRules; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+create_ip_access_settings(ipRules; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "POST",
         "/ipAccessSettings",
         Dict{String,Any}("ipRules" => ipRules, "clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_ip_access_settings(
     ipRules, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -477,22 +457,20 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services SDK.
 - `"tags"`: The tags to add to the network settings resource. A tag is a key-value pair.
 """
-function create_network_settings(
+create_network_settings(
     securityGroupIds, subnetIds, vpcId; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "POST",
+    "/networkSettings",
+    Dict{String,Any}(
+        "securityGroupIds" => securityGroupIds,
+        "subnetIds" => subnetIds,
+        "vpcId" => vpcId,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "POST",
-        "/networkSettings",
-        Dict{String,Any}(
-            "securityGroupIds" => securityGroupIds,
-            "subnetIds" => subnetIds,
-            "vpcId" => vpcId,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_network_settings(
     securityGroupIds,
     subnetIds,
@@ -550,15 +528,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxConcurrentSessions"`: The maximum number of concurrent sessions for the portal.
 - `"tags"`: The tags to add to the web portal. A tag is a key-value pair.
 """
-function create_portal(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
-        "POST",
-        "/portals",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+create_portal(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces_web(
+    "POST",
+    "/portals",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function create_portal(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -596,10 +572,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services SDK.
 - `"tags"`: The tags to add to the trust store. A tag is a key-value pair.
 """
-function create_trust_store(
-    certificateList; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+create_trust_store(certificateList; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "POST",
         "/trustStores",
         Dict{String,Any}(
@@ -608,7 +582,6 @@ function create_trust_store(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_trust_store(
     certificateList,
     params::AbstractDict{String};
@@ -650,19 +623,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services SDK.
 - `"tags"`: The tags to add to the user settings resource. A tag is a key-value pair.
 """
-function create_user_access_logging_settings(
+create_user_access_logging_settings(
     kinesisStreamArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "POST",
+    "/userAccessLoggingSettings",
+    Dict{String,Any}(
+        "kinesisStreamArn" => kinesisStreamArn, "clientToken" => string(uuid4())
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "POST",
-        "/userAccessLoggingSettings",
-        Dict{String,Any}(
-            "kinesisStreamArn" => kinesisStreamArn, "clientToken" => string(uuid4())
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user_access_logging_settings(
     kinesisStreamArn,
     params::AbstractDict{String};
@@ -726,29 +697,27 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   interval begins.
 - `"tags"`: The tags to add to the user settings resource. A tag is a key-value pair.
 """
-function create_user_settings(
+create_user_settings(
     copyAllowed,
     downloadAllowed,
     pasteAllowed,
     printAllowed,
     uploadAllowed;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = workspaces_web(
+    "POST",
+    "/userSettings",
+    Dict{String,Any}(
+        "copyAllowed" => copyAllowed,
+        "downloadAllowed" => downloadAllowed,
+        "pasteAllowed" => pasteAllowed,
+        "printAllowed" => printAllowed,
+        "uploadAllowed" => uploadAllowed,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "POST",
-        "/userSettings",
-        Dict{String,Any}(
-            "copyAllowed" => copyAllowed,
-            "downloadAllowed" => downloadAllowed,
-            "pasteAllowed" => pasteAllowed,
-            "printAllowed" => printAllowed,
-            "uploadAllowed" => uploadAllowed,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_user_settings(
     copyAllowed,
     downloadAllowed,
@@ -790,16 +759,14 @@ Deletes browser settings.
 - `browser_settings_arn`: The ARN of the browser settings.
 
 """
-function delete_browser_settings(
+delete_browser_settings(
     browserSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "DELETE",
+    "/browserSettings/$(browserSettingsArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "DELETE",
-        "/browserSettings/$(browserSettingsArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_browser_settings(
     browserSettingsArn,
     params::AbstractDict{String};
@@ -824,16 +791,14 @@ Deletes the identity provider.
 - `identity_provider_arn`: The ARN of the identity provider.
 
 """
-function delete_identity_provider(
+delete_identity_provider(
     identityProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "DELETE",
+    "/identityProviders/$(identityProviderArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "DELETE",
-        "/identityProviders/$(identityProviderArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_identity_provider(
     identityProviderArn,
     params::AbstractDict{String};
@@ -858,16 +823,14 @@ Deletes IP access settings.
 - `ip_access_settings_arn`: The ARN of the IP access settings.
 
 """
-function delete_ip_access_settings(
+delete_ip_access_settings(
     ipAccessSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "DELETE",
+    "/ipAccessSettings/$(ipAccessSettingsArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "DELETE",
-        "/ipAccessSettings/$(ipAccessSettingsArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_ip_access_settings(
     ipAccessSettingsArn,
     params::AbstractDict{String};
@@ -892,16 +855,14 @@ Deletes network settings.
 - `network_settings_arn`: The ARN of the network settings.
 
 """
-function delete_network_settings(
+delete_network_settings(
     networkSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "DELETE",
+    "/networkSettings/$(networkSettingsArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "DELETE",
-        "/networkSettings/$(networkSettingsArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_network_settings(
     networkSettingsArn,
     params::AbstractDict{String};
@@ -926,14 +887,13 @@ Deletes a web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function delete_portal(portalArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
+delete_portal(portalArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "DELETE",
         "/portals/$(portalArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_portal(
     portalArn,
     params::AbstractDict{String};
@@ -958,16 +918,13 @@ Deletes the trust store.
 - `trust_store_arn`: The ARN of the trust store.
 
 """
-function delete_trust_store(
-    trustStoreArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+delete_trust_store(trustStoreArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "DELETE",
         "/trustStores/$(trustStoreArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_trust_store(
     trustStoreArn,
     params::AbstractDict{String};
@@ -992,16 +949,14 @@ Deletes user access logging settings.
 - `user_access_logging_settings_arn`: The ARN of the user access logging settings.
 
 """
-function delete_user_access_logging_settings(
+delete_user_access_logging_settings(
     userAccessLoggingSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "DELETE",
+    "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "DELETE",
-        "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_user_access_logging_settings(
     userAccessLoggingSettingsArn,
     params::AbstractDict{String};
@@ -1026,16 +981,13 @@ Deletes user settings.
 - `user_settings_arn`: The ARN of the user settings.
 
 """
-function delete_user_settings(
-    userSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+delete_user_settings(userSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "DELETE",
         "/userSettings/$(userSettingsArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_user_settings(
     userSettingsArn,
     params::AbstractDict{String};
@@ -1060,16 +1012,14 @@ Disassociates browser settings from a web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function disassociate_browser_settings(
+disassociate_browser_settings(
     portalArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "DELETE",
+    "/portals/$(portalArn)/browserSettings";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "DELETE",
-        "/portals/$(portalArn)/browserSettings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_browser_settings(
     portalArn,
     params::AbstractDict{String};
@@ -1094,16 +1044,14 @@ Disassociates IP access settings from a web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function disassociate_ip_access_settings(
+disassociate_ip_access_settings(
     portalArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "DELETE",
+    "/portals/$(portalArn)/ipAccessSettings";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "DELETE",
-        "/portals/$(portalArn)/ipAccessSettings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_ip_access_settings(
     portalArn,
     params::AbstractDict{String};
@@ -1128,16 +1076,14 @@ Disassociates network settings from a web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function disassociate_network_settings(
+disassociate_network_settings(
     portalArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "DELETE",
+    "/portals/$(portalArn)/networkSettings";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "DELETE",
-        "/portals/$(portalArn)/networkSettings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_network_settings(
     portalArn,
     params::AbstractDict{String};
@@ -1162,16 +1108,13 @@ Disassociates a trust store from a web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function disassociate_trust_store(
-    portalArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+disassociate_trust_store(portalArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "DELETE",
         "/portals/$(portalArn)/trustStores";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disassociate_trust_store(
     portalArn,
     params::AbstractDict{String};
@@ -1196,16 +1139,14 @@ Disassociates user access logging settings from a web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function disassociate_user_access_logging_settings(
+disassociate_user_access_logging_settings(
     portalArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "DELETE",
+    "/portals/$(portalArn)/userAccessLoggingSettings";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "DELETE",
-        "/portals/$(portalArn)/userAccessLoggingSettings";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function disassociate_user_access_logging_settings(
     portalArn,
     params::AbstractDict{String};
@@ -1230,16 +1171,13 @@ Disassociates user settings from a web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function disassociate_user_settings(
-    portalArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+disassociate_user_settings(portalArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "DELETE",
         "/portals/$(portalArn)/userSettings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function disassociate_user_settings(
     portalArn,
     params::AbstractDict{String};
@@ -1264,16 +1202,14 @@ Gets browser settings.
 - `browser_settings_arn`: The ARN of the browser settings.
 
 """
-function get_browser_settings(
+get_browser_settings(
     browserSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "GET",
+    "/browserSettings/$(browserSettingsArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "GET",
-        "/browserSettings/$(browserSettingsArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_browser_settings(
     browserSettingsArn,
     params::AbstractDict{String};
@@ -1298,16 +1234,14 @@ Gets the identity provider.
 - `identity_provider_arn`: The ARN of the identity provider.
 
 """
-function get_identity_provider(
+get_identity_provider(
     identityProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "GET",
+    "/identityProviders/$(identityProviderArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "GET",
-        "/identityProviders/$(identityProviderArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_identity_provider(
     identityProviderArn,
     params::AbstractDict{String};
@@ -1332,16 +1266,14 @@ Gets the IP access settings.
 - `ip_access_settings_arn`: The ARN of the IP access settings.
 
 """
-function get_ip_access_settings(
+get_ip_access_settings(
     ipAccessSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "GET",
+    "/ipAccessSettings/$(ipAccessSettingsArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "GET",
-        "/ipAccessSettings/$(ipAccessSettingsArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_ip_access_settings(
     ipAccessSettingsArn,
     params::AbstractDict{String};
@@ -1366,16 +1298,14 @@ Gets the network settings.
 - `network_settings_arn`: The ARN of the network settings.
 
 """
-function get_network_settings(
+get_network_settings(
     networkSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "GET",
+    "/networkSettings/$(networkSettingsArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "GET",
-        "/networkSettings/$(networkSettingsArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_network_settings(
     networkSettingsArn,
     params::AbstractDict{String};
@@ -1400,14 +1330,12 @@ Gets the web portal.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function get_portal(portalArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
-        "GET",
-        "/portals/$(portalArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_portal(portalArn; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces_web(
+    "GET",
+    "/portals/$(portalArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_portal(
     portalArn,
     params::AbstractDict{String};
@@ -1432,16 +1360,14 @@ Gets the service provider metadata.
 - `portal_arn`: The ARN of the web portal.
 
 """
-function get_portal_service_provider_metadata(
+get_portal_service_provider_metadata(
     portalArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "GET",
+    "/portalIdp/$(portalArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "GET",
-        "/portalIdp/$(portalArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_portal_service_provider_metadata(
     portalArn,
     params::AbstractDict{String};
@@ -1466,14 +1392,13 @@ Gets the trust store.
 - `trust_store_arn`: The ARN of the trust store.
 
 """
-function get_trust_store(trustStoreArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
+get_trust_store(trustStoreArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "GET",
         "/trustStores/$(trustStoreArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_trust_store(
     trustStoreArn,
     params::AbstractDict{String};
@@ -1499,17 +1424,15 @@ Gets the trust store certificate.
 - `trust_store_arn`: The ARN of the trust store certificate.
 
 """
-function get_trust_store_certificate(
+get_trust_store_certificate(
     thumbprint, trustStoreArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "GET",
+    "/trustStores/$(trustStoreArn)/certificate",
+    Dict{String,Any}("thumbprint" => thumbprint);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "GET",
-        "/trustStores/$(trustStoreArn)/certificate",
-        Dict{String,Any}("thumbprint" => thumbprint);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_trust_store_certificate(
     thumbprint,
     trustStoreArn,
@@ -1537,16 +1460,14 @@ Gets user access logging settings.
 - `user_access_logging_settings_arn`: The ARN of the user access logging settings.
 
 """
-function get_user_access_logging_settings(
+get_user_access_logging_settings(
     userAccessLoggingSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "GET",
+    "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "GET",
-        "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_user_access_logging_settings(
     userAccessLoggingSettingsArn,
     params::AbstractDict{String};
@@ -1571,16 +1492,13 @@ Gets user settings.
 - `user_settings_arn`: The ARN of the user settings.
 
 """
-function get_user_settings(
-    userSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+get_user_settings(userSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "GET",
         "/userSettings/$(userSettingsArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_user_settings(
     userSettingsArn,
     params::AbstractDict{String};
@@ -1607,11 +1525,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function list_browser_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
-        "GET", "/browserSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_browser_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces_web(
+    "GET", "/browserSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_browser_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1639,16 +1555,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function list_identity_providers(
-    portalArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+list_identity_providers(portalArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "GET",
         "/portals/$(portalArn)/identityProviders";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_identity_providers(
     portalArn,
     params::AbstractDict{String};
@@ -1675,11 +1588,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function list_ip_access_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
+list_ip_access_settings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "GET", "/ipAccessSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_ip_access_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1704,11 +1616,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function list_network_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
-        "GET", "/networkSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_network_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces_web(
+    "GET", "/networkSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_network_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1733,11 +1643,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function list_portals(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
-        "GET", "/portals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_portals(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces_web(
+    "GET", "/portals"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_portals(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1756,16 +1664,13 @@ Retrieves a list of tags for a resource.
 - `resource_arn`: The ARN of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -1795,16 +1700,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function list_trust_store_certificates(
+list_trust_store_certificates(
     trustStoreArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "GET",
+    "/trustStores/$(trustStoreArn)/certificates";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "GET",
-        "/trustStores/$(trustStoreArn)/certificates";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function list_trust_store_certificates(
     trustStoreArn,
     params::AbstractDict{String};
@@ -1831,11 +1734,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function list_trust_stores(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
-        "GET", "/trustStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_trust_stores(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces_web(
+    "GET", "/trustStores"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_trust_stores(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1860,16 +1761,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function list_user_access_logging_settings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+list_user_access_logging_settings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "GET",
         "/userAccessLoggingSettings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_user_access_logging_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1894,11 +1792,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token used to retrieve the next page of results for this
   operation.
 """
-function list_user_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
-        "GET", "/userSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_user_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = workspaces_web(
+    "GET", "/userSettings"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_user_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -1930,15 +1826,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    If you do not specify a client token, one is automatically generated by the Amazon Web
   Services SDK.
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags, "clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -1971,17 +1866,14 @@ Removes one or more tags from the specified resource.
 - `tag_keys`: The list of tag keys to remove from the resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -2017,17 +1909,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you do not specify a client token, one is automatically generated by the Amazon Web
   Services SDK.
 """
-function update_browser_settings(
+update_browser_settings(
     browserSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "PATCH",
+    "/browserSettings/$(browserSettingsArn)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PATCH",
-        "/browserSettings/$(browserSettingsArn)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_browser_settings(
     browserSettingsArn,
     params::AbstractDict{String};
@@ -2077,17 +1967,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"identityProviderName"`: The name of the identity provider.
 - `"identityProviderType"`: The type of the identity provider.
 """
-function update_identity_provider(
+update_identity_provider(
     identityProviderArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "PATCH",
+    "/identityProviders/$(identityProviderArn)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PATCH",
-        "/identityProviders/$(identityProviderArn)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_identity_provider(
     identityProviderArn,
     params::AbstractDict{String};
@@ -2125,17 +2013,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"displayName"`: The display name of the IP access settings.
 - `"ipRules"`: The updated IP rules of the IP access settings.
 """
-function update_ip_access_settings(
+update_ip_access_settings(
     ipAccessSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "PATCH",
+    "/ipAccessSettings/$(ipAccessSettingsArn)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PATCH",
-        "/ipAccessSettings/$(ipAccessSettingsArn)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_ip_access_settings(
     ipAccessSettingsArn,
     params::AbstractDict{String};
@@ -2176,17 +2062,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   zones.
 - `"vpcId"`: The VPC that streaming instances will connect to.
 """
-function update_network_settings(
+update_network_settings(
     networkSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "PATCH",
+    "/networkSettings/$(networkSettingsArn)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PATCH",
-        "/networkSettings/$(networkSettingsArn)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_network_settings(
     networkSettingsArn,
     params::AbstractDict{String};
@@ -2227,14 +2111,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"instanceType"`: The type and resources of the underlying instance.
 - `"maxConcurrentSessions"`: The maximum number of concurrent sessions for the portal.
 """
-function update_portal(portalArn; aws_config::AbstractAWSConfig=global_aws_config())
-    return workspaces_web(
+update_portal(portalArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "PUT",
         "/portals/$(portalArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_portal(
     portalArn,
     params::AbstractDict{String};
@@ -2269,17 +2152,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you do not specify a client token, one is automatically generated by the Amazon Web
   Services SDK.
 """
-function update_trust_store(
-    trustStoreArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+update_trust_store(trustStoreArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "PATCH",
         "/trustStores/$(trustStoreArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_trust_store(
     trustStoreArn,
     params::AbstractDict{String};
@@ -2315,17 +2195,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Services SDK.
 - `"kinesisStreamArn"`: The ARN of the Kinesis stream.
 """
-function update_user_access_logging_settings(
+update_user_access_logging_settings(
     userAccessLoggingSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
+) = workspaces_web(
+    "PATCH",
+    "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)",
+    Dict{String,Any}("clientToken" => string(uuid4()));
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return workspaces_web(
-        "PATCH",
-        "/userAccessLoggingSettings/$(userAccessLoggingSettingsArn)",
-        Dict{String,Any}("clientToken" => string(uuid4()));
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_user_access_logging_settings(
     userAccessLoggingSettingsArn,
     params::AbstractDict{String};
@@ -2379,17 +2257,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"uploadAllowed"`: Specifies whether the user can upload files from the local device to
   the streaming session.
 """
-function update_user_settings(
-    userSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return workspaces_web(
+update_user_settings(userSettingsArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    workspaces_web(
         "PATCH",
         "/userSettings/$(userSettingsArn)",
         Dict{String,Any}("clientToken" => string(uuid4()));
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_user_settings(
     userSettingsArn,
     params::AbstractDict{String};
