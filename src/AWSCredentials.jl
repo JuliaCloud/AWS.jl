@@ -639,7 +639,7 @@ Determine the current AWS region that should be used for AWS requests. The order
 precedence mirrors what is [used by the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-precedence):
 
 1. Environment variable: `AWS_REGION`.
-2. Environment variable: `AWS_DEFAULT_REGION` (used if `AWS_REGION` is not set).
+2. Environment variable: `AWS_DEFAULT_REGION`
 3. AWS configuration file: `region` as specified by the `profile` in the configuration
    file, typically "~/.aws/config".
 4. Instance metadata service on an Amazon EC2 instance that has an IAM role configured.
