@@ -1244,25 +1244,16 @@ end
         write(config_file, config_str)
         ini = read(Inifile(), IOBuffer(config_str))
 
-        @testset "environmental variable (DEFAULT)" begin
-            withenv("AWS_REGION" => nothing, "AWS_DEFAULT_REGION" => "us-gov-east-1") do
-                @test aws_get_region(; config=ini, profile="default") == "us-gov-east-1"
-                @test aws_get_region() == "us-gov-east-1"
-            end
-        end
-
-        @testset "environmental variable" begin
-            withenv("AWS_DEFAULT_REGION" => "us-gov-east-1") do
-                @test aws_get_region(; config=ini, profile="default") == "us-gov-east-1"
-                @test aws_get_region() == "us-gov-east-1"
-            end
-        end
-
         @testset "environmental variable (AWS_REGION)" begin
              withenv("AWS_REGION" => "eu-west-1", "AWS_DEFAULT_REGION" => nothing) do
                  @test aws_get_region(; config=ini, profile="default") == "eu-west-1"
                  @test aws_get_region() == "eu-west-1"
              end
+             
+             withenv("AWS_REGION" => nothing, "AWS_DEFAULT_REGION" => "us-gov-east-1") do
+                @test aws_get_region(; config=ini, profile="default") == "us-gov-east-1"
+                @test aws_get_region() == "us-gov-east-1"
+            end
 
              withenv("AWS_REGION" => "eu-west-1", "AWS_DEFAULT_REGION" => "us-gov-east-1") do
                  @test aws_get_region(; config=ini, profile="default") == "eu-west-1"
