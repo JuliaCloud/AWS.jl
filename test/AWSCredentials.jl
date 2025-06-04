@@ -1279,7 +1279,10 @@ end
         end
 
         @testset "specified profile" begin
-            withenv("AWS_DEFAULT_REGION" => nothing) do
+            withenv(
+                "AWS_DEFAULT_REGION" => nothing,
+                "AWS_REGION" => nothing,
+            ) do
                 @test aws_get_region(; config=ini, profile="test") == "ap-northeast-1"
                 @test aws_get_region(; config=config_file, profile="test") ==
                     "ap-northeast-1"
@@ -1296,7 +1299,10 @@ end
         end
 
         @testset "unknown profile" begin
-            withenv("AWS_DEFAULT_REGION" => nothing) do
+            withenv(
+                "AWS_DEFAULT_REGION" => nothing,
+                "AWS_REGION" => nothing,
+            ) do
                 apply(Patches._imds_region_patch(nothing)) do
                     @test aws_get_region(; config=ini, profile="unknown") ==
                         AWS.DEFAULT_REGION
@@ -1319,7 +1325,10 @@ end
 
         @testset "default keyword" begin
             default = nothing
-            withenv("AWS_DEFAULT_REGION" => nothing) do
+            withenv(
+                "AWS_DEFAULT_REGION" => nothing,
+                "AWS_REGION" => nothing,
+            ) do
                 apply(Patches._imds_region_patch(nothing)) do
                     @test aws_get_region(; config=ini, profile="unknown", default) ===
                         default
@@ -1342,7 +1351,11 @@ end
         end
 
         @testset "no such config file" begin
-            withenv("AWS_DEFAULT_REGION" => nothing, "AWS_CONFIG_FILE" => tempname()) do
+            withenv(
+                "AWS_DEFAULT_REGION" => nothing,
+                "AWS_REGION" => nothing,
+                "AWS_CONFIG_FILE" => tempname()
+            ) do
                 apply(Patches._imds_region_patch(nothing)) do
                     @test aws_get_region() == AWS.DEFAULT_REGION
                 end
@@ -1350,7 +1363,11 @@ end
         end
 
         @testset "instance profile" begin
-            withenv("AWS_DEFAULT_REGION" => nothing, "AWS_CONFIG_FILE" => tempname()) do
+            withenv(
+                "AWS_DEFAULT_REGION" => nothing,
+                "AWS_REGION" => nothing,
+                "AWS_CONFIG_FILE" => tempname()
+            ) do
                 apply(Patches._imds_region_patch("ap-atlantis-1")) do
                     @test aws_get_region() == "ap-atlantis-1"
                 end
