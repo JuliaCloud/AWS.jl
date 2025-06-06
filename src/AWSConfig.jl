@@ -92,3 +92,46 @@ function _update_creds!(aws_config::AWSConfig)
 
     return creds
 end
+
+const _SCOPED_AWS_CONFIG = ScopedValue{AbstractAWSConfig}()
+const _INITIAL_AWS_CONFIG = Ref{AbstractAWSConfig}()
+const _INITIAL_AWS_CONFIG_LOCK = ReentrantLock()
+
+"""
+    current_aws_config() -> AbstractAWSConfig
+
+Retrieve the current AWS configuration set within the current scope. If no configuration has
+been set upon the initial call then the configuration will be loaded using `AWSConfig()`.
+"""
+function current_aws_config()
+    # Load non-scoped configuration upon first usage. We'll make use of a lock to avoid race
+    # conditions but only lock when necessary to avoid unnecessary overhead with subsequent
+    # calls.
+    if !isassigned(_INITIAL_AWS_CONFIG)
+        @lock _INITIAL_AWS_CONFIG_LOCK begin
+            if !isassigned(_INITIAL_AWS_CONFIG)
+                _INITIAL_AWS_CONFIG[] = AWSConfig()
+            end
+        end
+    end
+
+    return @something(
+        ScopedValues.get(_SCOPED_AWS_CONFIG),
+        _INITIAL_AWS_CONFIG[],
+    )
+end
+
+"""
+    with(f, config::AbstractAWSConfig) -> Any
+
+Executes the function `f` where the result of `current_aws_config()` returns `config`.
+Nesting of `with` calls is supported.
+
+The user provided function `f` takes no parameters. The `with` function returns the result
+return from `f`.
+"""
+function with(f, config::AbstractAWSConfig)
+    return @with _SCOPED_AWS_CONFIG => config begin
+        f()
+    end
+end

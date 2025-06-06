@@ -218,3 +218,30 @@ end
 
 @deprecate ec2_instance_metadata(path::AbstractString) IMDS.get(path)
 @deprecate ec2_instance_region() IMDS.region()
+
+# Manually deprecating binding
+const _dep_message_aws_config = ", use `current_aws_config()` or `with(::AbstractAWSConfig)` instead."
+const aws_config = Ref{AbstractAWSConfig}()
+Base.deprecate(@__MODULE__, :aws_config)
+
+export global_aws_config
+
+# Access to `_INITIAL_AWS_CONFIG` isn't threadsafe which is okay as these old functions were
+# never thread safe.
+function global_aws_config(; kwargs...)
+    return if isempty(kwargs)
+        Base.depwarn("`global_aws_config()` is deprecated, use `current_aws_config()` instead.")
+        current_aws_config()
+    else
+        Base.depwarn("`global_aws_config(; kwargs...)` is deprecated, use `with(AWSConfig(; kwargs...)) do ... end` instead to temporarily modify the AWS configuration.")
+        config = AWSConfig(; kwargs...)
+        _INITIAL_AWS_CONFIG[] = config
+        aws_config[] = config
+        config
+    end
+end
+
+function global_aws_config(config::AbstractAWSConfig)
+    Base.depwarn("`global_aws_config(config::AbstractAWSConfig)` is deprecated, use `with(config) do ... end` instead to temporarily modify the AWS configuration.")
+    return _INITIAL_AWS_CONFIG[] = config
+end
