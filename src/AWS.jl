@@ -10,6 +10,7 @@ using Mocking
 using OrderedCollections: LittleDict, OrderedDict
 using Random
 using SHA
+using ScopedValues: ScopedValues, ScopedValue, @with
 using Sockets
 using URIs
 using UUIDs: UUIDs
@@ -19,7 +20,8 @@ export @service
 export _merge
 export AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
 export IMDS
-export assume_role, generate_service_url, global_aws_config, set_user_agent
+export current_aws_config, with_aws_config
+export assume_role, generate_service_url, set_user_agent
 export sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService, set_features
 
@@ -45,7 +47,6 @@ using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
 const user_agent = Ref{String}("AWS.jl/$(pkgversion(@__MODULE__))")
-const aws_config = Ref{AbstractAWSConfig}()
 
 """
     FeatureSet
@@ -63,41 +64,6 @@ non-breaking behavior.
 """
 Base.@kwdef struct FeatureSet
     use_response_type::Bool = false
-end
-
-"""
-    global_aws_config()
-
-Retrieve the global AWS configuration.
-If one is not set, create one with default configuration options.
-
-# Keywords
-- `kwargs...`: AWSConfig kwargs to be passed along if the global configuration is not already set
-
-# Returns
-- `AWSConfig`: The global AWS configuration
-"""
-function global_aws_config(; kwargs...)
-    if !isassigned(aws_config) || !isempty(kwargs)
-        aws_config[] = AWSConfig(; kwargs...)
-    end
-
-    return aws_config[]
-end
-
-"""
-    global_aws_config(config::AbstractAWSConfig)
-
-Set the global AWSConfig.
-
-# Arguments
-- `config::AWSConfig`: The AWSConfig to set in the global state
-
-# Returns
-- `AWSConfig`: Global AWSConfig
-"""
-function global_aws_config(config::AbstractAWSConfig)
-    return aws_config[] = config
 end
 
 """

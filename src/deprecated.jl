@@ -1,3 +1,5 @@
+using Base: Base, @deprecate
+
 # Emulates the legacy `use_response_type=false` response behavior using the `AWS.Response`
 function legacy_response(
     request::AWS.Request, response::AWS.Response; return_headers=nothing
@@ -218,3 +220,41 @@ end
 
 @deprecate ec2_instance_metadata(path::AbstractString) IMDS.get(path)
 @deprecate ec2_instance_region() IMDS.region()
+
+# Binding has no user accessible replacement. User's were expected to use `global_aws_config`
+# and not interact with this global directly. We'll include this during the deprecation
+# phase out of an abundance of caution.
+const aws_config = Ref{AbstractAWSConfig}()
+
+export global_aws_config
+
+# Access to `_FALLBACK_AWS_CONFIG` isn't threadsafe which is okay as these old functions
+# were never thread safe.
+function global_aws_config(; kwargs...)
+    return if isempty(kwargs)
+        Base.depwarn(
+            "`global_aws_config()` is deprecated, use `current_aws_config()` instead.",
+            :global_aws_config,
+        )
+        _FALLBACK_AWS_CONFIG[]  # Not calling `current_aws_config` as we don't want to return scoped configs
+    else
+        Base.depwarn(
+            "`global_aws_config(; kwargs...)` is deprecated, use `with_aws_config(AWSConfig(; kwargs...)) do ... end` instead to temporarily modify the AWS configuration.",
+            :global_aws_config,
+        )
+        config = AWSConfig(; kwargs...)
+        _FALLBACK_AWS_CONFIG[] = config
+        aws_config[] = config
+        config
+    end
+end
+
+function global_aws_config(config::AbstractAWSConfig)
+    Base.depwarn(
+        "`global_aws_config(config::AbstractAWSConfig)` is deprecated, use `with_aws_config(config) do ... end` instead to temporarily modify the AWS configuration.",
+        :global_aws_config,
+    )
+    _FALLBACK_AWS_CONFIG[] = config
+    aws_config[] = config
+    return config
+end
