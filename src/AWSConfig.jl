@@ -94,30 +94,35 @@ function _update_creds!(aws_config::AWSConfig)
 end
 
 const _SCOPED_AWS_CONFIG = ScopedValue{AbstractAWSConfig}()
-const _INITIAL_AWS_CONFIG = Ref{AbstractAWSConfig}()
-const _INITIAL_AWS_CONFIG_LOCK = ReentrantLock()
+const _FALLBACK_AWS_CONFIG = Ref{AbstractAWSConfig}()
+const _FALLBACK_AWS_CONFIG_LOCK = ReentrantLock()
+
+# Load non-scoped/fallback configuration the first time it is required (if at all). We'll
+# make use of a lock to avoid race conditions but only lock when necessary to avoid
+# unnecessary overhead with subsequent calls.
+function _fallback_aws_config()
+    if !isassigned(_FALLBACK_AWS_CONFIG)
+        @lock _FALLBACK_AWS_CONFIG_LOCK begin
+            if !isassigned(_FALLBACK_AWS_CONFIG)
+                _FALLBACK_AWS_CONFIG[] = AWSConfig()
+            end
+        end
+    end
+
+    return _FALLBACK_AWS_CONFIG[]
+end
 
 """
     current_aws_config() -> AbstractAWSConfig
 
 Retrieve the current AWS configuration set within the current scope. If no configuration has
-been set upon the initial call then the configuration will be loaded using `AWSConfig()`.
+been set using [`with_aws_config`](@ref) then the AWS configuration will be loaded using
+`AWSConfig()`.
 """
 function current_aws_config()
-    # Load non-scoped configuration upon first usage. We'll make use of a lock to avoid race
-    # conditions but only lock when necessary to avoid unnecessary overhead with subsequent
-    # calls.
-    if !isassigned(_INITIAL_AWS_CONFIG)
-        @lock _INITIAL_AWS_CONFIG_LOCK begin
-            if !isassigned(_INITIAL_AWS_CONFIG)
-                _INITIAL_AWS_CONFIG[] = AWSConfig()
-            end
-        end
-    end
-
     return @something(
         ScopedValues.get(_SCOPED_AWS_CONFIG),
-        _INITIAL_AWS_CONFIG[],
+        _fallback_aws_config(),
     )
 end
 
