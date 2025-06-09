@@ -243,5 +243,6 @@ end
 
 function global_aws_config(config::AbstractAWSConfig)
     Base.depwarn("`global_aws_config(config::AbstractAWSConfig)` is deprecated, use `with_aws_config(config) do ... end` instead to temporarily modify the AWS configuration.")
-    return _INITIAL_AWS_CONFIG[] = config
+    _INITIAL_AWS_CONFIG[] = config
+    return config
 end
