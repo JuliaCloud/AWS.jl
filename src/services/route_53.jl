@@ -19,7 +19,7 @@ operation changes the KSK status to ACTIVE.
 
 """
 function activate_key_signing_key(
-    HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    HostedZoneId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -32,7 +32,7 @@ function activate_key_signing_key(
     HostedZoneId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -72,7 +72,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Comment"`:  Optional: A comment about the association request.
 """
 function associate_vpcwith_hosted_zone(
-    Id, VPC; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, VPC; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -83,7 +83,7 @@ function associate_vpcwith_hosted_zone(
     )
 end
 function associate_vpcwith_hosted_zone(
-    Id, VPC, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, VPC, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -124,7 +124,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not update the collection, and it returns a CidrCollectionVersionMismatch error.
 """
 function change_cidr_collection(
-    Changes, CidrCollectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    Changes, CidrCollectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -138,7 +138,7 @@ function change_cidr_collection(
     Changes,
     CidrCollectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -205,7 +205,7 @@ ChangeResourceRecordSets request, see Limits in the Amazon Route 53 Developer Gu
 
 """
 function change_resource_record_sets(
-    ChangeBatch, Id; aws_config::AbstractAWSConfig=global_aws_config()
+    ChangeBatch, Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -219,7 +219,7 @@ function change_resource_record_sets(
     ChangeBatch,
     Id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -254,7 +254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   delete from the specified health check or hosted zone. You can specify up to 10 keys.
 """
 function change_tags_for_resource(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -267,7 +267,7 @@ function change_tags_for_resource(
     ResourceId,
     ResourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -293,7 +293,7 @@ Creates a CIDR collection in the current Amazon Web Services account.
 
 """
 function create_cidr_collection(
-    CallerReference, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    CallerReference, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -307,7 +307,7 @@ function create_cidr_collection(
     CallerReference,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -364,7 +364,7 @@ metrics and alarms by using the CloudWatch console, see the Amazon CloudWatch Us
 
 """
 function create_health_check(
-    CallerReference, HealthCheckConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    CallerReference, HealthCheckConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -380,7 +380,7 @@ function create_health_check(
     CallerReference,
     HealthCheckConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -465,7 +465,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   create a hosted zone.
 """
 function create_hosted_zone(
-    CallerReference, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    CallerReference, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -479,7 +479,7 @@ function create_hosted_zone(
     CallerReference,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -529,7 +529,7 @@ function create_key_signing_key(
     KeyManagementServiceArn,
     Name,
     Status;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -552,7 +552,7 @@ function create_key_signing_key(
     Name,
     Status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -653,7 +653,7 @@ DeleteQueryLoggingConfig.
 function create_query_logging_config(
     CloudWatchLogsLogGroupArn,
     HostedZoneId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -670,7 +670,7 @@ function create_query_logging_config(
     CloudWatchLogsLogGroupArn,
     HostedZoneId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -731,7 +731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   reusable, the ID for that hosted zone.
 """
 function create_reusable_delegation_set(
-    CallerReference; aws_config::AbstractAWSConfig=global_aws_config()
+    CallerReference; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -744,7 +744,7 @@ end
 function create_reusable_delegation_set(
     CallerReference,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -776,7 +776,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Comment"`: (Optional) Any comments that you want to include about the traffic policy.
 """
 function create_traffic_policy(
-    Document, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Document, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -790,7 +790,7 @@ function create_traffic_policy(
     Document,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -840,7 +840,7 @@ function create_traffic_policy_instance(
     TTL,
     TrafficPolicyId,
     TrafficPolicyVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -863,7 +863,7 @@ function create_traffic_policy_instance(
     TrafficPolicyId,
     TrafficPolicyVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -910,7 +910,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   any.
 """
 function create_traffic_policy_version(
-    Document, Id; aws_config::AbstractAWSConfig=global_aws_config()
+    Document, Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -924,7 +924,7 @@ function create_traffic_policy_version(
     Document,
     Id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -957,7 +957,7 @@ request for each VPC.
 
 """
 function create_vpcassociation_authorization(
-    Id, VPC; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, VPC; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -968,7 +968,7 @@ function create_vpcassociation_authorization(
     )
 end
 function create_vpcassociation_authorization(
-    Id, VPC, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, VPC, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -992,7 +992,7 @@ operation changes the KSK status to INACTIVE.
 
 """
 function deactivate_key_signing_key(
-    HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    HostedZoneId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -1005,7 +1005,7 @@ function deactivate_key_signing_key(
     HostedZoneId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -1028,7 +1028,7 @@ be empty before it can be deleted.
 
 """
 function delete_cidr_collection(
-    CidrCollectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CidrCollectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
@@ -1040,7 +1040,7 @@ end
 function delete_cidr_collection(
     CidrCollectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "DELETE",
@@ -1071,7 +1071,7 @@ delay of several hours before the health check is deleted from Route 53.
 
 """
 function delete_health_check(
-    HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config()
+    HealthCheckId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
@@ -1083,7 +1083,7 @@ end
 function delete_health_check(
     HealthCheckId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "DELETE",
@@ -1131,7 +1131,7 @@ current Amazon Web Services account.
 - `id`: The ID of the hosted zone you want to delete.
 
 """
-function delete_hosted_zone(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_hosted_zone(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "DELETE",
         "/2013-04-01/hostedzone/$(Id)";
@@ -1140,7 +1140,7 @@ function delete_hosted_zone(Id; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function delete_hosted_zone(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
@@ -1166,7 +1166,7 @@ before you delete it. Use GetDNSSEC to verify that the KSK is in an INACTIVE sta
 
 """
 function delete_key_signing_key(
-    HostedZoneId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    HostedZoneId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
@@ -1179,7 +1179,7 @@ function delete_key_signing_key(
     HostedZoneId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "DELETE",
@@ -1203,7 +1203,7 @@ CreateQueryLoggingConfig.
 - `id`: The ID of the configuration that you want to delete.
 
 """
-function delete_query_logging_config(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_query_logging_config(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "DELETE",
         "/2013-04-01/queryloggingconfig/$(Id)";
@@ -1212,7 +1212,7 @@ function delete_query_logging_config(Id; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function delete_query_logging_config(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
@@ -1237,7 +1237,7 @@ ID of the reusable delegation set that you want to delete.
 
 """
 function delete_reusable_delegation_set(
-    Id; aws_config::AbstractAWSConfig=global_aws_config()
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
@@ -1247,7 +1247,7 @@ function delete_reusable_delegation_set(
     )
 end
 function delete_reusable_delegation_set(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
@@ -1275,7 +1275,7 @@ policy document, by running GetTrafficPolicy.
 
 """
 function delete_traffic_policy(
-    Id, Version; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, Version; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
@@ -1288,7 +1288,7 @@ function delete_traffic_policy(
     Id,
     Version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "DELETE",
@@ -1314,7 +1314,7 @@ are known as policy records.
 
 """
 function delete_traffic_policy_instance(
-    Id; aws_config::AbstractAWSConfig=global_aws_config()
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
@@ -1324,7 +1324,7 @@ function delete_traffic_policy_instance(
     )
 end
 function delete_traffic_policy_instance(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "DELETE",
@@ -1358,7 +1358,7 @@ use DisassociateVPCFromHostedZone.
 
 """
 function delete_vpcassociation_authorization(
-    Id, VPC; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, VPC; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -1369,7 +1369,7 @@ function delete_vpcassociation_authorization(
     )
 end
 function delete_vpcassociation_authorization(
-    Id, VPC, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, VPC, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -1391,7 +1391,7 @@ key-signing keys (KSKs) that are active in the hosted zone.
 - `id`: A unique string used to identify a hosted zone.
 
 """
-function disable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function disable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "POST",
         "/2013-04-01/hostedzone/$(Id)/disable-dnssec";
@@ -1400,7 +1400,7 @@ function disable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function disable_hosted_zone_dnssec(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -1443,7 +1443,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Comment"`:  Optional: A comment about the disassociation request.
 """
 function disassociate_vpcfrom_hosted_zone(
-    Id, VPC; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, VPC; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -1454,7 +1454,7 @@ function disassociate_vpcfrom_hosted_zone(
     )
 end
 function disassociate_vpcfrom_hosted_zone(
-    Id, VPC, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, VPC, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -1475,7 +1475,7 @@ Enables DNSSEC signing in a specific hosted zone.
 - `id`: A unique string used to identify a hosted zone.
 
 """
-function enable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "POST",
         "/2013-04-01/hostedzone/$(Id)/enable-dnssec";
@@ -1484,7 +1484,7 @@ function enable_hosted_zone_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function enable_hosted_zone_dnssec(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -1519,7 +1519,7 @@ navigation pane.
   instances are referred to as traffic flow policy records in the Amazon Route 53 console.)
 
 """
-function get_account_limit(Type; aws_config::AbstractAWSConfig=global_aws_config())
+function get_account_limit(Type; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/accountlimit/$(Type)";
@@ -1528,7 +1528,7 @@ function get_account_limit(Type; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function get_account_limit(
-    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Type, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1554,7 +1554,7 @@ DNS servers managing the hosted zone.
   that ChangeResourceRecordSets returned in the Id element when you submitted the request.
 
 """
-function get_change(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_change(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/change/$(Id)";
@@ -1563,7 +1563,7 @@ function get_change(Id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_change(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1585,7 +1585,7 @@ services. For more information, see IP Address Ranges of Amazon Route 53 Servers
 Amazon Route 53 Developer Guide.
 
 """
-function get_checker_ip_ranges(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_checker_ip_ranges(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/checkeripranges";
@@ -1594,7 +1594,7 @@ function get_checker_ip_ranges(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function get_checker_ip_ranges(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1616,7 +1616,7 @@ Returns information about DNSSEC for a specific hosted zone, including the key-s
 - `id`: A unique string used to identify a hosted zone.
 
 """
-function get_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_dnssec(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/hostedzone/$(Id)/dnssec";
@@ -1625,7 +1625,7 @@ function get_dnssec(Id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_dnssec(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1664,7 +1664,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Possession Abbreviations on the United States Postal Service website. For a list of all
   supported subdivision codes, use the ListGeoLocations API.
 """
-function get_geo_location(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_geo_location(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/geolocation";
@@ -1673,7 +1673,7 @@ function get_geo_location(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_geo_location(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1696,7 +1696,7 @@ Gets information about a specified health check.
   which health check to use. The value can be up to 64 characters long.
 
 """
-function get_health_check(HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_health_check(HealthCheckId; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/healthcheck/$(HealthCheckId)";
@@ -1707,7 +1707,7 @@ end
 function get_health_check(
     HealthCheckId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -1726,7 +1726,7 @@ Retrieves the number of health checks that are associated with the current Amazo
 Services account.
 
 """
-function get_health_check_count(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_health_check_count(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/healthcheckcount";
@@ -1735,7 +1735,7 @@ function get_health_check_count(; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function get_health_check_count(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1761,7 +1761,7 @@ Gets the reason that a specified health check failed most recently.
 
 """
 function get_health_check_last_failure_reason(
-    HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config()
+    HealthCheckId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1773,7 +1773,7 @@ end
 function get_health_check_last_failure_reason(
     HealthCheckId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -1801,7 +1801,7 @@ require immediate and actionable responses.
 
 """
 function get_health_check_status(
-    HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config()
+    HealthCheckId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1813,7 +1813,7 @@ end
 function get_health_check_status(
     HealthCheckId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -1835,7 +1835,7 @@ the hosted zone.
 - `id`: The ID of the hosted zone that you want to get information about.
 
 """
-function get_hosted_zone(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_hosted_zone(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/hostedzone/$(Id)";
@@ -1844,7 +1844,7 @@ function get_hosted_zone(Id; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_hosted_zone(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1863,7 +1863,7 @@ Retrieves the number of hosted zones that are associated with the current Amazon
 Services account.
 
 """
-function get_hosted_zone_count(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_hosted_zone_count(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/hostedzonecount";
@@ -1872,7 +1872,7 @@ function get_hosted_zone_count(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function get_hosted_zone_count(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1899,7 +1899,7 @@ Amazon Route 53 Developer Guide. To request a higher limit, open a case.
   associate with the specified private hosted zone.
 
 """
-function get_hosted_zone_limit(Id, Type; aws_config::AbstractAWSConfig=global_aws_config())
+function get_hosted_zone_limit(Id, Type; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/hostedzonelimit/$(Id)/$(Type)";
@@ -1911,7 +1911,7 @@ function get_hosted_zone_limit(
     Id,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -1934,7 +1934,7 @@ information about DNS query logs, see CreateQueryLoggingConfig and Logging DNS Q
   about.
 
 """
-function get_query_logging_config(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_query_logging_config(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/queryloggingconfig/$(Id)";
@@ -1943,7 +1943,7 @@ function get_query_logging_config(Id; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function get_query_logging_config(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -1966,7 +1966,7 @@ servers that are assigned to the delegation set.
   for.
 
 """
-function get_reusable_delegation_set(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_reusable_delegation_set(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/delegationset/$(Id)";
@@ -1975,7 +1975,7 @@ function get_reusable_delegation_set(Id; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function get_reusable_delegation_set(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2001,7 +2001,7 @@ To request a higher limit, open a case.
 
 """
 function get_reusable_delegation_set_limit(
-    Id, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2014,7 +2014,7 @@ function get_reusable_delegation_set_limit(
     Id,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -2039,7 +2039,7 @@ DeleteTrafficPolicy.
   about.
 
 """
-function get_traffic_policy(Id, Version; aws_config::AbstractAWSConfig=global_aws_config())
+function get_traffic_policy(Id, Version; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/trafficpolicy/$(Id)/$(Version)";
@@ -2051,7 +2051,7 @@ function get_traffic_policy(
     Id,
     Version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -2076,7 +2076,7 @@ as policy records.
 - `id`: The ID of the traffic policy instance that you want to get information about.
 
 """
-function get_traffic_policy_instance(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_traffic_policy_instance(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/trafficpolicyinstance/$(Id)";
@@ -2085,7 +2085,7 @@ function get_traffic_policy_instance(Id; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function get_traffic_policy_instance(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2105,7 +2105,7 @@ Services account.
 
 """
 function get_traffic_policy_instance_count(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2115,7 +2115,7 @@ function get_traffic_policy_instance_count(;
     )
 end
 function get_traffic_policy_instance_count(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2143,7 +2143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enumerating results.
 """
 function list_cidr_blocks(
-    CidrCollectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CidrCollectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2155,7 +2155,7 @@ end
 function list_cidr_blocks(
     CidrCollectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -2180,7 +2180,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   enumerating results. If no value is provided, the listing of results starts from the
   beginning.
 """
-function list_cidr_collections(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_cidr_collections(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/cidrcollection";
@@ -2189,7 +2189,7 @@ function list_cidr_collections(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_cidr_collections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2218,7 +2218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   beginning.
 """
 function list_cidr_locations(
-    CidrCollectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CidrCollectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2230,7 +2230,7 @@ end
 function list_cidr_locations(
     CidrCollectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -2275,7 +2275,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   startsubdivisioncode to return the next page of results. To list subdivisions (U.S.
   states), you must include both startcountrycode and startsubdivisioncode.
 """
-function list_geo_locations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_geo_locations(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/geolocations";
@@ -2284,7 +2284,7 @@ function list_geo_locations(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_geo_locations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2315,7 +2315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   If you set MaxItems to a value greater than 1000, Route 53 returns only the first 1000
   health checks.
 """
-function list_health_checks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_health_checks(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/healthcheck";
@@ -2324,7 +2324,7 @@ function list_health_checks(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_health_checks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2362,7 +2362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response is true, and the value of NextMarker is the hosted zone ID of the first hosted
   zone that Route 53 will return if you submit another request.
 """
-function list_hosted_zones(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_hosted_zones(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/hostedzone";
@@ -2371,7 +2371,7 @@ function list_hosted_zones(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_hosted_zones(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2433,7 +2433,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   IsTruncated element in the response is true, and the values of NextDNSName and
   NextHostedZoneId specify the first hosted zone in the next group of maxitems hosted zones.
 """
-function list_hosted_zones_by_name(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_hosted_zones_by_name(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/hostedzonesbyname";
@@ -2442,7 +2442,7 @@ function list_hosted_zones_by_name(; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_hosted_zones_by_name(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2491,7 +2491,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   there are no more hosted zones to get.
 """
 function list_hosted_zones_by_vpc(
-    vpcid, vpcregion; aws_config::AbstractAWSConfig=global_aws_config()
+    vpcid, vpcregion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2505,7 +2505,7 @@ function list_hosted_zones_by_vpc(
     vpcid,
     vpcregion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -2547,7 +2547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   second and subsequent requests, get the value of NextToken from the previous response and
   specify that value for NextToken in the request.
 """
-function list_query_logging_configs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_query_logging_configs(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/queryloggingconfig";
@@ -2556,7 +2556,7 @@ function list_query_logging_configs(; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function list_query_logging_configs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2628,7 +2628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   record set that the alias references.   Constraint: Specifying type without specifying name
   returns an InvalidInput error.
 """
-function list_resource_record_sets(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function list_resource_record_sets(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/hostedzone/$(Id)/rrset";
@@ -2637,7 +2637,7 @@ function list_resource_record_sets(Id; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function list_resource_record_sets(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2667,7 +2667,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return in the response to this request. If you specify a value greater than 100, Route 53
   returns only the first 100 reusable delegation sets.
 """
-function list_reusable_delegation_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_reusable_delegation_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/delegationset";
@@ -2676,7 +2676,7 @@ function list_reusable_delegation_sets(; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function list_reusable_delegation_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2701,7 +2701,7 @@ allocation, see Using Cost Allocation Tags in the Billing and Cost Management Us
 
 """
 function list_tags_for_resource(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2714,7 +2714,7 @@ function list_tags_for_resource(
     ResourceId,
     ResourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -2745,7 +2745,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for which you want to get a list of tags.
 """
 function list_tags_for_resources(
-    ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -2759,7 +2759,7 @@ function list_tags_for_resources(
     ResourceId,
     ResourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -2795,7 +2795,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value of TrafficPolicyIdMarker, specify the value of TrafficPolicyIdMarker that was
   returned in the previous response.
 """
-function list_traffic_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_traffic_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/trafficpolicies";
@@ -2804,7 +2804,7 @@ function list_traffic_policies(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_traffic_policies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2857,7 +2857,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instances. If the value of IsTruncated in the previous response was false, there are no
   more traffic policy instances to get.
 """
-function list_traffic_policy_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_traffic_policy_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/trafficpolicyinstances";
@@ -2866,7 +2866,7 @@ function list_traffic_policy_instances(; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function list_traffic_policy_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2916,7 +2916,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   more traffic policy instances to get.
 """
 function list_traffic_policy_instances_by_hosted_zone(
-    id; aws_config::AbstractAWSConfig=global_aws_config()
+    id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2927,7 +2927,7 @@ function list_traffic_policy_instances_by_hosted_zone(
     )
 end
 function list_traffic_policy_instances_by_hosted_zone(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -2987,7 +2987,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response was false, there are no more traffic policy instances to get.
 """
 function list_traffic_policy_instances_by_policy(
-    id, version; aws_config::AbstractAWSConfig=global_aws_config()
+    id, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -3001,7 +3001,7 @@ function list_traffic_policy_instances_by_policy(
     id,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -3039,7 +3039,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListTrafficPolicyVersions request. For the value of TrafficPolicyVersionMarker, specify the
   value of TrafficPolicyVersionMarker in the previous response.
 """
-function list_traffic_policy_versions(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function list_traffic_policy_versions(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "GET",
         "/2013-04-01/trafficpolicies/$(Id)/versions";
@@ -3048,7 +3048,7 @@ function list_traffic_policy_versions(Id; aws_config::AbstractAWSConfig=global_a
     )
 end
 function list_traffic_policy_versions(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -3083,7 +3083,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   nexttoken parameter in another ListVPCAssociationAuthorizations request.
 """
 function list_vpcassociation_authorizations(
-    Id; aws_config::AbstractAWSConfig=global_aws_config()
+    Id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -3093,7 +3093,7 @@ function list_vpcassociation_authorizations(
     )
 end
 function list_vpcassociation_authorizations(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -3140,7 +3140,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of a DNS resolver in the Amazon Web Services US East (N. Virginia) Region (us-east-1).
 """
 function test_dnsanswer(
-    hostedzoneid, recordname, recordtype; aws_config::AbstractAWSConfig=global_aws_config()
+    hostedzoneid, recordname, recordtype; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "GET",
@@ -3159,7 +3159,7 @@ function test_dnsanswer(
     recordname,
     recordtype,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "GET",
@@ -3337,7 +3337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   healthy. (You can't change the value of Type when you update a health check.)
 """
 function update_health_check(
-    HealthCheckId; aws_config::AbstractAWSConfig=global_aws_config()
+    HealthCheckId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -3349,7 +3349,7 @@ end
 function update_health_check(
     HealthCheckId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -3374,7 +3374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Comment"`: The new comment for the hosted zone. If you don't specify a value for
   Comment, Amazon Route 53 deletes the existing value of the Comment element, if any.
 """
-function update_hosted_zone_comment(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_hosted_zone_comment(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return route_53(
         "POST",
         "/2013-04-01/hostedzone/$(Id)";
@@ -3383,7 +3383,7 @@ function update_hosted_zone_comment(Id; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function update_hosted_zone_comment(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -3408,7 +3408,7 @@ Updates the comment for a specified traffic policy version.
 
 """
 function update_traffic_policy_comment(
-    Comment, Id, Version; aws_config::AbstractAWSConfig=global_aws_config()
+    Comment, Id, Version; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route_53(
         "POST",
@@ -3423,7 +3423,7 @@ function update_traffic_policy_comment(
     Id,
     Version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -3470,7 +3470,7 @@ function update_traffic_policy_instance(
     TTL,
     TrafficPolicyId,
     TrafficPolicyVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",
@@ -3490,7 +3490,7 @@ function update_traffic_policy_instance(
     TrafficPolicyId,
     TrafficPolicyVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route_53(
         "POST",

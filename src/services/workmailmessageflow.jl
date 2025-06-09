@@ -15,7 +15,7 @@ Retrieves the raw content of an in-transit email message, in MIME format.
 
 """
 function get_raw_message_content(
-    messageId; aws_config::AbstractAWSConfig=global_aws_config()
+    messageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmailmessageflow(
         "GET",
@@ -27,7 +27,7 @@ end
 function get_raw_message_content(
     messageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmailmessageflow(
         "GET",
@@ -56,7 +56,7 @@ returns an updated message.
 
 """
 function put_raw_message_content(
-    content, messageId; aws_config::AbstractAWSConfig=global_aws_config()
+    content, messageId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return workmailmessageflow(
         "POST",
@@ -70,7 +70,7 @@ function put_raw_message_content(
     content,
     messageId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return workmailmessageflow(
         "POST",

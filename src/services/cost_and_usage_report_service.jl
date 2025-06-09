@@ -16,7 +16,7 @@ Deletes the specified report. Any tags associated with the report are also delet
 
 """
 function delete_report_definition(
-    ReportName; aws_config::AbstractAWSConfig=global_aws_config()
+    ReportName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_and_usage_report_service(
         "DeleteReportDefinition",
@@ -28,7 +28,7 @@ end
 function delete_report_definition(
     ReportName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_and_usage_report_service(
         "DeleteReportDefinition",
@@ -51,13 +51,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`:
 """
-function describe_report_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_report_definitions(; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_and_usage_report_service(
         "DescribeReportDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_report_definitions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_and_usage_report_service(
         "DescribeReportDefinitions",
@@ -78,7 +78,7 @@ Lists the tags associated with the specified report definition.
 
 """
 function list_tags_for_resource(
-    ReportName; aws_config::AbstractAWSConfig=global_aws_config()
+    ReportName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_and_usage_report_service(
         "ListTagsForResource",
@@ -90,7 +90,7 @@ end
 function list_tags_for_resource(
     ReportName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_and_usage_report_service(
         "ListTagsForResource",
@@ -114,7 +114,7 @@ Allows you to programmatically update your report preferences.
 
 """
 function modify_report_definition(
-    ReportDefinition, ReportName; aws_config::AbstractAWSConfig=global_aws_config()
+    ReportDefinition, ReportName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_and_usage_report_service(
         "ModifyReportDefinition",
@@ -129,7 +129,7 @@ function modify_report_definition(
     ReportDefinition,
     ReportName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_and_usage_report_service(
         "ModifyReportDefinition",
@@ -162,7 +162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags to be assigned to the report definition resource.
 """
 function put_report_definition(
-    ReportDefinition; aws_config::AbstractAWSConfig=global_aws_config()
+    ReportDefinition; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_and_usage_report_service(
         "PutReportDefinition",
@@ -174,7 +174,7 @@ end
 function put_report_definition(
     ReportDefinition,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_and_usage_report_service(
         "PutReportDefinition",
@@ -200,7 +200,7 @@ Associates a set of tags with a report definition.
 - `tags`: The tags to be assigned to the report definition resource.
 
 """
-function tag_resource(ReportName, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ReportName, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return cost_and_usage_report_service(
         "TagResource",
         Dict{String,Any}("ReportName" => ReportName, "Tags" => Tags);
@@ -212,7 +212,7 @@ function tag_resource(
     ReportName,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_and_usage_report_service(
         "TagResource",
@@ -239,7 +239,7 @@ Disassociates a set of tags from a report definition.
 
 """
 function untag_resource(
-    ReportName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ReportName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cost_and_usage_report_service(
         "UntagResource",
@@ -252,7 +252,7 @@ function untag_resource(
     ReportName,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cost_and_usage_report_service(
         "UntagResource",

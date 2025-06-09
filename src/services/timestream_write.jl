@@ -34,7 +34,7 @@ function create_batch_load_task(
     ReportConfiguration,
     TargetDatabaseName,
     TargetTableName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "CreateBatchLoadTask",
@@ -55,7 +55,7 @@ function create_batch_load_task(
     TargetDatabaseName,
     TargetTableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "CreateBatchLoadTask",
@@ -95,7 +95,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information, see Amazon Web Services managed keys.
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
-function create_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "CreateDatabase",
         Dict{String,Any}("DatabaseName" => DatabaseName);
@@ -106,7 +106,7 @@ end
 function create_database(
     DatabaseName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "CreateDatabase",
@@ -142,7 +142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`:  A list of key-value pairs to label the table.
 """
 function create_table(
-    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "CreateTable",
@@ -155,7 +155,7 @@ function create_table(
     DatabaseName,
     TableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "CreateTable",
@@ -186,7 +186,7 @@ details.
 - `database_name`: The name of the Timestream database to be deleted.
 
 """
-function delete_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "DeleteDatabase",
         Dict{String,Any}("DatabaseName" => DatabaseName);
@@ -197,7 +197,7 @@ end
 function delete_database(
     DatabaseName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "DeleteDatabase",
@@ -225,7 +225,7 @@ details.
 
 """
 function delete_table(
-    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "DeleteTable",
@@ -238,7 +238,7 @@ function delete_table(
     DatabaseName,
     TableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "DeleteTable",
@@ -265,7 +265,7 @@ progress, and other details. Service quotas apply. See code sample for details.
 - `task_id`: The ID of the batch load task.
 
 """
-function describe_batch_load_task(TaskId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_batch_load_task(TaskId; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "DescribeBatchLoadTask",
         Dict{String,Any}("TaskId" => TaskId);
@@ -274,7 +274,7 @@ function describe_batch_load_task(TaskId; aws_config::AbstractAWSConfig=global_a
     )
 end
 function describe_batch_load_task(
-    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "DescribeBatchLoadTask",
@@ -296,7 +296,7 @@ apply. See code sample for details.
 - `database_name`: The name of the Timestream database.
 
 """
-function describe_database(DatabaseName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_database(DatabaseName; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "DescribeDatabase",
         Dict{String,Any}("DatabaseName" => DatabaseName);
@@ -307,7 +307,7 @@ end
 function describe_database(
     DatabaseName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "DescribeDatabase",
@@ -334,13 +334,13 @@ information on how and when to use and implement DescribeEndpoints, see The Endp
 Discovery Pattern.
 
 """
-function describe_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "DescribeEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "DescribeEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -361,7 +361,7 @@ for details.
 
 """
 function describe_table(
-    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "DescribeTable",
@@ -374,7 +374,7 @@ function describe_table(
     DatabaseName,
     TableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "DescribeTable",
@@ -406,13 +406,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previously truncated response.
 - `"TaskStatus"`: Status of the batch load task.
 """
-function list_batch_load_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_batch_load_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ListBatchLoadTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_batch_load_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "ListBatchLoadTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -434,13 +434,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
-function list_databases(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_databases(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ListDatabases"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_databases(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "ListDatabases", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -463,13 +463,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
-function list_tables(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tables(; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ListTables"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_tables(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "ListTables", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -488,7 +488,7 @@ end
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "ListTagsForResource",
@@ -500,7 +500,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "ListTagsForResource",
@@ -522,7 +522,7 @@ end
 - `task_id`: The ID of the batch load task to resume.
 
 """
-function resume_batch_load_task(TaskId; aws_config::AbstractAWSConfig=global_aws_config())
+function resume_batch_load_task(TaskId; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "ResumeBatchLoadTask",
         Dict{String,Any}("TaskId" => TaskId);
@@ -531,7 +531,7 @@ function resume_batch_load_task(TaskId; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function resume_batch_load_task(
-    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "ResumeBatchLoadTask",
@@ -555,7 +555,7 @@ allocation tracking.
 - `tags`:  The tags to be assigned to the Timestream resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return timestream_write(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -567,7 +567,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "TagResource",
@@ -597,7 +597,7 @@ end
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "UntagResource",
@@ -610,7 +610,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "UntagResource",
@@ -647,7 +647,7 @@ details.
 
 """
 function update_database(
-    DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, KmsKeyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "UpdateDatabase",
@@ -660,7 +660,7 @@ function update_database(
     DatabaseName,
     KmsKeyId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "UpdateDatabase",
@@ -701,7 +701,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Schema"`:  The schema of the table.
 """
 function update_table(
-    DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "UpdateTable",
@@ -714,7 +714,7 @@ function update_table(
     DatabaseName,
     TableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "UpdateTable",
@@ -780,7 +780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   unique names.
 """
 function write_records(
-    DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatabaseName, Records, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return timestream_write(
         "WriteRecords",
@@ -796,7 +796,7 @@ function write_records(
     Records,
     TableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return timestream_write(
         "WriteRecords",

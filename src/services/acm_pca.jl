@@ -70,7 +70,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function create_certificate_authority(
     CertificateAuthorityConfiguration,
     CertificateAuthorityType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "CreateCertificateAuthority",
@@ -86,7 +86,7 @@ function create_certificate_authority(
     CertificateAuthorityConfiguration,
     CertificateAuthorityType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "CreateCertificateAuthority",
@@ -133,7 +133,7 @@ function create_certificate_authority_audit_report(
     AuditReportResponseFormat,
     CertificateAuthorityArn,
     S3BucketName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "CreateCertificateAuthorityAuditReport",
@@ -151,7 +151,7 @@ function create_certificate_authority_audit_report(
     CertificateAuthorityArn,
     S3BucketName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "CreateCertificateAuthorityAuditReport",
@@ -207,7 +207,7 @@ function create_permission(
     Actions,
     CertificateAuthorityArn,
     Principal;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "CreatePermission",
@@ -225,7 +225,7 @@ function create_permission(
     CertificateAuthorityArn,
     Principal,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "CreatePermission",
@@ -277,7 +277,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   been deleted. This can be anywhere from 7 to 30 days, with 30 being the default.
 """
 function delete_certificate_authority(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "DeleteCertificateAuthority",
@@ -289,7 +289,7 @@ end
 function delete_certificate_authority(
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "DeleteCertificateAuthority",
@@ -337,7 +337,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourceAccount"`: The Amazon Web Services account that calls this action.
 """
 function delete_permission(
-    CertificateAuthorityArn, Principal; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn, Principal; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "DeletePermission",
@@ -352,7 +352,7 @@ function delete_permission(
     CertificateAuthorityArn,
     Principal,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "DeletePermission",
@@ -400,7 +400,7 @@ information, see Attach a Policy for Cross-Account Access.
   arn:aws:acm-pca:region:account:certificate-authority/01234567-89ab-cdef-0123-0123456789ab.
 
 """
-function delete_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return acm_pca(
         "DeletePolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
@@ -411,7 +411,7 @@ end
 function delete_policy(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "DeletePolicy",
@@ -448,7 +448,7 @@ remaining in the CA's restoration period is also included in this action's outpu
 
 """
 function describe_certificate_authority(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "DescribeCertificateAuthority",
@@ -460,7 +460,7 @@ end
 function describe_certificate_authority(
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "DescribeCertificateAuthority",
@@ -496,7 +496,7 @@ IssueCertificate action or the RevokeCertificate action.
 function describe_certificate_authority_audit_report(
     AuditReportId,
     CertificateAuthorityArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "DescribeCertificateAuthorityAuditReport",
@@ -512,7 +512,7 @@ function describe_certificate_authority_audit_report(
     AuditReportId,
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "DescribeCertificateAuthorityAuditReport",
@@ -555,7 +555,7 @@ information about all of the certificates issued and revoked by your private CA.
 function get_certificate(
     CertificateArn,
     CertificateAuthorityArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "GetCertificate",
@@ -571,7 +571,7 @@ function get_certificate(
     CertificateArn,
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "GetCertificate",
@@ -606,7 +606,7 @@ signs the one before it.
 
 """
 function get_certificate_authority_certificate(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "GetCertificateAuthorityCertificate",
@@ -618,7 +618,7 @@ end
 function get_certificate_authority_certificate(
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "GetCertificateAuthorityCertificate",
@@ -652,7 +652,7 @@ string.
 
 """
 function get_certificate_authority_csr(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "GetCertificateAuthorityCsr",
@@ -664,7 +664,7 @@ end
 function get_certificate_authority_csr(
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "GetCertificateAuthorityCsr",
@@ -705,7 +705,7 @@ a Policy for Cross-Account Access.
   action.
 
 """
-function get_policy(ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_policy(ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return acm_pca(
         "GetPolicy",
         Dict{String,Any}("ResourceArn" => ResourceArn);
@@ -716,7 +716,7 @@ end
 function get_policy(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "GetPolicy",
@@ -780,7 +780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   when you import a subordinate CA. When you import a root CA, there is no chain.
 """
 function import_certificate_authority_certificate(
-    Certificate, CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Certificate, CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "ImportCertificateAuthorityCertificate",
@@ -796,7 +796,7 @@ function import_certificate_authority_certificate(
     Certificate,
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "ImportCertificateAuthorityCertificate",
@@ -890,7 +890,7 @@ function issue_certificate(
     Csr,
     SigningAlgorithm,
     Validity;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "IssueCertificate",
@@ -910,7 +910,7 @@ function issue_certificate(
     SigningAlgorithm,
     Validity,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "IssueCertificate",
@@ -951,13 +951,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceOwner"`: Use this parameter to filter the returned set of certificate
   authorities based on their owner. The default is SELF.
 """
-function list_certificate_authorities(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_certificate_authorities(; aws_config::AbstractAWSConfig=current_aws_config())
     return acm_pca(
         "ListCertificateAuthorities"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_certificate_authorities(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "ListCertificateAuthorities",
@@ -1002,7 +1002,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response you just received.
 """
 function list_permissions(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "ListPermissions",
@@ -1014,7 +1014,7 @@ end
 function list_permissions(
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "ListPermissions",
@@ -1055,7 +1055,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response you just received.
 """
 function list_tags(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "ListTags",
@@ -1067,7 +1067,7 @@ end
 function list_tags(
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "ListTags",
@@ -1113,7 +1113,7 @@ Access.
   policy. The ARN of the CA can be found by calling the ListCertificateAuthorities action.
 
 """
-function put_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function put_policy(Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return acm_pca(
         "PutPolicy",
         Dict{String,Any}("Policy" => Policy, "ResourceArn" => ResourceArn);
@@ -1125,7 +1125,7 @@ function put_policy(
     Policy,
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "PutPolicy",
@@ -1166,7 +1166,7 @@ has ended.
 
 """
 function restore_certificate_authority(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "RestoreCertificateAuthority",
@@ -1178,7 +1178,7 @@ end
 function restore_certificate_authority(
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "RestoreCertificateAuthority",
@@ -1232,7 +1232,7 @@ function revoke_certificate(
     CertificateAuthorityArn,
     CertificateSerial,
     RevocationReason;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "RevokeCertificate",
@@ -1250,7 +1250,7 @@ function revoke_certificate(
     CertificateSerial,
     RevocationReason,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "RevokeCertificate",
@@ -1294,7 +1294,7 @@ Attaching tags to a CA at the time of creation.
 
 """
 function tag_certificate_authority(
-    CertificateAuthorityArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "TagCertificateAuthority",
@@ -1309,7 +1309,7 @@ function tag_certificate_authority(
     CertificateAuthorityArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "TagCertificateAuthority",
@@ -1345,7 +1345,7 @@ Call the ListTags action to see what tags are associated with your CA.
 
 """
 function untag_certificate_authority(
-    CertificateAuthorityArn, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "UntagCertificateAuthority",
@@ -1360,7 +1360,7 @@ function untag_certificate_authority(
     CertificateAuthorityArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "UntagCertificateAuthority",
@@ -1412,7 +1412,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`: Status of your private CA.
 """
 function update_certificate_authority(
-    CertificateAuthorityArn; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateAuthorityArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return acm_pca(
         "UpdateCertificateAuthority",
@@ -1424,7 +1424,7 @@ end
 function update_certificate_authority(
     CertificateAuthorityArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return acm_pca(
         "UpdateCertificateAuthority",

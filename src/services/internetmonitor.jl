@@ -60,7 +60,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application traffic percentage to monitor  in the Amazon CloudWatch Internet Monitor
   section of the CloudWatch User Guide.
 """
-function create_monitor(MonitorName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "POST",
         "/v20210603/Monitors",
@@ -72,7 +72,7 @@ end
 function create_monitor(
     MonitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "POST",
@@ -101,7 +101,7 @@ Deletes a monitor in Amazon CloudWatch Internet Monitor.
 - `monitor_name`: The name of the monitor to delete.
 
 """
-function delete_monitor(MonitorName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "DELETE",
         "/v20210603/Monitors/$(MonitorName)";
@@ -112,7 +112,7 @@ end
 function delete_monitor(
     MonitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "DELETE",
@@ -148,7 +148,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide.
 """
 function get_health_event(
-    EventId, MonitorName; aws_config::AbstractAWSConfig=global_aws_config()
+    EventId, MonitorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return internetmonitor(
         "GET",
@@ -161,7 +161,7 @@ function get_health_event(
     EventId,
     MonitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "GET",
@@ -187,7 +187,7 @@ and the status (ACTIVE or RESOLVED).
 - `event_id`: The EventId of the internet event to return information for.
 
 """
-function get_internet_event(EventId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_internet_event(EventId; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "GET",
         "/v20210603/InternetEvents/$(EventId)";
@@ -196,7 +196,7 @@ function get_internet_event(EventId; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function get_internet_event(
-    EventId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    EventId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return internetmonitor(
         "GET",
@@ -225,7 +225,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using Amazon CloudWatch Observability Access Manager. For more information, see Internet
   Monitor cross-account observability in the Amazon CloudWatch Internet Monitor User Guide.
 """
-function get_monitor(MonitorName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "GET",
         "/v20210603/Monitors/$(MonitorName)";
@@ -236,7 +236,7 @@ end
 function get_monitor(
     MonitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "GET",
@@ -269,7 +269,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 """
 function get_query_results(
-    MonitorName, QueryId; aws_config::AbstractAWSConfig=global_aws_config()
+    MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return internetmonitor(
         "GET",
@@ -282,7 +282,7 @@ function get_query_results(
     MonitorName,
     QueryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "GET",
@@ -311,7 +311,7 @@ The query was canceled.
 
 """
 function get_query_status(
-    MonitorName, QueryId; aws_config::AbstractAWSConfig=global_aws_config()
+    MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return internetmonitor(
         "GET",
@@ -324,7 +324,7 @@ function get_query_status(
     MonitorName,
     QueryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "GET",
@@ -362,7 +362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous call.
 - `"StartTime"`: The time when a health event started.
 """
-function list_health_events(MonitorName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_health_events(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "GET",
         "/v20210603/Monitors/$(MonitorName)/HealthEvents";
@@ -373,7 +373,7 @@ end
 function list_health_events(
     MonitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "GET",
@@ -411,7 +411,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StartTime"`: The start time of the time window that you want to get a list of internet
   events for.
 """
-function list_internet_events(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_internet_events(; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "GET",
         "/v20210603/InternetEvents";
@@ -420,7 +420,7 @@ function list_internet_events(; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function list_internet_events(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return internetmonitor(
         "GET",
@@ -452,13 +452,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-function list_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "GET", "/v20210603/Monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_monitors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return internetmonitor(
         "GET",
@@ -481,7 +481,7 @@ Internet Monitor.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return internetmonitor(
         "GET",
@@ -493,7 +493,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "GET",
@@ -550,7 +550,7 @@ function start_query(
     MonitorName,
     QueryType,
     StartTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "POST",
@@ -568,7 +568,7 @@ function start_query(
     QueryType,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "POST",
@@ -599,7 +599,7 @@ Stop a query that is progress for a specific monitor.
   internally-generated identifier for a specific query.
 
 """
-function stop_query(MonitorName, QueryId; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_query(MonitorName, QueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "DELETE",
         "/v20210603/Monitors/$(MonitorName)/Queries/$(QueryId)";
@@ -611,7 +611,7 @@ function stop_query(
     MonitorName,
     QueryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "DELETE",
@@ -638,7 +638,7 @@ tag is required for this call. It returns an error if you use the TagResource re
   Monitor.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "POST",
         "/tags/$(ResourceArn)",
@@ -651,7 +651,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "POST",
@@ -674,7 +674,7 @@ Removes a tag from a resource.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return internetmonitor(
         "DELETE",
@@ -688,7 +688,7 @@ function untag_resource(
     ResourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "DELETE",
@@ -749,7 +749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   application traffic percentage to monitor  in the Amazon CloudWatch Internet Monitor
   section of the CloudWatch User Guide.
 """
-function update_monitor(MonitorName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_monitor(MonitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return internetmonitor(
         "PATCH",
         "/v20210603/Monitors/$(MonitorName)",
@@ -761,7 +761,7 @@ end
 function update_monitor(
     MonitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return internetmonitor(
         "PATCH",

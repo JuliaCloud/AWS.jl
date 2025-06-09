@@ -27,7 +27,7 @@ sso:PutApplicationGrant, and sso:PutApplicationAuthenticationMethod.
 
 """
 function associate_access_grants_identity_center(
-    IdentityCenterArn, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    IdentityCenterArn, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "POST",
@@ -44,7 +44,7 @@ function associate_access_grants_identity_center(
     IdentityCenterArn,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -117,7 +117,7 @@ function create_access_grant(
     Grantee,
     Permission,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -138,7 +138,7 @@ function create_access_grant(
     Permission,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -188,7 +188,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   help you manage, identify, organize, search for, and filter resources.
 """
 function create_access_grants_instance(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "POST",
@@ -203,7 +203,7 @@ end
 function create_access_grants_instance(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -259,7 +259,7 @@ function create_access_grants_location(
     IAMRoleArn,
     LocationScope,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -278,7 +278,7 @@ function create_access_grants_location(
     LocationScope,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -345,7 +345,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   for creating an access point for Amazon S3 on Outposts buckets.
 """
 function create_access_point(
-    Bucket, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Bucket, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -363,7 +363,7 @@ function create_access_point(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -401,7 +401,7 @@ GetAccessPointForObjectLambda     ListAccessPointsForObjectLambda
 
 """
 function create_access_point_for_object_lambda(
-    Configuration, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Configuration, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -419,7 +419,7 @@ function create_access_point_for_object_lambda(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -481,7 +481,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"x-amz-outpost-id"`: The ID of the Outposts where the bucket is being created.  This ID
   is required by Amazon S3 on Outposts buckets.
 """
-function create_bucket(name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_bucket(name; aws_config::AbstractAWSConfig=current_aws_config())
     return s3_control(
         "PUT",
         "/v20180820/bucket/$(name)";
@@ -490,7 +490,7 @@ function create_bucket(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function create_bucket(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -545,7 +545,7 @@ function create_job(
     Report,
     RoleArn,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -570,7 +570,7 @@ function create_job(
     RoleArn,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -624,7 +624,7 @@ function create_multi_region_access_point(
     ClientToken,
     Details,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -643,7 +643,7 @@ function create_multi_region_access_point(
     Details,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -691,7 +691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   group. This parameter is optional.
 """
 function create_storage_lens_group(
-    StorageLensGroup, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    StorageLensGroup, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "POST",
@@ -708,7 +708,7 @@ function create_storage_lens_group(
     StorageLensGroup,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -743,7 +743,7 @@ must have the s3:DeleteAccessGrant permission to use this operation.
 
 """
 function delete_access_grant(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -759,7 +759,7 @@ function delete_access_grant(
     id,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -795,7 +795,7 @@ You must have the s3:DeleteAccessGrantsInstance permission to use this operation
 
 """
 function delete_access_grants_instance(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -810,7 +810,7 @@ end
 function delete_access_grants_instance(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -844,7 +844,7 @@ use this operation.
 
 """
 function delete_access_grants_instance_resource_policy(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -859,7 +859,7 @@ end
 function delete_access_grants_instance_resource_policy(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -898,7 +898,7 @@ this operation.
 
 """
 function delete_access_grants_location(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -914,7 +914,7 @@ function delete_access_grants_location(
     id,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -961,7 +961,7 @@ following actions are related to DeleteAccessPoint:    CreateAccessPoint     Get
 
 """
 function delete_access_point(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -977,7 +977,7 @@ function delete_access_point(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1012,7 +1012,7 @@ ListAccessPointsForObjectLambda
 
 """
 function delete_access_point_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1028,7 +1028,7 @@ function delete_access_point_for_object_lambda(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1074,7 +1074,7 @@ PutAccessPointPolicy     GetAccessPointPolicy
 
 """
 function delete_access_point_policy(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1090,7 +1090,7 @@ function delete_access_point_policy(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1125,7 +1125,7 @@ PutAccessPointPolicyForObjectLambda
 
 """
 function delete_access_point_policy_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1141,7 +1141,7 @@ function delete_access_point_policy_for_object_lambda(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1190,7 +1190,7 @@ DeleteObject
 
 """
 function delete_bucket(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1206,7 +1206,7 @@ function delete_bucket(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1261,7 +1261,7 @@ actions include:    PutBucketLifecycleConfiguration     GetBucketLifecycleConfig
 
 """
 function delete_bucket_lifecycle_configuration(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1277,7 +1277,7 @@ function delete_bucket_lifecycle_configuration(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1336,7 +1336,7 @@ following actions are related to DeleteBucketPolicy:    GetBucketPolicy     PutB
 
 """
 function delete_bucket_policy(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1352,7 +1352,7 @@ function delete_bucket_policy(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1412,7 +1412,7 @@ DeleteBucketReplication:    PutBucketReplication     GetBucketReplication
 
 """
 function delete_bucket_replication(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1428,7 +1428,7 @@ function delete_bucket_replication(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1479,7 +1479,7 @@ PutBucketTagging
 
 """
 function delete_bucket_tagging(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1495,7 +1495,7 @@ function delete_bucket_tagging(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1531,7 +1531,7 @@ PutJobTagging
 
 """
 function delete_job_tagging(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1547,7 +1547,7 @@ function delete_job_tagging(
     id,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1595,7 +1595,7 @@ function delete_multi_region_access_point(
     ClientToken,
     Details,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -1614,7 +1614,7 @@ function delete_multi_region_access_point(
     Details,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -1650,7 +1650,7 @@ PutPublicAccessBlock
 
 """
 function delete_public_access_block(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1665,7 +1665,7 @@ end
 function delete_public_access_block(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1701,7 +1701,7 @@ S3 User Guide.
 
 """
 function delete_storage_lens_configuration(
-    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1717,7 +1717,7 @@ function delete_storage_lens_configuration(
     storagelensid,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1753,7 +1753,7 @@ Amazon S3 User Guide.
 
 """
 function delete_storage_lens_configuration_tagging(
-    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1769,7 +1769,7 @@ function delete_storage_lens_configuration_tagging(
     storagelensid,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1805,7 +1805,7 @@ Storage Lens error codes.
 
 """
 function delete_storage_lens_group(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1821,7 +1821,7 @@ function delete_storage_lens_group(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -1857,7 +1857,7 @@ UpdateJobStatus
 
 """
 function describe_job(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -1873,7 +1873,7 @@ function describe_job(
     id,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -1913,7 +1913,7 @@ DeleteMultiRegionAccessPoint     GetMultiRegionAccessPoint     ListMultiRegionAc
 
 """
 function describe_multi_region_access_point_operation(
-    request_token, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    request_token, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -1929,7 +1929,7 @@ function describe_multi_region_access_point_operation(
     request_token,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -1962,7 +1962,7 @@ sso:DeleteApplication permission to use this operation.
 
 """
 function dissociate_access_grants_identity_center(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "DELETE",
@@ -1977,7 +1977,7 @@ end
 function dissociate_access_grants_identity_center(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -2010,7 +2010,7 @@ must have the s3:GetAccessGrant permission to use this operation.
 
 """
 function get_access_grant(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2026,7 +2026,7 @@ function get_access_grant(
     id,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2057,7 +2057,7 @@ must have the s3:GetAccessGrantsInstance permission to use this operation.
 
 """
 function get_access_grants_instance(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2072,7 +2072,7 @@ end
 function get_access_grants_instance(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2107,7 +2107,7 @@ s3:GetAccessGrantsInstanceForPrefix.
 
 """
 function get_access_grants_instance_for_prefix(
-    s3prefix, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    s3prefix, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2124,7 +2124,7 @@ function get_access_grants_instance_for_prefix(
     s3prefix,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2156,7 +2156,7 @@ the s3:GetAccessGrantsInstanceResourcePolicy permission to use this operation.
 
 """
 function get_access_grants_instance_resource_policy(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2171,7 +2171,7 @@ end
 function get_access_grants_instance_resource_policy(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2207,7 +2207,7 @@ this operation.
 
 """
 function get_access_grants_location(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2223,7 +2223,7 @@ function get_access_grants_location(
     id,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2271,7 +2271,7 @@ CreateAccessPoint     DeleteAccessPoint     ListAccessPoints
 
 """
 function get_access_point(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2287,7 +2287,7 @@ function get_access_point(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2322,7 +2322,7 @@ GetAccessPointConfigurationForObjectLambda:    PutAccessPointConfigurationForObj
 
 """
 function get_access_point_configuration_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2338,7 +2338,7 @@ function get_access_point_configuration_for_object_lambda(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2373,7 +2373,7 @@ DeleteAccessPointForObjectLambda     ListAccessPointsForObjectLambda
 
 """
 function get_access_point_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2389,7 +2389,7 @@ function get_access_point_for_object_lambda(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2430,7 +2430,7 @@ GetAccessPointPolicy:    PutAccessPointPolicy     DeleteAccessPointPolicy
 
 """
 function get_access_point_policy(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2446,7 +2446,7 @@ function get_access_point_policy(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2481,7 +2481,7 @@ PutAccessPointPolicyForObjectLambda
 
 """
 function get_access_point_policy_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2497,7 +2497,7 @@ function get_access_point_policy_for_object_lambda(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2531,7 +2531,7 @@ in the Amazon S3 User Guide.
 
 """
 function get_access_point_policy_status(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2547,7 +2547,7 @@ function get_access_point_policy_status(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2580,7 +2580,7 @@ policy associated with an Object Lambda Access Point.
 
 """
 function get_access_point_policy_status_for_object_lambda(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2596,7 +2596,7 @@ function get_access_point_policy_status_for_object_lambda(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2649,7 +2649,7 @@ PutObject     CreateBucket     DeleteBucket
 
 """
 function get_bucket(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2665,7 +2665,7 @@ function get_bucket(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2722,7 +2722,7 @@ actions are related to GetBucketLifecycleConfiguration:    PutBucketLifecycleCon
 
 """
 function get_bucket_lifecycle_configuration(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2738,7 +2738,7 @@ function get_bucket_lifecycle_configuration(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2796,7 +2796,7 @@ PutBucketPolicy     DeleteBucketPolicy
 
 """
 function get_bucket_policy(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2812,7 +2812,7 @@ function get_bucket_policy(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2875,7 +2875,7 @@ DeleteBucketReplication
 
 """
 function get_bucket_replication(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2891,7 +2891,7 @@ function get_bucket_replication(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -2943,7 +2943,7 @@ DeleteBucketTagging
 
 """
 function get_bucket_tagging(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -2959,7 +2959,7 @@ function get_bucket_tagging(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3004,7 +3004,7 @@ PutBucketVersioning     PutBucketLifecycleConfiguration     GetBucketLifecycleCo
 
 """
 function get_bucket_versioning(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3020,7 +3020,7 @@ function get_bucket_versioning(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3077,7 +3077,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value if the target data is a bucket or a bucket and a prefix.
 """
 function get_data_access(
-    permission, target, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    permission, target, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3096,7 +3096,7 @@ function get_data_access(
     target,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3133,7 +3133,7 @@ Guide.   Related actions include:    CreateJob     PutJobTagging     DeleteJobTa
 
 """
 function get_job_tagging(
-    id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3149,7 +3149,7 @@ function get_job_tagging(
     id,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3191,7 +3191,7 @@ DescribeMultiRegionAccessPointOperation     ListMultiRegionAccessPoints
 
 """
 function get_multi_region_access_point(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3207,7 +3207,7 @@ function get_multi_region_access_point(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3248,7 +3248,7 @@ PutMultiRegionAccessPointPolicy
 
 """
 function get_multi_region_access_point_policy(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3264,7 +3264,7 @@ function get_multi_region_access_point_policy(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3305,7 +3305,7 @@ PutMultiRegionAccessPointPolicy
 
 """
 function get_multi_region_access_point_policy_status(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3321,7 +3321,7 @@ function get_multi_region_access_point_policy_status(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3357,7 +3357,7 @@ us-west-2     ap-southeast-2     ap-northeast-1     eu-west-1
 
 """
 function get_multi_region_access_point_routes(
-    mrap, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    mrap, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3373,7 +3373,7 @@ function get_multi_region_access_point_routes(
     mrap,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3407,7 +3407,7 @@ PutPublicAccessBlock
 
 """
 function get_public_access_block(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3422,7 +3422,7 @@ end
 function get_public_access_block(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3459,7 +3459,7 @@ User Guide.
 
 """
 function get_storage_lens_configuration(
-    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3475,7 +3475,7 @@ function get_storage_lens_configuration(
     storagelensid,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3511,7 +3511,7 @@ Amazon S3 User Guide.
 
 """
 function get_storage_lens_configuration_tagging(
-    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3527,7 +3527,7 @@ function get_storage_lens_configuration_tagging(
     storagelensid,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3564,7 +3564,7 @@ Amazon S3 Storage Lens error codes.
 
 """
 function get_storage_lens_group(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3580,7 +3580,7 @@ function get_storage_lens_group(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3640,7 +3640,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to the S3 data.
 """
 function list_access_grants(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3655,7 +3655,7 @@ end
 function list_access_grants(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3696,7 +3696,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results.
 """
 function list_access_grants_instances(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3711,7 +3711,7 @@ end
 function list_access_grants_instances(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3756,7 +3756,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results.
 """
 function list_access_grants_locations(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3771,7 +3771,7 @@ end
 function list_access_grants_locations(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3832,7 +3832,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to retrieve the next page of results.
 """
 function list_access_points(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3847,7 +3847,7 @@ end
 function list_access_points(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3892,7 +3892,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to this API to retrieve additional access points.
 """
 function list_access_points_for_object_lambda(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -3907,7 +3907,7 @@ end
 function list_access_points_for_object_lambda(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -3951,7 +3951,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon S3 returned in the NextToken element of the ListJobsResult from the previous List
   Jobs request.
 """
-function list_jobs(x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config())
+function list_jobs(x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config())
     return s3_control(
         "GET",
         "/v20180820/jobs",
@@ -3965,7 +3965,7 @@ end
 function list_jobs(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -4009,7 +4009,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Not currently used. Do not use this parameter.
 """
 function list_multi_region_access_points(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -4024,7 +4024,7 @@ end
 function list_multi_region_access_points(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -4064,7 +4064,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   on Outposts buckets.
 """
 function list_regional_buckets(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -4079,7 +4079,7 @@ end
 function list_regional_buckets(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -4117,7 +4117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: A pagination token to request the next page of results.
 """
 function list_storage_lens_configurations(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -4132,7 +4132,7 @@ end
 function list_storage_lens_configurations(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -4171,7 +4171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   results.
 """
 function list_storage_lens_groups(
-    x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -4186,7 +4186,7 @@ end
 function list_storage_lens_groups(
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -4227,7 +4227,7 @@ List of Amazon S3 Tagging error codes.
 
 """
 function list_tags_for_resource(
-    resourceArn, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "GET",
@@ -4243,7 +4243,7 @@ function list_tags_for_resource(
     resourceArn,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "GET",
@@ -4279,7 +4279,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.
 """
 function put_access_grants_instance_resource_policy(
-    Policy, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -4296,7 +4296,7 @@ function put_access_grants_instance_resource_policy(
     Policy,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4332,7 +4332,7 @@ PutAccessPointConfigurationForObjectLambda:    GetAccessPointConfigurationForObj
 
 """
 function put_access_point_configuration_for_object_lambda(
-    Configuration, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Configuration, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -4350,7 +4350,7 @@ function put_access_point_configuration_for_object_lambda(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4404,7 +4404,7 @@ DeleteAccessPointPolicy
 
 """
 function put_access_point_policy(
-    Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -4422,7 +4422,7 @@ function put_access_point_policy(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4460,7 +4460,7 @@ GetAccessPointPolicyForObjectLambda
 
 """
 function put_access_point_policy_for_object_lambda(
-    Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -4478,7 +4478,7 @@ function put_access_point_policy_for_object_lambda(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4526,7 +4526,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rules.
 """
 function put_bucket_lifecycle_configuration(
-    name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -4542,7 +4542,7 @@ function put_bucket_lifecycle_configuration(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4606,7 +4606,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not supported by Amazon S3 on Outposts buckets.
 """
 function put_bucket_policy(
-    Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -4624,7 +4624,7 @@ function put_bucket_policy(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4709,7 +4709,7 @@ function put_bucket_replication(
     ReplicationConfiguration,
     name,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4727,7 +4727,7 @@ function put_bucket_replication(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4797,7 +4797,7 @@ GetBucketTagging     DeleteBucketTagging
 
 """
 function put_bucket_tagging(
-    Tagging, name, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Tagging, name, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -4815,7 +4815,7 @@ function put_bucket_tagging(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4880,7 +4880,7 @@ function put_bucket_versioning(
     VersioningConfiguration,
     name,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4898,7 +4898,7 @@ function put_bucket_versioning(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -4951,7 +4951,7 @@ DeleteJobTagging
 
 """
 function put_job_tagging(
-    Tags, id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Tags, id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -4969,7 +4969,7 @@ function put_job_tagging(
     id,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -5016,7 +5016,7 @@ function put_multi_region_access_point_policy(
     ClientToken,
     Details,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -5035,7 +5035,7 @@ function put_multi_region_access_point_policy(
     Details,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -5076,7 +5076,7 @@ DeletePublicAccessBlock
 function put_public_access_block(
     PublicAccessBlockConfiguration,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -5093,7 +5093,7 @@ function put_public_access_block(
     PublicAccessBlockConfiguration,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -5139,7 +5139,7 @@ function put_storage_lens_configuration(
     StorageLensConfiguration,
     storagelensid,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -5157,7 +5157,7 @@ function put_storage_lens_configuration(
     storagelensid,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -5200,7 +5200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of 50 tags.
 """
 function put_storage_lens_configuration_tagging(
-    Tag, storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Tag, storagelensid, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -5218,7 +5218,7 @@ function put_storage_lens_configuration_tagging(
     storagelensid,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -5270,7 +5270,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   routes return a value of 100, and passive routes return a value of 0.
 """
 function submit_multi_region_access_point_routes(
-    Route, mrap, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Route, mrap, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PATCH",
@@ -5288,7 +5288,7 @@ function submit_multi_region_access_point_routes(
     mrap,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PATCH",
@@ -5338,7 +5338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resource.
 """
 function tag_resource(
-    Tag, resourceArn, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    Tag, resourceArn, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "POST",
@@ -5356,7 +5356,7 @@ function tag_resource(
     resourceArn,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -5403,7 +5403,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -5421,7 +5421,7 @@ function untag_resource(
     tagKeys,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "DELETE",
@@ -5466,7 +5466,7 @@ iam:PassRole
 
 """
 function update_access_grants_location(
-    IAMRoleArn, id, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    IAMRoleArn, id, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "PUT",
@@ -5484,7 +5484,7 @@ function update_access_grants_location(
     id,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -5521,7 +5521,7 @@ actions include:    CreateJob     ListJobs     DescribeJob     UpdateJobStatus
 
 """
 function update_job_priority(
-    id, priority, x_amz_account_id; aws_config::AbstractAWSConfig=global_aws_config()
+    id, priority, x_amz_account_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3_control(
         "POST",
@@ -5539,7 +5539,7 @@ function update_job_priority(
     priority,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -5584,7 +5584,7 @@ function update_job_status(
     id,
     requestedJobStatus,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -5602,7 +5602,7 @@ function update_job_status(
     requestedJobStatus,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "POST",
@@ -5642,7 +5642,7 @@ function update_storage_lens_group(
     StorageLensGroup,
     name,
     x_amz_account_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",
@@ -5660,7 +5660,7 @@ function update_storage_lens_group(
     name,
     x_amz_account_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3_control(
         "PUT",

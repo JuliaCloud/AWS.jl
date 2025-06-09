@@ -22,7 +22,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   document. The default is false.
 """
 function describe_job_execution(
-    jobId, thingName; aws_config::AbstractAWSConfig=global_aws_config()
+    jobId, thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_jobs_data_plane(
         "GET",
@@ -35,7 +35,7 @@ function describe_job_execution(
     jobId,
     thingName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_jobs_data_plane(
         "GET",
@@ -57,7 +57,7 @@ Gets the list of all jobs for a thing that are not in a terminal status.
 
 """
 function get_pending_job_executions(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config()
+    thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_jobs_data_plane(
         "GET",
@@ -69,7 +69,7 @@ end
 function get_pending_job_executions(
     thingName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_jobs_data_plane(
         "GET",
@@ -102,7 +102,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   job was created (CreateJob using field timeoutConfig).
 """
 function start_next_pending_job_execution(
-    thingName; aws_config::AbstractAWSConfig=global_aws_config()
+    thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_jobs_data_plane(
         "PUT",
@@ -114,7 +114,7 @@ end
 function start_next_pending_job_execution(
     thingName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_jobs_data_plane(
         "PUT",
@@ -162,7 +162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the job was created (CreateJob using field timeoutConfig).
 """
 function update_job_execution(
-    jobId, status, thingName; aws_config::AbstractAWSConfig=global_aws_config()
+    jobId, status, thingName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return iot_jobs_data_plane(
         "POST",
@@ -177,7 +177,7 @@ function update_job_execution(
     status,
     thingName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return iot_jobs_data_plane(
         "POST",

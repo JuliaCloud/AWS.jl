@@ -46,7 +46,7 @@ function create_evaluation_job(
     jobName,
     outputDataConfig,
     roleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -70,7 +70,7 @@ function create_evaluation_job(
     outputDataConfig,
     roleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -140,7 +140,7 @@ function create_guardrail(
     blockedInputMessaging,
     blockedOutputsMessaging,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -160,7 +160,7 @@ function create_guardrail(
     blockedOutputsMessaging,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -202,7 +202,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"description"`: A description of the guardrail version.
 """
 function create_guardrail_version(
-    guardrailIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    guardrailIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "POST",
@@ -215,7 +215,7 @@ end
 function create_guardrail_version(
     guardrailIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -280,7 +280,7 @@ function create_model_customization_job(
     outputDataConfig,
     roleArn,
     trainingDataConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -308,7 +308,7 @@ function create_model_customization_job(
     roleArn,
     trainingDataConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -374,7 +374,7 @@ function create_provisioned_model_throughput(
     modelId,
     modelUnits,
     provisionedModelName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -394,7 +394,7 @@ function create_provisioned_model_throughput(
     modelUnits,
     provisionedModelName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -428,7 +428,7 @@ the Amazon Bedrock User Guide.
 
 """
 function delete_custom_model(
-    modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    modelIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "DELETE",
@@ -440,7 +440,7 @@ end
 function delete_custom_model(
     modelIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "DELETE",
@@ -468,7 +468,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"guardrailVersion"`: The version of the guardrail.
 """
 function delete_guardrail(
-    guardrailIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    guardrailIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "DELETE",
@@ -480,7 +480,7 @@ end
 function delete_guardrail(
     guardrailIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "DELETE",
@@ -499,7 +499,7 @@ Delete the invocation logging.
 
 """
 function delete_model_invocation_logging_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "DELETE",
@@ -509,7 +509,7 @@ function delete_model_invocation_logging_configuration(;
     )
 end
 function delete_model_invocation_logging_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "DELETE",
@@ -534,7 +534,7 @@ Bedrock User Guide.
 
 """
 function delete_provisioned_model_throughput(
-    provisionedModelId; aws_config::AbstractAWSConfig=global_aws_config()
+    provisionedModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "DELETE",
@@ -546,7 +546,7 @@ end
 function delete_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "DELETE",
@@ -569,7 +569,7 @@ more information, see Custom models in the Amazon Bedrock User Guide.
 
 """
 function get_custom_model(
-    modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    modelIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -581,7 +581,7 @@ end
 function get_custom_model(
     modelIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "GET",
@@ -604,7 +604,7 @@ the job. For more information, see Model evaluations.
 
 """
 function get_evaluation_job(
-    jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -616,7 +616,7 @@ end
 function get_evaluation_job(
     jobIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "GET",
@@ -638,7 +638,7 @@ Get details about a Amazon Bedrock foundation model.
 
 """
 function get_foundation_model(
-    modelIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    modelIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -650,7 +650,7 @@ end
 function get_foundation_model(
     modelIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "GET",
@@ -677,7 +677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specify a version, the response returns details for the DRAFT version.
 """
 function get_guardrail(
-    guardrailIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    guardrailIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -689,7 +689,7 @@ end
 function get_guardrail(
     guardrailIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "GET",
@@ -712,7 +712,7 @@ the job. For more information, see Custom models in the Amazon Bedrock User Guid
 
 """
 function get_model_customization_job(
-    jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -724,7 +724,7 @@ end
 function get_model_customization_job(
     jobIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "GET",
@@ -743,7 +743,7 @@ Get the current configuration values for model invocation logging.
 
 """
 function get_model_invocation_logging_configuration(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -753,7 +753,7 @@ function get_model_invocation_logging_configuration(;
     )
 end
 function get_model_invocation_logging_configuration(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -777,7 +777,7 @@ Throughput in the Amazon Bedrock User Guide.
 
 """
 function get_provisioned_model_throughput(
-    provisionedModelId; aws_config::AbstractAWSConfig=global_aws_config()
+    provisionedModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -789,7 +789,7 @@ end
 function get_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "GET",
@@ -823,13 +823,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortBy"`: The field to sort by in the returned list of models.
 - `"sortOrder"`: The sort order of the results.
 """
-function list_custom_models(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_custom_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/custom-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_custom_models(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -860,13 +860,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: How you want the order of jobs sorted.
 - `"statusEquals"`: Only return jobs where the status condition is met.
 """
-function list_evaluation_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_evaluation_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/evaluation-jobs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_evaluation_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -894,13 +894,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"byOutputModality"`: Return models that support the output modality that you specify.
 - `"byProvider"`: Return models belonging to the model provider that you specify.
 """
-function list_foundation_models(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_foundation_models(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/foundation-models"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_foundation_models(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -930,13 +930,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returns a nextToken that you can send in another ListGuardrails request to see the next
   batch of results.
 """
-function list_guardrails(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_guardrails(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET", "/guardrails"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_guardrails(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET", "/guardrails", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -964,7 +964,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: The sort order of the results.
 - `"statusEquals"`: Return customization jobs with the specified status.
 """
-function list_model_customization_jobs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_model_customization_jobs(; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "GET",
         "/model-customization-jobs";
@@ -973,7 +973,7 @@ function list_model_customization_jobs(; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function list_model_customization_jobs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -1013,7 +1013,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the value that you specify.
 """
 function list_provisioned_model_throughputs(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -1023,7 +1023,7 @@ function list_provisioned_model_throughputs(;
     )
 end
 function list_provisioned_model_throughputs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "GET",
@@ -1046,7 +1046,7 @@ resources in the Amazon Bedrock User Guide.
 
 """
 function list_tags_for_resource(
-    resourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "POST",
@@ -1059,7 +1059,7 @@ end
 function list_tags_for_resource(
     resourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -1083,7 +1083,7 @@ Set the configuration values for model invocation logging.
 
 """
 function put_model_invocation_logging_configuration(
-    loggingConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    loggingConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "PUT",
@@ -1096,7 +1096,7 @@ end
 function put_model_invocation_logging_configuration(
     loggingConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "PUT",
@@ -1120,7 +1120,7 @@ Stops an in progress model evaluation job.
 
 """
 function stop_evaluation_job(
-    jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "POST",
@@ -1132,7 +1132,7 @@ end
 function stop_evaluation_job(
     jobIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -1155,7 +1155,7 @@ Amazon Bedrock User Guide.
 
 """
 function stop_model_customization_job(
-    jobIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    jobIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "POST",
@@ -1167,7 +1167,7 @@ end
 function stop_model_customization_job(
     jobIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -1190,7 +1190,7 @@ Bedrock User Guide.
 - `tags`: Tags to associate with the resource.
 
 """
-function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceARN, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock(
         "POST",
         "/tagResource",
@@ -1203,7 +1203,7 @@ function tag_resource(
     resourceARN,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -1233,7 +1233,7 @@ Amazon Bedrock User Guide.
 
 """
 function untag_resource(
-    resourceARN, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceARN, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "POST",
@@ -1247,7 +1247,7 @@ function untag_resource(
     resourceARN,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "POST",
@@ -1307,7 +1307,7 @@ function update_guardrail(
     blockedOutputsMessaging,
     guardrailIdentifier,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "PUT",
@@ -1327,7 +1327,7 @@ function update_guardrail(
     guardrailIdentifier,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "PUT",
@@ -1370,7 +1370,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"desiredProvisionedModelName"`: The new name for this Provisioned Throughput.
 """
 function update_provisioned_model_throughput(
-    provisionedModelId; aws_config::AbstractAWSConfig=global_aws_config()
+    provisionedModelId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock(
         "PATCH",
@@ -1382,7 +1382,7 @@ end
 function update_provisioned_model_throughput(
     provisionedModelId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock(
         "PATCH",

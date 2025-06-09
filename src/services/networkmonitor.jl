@@ -33,7 +33,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"probes"`: Displays a list of all of the probes created for a monitor.
 - `"tags"`: The list of key-value pairs created and assigned to the monitor.
 """
-function create_monitor(monitorName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_monitor(monitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmonitor(
         "POST",
         "/monitors",
@@ -45,7 +45,7 @@ end
 function create_monitor(
     monitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "POST",
@@ -83,7 +83,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request. Only returned if a client token was provided in the request.
 - `"tags"`: The list of key-value pairs created and assigned to the probe.
 """
-function create_probe(monitorName, probe; aws_config::AbstractAWSConfig=global_aws_config())
+function create_probe(monitorName, probe; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmonitor(
         "POST",
         "/monitors/$(monitorName)/probes",
@@ -96,7 +96,7 @@ function create_probe(
     monitorName,
     probe,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "POST",
@@ -124,7 +124,7 @@ ListMonitors to get a list of monitor names.
 - `monitor_name`: The name of the monitor to delete.
 
 """
-function delete_monitor(monitorName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_monitor(monitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmonitor(
         "DELETE",
         "/monitors/$(monitorName)";
@@ -135,7 +135,7 @@ end
 function delete_monitor(
     monitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "DELETE",
@@ -161,7 +161,7 @@ probe IDs. You can only delete a single probe at a time using this action.
 
 """
 function delete_probe(
-    monitorName, probeId; aws_config::AbstractAWSConfig=global_aws_config()
+    monitorName, probeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return networkmonitor(
         "DELETE",
@@ -174,7 +174,7 @@ function delete_probe(
     monitorName,
     probeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "DELETE",
@@ -196,7 +196,7 @@ Run ListMonitors to get a list of monitor names.
 - `monitor_name`: The name of the monitor that details are returned for.
 
 """
-function get_monitor(monitorName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_monitor(monitorName; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmonitor(
         "GET",
         "/monitors/$(monitorName)";
@@ -207,7 +207,7 @@ end
 function get_monitor(
     monitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "GET",
@@ -233,7 +233,7 @@ of probes and probe IDs.
   list of probes and probe IDs for the monitor.
 
 """
-function get_probe(monitorName, probeId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_probe(monitorName, probeId; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmonitor(
         "GET",
         "/monitors/$(monitorName)/probes/$(probeId)";
@@ -245,7 +245,7 @@ function get_probe(
     monitorName,
     probeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "GET",
@@ -270,13 +270,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 - `"state"`: The list of all monitors and their states.
 """
-function list_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmonitor(
         "GET", "/monitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_monitors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return networkmonitor(
         "GET", "/monitors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -294,7 +294,7 @@ Lists the tags assigned to this resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return networkmonitor(
         "GET",
@@ -306,7 +306,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "GET",
@@ -328,7 +328,7 @@ Adds key-value pairs to a monitor or probe.
 - `tags`: The list of key-value pairs assigned to the monitor or probe.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return networkmonitor(
         "POST",
         "/tags/$(resourceArn)",
@@ -341,7 +341,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "POST",
@@ -364,7 +364,7 @@ Removes a key-value pair from a monitor or probe.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return networkmonitor(
         "DELETE",
@@ -378,7 +378,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "DELETE",
@@ -404,7 +404,7 @@ ListMonitors to get a list of monitor names.
 
 """
 function update_monitor(
-    aggregationPeriod, monitorName; aws_config::AbstractAWSConfig=global_aws_config()
+    aggregationPeriod, monitorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return networkmonitor(
         "PATCH",
@@ -418,7 +418,7 @@ function update_monitor(
     aggregationPeriod,
     monitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "PATCH",
@@ -464,7 +464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: The state of the probe update.
 """
 function update_probe(
-    monitorName, probeId; aws_config::AbstractAWSConfig=global_aws_config()
+    monitorName, probeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return networkmonitor(
         "PATCH",
@@ -477,7 +477,7 @@ function update_probe(
     monitorName,
     probeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return networkmonitor(
         "PATCH",

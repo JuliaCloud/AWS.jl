@@ -31,7 +31,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Target parameters in the Amazon EventBridge User Guide.
 """
 function create_pipe(
-    Name, RoleArn, Source, Target; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, RoleArn, Source, Target; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pipes(
         "POST",
@@ -47,7 +47,7 @@ function create_pipe(
     Source,
     Target,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pipes(
         "POST",
@@ -77,7 +77,7 @@ the Amazon EventBridge User Guide.
 - `name`: The name of the pipe.
 
 """
-function delete_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "DELETE",
         "/v1/pipes/$(Name)";
@@ -86,7 +86,7 @@ function delete_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_pipe(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pipes(
         "DELETE",
@@ -108,13 +108,13 @@ EventBridge Pipes in the Amazon EventBridge User Guide.
 - `name`: The name of the pipe.
 
 """
-function describe_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "GET", "/v1/pipes/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_pipe(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pipes(
         "GET",
@@ -148,11 +148,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SourcePrefix"`: The prefix matching the pipe source.
 - `"TargetPrefix"`: The prefix matching the pipe target.
 """
-function list_pipes(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_pipes(; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes("GET", "/v1/pipes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_pipes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pipes(
         "GET", "/v1/pipes", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -170,7 +170,7 @@ Displays the tags associated with a pipe.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pipes(
         "GET",
@@ -182,7 +182,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pipes(
         "GET",
@@ -203,7 +203,7 @@ Start an existing pipe.
 - `name`: The name of the pipe.
 
 """
-function start_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function start_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "POST",
         "/v1/pipes/$(Name)/start";
@@ -212,7 +212,7 @@ function start_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function start_pipe(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pipes(
         "POST",
@@ -233,7 +233,7 @@ Stop an existing pipe.
 - `name`: The name of the pipe.
 
 """
-function stop_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_pipe(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "POST",
         "/v1/pipes/$(Name)/stop";
@@ -242,7 +242,7 @@ function stop_pipe(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function stop_pipe(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pipes(
         "POST",
@@ -272,7 +272,7 @@ many as 50 tags with a pipe.
 - `tags`: The list of key-value pairs associated with the pipe.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "POST",
         "/tags/$(resourceArn)",
@@ -285,7 +285,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pipes(
         "POST",
@@ -308,7 +308,7 @@ Removes one or more tags from the specified pipes.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pipes(
         "DELETE",
@@ -322,7 +322,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pipes(
         "DELETE",
@@ -364,7 +364,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   information about pipe target parameters, including how to use dynamic path parameters, see
   Target parameters in the Amazon EventBridge User Guide.
 """
-function update_pipe(Name, RoleArn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_pipe(Name, RoleArn; aws_config::AbstractAWSConfig=current_aws_config())
     return pipes(
         "PUT",
         "/v1/pipes/$(Name)",
@@ -377,7 +377,7 @@ function update_pipe(
     Name,
     RoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pipes(
         "PUT",

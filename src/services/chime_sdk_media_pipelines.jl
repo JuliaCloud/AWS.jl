@@ -31,7 +31,7 @@ function create_media_capture_pipeline(
     SinkType,
     SourceArn,
     SourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -53,7 +53,7 @@ function create_media_capture_pipeline(
     SourceArn,
     SourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -93,7 +93,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags associated with the media concatenation pipeline.
 """
 function create_media_concatenation_pipeline(
-    Sinks, Sources; aws_config::AbstractAWSConfig=global_aws_config()
+    Sinks, Sources; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -109,7 +109,7 @@ function create_media_concatenation_pipeline(
     Sinks,
     Sources,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -154,7 +154,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the media insights pipeline.
 """
 function create_media_insights_pipeline(
-    MediaInsightsPipelineConfigurationArn; aws_config::AbstractAWSConfig=global_aws_config()
+    MediaInsightsPipelineConfigurationArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -171,7 +171,7 @@ end
 function create_media_insights_pipeline(
     MediaInsightsPipelineConfigurationArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -219,7 +219,7 @@ function create_media_insights_pipeline_configuration(
     Elements,
     MediaInsightsPipelineConfigurationName,
     ResourceAccessRoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -240,7 +240,7 @@ function create_media_insights_pipeline_configuration(
     MediaInsightsPipelineConfigurationName,
     ResourceAccessRoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -279,7 +279,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags associated with the media live connector pipeline.
 """
 function create_media_live_connector_pipeline(
-    Sinks, Sources; aws_config::AbstractAWSConfig=global_aws_config()
+    Sinks, Sources; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -295,7 +295,7 @@ function create_media_live_connector_pipeline(
     Sinks,
     Sources,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -332,7 +332,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the video stream pool.
 """
 function create_media_pipeline_kinesis_video_stream_pool(
-    PoolName, StreamConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+    PoolName, StreamConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -350,7 +350,7 @@ function create_media_pipeline_kinesis_video_stream_pool(
     PoolName,
     StreamConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -387,7 +387,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags assigned to the media pipeline.
 """
 function create_media_stream_pipeline(
-    Sinks, Sources; aws_config::AbstractAWSConfig=global_aws_config()
+    Sinks, Sources; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -403,7 +403,7 @@ function create_media_stream_pipeline(
     Sinks,
     Sources,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -435,7 +435,7 @@ Deletes the media pipeline.
 
 """
 function delete_media_capture_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config()
+    mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "DELETE",
@@ -447,7 +447,7 @@ end
 function delete_media_capture_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "DELETE",
@@ -470,7 +470,7 @@ Deletes the specified configuration settings.
 
 """
 function delete_media_insights_pipeline_configuration(
-    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "DELETE",
@@ -482,7 +482,7 @@ end
 function delete_media_insights_pipeline_configuration(
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "DELETE",
@@ -504,7 +504,7 @@ Deletes the media pipeline.
 
 """
 function delete_media_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config()
+    mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "DELETE",
@@ -516,7 +516,7 @@ end
 function delete_media_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "DELETE",
@@ -538,7 +538,7 @@ Deletes an Kinesis video stream pool.
 
 """
 function delete_media_pipeline_kinesis_video_stream_pool(
-    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "DELETE",
@@ -550,7 +550,7 @@ end
 function delete_media_pipeline_kinesis_video_stream_pool(
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "DELETE",
@@ -572,7 +572,7 @@ Gets an existing media pipeline.
 
 """
 function get_media_capture_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config()
+    mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -584,7 +584,7 @@ end
 function get_media_capture_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -607,7 +607,7 @@ Gets the configuration settings for a media insights pipeline.
 
 """
 function get_media_insights_pipeline_configuration(
-    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -619,7 +619,7 @@ end
 function get_media_insights_pipeline_configuration(
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -641,7 +641,7 @@ Gets an existing media pipeline.
 
 """
 function get_media_pipeline(
-    mediaPipelineId; aws_config::AbstractAWSConfig=global_aws_config()
+    mediaPipelineId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -653,7 +653,7 @@ end
 function get_media_pipeline(
     mediaPipelineId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -675,7 +675,7 @@ Gets an Kinesis video stream pool.
 
 """
 function get_media_pipeline_kinesis_video_stream_pool(
-    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -687,7 +687,7 @@ end
 function get_media_pipeline_kinesis_video_stream_pool(
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -711,7 +711,7 @@ Retrieves the details of the specified speaker search task.
 
 """
 function get_speaker_search_task(
-    identifier, speakerSearchTaskId; aws_config::AbstractAWSConfig=global_aws_config()
+    identifier, speakerSearchTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -724,7 +724,7 @@ function get_speaker_search_task(
     identifier,
     speakerSearchTaskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -748,7 +748,7 @@ Retrieves the details of a voice tone analysis task.
 
 """
 function get_voice_tone_analysis_task(
-    identifier, voiceToneAnalysisTaskId; aws_config::AbstractAWSConfig=global_aws_config()
+    identifier, voiceToneAnalysisTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -761,7 +761,7 @@ function get_voice_tone_analysis_task(
     identifier,
     voiceToneAnalysisTaskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -784,7 +784,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - 99.
 - `"next-token"`: The token used to retrieve the next page of results.
 """
-function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_media_pipelines(
         "GET",
         "/sdk-media-capture-pipelines";
@@ -793,7 +793,7 @@ function list_media_capture_pipelines(; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function list_media_capture_pipelines(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -816,7 +816,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token used to return the next page of results.
 """
 function list_media_insights_pipeline_configurations(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -826,7 +826,7 @@ function list_media_insights_pipeline_configurations(;
     )
 end
 function list_media_insights_pipeline_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -849,7 +849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"next-token"`: The token used to return the next page of results.
 """
 function list_media_pipeline_kinesis_video_stream_pools(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -859,7 +859,7 @@ function list_media_pipeline_kinesis_video_stream_pools(;
     )
 end
 function list_media_pipeline_kinesis_video_stream_pools(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -882,7 +882,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   - 99.
 - `"next-token"`: The token used to retrieve the next page of results.
 """
-function list_media_pipelines(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_media_pipelines(; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_media_pipelines(
         "GET",
         "/sdk-media-pipelines";
@@ -891,7 +891,7 @@ function list_media_pipelines(; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function list_media_pipelines(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -913,7 +913,7 @@ Lists the tags available for a media pipeline.
   pipeline's region, resource ID, and pipeline ID.
 
 """
-function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_media_pipelines(
         "GET",
         "/tags",
@@ -923,7 +923,7 @@ function list_tags_for_resource(arn; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_tags_for_resource(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "GET",
@@ -956,7 +956,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   video stream source of the media insights pipeline.
 """
 function start_speaker_search_task(
-    VoiceProfileDomainArn, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    VoiceProfileDomainArn, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -973,7 +973,7 @@ function start_speaker_search_task(
     VoiceProfileDomainArn,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -1016,7 +1016,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   video stream source of the media insights pipeline.
 """
 function start_voice_tone_analysis_task(
-    LanguageCode, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    LanguageCode, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -1032,7 +1032,7 @@ function start_voice_tone_analysis_task(
     LanguageCode,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -1064,7 +1064,7 @@ Stops a speaker search task.
 
 """
 function stop_speaker_search_task(
-    identifier, speakerSearchTaskId; aws_config::AbstractAWSConfig=global_aws_config()
+    identifier, speakerSearchTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -1077,7 +1077,7 @@ function stop_speaker_search_task(
     identifier,
     speakerSearchTaskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -1101,7 +1101,7 @@ Stops a voice tone analysis task.
 
 """
 function stop_voice_tone_analysis_task(
-    identifier, voiceToneAnalysisTaskId; aws_config::AbstractAWSConfig=global_aws_config()
+    identifier, voiceToneAnalysisTaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -1114,7 +1114,7 @@ function stop_voice_tone_analysis_task(
     identifier,
     voiceToneAnalysisTaskId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -1138,7 +1138,7 @@ region, resource ID, and pipeline ID.
 - `tags`: The tags associated with the specified media pipeline.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return chime_sdk_media_pipelines(
         "POST",
         "/tags?operation=tag-resource",
@@ -1151,7 +1151,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -1180,7 +1180,7 @@ Removes any tags from a media pipeline.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -1194,7 +1194,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "POST",
@@ -1234,7 +1234,7 @@ function update_media_insights_pipeline_configuration(
     Elements,
     ResourceAccessRoleArn,
     identifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "PUT",
@@ -1251,7 +1251,7 @@ function update_media_insights_pipeline_configuration(
     ResourceAccessRoleArn,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "PUT",
@@ -1283,7 +1283,7 @@ Updates the status of a media insights pipeline.
 
 """
 function update_media_insights_pipeline_status(
-    UpdateStatus, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    UpdateStatus, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "PUT",
@@ -1297,7 +1297,7 @@ function update_media_insights_pipeline_status(
     UpdateStatus,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "PUT",
@@ -1324,7 +1324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StreamConfiguration"`: The configuration settings for the video stream.
 """
 function update_media_pipeline_kinesis_video_stream_pool(
-    identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return chime_sdk_media_pipelines(
         "PUT",
@@ -1336,7 +1336,7 @@ end
 function update_media_pipeline_kinesis_video_stream_pool(
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return chime_sdk_media_pipelines(
         "PUT",

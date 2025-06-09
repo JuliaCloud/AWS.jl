@@ -19,7 +19,8 @@ export @service
 export _merge
 export AbstractAWSConfig, AWSConfig, AWSExceptions, AWSServices, Request
 export IMDS
-export assume_role, generate_service_url, global_aws_config, set_user_agent
+export current_aws_config, with_aws_config
+export assume_role, generate_service_url, set_user_agent
 export sign!, sign_aws2!, sign_aws4!
 export JSONService, RestJSONService, RestXMLService, QueryService, set_features
 
@@ -45,7 +46,6 @@ using ..AWSExceptions
 using ..AWSExceptions: AWSException
 
 const user_agent = Ref("AWS.jl/1.0.0")
-const aws_config = Ref{AbstractAWSConfig}()
 
 """
     FeatureSet
@@ -62,41 +62,6 @@ non-breaking behavior.
 """
 Base.@kwdef struct FeatureSet
     use_response_type::Bool = false
-end
-
-"""
-    global_aws_config()
-
-Retrieve the global AWS configuration.
-If one is not set, create one with default configuration options.
-
-# Keywords
-- `kwargs...`: AWSConfig kwargs to be passed along if the global configuration is not already set
-
-# Returns
-- `AWSConfig`: The global AWS configuration
-"""
-function global_aws_config(; kwargs...)
-    if !isassigned(aws_config) || !isempty(kwargs)
-        aws_config[] = AWSConfig(; kwargs...)
-    end
-
-    return aws_config[]
-end
-
-"""
-    global_aws_config(config::AbstractAWSConfig)
-
-Set the global AWSConfig.
-
-# Arguments
-- `config::AWSConfig`: The AWSConfig to set in the global state
-
-# Returns
-- `AWSConfig`: Global AWSConfig
-"""
-function global_aws_config(config::AbstractAWSConfig)
-    return aws_config[] = config
 end
 
 """
@@ -252,7 +217,7 @@ function (service::RestXMLService)(
     request_method::String,
     request_uri::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
     feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
@@ -309,7 +274,7 @@ Perform a Query request to AWS.
 function (service::QueryService)(
     operation::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
     feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
@@ -356,7 +321,7 @@ Perform a JSON request to AWS.
 function (service::JSONService)(
     operation::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
     feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
@@ -403,7 +368,7 @@ function (service::RestJSONService)(
     request_method::String,
     request_uri::String,
     args::AbstractDict{String,<:Any}=Dict{String,String}();
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
     feature_set.use_response_type && _delete_legacy_response_kw_args!(args)

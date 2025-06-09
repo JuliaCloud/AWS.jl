@@ -28,7 +28,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the payment option is Partial Upfront.
 """
 function create_savings_plan(
-    commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=global_aws_config()
+    commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -46,7 +46,7 @@ function create_savings_plan(
     commitment,
     savingsPlanOfferingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return savingsplans(
         "POST",
@@ -78,7 +78,7 @@ Deletes the queued purchase for the specified Savings Plan.
 
 """
 function delete_queued_savings_plan(
-    savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -91,7 +91,7 @@ end
 function delete_queued_savings_plan(
     savingsPlanId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return savingsplans(
         "POST",
@@ -121,7 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next page of results.
 """
 function describe_savings_plan_rates(
-    savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -134,7 +134,7 @@ end
 function describe_savings_plan_rates(
     savingsPlanId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return savingsplans(
         "POST",
@@ -163,7 +163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"savingsPlanIds"`: The IDs of the Savings Plans.
 - `"states"`: The current states of the Savings Plans.
 """
-function describe_savings_plans(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_savings_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return savingsplans(
         "POST",
         "/DescribeSavingsPlans";
@@ -172,7 +172,7 @@ function describe_savings_plans(; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function describe_savings_plans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -205,7 +205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
 function describe_savings_plans_offering_rates(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -215,7 +215,7 @@ function describe_savings_plans_offering_rates(;
     )
 end
 function describe_savings_plans_offering_rates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -251,7 +251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
 function describe_savings_plans_offerings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -261,7 +261,7 @@ function describe_savings_plans_offerings(;
     )
 end
 function describe_savings_plans_offerings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -283,7 +283,7 @@ Lists the tags for the specified resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -296,7 +296,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return savingsplans(
         "POST",
@@ -324,7 +324,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 """
 function return_savings_plan(
-    savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    savingsPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -339,7 +339,7 @@ end
 function return_savings_plan(
     savingsPlanId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return savingsplans(
         "POST",
@@ -370,7 +370,7 @@ Adds the specified tags to the specified resource.
   \"key2\":\"value2\"} }.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return savingsplans(
         "POST",
         "/TagResource",
@@ -383,7 +383,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return savingsplans(
         "POST",
@@ -412,7 +412,7 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return savingsplans(
         "POST",
@@ -426,7 +426,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return savingsplans(
         "POST",

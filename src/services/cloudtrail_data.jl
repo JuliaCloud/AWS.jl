@@ -24,7 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or account number.
 """
 function put_audit_events(
-    auditEvents, channelArn; aws_config::AbstractAWSConfig=global_aws_config()
+    auditEvents, channelArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return cloudtrail_data(
         "POST",
@@ -38,7 +38,7 @@ function put_audit_events(
     auditEvents,
     channelArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return cloudtrail_data(
         "POST",

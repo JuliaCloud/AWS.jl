@@ -42,7 +42,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours.
 """
 function create_dataset(
-    DatasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    DatasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "POST",
@@ -58,7 +58,7 @@ function create_dataset(
     DatasetType,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -115,7 +115,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to CreateModel. An idempotency token is active for 8 hours.
 """
 function create_model(
-    OutputConfig, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    OutputConfig, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "POST",
@@ -131,7 +131,7 @@ function create_model(
     OutputConfig,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -174,7 +174,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken is considered a new call to CreateProject. An idempotency token is active for 8
   hours.
 """
-function create_project(ProjectName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_project(ProjectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "POST",
         "/2020-11-20/projects",
@@ -188,7 +188,7 @@ end
 function create_project(
     ProjectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -240,7 +240,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   hours.
 """
 function delete_dataset(
-    datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "DELETE",
@@ -254,7 +254,7 @@ function delete_dataset(
     datasetType,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "DELETE",
@@ -296,7 +296,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   new call to DeleteModel. An idempotency token is active for 8 hours.
 """
 function delete_model(
-    modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "DELETE",
@@ -310,7 +310,7 @@ function delete_model(
     modelVersion,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "DELETE",
@@ -352,7 +352,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ClientToken is considered a new call to DeleteProject. An idempotency token is active for 8
   hours.
 """
-function delete_project(projectName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "DELETE",
         "/2020-11-20/projects/$(projectName)",
@@ -364,7 +364,7 @@ end
 function delete_project(
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "DELETE",
@@ -395,7 +395,7 @@ perform the lookoutvision:DescribeDataset operation.
 
 """
 function describe_dataset(
-    datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
@@ -408,7 +408,7 @@ function describe_dataset(
     datasetType,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
@@ -433,7 +433,7 @@ permissions to perform the lookoutvision:DescribeModel operation.
 
 """
 function describe_model(
-    modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
@@ -446,7 +446,7 @@ function describe_model(
     modelVersion,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
@@ -473,7 +473,7 @@ Lookout for Vision Developer Guide.
 
 """
 function describe_model_packaging_job(
-    jobName, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    jobName, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
@@ -486,7 +486,7 @@ function describe_model_packaging_job(
     jobName,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
@@ -508,7 +508,7 @@ perform the lookoutvision:DescribeProject operation.
 - `project_name`: The name of the project that you want to describe.
 
 """
-function describe_project(projectName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_project(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "GET",
         "/2020-11-20/projects/$(projectName)";
@@ -519,7 +519,7 @@ end
 function describe_project(
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
@@ -559,7 +559,7 @@ function detect_anomalies(
     Content_Type,
     modelVersion,
     projectName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -577,7 +577,7 @@ function detect_anomalies(
     modelVersion,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -634,7 +634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   source-ref key value matches *IMG_17*.
 """
 function list_dataset_entries(
-    datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
@@ -647,7 +647,7 @@ function list_dataset_entries(
     datasetType,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
@@ -681,7 +681,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   use this pagination token to retrieve the next set of results.
 """
 function list_model_packaging_jobs(
-    projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
@@ -693,7 +693,7 @@ end
 function list_model_packaging_jobs(
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
@@ -726,7 +726,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
   use this pagination token to retrieve the next set of models.
 """
-function list_models(projectName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_models(projectName; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "GET",
         "/2020-11-20/projects/$(projectName)/models";
@@ -737,7 +737,7 @@ end
 function list_models(
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
@@ -767,7 +767,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieve), Amazon Lookout for Vision returns a pagination token in the response. You can
   use this pagination token to retrieve the next set of projects.
 """
-function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "GET",
         "/2020-11-20/projects";
@@ -776,7 +776,7 @@ function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_projects(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
@@ -800,7 +800,7 @@ operation requires permissions to perform the lookoutvision:ListTagsForResource 
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "GET",
@@ -812,7 +812,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "GET",
@@ -859,7 +859,7 @@ function start_model(
     MinInferenceUnits,
     modelVersion,
     projectName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -877,7 +877,7 @@ function start_model(
     modelVersion,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -940,7 +940,7 @@ function start_model_packaging_job(
     Configuration,
     ModelVersion,
     projectName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -959,7 +959,7 @@ function start_model_packaging_job(
     ModelVersion,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -1006,7 +1006,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   StopModel. An idempotency token is active for 8 hours.
 """
 function stop_model(
-    modelVersion, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    modelVersion, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "POST",
@@ -1020,7 +1020,7 @@ function stop_model(
     modelVersion,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -1048,7 +1048,7 @@ operation requires permissions to perform the lookoutvision:TagResource operatio
 - `resource_arn`: The Amazon Resource Name (ARN) of the model to assign the tags.
 
 """
-function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(Tags, resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return lookoutvision(
         "POST",
         "/2020-11-20/tags/$(resourceArn)",
@@ -1061,7 +1061,7 @@ function tag_resource(
     Tags,
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "POST",
@@ -1087,7 +1087,7 @@ permissions to perform the lookoutvision:UntagResource operation.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "DELETE",
@@ -1101,7 +1101,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "DELETE",
@@ -1149,7 +1149,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   An idempotency token is active for 8 hours.
 """
 function update_dataset_entries(
-    Changes, datasetType, projectName; aws_config::AbstractAWSConfig=global_aws_config()
+    Changes, datasetType, projectName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return lookoutvision(
         "PATCH",
@@ -1164,7 +1164,7 @@ function update_dataset_entries(
     datasetType,
     projectName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return lookoutvision(
         "PATCH",

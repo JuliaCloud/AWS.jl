@@ -20,13 +20,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"snapshotId"`:  Unique identifier for an exported snapshot of project configuration.
   This snapshot identifier is included in the share URL when a project is exported.
 """
-function create_project(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_project(; aws_config::AbstractAWSConfig=current_aws_config())
     return mobile(
         "POST", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function create_project(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mobile(
         "POST", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -43,7 +43,7 @@ end
 - `project_id`:  Unique project identifier.
 
 """
-function delete_project(projectId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_project(projectId; aws_config::AbstractAWSConfig=current_aws_config())
     return mobile(
         "DELETE",
         "/projects/$(projectId)";
@@ -54,7 +54,7 @@ end
 function delete_project(
     projectId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mobile(
         "DELETE",
@@ -75,7 +75,7 @@ end
 - `bundle_id`:  Unique bundle identifier.
 
 """
-function describe_bundle(bundleId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_bundle(bundleId; aws_config::AbstractAWSConfig=current_aws_config())
     return mobile(
         "GET",
         "/bundles/$(bundleId)";
@@ -86,7 +86,7 @@ end
 function describe_bundle(
     bundleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mobile(
         "GET",
@@ -112,7 +112,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub
   project.
 """
-function describe_project(projectId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_project(projectId; aws_config::AbstractAWSConfig=current_aws_config())
     return mobile(
         "GET",
         "/project",
@@ -124,7 +124,7 @@ end
 function describe_project(
     projectId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mobile(
         "GET",
@@ -152,7 +152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"platform"`:  Developer desktop or target application platform.
 - `"projectId"`:  Unique project identifier.
 """
-function export_bundle(bundleId; aws_config::AbstractAWSConfig=global_aws_config())
+function export_bundle(bundleId; aws_config::AbstractAWSConfig=current_aws_config())
     return mobile(
         "POST",
         "/bundles/$(bundleId)";
@@ -163,7 +163,7 @@ end
 function export_bundle(
     bundleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mobile(
         "POST",
@@ -186,7 +186,7 @@ successfully within the same AWS account.
 - `project_id`:  Unique project identifier.
 
 """
-function export_project(projectId; aws_config::AbstractAWSConfig=global_aws_config())
+function export_project(projectId; aws_config::AbstractAWSConfig=current_aws_config())
     return mobile(
         "POST",
         "/exports/$(projectId)";
@@ -197,7 +197,7 @@ end
 function export_project(
     projectId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mobile(
         "POST",
@@ -221,11 +221,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   non-null pagination token is returned in a result, then pass its value in here in another
   request to list more bundles.
 """
-function list_bundles(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_bundles(; aws_config::AbstractAWSConfig=current_aws_config())
     return mobile("GET", "/bundles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_bundles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mobile(
         "GET", "/bundles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -245,13 +245,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   non-null pagination token is returned in a result, then pass its value in here in another
   request to list more projects.
 """
-function list_projects(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_projects(; aws_config::AbstractAWSConfig=current_aws_config())
     return mobile(
         "GET", "/projects"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_projects(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mobile(
         "GET", "/projects", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -273,7 +273,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   should be the contents of the file downloaded from the URL provided in an export project
   operation.
 """
-function update_project(projectId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_project(projectId; aws_config::AbstractAWSConfig=current_aws_config())
     return mobile(
         "POST",
         "/update",
@@ -285,7 +285,7 @@ end
 function update_project(
     projectId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mobile(
         "POST",
