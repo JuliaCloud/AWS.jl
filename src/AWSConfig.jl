@@ -122,15 +122,15 @@ function current_aws_config()
 end
 
 """
-    with(f, config::AbstractAWSConfig) -> Any
+    with_aws_config(f, config::AbstractAWSConfig) -> Any
 
 Executes the function `f` where the result of `current_aws_config()` returns `config`.
-Nesting of `with` calls is supported.
+Nesting of `with_aws_config` calls is supported.
 
-The user provided function `f` takes no parameters. The `with` function returns the result
-return from `f`.
+The user provided function `f` takes no parameters. The `with_aws_config` function returns
+the result return from `f`.
 """
-function with(f, config::AbstractAWSConfig)
+function with_aws_config(f, config::AbstractAWSConfig)
     return @with _SCOPED_AWS_CONFIG => config begin
         f()
     end
