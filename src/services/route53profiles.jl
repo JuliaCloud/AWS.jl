@@ -25,7 +25,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   association.
 """
 function associate_profile(
-    Name, ProfileId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, ProfileId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "POST",
@@ -42,7 +42,7 @@ function associate_profile(
     ProfileId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "POST",
@@ -80,7 +80,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and 9900.
 """
 function associate_resource_to_profile(
-    Name, ProfileId, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, ProfileId, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "POST",
@@ -97,7 +97,7 @@ function associate_resource_to_profile(
     ProfileId,
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "POST",
@@ -135,7 +135,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Profile.
 """
 function create_profile(
-    ClientToken, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    ClientToken, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "POST",
@@ -149,7 +149,7 @@ function create_profile(
     ClientToken,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "POST",
@@ -177,7 +177,7 @@ disassociate it from all VPCs.
 - `profile_id`:  The ID of the Profile that you want to delete.
 
 """
-function delete_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config())
     return route53profiles(
         "DELETE",
         "/profile/$(ProfileId)";
@@ -188,7 +188,7 @@ end
 function delete_profile(
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "DELETE",
@@ -211,7 +211,7 @@ end
 
 """
 function disassociate_profile(
-    ProfileId, ResourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProfileId, ResourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "DELETE",
@@ -224,7 +224,7 @@ function disassociate_profile(
     ProfileId,
     ResourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "DELETE",
@@ -247,7 +247,7 @@ end
 
 """
 function disassociate_resource_from_profile(
-    ProfileId, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ProfileId, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "DELETE",
@@ -260,7 +260,7 @@ function disassociate_resource_from_profile(
     ProfileId,
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "DELETE",
@@ -282,7 +282,7 @@ Profile is shared, and the current status of the Profile.
 - `profile_id`:  ID of the Profile.
 
 """
-function get_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config())
     return route53profiles(
         "GET",
         "/profile/$(ProfileId)";
@@ -293,7 +293,7 @@ end
 function get_profile(
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "GET",
@@ -317,7 +317,7 @@ association, but a Profile can be associated with up to 5000 VPCs.
 
 """
 function get_profile_association(
-    ProfileAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProfileAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "GET",
@@ -329,7 +329,7 @@ end
 function get_profile_association(
     ProfileAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "GET",
@@ -352,7 +352,7 @@ end
 
 """
 function get_profile_resource_association(
-    ProfileResourceAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProfileResourceAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "GET",
@@ -364,7 +364,7 @@ end
 function get_profile_resource_association(
     ProfileResourceAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "GET",
@@ -395,7 +395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"profileId"`:  ID of the Profile.
 - `"resourceId"`:  ID of the VPC.
 """
-function list_profile_associations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_profile_associations(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53profiles(
         "GET",
         "/profileassociations";
@@ -404,7 +404,7 @@ function list_profile_associations(; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_profile_associations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "GET",
@@ -438,7 +438,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"resourceType"`:  ID of a resource if you want information on only one type.
 """
 function list_profile_resource_associations(
-    ProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "GET",
@@ -450,7 +450,7 @@ end
 function list_profile_resource_associations(
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "GET",
@@ -479,13 +479,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. To retrieve the next batch of objects, use the token that was returned for the
   prior request in your next request.
 """
-function list_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53profiles(
         "GET", "/profiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_profiles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "GET", "/profiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -504,7 +504,7 @@ end
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "GET",
@@ -516,7 +516,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "GET",
@@ -539,7 +539,7 @@ end
 - `tags`:  The tags that you want to add to the specified resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return route53profiles(
         "POST",
         "/tags/$(ResourceArn)",
@@ -552,7 +552,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "POST",
@@ -576,7 +576,7 @@ end
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "DELETE",
@@ -590,7 +590,7 @@ function untag_resource(
     ResourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "DELETE",
@@ -619,7 +619,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and 9900.
 """
 function update_profile_resource_association(
-    ProfileResourceAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ProfileResourceAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53profiles(
         "PATCH",
@@ -631,7 +631,7 @@ end
 function update_profile_resource_association(
     ProfileResourceAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53profiles(
         "PATCH",

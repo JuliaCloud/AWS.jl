@@ -27,7 +27,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceTags"`: An optional list of tags to associate with the specified budget. Each
   tag consists of a key and a value, and each key must be unique for the resource.
 """
-function create_budget(AccountId, Budget; aws_config::AbstractAWSConfig=global_aws_config())
+function create_budget(AccountId, Budget; aws_config::AbstractAWSConfig=current_aws_config())
     return budgets(
         "CreateBudget",
         Dict{String,Any}("AccountId" => AccountId, "Budget" => Budget);
@@ -39,7 +39,7 @@ function create_budget(
     AccountId,
     Budget,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "CreateBudget",
@@ -89,7 +89,7 @@ function create_budget_action(
     ExecutionRoleArn,
     NotificationType,
     Subscribers;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "CreateBudgetAction",
@@ -119,7 +119,7 @@ function create_budget_action(
     NotificationType,
     Subscribers,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "CreateBudgetAction",
@@ -167,7 +167,7 @@ function create_notification(
     BudgetName,
     Notification,
     Subscribers;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "CreateNotification",
@@ -187,7 +187,7 @@ function create_notification(
     Notification,
     Subscribers,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "CreateNotification",
@@ -229,7 +229,7 @@ function create_subscriber(
     BudgetName,
     Notification,
     Subscriber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "CreateSubscriber",
@@ -249,7 +249,7 @@ function create_subscriber(
     Notification,
     Subscriber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "CreateSubscriber",
@@ -283,7 +283,7 @@ the notifications and subscribers that are associated with that budget.
 
 """
 function delete_budget(
-    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DeleteBudget",
@@ -296,7 +296,7 @@ function delete_budget(
     AccountId,
     BudgetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DeleteBudget",
@@ -325,7 +325,7 @@ end
 
 """
 function delete_budget_action(
-    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DeleteBudgetAction",
@@ -341,7 +341,7 @@ function delete_budget_action(
     ActionId,
     BudgetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DeleteBudgetAction",
@@ -376,7 +376,7 @@ associated with the notification.
 
 """
 function delete_notification(
-    AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DeleteNotification",
@@ -394,7 +394,7 @@ function delete_notification(
     BudgetName,
     Notification,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DeleteNotification",
@@ -434,7 +434,7 @@ function delete_subscriber(
     BudgetName,
     Notification,
     Subscriber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DeleteSubscriber",
@@ -454,7 +454,7 @@ function delete_subscriber(
     Notification,
     Subscriber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DeleteSubscriber",
@@ -489,7 +489,7 @@ PlannedBudgetLimits, see the Examples section.
 
 """
 function describe_budget(
-    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DescribeBudget",
@@ -502,7 +502,7 @@ function describe_budget(
     AccountId,
     BudgetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DescribeBudget",
@@ -531,7 +531,7 @@ end
 
 """
 function describe_budget_action(
-    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DescribeBudgetAction",
@@ -547,7 +547,7 @@ function describe_budget_action(
     ActionId,
     BudgetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DescribeBudgetAction",
@@ -585,7 +585,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimePeriod"`:
 """
 function describe_budget_action_histories(
-    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DescribeBudgetActionHistories",
@@ -601,7 +601,7 @@ function describe_budget_action_histories(
     ActionId,
     BudgetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DescribeBudgetActionHistories",
@@ -636,7 +636,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function describe_budget_actions_for_account(
-    AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DescribeBudgetActionsForAccount",
@@ -648,7 +648,7 @@ end
 function describe_budget_actions_for_account(
     AccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DescribeBudgetActionsForAccount",
@@ -676,7 +676,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function describe_budget_actions_for_budget(
-    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DescribeBudgetActionsForBudget",
@@ -689,7 +689,7 @@ function describe_budget_actions_for_budget(
     AccountId,
     BudgetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DescribeBudgetActionsForBudget",
@@ -721,7 +721,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 """
 function describe_budget_notifications_for_account(
-    AccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DescribeBudgetNotificationsForAccount",
@@ -733,7 +733,7 @@ end
 function describe_budget_notifications_for_account(
     AccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DescribeBudgetNotificationsForAccount",
@@ -764,7 +764,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   time period.
 """
 function describe_budget_performance_history(
-    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DescribeBudgetPerformanceHistory",
@@ -777,7 +777,7 @@ function describe_budget_performance_history(
     AccountId,
     BudgetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DescribeBudgetPerformanceHistory",
@@ -810,7 +810,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The pagination token that you include in your request to indicate the next
   set of results that you want to retrieve.
 """
-function describe_budgets(AccountId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_budgets(AccountId; aws_config::AbstractAWSConfig=current_aws_config())
     return budgets(
         "DescribeBudgets",
         Dict{String,Any}("AccountId" => AccountId);
@@ -821,7 +821,7 @@ end
 function describe_budgets(
     AccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DescribeBudgets",
@@ -852,7 +852,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of results that you want to retrieve.
 """
 function describe_notifications_for_budget(
-    AccountId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DescribeNotificationsForBudget",
@@ -865,7 +865,7 @@ function describe_notifications_for_budget(
     AccountId,
     BudgetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DescribeNotificationsForBudget",
@@ -901,7 +901,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of results that you want to retrieve.
 """
 function describe_subscribers_for_notification(
-    AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, BudgetName, Notification; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "DescribeSubscribersForNotification",
@@ -919,7 +919,7 @@ function describe_subscribers_for_notification(
     BudgetName,
     Notification,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "DescribeSubscribersForNotification",
@@ -957,7 +957,7 @@ function execute_budget_action(
     ActionId,
     BudgetName,
     ExecutionType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "ExecuteBudgetAction",
@@ -977,7 +977,7 @@ function execute_budget_action(
     BudgetName,
     ExecutionType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "ExecuteBudgetAction",
@@ -1009,7 +1009,7 @@ Lists tags associated with a budget or budget action resource.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "ListTagsForResource",
@@ -1021,7 +1021,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "ListTagsForResource",
@@ -1045,7 +1045,7 @@ Creates tags for a budget or budget action resource.
 
 """
 function tag_resource(
-    ResourceARN, ResourceTags; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, ResourceTags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "TagResource",
@@ -1058,7 +1058,7 @@ function tag_resource(
     ResourceARN,
     ResourceTags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "TagResource",
@@ -1088,7 +1088,7 @@ Deletes tags associated with a budget or budget action resource.
 
 """
 function untag_resource(
-    ResourceARN, ResourceTagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, ResourceTagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "UntagResource",
@@ -1103,7 +1103,7 @@ function untag_resource(
     ResourceARN,
     ResourceTagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "UntagResource",
@@ -1138,7 +1138,7 @@ PlannedBudgetLimits, see the Examples section.
 
 """
 function update_budget(
-    AccountId, NewBudget; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, NewBudget; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "UpdateBudget",
@@ -1151,7 +1151,7 @@ function update_budget(
     AccountId,
     NewBudget,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "UpdateBudget",
@@ -1189,7 +1189,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Subscribers"`:
 """
 function update_budget_action(
-    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=global_aws_config()
+    AccountId, ActionId, BudgetName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return budgets(
         "UpdateBudgetAction",
@@ -1205,7 +1205,7 @@ function update_budget_action(
     ActionId,
     BudgetName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "UpdateBudgetAction",
@@ -1244,7 +1244,7 @@ function update_notification(
     BudgetName,
     NewNotification,
     OldNotification;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "UpdateNotification",
@@ -1264,7 +1264,7 @@ function update_notification(
     NewNotification,
     OldNotification,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "UpdateNotification",
@@ -1306,7 +1306,7 @@ function update_subscriber(
     NewSubscriber,
     Notification,
     OldSubscriber;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "UpdateSubscriber",
@@ -1328,7 +1328,7 @@ function update_subscriber(
     Notification,
     OldSubscriber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return budgets(
         "UpdateSubscriber",

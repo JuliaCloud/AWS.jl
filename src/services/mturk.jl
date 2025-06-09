@@ -23,7 +23,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   using the presence or absence of the Qualification as the basis for a HIT requirement.
 """
 function accept_qualification_request(
-    QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    QualificationRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "AcceptQualificationRequest",
@@ -35,7 +35,7 @@ end
 function accept_qualification_request(
     QualificationRequestId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "AcceptQualificationRequest",
@@ -78,7 +78,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RequesterFeedback"`:  A message for the Worker, which the Worker can see in the Status
   section of the web site.
 """
-function approve_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_config())
+function approve_assignment(AssignmentId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "ApproveAssignment",
         Dict{String,Any}("AssignmentId" => AssignmentId);
@@ -89,7 +89,7 @@ end
 function approve_assignment(
     AssignmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "ApproveAssignment",
@@ -130,7 +130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   default.
 """
 function associate_qualification_with_worker(
-    QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()
+    QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "AssociateQualificationWithWorker",
@@ -145,7 +145,7 @@ function associate_qualification_with_worker(
     QualificationTypeId,
     WorkerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "AssociateQualificationWithWorker",
@@ -192,7 +192,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   request ID.
 """
 function create_additional_assignments_for_hit(
-    HITId, NumberOfAdditionalAssignments; aws_config::AbstractAWSConfig=global_aws_config()
+    HITId, NumberOfAdditionalAssignments; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "CreateAdditionalAssignmentsForHIT",
@@ -208,7 +208,7 @@ function create_additional_assignments_for_hit(
     HITId,
     NumberOfAdditionalAssignments,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "CreateAdditionalAssignmentsForHIT",
@@ -319,7 +319,7 @@ function create_hit(
     LifetimeInSeconds,
     Reward,
     Title;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "CreateHIT",
@@ -341,7 +341,7 @@ function create_hit(
     Reward,
     Title,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "CreateHIT",
@@ -407,7 +407,7 @@ function create_hittype(
     Description,
     Reward,
     Title;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "CreateHITType",
@@ -427,7 +427,7 @@ function create_hittype(
     Reward,
     Title,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "CreateHITType",
@@ -505,7 +505,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   made after the 24 hour limit could create duplicate HITs.
 """
 function create_hitwith_hittype(
-    HITTypeId, LifetimeInSeconds; aws_config::AbstractAWSConfig=global_aws_config()
+    HITTypeId, LifetimeInSeconds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "CreateHITWithHITType",
@@ -520,7 +520,7 @@ function create_hitwith_hittype(
     HITTypeId,
     LifetimeInSeconds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "CreateHITWithHITType",
@@ -587,7 +587,7 @@ function create_qualification_type(
     Description,
     Name,
     QualificationTypeStatus;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "CreateQualificationType",
@@ -605,7 +605,7 @@ function create_qualification_type(
     Name,
     QualificationTypeStatus,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "CreateQualificationType",
@@ -640,7 +640,7 @@ For example, you can block a Worker who is producing poor quality work. You can 
 
 """
 function create_worker_block(
-    Reason, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()
+    Reason, WorkerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "CreateWorkerBlock",
@@ -653,7 +653,7 @@ function create_worker_block(
     Reason,
     WorkerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "CreateWorkerBlock",
@@ -686,7 +686,7 @@ can improve the performance of operations such as ListReviewableHITs and ListHIT
 - `hitid`: The ID of the HIT to be deleted.
 
 """
-function delete_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "DeleteHIT",
         Dict{String,Any}("HITId" => HITId);
@@ -695,7 +695,7 @@ function delete_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_hit(
-    HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "DeleteHIT",
@@ -724,7 +724,7 @@ available for reuse with CreateQualificationType.
 
 """
 function delete_qualification_type(
-    QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()
+    QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "DeleteQualificationType",
@@ -736,7 +736,7 @@ end
 function delete_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "DeleteQualificationType",
@@ -770,7 +770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Reason"`: A message that explains the reason for unblocking the Worker. The Worker does
   not see this message.
 """
-function delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_worker_block(WorkerId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "DeleteWorkerBlock",
         Dict{String,Any}("WorkerId" => WorkerId);
@@ -781,7 +781,7 @@ end
 function delete_worker_block(
     WorkerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "DeleteWorkerBlock",
@@ -812,7 +812,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   had the Qualification sees this message.
 """
 function disassociate_qualification_from_worker(
-    QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()
+    QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "DisassociateQualificationFromWorker",
@@ -827,7 +827,7 @@ function disassociate_qualification_from_worker(
     QualificationTypeId,
     WorkerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "DisassociateQualificationFromWorker",
@@ -856,13 +856,13 @@ If you have enabled AWS Billing and still have a remaining Prepaid HITs balance,
 balance can be viewed on the My Account page in the Requester console.
 
 """
-function get_account_balance(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_account_balance(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "GetAccountBalance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_account_balance(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "GetAccountBalance", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -879,7 +879,7 @@ end
 - `assignment_id`: The ID of the Assignment to be retrieved.
 
 """
-function get_assignment(AssignmentId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_assignment(AssignmentId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "GetAssignment",
         Dict{String,Any}("AssignmentId" => AssignmentId);
@@ -890,7 +890,7 @@ end
 function get_assignment(
     AssignmentId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "GetAssignment",
@@ -924,7 +924,7 @@ HITs asking Workers to upload files to use Amazon S3.
 
 """
 function get_file_upload_url(
-    AssignmentId, QuestionIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    AssignmentId, QuestionIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "GetFileUploadURL",
@@ -939,7 +939,7 @@ function get_file_upload_url(
     AssignmentId,
     QuestionIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "GetFileUploadURL",
@@ -968,7 +968,7 @@ end
 - `hitid`: The ID of the HIT to be retrieved.
 
 """
-function get_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "GetHIT",
         Dict{String,Any}("HITId" => HITId);
@@ -977,7 +977,7 @@ function get_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function get_hit(
-    HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "GetHIT",
@@ -1003,7 +1003,7 @@ Qualification of that type.
 
 """
 function get_qualification_score(
-    QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=global_aws_config()
+    QualificationTypeId, WorkerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "GetQualificationScore",
@@ -1018,7 +1018,7 @@ function get_qualification_score(
     QualificationTypeId,
     WorkerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "GetQualificationScore",
@@ -1048,7 +1048,7 @@ its ID.
 
 """
 function get_qualification_type(
-    QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()
+    QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "GetQualificationType",
@@ -1060,7 +1060,7 @@ end
 function get_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "GetQualificationType",
@@ -1103,7 +1103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`: Pagination token
 """
-function list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "ListAssignmentsForHIT",
         Dict{String,Any}("HITId" => HITId);
@@ -1112,7 +1112,7 @@ function list_assignments_for_hit(HITId; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function list_assignments_for_hit(
-    HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "ListAssignmentsForHIT",
@@ -1140,13 +1140,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`: Pagination token
 """
-function list_bonus_payments(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_bonus_payments(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "ListBonusPayments"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_bonus_payments(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "ListBonusPayments", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1166,11 +1166,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`: Pagination token
 """
-function list_hits(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_hits(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk("ListHITs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_hits(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk("ListHITs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
@@ -1193,7 +1193,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination Token
 """
 function list_hits_for_qualification_type(
-    QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()
+    QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "ListHITsForQualificationType",
@@ -1205,7 +1205,7 @@ end
 function list_hits_for_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "ListHITsForQualificationType",
@@ -1235,13 +1235,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`:
 - `"QualificationTypeId"`: The ID of the QualificationType.
 """
-function list_qualification_requests(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_qualification_requests(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "ListQualificationRequests"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_qualification_requests(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "ListQualificationRequests",
@@ -1275,7 +1275,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Query"`:  A text query against all of the searchable attributes of Qualification types.
 """
 function list_qualification_types(
-    MustBeRequestable; aws_config::AbstractAWSConfig=global_aws_config()
+    MustBeRequestable; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "ListQualificationTypes",
@@ -1287,7 +1287,7 @@ end
 function list_qualification_types(
     MustBeRequestable,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "ListQualificationTypes",
@@ -1327,7 +1327,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   computed by the Review Policies.
 """
 function list_review_policy_results_for_hit(
-    HITId; aws_config::AbstractAWSConfig=global_aws_config()
+    HITId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "ListReviewPolicyResultsForHIT",
@@ -1337,7 +1337,7 @@ function list_review_policy_results_for_hit(
     )
 end
 function list_review_policy_results_for_hit(
-    HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "ListReviewPolicyResultsForHIT",
@@ -1362,13 +1362,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Pagination Token
 - `"Status"`:  Can be either Reviewable or Reviewing. Reviewable is the default value.
 """
-function list_reviewable_hits(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_reviewable_hits(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "ListReviewableHITs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_reviewable_hits(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "ListReviewableHITs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1387,11 +1387,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`:
 - `"NextToken"`: Pagination token
 """
-function list_worker_blocks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_worker_blocks(; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk("ListWorkerBlocks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_worker_blocks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "ListWorkerBlocks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1415,7 +1415,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Status"`:  The status of the Qualifications to return. Can be Granted | Revoked.
 """
 function list_workers_with_qualification_type(
-    QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()
+    QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "ListWorkersWithQualificationType",
@@ -1427,7 +1427,7 @@ end
 function list_workers_with_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "ListWorkersWithQualificationType",
@@ -1461,7 +1461,7 @@ email to a Worker only if you have previously approved or rejected work from the
 
 """
 function notify_workers(
-    MessageText, Subject, WorkerIds; aws_config::AbstractAWSConfig=global_aws_config()
+    MessageText, Subject, WorkerIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "NotifyWorkers",
@@ -1477,7 +1477,7 @@ function notify_workers(
     Subject,
     WorkerIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "NotifyWorkers",
@@ -1516,7 +1516,7 @@ reject an assignment for the HIT.
 
 """
 function reject_assignment(
-    AssignmentId, RequesterFeedback; aws_config::AbstractAWSConfig=global_aws_config()
+    AssignmentId, RequesterFeedback; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "RejectAssignment",
@@ -1531,7 +1531,7 @@ function reject_assignment(
     AssignmentId,
     RequesterFeedback,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "RejectAssignment",
@@ -1567,7 +1567,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Worker who made the request.
 """
 function reject_qualification_request(
-    QualificationRequestId; aws_config::AbstractAWSConfig=global_aws_config()
+    QualificationRequestId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "RejectQualificationRequest",
@@ -1579,7 +1579,7 @@ end
 function reject_qualification_request(
     QualificationRequestId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "RejectQualificationRequest",
@@ -1631,7 +1631,7 @@ function send_bonus(
     BonusAmount,
     Reason,
     WorkerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "SendBonus",
@@ -1651,7 +1651,7 @@ function send_bonus(
     Reason,
     WorkerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "SendBonus",
@@ -1692,7 +1692,7 @@ the service attempts to send the test notification immediately.
 
 """
 function send_test_event_notification(
-    Notification, TestEventType; aws_config::AbstractAWSConfig=global_aws_config()
+    Notification, TestEventType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "SendTestEventNotification",
@@ -1705,7 +1705,7 @@ function send_test_event_notification(
     Notification,
     TestEventType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "SendTestEventNotification",
@@ -1736,7 +1736,7 @@ you update it to a time in the past, the HIT will be immediately expired.
 
 """
 function update_expiration_for_hit(
-    ExpireAt, HITId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExpireAt, HITId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "UpdateExpirationForHIT",
@@ -1749,7 +1749,7 @@ function update_expiration_for_hit(
     ExpireAt,
     HITId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "UpdateExpirationForHIT",
@@ -1780,7 +1780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to false will only transition a HIT from Reviewable to Reviewing     Setting this to true
   will only transition a HIT from Reviewing to Reviewable
 """
-function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=current_aws_config())
     return mturk(
         "UpdateHITReviewStatus",
         Dict{String,Any}("HITId" => HITId);
@@ -1789,7 +1789,7 @@ function update_hitreview_status(HITId; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function update_hitreview_status(
-    HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    HITId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "UpdateHITReviewStatus",
@@ -1814,7 +1814,7 @@ the old ones.
 
 """
 function update_hittype_of_hit(
-    HITId, HITTypeId; aws_config::AbstractAWSConfig=global_aws_config()
+    HITId, HITTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "UpdateHITTypeOfHIT",
@@ -1827,7 +1827,7 @@ function update_hittype_of_hit(
     HITId,
     HITTypeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "UpdateHITTypeOfHIT",
@@ -1866,7 +1866,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Notification"`:  The notification specification for the HIT type.
 """
 function update_notification_settings(
-    HITTypeId; aws_config::AbstractAWSConfig=global_aws_config()
+    HITTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "UpdateNotificationSettings",
@@ -1878,7 +1878,7 @@ end
 function update_notification_settings(
     HITTypeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "UpdateNotificationSettings",
@@ -1945,7 +1945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Qualification test, starting from the time the Worker requests the Qualification.
 """
 function update_qualification_type(
-    QualificationTypeId; aws_config::AbstractAWSConfig=global_aws_config()
+    QualificationTypeId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return mturk(
         "UpdateQualificationType",
@@ -1957,7 +1957,7 @@ end
 function update_qualification_type(
     QualificationTypeId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return mturk(
         "UpdateQualificationType",

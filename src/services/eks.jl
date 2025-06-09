@@ -27,7 +27,7 @@ function associate_access_policy(
     name,
     policyArn,
     principalArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -43,7 +43,7 @@ function associate_access_policy(
     policyArn,
     principalArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -79,7 +79,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the idempotency of the request.
 """
 function associate_encryption_config(
-    encryptionConfig, name; aws_config::AbstractAWSConfig=global_aws_config()
+    encryptionConfig, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -95,7 +95,7 @@ function associate_encryption_config(
     encryptionConfig,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -139,7 +139,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or Amazon Web Services resources.
 """
 function associate_identity_provider_config(
-    name, oidc; aws_config::AbstractAWSConfig=global_aws_config()
+    name, oidc; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -153,7 +153,7 @@ function associate_identity_provider_config(
     name,
     oidc,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -232,7 +232,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see Creating access entries in the Amazon EKS User Guide.
 """
 function create_access_entry(
-    name, principalArn; aws_config::AbstractAWSConfig=global_aws_config()
+    name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -248,7 +248,7 @@ function create_access_entry(
     name,
     principalArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -317,7 +317,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of a key and an optional value. You define both. Tags don't propagate to any other cluster
   or Amazon Web Services resources.
 """
-function create_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "POST",
         "/clusters/$(name)/addons",
@@ -330,7 +330,7 @@ function create_addon(
     addonName,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -416,7 +416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not be the latest version available.
 """
 function create_cluster(
-    name, resourcesVpcConfig, roleArn; aws_config::AbstractAWSConfig=global_aws_config()
+    name, resourcesVpcConfig, roleArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -436,7 +436,7 @@ function create_cluster(
     resourcesVpcConfig,
     roleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -493,7 +493,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   other resources associated with the subscription.
 """
 function create_eks_anywhere_subscription(
-    name, term; aws_config::AbstractAWSConfig=global_aws_config()
+    name, term; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -509,7 +509,7 @@ function create_eks_anywhere_subscription(
     name,
     term,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -580,7 +580,7 @@ function create_fargate_profile(
     fargateProfileName,
     name,
     podExecutionRoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -599,7 +599,7 @@ function create_fargate_profile(
     name,
     podExecutionRoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -721,7 +721,7 @@ function create_nodegroup(
     nodeRole,
     nodegroupName,
     subnets;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -742,7 +742,7 @@ function create_nodegroup(
     nodegroupName,
     subnets,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -814,7 +814,7 @@ function create_pod_identity_association(
     namespace,
     roleArn,
     serviceAccount;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -835,7 +835,7 @@ function create_pod_identity_association(
     roleArn,
     serviceAccount,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -871,7 +871,7 @@ recreate it.
 
 """
 function delete_access_entry(
-    name, principalArn; aws_config::AbstractAWSConfig=global_aws_config()
+    name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
@@ -884,7 +884,7 @@ function delete_access_entry(
     name,
     principalArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
@@ -913,7 +913,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Amazon EKS stops managing any settings for the add-on. If an IAM account is associated with
   the add-on, it isn't removed.
 """
-function delete_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "DELETE",
         "/clusters/$(name)/addons/$(addonName)";
@@ -925,7 +925,7 @@ function delete_addon(
     addonName,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
@@ -952,7 +952,7 @@ information, see DeleteNodgroup and DeleteFargateProfile.
 - `name`: The name of the cluster to delete.
 
 """
-function delete_cluster(name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_cluster(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "DELETE",
         "/clusters/$(name)";
@@ -961,7 +961,7 @@ function delete_cluster(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_cluster(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
@@ -986,7 +986,7 @@ a ticket in the Amazon Web Services Support Center.
 
 """
 function delete_eks_anywhere_subscription(
-    id; aws_config::AbstractAWSConfig=global_aws_config()
+    id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
@@ -996,7 +996,7 @@ function delete_eks_anywhere_subscription(
     )
 end
 function delete_eks_anywhere_subscription(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
@@ -1024,7 +1024,7 @@ Fargate profile to finish deleting before you can delete any other profiles in t
 
 """
 function delete_fargate_profile(
-    fargateProfileName, name; aws_config::AbstractAWSConfig=global_aws_config()
+    fargateProfileName, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
@@ -1037,7 +1037,7 @@ function delete_fargate_profile(
     fargateProfileName,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
@@ -1060,7 +1060,7 @@ Deletes a managed node group.
 
 """
 function delete_nodegroup(
-    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    name, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
@@ -1073,7 +1073,7 @@ function delete_nodegroup(
     name,
     nodegroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
@@ -1099,7 +1099,7 @@ console.
 
 """
 function delete_pod_identity_association(
-    associationId, name; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
@@ -1112,7 +1112,7 @@ function delete_pod_identity_association(
     associationId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
@@ -1135,7 +1135,7 @@ Amazon EKS Connector.
 - `name`: The name of the connected cluster to deregister.
 
 """
-function deregister_cluster(name; aws_config::AbstractAWSConfig=global_aws_config())
+function deregister_cluster(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "DELETE",
         "/cluster-registrations/$(name)";
@@ -1144,7 +1144,7 @@ function deregister_cluster(name; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function deregister_cluster(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
@@ -1167,7 +1167,7 @@ Describes an access entry.
 
 """
 function describe_access_entry(
-    name, principalArn; aws_config::AbstractAWSConfig=global_aws_config()
+    name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1180,7 +1180,7 @@ function describe_access_entry(
     name,
     principalArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
@@ -1203,7 +1203,7 @@ Describes an Amazon EKS add-on.
 - `name`: The name of your cluster.
 
 """
-function describe_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET",
         "/clusters/$(name)/addons/$(addonName)";
@@ -1215,7 +1215,7 @@ function describe_addon(
     addonName,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
@@ -1240,7 +1240,7 @@ Returns configuration options.
 
 """
 function describe_addon_configuration(
-    addonName, addonVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    addonName, addonVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1254,7 +1254,7 @@ function describe_addon_configuration(
     addonName,
     addonVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
@@ -1301,7 +1301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"types"`: The type of the add-on. For valid types, don't specify a value for this
   property.
 """
-function describe_addon_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_addon_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET",
         "/addons/supported-versions";
@@ -1310,7 +1310,7 @@ function describe_addon_versions(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function describe_addon_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1335,13 +1335,13 @@ available until the cluster reaches the ACTIVE state.
 - `name`: The name of your cluster.
 
 """
-function describe_cluster(name; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_cluster(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET", "/clusters/$(name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_cluster(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1363,7 +1363,7 @@ Returns descriptive information about a subscription.
 
 """
 function describe_eks_anywhere_subscription(
-    id; aws_config::AbstractAWSConfig=global_aws_config()
+    id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1373,7 +1373,7 @@ function describe_eks_anywhere_subscription(
     )
 end
 function describe_eks_anywhere_subscription(
-    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1396,7 +1396,7 @@ Describes an Fargate profile.
 
 """
 function describe_fargate_profile(
-    fargateProfileName, name; aws_config::AbstractAWSConfig=global_aws_config()
+    fargateProfileName, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1409,7 +1409,7 @@ function describe_fargate_profile(
     fargateProfileName,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
@@ -1432,7 +1432,7 @@ Describes an identity provider configuration.
 
 """
 function describe_identity_provider_config(
-    identityProviderConfig, name; aws_config::AbstractAWSConfig=global_aws_config()
+    identityProviderConfig, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -1446,7 +1446,7 @@ function describe_identity_provider_config(
     identityProviderConfig,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -1474,7 +1474,7 @@ Returns details about an insight that you specify using its ID.
 - `name`: The name of the cluster to describe the insight for.
 
 """
-function describe_insight(id, name; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_insight(id, name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET",
         "/clusters/$(name)/insights/$(id)";
@@ -1486,7 +1486,7 @@ function describe_insight(
     id,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
@@ -1509,7 +1509,7 @@ Describes a managed node group.
 
 """
 function describe_nodegroup(
-    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    name, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1522,7 +1522,7 @@ function describe_nodegroup(
     name,
     nodegroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
@@ -1549,7 +1549,7 @@ account.
 
 """
 function describe_pod_identity_association(
-    associationId, name; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1562,7 +1562,7 @@ function describe_pod_identity_association(
     associationId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
@@ -1592,7 +1592,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nodegroupName"`: The name of the Amazon EKS node group associated with the update. This
   parameter is required if the update is a node group update.
 """
-function describe_update(name, updateId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_update(name, updateId; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET",
         "/clusters/$(name)/updates/$(updateId)";
@@ -1604,7 +1604,7 @@ function describe_update(
     name,
     updateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
@@ -1629,7 +1629,7 @@ Disassociates an access policy from an access entry.
 
 """
 function disassociate_access_policy(
-    name, policyArn, principalArn; aws_config::AbstractAWSConfig=global_aws_config()
+    name, policyArn, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
@@ -1643,7 +1643,7 @@ function disassociate_access_policy(
     policyArn,
     principalArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
@@ -1672,7 +1672,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the idempotency of the request.
 """
 function disassociate_identity_provider_config(
-    identityProviderConfig, name; aws_config::AbstractAWSConfig=global_aws_config()
+    identityProviderConfig, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -1689,7 +1689,7 @@ function disassociate_identity_provider_config(
     identityProviderConfig,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -1735,7 +1735,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   opaque identifier that is used only to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-function list_access_entries(name; aws_config::AbstractAWSConfig=global_aws_config())
+function list_access_entries(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET",
         "/clusters/$(name)/access-entries";
@@ -1744,7 +1744,7 @@ function list_access_entries(name; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_access_entries(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1775,13 +1775,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   opaque identifier that is used only to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-function list_access_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_access_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET", "/access-policies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_access_policies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1815,7 +1815,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   opaque identifier that is used only to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-function list_addons(name; aws_config::AbstractAWSConfig=global_aws_config())
+function list_addons(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET",
         "/clusters/$(name)/addons";
@@ -1824,7 +1824,7 @@ function list_addons(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_addons(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1860,7 +1860,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   programmatic purposes.
 """
 function list_associated_access_policies(
-    name, principalArn; aws_config::AbstractAWSConfig=global_aws_config()
+    name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1873,7 +1873,7 @@ function list_associated_access_policies(
     name,
     principalArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
@@ -1910,11 +1910,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   opaque identifier that is used only to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-function list_clusters(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_clusters(; aws_config::AbstractAWSConfig=current_aws_config())
     return eks("GET", "/clusters"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_clusters(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET", "/clusters", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1943,7 +1943,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   returned the nextToken value.
 """
 function list_eks_anywhere_subscriptions(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1953,7 +1953,7 @@ function list_eks_anywhere_subscriptions(;
     )
 end
 function list_eks_anywhere_subscriptions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -1988,7 +1988,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   opaque identifier that is used only to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-function list_fargate_profiles(name; aws_config::AbstractAWSConfig=global_aws_config())
+function list_fargate_profiles(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET",
         "/clusters/$(name)/fargate-profiles";
@@ -1997,7 +1997,7 @@ function list_fargate_profiles(name; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_fargate_profiles(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -2032,7 +2032,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   programmatic purposes.
 """
 function list_identity_provider_configs(
-    name; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -2042,7 +2042,7 @@ function list_identity_provider_configs(
     )
 end
 function list_identity_provider_configs(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -2078,7 +2078,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value to retrieve the next page of results. This value is null when there are no more
   results to return.
 """
-function list_insights(name; aws_config::AbstractAWSConfig=global_aws_config())
+function list_insights(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "POST",
         "/clusters/$(name)/insights";
@@ -2087,7 +2087,7 @@ function list_insights(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_insights(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -2123,7 +2123,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   opaque identifier that is used only to retrieve the next items in a list and not for other
   programmatic purposes.
 """
-function list_nodegroups(name; aws_config::AbstractAWSConfig=global_aws_config())
+function list_nodegroups(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET",
         "/clusters/$(name)/node-groups";
@@ -2132,7 +2132,7 @@ function list_nodegroups(name; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function list_nodegroups(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -2172,7 +2172,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceAccount"`: The name of the Kubernetes service account that the associations use.
 """
 function list_pod_identity_associations(
-    name; aws_config::AbstractAWSConfig=global_aws_config()
+    name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -2182,7 +2182,7 @@ function list_pod_identity_associations(
     )
 end
 function list_pod_identity_associations(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -2205,7 +2205,7 @@ List the tags for an Amazon EKS resource.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -2217,7 +2217,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "GET",
@@ -2254,7 +2254,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   programmatic purposes.
 - `"nodegroupName"`: The name of the Amazon EKS managed node group to list updates for.
 """
-function list_updates(name; aws_config::AbstractAWSConfig=global_aws_config())
+function list_updates(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "GET",
         "/clusters/$(name)/updates";
@@ -2263,7 +2263,7 @@ function list_updates(name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_updates(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "GET",
@@ -2302,7 +2302,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   or Amazon Web Services resources.
 """
 function register_cluster(
-    connectorConfig, name; aws_config::AbstractAWSConfig=global_aws_config()
+    connectorConfig, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -2320,7 +2320,7 @@ function register_cluster(
     connectorConfig,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -2360,7 +2360,7 @@ with the cluster.
   Amazon Web Services resources.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "POST",
         "/tags/$(resourceArn)",
@@ -2373,7 +2373,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -2396,7 +2396,7 @@ Deletes specified tags from an Amazon EKS resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "DELETE",
@@ -2410,7 +2410,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "DELETE",
@@ -2454,7 +2454,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   see Creating access entries in the Amazon EKS User Guide.
 """
 function update_access_entry(
-    name, principalArn; aws_config::AbstractAWSConfig=global_aws_config()
+    name, principalArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -2468,7 +2468,7 @@ function update_access_entry(
     name,
     principalArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -2523,7 +2523,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM
   roles for service accounts on your cluster in the Amazon EKS User Guide.
 """
-function update_addon(addonName, name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_addon(addonName, name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "POST",
         "/clusters/$(name)/addons/$(addonName)/update",
@@ -2536,7 +2536,7 @@ function update_addon(
     addonName,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -2592,7 +2592,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rates apply to exported control plane logs. For more information, see CloudWatch Pricing.
 - `"resourcesVpcConfig"`:
 """
-function update_cluster_config(name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_cluster_config(name; aws_config::AbstractAWSConfig=current_aws_config())
     return eks(
         "POST",
         "/clusters/$(name)/update-config",
@@ -2602,7 +2602,7 @@ function update_cluster_config(name; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function update_cluster_config(
-    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -2641,7 +2641,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the idempotency of the request.
 """
 function update_cluster_version(
-    name, version; aws_config::AbstractAWSConfig=global_aws_config()
+    name, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -2655,7 +2655,7 @@ function update_cluster_version(
     name,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -2691,7 +2691,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the request.
 """
 function update_eks_anywhere_subscription(
-    autoRenew, id; aws_config::AbstractAWSConfig=global_aws_config()
+    autoRenew, id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -2705,7 +2705,7 @@ function update_eks_anywhere_subscription(
     autoRenew,
     id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -2750,7 +2750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"updateConfig"`: The node group update configuration.
 """
 function update_nodegroup_config(
-    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    name, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -2764,7 +2764,7 @@ function update_nodegroup_config(
     name,
     nodegroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -2835,7 +2835,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   templates in the Amazon EKS User Guide.
 """
 function update_nodegroup_version(
-    name, nodegroupName; aws_config::AbstractAWSConfig=global_aws_config()
+    name, nodegroupName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -2849,7 +2849,7 @@ function update_nodegroup_version(
     name,
     nodegroupName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",
@@ -2884,7 +2884,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"roleArn"`: The new IAM role to change the
 """
 function update_pod_identity_association(
-    associationId, name; aws_config::AbstractAWSConfig=global_aws_config()
+    associationId, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eks(
         "POST",
@@ -2898,7 +2898,7 @@ function update_pod_identity_association(
     associationId,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eks(
         "POST",

@@ -43,7 +43,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ignored.
 """
 function invoke_agent(
-    agentAliasId, agentId, sessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    agentAliasId, agentId, sessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent_runtime(
         "POST",
@@ -57,7 +57,7 @@ function invoke_agent(
     agentId,
     sessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent_runtime(
         "POST",
@@ -87,7 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieval process. For more information, see Query configurations.
 """
 function retrieve(
-    knowledgeBaseId, retrievalQuery; aws_config::AbstractAWSConfig=global_aws_config()
+    knowledgeBaseId, retrievalQuery; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent_runtime(
         "POST",
@@ -101,7 +101,7 @@ function retrieve(
     knowledgeBaseId,
     retrievalQuery,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return bedrock_agent_runtime(
         "POST",
@@ -132,7 +132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sessionId"`: The unique identifier of the session. Reuse the same value to continue the
   same session with the knowledge base.
 """
-function retrieve_and_generate(input; aws_config::AbstractAWSConfig=global_aws_config())
+function retrieve_and_generate(input; aws_config::AbstractAWSConfig=current_aws_config())
     return bedrock_agent_runtime(
         "POST",
         "/retrieveAndGenerate",
@@ -142,7 +142,7 @@ function retrieve_and_generate(input; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function retrieve_and_generate(
-    input, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    input, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return bedrock_agent_runtime(
         "POST",

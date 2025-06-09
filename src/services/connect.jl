@@ -23,7 +23,7 @@ function activate_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -38,7 +38,7 @@ function activate_evaluation_form(
     EvaluationFormVersion,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -76,7 +76,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.
 """
 function associate_analytics_data_set(
-    DataSetId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSetId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -90,7 +90,7 @@ function associate_analytics_data_set(
     DataSetId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -117,7 +117,7 @@ approved origin to an Amazon Connect instance.
 
 """
 function associate_approved_origin(
-    InstanceId, Origin; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Origin; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -131,7 +131,7 @@ function associate_approved_origin(
     InstanceId,
     Origin,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -158,7 +158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LexBot"`:
 - `"LexV2Bot"`: The Amazon Lex V2 bot to associate with the instance.
 """
-function associate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function associate_bot(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "PUT",
         "/instance/$(InstanceId)/bot";
@@ -169,7 +169,7 @@ end
 function associate_bot(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -199,7 +199,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is set to none.
 """
 function associate_default_vocabulary(
-    InstanceId, LanguageCode; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, LanguageCode; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -212,7 +212,7 @@ function associate_default_vocabulary(
     InstanceId,
     LanguageCode,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -242,7 +242,7 @@ function associate_flow(
     InstanceId,
     ResourceId,
     ResourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -260,7 +260,7 @@ function associate_flow(
     ResourceId,
     ResourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -311,7 +311,7 @@ function associate_instance_storage_config(
     InstanceId,
     ResourceType,
     StorageConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -326,7 +326,7 @@ function associate_instance_storage_config(
     ResourceType,
     StorageConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -360,7 +360,7 @@ specified Amazon Connect instance to access the specified Lambda function.
 
 """
 function associate_lambda_function(
-    FunctionArn, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    FunctionArn, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -374,7 +374,7 @@ function associate_lambda_function(
     FunctionArn,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -402,7 +402,7 @@ supports the association of Amazon Lex V1 bots.
 
 """
 function associate_lex_bot(
-    InstanceId, LexBot; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, LexBot; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -416,7 +416,7 @@ function associate_lex_bot(
     InstanceId,
     LexBot,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -451,7 +451,7 @@ function associate_phone_number_contact_flow(
     ContactFlowId,
     InstanceId,
     PhoneNumberId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -466,7 +466,7 @@ function associate_phone_number_contact_flow(
     InstanceId,
     PhoneNumberId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -500,7 +500,7 @@ set of quick connects with a queue.
 
 """
 function associate_queue_quick_connects(
-    InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -515,7 +515,7 @@ function associate_queue_quick_connects(
     QueueId,
     QuickConnectIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -547,7 +547,7 @@ function associate_routing_profile_queues(
     InstanceId,
     QueueConfigs,
     RoutingProfileId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -562,7 +562,7 @@ function associate_routing_profile_queues(
     QueueConfigs,
     RoutingProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -589,7 +589,7 @@ security key to the instance.
 
 """
 function associate_security_key(
-    InstanceId, Key; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Key; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -603,7 +603,7 @@ function associate_security_key(
     InstanceId,
     Key,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -634,7 +634,7 @@ function associate_traffic_distribution_group_user(
     InstanceId,
     TrafficDistributionGroupId,
     UserId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -649,7 +649,7 @@ function associate_traffic_distribution_group_user(
     TrafficDistributionGroupId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -680,7 +680,7 @@ end
 
 """
 function associate_user_proficiencies(
-    InstanceId, UserId, UserProficiencies; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, UserId, UserProficiencies; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -695,7 +695,7 @@ function associate_user_proficiencies(
     UserId,
     UserProficiencies,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -731,7 +731,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.
 """
 function batch_associate_analytics_data_set(
-    DataSetIds, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSetIds, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -745,7 +745,7 @@ function batch_associate_analytics_data_set(
     DataSetIds,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -779,7 +779,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Connect instance.
 """
 function batch_disassociate_analytics_data_set(
-    DataSetIds, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSetIds, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -793,7 +793,7 @@ function batch_disassociate_analytics_data_set(
     DataSetIds,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -825,7 +825,7 @@ function batch_get_attached_file_metadata(
     FileIds,
     InstanceId,
     associatedResourceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -842,7 +842,7 @@ function batch_get_attached_file_metadata(
     InstanceId,
     associatedResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -877,7 +877,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ResourceType"`: The type of resource association.
 """
 function batch_get_flow_association(
-    InstanceId, ResourceIds; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, ResourceIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -891,7 +891,7 @@ function batch_get_flow_association(
     InstanceId,
     ResourceIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -928,7 +928,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
 function batch_put_contact(
-    ContactDataRequestList, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactDataRequestList, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -945,7 +945,7 @@ function batch_put_contact(
     ContactDataRequestList,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1008,7 +1008,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   distribution groups that phone number inbound traffic is routed through. You must enter
   InstanceId or TargetArn.
 """
-function claim_phone_number(PhoneNumber; aws_config::AbstractAWSConfig=global_aws_config())
+function claim_phone_number(PhoneNumber; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
         "/phone-number/claim",
@@ -1020,7 +1020,7 @@ end
 function claim_phone_number(
     PhoneNumber,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -1057,7 +1057,7 @@ function complete_attached_file_upload(
     FileId,
     InstanceId,
     associatedResourceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -1072,7 +1072,7 @@ function complete_attached_file_upload(
     InstanceId,
     associatedResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -1110,7 +1110,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_agent_status(
-    InstanceId, Name, State; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name, State; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -1125,7 +1125,7 @@ function create_agent_status(
     Name,
     State,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1164,7 +1164,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_contact_flow(
-    Content, InstanceId, Name, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    Content, InstanceId, Name, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -1180,7 +1180,7 @@ function create_contact_flow(
     Name,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1220,7 +1220,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_contact_flow_module(
-    Content, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Content, InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -1237,7 +1237,7 @@ function create_contact_flow_module(
     InstanceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1281,7 +1281,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScoringStrategy"`: A scoring strategy of the evaluation form.
 """
 function create_evaluation_form(
-    InstanceId, Items, Title; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Items, Title; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -1298,7 +1298,7 @@ function create_evaluation_form(
     Items,
     Title,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1339,7 +1339,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_hours_of_operation(
-    Config, InstanceId, Name, TimeZone; aws_config::AbstractAWSConfig=global_aws_config()
+    Config, InstanceId, Name, TimeZone; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -1355,7 +1355,7 @@ function create_hours_of_operation(
     Name,
     TimeZone,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1404,7 +1404,7 @@ function create_instance(
     IdentityManagementType,
     InboundCallsEnabled,
     OutboundCallsEnabled;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1423,7 +1423,7 @@ function create_instance(
     InboundCallsEnabled,
     OutboundCallsEnabled,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1473,7 +1473,7 @@ function create_integration_association(
     InstanceId,
     IntegrationArn,
     IntegrationType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1490,7 +1490,7 @@ function create_integration_association(
     IntegrationArn,
     IntegrationType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1534,7 +1534,7 @@ function create_participant(
     ContactId,
     InstanceId,
     ParticipantDetails;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -1554,7 +1554,7 @@ function create_participant(
     InstanceId,
     ParticipantDetails,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -1628,7 +1628,7 @@ function create_persistent_contact_association(
     InstanceId,
     RehydrationType,
     SourceContactId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -1646,7 +1646,7 @@ function create_persistent_contact_association(
     RehydrationType,
     SourceContactId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -1680,7 +1680,7 @@ Creates a new predefined attribute for the specified Amazon Connect instance.
 
 """
 function create_predefined_attribute(
-    InstanceId, Name, Values; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name, Values; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -1695,7 +1695,7 @@ function create_predefined_attribute(
     Name,
     Values,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1729,7 +1729,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_prompt(
-    InstanceId, Name, S3Uri; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name, S3Uri; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -1744,7 +1744,7 @@ function create_prompt(
     Name,
     S3Uri,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1793,7 +1793,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_queue(
-    HoursOfOperationId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    HoursOfOperationId, InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -1808,7 +1808,7 @@ function create_queue(
     InstanceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1846,7 +1846,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_quick_connect(
-    InstanceId, Name, QuickConnectConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name, QuickConnectConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -1861,7 +1861,7 @@ function create_quick_connect(
     Name,
     QuickConnectConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1914,7 +1914,7 @@ function create_routing_profile(
     InstanceId,
     MediaConcurrencies,
     Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1936,7 +1936,7 @@ function create_routing_profile(
     MediaConcurrencies,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -1987,7 +1987,7 @@ function create_rule(
     Name,
     PublishStatus,
     TriggerEventSource;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -2012,7 +2012,7 @@ function create_rule(
     PublishStatus,
     TriggerEventSource,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -2067,7 +2067,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_security_profile(
-    InstanceId, SecurityProfileName; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, SecurityProfileName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -2081,7 +2081,7 @@ function create_security_profile(
     InstanceId,
     SecurityProfileName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -2126,7 +2126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that refers to this template cannot be created.
 """
 function create_task_template(
-    Fields, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Fields, InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -2143,7 +2143,7 @@ function create_task_template(
     InstanceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -2189,7 +2189,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_traffic_distribution_group(
-    InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -2205,7 +2205,7 @@ function create_traffic_distribution_group(
     InstanceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -2248,7 +2248,7 @@ function create_use_case(
     InstanceId,
     IntegrationAssociationId,
     UseCaseType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -2263,7 +2263,7 @@ function create_use_case(
     IntegrationAssociationId,
     UseCaseType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -2321,7 +2321,7 @@ function create_user(
     RoutingProfileId,
     SecurityProfileIds,
     Username;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -2343,7 +2343,7 @@ function create_user(
     SecurityProfileIds,
     Username,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -2384,7 +2384,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_user_hierarchy_group(
-    InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -2398,7 +2398,7 @@ function create_user_hierarchy_group(
     InstanceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -2439,7 +2439,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   \"tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function create_view(
-    Content, InstanceId, Name, Status; aws_config::AbstractAWSConfig=global_aws_config()
+    Content, InstanceId, Name, Status; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -2455,7 +2455,7 @@ function create_view(
     Name,
     Status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -2492,7 +2492,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ViewContentSha256"`: Indicates the checksum value of the latest published view content.
 """
 function create_view_version(
-    InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -2505,7 +2505,7 @@ function create_view_version(
     InstanceId,
     ViewId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -2551,7 +2551,7 @@ function create_vocabulary(
     InstanceId,
     LanguageCode,
     VocabularyName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -2572,7 +2572,7 @@ function create_vocabulary(
     LanguageCode,
     VocabularyName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -2614,7 +2614,7 @@ function deactivate_evaluation_form(
     EvaluationFormId,
     EvaluationFormVersion,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -2629,7 +2629,7 @@ function deactivate_evaluation_form(
     EvaluationFormVersion,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -2664,7 +2664,7 @@ function delete_attached_file(
     FileId,
     InstanceId,
     associatedResourceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -2679,7 +2679,7 @@ function delete_attached_file(
     InstanceId,
     associatedResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -2709,7 +2709,7 @@ Deletes a contact evaluation in the specified Amazon Connect instance.
 
 """
 function delete_contact_evaluation(
-    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -2722,7 +2722,7 @@ function delete_contact_evaluation(
     EvaluationId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -2746,7 +2746,7 @@ Deletes a flow for the specified Amazon Connect instance.
 
 """
 function delete_contact_flow(
-    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -2759,7 +2759,7 @@ function delete_contact_flow(
     ContactFlowId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -2783,7 +2783,7 @@ Deletes the specified flow module.
 
 """
 function delete_contact_flow_module(
-    ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -2796,7 +2796,7 @@ function delete_contact_flow_module(
     ContactFlowModuleId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -2825,7 +2825,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version"`: The unique identifier for the evaluation form.
 """
 function delete_evaluation_form(
-    EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -2838,7 +2838,7 @@ function delete_evaluation_form(
     EvaluationFormId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -2863,7 +2863,7 @@ hours of operation.
 
 """
 function delete_hours_of_operation(
-    HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -2876,7 +2876,7 @@ function delete_hours_of_operation(
     HoursOfOperationId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -2903,7 +2903,7 @@ your account.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function delete_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "DELETE",
         "/instance/$(InstanceId)";
@@ -2914,7 +2914,7 @@ end
 function delete_instance(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -2939,7 +2939,7 @@ association must not have any use cases associated with it.
 
 """
 function delete_integration_association(
-    InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -2952,7 +2952,7 @@ function delete_integration_association(
     InstanceId,
     IntegrationAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -2976,7 +2976,7 @@ Deletes a predefined attribute from the specified Amazon Connect instance.
 
 """
 function delete_predefined_attribute(
-    InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -2989,7 +2989,7 @@ function delete_predefined_attribute(
     InstanceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3013,7 +3013,7 @@ Deletes a prompt.
 
 """
 function delete_prompt(
-    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, PromptId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -3026,7 +3026,7 @@ function delete_prompt(
     InstanceId,
     PromptId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3050,7 +3050,7 @@ Deletes a queue.
 
 """
 function delete_queue(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -3063,7 +3063,7 @@ function delete_queue(
     InstanceId,
     QueueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3092,7 +3092,7 @@ Resiliency.
 
 """
 function delete_quick_connect(
-    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -3105,7 +3105,7 @@ function delete_quick_connect(
     InstanceId,
     QuickConnectId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3129,7 +3129,7 @@ Deletes a routing profile.
 
 """
 function delete_routing_profile(
-    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -3142,7 +3142,7 @@ function delete_routing_profile(
     InstanceId,
     RoutingProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3165,7 +3165,7 @@ Deletes a rule for the specified Amazon Connect instance.
 - `rule_id`: A unique identifier for the rule.
 
 """
-function delete_rule(InstanceId, RuleId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_rule(InstanceId, RuleId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "DELETE",
         "/rules/$(InstanceId)/$(RuleId)";
@@ -3177,7 +3177,7 @@ function delete_rule(
     InstanceId,
     RuleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3201,7 +3201,7 @@ Deletes a security profile.
 
 """
 function delete_security_profile(
-    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -3214,7 +3214,7 @@ function delete_security_profile(
     InstanceId,
     SecurityProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3238,7 +3238,7 @@ Deletes the task template.
 
 """
 function delete_task_template(
-    InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -3251,7 +3251,7 @@ function delete_task_template(
     InstanceId,
     TaskTemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3279,7 +3279,7 @@ Administrator Guide.
 
 """
 function delete_traffic_distribution_group(
-    TrafficDistributionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    TrafficDistributionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -3291,7 +3291,7 @@ end
 function delete_traffic_distribution_group(
     TrafficDistributionGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3319,7 +3319,7 @@ function delete_use_case(
     InstanceId,
     IntegrationAssociationId,
     UseCaseId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3333,7 +3333,7 @@ function delete_use_case(
     IntegrationAssociationId,
     UseCaseId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3363,7 +3363,7 @@ Amazon Connect Global Resiliency.
 - `user_id`: The identifier of the user.
 
 """
-function delete_user(InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_user(InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "DELETE",
         "/users/$(InstanceId)/$(UserId)";
@@ -3375,7 +3375,7 @@ function delete_user(
     InstanceId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3400,7 +3400,7 @@ any active child groups.
 
 """
 function delete_user_hierarchy_group(
-    HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -3413,7 +3413,7 @@ function delete_user_hierarchy_group(
     HierarchyGroupId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3437,7 +3437,7 @@ aliases).
 - `view_id`: The identifier of the view. Both ViewArn and ViewId can be used.
 
 """
-function delete_view(InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_view(InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "DELETE",
         "/views/$(InstanceId)/$(ViewId)";
@@ -3449,7 +3449,7 @@ function delete_view(
     InstanceId,
     ViewId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3474,7 +3474,7 @@ Deletes the particular version specified in ViewVersion identifier.
 
 """
 function delete_view_version(
-    InstanceId, ViewId, ViewVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, ViewId, ViewVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -3488,7 +3488,7 @@ function delete_view_version(
     ViewId,
     ViewVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -3512,7 +3512,7 @@ Deletes the vocabulary that has the given identifier.
 
 """
 function delete_vocabulary(
-    InstanceId, VocabularyId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, VocabularyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -3525,7 +3525,7 @@ function delete_vocabulary(
     InstanceId,
     VocabularyId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -3550,7 +3550,7 @@ agent status.
 
 """
 function describe_agent_status(
-    AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -3563,7 +3563,7 @@ function describe_agent_status(
     AgentStatusId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3590,7 +3590,7 @@ API.
 
 """
 function describe_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -3603,7 +3603,7 @@ function describe_contact(
     ContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3627,7 +3627,7 @@ Describes a contact evaluation in the specified Amazon Connect instance.
 
 """
 function describe_contact_evaluation(
-    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -3640,7 +3640,7 @@ function describe_contact_evaluation(
     EvaluationId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3669,7 +3669,7 @@ SAVED | PUBLISHED
 
 """
 function describe_contact_flow(
-    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -3682,7 +3682,7 @@ function describe_contact_flow(
     ContactFlowId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3709,7 +3709,7 @@ published.
 
 """
 function describe_contact_flow_module(
-    ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -3722,7 +3722,7 @@ function describe_contact_flow_module(
     ContactFlowModuleId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3750,7 +3750,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"version"`: A version of the evaluation form.
 """
 function describe_evaluation_form(
-    EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -3763,7 +3763,7 @@ function describe_evaluation_form(
     EvaluationFormId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3788,7 +3788,7 @@ hours of operation.
 
 """
 function describe_hours_of_operation(
-    HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -3801,7 +3801,7 @@ function describe_hours_of_operation(
     HoursOfOperationId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3828,7 +3828,7 @@ invoked.
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function describe_instance(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_instance(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/instance/$(InstanceId)";
@@ -3839,7 +3839,7 @@ end
 function describe_instance(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3864,7 +3864,7 @@ specified instance attribute.
 
 """
 function describe_instance_attribute(
-    AttributeType, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AttributeType, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -3877,7 +3877,7 @@ function describe_instance_attribute(
     AttributeType,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3908,7 +3908,7 @@ function describe_instance_storage_config(
     AssociationId,
     InstanceId,
     resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3923,7 +3923,7 @@ function describe_instance_storage_config(
     InstanceId,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3954,7 +3954,7 @@ in this scenario, you will receive a ResourceNotFoundException.
 
 """
 function describe_phone_number(
-    PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
+    PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -3966,7 +3966,7 @@ end
 function describe_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -3990,7 +3990,7 @@ Describes a predefined attribute for the specified Amazon Connect instance.
 
 """
 function describe_predefined_attribute(
-    InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4003,7 +4003,7 @@ function describe_predefined_attribute(
     InstanceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4027,7 +4027,7 @@ Describes the prompt.
 
 """
 function describe_prompt(
-    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, PromptId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4040,7 +4040,7 @@ function describe_prompt(
     InstanceId,
     PromptId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4065,7 +4065,7 @@ specified queue.
 
 """
 function describe_queue(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4078,7 +4078,7 @@ function describe_queue(
     InstanceId,
     QueueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4102,7 +4102,7 @@ Describes the quick connect.
 
 """
 function describe_quick_connect(
-    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4115,7 +4115,7 @@ function describe_quick_connect(
     InstanceId,
     QuickConnectId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4139,7 +4139,7 @@ Describes the specified routing profile.
 
 """
 function describe_routing_profile(
-    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4152,7 +4152,7 @@ function describe_routing_profile(
     InstanceId,
     RoutingProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4176,7 +4176,7 @@ Describes a rule for the specified Amazon Connect instance.
 
 """
 function describe_rule(
-    InstanceId, RuleId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, RuleId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4189,7 +4189,7 @@ function describe_rule(
     InstanceId,
     RuleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4213,7 +4213,7 @@ Gets basic information about the security profle.
 
 """
 function describe_security_profile(
-    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4226,7 +4226,7 @@ function describe_security_profile(
     InstanceId,
     SecurityProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4251,7 +4251,7 @@ Gets details and status of a traffic distribution group.
 
 """
 function describe_traffic_distribution_group(
-    TrafficDistributionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    TrafficDistributionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4263,7 +4263,7 @@ end
 function describe_traffic_distribution_group(
     TrafficDistributionGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4289,7 +4289,7 @@ list the users and note the IDs provided in the output.
 
 """
 function describe_user(
-    InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4302,7 +4302,7 @@ function describe_user(
     InstanceId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4326,7 +4326,7 @@ Describes the specified hierarchy group.
 
 """
 function describe_user_hierarchy_group(
-    HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    HierarchyGroupId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4339,7 +4339,7 @@ function describe_user_hierarchy_group(
     HierarchyGroupId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4362,7 +4362,7 @@ Describes the hierarchy structure of the specified Amazon Connect instance.
 
 """
 function describe_user_hierarchy_structure(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4374,7 +4374,7 @@ end
 function describe_user_hierarchy_structure(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4405,7 +4405,7 @@ Version 1 is assumed for Amazon Web Services managed views.
 
 """
 function describe_view(
-    InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4418,7 +4418,7 @@ function describe_view(
     InstanceId,
     ViewId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4442,7 +4442,7 @@ Describes the specified vocabulary.
 
 """
 function describe_vocabulary(
-    InstanceId, VocabularyId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, VocabularyId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -4455,7 +4455,7 @@ function describe_vocabulary(
     InstanceId,
     VocabularyId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -4486,7 +4486,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance.
 """
 function disassociate_analytics_data_set(
-    DataSetId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    DataSetId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -4500,7 +4500,7 @@ function disassociate_analytics_data_set(
     DataSetId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -4527,7 +4527,7 @@ to integrated applications from Amazon Connect.
 
 """
 function disassociate_approved_origin(
-    InstanceId, origin; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, origin; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -4541,7 +4541,7 @@ function disassociate_approved_origin(
     InstanceId,
     origin,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -4569,7 +4569,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"LexBot"`:
 - `"LexV2Bot"`: The Amazon Lex V2 bot to disassociate from the instance.
 """
-function disassociate_bot(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function disassociate_bot(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
         "/instance/$(InstanceId)/bot";
@@ -4580,7 +4580,7 @@ end
 function disassociate_bot(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -4605,7 +4605,7 @@ Disassociates a connect resource from a flow.
 
 """
 function disassociate_flow(
-    InstanceId, ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -4619,7 +4619,7 @@ function disassociate_flow(
     ResourceId,
     ResourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -4649,7 +4649,7 @@ function disassociate_instance_storage_config(
     AssociationId,
     InstanceId,
     resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -4664,7 +4664,7 @@ function disassociate_instance_storage_config(
     InstanceId,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -4691,7 +4691,7 @@ Lambda function from the dropdown options available in the relevant flow blocks.
 
 """
 function disassociate_lambda_function(
-    InstanceId, functionArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, functionArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -4705,7 +4705,7 @@ function disassociate_lambda_function(
     InstanceId,
     functionArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -4733,7 +4733,7 @@ authorization from the specified instance to access the specified Amazon Lex bot
 
 """
 function disassociate_lex_bot(
-    InstanceId, botName, lexRegion; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, botName, lexRegion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -4748,7 +4748,7 @@ function disassociate_lex_bot(
     botName,
     lexRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -4785,7 +4785,7 @@ If a UUID is provided in this scenario, you will receive a ResourceNotFoundExcep
 
 """
 function disassociate_phone_number_contact_flow(
-    PhoneNumberId, instanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    PhoneNumberId, instanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -4799,7 +4799,7 @@ function disassociate_phone_number_contact_flow(
     PhoneNumberId,
     instanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -4827,7 +4827,7 @@ set of quick connects from a queue.
 
 """
 function disassociate_queue_quick_connects(
-    InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId, QuickConnectIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -4842,7 +4842,7 @@ function disassociate_queue_quick_connects(
     QueueId,
     QuickConnectIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -4874,7 +4874,7 @@ function disassociate_routing_profile_queues(
     InstanceId,
     QueueReferences,
     RoutingProfileId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -4889,7 +4889,7 @@ function disassociate_routing_profile_queues(
     QueueReferences,
     RoutingProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -4919,7 +4919,7 @@ specified security key.
 
 """
 function disassociate_security_key(
-    AssociationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AssociationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -4932,7 +4932,7 @@ function disassociate_security_key(
     AssociationId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -4963,7 +4963,7 @@ function disassociate_traffic_distribution_group_user(
     InstanceId,
     TrafficDistributionGroupId,
     UserId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -4978,7 +4978,7 @@ function disassociate_traffic_distribution_group_user(
     TrafficDistributionGroupId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -5009,7 +5009,7 @@ Disassociates a set of proficiencies from a user.
 
 """
 function disassociate_user_proficiencies(
-    InstanceId, UserId, UserProficiencies; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, UserId, UserProficiencies; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -5024,7 +5024,7 @@ function disassociate_user_proficiencies(
     UserId,
     UserProficiencies,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -5055,7 +5055,7 @@ are in a MISSED, ERROR, ENDED, or REJECTED state in the Agent Event Stream.
 
 """
 function dismiss_user_contact(
-    ContactId, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -5070,7 +5070,7 @@ function dismiss_user_contact(
     InstanceId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -5106,7 +5106,7 @@ function get_attached_file(
     FileId,
     InstanceId,
     associatedResourceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -5121,7 +5121,7 @@ function get_attached_file(
     InstanceId,
     associatedResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -5150,7 +5150,7 @@ Retrieves the contact attributes for the specified contact.
 
 """
 function get_contact_attributes(
-    InitialContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InitialContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -5163,7 +5163,7 @@ function get_contact_attributes(
     InitialContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -5238,7 +5238,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   SLOTS_ACTIVE and SLOTS_AVAILABLE is not supported.
 """
 function get_current_metric_data(
-    CurrentMetrics, Filters, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    CurrentMetrics, Filters, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -5253,7 +5253,7 @@ function get_current_metric_data(
     Filters,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -5293,7 +5293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function get_current_user_data(
-    Filters, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    Filters, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -5307,7 +5307,7 @@ function get_current_user_data(
     Filters,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -5335,7 +5335,7 @@ Principal: .... User: .... cannot be used for federation with Amazon Connect
   ID in the Amazon Resource Name (ARN) of the instance.
 
 """
-function get_federation_token(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_federation_token(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/user/federate/$(InstanceId)";
@@ -5346,7 +5346,7 @@ end
 function get_federation_token(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -5371,7 +5371,7 @@ Retrieves the flow associated for a given resource.
 
 """
 function get_flow_association(
-    InstanceId, ResourceId, ResourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, ResourceId, ResourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -5385,7 +5385,7 @@ function get_flow_association(
     ResourceId,
     ResourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -5467,7 +5467,7 @@ function get_metric_data(
     HistoricalMetrics,
     InstanceId,
     StartTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -5489,7 +5489,7 @@ function get_metric_data(
     InstanceId,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -5837,7 +5837,7 @@ function get_metric_data_v2(
     Metrics,
     ResourceArn,
     StartTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -5860,7 +5860,7 @@ function get_metric_data_v2(
     ResourceArn,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -5896,7 +5896,7 @@ Gets the prompt file.
 
 """
 function get_prompt_file(
-    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, PromptId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -5909,7 +5909,7 @@ function get_prompt_file(
     InstanceId,
     PromptId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -5937,7 +5937,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with a task, when the task is created.
 """
 function get_task_template(
-    InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -5950,7 +5950,7 @@ function get_task_template(
     InstanceId,
     TaskTemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -5973,7 +5973,7 @@ Retrieves the current traffic distribution for a given traffic distribution grou
   ARN must be provided if the call is from the replicated Region.
 
 """
-function get_traffic_distribution(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_traffic_distribution(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/traffic-distribution/$(Id)";
@@ -5982,7 +5982,7 @@ function get_traffic_distribution(Id; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function get_traffic_distribution(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6018,7 +6018,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 """
 function import_phone_number(
-    InstanceId, SourcePhoneNumberArn; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, SourcePhoneNumberArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -6036,7 +6036,7 @@ function import_phone_number(
     InstanceId,
     SourcePhoneNumberArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -6075,7 +6075,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_agent_statuses(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_agent_statuses(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/agent-status/$(InstanceId)";
@@ -6086,7 +6086,7 @@ end
 function list_agent_statuses(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6116,7 +6116,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_analytics_data_associations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6128,7 +6128,7 @@ end
 function list_analytics_data_associations(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6157,7 +6157,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_approved_origins(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6169,7 +6169,7 @@ end
 function list_approved_origins(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6201,7 +6201,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_bots(
-    InstanceId, lexVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, lexVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6215,7 +6215,7 @@ function list_bots(
     InstanceId,
     lexVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6246,7 +6246,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expected to be set because the value returned in the previous response is always null.
 """
 function list_contact_evaluations(
-    InstanceId, contactId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, contactId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6260,7 +6260,7 @@ function list_contact_evaluations(
     InstanceId,
     contactId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6291,7 +6291,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"state"`: The state of the flow module.
 """
 function list_contact_flow_modules(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6303,7 +6303,7 @@ end
 function list_contact_flow_modules(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6334,7 +6334,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_contact_flows(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_contact_flows(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/contact-flows-summary/$(InstanceId)";
@@ -6345,7 +6345,7 @@ end
 function list_contact_flows(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6378,7 +6378,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   expected to be set, because the value returned in the previous response is always null.
 """
 function list_contact_references(
-    ContactId, InstanceId, referenceTypes; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId, referenceTypes; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6393,7 +6393,7 @@ function list_contact_references(
     InstanceId,
     referenceTypes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6425,7 +6425,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_default_vocabularies(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -6437,7 +6437,7 @@ end
 function list_default_vocabularies(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -6466,7 +6466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_evaluation_form_versions(
-    EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    EvaluationFormId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6479,7 +6479,7 @@ function list_evaluation_form_versions(
     EvaluationFormId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6507,7 +6507,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_evaluation_forms(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6519,7 +6519,7 @@ end
 function list_evaluation_forms(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6548,7 +6548,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_flow_associations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6560,7 +6560,7 @@ end
 function list_flow_associations(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6591,7 +6591,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_hours_of_operations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6603,7 +6603,7 @@ end
 function list_hours_of_operations(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6632,7 +6632,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_instance_attributes(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6644,7 +6644,7 @@ end
 function list_instance_attributes(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6674,7 +6674,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_instance_storage_configs(
-    InstanceId, resourceType; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, resourceType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6688,7 +6688,7 @@ function list_instance_storage_configs(
     InstanceId,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6716,13 +6716,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_instances(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_instances(; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET", "/instance"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET", "/instance", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -6749,7 +6749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_integration_associations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6761,7 +6761,7 @@ end
 function list_integration_associations(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6791,7 +6791,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_lambda_functions(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6803,7 +6803,7 @@ end
 function list_lambda_functions(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6833,7 +6833,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_lex_bots(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_lex_bots(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/instance/$(InstanceId)/lex-bots";
@@ -6844,7 +6844,7 @@ end
 function list_lex_bots(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6885,7 +6885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   return phone number types. While ListPhoneNumbers returns number types UIFN, SHARED,
   THIRD_PARTY_TF, and THIRD_PARTY_DID, it incorrectly lists them as TOLL_FREE or DID.
 """
-function list_phone_numbers(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_phone_numbers(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/phone-numbers-summary/$(InstanceId)";
@@ -6896,7 +6896,7 @@ end
 function list_phone_numbers(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -6940,13 +6940,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Connect instances belonging to your account in the same Amazon Web Services Region as the
   request.
 """
-function list_phone_numbers_v2(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_phone_numbers_v2(; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST", "/phone-number/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_phone_numbers_v2(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -6974,7 +6974,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_predefined_attributes(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -6986,7 +6986,7 @@ end
 function list_predefined_attributes(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7013,7 +7013,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_prompts(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_prompts(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/prompts-summary/$(InstanceId)";
@@ -7024,7 +7024,7 @@ end
 function list_prompts(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7055,7 +7055,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_queue_quick_connects(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7068,7 +7068,7 @@ function list_queue_quick_connects(
     InstanceId,
     QueueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7101,7 +7101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"queueTypes"`: The type of queue.
 """
-function list_queues(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_queues(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/queues-summary/$(InstanceId)";
@@ -7112,7 +7112,7 @@ end
 function list_queues(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7143,7 +7143,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_quick_connects(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_quick_connects(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/quick-connects/$(InstanceId)";
@@ -7154,7 +7154,7 @@ end
 function list_quick_connects(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7191,7 +7191,7 @@ function list_realtime_contact_analysis_segments_v2(
     InstanceId,
     OutputType,
     SegmentTypes;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -7207,7 +7207,7 @@ function list_realtime_contact_analysis_segments_v2(
     OutputType,
     SegmentTypes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -7245,7 +7245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_routing_profile_queues(
-    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7258,7 +7258,7 @@ function list_routing_profile_queues(
     InstanceId,
     RoutingProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7289,7 +7289,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_routing_profiles(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7301,7 +7301,7 @@ end
 function list_routing_profiles(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7330,7 +7330,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"publishStatus"`: The publish status of the rule.
 """
-function list_rules(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_rules(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/rules/$(InstanceId)";
@@ -7341,7 +7341,7 @@ end
 function list_rules(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7369,7 +7369,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_security_keys(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_security_keys(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/instance/$(InstanceId)/security-keys";
@@ -7380,7 +7380,7 @@ end
 function list_security_keys(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7409,7 +7409,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_security_profile_applications(
-    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7422,7 +7422,7 @@ function list_security_profile_applications(
     InstanceId,
     SecurityProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7451,7 +7451,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_security_profile_permissions(
-    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7464,7 +7464,7 @@ function list_security_profile_permissions(
     InstanceId,
     SecurityProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7495,7 +7495,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_security_profiles(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7507,7 +7507,7 @@ end
 function list_security_profiles(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7532,7 +7532,7 @@ Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7544,7 +7544,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7578,7 +7578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   only be created from ACTIVE templates. If a template is marked as INACTIVE, then a task
   that refers to this template cannot be created.
 """
-function list_task_templates(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_task_templates(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/instance/$(InstanceId)/task/template";
@@ -7589,7 +7589,7 @@ end
 function list_task_templates(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7619,7 +7619,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_traffic_distribution_group_users(
-    TrafficDistributionGroupId; aws_config::AbstractAWSConfig=global_aws_config()
+    TrafficDistributionGroupId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7631,7 +7631,7 @@ end
 function list_traffic_distribution_group_users(
     TrafficDistributionGroupId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7657,7 +7657,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_traffic_distribution_groups(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7667,7 +7667,7 @@ function list_traffic_distribution_groups(;
     )
 end
 function list_traffic_distribution_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7696,7 +7696,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_use_cases(
-    InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, IntegrationAssociationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7709,7 +7709,7 @@ function list_use_cases(
     InstanceId,
     IntegrationAssociationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7740,7 +7740,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_user_hierarchy_groups(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7752,7 +7752,7 @@ end
 function list_user_hierarchy_groups(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7781,7 +7781,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_user_proficiencies(
-    InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7794,7 +7794,7 @@ function list_user_proficiencies(
     InstanceId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7822,7 +7822,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The token for the next set of results. Use the value returned in the
   previous response in the next request to retrieve the next set of results.
 """
-function list_users(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_users(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/users-summary/$(InstanceId)";
@@ -7833,7 +7833,7 @@ end
 function list_users(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7864,7 +7864,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 """
 function list_view_versions(
-    InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "GET",
@@ -7877,7 +7877,7 @@ function list_view_versions(
     InstanceId,
     ViewId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7907,7 +7907,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"type"`: The type of the view.
 """
-function list_views(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_views(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "GET",
         "/views/$(InstanceId)";
@@ -7918,7 +7918,7 @@ end
 function list_views(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "GET",
@@ -7952,7 +7952,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
 function monitor_contact(
-    ContactId, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -7972,7 +7972,7 @@ function monitor_contact(
     InstanceId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8010,7 +8010,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContactFlowId"`: The identifier of the flow.
 """
 function pause_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -8024,7 +8024,7 @@ function pause_contact(
     ContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8057,7 +8057,7 @@ status and Set your next status in the Amazon Connect Administrator Guide.
 
 """
 function put_user_status(
-    AgentStatusId, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    AgentStatusId, InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -8072,7 +8072,7 @@ function put_user_status(
     InstanceId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -8117,7 +8117,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field. For more information about idempotency, see Making retries safe with idempotent APIs.
 """
 function release_phone_number(
-    PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
+    PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -8130,7 +8130,7 @@ end
 function release_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -8170,7 +8170,7 @@ function replicate_instance(
     InstanceId,
     ReplicaAlias,
     ReplicaRegion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8189,7 +8189,7 @@ function replicate_instance(
     ReplicaAlias,
     ReplicaRegion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8226,7 +8226,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ContactFlowId"`: The identifier of the flow.
 """
 function resume_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -8240,7 +8240,7 @@ function resume_contact(
     ContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8278,7 +8278,7 @@ function resume_contact_recording(
     ContactId,
     InitialContactId,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8297,7 +8297,7 @@ function resume_contact_recording(
     InitialContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8348,7 +8348,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function search_available_phone_numbers(
     PhoneNumberCountryCode,
     PhoneNumberType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8365,7 +8365,7 @@ function search_available_phone_numbers(
     PhoneNumberCountryCode,
     PhoneNumberType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8407,7 +8407,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchFilter"`: Filters to be applied to search results.
 """
 function search_contact_flow_modules(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -8420,7 +8420,7 @@ end
 function search_contact_flow_modules(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8454,7 +8454,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   result in invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_contact_flows(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function search_contact_flows(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
         "/search-contact-flows",
@@ -8466,7 +8466,7 @@ end
 function search_contact_flows(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8499,7 +8499,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Sort"`: Specifies a field to sort by and a sort order.
 """
 function search_contacts(
-    InstanceId, TimeRange; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, TimeRange; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -8513,7 +8513,7 @@ function search_contacts(
     InstanceId,
     TimeRange,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8549,7 +8549,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchFilter"`: Filters to be applied to search results.
 """
 function search_hours_of_operations(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -8562,7 +8562,7 @@ end
 function search_hours_of_operations(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8593,7 +8593,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return predefined attributes.
 """
 function search_predefined_attributes(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -8606,7 +8606,7 @@ end
 function search_predefined_attributes(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8637,7 +8637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`: The search criteria to be used to return prompts.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_prompts(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function search_prompts(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
         "/search-prompts",
@@ -8649,7 +8649,7 @@ end
 function search_prompts(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8683,7 +8683,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   throw invalid results.
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_queues(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function search_queues(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
         "/search-queues",
@@ -8695,7 +8695,7 @@ end
 function search_queues(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8727,7 +8727,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchFilter"`: Filters to be applied to search results.
 """
 function search_quick_connects(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -8740,7 +8740,7 @@ end
 function search_quick_connects(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8773,7 +8773,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   types.
 - `"SearchCriteria"`: The search criteria to be used to return tags.
 """
-function search_resource_tags(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function search_resource_tags(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
         "/search-resource-tags",
@@ -8785,7 +8785,7 @@ end
 function search_resource_tags(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8820,7 +8820,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchFilter"`: Filters to be applied to search results.
 """
 function search_routing_profiles(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -8833,7 +8833,7 @@ end
 function search_routing_profiles(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8868,7 +8868,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchFilter"`: Filters to be applied to search results.
 """
 function search_security_profiles(
-    InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -8881,7 +8881,7 @@ end
 function search_security_profiles(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8914,7 +8914,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SearchCriteria"`:
 - `"SearchFilter"`: Filters to be applied to search results.
 """
-function search_users(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function search_users(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
         "/search-users",
@@ -8926,7 +8926,7 @@ end
 function search_users(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -8960,7 +8960,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   previous response in the next request to retrieve the next set of results.
 - `"State"`: The current state of the custom vocabulary.
 """
-function search_vocabularies(InstanceId; aws_config::AbstractAWSConfig=global_aws_config())
+function search_vocabularies(InstanceId; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
         "/vocabulary-summary/$(InstanceId)";
@@ -8971,7 +8971,7 @@ end
 function search_vocabularies(
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9011,7 +9011,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
    Valid value: [\"connect:sms\"]
 """
 function send_chat_integration_event(
-    DestinationId, Event, SourceId; aws_config::AbstractAWSConfig=global_aws_config()
+    DestinationId, Event, SourceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -9028,7 +9028,7 @@ function send_chat_integration_event(
     Event,
     SourceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9081,7 +9081,7 @@ function start_attached_file_upload(
     FileUseCaseType,
     InstanceId,
     associatedResourceArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9104,7 +9104,7 @@ function start_attached_file_upload(
     InstanceId,
     associatedResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9199,7 +9199,7 @@ function start_chat_contact(
     ContactFlowId,
     InstanceId,
     ParticipantDetails;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9219,7 +9219,7 @@ function start_chat_contact(
     InstanceId,
     ParticipantDetails,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9267,7 +9267,7 @@ function start_contact_evaluation(
     ContactId,
     EvaluationFormId,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9286,7 +9286,7 @@ function start_contact_evaluation(
     EvaluationFormId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9335,7 +9335,7 @@ function start_contact_recording(
     InitialContactId,
     InstanceId,
     VoiceRecordingConfiguration;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9356,7 +9356,7 @@ function start_contact_recording(
     InstanceId,
     VoiceRecordingConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9403,7 +9403,7 @@ function start_contact_streaming(
     ClientToken,
     ContactId,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9424,7 +9424,7 @@ function start_contact_streaming(
     ContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9515,7 +9515,7 @@ function start_outbound_voice_contact(
     ContactFlowId,
     DestinationPhoneNumber,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9535,7 +9535,7 @@ function start_outbound_voice_contact(
     DestinationPhoneNumber,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9627,7 +9627,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   task templates, see Create task templates in the Amazon Connect Administrator Guide.
 """
 function start_task_contact(
-    InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -9643,7 +9643,7 @@ function start_task_contact(
     InstanceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9708,7 +9708,7 @@ function start_web_rtccontact(
     ContactFlowId,
     InstanceId,
     ParticipantDetails;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9728,7 +9728,7 @@ function start_web_rtccontact(
     InstanceId,
     ParticipantDetails,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -9770,7 +9770,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   outbound campaigns can provide this field.
 """
 function stop_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -9784,7 +9784,7 @@ function stop_contact(
     ContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9824,7 +9824,7 @@ function stop_contact_recording(
     ContactId,
     InitialContactId,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9843,7 +9843,7 @@ function stop_contact_recording(
     InitialContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9880,7 +9880,7 @@ contact, call the StartContactStreaming API.
 
 """
 function stop_contact_streaming(
-    ContactId, InstanceId, StreamingId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId, StreamingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -9899,7 +9899,7 @@ function stop_contact_streaming(
     InstanceId,
     StreamingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9942,7 +9942,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Notes"`: A map of question identifiers to note value.
 """
 function submit_contact_evaluation(
-    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -9955,7 +9955,7 @@ function submit_contact_evaluation(
     EvaluationId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -9990,7 +9990,7 @@ function suspend_contact_recording(
     ContactId,
     InitialContactId,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10009,7 +10009,7 @@ function suspend_contact_recording(
     InitialContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10046,7 +10046,7 @@ used, see Set up granular billing for a detailed view of your Amazon Connect usa
 
 """
 function tag_contact(
-    ContactId, InstanceId, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10063,7 +10063,7 @@ function tag_contact(
     InstanceId,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10098,7 +10098,7 @@ Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
   example, { \"Tags\": {\"key1\":\"value1\", \"key2\":\"value2\"} }.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "POST",
         "/tags/$(resourceArn)",
@@ -10111,7 +10111,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10151,7 +10151,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserId"`: The identifier for the user. This can be the ID or the ARN of the user.
 """
 function transfer_contact(
-    ContactFlowId, ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowId, ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10171,7 +10171,7 @@ function transfer_contact(
     ContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10209,7 +10209,7 @@ is used, see Set up granular billing for a detailed view of your Amazon Connect 
 
 """
 function untag_contact(
-    ContactId, InstanceId, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -10224,7 +10224,7 @@ function untag_contact(
     InstanceId,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -10247,7 +10247,7 @@ Removes the specified tags from the specified resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "DELETE",
@@ -10261,7 +10261,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "DELETE",
@@ -10293,7 +10293,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"State"`: The state of the agent status.
 """
 function update_agent_status(
-    AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    AgentStatusId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10306,7 +10306,7 @@ function update_agent_status(
     AgentStatusId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10340,7 +10340,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   (CCP).
 """
 function update_contact(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10353,7 +10353,7 @@ function update_contact(
     ContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10401,7 +10401,7 @@ function update_contact_attributes(
     Attributes,
     InitialContactId,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10420,7 +10420,7 @@ function update_contact_attributes(
     InitialContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10461,7 +10461,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Notes"`: A map of question identifiers to note value.
 """
 function update_contact_evaluation(
-    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    EvaluationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10474,7 +10474,7 @@ function update_contact_evaluation(
     EvaluationId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10503,7 +10503,7 @@ needs to be supplied to view saved content that has not been published.
 
 """
 function update_contact_flow_content(
-    ContactFlowId, Content, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowId, Content, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10518,7 +10518,7 @@ function update_contact_flow_content(
     Content,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10547,7 +10547,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the flow.
 """
 function update_contact_flow_metadata(
-    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10560,7 +10560,7 @@ function update_contact_flow_metadata(
     ContactFlowId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10592,7 +10592,7 @@ function update_contact_flow_module_content(
     ContactFlowModuleId,
     Content,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10607,7 +10607,7 @@ function update_contact_flow_module_content(
     Content,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10636,7 +10636,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"State"`: The state of flow module.
 """
 function update_contact_flow_module_metadata(
-    ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowModuleId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10649,7 +10649,7 @@ function update_contact_flow_module_metadata(
     ContactFlowModuleId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10677,7 +10677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the flow.
 """
 function update_contact_flow_name(
-    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactFlowId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10690,7 +10690,7 @@ function update_contact_flow_name(
     ContactFlowId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10732,7 +10732,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   their position in queue.
 """
 function update_contact_routing_data(
-    ContactId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10745,7 +10745,7 @@ function update_contact_routing_data(
     ContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10772,7 +10772,7 @@ Updates the scheduled time of a task contact that is already scheduled.
 
 """
 function update_contact_schedule(
-    ContactId, InstanceId, ScheduledTime; aws_config::AbstractAWSConfig=global_aws_config()
+    ContactId, InstanceId, ScheduledTime; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10791,7 +10791,7 @@ function update_contact_schedule(
     InstanceId,
     ScheduledTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10845,7 +10845,7 @@ function update_evaluation_form(
     InstanceId,
     Items,
     Title;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -10867,7 +10867,7 @@ function update_evaluation_form(
     Items,
     Title,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -10909,7 +10909,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"TimeZone"`: The time zone of the hours of operation.
 """
 function update_hours_of_operation(
-    HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    HoursOfOperationId, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10922,7 +10922,7 @@ function update_hours_of_operation(
     HoursOfOperationId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10950,7 +10950,7 @@ value for the specified attribute type.
 
 """
 function update_instance_attribute(
-    AttributeType, InstanceId, Value; aws_config::AbstractAWSConfig=global_aws_config()
+    AttributeType, InstanceId, Value; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -10965,7 +10965,7 @@ function update_instance_attribute(
     InstanceId,
     Value,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -10997,7 +10997,7 @@ function update_instance_storage_config(
     InstanceId,
     StorageConfig,
     resourceType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11013,7 +11013,7 @@ function update_instance_storage_config(
     StorageConfig,
     resourceType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11053,7 +11053,7 @@ function update_participant_role_config(
     ChannelConfiguration,
     ContactId,
     InstanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -11068,7 +11068,7 @@ function update_participant_role_config(
     ContactId,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -11114,7 +11114,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   InstanceId or TargetArn.
 """
 function update_phone_number(
-    PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
+    PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -11127,7 +11127,7 @@ end
 function update_phone_number(
     PhoneNumberId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -11158,7 +11158,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PhoneNumberDescription"`: The description of the phone number.
 """
 function update_phone_number_metadata(
-    PhoneNumberId; aws_config::AbstractAWSConfig=global_aws_config()
+    PhoneNumberId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -11171,7 +11171,7 @@ end
 function update_phone_number_metadata(
     PhoneNumberId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -11200,7 +11200,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Values"`: The values of the predefined attribute.
 """
 function update_predefined_attribute(
-    InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -11213,7 +11213,7 @@ function update_predefined_attribute(
     InstanceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11243,7 +11243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pre-signed URLs returned by the GetPromptFile API instead of providing S3 URIs.
 """
 function update_prompt(
-    InstanceId, PromptId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, PromptId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -11256,7 +11256,7 @@ function update_prompt(
     InstanceId,
     PromptId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11285,7 +11285,7 @@ function update_queue_hours_of_operation(
     HoursOfOperationId,
     InstanceId,
     QueueId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11300,7 +11300,7 @@ function update_queue_hours_of_operation(
     InstanceId,
     QueueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11333,7 +11333,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   considered full.
 """
 function update_queue_max_contacts(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -11346,7 +11346,7 @@ function update_queue_max_contacts(
     InstanceId,
     QueueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11375,7 +11375,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the queue.
 """
 function update_queue_name(
-    InstanceId, QueueId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -11388,7 +11388,7 @@ function update_queue_name(
     InstanceId,
     QueueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11429,7 +11429,7 @@ function update_queue_outbound_caller_config(
     InstanceId,
     OutboundCallerConfig,
     QueueId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11444,7 +11444,7 @@ function update_queue_outbound_caller_config(
     OutboundCallerConfig,
     QueueId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11476,7 +11476,7 @@ status of the queue.
 
 """
 function update_queue_status(
-    InstanceId, QueueId, Status; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QueueId, Status; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -11491,7 +11491,7 @@ function update_queue_status(
     QueueId,
     Status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11520,7 +11520,7 @@ function update_quick_connect_config(
     InstanceId,
     QuickConnectConfig,
     QuickConnectId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11535,7 +11535,7 @@ function update_quick_connect_config(
     QuickConnectConfig,
     QuickConnectId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11568,7 +11568,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the quick connect.
 """
 function update_quick_connect_name(
-    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, QuickConnectId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -11581,7 +11581,7 @@ function update_quick_connect_name(
     InstanceId,
     QuickConnectId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11612,7 +11612,7 @@ function update_routing_profile_agent_availability_timer(
     AgentAvailabilityTimer,
     InstanceId,
     RoutingProfileId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11627,7 +11627,7 @@ function update_routing_profile_agent_availability_timer(
     InstanceId,
     RoutingProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11663,7 +11663,7 @@ function update_routing_profile_concurrency(
     InstanceId,
     MediaConcurrencies,
     RoutingProfileId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11678,7 +11678,7 @@ function update_routing_profile_concurrency(
     MediaConcurrencies,
     RoutingProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11710,7 +11710,7 @@ function update_routing_profile_default_outbound_queue(
     DefaultOutboundQueueId,
     InstanceId,
     RoutingProfileId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11725,7 +11725,7 @@ function update_routing_profile_default_outbound_queue(
     InstanceId,
     RoutingProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11761,7 +11761,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the routing profile. Must not be more than 127 characters.
 """
 function update_routing_profile_name(
-    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, RoutingProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -11774,7 +11774,7 @@ function update_routing_profile_name(
     InstanceId,
     RoutingProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11803,7 +11803,7 @@ function update_routing_profile_queues(
     InstanceId,
     QueueConfigs,
     RoutingProfileId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11818,7 +11818,7 @@ function update_routing_profile_queues(
     QueueConfigs,
     RoutingProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11857,7 +11857,7 @@ function update_rule(
     Name,
     PublishStatus,
     RuleId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -11880,7 +11880,7 @@ function update_rule(
     PublishStatus,
     RuleId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "PUT",
@@ -11929,7 +11929,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   restrictions to in Amazon Connect.
 """
 function update_security_profile(
-    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, SecurityProfileId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -11942,7 +11942,7 @@ function update_security_profile(
     InstanceId,
     SecurityProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -11981,7 +11981,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that refers to this template cannot be created.
 """
 function update_task_template(
-    InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, TaskTemplateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -11994,7 +11994,7 @@ function update_task_template(
     InstanceId,
     TaskTemplateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12029,7 +12029,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   should be used to sign in agents in to both the instance and its replica(s).
 - `"TelephonyConfig"`: The distribution of traffic between the instance and its replica(s).
 """
-function update_traffic_distribution(Id; aws_config::AbstractAWSConfig=global_aws_config())
+function update_traffic_distribution(Id; aws_config::AbstractAWSConfig=current_aws_config())
     return connect(
         "PUT",
         "/traffic-distribution/$(Id)";
@@ -12038,7 +12038,7 @@ function update_traffic_distribution(Id; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function update_traffic_distribution(
-    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "PUT",
@@ -12065,7 +12065,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HierarchyGroupId"`: The identifier of the hierarchy group.
 """
 function update_user_hierarchy(
-    InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -12078,7 +12078,7 @@ function update_user_hierarchy(
     InstanceId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12103,7 +12103,7 @@ Updates the name of the user hierarchy group.
 
 """
 function update_user_hierarchy_group_name(
-    HierarchyGroupId, InstanceId, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    HierarchyGroupId, InstanceId, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -12118,7 +12118,7 @@ function update_user_hierarchy_group_name(
     InstanceId,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12142,7 +12142,7 @@ Updates the user hierarchy structure: add, remove, and rename user hierarchy lev
 
 """
 function update_user_hierarchy_structure(
-    HierarchyStructure, InstanceId; aws_config::AbstractAWSConfig=global_aws_config()
+    HierarchyStructure, InstanceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -12156,7 +12156,7 @@ function update_user_hierarchy_structure(
     HierarchyStructure,
     InstanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12190,7 +12190,7 @@ Practices for Security Profiles in the Amazon Connect Administrator Guide.
 
 """
 function update_user_identity_info(
-    IdentityInfo, InstanceId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    IdentityInfo, InstanceId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -12205,7 +12205,7 @@ function update_user_identity_info(
     InstanceId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12232,7 +12232,7 @@ Updates the phone configuration settings for the specified user.
 
 """
 function update_user_phone_config(
-    InstanceId, PhoneConfig, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, PhoneConfig, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -12247,7 +12247,7 @@ function update_user_phone_config(
     PhoneConfig,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12275,7 +12275,7 @@ Updates the properties associated with the proficiencies of a user.
 
 """
 function update_user_proficiencies(
-    InstanceId, UserId, UserProficiencies; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, UserId, UserProficiencies; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -12290,7 +12290,7 @@ function update_user_proficiencies(
     UserId,
     UserProficiencies,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12319,7 +12319,7 @@ Assigns the specified routing profile to the specified user.
 
 """
 function update_user_routing_profile(
-    InstanceId, RoutingProfileId, UserId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, RoutingProfileId, UserId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -12334,7 +12334,7 @@ function update_user_routing_profile(
     RoutingProfileId,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12366,7 +12366,7 @@ function update_user_security_profiles(
     InstanceId,
     SecurityProfileIds,
     UserId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12381,7 +12381,7 @@ function update_user_security_profiles(
     SecurityProfileIds,
     UserId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12417,7 +12417,7 @@ be updated, but the LATEST alias' content will only be updated if Status is PUBL
 
 """
 function update_view_content(
-    Content, InstanceId, Status, ViewId; aws_config::AbstractAWSConfig=global_aws_config()
+    Content, InstanceId, Status, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -12433,7 +12433,7 @@ function update_view_content(
     Status,
     ViewId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",
@@ -12465,7 +12465,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name of the view.
 """
 function update_view_metadata(
-    InstanceId, ViewId; aws_config::AbstractAWSConfig=global_aws_config()
+    InstanceId, ViewId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return connect(
         "POST",
@@ -12478,7 +12478,7 @@ function update_view_metadata(
     InstanceId,
     ViewId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return connect(
         "POST",

@@ -24,7 +24,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: An idempotency token.
 """
 function create_bill_of_materials_import_job(
-    instanceId, s3uri; aws_config::AbstractAWSConfig=global_aws_config()
+    instanceId, s3uri; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return supplychain(
         "POST",
@@ -38,7 +38,7 @@ function create_bill_of_materials_import_job(
     instanceId,
     s3uri,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return supplychain(
         "POST",
@@ -67,7 +67,7 @@ Get status and details of a BillOfMaterialsImportJob.
 
 """
 function get_bill_of_materials_import_job(
-    instanceId, jobId; aws_config::AbstractAWSConfig=global_aws_config()
+    instanceId, jobId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return supplychain(
         "GET",
@@ -80,7 +80,7 @@ function get_bill_of_materials_import_job(
     instanceId,
     jobId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return supplychain(
         "GET",
@@ -114,7 +114,7 @@ function send_data_integration_event(
     eventGroupId,
     eventType,
     instanceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return supplychain(
         "POST",
@@ -135,7 +135,7 @@ function send_data_integration_event(
     eventType,
     instanceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return supplychain(
         "POST",

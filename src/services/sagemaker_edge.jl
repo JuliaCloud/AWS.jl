@@ -17,7 +17,7 @@ Use to get the active deployments from a device.
 
 """
 function get_deployments(
-    DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker_edge(
         "POST",
@@ -31,7 +31,7 @@ function get_deployments(
     DeviceFleetName,
     DeviceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_edge(
         "POST",
@@ -62,7 +62,7 @@ Use to check if a device is registered with SageMaker Edge Manager.
 
 """
 function get_device_registration(
-    DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeviceFleetName, DeviceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker_edge(
         "POST",
@@ -76,7 +76,7 @@ function get_device_registration(
     DeviceFleetName,
     DeviceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_edge(
         "POST",
@@ -117,7 +117,7 @@ function send_heartbeat(
     AgentVersion,
     DeviceFleetName,
     DeviceName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_edge(
         "POST",
@@ -136,7 +136,7 @@ function send_heartbeat(
     DeviceFleetName,
     DeviceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_edge(
         "POST",

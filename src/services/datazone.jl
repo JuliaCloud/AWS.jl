@@ -25,7 +25,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"revision"`: The revision that is to be made to the asset.
 """
 function accept_predictions(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PUT",
@@ -39,7 +39,7 @@ function accept_predictions(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -69,7 +69,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscription request.
 """
 function accept_subscription_request(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PUT",
@@ -82,7 +82,7 @@ function accept_subscription_request(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -110,7 +110,7 @@ function associate_environment_role(
     domainIdentifier,
     environmentIdentifier,
     environmentRoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -124,7 +124,7 @@ function associate_environment_role(
     environmentIdentifier,
     environmentRoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -148,7 +148,7 @@ Cancels the metadata generation run.
 
 """
 function cancel_metadata_generation_run(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -161,7 +161,7 @@ function cancel_metadata_generation_run(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -185,7 +185,7 @@ Cancels the subscription to the specified asset.
 
 """
 function cancel_subscription(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PUT",
@@ -198,7 +198,7 @@ function cancel_subscription(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -238,7 +238,7 @@ function create_asset(
     name,
     owningProjectIdentifier,
     typeIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -259,7 +259,7 @@ function create_asset(
     owningProjectIdentifier,
     typeIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -305,7 +305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"typeRevision"`: The revision type of the asset.
 """
 function create_asset_revision(
-    domainIdentifier, identifier, name; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -320,7 +320,7 @@ function create_asset_revision(
     identifier,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -360,7 +360,7 @@ function create_asset_type(
     formsInput,
     name,
     owningProjectIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -380,7 +380,7 @@ function create_asset_type(
     name,
     owningProjectIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -439,7 +439,7 @@ function create_data_source(
     name,
     projectIdentifier,
     type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -462,7 +462,7 @@ function create_data_source(
     projectIdentifier,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -508,7 +508,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags specified for the Amazon DataZone domain.
 """
 function create_domain(
-    domainExecutionRole, name; aws_config::AbstractAWSConfig=global_aws_config()
+    domainExecutionRole, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -526,7 +526,7 @@ function create_domain(
     domainExecutionRole,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -580,7 +580,7 @@ function create_environment(
     environmentProfileIdentifier,
     name,
     projectIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -600,7 +600,7 @@ function create_environment(
     name,
     projectIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -646,7 +646,7 @@ function create_environment_action(
     environmentIdentifier,
     name,
     parameters;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -662,7 +662,7 @@ function create_environment_action(
     name,
     parameters,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -706,7 +706,7 @@ function create_environment_profile(
     environmentBlueprintIdentifier,
     name,
     projectIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -726,7 +726,7 @@ function create_environment_profile(
     name,
     projectIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -771,7 +771,7 @@ function create_form_type(
     model,
     name,
     owningProjectIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -791,7 +791,7 @@ function create_form_type(
     name,
     owningProjectIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -835,7 +835,7 @@ function create_glossary(
     domainIdentifier,
     name,
     owningProjectIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -854,7 +854,7 @@ function create_glossary(
     name,
     owningProjectIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -900,7 +900,7 @@ function create_glossary_term(
     domainIdentifier,
     glossaryIdentifier,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -919,7 +919,7 @@ function create_glossary_term(
     glossaryIdentifier,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -957,7 +957,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   idempotency of the request.
 """
 function create_group_profile(
-    domainIdentifier, groupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -973,7 +973,7 @@ function create_group_profile(
     domainIdentifier,
     groupIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1016,7 +1016,7 @@ function create_listing_change_set(
     domainIdentifier,
     entityIdentifier,
     entityType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1037,7 +1037,7 @@ function create_listing_change_set(
     entityIdentifier,
     entityType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1076,7 +1076,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"glossaryTerms"`: The glossary terms that can be used in this Amazon DataZone project.
 """
 function create_project(
-    domainIdentifier, name; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -1090,7 +1090,7 @@ function create_project(
     domainIdentifier,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1120,7 +1120,7 @@ function create_project_membership(
     domainIdentifier,
     member,
     projectIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1136,7 +1136,7 @@ function create_project_membership(
     member,
     projectIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1179,7 +1179,7 @@ function create_subscription_grant(
     environmentIdentifier,
     grantedEntity,
     subscriptionTargetIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1200,7 +1200,7 @@ function create_subscription_grant(
     grantedEntity,
     subscriptionTargetIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1247,7 +1247,7 @@ function create_subscription_request(
     requestReason,
     subscribedListings,
     subscribedPrincipals;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1268,7 +1268,7 @@ function create_subscription_request(
     subscribedListings,
     subscribedPrincipals,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1324,7 +1324,7 @@ function create_subscription_target(
     name,
     subscriptionTargetConfig,
     type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1352,7 +1352,7 @@ function create_subscription_target(
     subscriptionTargetConfig,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1395,7 +1395,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userType"`: The user type of the user for which the user profile is created.
 """
 function create_user_profile(
-    domainIdentifier, userIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, userIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -1411,7 +1411,7 @@ function create_user_profile(
     domainIdentifier,
     userIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1442,7 +1442,7 @@ Delets an asset in Amazon DataZone.
 
 """
 function delete_asset(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -1455,7 +1455,7 @@ function delete_asset(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1479,7 +1479,7 @@ Deletes an asset type in Amazon DataZone.
 
 """
 function delete_asset_type(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -1492,7 +1492,7 @@ function delete_asset_type(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1522,7 +1522,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   in case of a self-subscribe functionality failure for a data source.
 """
 function delete_data_source(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -1536,7 +1536,7 @@ function delete_data_source(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1565,7 +1565,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"skipDeletionCheck"`: Specifies the optional flag to delete all child entities within
   the domain.
 """
-function delete_domain(identifier; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "DELETE",
         "/v2/domains/$(identifier)",
@@ -1577,7 +1577,7 @@ end
 function delete_domain(
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1603,7 +1603,7 @@ Deletes an environment in Amazon DataZone.
 
 """
 function delete_environment(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -1616,7 +1616,7 @@ function delete_environment(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1646,7 +1646,7 @@ function delete_environment_action(
     domainIdentifier,
     environmentIdentifier,
     identifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1660,7 +1660,7 @@ function delete_environment_action(
     environmentIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1687,7 +1687,7 @@ Deletes the blueprint configuration in Amazon DataZone.
 function delete_environment_blueprint_configuration(
     domainIdentifier,
     environmentBlueprintIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1700,7 +1700,7 @@ function delete_environment_blueprint_configuration(
     domainIdentifier,
     environmentBlueprintIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1724,7 +1724,7 @@ Deletes an environment profile in Amazon DataZone.
 
 """
 function delete_environment_profile(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -1737,7 +1737,7 @@ function delete_environment_profile(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1761,7 +1761,7 @@ Delets and metadata form type in Amazon DataZone.
 
 """
 function delete_form_type(
-    domainIdentifier, formTypeIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, formTypeIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -1774,7 +1774,7 @@ function delete_form_type(
     domainIdentifier,
     formTypeIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1798,7 +1798,7 @@ Deletes a business glossary in Amazon DataZone.
 
 """
 function delete_glossary(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -1811,7 +1811,7 @@ function delete_glossary(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1835,7 +1835,7 @@ Deletes a business glossary term in Amazon DataZone.
 
 """
 function delete_glossary_term(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -1848,7 +1848,7 @@ function delete_glossary_term(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1871,7 +1871,7 @@ Deletes a listing (a record of an asset at a given time).
 
 """
 function delete_listing(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -1884,7 +1884,7 @@ function delete_listing(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1911,7 +1911,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the project.
 """
 function delete_project(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -1924,7 +1924,7 @@ function delete_project(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -1953,7 +1953,7 @@ function delete_project_membership(
     domainIdentifier,
     member,
     projectIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1968,7 +1968,7 @@ function delete_project_membership(
     member,
     projectIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -1992,7 +1992,7 @@ Deletes and subscription grant in Amazon DataZone.
 
 """
 function delete_subscription_grant(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -2005,7 +2005,7 @@ function delete_subscription_grant(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -2029,7 +2029,7 @@ Deletes a subscription request in Amazon DataZone.
 
 """
 function delete_subscription_request(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -2042,7 +2042,7 @@ function delete_subscription_request(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -2071,7 +2071,7 @@ function delete_subscription_target(
     domainIdentifier,
     environmentIdentifier,
     identifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -2085,7 +2085,7 @@ function delete_subscription_target(
     environmentIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -2119,7 +2119,7 @@ function delete_time_series_data_points(
     entityIdentifier,
     entityType,
     formName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -2135,7 +2135,7 @@ function delete_time_series_data_points(
     entityType,
     formName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -2169,7 +2169,7 @@ function disassociate_environment_role(
     domainIdentifier,
     environmentIdentifier,
     environmentRoleArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -2183,7 +2183,7 @@ function disassociate_environment_role(
     environmentIdentifier,
     environmentRoleArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -2209,7 +2209,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"revision"`: The revision of the Amazon DataZone asset.
 """
 function get_asset(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2222,7 +2222,7 @@ function get_asset(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2248,7 +2248,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"revision"`: The revision of the asset type.
 """
 function get_asset_type(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2261,7 +2261,7 @@ function get_asset_type(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2284,7 +2284,7 @@ Gets an Amazon DataZone data source.
 
 """
 function get_data_source(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2297,7 +2297,7 @@ function get_data_source(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2320,7 +2320,7 @@ Gets an Amazon DataZone data source run.
 
 """
 function get_data_source_run(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2333,7 +2333,7 @@ function get_data_source_run(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2354,7 +2354,7 @@ Gets an Amazon DataZone domain.
 - `identifier`: The identifier of the specified Amazon DataZone domain.
 
 """
-function get_domain(identifier; aws_config::AbstractAWSConfig=global_aws_config())
+function get_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "GET",
         "/v2/domains/$(identifier)";
@@ -2365,7 +2365,7 @@ end
 function get_domain(
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2388,7 +2388,7 @@ Gets an Amazon DataZone environment.
 
 """
 function get_environment(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2401,7 +2401,7 @@ function get_environment(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2429,7 +2429,7 @@ function get_environment_action(
     domainIdentifier,
     environmentIdentifier,
     identifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2443,7 +2443,7 @@ function get_environment_action(
     environmentIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2466,7 +2466,7 @@ Gets an Amazon DataZone blueprint.
 
 """
 function get_environment_blueprint(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2479,7 +2479,7 @@ function get_environment_blueprint(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2504,7 +2504,7 @@ Gets the blueprint configuration in Amazon DataZone.
 function get_environment_blueprint_configuration(
     domainIdentifier,
     environmentBlueprintIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2517,7 +2517,7 @@ function get_environment_blueprint_configuration(
     domainIdentifier,
     environmentBlueprintIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2541,7 +2541,7 @@ Gets an evinronment profile in Amazon DataZone.
 
 """
 function get_environment_profile(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2554,7 +2554,7 @@ function get_environment_profile(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2581,7 +2581,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"revision"`: The revision of this metadata form type.
 """
 function get_form_type(
-    domainIdentifier, formTypeIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, formTypeIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2594,7 +2594,7 @@ function get_form_type(
     domainIdentifier,
     formTypeIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2618,7 +2618,7 @@ Gets a business glossary in Amazon DataZone.
 
 """
 function get_glossary(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2631,7 +2631,7 @@ function get_glossary(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2655,7 +2655,7 @@ Gets a business glossary term in Amazon DataZone.
 
 """
 function get_glossary_term(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2668,7 +2668,7 @@ function get_glossary_term(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2692,7 +2692,7 @@ Gets a group profile in Amazon DataZone.
 
 """
 function get_group_profile(
-    domainIdentifier, groupIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, groupIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2705,7 +2705,7 @@ function get_group_profile(
     domainIdentifier,
     groupIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2728,7 +2728,7 @@ Gets the data portal URL for the specified Amazon DataZone domain.
 
 """
 function get_iam_portal_login_url(
-    domainIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -2740,7 +2740,7 @@ end
 function get_iam_portal_login_url(
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -2766,7 +2766,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"listingRevision"`: The revision of the listing.
 """
 function get_listing(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2779,7 +2779,7 @@ function get_listing(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2803,7 +2803,7 @@ Gets a metadata generation run in Amazon DataZone.
 
 """
 function get_metadata_generation_run(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2816,7 +2816,7 @@ function get_metadata_generation_run(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2839,7 +2839,7 @@ Gets a project in Amazon DataZone.
 
 """
 function get_project(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2852,7 +2852,7 @@ function get_project(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2876,7 +2876,7 @@ Gets a subscription in Amazon DataZone.
 
 """
 function get_subscription(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2889,7 +2889,7 @@ function get_subscription(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2913,7 +2913,7 @@ Gets the subscription grant in Amazon DataZone.
 
 """
 function get_subscription_grant(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2926,7 +2926,7 @@ function get_subscription_grant(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2950,7 +2950,7 @@ Gets the details of the specified subscription request.
 
 """
 function get_subscription_request_details(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -2963,7 +2963,7 @@ function get_subscription_request_details(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -2992,7 +2992,7 @@ function get_subscription_target(
     domainIdentifier,
     environmentIdentifier,
     identifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3006,7 +3006,7 @@ function get_subscription_target(
     environmentIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3039,7 +3039,7 @@ function get_time_series_data_point(
     entityType,
     formName,
     identifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3056,7 +3056,7 @@ function get_time_series_data_point(
     formName,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3085,7 +3085,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of the user profile.
 """
 function get_user_profile(
-    domainIdentifier, userIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, userIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3098,7 +3098,7 @@ function get_user_profile(
     domainIdentifier,
     userIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3132,7 +3132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   set of revisions.
 """
 function list_asset_revisions(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3145,7 +3145,7 @@ function list_asset_revisions(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3181,7 +3181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the data source run.
 """
 function list_data_source_run_activities(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3194,7 +3194,7 @@ function list_data_source_run_activities(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3232,7 +3232,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_data_source_runs(
     dataSourceIdentifier,
     domainIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3245,7 +3245,7 @@ function list_data_source_runs(
     dataSourceIdentifier,
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3285,7 +3285,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of the data source.
 """
 function list_data_sources(
-    domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3299,7 +3299,7 @@ function list_data_sources(
     domainIdentifier,
     projectIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3333,13 +3333,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   domains.
 - `"status"`: The status of the data source.
 """
-function list_domains(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_domains(; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "GET", "/v2/domains"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_domains(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET", "/v2/domains", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -3372,7 +3372,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_environment_actions(
     domainIdentifier,
     environmentIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3385,7 +3385,7 @@ function list_environment_actions(
     domainIdentifier,
     environmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3419,7 +3419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ListEnvironmentBlueprintConfigurations to list the next set of configurations.
 """
 function list_environment_blueprint_configurations(
-    domainIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3431,7 +3431,7 @@ end
 function list_environment_blueprint_configurations(
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3466,7 +3466,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subsequent call to ListEnvironmentBlueprintsto list the next set of blueprints.
 """
 function list_environment_blueprints(
-    domainIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3478,7 +3478,7 @@ end
 function list_environment_blueprints(
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3519,7 +3519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"projectIdentifier"`: The identifier of the Amazon DataZone project.
 """
 function list_environment_profiles(
-    domainIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3531,7 +3531,7 @@ end
 function list_environment_profiles(
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3573,7 +3573,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status of the environments that you want to list.
 """
 function list_environments(
-    domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3587,7 +3587,7 @@ function list_environments(
     domainIdentifier,
     projectIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3627,7 +3627,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"type"`: The type of the metadata generation runs.
 """
 function list_metadata_generation_runs(
-    domainIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3639,7 +3639,7 @@ end
 function list_metadata_generation_runs(
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3677,7 +3677,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"taskStatus"`: The task status of notifications.
 """
 function list_notifications(
-    domainIdentifier, type; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3691,7 +3691,7 @@ function list_notifications(
     domainIdentifier,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3728,7 +3728,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortOrder"`: The sort order of the project memberships.
 """
 function list_project_memberships(
-    domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, projectIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3741,7 +3741,7 @@ function list_project_memberships(
     domainIdentifier,
     projectIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3776,7 +3776,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   projects.
 - `"userIdentifier"`: The identifier of the Amazon DataZone user.
 """
-function list_projects(domainIdentifier; aws_config::AbstractAWSConfig=global_aws_config())
+function list_projects(domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "GET",
         "/v2/domains/$(domainIdentifier)/projects";
@@ -3787,7 +3787,7 @@ end
 function list_projects(
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3826,7 +3826,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscriptionTargetId"`: The identifier of the subscription target.
 """
 function list_subscription_grants(
-    domainIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3838,7 +3838,7 @@ end
 function list_subscription_grants(
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3877,7 +3877,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"subscribedListingId"`: The identifier of the subscribed listing.
 """
 function list_subscription_requests(
-    domainIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3889,7 +3889,7 @@ end
 function list_subscription_requests(
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3929,7 +3929,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_subscription_targets(
     domainIdentifier,
     environmentIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3942,7 +3942,7 @@ function list_subscription_targets(
     domainIdentifier,
     environmentIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -3984,7 +3984,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   subscriptions that you want to list.
 """
 function list_subscriptions(
-    domainIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -3996,7 +3996,7 @@ end
 function list_subscriptions(
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -4018,7 +4018,7 @@ Lists tags for the specified resource in Amazon DataZone.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "GET",
@@ -4030,7 +4030,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -4073,7 +4073,7 @@ function list_time_series_data_points(
     entityIdentifier,
     entityType,
     formName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -4089,7 +4089,7 @@ function list_time_series_data_points(
     entityType,
     formName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "GET",
@@ -4126,7 +4126,7 @@ function post_time_series_data_points(
     entityIdentifier,
     entityType,
     forms;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4142,7 +4142,7 @@ function post_time_series_data_points(
     entityType,
     forms,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4180,7 +4180,7 @@ function put_environment_blueprint_configuration(
     domainIdentifier,
     enabledRegions,
     environmentBlueprintIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -4195,7 +4195,7 @@ function put_environment_blueprint_configuration(
     enabledRegions,
     environmentBlueprintIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -4229,7 +4229,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"revision"`: The revision that is to be made to the asset.
 """
 function reject_predictions(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PUT",
@@ -4243,7 +4243,7 @@ function reject_predictions(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -4272,7 +4272,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"decisionComment"`: The decision comment of the rejected subscription request.
 """
 function reject_subscription_request(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PUT",
@@ -4285,7 +4285,7 @@ function reject_subscription_request(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -4313,7 +4313,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is revoked.
 """
 function revoke_subscription(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PUT",
@@ -4326,7 +4326,7 @@ function revoke_subscription(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -4366,7 +4366,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`: Specifies the way in which the search results are to be sorted.
 """
 function search(
-    domainIdentifier, searchScope; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, searchScope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -4380,7 +4380,7 @@ function search(
     domainIdentifier,
     searchScope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4418,7 +4418,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"searchText"`: Specifies the text for which to search.
 """
 function search_group_profiles(
-    domainIdentifier, groupType; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, groupType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -4432,7 +4432,7 @@ function search_group_profiles(
     domainIdentifier,
     groupType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4472,7 +4472,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sort"`: Specifies the way for sorting the search results.
 """
 function search_listings(
-    domainIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -4484,7 +4484,7 @@ end
 function search_listings(
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4527,7 +4527,7 @@ function search_types(
     domainIdentifier,
     managed,
     searchScope;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4542,7 +4542,7 @@ function search_types(
     managed,
     searchScope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4584,7 +4584,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"searchText"`: Specifies the text for which to search.
 """
 function search_user_profiles(
-    domainIdentifier, userType; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, userType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "POST",
@@ -4598,7 +4598,7 @@ function search_user_profiles(
     domainIdentifier,
     userType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4630,7 +4630,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function start_data_source_run(
     dataSourceIdentifier,
     domainIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4644,7 +4644,7 @@ function start_data_source_run(
     dataSourceIdentifier,
     domainIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4681,7 +4681,7 @@ function start_metadata_generation_run(
     owningProjectIdentifier,
     target,
     type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4702,7 +4702,7 @@ function start_metadata_generation_run(
     target,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4735,7 +4735,7 @@ Tags a resource in Amazon DataZone.
 - `tags`: Specifies the tags for the TagResource action.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "POST",
         "/tags/$(resourceArn)",
@@ -4748,7 +4748,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "POST",
@@ -4771,7 +4771,7 @@ Untags a resource in Amazon DataZone.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "DELETE",
@@ -4785,7 +4785,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "DELETE",
@@ -4823,7 +4823,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schedule"`: The schedule to be updated as part of the UpdateDataSource action.
 """
 function update_data_source(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PATCH",
@@ -4836,7 +4836,7 @@ function update_data_source(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -4867,7 +4867,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"singleSignOn"`: The single sign-on option to be updated as part of the UpdateDomain
   action.
 """
-function update_domain(identifier; aws_config::AbstractAWSConfig=global_aws_config())
+function update_domain(identifier; aws_config::AbstractAWSConfig=current_aws_config())
     return datazone(
         "PUT",
         "/v2/domains/$(identifier)",
@@ -4879,7 +4879,7 @@ end
 function update_domain(
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -4911,7 +4911,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name to be updated as part of the UpdateEnvironment action.
 """
 function update_environment(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PATCH",
@@ -4924,7 +4924,7 @@ function update_environment(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -4956,7 +4956,7 @@ function update_environment_action(
     domainIdentifier,
     environmentIdentifier,
     identifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -4970,7 +4970,7 @@ function update_environment_action(
     environmentIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5005,7 +5005,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   UpdateEnvironmentProfile action.
 """
 function update_environment_profile(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PATCH",
@@ -5018,7 +5018,7 @@ function update_environment_profile(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5049,7 +5049,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"status"`: The status to be updated as part of the UpdateGlossary action.
 """
 function update_glossary(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PATCH",
@@ -5063,7 +5063,7 @@ function update_glossary(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5101,7 +5101,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action.
 """
 function update_glossary_term(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PATCH",
@@ -5114,7 +5114,7 @@ function update_glossary_term(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5142,7 +5142,7 @@ function update_group_profile(
     domainIdentifier,
     groupIdentifier,
     status;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -5157,7 +5157,7 @@ function update_group_profile(
     groupIdentifier,
     status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -5186,7 +5186,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The name to be updated as part of the UpdateProject action.
 """
 function update_project(
-    domainIdentifier, identifier; aws_config::AbstractAWSConfig=global_aws_config()
+    domainIdentifier, identifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return datazone(
         "PATCH",
@@ -5199,7 +5199,7 @@ function update_project(
     domainIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5237,7 +5237,7 @@ function update_subscription_grant_status(
     domainIdentifier,
     identifier,
     status;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5253,7 +5253,7 @@ function update_subscription_grant_status(
     identifier,
     status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5281,7 +5281,7 @@ function update_subscription_request(
     domainIdentifier,
     identifier,
     requestReason;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5296,7 +5296,7 @@ function update_subscription_request(
     identifier,
     requestReason,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5339,7 +5339,7 @@ function update_subscription_target(
     domainIdentifier,
     environmentIdentifier,
     identifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5353,7 +5353,7 @@ function update_subscription_target(
     environmentIdentifier,
     identifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PATCH",
@@ -5384,7 +5384,7 @@ function update_user_profile(
     domainIdentifier,
     status,
     userIdentifier;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",
@@ -5399,7 +5399,7 @@ function update_user_profile(
     status,
     userIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return datazone(
         "PUT",

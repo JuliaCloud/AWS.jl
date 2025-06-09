@@ -32,7 +32,7 @@ function associate_created_artifact(
     CreatedArtifact,
     MigrationTaskName,
     ProgressUpdateStream;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "AssociateCreatedArtifact",
@@ -50,7 +50,7 @@ function associate_created_artifact(
     MigrationTaskName,
     ProgressUpdateStream,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "AssociateCreatedArtifact",
@@ -92,7 +92,7 @@ function associate_discovered_resource(
     DiscoveredResource,
     MigrationTaskName,
     ProgressUpdateStream;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "AssociateDiscoveredResource",
@@ -110,7 +110,7 @@ function associate_discovered_resource(
     MigrationTaskName,
     ProgressUpdateStream,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "AssociateDiscoveredResource",
@@ -150,7 +150,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to test if the caller has permission to make the call.
 """
 function create_progress_update_stream(
-    ProgressUpdateStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    ProgressUpdateStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub(
         "CreateProgressUpdateStream",
@@ -162,7 +162,7 @@ end
 function create_progress_update_stream(
     ProgressUpdateStreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "CreateProgressUpdateStream",
@@ -206,7 +206,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   to test if the caller has permission to make the call.
 """
 function delete_progress_update_stream(
-    ProgressUpdateStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    ProgressUpdateStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub(
         "DeleteProgressUpdateStream",
@@ -218,7 +218,7 @@ end
 function delete_progress_update_stream(
     ProgressUpdateStreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "DeleteProgressUpdateStream",
@@ -246,7 +246,7 @@ Gets the migration status of an application.
 
 """
 function describe_application_state(
-    ApplicationId; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub(
         "DescribeApplicationState",
@@ -258,7 +258,7 @@ end
 function describe_application_state(
     ApplicationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "DescribeApplicationState",
@@ -285,7 +285,7 @@ Retrieves a list of all attributes associated with a specific migration task.
 function describe_migration_task(
     MigrationTaskName,
     ProgressUpdateStream;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "DescribeMigrationTask",
@@ -301,7 +301,7 @@ function describe_migration_task(
     MigrationTaskName,
     ProgressUpdateStream,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "DescribeMigrationTask",
@@ -348,7 +348,7 @@ function disassociate_created_artifact(
     CreatedArtifactName,
     MigrationTaskName,
     ProgressUpdateStream;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "DisassociateCreatedArtifact",
@@ -366,7 +366,7 @@ function disassociate_created_artifact(
     MigrationTaskName,
     ProgressUpdateStream,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "DisassociateCreatedArtifact",
@@ -408,7 +408,7 @@ function disassociate_discovered_resource(
     ConfigurationId,
     MigrationTaskName,
     ProgressUpdateStream;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "DisassociateDiscoveredResource",
@@ -426,7 +426,7 @@ function disassociate_discovered_resource(
     MigrationTaskName,
     ProgressUpdateStream,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "DisassociateDiscoveredResource",
@@ -467,7 +467,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function import_migration_task(
     MigrationTaskName,
     ProgressUpdateStream;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "ImportMigrationTask",
@@ -483,7 +483,7 @@ function import_migration_task(
     MigrationTaskName,
     ProgressUpdateStream,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "ImportMigrationTask",
@@ -519,13 +519,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
 """
-function list_application_states(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_application_states(; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub(
         "ListApplicationStates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_application_states(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub(
         "ListApplicationStates",
@@ -559,7 +559,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_created_artifacts(
     MigrationTaskName,
     ProgressUpdateStream;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "ListCreatedArtifacts",
@@ -575,7 +575,7 @@ function list_created_artifacts(
     MigrationTaskName,
     ProgressUpdateStream,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "ListCreatedArtifacts",
@@ -615,7 +615,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function list_discovered_resources(
     MigrationTaskName,
     ProgressUpdateStream;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "ListDiscoveredResources",
@@ -631,7 +631,7 @@ function list_discovered_resources(
     MigrationTaskName,
     ProgressUpdateStream,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "ListDiscoveredResources",
@@ -667,13 +667,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   token in NextToken.
 - `"ResourceName"`: Filter migration tasks by discovered resource name.
 """
-function list_migration_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_migration_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub(
         "ListMigrationTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_migration_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub(
         "ListMigrationTasks", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -693,13 +693,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   available. To retrieve the next page of results, make the call again using the returned
   token in NextToken.
 """
-function list_progress_update_streams(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_progress_update_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return migration_hub(
         "ListProgressUpdateStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_progress_update_streams(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub(
         "ListProgressUpdateStreams",
@@ -729,7 +729,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UpdateDateTime"`: The timestamp when the application state changed.
 """
 function notify_application_state(
-    ApplicationId, Status; aws_config::AbstractAWSConfig=global_aws_config()
+    ApplicationId, Status; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return migration_hub(
         "NotifyApplicationState",
@@ -742,7 +742,7 @@ function notify_application_state(
     ApplicationId,
     Status,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "NotifyApplicationState",
@@ -789,7 +789,7 @@ function notify_migration_task_state(
     ProgressUpdateStream,
     Task,
     UpdateDateTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "NotifyMigrationTaskState",
@@ -811,7 +811,7 @@ function notify_migration_task_state(
     Task,
     UpdateDateTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "NotifyMigrationTaskState",
@@ -876,7 +876,7 @@ function put_resource_attributes(
     MigrationTaskName,
     ProgressUpdateStream,
     ResourceAttributeList;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "PutResourceAttributes",
@@ -894,7 +894,7 @@ function put_resource_attributes(
     ProgressUpdateStream,
     ResourceAttributeList,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return migration_hub(
         "PutResourceAttributes",

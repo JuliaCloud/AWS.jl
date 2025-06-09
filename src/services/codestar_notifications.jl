@@ -46,7 +46,7 @@ function create_notification_rule(
     Name,
     Resource,
     Targets;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_notifications(
         "POST",
@@ -70,7 +70,7 @@ function create_notification_rule(
     Resource,
     Targets,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_notifications(
         "POST",
@@ -104,7 +104,7 @@ Deletes a notification rule for a resource.
 - `arn`: The Amazon Resource Name (ARN) of the notification rule you want to delete.
 
 """
-function delete_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_notification_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
         "/deleteNotificationRule",
@@ -114,7 +114,7 @@ function delete_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function delete_notification_rule(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_notifications(
         "POST",
@@ -141,7 +141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between
   that target and every notification rule in your Amazon Web Services account are deleted.
 """
-function delete_target(TargetAddress; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_target(TargetAddress; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
         "/deleteTarget",
@@ -153,7 +153,7 @@ end
 function delete_target(
     TargetAddress,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_notifications(
         "POST",
@@ -176,7 +176,7 @@ Returns information about a specified notification rule.
 - `arn`: The Amazon Resource Name (ARN) of the notification rule.
 
 """
-function describe_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_notification_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
         "/describeNotificationRule",
@@ -186,7 +186,7 @@ function describe_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function describe_notification_rule(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_notifications(
         "POST",
@@ -211,13 +211,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
-function list_event_types(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_event_types(; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST", "/listEventTypes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_event_types(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_notifications(
         "POST",
@@ -245,7 +245,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
-function list_notification_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_notification_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
         "/listNotificationRules";
@@ -254,7 +254,7 @@ function list_notification_rules(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function list_notification_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_notifications(
         "POST",
@@ -275,7 +275,7 @@ Returns a list of the tags associated with a notification rule.
 - `arn`: The Amazon Resource Name (ARN) for the notification rule.
 
 """
-function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
         "/listTagsForResource",
@@ -285,7 +285,7 @@ function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_tags_for_resource(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_notifications(
         "POST",
@@ -313,13 +313,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An enumeration token that, when provided in a request, returns the next
   batch of the results.
 """
-function list_targets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_targets(; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST", "/listTargets"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_targets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_notifications(
         "POST",
@@ -348,7 +348,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ClientRequestToken"`: An enumeration token that, when provided in a request, returns
   the next batch of the results.
 """
-function subscribe(Arn, Target; aws_config::AbstractAWSConfig=global_aws_config())
+function subscribe(Arn, Target; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
         "/subscribe",
@@ -361,7 +361,7 @@ function subscribe(
     Arn,
     Target,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_notifications(
         "POST",
@@ -386,7 +386,7 @@ Associates a set of provided tags with a notification rule.
   \"aws\".
 
 """
-function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
         "/tagResource",
@@ -399,7 +399,7 @@ function tag_resource(
     Arn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_notifications(
         "POST",
@@ -425,7 +425,7 @@ triggered.
 - `target_address`: The ARN of the Chatbot topic to unsubscribe from the notification rule.
 
 """
-function unsubscribe(Arn, TargetAddress; aws_config::AbstractAWSConfig=global_aws_config())
+function unsubscribe(Arn, TargetAddress; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
         "/unsubscribe",
@@ -438,7 +438,7 @@ function unsubscribe(
     Arn,
     TargetAddress,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_notifications(
         "POST",
@@ -468,7 +468,7 @@ Removes the association between one or more provided tags and a notification rul
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_notifications(
         "POST",
@@ -482,7 +482,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return codestar_notifications(
         "POST",
@@ -519,7 +519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Targets"`: The address and type of the targets to receive notifications from this
   notification rule.
 """
-function update_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_notification_rule(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return codestar_notifications(
         "POST",
         "/updateNotificationRule",
@@ -529,7 +529,7 @@ function update_notification_rule(Arn; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function update_notification_rule(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return codestar_notifications(
         "POST",

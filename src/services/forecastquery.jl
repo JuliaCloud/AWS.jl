@@ -34,7 +34,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
 function query_forecast(
-    Filters, ForecastArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Filters, ForecastArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return forecastquery(
         "QueryForecast",
@@ -47,7 +47,7 @@ function query_forecast(
     Filters,
     ForecastArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return forecastquery(
         "QueryForecast",
@@ -87,7 +87,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   format: yyyy-MM-dd'T'HH:mm:ss (ISO 8601 format). For example, 2015-01-01T08:00:00.
 """
 function query_what_if_forecast(
-    Filters, WhatIfForecastArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Filters, WhatIfForecastArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return forecastquery(
         "QueryWhatIfForecast",
@@ -100,7 +100,7 @@ function query_what_if_forecast(
     Filters,
     WhatIfForecastArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return forecastquery(
         "QueryWhatIfForecast",

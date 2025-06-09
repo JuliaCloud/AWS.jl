@@ -22,7 +22,7 @@ in an Actions dataset, see Actions dataset.
 
 """
 function put_action_interactions(
-    actionInteractions, trackingId; aws_config::AbstractAWSConfig=global_aws_config()
+    actionInteractions, trackingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return personalize_events(
         "POST",
@@ -38,7 +38,7 @@ function put_action_interactions(
     actionInteractions,
     trackingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return personalize_events(
         "POST",
@@ -70,7 +70,7 @@ individually.
   action or actions to.
 
 """
-function put_actions(actions, datasetArn; aws_config::AbstractAWSConfig=global_aws_config())
+function put_actions(actions, datasetArn; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_events(
         "POST",
         "/actions",
@@ -83,7 +83,7 @@ function put_actions(
     actions,
     datasetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return personalize_events(
         "POST",
@@ -121,7 +121,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"userId"`: The user associated with the event.
 """
 function put_events(
-    eventList, sessionId, trackingId; aws_config::AbstractAWSConfig=global_aws_config()
+    eventList, sessionId, trackingId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return personalize_events(
         "POST",
@@ -138,7 +138,7 @@ function put_events(
     sessionId,
     trackingId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return personalize_events(
         "POST",
@@ -172,7 +172,7 @@ individually.
 - `items`: A list of item data.
 
 """
-function put_items(datasetArn, items; aws_config::AbstractAWSConfig=global_aws_config())
+function put_items(datasetArn, items; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_events(
         "POST",
         "/items",
@@ -185,7 +185,7 @@ function put_items(
     datasetArn,
     items,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return personalize_events(
         "POST",
@@ -215,7 +215,7 @@ individually.
 - `users`: A list of user data.
 
 """
-function put_users(datasetArn, users; aws_config::AbstractAWSConfig=global_aws_config())
+function put_users(datasetArn, users; aws_config::AbstractAWSConfig=current_aws_config())
     return personalize_events(
         "POST",
         "/users",
@@ -228,7 +228,7 @@ function put_users(
     datasetArn,
     users,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return personalize_events(
         "POST",

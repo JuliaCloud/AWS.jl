@@ -22,7 +22,7 @@ IDs.
 
 """
 function batch_get_named_query(
-    NamedQueryIds; aws_config::AbstractAWSConfig=global_aws_config()
+    NamedQueryIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "BatchGetNamedQuery",
@@ -34,7 +34,7 @@ end
 function batch_get_named_query(
     NamedQueryIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "BatchGetNamedQuery",
@@ -62,7 +62,7 @@ UnprocessedPreparedStatementNames.
 
 """
 function batch_get_prepared_statement(
-    PreparedStatementNames, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    PreparedStatementNames, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "BatchGetPreparedStatement",
@@ -77,7 +77,7 @@ function batch_get_prepared_statement(
     PreparedStatementNames,
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "BatchGetPreparedStatement",
@@ -111,7 +111,7 @@ BatchGetNamedQueryInput to get details about named queries.
 
 """
 function batch_get_query_execution(
-    QueryExecutionIds; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryExecutionIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "BatchGetQueryExecution",
@@ -123,7 +123,7 @@ end
 function batch_get_query_execution(
     QueryExecutionIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "BatchGetQueryExecution",
@@ -151,7 +151,7 @@ and view it for historical reference.
 
 """
 function cancel_capacity_reservation(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "CancelCapacityReservation",
@@ -161,7 +161,7 @@ function cancel_capacity_reservation(
     )
 end
 function cancel_capacity_reservation(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "CancelCapacityReservation",
@@ -187,7 +187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: The tags for the capacity reservation.
 """
 function create_capacity_reservation(
-    Name, TargetDpus; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, TargetDpus; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "CreateCapacityReservation",
@@ -200,7 +200,7 @@ function create_capacity_reservation(
     Name,
     TargetDpus,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "CreateCapacityReservation",
@@ -249,7 +249,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and cannot modify.
 - `"Tags"`: A list of comma separated tags to add to the data catalog that is created.
 """
-function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config())
+function create_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "CreateDataCatalog",
         Dict{String,Any}("Name" => Name, "Type" => Type);
@@ -261,7 +261,7 @@ function create_data_catalog(
     Name,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "CreateDataCatalog",
@@ -298,7 +298,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup in which the named query is being created.
 """
 function create_named_query(
-    Database, Name, QueryString; aws_config::AbstractAWSConfig=global_aws_config()
+    Database, Name, QueryString; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "CreateNamedQuery",
@@ -317,7 +317,7 @@ function create_named_query(
     Name,
     QueryString,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "CreateNamedQuery",
@@ -359,7 +359,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or
   the Amazon Web Services CLI, you must provide this token or the action will fail.
 """
-function create_notebook(Name, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
+function create_notebook(Name, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "CreateNotebook",
         Dict{String,Any}("Name" => Name, "WorkGroup" => WorkGroup);
@@ -371,7 +371,7 @@ function create_notebook(
     Name,
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "CreateNotebook",
@@ -404,7 +404,7 @@ function create_prepared_statement(
     QueryStatement,
     StatementName,
     WorkGroup;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "CreatePreparedStatement",
@@ -422,7 +422,7 @@ function create_prepared_statement(
     StatementName,
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "CreatePreparedStatement",
@@ -456,7 +456,7 @@ programmatic access.
 
 """
 function create_presigned_notebook_url(
-    SessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    SessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "CreatePresignedNotebookUrl",
@@ -468,7 +468,7 @@ end
 function create_presigned_notebook_url(
     SessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "CreatePresignedNotebookUrl",
@@ -503,7 +503,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The workgroup description.
 - `"Tags"`: A list of comma separated tags to add to the workgroup that is created.
 """
-function create_work_group(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_work_group(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "CreateWorkGroup",
         Dict{String,Any}("Name" => Name);
@@ -512,7 +512,7 @@ function create_work_group(Name; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function create_work_group(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "CreateWorkGroup",
@@ -537,7 +537,7 @@ ListCapacityReservations.
 
 """
 function delete_capacity_reservation(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "DeleteCapacityReservation",
@@ -547,7 +547,7 @@ function delete_capacity_reservation(
     )
 end
 function delete_capacity_reservation(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "DeleteCapacityReservation",
@@ -567,7 +567,7 @@ Deletes a data catalog.
 - `name`: The name of the data catalog to delete.
 
 """
-function delete_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "DeleteDataCatalog",
         Dict{String,Any}("Name" => Name);
@@ -576,7 +576,7 @@ function delete_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function delete_data_catalog(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "DeleteDataCatalog",
@@ -596,7 +596,7 @@ Deletes the named query if you have access to the workgroup in which the query w
 - `named_query_id`: The unique ID of the query to delete.
 
 """
-function delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_named_query(NamedQueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "DeleteNamedQuery",
         Dict{String,Any}("NamedQueryId" => NamedQueryId);
@@ -607,7 +607,7 @@ end
 function delete_named_query(
     NamedQueryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "DeleteNamedQuery",
@@ -629,7 +629,7 @@ Deletes the specified notebook.
 - `notebook_id`: The ID of the notebook to delete.
 
 """
-function delete_notebook(NotebookId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "DeleteNotebook",
         Dict{String,Any}("NotebookId" => NotebookId);
@@ -640,7 +640,7 @@ end
 function delete_notebook(
     NotebookId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "DeleteNotebook",
@@ -664,7 +664,7 @@ Deletes the prepared statement with the specified name from the specified workgr
 
 """
 function delete_prepared_statement(
-    StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    StatementName, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "DeletePreparedStatement",
@@ -677,7 +677,7 @@ function delete_prepared_statement(
     StatementName,
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "DeletePreparedStatement",
@@ -709,7 +709,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RecursiveDeleteOption"`: The option to delete the workgroup and its contents even if
   the workgroup contains any named queries, query executions, or notebooks.
 """
-function delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "DeleteWorkGroup",
         Dict{String,Any}("WorkGroup" => WorkGroup);
@@ -720,7 +720,7 @@ end
 function delete_work_group(
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "DeleteWorkGroup",
@@ -742,7 +742,7 @@ Exports the specified notebook and its metadata.
 - `notebook_id`: The ID of the notebook to export.
 
 """
-function export_notebook(NotebookId; aws_config::AbstractAWSConfig=global_aws_config())
+function export_notebook(NotebookId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ExportNotebook",
         Dict{String,Any}("NotebookId" => NotebookId);
@@ -753,7 +753,7 @@ end
 function export_notebook(
     NotebookId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ExportNotebook",
@@ -776,7 +776,7 @@ Describes a previously submitted calculation execution.
 
 """
 function get_calculation_execution(
-    CalculationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetCalculationExecution",
@@ -788,7 +788,7 @@ end
 function get_calculation_execution(
     CalculationExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetCalculationExecution",
@@ -815,7 +815,7 @@ Retrieves the unencrypted code that was executed for the calculation.
 
 """
 function get_calculation_execution_code(
-    CalculationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetCalculationExecutionCode",
@@ -827,7 +827,7 @@ end
 function get_calculation_execution_code(
     CalculationExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetCalculationExecutionCode",
@@ -854,7 +854,7 @@ Gets the status of a current calculation.
 
 """
 function get_calculation_execution_status(
-    CalculationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetCalculationExecutionStatus",
@@ -866,7 +866,7 @@ end
 function get_calculation_execution_status(
     CalculationExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetCalculationExecutionStatus",
@@ -894,7 +894,7 @@ Gets the capacity assignment configuration for a capacity reservation, if one ex
 
 """
 function get_capacity_assignment_configuration(
-    CapacityReservationName; aws_config::AbstractAWSConfig=global_aws_config()
+    CapacityReservationName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetCapacityAssignmentConfiguration",
@@ -906,7 +906,7 @@ end
 function get_capacity_assignment_configuration(
     CapacityReservationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetCapacityAssignmentConfiguration",
@@ -932,7 +932,7 @@ Returns information about the capacity reservation with the specified name.
 - `name`: The name of the capacity reservation.
 
 """
-function get_capacity_reservation(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_capacity_reservation(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "GetCapacityReservation",
         Dict{String,Any}("Name" => Name);
@@ -941,7 +941,7 @@ function get_capacity_reservation(Name; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function get_capacity_reservation(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetCapacityReservation",
@@ -965,7 +965,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup. Required if making an IAM Identity Center
   request.
 """
-function get_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_data_catalog(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "GetDataCatalog",
         Dict{String,Any}("Name" => Name);
@@ -974,7 +974,7 @@ function get_data_catalog(Name; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function get_data_catalog(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetDataCatalog",
@@ -1000,7 +1000,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function get_database(
-    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetDatabase",
@@ -1013,7 +1013,7 @@ function get_database(
     CatalogName,
     DatabaseName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetDatabase",
@@ -1042,7 +1042,7 @@ which the query was saved.
 - `named_query_id`: The unique ID of the query. Use ListNamedQueries to get query IDs.
 
 """
-function get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_named_query(NamedQueryId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "GetNamedQuery",
         Dict{String,Any}("NamedQueryId" => NamedQueryId);
@@ -1053,7 +1053,7 @@ end
 function get_named_query(
     NamedQueryId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetNamedQuery",
@@ -1076,7 +1076,7 @@ Retrieves notebook metadata for the specified notebook ID.
 
 """
 function get_notebook_metadata(
-    NotebookId; aws_config::AbstractAWSConfig=global_aws_config()
+    NotebookId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetNotebookMetadata",
@@ -1088,7 +1088,7 @@ end
 function get_notebook_metadata(
     NotebookId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetNotebookMetadata",
@@ -1112,7 +1112,7 @@ Retrieves the prepared statement with the specified name from the specified work
 
 """
 function get_prepared_statement(
-    StatementName, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    StatementName, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetPreparedStatement",
@@ -1125,7 +1125,7 @@ function get_prepared_statement(
     StatementName,
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetPreparedStatement",
@@ -1156,7 +1156,7 @@ is saved with a unique ID.
 
 """
 function get_query_execution(
-    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetQueryExecution",
@@ -1168,7 +1168,7 @@ end
 function get_query_execution(
     QueryExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetQueryExecution",
@@ -1208,7 +1208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken from the response object of the previous page call.
 """
 function get_query_results(
-    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetQueryResults",
@@ -1220,7 +1220,7 @@ end
 function get_query_results(
     QueryExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetQueryResults",
@@ -1251,7 +1251,7 @@ included when a query has row-level filters defined in Lake Formation.
 
 """
 function get_query_runtime_statistics(
-    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetQueryRuntimeStatistics",
@@ -1263,7 +1263,7 @@ end
 function get_query_runtime_statistics(
     QueryExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetQueryRuntimeStatistics",
@@ -1288,7 +1288,7 @@ configuration.
 - `session_id`: The session ID.
 
 """
-function get_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "GetSession",
         Dict{String,Any}("SessionId" => SessionId);
@@ -1299,7 +1299,7 @@ end
 function get_session(
     SessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetSession",
@@ -1321,7 +1321,7 @@ Gets the current status of a session.
 - `session_id`: The session ID.
 
 """
-function get_session_status(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_session_status(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "GetSessionStatus",
         Dict{String,Any}("SessionId" => SessionId);
@@ -1332,7 +1332,7 @@ end
 function get_session_status(
     SessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetSessionStatus",
@@ -1362,7 +1362,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function get_table_metadata(
-    CatalogName, DatabaseName, TableName; aws_config::AbstractAWSConfig=global_aws_config()
+    CatalogName, DatabaseName, TableName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "GetTableMetadata",
@@ -1380,7 +1380,7 @@ function get_table_metadata(
     DatabaseName,
     TableName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetTableMetadata",
@@ -1410,7 +1410,7 @@ Returns information about the workgroup with the specified name.
 - `work_group`: The name of the workgroup.
 
 """
-function get_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
+function get_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "GetWorkGroup",
         Dict{String,Any}("WorkGroup" => WorkGroup);
@@ -1421,7 +1421,7 @@ end
 function get_work_group(
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "GetWorkGroup",
@@ -1460,7 +1460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Payload"`: The notebook content to be imported. The payload must be in ipynb format.
 """
 function import_notebook(
-    Name, Type, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, Type, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ImportNotebook",
@@ -1474,7 +1474,7 @@ function import_notebook(
     Type,
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ImportNotebook",
@@ -1503,13 +1503,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated.
 """
-function list_application_dpusizes(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_application_dpusizes(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListApplicationDPUSizes"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_application_dpusizes(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListApplicationDPUSizes",
@@ -1545,7 +1545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and is no longer running.
 """
 function list_calculation_executions(
-    SessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    SessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListCalculationExecutions",
@@ -1557,7 +1557,7 @@ end
 function list_calculation_executions(
     SessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ListCalculationExecutions",
@@ -1581,13 +1581,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: A token generated by the Athena service that specifies where to continue
   pagination if a previous request was truncated.
 """
-function list_capacity_reservations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_capacity_reservations(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListCapacityReservations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_capacity_reservations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListCapacityReservations",
@@ -1614,13 +1614,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup. Required if making an IAM Identity Center
   request.
 """
-function list_data_catalogs(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_data_catalogs(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListDataCatalogs"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_data_catalogs(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListDataCatalogs", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1645,7 +1645,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup for which the metadata is being fetched.
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
-function list_databases(CatalogName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_databases(CatalogName; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListDatabases",
         Dict{String,Any}("CatalogName" => CatalogName);
@@ -1656,7 +1656,7 @@ end
 function list_databases(
     CatalogName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ListDatabases",
@@ -1682,13 +1682,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-function list_engine_versions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_engine_versions(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListEngineVersions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_engine_versions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListEngineVersions", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1717,7 +1717,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-function list_executors(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_executors(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListExecutors",
         Dict{String,Any}("SessionId" => SessionId);
@@ -1728,7 +1728,7 @@ end
 function list_executors(
     SessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ListExecutors",
@@ -1757,13 +1757,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup from which the named queries are being returned.
   If a workgroup is not specified, the saved queries for the primary workgroup are returned.
 """
-function list_named_queries(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_named_queries(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListNamedQueries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_named_queries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListNamedQueries", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1787,7 +1787,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated.
 """
 function list_notebook_metadata(
-    WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListNotebookMetadata",
@@ -1799,7 +1799,7 @@ end
 function list_notebook_metadata(
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ListNotebookMetadata",
@@ -1830,7 +1830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken from the response object of the previous page call.
 """
 function list_notebook_sessions(
-    NotebookId; aws_config::AbstractAWSConfig=global_aws_config()
+    NotebookId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListNotebookSessions",
@@ -1842,7 +1842,7 @@ end
 function list_notebook_sessions(
     NotebookId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ListNotebookSessions",
@@ -1871,7 +1871,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the NextToken from the response object of the previous page call.
 """
 function list_prepared_statements(
-    WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListPreparedStatements",
@@ -1883,7 +1883,7 @@ end
 function list_prepared_statements(
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ListPreparedStatements",
@@ -1914,13 +1914,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   workgroup is not specified, a list of available query execution IDs for the queries in the
   primary workgroup is returned.
 """
-function list_query_executions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_query_executions(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListQueryExecutions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_query_executions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListQueryExecutions",
@@ -1954,7 +1954,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   its resources are no longer running.  DEGRADED - The session has no healthy coordinators.
   FAILED - Due to a failure, the session and its resources are no longer running.
 """
-function list_sessions(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
+function list_sessions(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "ListSessions",
         Dict{String,Any}("WorkGroup" => WorkGroup);
@@ -1965,7 +1965,7 @@ end
 function list_sessions(
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ListSessions",
@@ -1999,7 +1999,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Required if requesting an IAM Identity Center enabled Glue Data Catalog.
 """
 function list_table_metadata(
-    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=global_aws_config()
+    CatalogName, DatabaseName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListTableMetadata",
@@ -2012,7 +2012,7 @@ function list_table_metadata(
     CatalogName,
     DatabaseName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ListTableMetadata",
@@ -2048,7 +2048,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified ARN.
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListTagsForResource",
@@ -2060,7 +2060,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "ListTagsForResource",
@@ -2085,11 +2085,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination if a previous request was truncated. To obtain the next set of pages, pass in
   the NextToken from the response object of the previous page call.
 """
-function list_work_groups(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_work_groups(; aws_config::AbstractAWSConfig=current_aws_config())
     return athena("ListWorkGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_work_groups(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "ListWorkGroups", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2113,7 +2113,7 @@ existing capacity assignment configuration.
 function put_capacity_assignment_configuration(
     CapacityAssignments,
     CapacityReservationName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "PutCapacityAssignmentConfiguration",
@@ -2129,7 +2129,7 @@ function put_capacity_assignment_configuration(
     CapacityAssignments,
     CapacityReservationName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "PutCapacityAssignmentConfiguration",
@@ -2178,7 +2178,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the calculation.
 """
 function start_calculation_execution(
-    SessionId; aws_config::AbstractAWSConfig=global_aws_config()
+    SessionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "StartCalculationExecution",
@@ -2190,7 +2190,7 @@ end
 function start_calculation_execution(
     SessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "StartCalculationExecution",
@@ -2239,7 +2239,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"WorkGroup"`: The name of the workgroup in which the query is being started.
 """
 function start_query_execution(
-    QueryString; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryString; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "StartQueryExecution",
@@ -2253,7 +2253,7 @@ end
 function start_query_execution(
     QueryString,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "StartQueryExecution",
@@ -2301,7 +2301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SessionIdleTimeoutInMinutes"`: The idle timeout in minutes for the session.
 """
 function start_session(
-    EngineConfiguration, WorkGroup; aws_config::AbstractAWSConfig=global_aws_config()
+    EngineConfiguration, WorkGroup; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "StartSession",
@@ -2316,7 +2316,7 @@ function start_session(
     EngineConfiguration,
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "StartSession",
@@ -2350,7 +2350,7 @@ terminating the session in which the calculation is running.
 
 """
 function stop_calculation_execution(
-    CalculationExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    CalculationExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "StopCalculationExecution",
@@ -2362,7 +2362,7 @@ end
 function stop_calculation_execution(
     CalculationExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "StopCalculationExecution",
@@ -2390,7 +2390,7 @@ ran.
 
 """
 function stop_query_execution(
-    QueryExecutionId; aws_config::AbstractAWSConfig=global_aws_config()
+    QueryExecutionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "StopQueryExecution",
@@ -2402,7 +2402,7 @@ end
 function stop_query_execution(
     QueryExecutionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "StopQueryExecution",
@@ -2437,7 +2437,7 @@ separate them by commas.
   resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -2449,7 +2449,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "TagResource",
@@ -2478,7 +2478,7 @@ but may display as FAILED instead of STOPPED.
 - `session_id`: The session ID.
 
 """
-function terminate_session(SessionId; aws_config::AbstractAWSConfig=global_aws_config())
+function terminate_session(SessionId; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "TerminateSession",
         Dict{String,Any}("SessionId" => SessionId);
@@ -2489,7 +2489,7 @@ end
 function terminate_session(
     SessionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "TerminateSession",
@@ -2514,7 +2514,7 @@ Removes one or more tags from an Athena resource.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "UntagResource",
@@ -2527,7 +2527,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "UntagResource",
@@ -2556,7 +2556,7 @@ specified name.
 
 """
 function update_capacity_reservation(
-    Name, TargetDpus; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, TargetDpus; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "UpdateCapacityReservation",
@@ -2569,7 +2569,7 @@ function update_capacity_reservation(
     Name,
     TargetDpus,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "UpdateCapacityReservation",
@@ -2612,7 +2612,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata and data, use the following syntax to specify your Lambda function.
   function=lambda_arn
 """
-function update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=global_aws_config())
+function update_data_catalog(Name, Type; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "UpdateDataCatalog",
         Dict{String,Any}("Name" => Name, "Type" => Type);
@@ -2624,7 +2624,7 @@ function update_data_catalog(
     Name,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "UpdateDataCatalog",
@@ -2652,7 +2652,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The query description.
 """
 function update_named_query(
-    Name, NamedQueryId, QueryString; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, NamedQueryId, QueryString; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "UpdateNamedQuery",
@@ -2668,7 +2668,7 @@ function update_named_query(
     NamedQueryId,
     QueryString,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "UpdateNamedQuery",
@@ -2710,7 +2710,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   session.
 """
 function update_notebook(
-    NotebookId, Payload, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    NotebookId, Payload, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "UpdateNotebook",
@@ -2724,7 +2724,7 @@ function update_notebook(
     Payload,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "UpdateNotebook",
@@ -2761,7 +2761,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Amazon Web Services CLI, you must provide this token or the action will fail.
 """
 function update_notebook_metadata(
-    Name, NotebookId; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, NotebookId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return athena(
         "UpdateNotebookMetadata",
@@ -2774,7 +2774,7 @@ function update_notebook_metadata(
     Name,
     NotebookId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "UpdateNotebookMetadata",
@@ -2807,7 +2807,7 @@ function update_prepared_statement(
     QueryStatement,
     StatementName,
     WorkGroup;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "UpdatePreparedStatement",
@@ -2825,7 +2825,7 @@ function update_prepared_statement(
     StatementName,
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "UpdatePreparedStatement",
@@ -2861,7 +2861,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: The workgroup description.
 - `"State"`: The workgroup state that will be updated for the given workgroup.
 """
-function update_work_group(WorkGroup; aws_config::AbstractAWSConfig=global_aws_config())
+function update_work_group(WorkGroup; aws_config::AbstractAWSConfig=current_aws_config())
     return athena(
         "UpdateWorkGroup",
         Dict{String,Any}("WorkGroup" => WorkGroup);
@@ -2872,7 +2872,7 @@ end
 function update_work_group(
     WorkGroup,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return athena(
         "UpdateWorkGroup",

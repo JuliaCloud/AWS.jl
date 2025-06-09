@@ -29,7 +29,7 @@ control states     Working with routing controls in Route 53 ARC
 
 """
 function get_routing_control_state(
-    RoutingControlArn; aws_config::AbstractAWSConfig=global_aws_config()
+    RoutingControlArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_cluster(
         "GetRoutingControlState",
@@ -41,7 +41,7 @@ end
 function get_routing_control_state(
     RoutingControlArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_cluster(
         "GetRoutingControlState",
@@ -85,13 +85,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results. You receive this token from a
   previous call.
 """
-function list_routing_controls(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_routing_controls(; aws_config::AbstractAWSConfig=current_aws_config())
     return route53_recovery_cluster(
         "ListRoutingControls"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_routing_controls(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_cluster(
         "ListRoutingControls",
@@ -141,7 +141,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_routing_control_state(
     RoutingControlArn,
     RoutingControlState;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_cluster(
         "UpdateRoutingControlState",
@@ -157,7 +157,7 @@ function update_routing_control_state(
     RoutingControlArn,
     RoutingControlState,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_cluster(
         "UpdateRoutingControlState",
@@ -212,7 +212,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Application Recovery Controller Developer Guide.
 """
 function update_routing_control_states(
-    UpdateRoutingControlStateEntries; aws_config::AbstractAWSConfig=global_aws_config()
+    UpdateRoutingControlStateEntries; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return route53_recovery_cluster(
         "UpdateRoutingControlStates",
@@ -226,7 +226,7 @@ end
 function update_routing_control_states(
     UpdateRoutingControlStateEntries,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return route53_recovery_cluster(
         "UpdateRoutingControlStates",

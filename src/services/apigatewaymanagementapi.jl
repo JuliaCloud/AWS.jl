@@ -14,7 +14,7 @@ Delete the connection with the provided id.
 - `connection_id`:
 
 """
-function delete_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return apigatewaymanagementapi(
         "DELETE",
         "/@connections/$(connectionId)";
@@ -25,7 +25,7 @@ end
 function delete_connection(
     connectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return apigatewaymanagementapi(
         "DELETE",
@@ -46,7 +46,7 @@ Get information about the connection with the provided id.
 - `connection_id`:
 
 """
-function get_connection(connectionId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_connection(connectionId; aws_config::AbstractAWSConfig=current_aws_config())
     return apigatewaymanagementapi(
         "GET",
         "/@connections/$(connectionId)";
@@ -57,7 +57,7 @@ end
 function get_connection(
     connectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return apigatewaymanagementapi(
         "GET",
@@ -80,7 +80,7 @@ Sends the provided data to the specified connection.
 
 """
 function post_to_connection(
-    Data, connectionId; aws_config::AbstractAWSConfig=global_aws_config()
+    Data, connectionId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return apigatewaymanagementapi(
         "POST",
@@ -94,7 +94,7 @@ function post_to_connection(
     Data,
     connectionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return apigatewaymanagementapi(
         "POST",

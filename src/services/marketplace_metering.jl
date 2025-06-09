@@ -31,7 +31,7 @@ AWS Marketplace Seller Guide.
 
 """
 function batch_meter_usage(
-    ProductCode, UsageRecords; aws_config::AbstractAWSConfig=global_aws_config()
+    ProductCode, UsageRecords; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_metering(
         "BatchMeterUsage",
@@ -44,7 +44,7 @@ function batch_meter_usage(
     ProductCode,
     UsageRecords,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_metering(
         "BatchMeterUsage",
@@ -97,7 +97,7 @@ function meter_usage(
     ProductCode,
     Timestamp,
     UsageDimension;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_metering(
         "MeterUsage",
@@ -115,7 +115,7 @@ function meter_usage(
     Timestamp,
     UsageDimension,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_metering(
         "MeterUsage",
@@ -176,7 +176,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   instance and guard against replay attacks.
 """
 function register_usage(
-    ProductCode, PublicKeyVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    ProductCode, PublicKeyVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_metering(
         "RegisterUsage",
@@ -191,7 +191,7 @@ function register_usage(
     ProductCode,
     PublicKeyVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_metering(
         "RegisterUsage",
@@ -228,7 +228,7 @@ example in the AWS Marketplace Seller Guide.
 
 """
 function resolve_customer(
-    RegistrationToken; aws_config::AbstractAWSConfig=global_aws_config()
+    RegistrationToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return marketplace_metering(
         "ResolveCustomer",
@@ -240,7 +240,7 @@ end
 function resolve_customer(
     RegistrationToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return marketplace_metering(
         "ResolveCustomer",
