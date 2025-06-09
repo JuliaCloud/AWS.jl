@@ -21,7 +21,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   BatchGetRecord will return the value of ExpiresAt, if it is not null. If Disabled and null,
   BatchGetRecord will return null.
 """
-function batch_get_record(Identifiers; aws_config::AbstractAWSConfig=global_aws_config())
+function batch_get_record(Identifiers; aws_config::AbstractAWSConfig=current_aws_config())
     return sagemaker_featurestore_runtime(
         "POST",
         "/BatchGetRecord",
@@ -33,7 +33,7 @@ end
 function batch_get_record(
     Identifiers,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_featurestore_runtime(
         "POST",
@@ -89,7 +89,7 @@ function delete_record(
     EventTime,
     FeatureGroupName,
     RecordIdentifierValueAsString;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_featurestore_runtime(
         "DELETE",
@@ -107,7 +107,7 @@ function delete_record(
     FeatureGroupName,
     RecordIdentifierValueAsString,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_featurestore_runtime(
         "DELETE",
@@ -152,7 +152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function get_record(
     FeatureGroupName,
     RecordIdentifierValueAsString;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_featurestore_runtime(
         "GET",
@@ -166,7 +166,7 @@ function get_record(
     FeatureGroupName,
     RecordIdentifierValueAsString,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_featurestore_runtime(
         "GET",
@@ -218,7 +218,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   HardDelete, see the DeleteRecord API in the Amazon SageMaker API Reference guide.
 """
 function put_record(
-    FeatureGroupName, Record; aws_config::AbstractAWSConfig=global_aws_config()
+    FeatureGroupName, Record; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sagemaker_featurestore_runtime(
         "PUT",
@@ -232,7 +232,7 @@ function put_record(
     FeatureGroupName,
     Record,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sagemaker_featurestore_runtime(
         "PUT",

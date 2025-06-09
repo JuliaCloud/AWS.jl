@@ -46,7 +46,7 @@ rule, the new address might be blocked in one area while still allowed in anothe
 
 """
 function associate_web_acl(
-    ResourceArn, WebACLArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, WebACLArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "AssociateWebACL",
@@ -59,7 +59,7 @@ function associate_web_acl(
     ResourceArn,
     WebACLArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "AssociateWebACL",
@@ -100,7 +100,7 @@ WAF Developer Guide.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=global_aws_config())
+function check_capacity(Rules, Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "CheckCapacity",
         Dict{String,Any}("Rules" => Rules, "Scope" => Scope);
@@ -112,7 +112,7 @@ function check_capacity(
     Rules,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "CheckCapacity",
@@ -149,7 +149,7 @@ you generate a key, you can copy it for use in your JavaScript integration.
 
 """
 function create_apikey(
-    Scope, TokenDomains; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, TokenDomains; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "CreateAPIKey",
@@ -162,7 +162,7 @@ function create_apikey(
     Scope,
     TokenDomains,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "CreateAPIKey",
@@ -225,7 +225,7 @@ function create_ipset(
     IPAddressVersion,
     Name,
     Scope;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "CreateIPSet",
@@ -245,7 +245,7 @@ function create_ipset(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "CreateIPSet",
@@ -290,7 +290,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: An array of key:value pairs to associate with the resource.
 """
 function create_regex_pattern_set(
-    Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, RegularExpressionList, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "CreateRegexPatternSet",
@@ -308,7 +308,7 @@ function create_regex_pattern_set(
     RegularExpressionList,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "CreateRegexPatternSet",
@@ -381,7 +381,7 @@ function create_rule_group(
     Name,
     Scope,
     VisibilityConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "CreateRuleGroup",
@@ -401,7 +401,7 @@ function create_rule_group(
     Scope,
     VisibilityConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "CreateRuleGroup",
@@ -494,7 +494,7 @@ function create_web_acl(
     Name,
     Scope,
     VisibilityConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "CreateWebACL",
@@ -514,7 +514,7 @@ function create_web_acl(
     Scope,
     VisibilityConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "CreateWebACL",
@@ -553,7 +553,7 @@ to disallow use of the key in all regions.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function delete_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_apikey(APIKey, Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "DeleteAPIKey",
         Dict{String,Any}("APIKey" => APIKey, "Scope" => Scope);
@@ -565,7 +565,7 @@ function delete_apikey(
     APIKey,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DeleteAPIKey",
@@ -598,7 +598,7 @@ You can only use this if ManagedByFirewallManager is false in the specified WebA
 
 """
 function delete_firewall_manager_rule_groups(
-    WebACLArn, WebACLLockToken; aws_config::AbstractAWSConfig=global_aws_config()
+    WebACLArn, WebACLLockToken; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DeleteFirewallManagerRuleGroups",
@@ -611,7 +611,7 @@ function delete_firewall_manager_rule_groups(
     WebACLArn,
     WebACLLockToken,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DeleteFirewallManagerRuleGroups",
@@ -657,7 +657,7 @@ Deletes the specified IPSet.
 
 """
 function delete_ipset(
-    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DeleteIPSet",
@@ -674,7 +674,7 @@ function delete_ipset(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DeleteIPSet",
@@ -714,7 +714,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   option. Default: WAF_LOGS
 """
 function delete_logging_configuration(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DeleteLoggingConfiguration",
@@ -726,7 +726,7 @@ end
 function delete_logging_configuration(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DeleteLoggingConfiguration",
@@ -751,7 +751,7 @@ the rule group to perform this operation.
 
 """
 function delete_permission_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DeletePermissionPolicy",
@@ -763,7 +763,7 @@ end
 function delete_permission_policy(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DeletePermissionPolicy",
@@ -802,7 +802,7 @@ Deletes the specified RegexPatternSet.
 
 """
 function delete_regex_pattern_set(
-    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DeleteRegexPatternSet",
@@ -819,7 +819,7 @@ function delete_regex_pattern_set(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DeleteRegexPatternSet",
@@ -865,7 +865,7 @@ Deletes the specified RuleGroup.
 
 """
 function delete_rule_group(
-    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DeleteRuleGroup",
@@ -882,7 +882,7 @@ function delete_rule_group(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DeleteRuleGroup",
@@ -937,7 +937,7 @@ UpdateDistribution in the Amazon CloudFront API Reference.
 
 """
 function delete_web_acl(
-    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DeleteWebACL",
@@ -954,7 +954,7 @@ function delete_web_acl(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DeleteWebACL",
@@ -990,7 +990,7 @@ Amazon Web Services Marketplace managed rule groups.
 
 """
 function describe_all_managed_products(
-    Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DescribeAllManagedProducts",
@@ -1000,7 +1000,7 @@ function describe_all_managed_products(
     )
 end
 function describe_all_managed_products(
-    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DescribeAllManagedProducts",
@@ -1029,7 +1029,7 @@ Provides high-level information for the managed rule groups owned by a specific 
 
 """
 function describe_managed_products_by_vendor(
-    Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DescribeManagedProductsByVendor",
@@ -1042,7 +1042,7 @@ function describe_managed_products_by_vendor(
     Scope,
     VendorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DescribeManagedProductsByVendor",
@@ -1084,7 +1084,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   scheduled for expiration. If you don't provide this, WAF uses the vendor's default version.
 """
 function describe_managed_rule_group(
-    Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DescribeManagedRuleGroup",
@@ -1098,7 +1098,7 @@ function describe_managed_rule_group(
     Scope,
     VendorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DescribeManagedRuleGroup",
@@ -1147,7 +1147,7 @@ For details, see Permissions for DisassociateWebACL in the WAF Developer Guide.
 
 """
 function disassociate_web_acl(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "DisassociateWebACL",
@@ -1159,7 +1159,7 @@ end
 function disassociate_web_acl(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "DisassociateWebACL",
@@ -1186,7 +1186,7 @@ For more information, see WAF client application integration in the WAF Develope
 
 """
 function generate_mobile_sdk_release_url(
-    Platform, ReleaseVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    Platform, ReleaseVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "GenerateMobileSdkReleaseUrl",
@@ -1199,7 +1199,7 @@ function generate_mobile_sdk_release_url(
     Platform,
     ReleaseVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GenerateMobileSdkReleaseUrl",
@@ -1240,7 +1240,7 @@ Guide.
 
 """
 function get_decrypted_apikey(
-    APIKey, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    APIKey, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "GetDecryptedAPIKey",
@@ -1253,7 +1253,7 @@ function get_decrypted_apikey(
     APIKey,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetDecryptedAPIKey",
@@ -1287,7 +1287,7 @@ Retrieves the specified IPSet.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config())
+function get_ipset(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "GetIPSet",
         Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
@@ -1300,7 +1300,7 @@ function get_ipset(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetIPSet",
@@ -1338,7 +1338,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   option. Default: WAF_LOGS
 """
 function get_logging_configuration(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "GetLoggingConfiguration",
@@ -1350,7 +1350,7 @@ end
 function get_logging_configuration(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetLoggingConfiguration",
@@ -1389,7 +1389,7 @@ UpdateManagedRuleSetVersionExpiryDate.
 
 """
 function get_managed_rule_set(
-    Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "GetManagedRuleSet",
@@ -1403,7 +1403,7 @@ function get_managed_rule_set(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetManagedRuleSet",
@@ -1435,7 +1435,7 @@ Developer Guide.
 
 """
 function get_mobile_sdk_release(
-    Platform, ReleaseVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    Platform, ReleaseVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "GetMobileSdkRelease",
@@ -1448,7 +1448,7 @@ function get_mobile_sdk_release(
     Platform,
     ReleaseVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetMobileSdkRelease",
@@ -1479,7 +1479,7 @@ of the rule group to perform this operation.
 
 """
 function get_permission_policy(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "GetPermissionPolicy",
@@ -1491,7 +1491,7 @@ end
 function get_permission_policy(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetPermissionPolicy",
@@ -1543,7 +1543,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This is required only when you have the rate-based rule nested inside a rule group.
 """
 function get_rate_based_statement_managed_keys(
-    RuleName, Scope, WebACLId, WebACLName; aws_config::AbstractAWSConfig=global_aws_config()
+    RuleName,
+    Scope,
+    WebACLId,
+    WebACLName;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetRateBasedStatementManagedKeys",
@@ -1563,7 +1567,7 @@ function get_rate_based_statement_managed_keys(
     WebACLId,
     WebACLName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetRateBasedStatementManagedKeys",
@@ -1604,7 +1608,7 @@ Retrieves the specified RegexPatternSet.
 
 """
 function get_regex_pattern_set(
-    Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "GetRegexPatternSet",
@@ -1618,7 +1622,7 @@ function get_regex_pattern_set(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetRegexPatternSet",
@@ -1655,11 +1659,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 """
-function get_rule_group(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_rule_group(; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2("GetRuleGroup"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function get_rule_group(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "GetRuleGroup", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1709,7 +1713,7 @@ function get_sampled_requests(
     Scope,
     TimeWindow,
     WebAclArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetSampledRequests",
@@ -1731,7 +1735,7 @@ function get_sampled_requests(
     TimeWindow,
     WebAclArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetSampledRequests",
@@ -1773,7 +1777,7 @@ Retrieves the specified WebACL.
   --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
 
 """
-function get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config())
+function get_web_acl(Id, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "GetWebACL",
         Dict{String,Any}("Id" => Id, "Name" => Name, "Scope" => Scope);
@@ -1786,7 +1790,7 @@ function get_web_acl(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetWebACL",
@@ -1832,7 +1836,7 @@ GetWebACLForResource in the WAF Developer Guide.
 
 """
 function get_web_aclfor_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "GetWebACLForResource",
@@ -1844,7 +1848,7 @@ end
 function get_web_aclfor_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "GetWebACLForResource",
@@ -1885,7 +1889,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_apikeys(Scope; aws_config::AbstractAWSConfig=global_aws_config())
+function list_apikeys(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListAPIKeys",
         Dict{String,Any}("Scope" => Scope);
@@ -1894,7 +1898,7 @@ function list_apikeys(Scope; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_apikeys(
-    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListAPIKeys",
@@ -1934,7 +1938,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_available_managed_rule_group_versions(
-    Name, Scope, VendorName; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, Scope, VendorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListAvailableManagedRuleGroupVersions",
@@ -1948,7 +1952,7 @@ function list_available_managed_rule_group_versions(
     Scope,
     VendorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "ListAvailableManagedRuleGroupVersions",
@@ -1994,7 +1998,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_available_managed_rule_groups(
-    Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListAvailableManagedRuleGroups",
@@ -2004,7 +2008,7 @@ function list_available_managed_rule_groups(
     )
 end
 function list_available_managed_rule_groups(
-    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListAvailableManagedRuleGroups",
@@ -2039,7 +2043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_ipsets(Scope; aws_config::AbstractAWSConfig=global_aws_config())
+function list_ipsets(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListIPSets",
         Dict{String,Any}("Scope" => Scope);
@@ -2048,7 +2052,7 @@ function list_ipsets(Scope; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_ipsets(
-    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListIPSets",
@@ -2090,7 +2094,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_logging_configurations(
-    Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListLoggingConfigurations",
@@ -2100,7 +2104,7 @@ function list_logging_configurations(
     )
 end
 function list_logging_configurations(
-    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListLoggingConfigurations",
@@ -2140,7 +2144,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config())
+function list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListManagedRuleSets",
         Dict{String,Any}("Scope" => Scope);
@@ -2149,7 +2153,7 @@ function list_managed_rule_sets(Scope; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function list_managed_rule_sets(
-    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListManagedRuleSets",
@@ -2183,7 +2187,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_mobile_sdk_releases(
-    Platform; aws_config::AbstractAWSConfig=global_aws_config()
+    Platform; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListMobileSdkReleases",
@@ -2195,7 +2199,7 @@ end
 function list_mobile_sdk_releases(
     Platform,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "ListMobileSdkReleases",
@@ -2233,7 +2237,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=global_aws_config())
+function list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListRegexPatternSets",
         Dict{String,Any}("Scope" => Scope);
@@ -2242,7 +2246,7 @@ function list_regex_pattern_sets(Scope; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function list_regex_pattern_sets(
-    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListRegexPatternSets",
@@ -2276,7 +2280,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the resource type APPLICATION_LOAD_BALANCER.   Default: APPLICATION_LOAD_BALANCER
 """
 function list_resources_for_web_acl(
-    WebACLArn; aws_config::AbstractAWSConfig=global_aws_config()
+    WebACLArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListResourcesForWebACL",
@@ -2288,7 +2292,7 @@ end
 function list_resources_for_web_acl(
     WebACLArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "ListResourcesForWebACL",
@@ -2325,7 +2329,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_rule_groups(Scope; aws_config::AbstractAWSConfig=global_aws_config())
+function list_rule_groups(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListRuleGroups",
         Dict{String,Any}("Scope" => Scope);
@@ -2334,7 +2338,7 @@ function list_rule_groups(Scope; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_rule_groups(
-    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListRuleGroups",
@@ -2370,7 +2374,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   prior call in your next request.
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListTagsForResource",
@@ -2382,7 +2386,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "ListTagsForResource",
@@ -2419,7 +2423,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value in the response. To retrieve the next batch of objects, provide the marker from the
   prior call in your next request.
 """
-function list_web_acls(Scope; aws_config::AbstractAWSConfig=global_aws_config())
+function list_web_acls(Scope; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "ListWebACLs",
         Dict{String,Any}("Scope" => Scope);
@@ -2428,7 +2432,7 @@ function list_web_acls(Scope; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_web_acls(
-    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Scope, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "ListWebACLs",
@@ -2468,7 +2472,7 @@ information in the WAF Developer Guide.
 
 """
 function put_logging_configuration(
-    LoggingConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+    LoggingConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "PutLoggingConfiguration",
@@ -2480,7 +2484,7 @@ end
 function put_logging_configuration(
     LoggingConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "PutLoggingConfiguration",
@@ -2544,7 +2548,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   offer to your customers.
 """
 function put_managed_rule_set_versions(
-    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "PutManagedRuleSetVersions",
@@ -2561,7 +2565,7 @@ function put_managed_rule_set_versions(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "PutManagedRuleSetVersions",
@@ -2603,7 +2607,7 @@ owner of the rule group.
 
 """
 function put_permission_policy(
-    Policy, ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "PutPermissionPolicy",
@@ -2616,7 +2620,7 @@ function put_permission_policy(
     Policy,
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "PutPermissionPolicy",
@@ -2649,7 +2653,7 @@ through the WAF console.
 - `tags`: An array of key:value pairs to associate with the resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return wafv2(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -2661,7 +2665,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "TagResource",
@@ -2692,7 +2696,7 @@ add to each container. You can add up to 50 tags to each Amazon Web Services res
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return wafv2(
         "UntagResource",
@@ -2705,7 +2709,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UntagResource",
@@ -2782,7 +2786,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the IP set that helps with identification.
 """
 function update_ipset(
-    Addresses, Id, LockToken, Name, Scope; aws_config::AbstractAWSConfig=global_aws_config()
+    Addresses,
+    Id,
+    LockToken,
+    Name,
+    Scope;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UpdateIPSet",
@@ -2804,7 +2813,7 @@ function update_ipset(
     Name,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UpdateIPSet",
@@ -2873,7 +2882,7 @@ function update_managed_rule_set_version_expiry_date(
     Name,
     Scope,
     VersionToExpire;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UpdateManagedRuleSetVersionExpiryDate",
@@ -2897,7 +2906,7 @@ function update_managed_rule_set_version_expiry_date(
     Scope,
     VersionToExpire,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UpdateManagedRuleSetVersionExpiryDate",
@@ -2970,7 +2979,7 @@ function update_regex_pattern_set(
     Name,
     RegularExpressionList,
     Scope;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UpdateRegexPatternSet",
@@ -2992,7 +3001,7 @@ function update_regex_pattern_set(
     RegularExpressionList,
     Scope,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UpdateRegexPatternSet",
@@ -3080,7 +3089,7 @@ function update_rule_group(
     Name,
     Scope,
     VisibilityConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UpdateRuleGroup",
@@ -3102,7 +3111,7 @@ function update_rule_group(
     Scope,
     VisibilityConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UpdateRuleGroup",
@@ -3221,7 +3230,7 @@ function update_web_acl(
     Name,
     Scope,
     VisibilityConfig;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UpdateWebACL",
@@ -3245,7 +3254,7 @@ function update_web_acl(
     Scope,
     VisibilityConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return wafv2(
         "UpdateWebACL",

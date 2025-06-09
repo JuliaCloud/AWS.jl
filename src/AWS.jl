@@ -283,7 +283,7 @@ function (service::RestXMLService)(
     request_method::String,
     request_uri::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
     feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
@@ -340,7 +340,7 @@ Perform a Query request to AWS.
 function (service::QueryService)(
     operation::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
     feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
@@ -387,7 +387,7 @@ Perform a JSON request to AWS.
 function (service::JSONService)(
     operation::String,
     args::AbstractDict{String,<:Any}=Dict{String,Any}();
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
     feature_set.use_response_type && _delete_legacy_response_kw_args!(args)
@@ -434,7 +434,7 @@ function (service::RestJSONService)(
     request_method::String,
     request_uri::String,
     args::AbstractDict{String,<:Any}=Dict{String,String}();
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
     feature_set::FeatureSet=FeatureSet(),
 )
     feature_set.use_response_type && _delete_legacy_response_kw_args!(args)

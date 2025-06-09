@@ -97,7 +97,7 @@ function delete_scaling_policy(
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "DeleteScalingPolicy",
@@ -117,7 +117,7 @@ function delete_scaling_policy(
     ScalableDimension,
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "DeleteScalingPolicy",
@@ -228,7 +228,7 @@ function delete_scheduled_action(
     ScalableDimension,
     ScheduledActionName,
     ServiceNamespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "DeleteScheduledAction",
@@ -248,7 +248,7 @@ function delete_scheduled_action(
     ScheduledActionName,
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "DeleteScheduledAction",
@@ -360,7 +360,7 @@ function deregister_scalable_target(
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "DeregisterScalableTarget",
@@ -378,7 +378,7 @@ function deregister_scalable_target(
     ScalableDimension,
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "DeregisterScalableTarget",
@@ -493,7 +493,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of copies across an endpoint for a SageMaker inference component.
 """
 function describe_scalable_targets(
-    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_auto_scaling(
         "DescribeScalableTargets",
@@ -505,7 +505,7 @@ end
 function describe_scalable_targets(
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "DescribeScalableTargets",
@@ -620,7 +620,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of copies across an endpoint for a SageMaker inference component.
 """
 function describe_scaling_activities(
-    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_auto_scaling(
         "DescribeScalingActivities",
@@ -632,7 +632,7 @@ end
 function describe_scaling_activities(
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "DescribeScalingActivities",
@@ -743,7 +743,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   number of copies across an endpoint for a SageMaker inference component.
 """
 function describe_scaling_policies(
-    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_auto_scaling(
         "DescribeScalingPolicies",
@@ -755,7 +755,7 @@ end
 function describe_scaling_policies(
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "DescribeScalingPolicies",
@@ -866,7 +866,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScheduledActionNames"`: The names of the scheduled actions to describe.
 """
 function describe_scheduled_actions(
-    ServiceNamespace; aws_config::AbstractAWSConfig=global_aws_config()
+    ServiceNamespace; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_auto_scaling(
         "DescribeScheduledActions",
@@ -878,7 +878,7 @@ end
 function describe_scheduled_actions(
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "DescribeScheduledActions",
@@ -907,7 +907,7 @@ resources in the Amazon Web Services General Reference.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_auto_scaling(
         "ListTagsForResource",
@@ -919,7 +919,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "ListTagsForResource",
@@ -1055,7 +1055,7 @@ function put_scaling_policy(
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "PutScalingPolicy",
@@ -1075,7 +1075,7 @@ function put_scaling_policy(
     ScalableDimension,
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "PutScalingPolicy",
@@ -1218,7 +1218,7 @@ function put_scheduled_action(
     ScalableDimension,
     ScheduledActionName,
     ServiceNamespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "PutScheduledAction",
@@ -1238,7 +1238,7 @@ function put_scheduled_action(
     ScheduledActionName,
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "PutScheduledAction",
@@ -1418,7 +1418,7 @@ function register_scalable_target(
     ResourceId,
     ScalableDimension,
     ServiceNamespace;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "RegisterScalableTarget",
@@ -1436,7 +1436,7 @@ function register_scalable_target(
     ScalableDimension,
     ServiceNamespace,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "RegisterScalableTarget",
@@ -1485,7 +1485,7 @@ the Application Auto Scaling User Guide.
   Billing and Cost Management User Guide.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return application_auto_scaling(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -1497,7 +1497,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "TagResource",
@@ -1529,7 +1529,7 @@ tag key and the Application Auto Scaling scalable target.
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return application_auto_scaling(
         "UntagResource",
@@ -1542,7 +1542,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return application_auto_scaling(
         "UntagResource",

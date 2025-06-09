@@ -18,7 +18,7 @@ Managing Lexicons.
   region.
 
 """
-function delete_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_lexicon(LexiconName; aws_config::AbstractAWSConfig=current_aws_config())
     return polly(
         "DELETE",
         "/v1/lexicons/$(LexiconName)";
@@ -29,7 +29,7 @@ end
 function delete_lexicon(
     LexiconName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return polly(
         "DELETE",
@@ -70,13 +70,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque pagination token returned from the previous DescribeVoices
   operation. If present, this indicates where to continue the listing.
 """
-function describe_voices(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_voices(; aws_config::AbstractAWSConfig=current_aws_config())
     return polly(
         "GET", "/v1/voices"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_voices(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return polly(
         "GET", "/v1/voices", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -94,7 +94,7 @@ Region. For more information, see Managing Lexicons.
 - `lexicon_name`: Name of the lexicon.
 
 """
-function get_lexicon(LexiconName; aws_config::AbstractAWSConfig=global_aws_config())
+function get_lexicon(LexiconName; aws_config::AbstractAWSConfig=current_aws_config())
     return polly(
         "GET",
         "/v1/lexicons/$(LexiconName)";
@@ -105,7 +105,7 @@ end
 function get_lexicon(
     LexiconName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return polly(
         "GET",
@@ -129,7 +129,7 @@ link to the S3 bucket containing the output of the task.
 
 """
 function get_speech_synthesis_task(
-    TaskId; aws_config::AbstractAWSConfig=global_aws_config()
+    TaskId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return polly(
         "GET",
@@ -139,7 +139,7 @@ function get_speech_synthesis_task(
     )
 end
 function get_speech_synthesis_task(
-    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    TaskId, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return polly(
         "GET",
@@ -162,13 +162,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: An opaque pagination token returned from previous ListLexicons operation.
   If present, indicates where to continue the list of lexicons.
 """
-function list_lexicons(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_lexicons(; aws_config::AbstractAWSConfig=current_aws_config())
     return polly(
         "GET", "/v1/lexicons"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_lexicons(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return polly(
         "GET",
@@ -194,13 +194,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   speech synthesis tasks.
 - `"Status"`: Status of the speech synthesis tasks returned in a List operation
 """
-function list_speech_synthesis_tasks(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_speech_synthesis_tasks(; aws_config::AbstractAWSConfig=current_aws_config())
     return polly(
         "GET", "/v1/synthesisTasks"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_speech_synthesis_tasks(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return polly(
         "GET",
@@ -228,7 +228,7 @@ available to the SynthesizeSpeech operation. For more information, see Managing 
 
 """
 function put_lexicon(
-    Content, LexiconName; aws_config::AbstractAWSConfig=global_aws_config()
+    Content, LexiconName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return polly(
         "PUT",
@@ -242,7 +242,7 @@ function put_lexicon(
     Content,
     LexiconName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return polly(
         "PUT",
@@ -306,7 +306,7 @@ function start_speech_synthesis_task(
     OutputS3BucketName,
     Text,
     VoiceId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return polly(
         "POST",
@@ -327,7 +327,7 @@ function start_speech_synthesis_task(
     Text,
     VoiceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return polly(
         "POST",
@@ -397,7 +397,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is plain text. For more information, see Using SSML.
 """
 function synthesize_speech(
-    OutputFormat, Text, VoiceId; aws_config::AbstractAWSConfig=global_aws_config()
+    OutputFormat, Text, VoiceId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return polly(
         "POST",
@@ -414,7 +414,7 @@ function synthesize_speech(
     Text,
     VoiceId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return polly(
         "POST",

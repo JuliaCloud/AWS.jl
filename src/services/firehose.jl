@@ -103,7 +103,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   an explicit deny in an identity-based policy. For an example IAM policy, see Tag example.
 """
 function create_delivery_stream(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "CreateDeliveryStream",
@@ -115,7 +115,7 @@ end
 function create_delivery_stream(
     DeliveryStreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "CreateDeliveryStream",
@@ -159,7 +159,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   KMS issue, Firehose keeps retrying the delete operation. The default value is false.
 """
 function delete_delivery_stream(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "DeleteDeliveryStream",
@@ -171,7 +171,7 @@ end
 function delete_delivery_stream(
     DeliveryStreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "DeleteDeliveryStream",
@@ -208,7 +208,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   destination per delivery stream.
 """
 function describe_delivery_stream(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "DescribeDeliveryStream",
@@ -220,7 +220,7 @@ end
 function describe_delivery_stream(
     DeliveryStreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "DescribeDeliveryStream",
@@ -258,13 +258,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   immediately after the name you specify in ExclusiveStartDeliveryStreamName.
 - `"Limit"`: The maximum number of delivery streams to list. The default value is 10.
 """
-function list_delivery_streams(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_delivery_streams(; aws_config::AbstractAWSConfig=current_aws_config())
     return firehose(
         "ListDeliveryStreams"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_delivery_streams(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "ListDeliveryStreams",
@@ -294,7 +294,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list additional tags, set ExclusiveStartTagKey to the last key in the response.
 """
 function list_tags_for_delivery_stream(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "ListTagsForDeliveryStream",
@@ -306,7 +306,7 @@ end
 function list_tags_for_delivery_stream(
     DeliveryStreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "ListTagsForDeliveryStream",
@@ -360,7 +360,7 @@ of your records. Instead, concatenate the raw data, then perform base64 encoding
 
 """
 function put_record(
-    DeliveryStreamName, Record; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName, Record; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "PutRecord",
@@ -373,7 +373,7 @@ function put_record(
     DeliveryStreamName,
     Record,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "PutRecord",
@@ -447,7 +447,7 @@ fields of your records. Instead, concatenate the raw data, then perform base64 e
 
 """
 function put_record_batch(
-    DeliveryStreamName, Records; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName, Records; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "PutRecordBatch",
@@ -460,7 +460,7 @@ function put_record_batch(
     DeliveryStreamName,
     Records,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "PutRecordBatch",
@@ -523,7 +523,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Resource Name (ARN) of the KMS key needed for Server-Side Encryption (SSE).
 """
 function start_delivery_stream_encryption(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "StartDeliveryStreamEncryption",
@@ -535,7 +535,7 @@ end
 function start_delivery_stream_encryption(
     DeliveryStreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "StartDeliveryStreamEncryption",
@@ -575,7 +575,7 @@ StopDeliveryStreamEncryption 12 times for the same delivery stream in a 24-hour 
 
 """
 function stop_delivery_stream_encryption(
-    DeliveryStreamName; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "StopDeliveryStreamEncryption",
@@ -587,7 +587,7 @@ end
 function stop_delivery_stream_encryption(
     DeliveryStreamName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "StopDeliveryStreamEncryption",
@@ -620,7 +620,7 @@ five transactions per second per account.
 
 """
 function tag_delivery_stream(
-    DeliveryStreamName, Tags; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName, Tags; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "TagDeliveryStream",
@@ -633,7 +633,7 @@ function tag_delivery_stream(
     DeliveryStreamName,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "TagDeliveryStream",
@@ -667,7 +667,7 @@ per account.
 
 """
 function untag_delivery_stream(
-    DeliveryStreamName, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    DeliveryStreamName, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return firehose(
         "UntagDeliveryStream",
@@ -680,7 +680,7 @@ function untag_delivery_stream(
     DeliveryStreamName,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "UntagDeliveryStream",
@@ -754,7 +754,7 @@ function update_destination(
     CurrentDeliveryStreamVersionId,
     DeliveryStreamName,
     DestinationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "UpdateDestination",
@@ -772,7 +772,7 @@ function update_destination(
     DeliveryStreamName,
     DestinationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return firehose(
         "UpdateDestination",

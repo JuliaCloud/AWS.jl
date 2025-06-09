@@ -20,7 +20,7 @@ investigated as a potential cause of the incident.
 
 """
 function batch_get_incident_findings(
-    findingIds, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    findingIds, incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -36,7 +36,7 @@ function batch_get_incident_findings(
     findingIds,
     incidentRecordArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -72,7 +72,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified details.
 - `"tags"`: A list of tags to add to the replication set.
 """
-function create_replication_set(regions; aws_config::AbstractAWSConfig=global_aws_config())
+function create_replication_set(regions; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST",
         "/createReplicationSet",
@@ -82,7 +82,9 @@ function create_replication_set(regions; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function create_replication_set(
-    regions, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    regions,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -125,7 +127,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: A list of tags that you are adding to the response plan.
 """
 function create_response_plan(
-    incidentTemplate, name; aws_config::AbstractAWSConfig=global_aws_config()
+    incidentTemplate, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -143,7 +145,7 @@ function create_response_plan(
     incidentTemplate,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -199,7 +201,7 @@ function create_timeline_event(
     eventTime,
     eventType,
     incidentRecordArn;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -221,7 +223,7 @@ function create_timeline_event(
     eventType,
     incidentRecordArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -254,7 +256,7 @@ Delete an incident record from Incident Manager.
 - `arn`: The Amazon Resource Name (ARN) of the incident record you are deleting.
 
 """
-function delete_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST",
         "/deleteIncidentRecord",
@@ -264,7 +266,7 @@ function delete_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function delete_incident_record(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -286,7 +288,7 @@ Incident Manager data.
 - `arn`: The Amazon Resource Name (ARN) of the replication set you're deleting.
 
 """
-function delete_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST",
         "/deleteReplicationSet",
@@ -296,7 +298,7 @@ function delete_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function delete_replication_set(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -321,7 +323,7 @@ Manager resource.
 
 """
 function delete_resource_policy(
-    policyId, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policyId, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -335,7 +337,7 @@ function delete_resource_policy(
     policyId,
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -363,7 +365,7 @@ alarms and EventBridge events from creating an incident with this response plan.
 - `arn`: The Amazon Resource Name (ARN) of the response plan.
 
 """
-function delete_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST",
         "/deleteResponsePlan",
@@ -373,7 +375,7 @@ function delete_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function delete_response_plan(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -398,7 +400,7 @@ Deletes a timeline event from an incident.
 
 """
 function delete_timeline_event(
-    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -412,7 +414,7 @@ function delete_timeline_event(
     eventId,
     incidentRecordArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -441,7 +443,7 @@ Returns the details for the specified incident record.
 - `arn`: The Amazon Resource Name (ARN) of the incident record.
 
 """
-function get_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "GET",
         "/getIncidentRecord",
@@ -451,7 +453,7 @@ function get_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function get_incident_record(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "GET",
@@ -472,7 +474,7 @@ Retrieve your Incident Manager replication set.
 - `arn`: The Amazon Resource Name (ARN) of the replication set you want to retrieve.
 
 """
-function get_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_replication_set(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "GET",
         "/getReplicationSet",
@@ -482,7 +484,7 @@ function get_replication_set(arn; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function get_replication_set(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "GET",
@@ -511,7 +513,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous call.)
 """
 function get_resource_policies(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -524,7 +526,7 @@ end
 function get_resource_policies(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -547,7 +549,7 @@ Retrieves the details of the specified response plan.
 - `arn`: The Amazon Resource Name (ARN) of the response plan.
 
 """
-function get_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function get_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "GET",
         "/getResponsePlan",
@@ -557,7 +559,7 @@ function get_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function get_response_plan(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "GET",
@@ -582,7 +584,7 @@ Retrieves a timeline event based on its ID and incident record.
 
 """
 function get_timeline_event(
-    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "GET",
@@ -596,7 +598,7 @@ function get_timeline_event(
     eventId,
     incidentRecordArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "GET",
@@ -635,7 +637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous call.)
 """
 function list_incident_findings(
-    incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -648,7 +650,7 @@ end
 function list_incident_findings(
     incidentRecordArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -683,7 +685,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
 """
-function list_incident_records(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_incident_records(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST",
         "/listIncidentRecords";
@@ -692,7 +694,7 @@ function list_incident_records(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_incident_records(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -720,7 +722,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   this token from a previous call.)
 """
 function list_related_items(
-    incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -733,7 +735,7 @@ end
 function list_related_items(
     incidentRecordArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -760,7 +762,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
 """
-function list_replication_sets(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_replication_sets(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST",
         "/listReplicationSets";
@@ -769,7 +771,7 @@ function list_replication_sets(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_replication_sets(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -792,13 +794,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token for the next set of items to return. (You received
   this token from a previous call.)
 """
-function list_response_plans(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_response_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST", "/listResponsePlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_response_plans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -820,7 +822,7 @@ Lists the tags that are attached to the specified response plan or incident.
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "GET",
@@ -832,7 +834,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "GET",
@@ -870,7 +872,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   field.
 """
 function list_timeline_events(
-    incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -883,7 +885,7 @@ end
 function list_timeline_events(
     incidentRecordArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -913,7 +915,7 @@ cross-account sharing, see Cross-Region and cross-account incident management.
 
 """
 function put_resource_policy(
-    policy, resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    policy, resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -927,7 +929,7 @@ function put_resource_policy(
     policy,
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -968,7 +970,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   provided by the response plan.
 - `"triggerDetails"`: Details of what created the incident record in Incident Manager.
 """
-function start_incident(responsePlanArn; aws_config::AbstractAWSConfig=global_aws_config())
+function start_incident(responsePlanArn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST",
         "/startIncident",
@@ -982,7 +984,7 @@ end
 function start_incident(
     responsePlanArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -1013,7 +1015,7 @@ Adds a tag to a response plan.
 - `tags`: A list of tags to add to the response plan.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST",
         "/tags/$(resourceArn)",
@@ -1026,7 +1028,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -1050,7 +1052,7 @@ Removes a tag from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "DELETE",
@@ -1064,7 +1066,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "DELETE",
@@ -1093,7 +1095,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified details.
 """
 function update_deletion_protection(
-    arn, deletionProtected; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, deletionProtected; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -1111,7 +1113,7 @@ function update_deletion_protection(
     arn,
     deletionProtected,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -1159,7 +1161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"summary"`: A longer description of what occurred during the incident.
 - `"title"`: A brief description of the incident.
 """
-function update_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_incident_record(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST",
         "/updateIncidentRecord",
@@ -1169,7 +1171,7 @@ function update_incident_record(arn; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function update_incident_record(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -1204,7 +1206,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the specified details.
 """
 function update_related_items(
-    incidentRecordArn, relatedItemsUpdate; aws_config::AbstractAWSConfig=global_aws_config()
+    incidentRecordArn,
+    relatedItemsUpdate;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -1222,7 +1226,7 @@ function update_related_items(
     incidentRecordArn,
     relatedItemsUpdate,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -1259,7 +1263,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specified details.
 """
 function update_replication_set(
-    actions, arn; aws_config::AbstractAWSConfig=global_aws_config()
+    actions, arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -1275,7 +1279,7 @@ function update_replication_set(
     actions,
     arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",
@@ -1332,7 +1336,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"integrations"`: Information about third-party services integrated into the response
   plan.
 """
-function update_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_config())
+function update_response_plan(arn; aws_config::AbstractAWSConfig=current_aws_config())
     return ssm_incidents(
         "POST",
         "/updateResponsePlan",
@@ -1342,7 +1346,7 @@ function update_response_plan(arn; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function update_response_plan(
-    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -1388,7 +1392,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"eventType"`: The type of event. You can update events of type Custom Event and Note.
 """
 function update_timeline_event(
-    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=global_aws_config()
+    eventId, incidentRecordArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return ssm_incidents(
         "POST",
@@ -1406,7 +1410,7 @@ function update_timeline_event(
     eventId,
     incidentRecordArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return ssm_incidents(
         "POST",

@@ -20,7 +20,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description for the discoverer.
 - `"tags"`: Tags associated with the resource.
 """
-function create_discoverer(SourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function create_discoverer(SourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "POST",
         "/v1/discoverers",
@@ -32,7 +32,7 @@ end
 function create_discoverer(
     SourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "POST",
@@ -59,7 +59,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Description"`: A description of the registry to be created.
 - `"tags"`: Tags to associate with the registry.
 """
-function create_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
+function create_registry(registryName; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "POST",
         "/v1/registries/name/$(registryName)";
@@ -70,7 +70,7 @@ end
 function create_registry(
     registryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "POST",
@@ -103,7 +103,7 @@ function create_schema(
     Type,
     registryName,
     schemaName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "POST",
@@ -119,7 +119,7 @@ function create_schema(
     registryName,
     schemaName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "POST",
@@ -144,7 +144,7 @@ Deletes a discoverer.
 - `discoverer_id`: The ID of the discoverer.
 
 """
-function delete_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_discoverer(discovererId; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "DELETE",
         "/v1/discoverers/id/$(discovererId)";
@@ -155,7 +155,7 @@ end
 function delete_discoverer(
     discovererId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "DELETE",
@@ -176,7 +176,7 @@ Deletes a Registry.
 - `registry_name`: The name of the registry.
 
 """
-function delete_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_registry(registryName; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "DELETE",
         "/v1/registries/name/$(registryName)";
@@ -187,7 +187,7 @@ end
 function delete_registry(
     registryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "DELETE",
@@ -208,13 +208,13 @@ Delete the resource-based policy attached to the specified registry.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"registryName"`: The name of the registry.
 """
-function delete_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "DELETE", "/v1/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function delete_resource_policy(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "DELETE",
@@ -237,7 +237,7 @@ Delete a schema definition.
 
 """
 function delete_schema(
-    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    registryName, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "DELETE",
@@ -250,7 +250,7 @@ function delete_schema(
     registryName,
     schemaName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "DELETE",
@@ -277,7 +277,7 @@ function delete_schema_version(
     registryName,
     schemaName,
     schemaVersion;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "DELETE",
@@ -291,7 +291,7 @@ function delete_schema_version(
     schemaName,
     schemaVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "DELETE",
@@ -318,7 +318,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
 function describe_code_binding(
-    language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    language, registryName, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET",
@@ -332,7 +332,7 @@ function describe_code_binding(
     registryName,
     schemaName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "GET",
@@ -354,7 +354,7 @@ Describes the discoverer.
 
 """
 function describe_discoverer(
-    discovererId; aws_config::AbstractAWSConfig=global_aws_config()
+    discovererId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET",
@@ -366,7 +366,7 @@ end
 function describe_discoverer(
     discovererId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "GET",
@@ -387,7 +387,7 @@ Describes the registry.
 - `registry_name`: The name of the registry.
 
 """
-function describe_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_registry(registryName; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "GET",
         "/v1/registries/name/$(registryName)";
@@ -398,7 +398,7 @@ end
 function describe_registry(
     registryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "GET",
@@ -424,7 +424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
 function describe_schema(
-    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    registryName, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET",
@@ -437,7 +437,7 @@ function describe_schema(
     registryName,
     schemaName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "GET",
@@ -464,7 +464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
 function export_schema(
-    registryName, schemaName, type; aws_config::AbstractAWSConfig=global_aws_config()
+    registryName, schemaName, type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET",
@@ -479,7 +479,7 @@ function export_schema(
     schemaName,
     type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "GET",
@@ -506,7 +506,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
 function get_code_binding_source(
-    language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    language, registryName, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET",
@@ -520,7 +520,7 @@ function get_code_binding_source(
     registryName,
     schemaName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "GET",
@@ -545,7 +545,7 @@ Get the discovered schema that was generated based on sampled events.
 
 """
 function get_discovered_schema(
-    Events, Type; aws_config::AbstractAWSConfig=global_aws_config()
+    Events, Type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "POST",
@@ -559,7 +559,7 @@ function get_discovered_schema(
     Events,
     Type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "POST",
@@ -582,13 +582,13 @@ Retrieves the resource-based policy attached to a given registry.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"registryName"`: The name of the registry.
 """
-function get_resource_policy(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_resource_policy(; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "GET", "/v1/policy"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_resource_policy(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET", "/v1/policy", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -612,13 +612,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sourceArnPrefix"`: Specifying this limits the results to only those ARNs that start
   with the specified prefix.
 """
-function list_discoverers(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_discoverers(; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "GET", "/v1/discoverers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_discoverers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET",
@@ -646,13 +646,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"scope"`: Can be set to Local or AWS to limit responses to your custom registries, or
   the ones provided by AWS.
 """
-function list_registries(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_registries(; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "GET", "/v1/registries"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_registries(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET",
@@ -681,7 +681,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   shared with other accounts.
 """
 function list_schema_versions(
-    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    registryName, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET",
@@ -694,7 +694,7 @@ function list_schema_versions(
     registryName,
     schemaName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "GET",
@@ -723,7 +723,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schemaNamePrefix"`: Specifying this limits the results to only those schema names that
   start with the specified prefix.
 """
-function list_schemas(registryName; aws_config::AbstractAWSConfig=global_aws_config())
+function list_schemas(registryName; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "GET",
         "/v1/registries/name/$(registryName)/schemas";
@@ -734,7 +734,7 @@ end
 function list_schemas(
     registryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "GET",
@@ -756,7 +756,7 @@ Get tags for resource.
 
 """
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET",
@@ -768,7 +768,7 @@ end
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "GET",
@@ -795,7 +795,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"schemaVersion"`: Specifying this limits the results to only this schema version.
 """
 function put_code_binding(
-    language, registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    language, registryName, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "POST",
@@ -809,7 +809,7 @@ function put_code_binding(
     registryName,
     schemaName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "POST",
@@ -834,7 +834,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RevisionId"`: The revision ID of the policy.
 - `"registryName"`: The name of the registry.
 """
-function put_resource_policy(Policy; aws_config::AbstractAWSConfig=global_aws_config())
+function put_resource_policy(Policy; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "PUT",
         "/v1/policy",
@@ -844,7 +844,7 @@ function put_resource_policy(Policy; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function put_resource_policy(
-    Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Policy, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "PUT",
@@ -874,7 +874,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   shared with other accounts.
 """
 function search_schemas(
-    keywords, registryName; aws_config::AbstractAWSConfig=global_aws_config()
+    keywords, registryName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "GET",
@@ -888,7 +888,7 @@ function search_schemas(
     keywords,
     registryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "GET",
@@ -911,7 +911,7 @@ Starts the discoverer
 - `discoverer_id`: The ID of the discoverer.
 
 """
-function start_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
+function start_discoverer(discovererId; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "POST",
         "/v1/discoverers/id/$(discovererId)/start";
@@ -922,7 +922,7 @@ end
 function start_discoverer(
     discovererId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "POST",
@@ -943,7 +943,7 @@ Stops the discoverer
 - `discoverer_id`: The ID of the discoverer.
 
 """
-function stop_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_discoverer(discovererId; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "POST",
         "/v1/discoverers/id/$(discovererId)/stop";
@@ -954,7 +954,7 @@ end
 function stop_discoverer(
     discovererId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "POST",
@@ -976,7 +976,9 @@ Add tags to a resource.
 - `tags`: Tags associated with the resource.
 
 """
-function tag_resource(resource_arn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(
+    resource_arn, tags; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return schemas(
         "POST",
         "/tags/$(resource-arn)",
@@ -989,7 +991,7 @@ function tag_resource(
     resource_arn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "POST",
@@ -1012,7 +1014,7 @@ Removes tags from a resource.
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "DELETE",
@@ -1026,7 +1028,7 @@ function untag_resource(
     resource_arn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "DELETE",
@@ -1052,7 +1054,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   account. (default: true)
 - `"Description"`: The description of the discoverer to update.
 """
-function update_discoverer(discovererId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_discoverer(discovererId; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "PUT",
         "/v1/discoverers/id/$(discovererId)";
@@ -1063,7 +1065,7 @@ end
 function update_discoverer(
     discovererId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "PUT",
@@ -1087,7 +1089,7 @@ Updates a registry.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"Description"`: The description of the registry to update.
 """
-function update_registry(registryName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_registry(registryName; aws_config::AbstractAWSConfig=current_aws_config())
     return schemas(
         "PUT",
         "/v1/registries/name/$(registryName)";
@@ -1098,7 +1100,7 @@ end
 function update_registry(
     registryName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "PUT",
@@ -1127,7 +1129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Type"`: The schema type for the events schema.
 """
 function update_schema(
-    registryName, schemaName; aws_config::AbstractAWSConfig=global_aws_config()
+    registryName, schemaName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return schemas(
         "PUT",
@@ -1141,7 +1143,7 @@ function update_schema(
     registryName,
     schemaName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return schemas(
         "PUT",

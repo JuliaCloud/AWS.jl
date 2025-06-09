@@ -24,7 +24,7 @@ function create_scaling_plan(
     ApplicationSource,
     ScalingInstructions,
     ScalingPlanName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return auto_scaling_plans(
         "CreateScalingPlan",
@@ -42,7 +42,7 @@ function create_scaling_plan(
     ScalingInstructions,
     ScalingPlanName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return auto_scaling_plans(
         "CreateScalingPlan",
@@ -78,7 +78,7 @@ resources separately.
 
 """
 function delete_scaling_plan(
-    ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auto_scaling_plans(
         "DeleteScalingPlan",
@@ -93,7 +93,7 @@ function delete_scaling_plan(
     ScalingPlanName,
     ScalingPlanVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return auto_scaling_plans(
         "DeleteScalingPlan",
@@ -130,7 +130,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token for the next set of results.
 """
 function describe_scaling_plan_resources(
-    ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auto_scaling_plans(
         "DescribeScalingPlanResources",
@@ -145,7 +145,7 @@ function describe_scaling_plan_resources(
     ScalingPlanName,
     ScalingPlanVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return auto_scaling_plans(
         "DescribeScalingPlanResources",
@@ -183,13 +183,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is 1.  If you specify a scaling plan version, you must also specify a scaling plan
   name.
 """
-function describe_scaling_plans(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_scaling_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return auto_scaling_plans(
         "DescribeScalingPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_scaling_plans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auto_scaling_plans(
         "DescribeScalingPlans",
@@ -243,7 +243,7 @@ function get_scaling_plan_resource_forecast_data(
     ScalingPlanVersion,
     ServiceNamespace,
     StartTime;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return auto_scaling_plans(
         "GetScalingPlanResourceForecastData",
@@ -271,7 +271,7 @@ function get_scaling_plan_resource_forecast_data(
     ServiceNamespace,
     StartTime,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return auto_scaling_plans(
         "GetScalingPlanResourceForecastData",
@@ -316,7 +316,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   ScalingInstruction in the AWS Auto Scaling API Reference.
 """
 function update_scaling_plan(
-    ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()
+    ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return auto_scaling_plans(
         "UpdateScalingPlan",
@@ -331,7 +331,7 @@ function update_scaling_plan(
     ScalingPlanName,
     ScalingPlanVersion,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return auto_scaling_plans(
         "UpdateScalingPlan",

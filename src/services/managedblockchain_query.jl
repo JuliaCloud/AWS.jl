@@ -17,7 +17,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"getTokenBalanceInputs"`: An array of BatchGetTokenBalanceInputItem objects whose
   balance is being requested.
 """
-function batch_get_token_balance(; aws_config::AbstractAWSConfig=global_aws_config())
+function batch_get_token_balance(; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain_query(
         "POST",
         "/batch-get-token-balance";
@@ -26,7 +26,7 @@ function batch_get_token_balance(; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function batch_get_token_balance(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain_query(
         "POST",
@@ -52,7 +52,7 @@ future.
 
 """
 function get_asset_contract(
-    contractIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    contractIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain_query(
         "POST",
@@ -65,7 +65,7 @@ end
 function get_asset_contract(
     contractIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain_query(
         "POST",
@@ -100,7 +100,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   second.
 """
 function get_token_balance(
-    ownerIdentifier, tokenIdentifier; aws_config::AbstractAWSConfig=global_aws_config()
+    ownerIdentifier, tokenIdentifier; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain_query(
         "POST",
@@ -116,7 +116,7 @@ function get_token_balance(
     ownerIdentifier,
     tokenIdentifier,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain_query(
         "POST",
@@ -153,7 +153,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"transactionId"`: The identifier of a Bitcoin transaction. It is generated when a
   transaction is created.   transactionId is only supported on the Bitcoin networks.
 """
-function get_transaction(network; aws_config::AbstractAWSConfig=global_aws_config())
+function get_transaction(network; aws_config::AbstractAWSConfig=current_aws_config())
     return managedblockchain_query(
         "POST",
         "/get-transaction",
@@ -163,7 +163,9 @@ function get_transaction(network; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function get_transaction(
-    network, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    network,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain_query(
         "POST",
@@ -194,7 +196,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`:  The pagination token that indicates the next set of results to retrieve.
 """
 function list_asset_contracts(
-    contractFilter; aws_config::AbstractAWSConfig=global_aws_config()
+    contractFilter; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain_query(
         "POST",
@@ -207,7 +209,7 @@ end
 function list_asset_contracts(
     contractFilter,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain_query(
         "POST",
@@ -249,7 +251,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   event types
 """
 function list_filtered_transaction_events(
-    addressIdentifierFilter, network; aws_config::AbstractAWSConfig=global_aws_config()
+    addressIdentifierFilter, network; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain_query(
         "POST",
@@ -265,7 +267,7 @@ function list_filtered_transaction_events(
     addressIdentifierFilter,
     network,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain_query(
         "POST",
@@ -313,7 +315,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   filter the request. You must specify the address property of the ownerFilter when listing
   balances of tokens owned by the address.
 """
-function list_token_balances(tokenFilter; aws_config::AbstractAWSConfig=global_aws_config())
+function list_token_balances(
+    tokenFilter; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return managedblockchain_query(
         "POST",
         "/list-token-balances",
@@ -325,7 +329,7 @@ end
 function list_token_balances(
     tokenFilter,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain_query(
         "POST",
@@ -362,7 +366,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"transactionId"`: The identifier of a Bitcoin transaction. It is generated when a
   transaction is created.   transactionId is only supported on the Bitcoin networks.
 """
-function list_transaction_events(network; aws_config::AbstractAWSConfig=global_aws_config())
+function list_transaction_events(
+    network; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return managedblockchain_query(
         "POST",
         "/list-transaction-events",
@@ -372,7 +378,9 @@ function list_transaction_events(network; aws_config::AbstractAWSConfig=global_a
     )
 end
 function list_transaction_events(
-    network, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    network,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain_query(
         "POST",
@@ -410,7 +418,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"toBlockchainInstant"`:
 """
 function list_transactions(
-    address, network; aws_config::AbstractAWSConfig=global_aws_config()
+    address, network; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return managedblockchain_query(
         "POST",
@@ -424,7 +432,7 @@ function list_transactions(
     address,
     network,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return managedblockchain_query(
         "POST",

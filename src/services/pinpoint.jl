@@ -15,7 +15,7 @@ using AWS.UUIDs
 
 """
 function create_app(
-    CreateApplicationRequest; aws_config::AbstractAWSConfig=global_aws_config()
+    CreateApplicationRequest; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -28,7 +28,7 @@ end
 function create_app(
     CreateApplicationRequest,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -59,7 +59,7 @@ for an application.
 
 """
 function create_campaign(
-    WriteCampaignRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    WriteCampaignRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -73,7 +73,7 @@ function create_campaign(
     WriteCampaignRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -104,7 +104,7 @@ Creates a message template for messages that are sent through the email channel.
 
 """
 function create_email_template(
-    EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -118,7 +118,7 @@ function create_email_template(
     EmailTemplateRequest,
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -148,7 +148,7 @@ Creates an export job for an application.
 
 """
 function create_export_job(
-    ExportJobRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    ExportJobRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -162,7 +162,7 @@ function create_export_job(
     ExportJobRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -190,7 +190,7 @@ Creates an import job for an application.
 
 """
 function create_import_job(
-    ImportJobRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    ImportJobRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -204,7 +204,7 @@ function create_import_job(
     ImportJobRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -233,7 +233,7 @@ Creates a new message template for messages using the in-app message channel.
 
 """
 function create_in_app_template(
-    InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -247,7 +247,7 @@ function create_in_app_template(
     InAppTemplateRequest,
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -277,7 +277,7 @@ Creates a journey for an application.
 
 """
 function create_journey(
-    WriteJourneyRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    WriteJourneyRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -291,7 +291,7 @@ function create_journey(
     WriteJourneyRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -324,7 +324,7 @@ Creates a message template for messages that are sent through a push notificatio
 function create_push_template(
     PushNotificationTemplateRequest,
     template_name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -340,7 +340,7 @@ function create_push_template(
     PushNotificationTemplateRequest,
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -370,7 +370,7 @@ Creates an Amazon Pinpoint configuration for a recommender model.
 
 """
 function create_recommender_configuration(
-    CreateRecommenderConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+    CreateRecommenderConfiguration; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -385,7 +385,7 @@ end
 function create_recommender_configuration(
     CreateRecommenderConfiguration,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -418,7 +418,7 @@ settings for an existing segment that's associated with an application.
 
 """
 function create_segment(
-    WriteSegmentRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    WriteSegmentRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -432,7 +432,7 @@ function create_segment(
     WriteSegmentRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -463,7 +463,7 @@ Creates a message template for messages that are sent through the SMS channel.
 
 """
 function create_sms_template(
-    SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -477,7 +477,7 @@ function create_sms_template(
     SMSTemplateRequest,
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -506,7 +506,7 @@ Creates a message template for messages that are sent through the voice channel.
 
 """
 function create_voice_template(
-    VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -520,7 +520,7 @@ function create_voice_template(
     VoiceTemplateRequest,
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -550,7 +550,7 @@ channel.
 
 """
 function delete_adm_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -562,7 +562,7 @@ end
 function delete_adm_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -586,7 +586,7 @@ channel.
 
 """
 function delete_apns_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -598,7 +598,7 @@ end
 function delete_apns_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -622,7 +622,7 @@ the channel.
 
 """
 function delete_apns_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -634,7 +634,7 @@ end
 function delete_apns_sandbox_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -658,7 +658,7 @@ channel.
 
 """
 function delete_apns_voip_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -670,7 +670,7 @@ end
 function delete_apns_voip_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -694,7 +694,7 @@ for the channel.
 
 """
 function delete_apns_voip_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -706,7 +706,7 @@ end
 function delete_apns_voip_sandbox_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -728,7 +728,7 @@ Deletes an application.
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function delete_app(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_app(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "DELETE",
         "/v1/apps/$(application-id)";
@@ -739,7 +739,7 @@ end
 function delete_app(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -763,7 +763,7 @@ channel.
 
 """
 function delete_baidu_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -775,7 +775,7 @@ end
 function delete_baidu_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -799,7 +799,7 @@ Deletes a campaign from an application.
 
 """
 function delete_campaign(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -812,7 +812,7 @@ function delete_campaign(
     application_id,
     campaign_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -836,7 +836,7 @@ channel.
 
 """
 function delete_email_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -848,7 +848,7 @@ end
 function delete_email_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -885,7 +885,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_email_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -897,7 +897,7 @@ end
 function delete_email_template(
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -922,7 +922,7 @@ Deletes an endpoint from an application.
 
 """
 function delete_endpoint(
-    application_id, endpoint_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -935,7 +935,7 @@ function delete_endpoint(
     application_id,
     endpoint_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -958,7 +958,7 @@ Deletes the event stream for an application.
 
 """
 function delete_event_stream(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -970,7 +970,7 @@ end
 function delete_event_stream(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -994,7 +994,7 @@ channel.
 
 """
 function delete_gcm_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1006,7 +1006,7 @@ end
 function delete_gcm_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1043,7 +1043,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_in_app_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1055,7 +1055,7 @@ end
 function delete_in_app_template(
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1079,7 +1079,7 @@ Deletes a journey from an application.
 
 """
 function delete_journey(
-    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1092,7 +1092,7 @@ function delete_journey(
     application_id,
     journey_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1129,7 +1129,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_push_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1141,7 +1141,7 @@ end
 function delete_push_template(
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1164,7 +1164,7 @@ Deletes an Amazon Pinpoint configuration for a recommender model.
 
 """
 function delete_recommender_configuration(
-    recommender_id; aws_config::AbstractAWSConfig=global_aws_config()
+    recommender_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1176,7 +1176,7 @@ end
 function delete_recommender_configuration(
     recommender_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1200,7 +1200,7 @@ Deletes a segment from an application.
 
 """
 function delete_segment(
-    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1213,7 +1213,7 @@ function delete_segment(
     application_id,
     segment_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1237,7 +1237,7 @@ channel.
 
 """
 function delete_sms_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1249,7 +1249,7 @@ end
 function delete_sms_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1286,7 +1286,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_sms_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1298,7 +1298,7 @@ end
 function delete_sms_template(
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1322,7 +1322,7 @@ Deletes all the endpoints that are associated with a specific user ID.
 
 """
 function delete_user_endpoints(
-    application_id, user_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, user_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1335,7 +1335,7 @@ function delete_user_endpoints(
     application_id,
     user_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1359,7 +1359,7 @@ channel.
 
 """
 function delete_voice_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1371,7 +1371,7 @@ end
 function delete_voice_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1408,7 +1408,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function delete_voice_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -1420,7 +1420,7 @@ end
 function delete_voice_template(
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -1442,7 +1442,7 @@ Retrieves information about the status and settings of the ADM channel for an ap
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_adm_channel(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_adm_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/adm";
@@ -1453,7 +1453,7 @@ end
 function get_adm_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1475,7 +1475,9 @@ Retrieves information about the status and settings of the APNs channel for an a
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_apns_channel(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_apns_channel(
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/apns";
@@ -1486,7 +1488,7 @@ end
 function get_apns_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1510,7 +1512,7 @@ application.
 
 """
 function get_apns_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -1522,7 +1524,7 @@ end
 function get_apns_sandbox_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1546,7 +1548,7 @@ application.
 
 """
 function get_apns_voip_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -1558,7 +1560,7 @@ end
 function get_apns_voip_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1582,7 +1584,7 @@ application.
 
 """
 function get_apns_voip_sandbox_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -1594,7 +1596,7 @@ end
 function get_apns_voip_sandbox_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1616,7 +1618,7 @@ Retrieves information about an application.
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_app(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_app(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)";
@@ -1627,7 +1629,7 @@ end
 function get_app(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1670,7 +1672,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
 function get_application_date_range_kpi(
-    application_id, kpi_name; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -1683,7 +1685,7 @@ function get_application_date_range_kpi(
     application_id,
     kpi_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1706,7 +1708,7 @@ Retrieves information about the settings for an application.
 
 """
 function get_application_settings(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -1718,7 +1720,7 @@ end
 function get_application_settings(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1743,13 +1745,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_apps(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_apps(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET", "/v1/apps"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_apps(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET", "/v1/apps", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1768,7 +1770,7 @@ Retrieves information about the status and settings of the Baidu channel for an 
 
 """
 function get_baidu_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -1780,7 +1782,7 @@ end
 function get_baidu_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1804,7 +1806,7 @@ Retrieves information about the status, configuration, and other settings for a 
 
 """
 function get_campaign(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -1817,7 +1819,7 @@ function get_campaign(
     application_id,
     campaign_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1847,7 +1849,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_campaign_activities(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -1860,7 +1862,7 @@ function get_campaign_activities(
     application_id,
     campaign_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1903,7 +1905,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
 function get_campaign_date_range_kpi(
-    application_id, campaign_id, kpi_name; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id,
+    campaign_id,
+    kpi_name;
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1917,7 +1922,7 @@ function get_campaign_date_range_kpi(
     campaign_id,
     kpi_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1943,7 +1948,7 @@ version of a campaign.
 
 """
 function get_campaign_version(
-    application_id, campaign_id, version; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, campaign_id, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -1957,7 +1962,7 @@ function get_campaign_version(
     campaign_id,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -1988,7 +1993,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_campaign_versions(
-    application_id, campaign_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, campaign_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2001,7 +2006,7 @@ function get_campaign_versions(
     application_id,
     campaign_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2030,7 +2035,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_campaigns(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_campaigns(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/campaigns";
@@ -2041,7 +2046,7 @@ end
 function get_campaigns(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2063,7 +2068,7 @@ Retrieves information about the history and status of each channel for an applic
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_channels(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_channels(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels";
@@ -2074,7 +2079,7 @@ end
 function get_channels(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2097,7 +2102,7 @@ Retrieves information about the status and settings of the email channel for an 
 
 """
 function get_email_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2109,7 +2114,7 @@ end
 function get_email_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2147,7 +2152,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_email_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2159,7 +2164,7 @@ end
 function get_email_template(
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2185,7 +2190,7 @@ application.
 
 """
 function get_endpoint(
-    application_id, endpoint_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2198,7 +2203,7 @@ function get_endpoint(
     application_id,
     endpoint_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2220,7 +2225,9 @@ Retrieves information about the event stream settings for an application.
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_event_stream(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_event_stream(
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/eventstream";
@@ -2231,7 +2238,7 @@ end
 function get_event_stream(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2256,7 +2263,7 @@ application.
 
 """
 function get_export_job(
-    application_id, job_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, job_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2269,7 +2276,7 @@ function get_export_job(
     application_id,
     job_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2298,7 +2305,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_export_jobs(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_export_jobs(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/jobs/export";
@@ -2309,7 +2316,7 @@ end
 function get_export_jobs(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2331,7 +2338,7 @@ Retrieves information about the status and settings of the GCM channel for an ap
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_gcm_channel(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_gcm_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/gcm";
@@ -2342,7 +2349,7 @@ end
 function get_gcm_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2367,7 +2374,7 @@ application.
 
 """
 function get_import_job(
-    application_id, job_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, job_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2380,7 +2387,7 @@ function get_import_job(
     application_id,
     job_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2409,7 +2416,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_import_jobs(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_import_jobs(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/jobs/import";
@@ -2420,7 +2427,7 @@ end
 function get_import_jobs(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2444,7 +2451,7 @@ Retrieves the in-app messages targeted for the provided endpoint ID.
 
 """
 function get_in_app_messages(
-    application_id, endpoint_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, endpoint_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2457,7 +2464,7 @@ function get_in_app_messages(
     application_id,
     endpoint_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2495,7 +2502,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_in_app_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2507,7 +2514,7 @@ end
 function get_in_app_template(
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2531,7 +2538,7 @@ Retrieves information about the status, configuration, and other settings for a 
 
 """
 function get_journey(
-    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2544,7 +2551,7 @@ function get_journey(
     application_id,
     journey_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2588,7 +2595,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   July 19, 2019. This value should also be fewer than 90 days from the current day.
 """
 function get_journey_date_range_kpi(
-    application_id, journey_id, kpi_name; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, journey_id, kpi_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2602,7 +2609,7 @@ function get_journey_date_range_kpi(
     journey_id,
     kpi_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2637,7 +2644,7 @@ function get_journey_execution_activity_metrics(
     application_id,
     journey_activity_id,
     journey_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2651,7 +2658,7 @@ function get_journey_execution_activity_metrics(
     journey_activity_id,
     journey_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2682,7 +2689,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function get_journey_execution_metrics(
-    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2695,7 +2702,7 @@ function get_journey_execution_metrics(
     application_id,
     journey_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2732,7 +2739,7 @@ function get_journey_run_execution_activity_metrics(
     journey_activity_id,
     journey_id,
     run_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2747,7 +2754,7 @@ function get_journey_run_execution_activity_metrics(
     journey_id,
     run_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2779,7 +2786,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function get_journey_run_execution_metrics(
-    application_id, journey_id, run_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, journey_id, run_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2793,7 +2800,7 @@ function get_journey_run_execution_metrics(
     journey_id,
     run_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2823,7 +2830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_journey_runs(
-    application_id, journey_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, journey_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2836,7 +2843,7 @@ function get_journey_runs(
     application_id,
     journey_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2873,7 +2880,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if the create-new-version parameter isn't used or is set to false. For a delete operation,
   deletes the template, including all versions of the template.
 """
-function get_push_template(template_name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_push_template(
+    template_name; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return pinpoint(
         "GET",
         "/v1/templates/$(template-name)/push";
@@ -2884,7 +2893,7 @@ end
 function get_push_template(
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2907,7 +2916,7 @@ Retrieves information about an Amazon Pinpoint configuration for a recommender m
 
 """
 function get_recommender_configuration(
-    recommender_id; aws_config::AbstractAWSConfig=global_aws_config()
+    recommender_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2919,7 +2928,7 @@ end
 function get_recommender_configuration(
     recommender_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -2944,13 +2953,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_recommender_configurations(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_recommender_configurations(;
+    aws_config::AbstractAWSConfig=current_aws_config()
+)
     return pinpoint(
         "GET", "/v1/recommenders"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_recommender_configurations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2975,7 +2986,7 @@ segment that's associated with an application.
 
 """
 function get_segment(
-    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -2988,7 +2999,7 @@ function get_segment(
     application_id,
     segment_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3018,7 +3029,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_segment_export_jobs(
-    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -3031,7 +3042,7 @@ function get_segment_export_jobs(
     application_id,
     segment_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3061,7 +3072,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_segment_import_jobs(
-    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -3074,7 +3085,7 @@ function get_segment_import_jobs(
     application_id,
     segment_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3100,7 +3111,7 @@ version of a segment that's associated with an application.
 
 """
 function get_segment_version(
-    application_id, segment_id, version; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id, version; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -3114,7 +3125,7 @@ function get_segment_version(
     segment_id,
     version,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3145,7 +3156,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   paginated response.
 """
 function get_segment_versions(
-    application_id, segment_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, segment_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -3158,7 +3169,7 @@ function get_segment_versions(
     application_id,
     segment_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3187,7 +3198,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function get_segments(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_segments(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/segments";
@@ -3198,7 +3209,7 @@ end
 function get_segments(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3220,7 +3231,7 @@ Retrieves information about the status and settings of the SMS channel for an ap
   as the Project ID on the Amazon Pinpoint console.
 
 """
-function get_sms_channel(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function get_sms_channel(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/channels/sms";
@@ -3231,7 +3242,7 @@ end
 function get_sms_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3268,7 +3279,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   if the create-new-version parameter isn't used or is set to false. For a delete operation,
   deletes the template, including all versions of the template.
 """
-function get_sms_template(template_name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_sms_template(template_name; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/templates/$(template-name)/sms";
@@ -3279,7 +3290,7 @@ end
 function get_sms_template(
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3303,7 +3314,7 @@ Retrieves information about all the endpoints that are associated with a specifi
 
 """
 function get_user_endpoints(
-    application_id, user_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id, user_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -3316,7 +3327,7 @@ function get_user_endpoints(
     application_id,
     user_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3339,7 +3350,7 @@ Retrieves information about the status and settings of the voice channel for an 
 
 """
 function get_voice_channel(
-    application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -3351,7 +3362,7 @@ end
 function get_voice_channel(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3389,7 +3400,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function get_voice_template(
-    template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -3401,7 +3412,7 @@ end
 function get_voice_template(
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3430,7 +3441,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"token"`: The NextToken string that specifies which page of results to return in a
   paginated response.
 """
-function list_journeys(application_id; aws_config::AbstractAWSConfig=global_aws_config())
+function list_journeys(application_id; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET",
         "/v1/apps/$(application-id)/journeys";
@@ -3441,7 +3452,7 @@ end
 function list_journeys(
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3464,7 +3475,7 @@ message template, or segment.
 
 """
 function list_tags_for_resource(
-    resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -3476,7 +3487,7 @@ end
 function list_tags_for_resource(
     resource_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3508,7 +3519,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response. This parameter is not supported for application, campaign, and journey metrics.
 """
 function list_template_versions(
-    template_name, template_type; aws_config::AbstractAWSConfig=global_aws_config()
+    template_name, template_type; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -3521,7 +3532,7 @@ function list_template_versions(
     template_name,
     template_type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "GET",
@@ -3552,13 +3563,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are: EMAIL, PUSH, SMS, and VOICE. To include all types of templates in the results, don't
   include this parameter in your request.
 """
-function list_templates(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_templates(; aws_config::AbstractAWSConfig=current_aws_config())
     return pinpoint(
         "GET", "/v1/templates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_templates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "GET",
@@ -3580,7 +3591,7 @@ Retrieves information about a phone number.
 
 """
 function phone_number_validate(
-    NumberValidateRequest; aws_config::AbstractAWSConfig=global_aws_config()
+    NumberValidateRequest; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -3593,7 +3604,7 @@ end
 function phone_number_validate(
     NumberValidateRequest,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -3624,7 +3635,7 @@ stream for an application.
 
 """
 function put_event_stream(
-    WriteEventStream, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    WriteEventStream, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -3638,7 +3649,7 @@ function put_event_stream(
     WriteEventStream,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -3667,7 +3678,7 @@ existing events are associated with.
 
 """
 function put_events(
-    EventsRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    EventsRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -3681,7 +3692,7 @@ function put_events(
     EventsRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -3719,7 +3730,7 @@ function remove_attributes(
     UpdateAttributesRequest,
     application_id,
     attribute_type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -3734,7 +3745,7 @@ function remove_attributes(
     application_id,
     attribute_type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -3764,7 +3775,7 @@ Creates and sends a direct message.
 
 """
 function send_messages(
-    MessageRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    MessageRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -3778,7 +3789,7 @@ function send_messages(
     MessageRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -3805,7 +3816,7 @@ Send an OTP message
 function send_otpmessage(
     SendOTPMessageRequestParameters,
     application_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -3821,7 +3832,7 @@ function send_otpmessage(
     SendOTPMessageRequestParameters,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -3855,7 +3866,7 @@ Creates and sends a message to a list of users.
 function send_users_messages(
     SendUsersMessageRequest,
     application_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -3869,7 +3880,7 @@ function send_users_messages(
     SendUsersMessageRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -3899,7 +3910,7 @@ segment.
 
 """
 function tag_resource(
-    TagsModel, resource_arn; aws_config::AbstractAWSConfig=global_aws_config()
+    TagsModel, resource_arn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "POST",
@@ -3913,7 +3924,7 @@ function tag_resource(
     TagsModel,
     resource_arn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -3941,7 +3952,7 @@ or segment.
 
 """
 function untag_resource(
-    resource_arn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resource_arn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "DELETE",
@@ -3955,7 +3966,7 @@ function untag_resource(
     resource_arn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "DELETE",
@@ -3980,7 +3991,7 @@ channel for an application.
 
 """
 function update_adm_channel(
-    ADMChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    ADMChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -3994,7 +4005,7 @@ function update_adm_channel(
     ADMChannelRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4023,7 +4034,7 @@ channel for an application.
 
 """
 function update_apns_channel(
-    APNSChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    APNSChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -4037,7 +4048,7 @@ function update_apns_channel(
     APNSChannelRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4068,7 +4079,7 @@ the APNs sandbox channel for an application.
 function update_apns_sandbox_channel(
     APNSSandboxChannelRequest,
     application_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4082,7 +4093,7 @@ function update_apns_sandbox_channel(
     APNSSandboxChannelRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4115,7 +4126,7 @@ APNs VoIP channel for an application.
 function update_apns_voip_channel(
     APNSVoipChannelRequest,
     application_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4129,7 +4140,7 @@ function update_apns_voip_channel(
     APNSVoipChannelRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4162,7 +4173,7 @@ of the APNs VoIP sandbox channel for an application.
 function update_apns_voip_sandbox_channel(
     APNSVoipSandboxChannelRequest,
     application_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4176,7 +4187,7 @@ function update_apns_voip_sandbox_channel(
     APNSVoipSandboxChannelRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4210,7 +4221,7 @@ Updates the settings for an application.
 function update_application_settings(
     WriteApplicationSettingsRequest,
     application_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4226,7 +4237,7 @@ function update_application_settings(
     WriteApplicationSettingsRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4259,7 +4270,7 @@ Baidu channel for an application.
 
 """
 function update_baidu_channel(
-    BaiduChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    BaiduChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -4273,7 +4284,7 @@ function update_baidu_channel(
     BaiduChannelRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4307,7 +4318,7 @@ function update_campaign(
     WriteCampaignRequest,
     application_id,
     campaign_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4322,7 +4333,7 @@ function update_campaign(
     application_id,
     campaign_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4353,7 +4364,7 @@ email channel for an application.
 
 """
 function update_email_channel(
-    EmailChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    EmailChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -4367,7 +4378,7 @@ function update_email_channel(
     EmailChannelRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4417,7 +4428,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_email_template(
-    EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    EmailTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -4431,7 +4442,7 @@ function update_email_template(
     EmailTemplateRequest,
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4469,7 +4480,7 @@ function update_endpoint(
     EndpointRequest,
     application_id,
     endpoint_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4484,7 +4495,7 @@ function update_endpoint(
     application_id,
     endpoint_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4516,7 +4527,7 @@ new values.
 
 """
 function update_endpoints_batch(
-    EndpointBatchRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    EndpointBatchRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -4530,7 +4541,7 @@ function update_endpoints_batch(
     EndpointBatchRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4561,7 +4572,7 @@ channel for an application.
 
 """
 function update_gcm_channel(
-    GCMChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    GCMChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -4575,7 +4586,7 @@ function update_gcm_channel(
     GCMChannelRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4623,7 +4634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_in_app_template(
-    InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    InAppTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -4637,7 +4648,7 @@ function update_in_app_template(
     InAppTemplateRequest,
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4671,7 +4682,7 @@ function update_journey(
     WriteJourneyRequest,
     application_id,
     journey_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4686,7 +4697,7 @@ function update_journey(
     application_id,
     journey_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4720,7 +4731,7 @@ function update_journey_state(
     JourneyStateRequest,
     application_id,
     journey_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4735,7 +4746,7 @@ function update_journey_state(
     application_id,
     journey_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4788,7 +4799,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_push_template(
     PushNotificationTemplateRequest,
     template_name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4804,7 +4815,7 @@ function update_push_template(
     PushNotificationTemplateRequest,
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4838,7 +4849,7 @@ Updates an Amazon Pinpoint configuration for a recommender model.
 function update_recommender_configuration(
     UpdateRecommenderConfiguration,
     recommender_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4854,7 +4865,7 @@ function update_recommender_configuration(
     UpdateRecommenderConfiguration,
     recommender_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4891,7 +4902,7 @@ function update_segment(
     WriteSegmentRequest,
     application_id,
     segment_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4906,7 +4917,7 @@ function update_segment(
     application_id,
     segment_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4937,7 +4948,7 @@ channel for an application.
 
 """
 function update_sms_channel(
-    SMSChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    SMSChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -4951,7 +4962,7 @@ function update_sms_channel(
     SMSChannelRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -4999,7 +5010,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_sms_template(
-    SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    SMSTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -5013,7 +5024,7 @@ function update_sms_template(
     SMSTemplateRequest,
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -5047,7 +5058,7 @@ function update_template_active_version(
     TemplateActiveVersionRequest,
     template_name,
     template_type;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -5062,7 +5073,7 @@ function update_template_active_version(
     template_name,
     template_type,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -5095,7 +5106,7 @@ voice channel for an application.
 
 """
 function update_voice_channel(
-    VoiceChannelRequest, application_id; aws_config::AbstractAWSConfig=global_aws_config()
+    VoiceChannelRequest, application_id; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -5109,7 +5120,7 @@ function update_voice_channel(
     VoiceChannelRequest,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -5159,7 +5170,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   deletes the template, including all versions of the template.
 """
 function update_voice_template(
-    VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=global_aws_config()
+    VoiceTemplateRequest, template_name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return pinpoint(
         "PUT",
@@ -5173,7 +5184,7 @@ function update_voice_template(
     VoiceTemplateRequest,
     template_name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "PUT",
@@ -5204,7 +5215,7 @@ Verify an OTP
 function verify_otpmessage(
     VerifyOTPMessageRequestParameters,
     application_id;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",
@@ -5220,7 +5231,7 @@ function verify_otpmessage(
     VerifyOTPMessageRequestParameters,
     application_id,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return pinpoint(
         "POST",

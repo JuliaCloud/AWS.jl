@@ -15,7 +15,7 @@ event bus will start receiving events from the event source.
 - `name`: The name of the partner event source to activate.
 
 """
-function activate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function activate_event_source(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "ActivateEventSource",
         Dict{String,Any}("Name" => Name);
@@ -24,7 +24,7 @@ function activate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function activate_event_source(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ActivateEventSource",
@@ -44,7 +44,7 @@ Cancels the specified replay.
 - `replay_name`: The name of the replay to cancel.
 
 """
-function cancel_replay(ReplayName; aws_config::AbstractAWSConfig=global_aws_config())
+function cancel_replay(ReplayName; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "CancelReplay",
         Dict{String,Any}("ReplayName" => ReplayName);
@@ -55,7 +55,7 @@ end
 function cancel_replay(
     ReplayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "CancelReplay",
@@ -93,7 +93,7 @@ function create_api_destination(
     HttpMethod,
     InvocationEndpoint,
     Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "CreateApiDestination",
@@ -113,7 +113,7 @@ function create_api_destination(
     InvocationEndpoint,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "CreateApiDestination",
@@ -163,7 +163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   0, events are retained indefinitely
 """
 function create_archive(
-    ArchiveName, EventSourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ArchiveName, EventSourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "CreateArchive",
@@ -176,7 +176,7 @@ function create_archive(
     ArchiveName,
     EventSourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "CreateArchive",
@@ -216,7 +216,7 @@ function create_connection(
     AuthParameters,
     AuthorizationType,
     Name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "CreateConnection",
@@ -234,7 +234,7 @@ function create_connection(
     AuthorizationType,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "CreateConnection",
@@ -282,7 +282,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoleArn"`: The ARN of the role used for replication.
 """
 function create_endpoint(
-    EventBuses, Name, RoutingConfig; aws_config::AbstractAWSConfig=global_aws_config()
+    EventBuses, Name, RoutingConfig; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "CreateEndpoint",
@@ -298,7 +298,7 @@ function create_endpoint(
     Name,
     RoutingConfig,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "CreateEndpoint",
@@ -354,7 +354,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Data encryption in EventBridge in the Amazon EventBridge User Guide.
 - `"Tags"`: Tags to associate with the event bus.
 """
-function create_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "CreateEventBus",
         Dict{String,Any}("Name" => Name);
@@ -363,7 +363,7 @@ function create_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function create_event_bus(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "CreateEventBus",
@@ -406,7 +406,7 @@ Services customers decide whether to create an event bus to receive these events
 
 """
 function create_partner_event_source(
-    Account, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Account, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "CreatePartnerEventSource",
@@ -419,7 +419,7 @@ function create_partner_event_source(
     Account,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "CreatePartnerEventSource",
@@ -447,7 +447,7 @@ ActivateEventSource.
 - `name`: The name of the partner event source to deactivate.
 
 """
-function deactivate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function deactivate_event_source(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DeactivateEventSource",
         Dict{String,Any}("Name" => Name);
@@ -456,7 +456,7 @@ function deactivate_event_source(Name; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function deactivate_event_source(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DeactivateEventSource",
@@ -477,7 +477,7 @@ from the connection so you can reuse it without having to create a new connectio
 - `name`: The name of the connection to remove authorization from.
 
 """
-function deauthorize_connection(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function deauthorize_connection(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DeauthorizeConnection",
         Dict{String,Any}("Name" => Name);
@@ -486,7 +486,7 @@ function deauthorize_connection(Name; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function deauthorize_connection(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DeauthorizeConnection",
@@ -506,7 +506,7 @@ Deletes the specified API destination.
 - `name`: The name of the destination to delete.
 
 """
-function delete_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DeleteApiDestination",
         Dict{String,Any}("Name" => Name);
@@ -515,7 +515,7 @@ function delete_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function delete_api_destination(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DeleteApiDestination",
@@ -535,7 +535,7 @@ Deletes the specified archive.
 - `archive_name`: The name of the archive to delete.
 
 """
-function delete_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DeleteArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName);
@@ -546,7 +546,7 @@ end
 function delete_archive(
     ArchiveName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "DeleteArchive",
@@ -568,7 +568,7 @@ Deletes a connection.
 - `name`: The name of the connection to delete.
 
 """
-function delete_connection(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_connection(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DeleteConnection",
         Dict{String,Any}("Name" => Name);
@@ -577,7 +577,7 @@ function delete_connection(Name; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function delete_connection(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DeleteConnection",
@@ -600,7 +600,7 @@ Amazon EventBridge User Guide .
   \"Name\":\"us-east-2-custom_bus_A-endpoint\"..
 
 """
-function delete_endpoint(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_endpoint(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DeleteEndpoint",
         Dict{String,Any}("Name" => Name);
@@ -609,7 +609,7 @@ function delete_endpoint(Name; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function delete_endpoint(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DeleteEndpoint",
@@ -630,7 +630,7 @@ event bus need to be deleted. You can't delete your account's default event bus.
 - `name`: The name of the event bus to delete.
 
 """
-function delete_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_event_bus(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DeleteEventBus",
         Dict{String,Any}("Name" => Name);
@@ -639,7 +639,7 @@ function delete_event_bus(Name; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function delete_event_bus(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DeleteEventBus",
@@ -665,7 +665,7 @@ DELETED.
 
 """
 function delete_partner_event_source(
-    Account, Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Account, Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DeletePartnerEventSource",
@@ -678,7 +678,7 @@ function delete_partner_event_source(
     Account,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "DeletePartnerEventSource",
@@ -718,7 +718,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rules that are not managed rules. You can check whether a rule is a managed rule by using
   DescribeRule or ListRules and checking the ManagedBy field of the response.
 """
-function delete_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DeleteRule",
         Dict{String,Any}("Name" => Name);
@@ -727,7 +727,7 @@ function delete_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function delete_rule(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DeleteRule",
@@ -747,7 +747,7 @@ Retrieves details about an API destination.
 - `name`: The name of the API destination to retrieve.
 
 """
-function describe_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DescribeApiDestination",
         Dict{String,Any}("Name" => Name);
@@ -756,7 +756,7 @@ function describe_api_destination(Name; aws_config::AbstractAWSConfig=global_aws
     )
 end
 function describe_api_destination(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DescribeApiDestination",
@@ -776,7 +776,7 @@ Retrieves details about an archive.
 - `archive_name`: The name of the archive to retrieve.
 
 """
-function describe_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DescribeArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName);
@@ -787,7 +787,7 @@ end
 function describe_archive(
     ArchiveName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "DescribeArchive",
@@ -809,7 +809,7 @@ Retrieves details about a connection.
 - `name`: The name of the connection to retrieve.
 
 """
-function describe_connection(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_connection(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DescribeConnection",
         Dict{String,Any}("Name" => Name);
@@ -818,7 +818,7 @@ function describe_connection(Name; aws_config::AbstractAWSConfig=global_aws_conf
     )
 end
 function describe_connection(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DescribeConnection",
@@ -845,7 +845,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"HomeRegion"`: The primary Region of the endpoint you want to get information about. For
   example \"HomeRegion\": \"us-east-1\".
 """
-function describe_endpoint(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_endpoint(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DescribeEndpoint",
         Dict{String,Any}("Name" => Name);
@@ -854,7 +854,7 @@ function describe_endpoint(Name; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function describe_endpoint(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DescribeEndpoint",
@@ -880,13 +880,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Name"`: The name or ARN of the event bus to show details for. If you omit this, the
   default event bus is displayed.
 """
-function describe_event_bus(; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_event_bus(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DescribeEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function describe_event_bus(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DescribeEventBus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -903,7 +903,7 @@ This operation lists details about a partner event source that is shared with yo
 - `name`: The name of the partner event source to display the details of.
 
 """
-function describe_event_source(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_event_source(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DescribeEventSource",
         Dict{String,Any}("Name" => Name);
@@ -912,7 +912,7 @@ function describe_event_source(Name; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function describe_event_source(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DescribeEventSource",
@@ -936,7 +936,7 @@ source that is shared with them.
 
 """
 function describe_partner_event_source(
-    Name; aws_config::AbstractAWSConfig=global_aws_config()
+    Name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DescribePartnerEventSource",
@@ -946,7 +946,7 @@ function describe_partner_event_source(
     )
 end
 function describe_partner_event_source(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DescribePartnerEventSource",
@@ -973,7 +973,7 @@ the last event replayed.
 - `replay_name`: The name of the replay to retrieve.
 
 """
-function describe_replay(ReplayName; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_replay(ReplayName; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DescribeReplay",
         Dict{String,Any}("ReplayName" => ReplayName);
@@ -984,7 +984,7 @@ end
 function describe_replay(
     ReplayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "DescribeReplay",
@@ -1011,7 +1011,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 """
-function describe_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DescribeRule",
         Dict{String,Any}("Name" => Name);
@@ -1020,7 +1020,7 @@ function describe_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function describe_rule(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DescribeRule",
@@ -1046,7 +1046,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 """
-function disable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function disable_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "DisableRule",
         Dict{String,Any}("Name" => Name);
@@ -1055,7 +1055,7 @@ function disable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function disable_rule(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "DisableRule",
@@ -1081,7 +1081,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 """
-function enable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function enable_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "EnableRule",
         Dict{String,Any}("Name" => Name);
@@ -1090,7 +1090,7 @@ function enable_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function enable_rule(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "EnableRule",
@@ -1114,13 +1114,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   name that starts with the prefix are returned.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_api_destinations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_api_destinations(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "ListApiDestinations"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_api_destinations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListApiDestinations",
@@ -1146,13 +1146,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 - `"State"`: The state of the archive.
 """
-function list_archives(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_archives(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "ListArchives"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_archives(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListArchives", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1173,13 +1173,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that starts with the prefix are returned.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_connections(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_connections(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "ListConnections"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_connections(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListConnections", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1208,13 +1208,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pagination token expires after 24 hours. Using an expired pagination token will return an
   HTTP 400 InvalidToken error.
 """
-function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "ListEndpoints"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListEndpoints", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1237,13 +1237,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   that start with the specified prefix.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_event_buses(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_event_buses(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "ListEventBuses"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_event_buses(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListEventBuses", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1267,13 +1267,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   with names that start with the specified prefix.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_event_sources(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_event_sources(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "ListEventSources"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_event_sources(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListEventSources", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1301,7 +1301,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieves the next set of results.
 """
 function list_partner_event_source_accounts(
-    EventSourceName; aws_config::AbstractAWSConfig=global_aws_config()
+    EventSourceName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListPartnerEventSourceAccounts",
@@ -1313,7 +1313,7 @@ end
 function list_partner_event_source_accounts(
     EventSourceName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "ListPartnerEventSourceAccounts",
@@ -1347,7 +1347,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   retrieves the next set of results.
 """
 function list_partner_event_sources(
-    NamePrefix; aws_config::AbstractAWSConfig=global_aws_config()
+    NamePrefix; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListPartnerEventSources",
@@ -1359,7 +1359,7 @@ end
 function list_partner_event_sources(
     NamePrefix,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "ListPartnerEventSources",
@@ -1387,13 +1387,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 - `"State"`: The state of the replay.
 """
-function list_replays(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_replays(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "ListReplays"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_replays(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListReplays", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1419,7 +1419,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
 function list_rule_names_by_target(
-    TargetArn; aws_config::AbstractAWSConfig=global_aws_config()
+    TargetArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListRuleNamesByTarget",
@@ -1431,7 +1431,7 @@ end
 function list_rule_names_by_target(
     TargetArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "ListRuleNamesByTarget",
@@ -1460,11 +1460,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NamePrefix"`: The prefix matching the rule name.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_rules(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_rules(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge("ListRules"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_rules(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListRules", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1483,7 +1483,7 @@ buses can be tagged.
 
 """
 function list_tags_for_resource(
-    ResourceARN; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListTagsForResource",
@@ -1495,7 +1495,7 @@ end
 function list_tags_for_resource(
     ResourceARN,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "ListTagsForResource",
@@ -1524,7 +1524,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Limit"`: The maximum number of results to return.
 - `"NextToken"`: The token returned by a previous call to retrieve the next set of results.
 """
-function list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=global_aws_config())
+function list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "ListTargetsByRule",
         Dict{String,Any}("Rule" => Rule);
@@ -1533,7 +1533,7 @@ function list_targets_by_rule(Rule; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function list_targets_by_rule(
-    Rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Rule, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "ListTargetsByRule",
@@ -1566,7 +1566,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   is https://abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When
   using Java, you must include auth-crt on the class path.
 """
-function put_events(Entries; aws_config::AbstractAWSConfig=global_aws_config())
+function put_events(Entries; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "PutEvents",
         Dict{String,Any}("Entries" => Entries);
@@ -1575,7 +1575,9 @@ function put_events(Entries; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function put_events(
-    Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "PutEvents",
@@ -1597,7 +1599,7 @@ size, see Calculating EventBridge PutEvents event entry size in the EventBridge 
 - `entries`: The list of events to write to the event bus.
 
 """
-function put_partner_events(Entries; aws_config::AbstractAWSConfig=global_aws_config())
+function put_partner_events(Entries; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "PutPartnerEvents",
         Dict{String,Any}("Entries" => Entries);
@@ -1606,7 +1608,9 @@ function put_partner_events(Entries; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function put_partner_events(
-    Entries, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Entries,
+    params::AbstractDict{String};
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "PutPartnerEvents",
@@ -1662,13 +1666,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions to. If you later want to revoke the permission for this external account,
   specify this StatementId when you run RemovePermission.  Each StatementId must be unique.
 """
-function put_permission(; aws_config::AbstractAWSConfig=global_aws_config())
+function put_permission(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "PutPermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function put_permission(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "PutPermission", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1745,7 +1749,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   not apply to partner event buses.
 - `"Tags"`: The list of key-value pairs to associate with the rule.
 """
-function put_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function put_rule(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "PutRule",
         Dict{String,Any}("Name" => Name);
@@ -1754,7 +1758,7 @@ function put_rule(Name; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function put_rule(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "PutRule",
@@ -1827,7 +1831,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventBusName"`: The name or ARN of the event bus associated with the rule. If you omit
   this, the default event bus is used.
 """
-function put_targets(Rule, Targets; aws_config::AbstractAWSConfig=global_aws_config())
+function put_targets(Rule, Targets; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "PutTargets",
         Dict{String,Any}("Rule" => Rule, "Targets" => Targets);
@@ -1839,7 +1843,7 @@ function put_targets(
     Rule,
     Targets,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "PutTargets",
@@ -1870,13 +1874,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"StatementId"`: The statement ID corresponding to the account that is no longer allowed
   to put events to the default event bus.
 """
-function remove_permission(; aws_config::AbstractAWSConfig=global_aws_config())
+function remove_permission(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "RemovePermission"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function remove_permission(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "RemovePermission", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1910,7 +1914,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   rules that are not managed rules. You can check whether a rule is a managed rule by using
   DescribeRule or ListRules and checking the ManagedBy field of the response.
 """
-function remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=global_aws_config())
+function remove_targets(Ids, Rule; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "RemoveTargets",
         Dict{String,Any}("Ids" => Ids, "Rule" => Rule);
@@ -1922,7 +1926,7 @@ function remove_targets(
     Ids,
     Rule,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "RemoveTargets",
@@ -1967,7 +1971,7 @@ function start_replay(
     EventSourceArn,
     EventStartTime,
     ReplayName;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "StartReplay",
@@ -1989,7 +1993,7 @@ function start_replay(
     EventStartTime,
     ReplayName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "StartReplay",
@@ -2031,7 +2035,7 @@ many as 50 tags with a resource.
 - `tags`: The list of key-value pairs to associate with the resource.
 
 """
-function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceARN, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "TagResource",
         Dict{String,Any}("ResourceARN" => ResourceARN, "Tags" => Tags);
@@ -2043,7 +2047,7 @@ function tag_resource(
     ResourceARN,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "TagResource",
@@ -2078,7 +2082,7 @@ the event you want to match.
 
 """
 function test_event_pattern(
-    Event, EventPattern; aws_config::AbstractAWSConfig=global_aws_config()
+    Event, EventPattern; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "TestEventPattern",
@@ -2091,7 +2095,7 @@ function test_event_pattern(
     Event,
     EventPattern,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "TestEventPattern",
@@ -2120,7 +2124,7 @@ Removes one or more tags from the specified EventBridge resource. In Amazon Even
 
 """
 function untag_resource(
-    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceARN, TagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "UntagResource",
@@ -2133,7 +2137,7 @@ function untag_resource(
     ResourceARN,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "UntagResource",
@@ -2167,7 +2171,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InvocationRateLimitPerSecond"`: The maximum number of invocations per second to send to
   the API destination.
 """
-function update_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_api_destination(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "UpdateApiDestination",
         Dict{String,Any}("Name" => Name);
@@ -2176,7 +2180,7 @@ function update_api_destination(Name; aws_config::AbstractAWSConfig=global_aws_c
     )
 end
 function update_api_destination(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "UpdateApiDestination",
@@ -2201,7 +2205,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"EventPattern"`: The event pattern to use to filter events sent to the archive.
 - `"RetentionDays"`: The number of days to retain events in the archive.
 """
-function update_archive(ArchiveName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_archive(ArchiveName; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "UpdateArchive",
         Dict{String,Any}("ArchiveName" => ArchiveName);
@@ -2212,7 +2216,7 @@ end
 function update_archive(
     ArchiveName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return eventbridge(
         "UpdateArchive",
@@ -2239,7 +2243,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"AuthorizationType"`: The type of authorization to use for the connection.
 - `"Description"`: A description for the connection.
 """
-function update_connection(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_connection(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "UpdateConnection",
         Dict{String,Any}("Name" => Name);
@@ -2248,7 +2252,7 @@ function update_connection(Name; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function update_connection(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "UpdateConnection",
@@ -2278,7 +2282,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"RoutingConfig"`: Configure the routing policy, including the health check and secondary
   Region.
 """
-function update_endpoint(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_endpoint(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "UpdateEndpoint",
         Dict{String,Any}("Name" => Name);
@@ -2287,7 +2291,7 @@ function update_endpoint(Name; aws_config::AbstractAWSConfig=global_aws_config()
     )
 end
 function update_endpoint(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "UpdateEndpoint",
@@ -2322,13 +2326,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   Data encryption in EventBridge in the Amazon EventBridge User Guide.
 - `"Name"`: The name of the event bus.
 """
-function update_event_bus(; aws_config::AbstractAWSConfig=global_aws_config())
+function update_event_bus(; aws_config::AbstractAWSConfig=current_aws_config())
     return eventbridge(
         "UpdateEventBus"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function update_event_bus(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return eventbridge(
         "UpdateEventBus", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET

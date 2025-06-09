@@ -11,7 +11,7 @@ using AWS.UUIDs
 Lists the Linux subscriptions service settings.
 
 """
-function get_service_settings(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_service_settings(; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_linux_subscriptions(
         "POST",
         "/subscription/GetServiceSettings";
@@ -20,7 +20,7 @@ function get_service_settings(; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function get_service_settings(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_linux_subscriptions(
         "POST",
@@ -51,7 +51,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"NextToken"`: Token for the next set of results.
 """
 function list_linux_subscription_instances(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_linux_subscriptions(
         "POST",
@@ -61,7 +61,7 @@ function list_linux_subscription_instances(;
     )
 end
 function list_linux_subscription_instances(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_linux_subscriptions(
         "POST",
@@ -91,7 +91,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"MaxResults"`: Maximum number of results to return in a single call.
 - `"NextToken"`: Token for the next set of results.
 """
-function list_linux_subscriptions(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_linux_subscriptions(; aws_config::AbstractAWSConfig=current_aws_config())
     return license_manager_linux_subscriptions(
         "POST",
         "/subscription/ListLinuxSubscriptions";
@@ -100,7 +100,7 @@ function list_linux_subscriptions(; aws_config::AbstractAWSConfig=global_aws_con
     )
 end
 function list_linux_subscriptions(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return license_manager_linux_subscriptions(
         "POST",
@@ -133,7 +133,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 function update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_linux_subscriptions(
         "POST",
@@ -150,7 +150,7 @@ function update_service_settings(
     LinuxSubscriptionsDiscovery,
     LinuxSubscriptionsDiscoverySettings,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return license_manager_linux_subscriptions(
         "POST",

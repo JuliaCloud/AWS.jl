@@ -1,4 +1,4 @@
-function get_assumed_role(aws_config::AbstractAWSConfig=global_aws_config())
+function get_assumed_role(aws_config::AbstractAWSConfig=current_aws_config())
     r = AWSServices.sts(
         "GetCallerIdentity";
         aws_config,

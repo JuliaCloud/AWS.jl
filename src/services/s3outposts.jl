@@ -29,7 +29,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the endpoint. IP addresses are allocated from this pool for the endpoint.
 """
 function create_endpoint(
-    OutpostId, SecurityGroupId, SubnetId; aws_config::AbstractAWSConfig=global_aws_config()
+    OutpostId, SecurityGroupId, SubnetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3outposts(
         "POST",
@@ -48,7 +48,7 @@ function create_endpoint(
     SecurityGroupId,
     SubnetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3outposts(
         "POST",
@@ -82,7 +82,7 @@ actions include:    CreateEndpoint     ListEndpoints
 
 """
 function delete_endpoint(
-    endpointId, outpostId; aws_config::AbstractAWSConfig=global_aws_config()
+    endpointId, outpostId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3outposts(
         "DELETE",
@@ -96,7 +96,7 @@ function delete_endpoint(
     endpointId,
     outpostId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3outposts(
         "DELETE",
@@ -126,7 +126,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If a previous response from this operation included a NextToken value,
   provide that value here to retrieve the next page of results.
 """
-function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_endpoints(; aws_config::AbstractAWSConfig=current_aws_config())
     return s3outposts(
         "GET",
         "/S3Outposts/ListEndpoints";
@@ -135,7 +135,7 @@ function list_endpoints(; aws_config::AbstractAWSConfig=global_aws_config())
     )
 end
 function list_endpoints(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3outposts(
         "GET",
@@ -161,7 +161,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional Outposts.
 """
-function list_outposts_with_s3(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_outposts_with_s3(; aws_config::AbstractAWSConfig=current_aws_config())
     return s3outposts(
         "GET",
         "/S3Outposts/ListOutpostsWithS3";
@@ -170,7 +170,7 @@ function list_outposts_with_s3(; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function list_outposts_with_s3(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return s3outposts(
         "GET",
@@ -198,7 +198,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: If a previous response from this operation included a NextToken value, you
   can provide that value here to retrieve the next page of results.
 """
-function list_shared_endpoints(outpostId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_shared_endpoints(
+    outpostId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return s3outposts(
         "GET",
         "/S3Outposts/ListSharedEndpoints",
@@ -210,7 +212,7 @@ end
 function list_shared_endpoints(
     outpostId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return s3outposts(
         "GET",

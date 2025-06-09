@@ -57,7 +57,7 @@ function batch_create_rum_metric_definitions(
     AppMonitorName,
     Destination,
     MetricDefinitions;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "POST",
@@ -74,7 +74,7 @@ function batch_create_rum_metric_definitions(
     Destination,
     MetricDefinitions,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "POST",
@@ -123,7 +123,7 @@ function batch_delete_rum_metric_definitions(
     AppMonitorName,
     destination,
     metricDefinitionIds;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "DELETE",
@@ -140,7 +140,7 @@ function batch_delete_rum_metric_definitions(
     destination,
     metricDefinitionIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "DELETE",
@@ -185,7 +185,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results.
 """
 function batch_get_rum_metric_definitions(
-    AppMonitorName, destination; aws_config::AbstractAWSConfig=global_aws_config()
+    AppMonitorName, destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "GET",
@@ -199,7 +199,7 @@ function batch_get_rum_metric_definitions(
     AppMonitorName,
     destination,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "GET",
@@ -253,7 +253,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   strings of characters. You can associate as many as 50 tags with an app monitor. For more
   information, see Tagging Amazon Web Services resources.
 """
-function create_app_monitor(Domain, Name; aws_config::AbstractAWSConfig=global_aws_config())
+function create_app_monitor(
+    Domain, Name; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return rum(
         "POST",
         "/appmonitor",
@@ -266,7 +268,7 @@ function create_app_monitor(
     Domain,
     Name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "POST",
@@ -289,7 +291,7 @@ Deletes an existing app monitor. This immediately stops the collection of data.
 - `name`: The name of the app monitor to delete.
 
 """
-function delete_app_monitor(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "DELETE",
         "/appmonitor/$(Name)";
@@ -298,7 +300,7 @@ function delete_app_monitor(Name; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function delete_app_monitor(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "DELETE",
@@ -329,7 +331,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   the Evidently experiment that corresponds to the destination to delete.
 """
 function delete_rum_metrics_destination(
-    AppMonitorName, destination; aws_config::AbstractAWSConfig=global_aws_config()
+    AppMonitorName, destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "DELETE",
@@ -343,7 +345,7 @@ function delete_rum_metrics_destination(
     AppMonitorName,
     destination,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "DELETE",
@@ -366,13 +368,13 @@ Retrieves the complete configuration information for one app monitor.
 - `name`: The app monitor to retrieve information for.
 
 """
-function get_app_monitor(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function get_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "GET", "/appmonitor/$(Name)"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_app_monitor(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "GET",
@@ -404,7 +406,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results.
 """
 function get_app_monitor_data(
-    Name, TimeRange; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, TimeRange; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "POST",
@@ -418,7 +420,7 @@ function get_app_monitor_data(
     Name,
     TimeRange,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "POST",
@@ -444,13 +446,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: Use the token returned by the previous operation to request the next page
   of results.
 """
-function list_app_monitors(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_app_monitors(; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "POST", "/appmonitors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_app_monitors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "POST",
@@ -481,7 +483,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   of results.
 """
 function list_rum_metrics_destinations(
-    AppMonitorName; aws_config::AbstractAWSConfig=global_aws_config()
+    AppMonitorName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "GET",
@@ -493,7 +495,7 @@ end
 function list_rum_metrics_destinations(
     AppMonitorName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "GET",
@@ -515,7 +517,7 @@ Displays the tags associated with a CloudWatch RUM resource.
 
 """
 function list_tags_for_resource(
-    ResourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "GET",
@@ -527,7 +529,7 @@ end
 function list_tags_for_resource(
     ResourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "GET",
@@ -563,7 +565,7 @@ function put_rum_events(
     Id,
     RumEvents,
     UserDetails;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "POST",
@@ -585,7 +587,7 @@ function put_rum_events(
     RumEvents,
     UserDetails,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "POST",
@@ -635,7 +637,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   permissions.
 """
 function put_rum_metrics_destination(
-    AppMonitorName, Destination; aws_config::AbstractAWSConfig=global_aws_config()
+    AppMonitorName, Destination; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "POST",
@@ -649,7 +651,7 @@ function put_rum_metrics_destination(
     AppMonitorName,
     Destination,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "POST",
@@ -683,7 +685,7 @@ Web Services resources.
 - `tags`: The list of key-value pairs to associate with the resource.
 
 """
-function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(ResourceArn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "POST",
         "/tags/$(ResourceArn)",
@@ -696,7 +698,7 @@ function tag_resource(
     ResourceArn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "POST",
@@ -719,7 +721,7 @@ Removes one or more tags from the specified resource.
 
 """
 function untag_resource(
-    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    ResourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "DELETE",
@@ -733,7 +735,7 @@ function untag_resource(
     ResourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "DELETE",
@@ -778,7 +780,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Domain"`: The top-level internet domain name for which your application has
   administrative authority.
 """
-function update_app_monitor(Name; aws_config::AbstractAWSConfig=global_aws_config())
+function update_app_monitor(Name; aws_config::AbstractAWSConfig=current_aws_config())
     return rum(
         "PATCH",
         "/appmonitor/$(Name)";
@@ -787,7 +789,7 @@ function update_app_monitor(Name; aws_config::AbstractAWSConfig=global_aws_confi
     )
 end
 function update_app_monitor(
-    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return rum(
         "PATCH",
@@ -827,7 +829,7 @@ function update_rum_metric_definition(
     Destination,
     MetricDefinition,
     MetricDefinitionId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "PATCH",
@@ -847,7 +849,7 @@ function update_rum_metric_definition(
     MetricDefinition,
     MetricDefinitionId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return rum(
         "PATCH",

@@ -47,7 +47,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   RegisterClient.
 """
 function create_token(
-    clientId, clientSecret, grantType; aws_config::AbstractAWSConfig=global_aws_config()
+    clientId, clientSecret, grantType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_oidc(
         "POST",
@@ -64,7 +64,7 @@ function create_token(
     clientSecret,
     grantType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_oidc(
         "POST",
@@ -142,7 +142,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   urn:ietf:params:oauth:token-type:access_token
 """
 function create_token_with_iam(
-    clientId, grantType; aws_config::AbstractAWSConfig=global_aws_config()
+    clientId, grantType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_oidc(
         "POST",
@@ -156,7 +156,7 @@ function create_token_with_iam(
     clientId,
     grantType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_oidc(
         "POST",
@@ -203,7 +203,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   list is used to restrict permissions when granting an access token.
 """
 function register_client(
-    clientName, clientType; aws_config::AbstractAWSConfig=global_aws_config()
+    clientName, clientType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_oidc(
         "POST",
@@ -217,7 +217,7 @@ function register_client(
     clientName,
     clientType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_oidc(
         "POST",
@@ -252,7 +252,7 @@ authorization service.
 
 """
 function start_device_authorization(
-    clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=global_aws_config()
+    clientId, clientSecret, startUrl; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return sso_oidc(
         "POST",
@@ -269,7 +269,7 @@ function start_device_authorization(
     clientSecret,
     startUrl,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return sso_oidc(
         "POST",

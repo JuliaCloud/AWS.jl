@@ -71,7 +71,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"PosixProfile"`:
 """
 function create_access(
-    ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExternalId, Role, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "CreateAccess",
@@ -87,7 +87,7 @@ function create_access(
     Role,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "CreateAccess",
@@ -154,7 +154,7 @@ function create_agreement(
     LocalProfileId,
     PartnerProfileId,
     ServerId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "CreateAgreement",
@@ -176,7 +176,7 @@ function create_agreement(
     PartnerProfileId,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "CreateAgreement",
@@ -242,7 +242,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata attached to connectors for any purpose.
 """
 function create_connector(
-    AccessRole, Url; aws_config::AbstractAWSConfig=global_aws_config()
+    AccessRole, Url; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "CreateConnector",
@@ -255,7 +255,7 @@ function create_connector(
     AccessRole,
     Url,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "CreateConnector",
@@ -292,7 +292,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for AS2 profiles.
 """
 function create_profile(
-    As2Id, ProfileType; aws_config::AbstractAWSConfig=global_aws_config()
+    As2Id, ProfileType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "CreateProfile",
@@ -305,7 +305,7 @@ function create_profile(
     As2Id,
     ProfileType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "CreateProfile",
@@ -456,11 +456,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   execution role) for a workflow to execute on partial upload. A partial upload occurs when
   the server session disconnects while the file is still being uploaded.
 """
-function create_server(; aws_config::AbstractAWSConfig=global_aws_config())
+function create_server(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("CreateServer"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function create_server(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "CreateServer", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -545,7 +545,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   metadata attached to users for any purpose.
 """
 function create_user(
-    Role, ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    Role, ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "CreateUser",
@@ -559,7 +559,7 @@ function create_user(
     ServerId,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "CreateUser",
@@ -605,7 +605,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for workflows. Tags are
   metadata attached to workflows for any purpose.
 """
-function create_workflow(Steps; aws_config::AbstractAWSConfig=global_aws_config())
+function create_workflow(Steps; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "CreateWorkflow",
         Dict{String,Any}("Steps" => Steps);
@@ -614,7 +614,7 @@ function create_workflow(Steps; aws_config::AbstractAWSConfig=global_aws_config(
     )
 end
 function create_workflow(
-    Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Steps, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "CreateWorkflow",
@@ -644,7 +644,7 @@ Allows you to delete the access specified in the ServerID and ExternalID paramet
 
 """
 function delete_access(
-    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DeleteAccess",
@@ -657,7 +657,7 @@ function delete_access(
     ExternalId,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DeleteAccess",
@@ -686,7 +686,7 @@ Delete the agreement that's specified in the provided AgreementId.
 
 """
 function delete_agreement(
-    AgreementId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DeleteAgreement",
@@ -699,7 +699,7 @@ function delete_agreement(
     AgreementId,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DeleteAgreement",
@@ -726,7 +726,7 @@ Deletes the certificate that's specified in the CertificateId parameter.
 
 """
 function delete_certificate(
-    CertificateId; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DeleteCertificate",
@@ -738,7 +738,7 @@ end
 function delete_certificate(
     CertificateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DeleteCertificate",
@@ -760,7 +760,7 @@ Deletes the connector that's specified in the provided ConnectorId.
 - `connector_id`: The unique identifier for the connector.
 
 """
-function delete_connector(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DeleteConnector",
         Dict{String,Any}("ConnectorId" => ConnectorId);
@@ -771,7 +771,7 @@ end
 function delete_connector(
     ConnectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DeleteConnector",
@@ -796,7 +796,7 @@ Deletes the host key that's specified in the HostKeyId parameter.
 
 """
 function delete_host_key(
-    HostKeyId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DeleteHostKey",
@@ -809,7 +809,7 @@ function delete_host_key(
     HostKeyId,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DeleteHostKey",
@@ -835,7 +835,7 @@ Deletes the profile that's specified in the ProfileId parameter.
 - `profile_id`: The identifier of the profile that you are deleting.
 
 """
-function delete_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DeleteProfile",
         Dict{String,Any}("ProfileId" => ProfileId);
@@ -846,7 +846,7 @@ end
 function delete_profile(
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DeleteProfile",
@@ -869,7 +869,7 @@ from this operation.
 - `server_id`: A unique system-assigned identifier for a server instance.
 
 """
-function delete_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DeleteServer",
         Dict{String,Any}("ServerId" => ServerId);
@@ -880,7 +880,7 @@ end
 function delete_server(
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DeleteServer",
@@ -906,7 +906,7 @@ Deletes a user's Secure Shell (SSH) public key.
 
 """
 function delete_ssh_public_key(
-    ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerId, SshPublicKeyId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DeleteSshPublicKey",
@@ -924,7 +924,7 @@ function delete_ssh_public_key(
     SshPublicKeyId,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DeleteSshPublicKey",
@@ -958,7 +958,7 @@ information is lost.
 - `user_name`: A unique string that identifies a user that is being deleted from a server.
 
 """
-function delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DeleteUser",
         Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
@@ -970,7 +970,7 @@ function delete_user(
     ServerId,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DeleteUser",
@@ -996,7 +996,7 @@ Deletes the specified workflow.
 - `workflow_id`: A unique identifier for the workflow.
 
 """
-function delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_workflow(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DeleteWorkflow",
         Dict{String,Any}("WorkflowId" => WorkflowId);
@@ -1007,7 +1007,7 @@ end
 function delete_workflow(
     WorkflowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DeleteWorkflow",
@@ -1043,7 +1043,7 @@ was specified.
 
 """
 function describe_access(
-    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DescribeAccess",
@@ -1056,7 +1056,7 @@ function describe_access(
     ExternalId,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeAccess",
@@ -1085,7 +1085,7 @@ Describes the agreement that's identified by the AgreementId.
 
 """
 function describe_agreement(
-    AgreementId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DescribeAgreement",
@@ -1098,7 +1098,7 @@ function describe_agreement(
     AgreementId,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeAgreement",
@@ -1126,7 +1126,7 @@ Describes the certificate that's identified by the CertificateId.
 
 """
 function describe_certificate(
-    CertificateId; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DescribeCertificate",
@@ -1138,7 +1138,7 @@ end
 function describe_certificate(
     CertificateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeCertificate",
@@ -1160,7 +1160,7 @@ Describes the connector that's identified by the ConnectorId.
 - `connector_id`: The unique identifier for the connector.
 
 """
-function describe_connector(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DescribeConnector",
         Dict{String,Any}("ConnectorId" => ConnectorId);
@@ -1171,7 +1171,7 @@ end
 function describe_connector(
     ConnectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeConnector",
@@ -1198,7 +1198,7 @@ specified workflow ID, you receive a ResourceNotFound exception.
 
 """
 function describe_execution(
-    ExecutionId, WorkflowId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExecutionId, WorkflowId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DescribeExecution",
@@ -1211,7 +1211,7 @@ function describe_execution(
     ExecutionId,
     WorkflowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeExecution",
@@ -1240,7 +1240,7 @@ Returns the details of the host key that's specified by the HostKeyId and Server
 
 """
 function describe_host_key(
-    HostKeyId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DescribeHostKey",
@@ -1253,7 +1253,7 @@ function describe_host_key(
     HostKeyId,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeHostKey",
@@ -1279,7 +1279,7 @@ Returns the details of the profile that's specified by the ProfileId.
 - `profile_id`: The identifier of the profile that you want described.
 
 """
-function describe_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DescribeProfile",
         Dict{String,Any}("ProfileId" => ProfileId);
@@ -1290,7 +1290,7 @@ end
 function describe_profile(
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeProfile",
@@ -1317,7 +1317,7 @@ security policies for SFTP connectors.
 
 """
 function describe_security_policy(
-    SecurityPolicyName; aws_config::AbstractAWSConfig=global_aws_config()
+    SecurityPolicyName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DescribeSecurityPolicy",
@@ -1329,7 +1329,7 @@ end
 function describe_security_policy(
     SecurityPolicyName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeSecurityPolicy",
@@ -1355,7 +1355,7 @@ EndpointType to VPC, the response will contain the EndpointDetails.
 - `server_id`: A system-assigned unique identifier for a server.
 
 """
-function describe_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DescribeServer",
         Dict{String,Any}("ServerId" => ServerId);
@@ -1366,7 +1366,7 @@ end
 function describe_server(
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeServer",
@@ -1393,7 +1393,7 @@ the user associated with the ServerId value that was specified.
 
 """
 function describe_user(
-    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "DescribeUser",
@@ -1406,7 +1406,7 @@ function describe_user(
     ServerId,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeUser",
@@ -1432,7 +1432,7 @@ Describes the specified workflow.
 - `workflow_id`: A unique identifier for the workflow.
 
 """
-function describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
+function describe_workflow(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "DescribeWorkflow",
         Dict{String,Any}("WorkflowId" => WorkflowId);
@@ -1443,7 +1443,7 @@ end
 function describe_workflow(
     WorkflowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "DescribeWorkflow",
@@ -1485,7 +1485,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for certificates.
 """
 function import_certificate(
-    Certificate, Usage; aws_config::AbstractAWSConfig=global_aws_config()
+    Certificate, Usage; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "ImportCertificate",
@@ -1498,7 +1498,7 @@ function import_certificate(
     Certificate,
     Usage,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "ImportCertificate",
@@ -1532,7 +1532,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"Tags"`: Key-value pairs that can be used to group and search for host keys.
 """
 function import_host_key(
-    HostKeyBody, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    HostKeyBody, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "ImportHostKey",
@@ -1545,7 +1545,7 @@ function import_host_key(
     HostKeyBody,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "ImportHostKey",
@@ -1578,7 +1578,7 @@ SshPublicKeyId.
 
 """
 function import_ssh_public_key(
-    ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerId, SshPublicKeyBody, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "ImportSshPublicKey",
@@ -1596,7 +1596,7 @@ function import_ssh_public_key(
     SshPublicKeyBody,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "ImportSshPublicKey",
@@ -1633,7 +1633,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional accesses.
 """
-function list_accesses(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_accesses(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListAccesses",
         Dict{String,Any}("ServerId" => ServerId);
@@ -1644,7 +1644,7 @@ end
 function list_accesses(
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "ListAccesses",
@@ -1675,7 +1675,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional agreements.
 """
-function list_agreements(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_agreements(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListAgreements",
         Dict{String,Any}("ServerId" => ServerId);
@@ -1686,7 +1686,7 @@ end
 function list_agreements(
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "ListAgreements",
@@ -1715,13 +1715,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional certificates.
 """
-function list_certificates(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_certificates(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListCertificates"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_certificates(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "ListCertificates", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1741,13 +1741,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass in a subsequent command to
   the NextToken parameter to continue listing additional connectors.
 """
-function list_connectors(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_connectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListConnectors"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_connectors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "ListConnectors", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1778,7 +1778,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   This call returns the next 10 executions, the 11th through the 20th. You can then repeat
   the call until the details for all 100 executions have been returned.
 """
-function list_executions(WorkflowId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_executions(WorkflowId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListExecutions",
         Dict{String,Any}("WorkflowId" => WorkflowId);
@@ -1789,7 +1789,7 @@ end
 function list_executions(
     WorkflowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "ListExecutions",
@@ -1818,7 +1818,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned. You can use that value for a subsequent call to ListHostKeys to
   continue listing results.
 """
-function list_host_keys(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_host_keys(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListHostKeys",
         Dict{String,Any}("ServerId" => ServerId);
@@ -1829,7 +1829,7 @@ end
 function list_host_keys(
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "ListHostKeys",
@@ -1859,11 +1859,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ProfileType"`: Indicates whether to list only LOCAL type profiles or only PARTNER type
   profiles. If not supplied in the request, the command lists all types of profiles.
 """
-function list_profiles(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_profiles(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("ListProfiles"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_profiles(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "ListProfiles", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1886,13 +1886,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   command, a NextToken parameter is returned in the output. You can then pass the NextToken
   parameter in a subsequent command to continue listing additional security policies.
 """
-function list_security_policies(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_security_policies(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListSecurityPolicies"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_security_policies(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "ListSecurityPolicies",
@@ -1917,11 +1917,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   NextToken parameter is returned in the output. You can then pass the NextToken parameter in
   a subsequent command to continue listing additional servers.
 """
-function list_servers(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_servers(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("ListServers"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_servers(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "ListServers", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -1948,7 +1948,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   operation, a NextToken parameter is returned in the input. You can then pass in a
   subsequent command to the NextToken parameter to continue listing additional tags.
 """
-function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_config())
+function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListTagsForResource",
         Dict{String,Any}("Arn" => Arn);
@@ -1957,7 +1957,7 @@ function list_tags_for_resource(Arn; aws_config::AbstractAWSConfig=global_aws_co
     )
 end
 function list_tags_for_resource(
-    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    Arn, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "ListTagsForResource",
@@ -1986,7 +1986,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   parameter is returned in the output. You can then pass the NextToken to a subsequent
   ListUsers command, to continue listing additional users.
 """
-function list_users(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_users(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "ListUsers",
         Dict{String,Any}("ServerId" => ServerId);
@@ -1997,7 +1997,7 @@ end
 function list_users(
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "ListUsers",
@@ -2023,11 +2023,11 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   pass the NextToken parameter in a subsequent command to continue listing additional
   workflows.
 """
-function list_workflows(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_workflows(; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer("ListWorkflows"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET)
 end
 function list_workflows(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "ListWorkflows", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2055,7 +2055,7 @@ function send_workflow_step_state(
     Status,
     Token,
     WorkflowId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "SendWorkflowStepState",
@@ -2075,7 +2075,7 @@ function send_workflow_step_state(
     Token,
     WorkflowId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "SendWorkflowStepState",
@@ -2138,7 +2138,7 @@ function start_directory_listing(
     ConnectorId,
     OutputDirectoryPath,
     RemoteDirectoryPath;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "StartDirectoryListing",
@@ -2156,7 +2156,7 @@ function start_directory_listing(
     OutputDirectoryPath,
     RemoteDirectoryPath,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "StartDirectoryListing",
@@ -2209,7 +2209,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DOC-EXAMPLE-BUCKET/myfile.txt .  Replace  DOC-EXAMPLE-BUCKET  with one of your actual
   buckets.
 """
-function start_file_transfer(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function start_file_transfer(
+    ConnectorId; aws_config::AbstractAWSConfig=current_aws_config()
+)
     return transfer(
         "StartFileTransfer",
         Dict{String,Any}("ConnectorId" => ConnectorId);
@@ -2220,7 +2222,7 @@ end
 function start_file_transfer(
     ConnectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "StartFileTransfer",
@@ -2246,7 +2248,7 @@ indicate an error condition. No response is returned from this call.
 - `server_id`: A system-assigned unique identifier for a server that you start.
 
 """
-function start_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+function start_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "StartServer",
         Dict{String,Any}("ServerId" => ServerId);
@@ -2257,7 +2259,7 @@ end
 function start_server(
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "StartServer",
@@ -2286,7 +2288,7 @@ this call.
 - `server_id`: A system-assigned unique identifier for a server that you stopped.
 
 """
-function stop_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+function stop_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "StopServer",
         Dict{String,Any}("ServerId" => ServerId);
@@ -2297,7 +2299,7 @@ end
 function stop_server(
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "StopServer",
@@ -2325,7 +2327,7 @@ this call.
   and so on) for any purpose.
 
 """
-function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(Arn, Tags; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "TagResource",
         Dict{String,Any}("Arn" => Arn, "Tags" => Tags);
@@ -2337,7 +2339,7 @@ function tag_resource(
     Arn,
     Tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "TagResource",
@@ -2361,7 +2363,7 @@ storage and a trading partner's SFTP server.
 - `connector_id`: The unique identifier for the connector.
 
 """
-function test_connection(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function test_connection(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "TestConnection",
         Dict{String,Any}("ConnectorId" => ConnectorId);
@@ -2372,7 +2374,7 @@ end
 function test_connection(
     ConnectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "TestConnection",
@@ -2422,7 +2424,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"UserPassword"`: The password of the account to be tested.
 """
 function test_identity_provider(
-    ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config()
+    ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "TestIdentityProvider",
@@ -2435,7 +2437,7 @@ function test_identity_provider(
     ServerId,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "TestIdentityProvider",
@@ -2467,7 +2469,7 @@ call.
   search for resources by type. This metadata can be attached to resources for any purpose.
 
 """
-function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=global_aws_config())
+function untag_resource(Arn, TagKeys; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "UntagResource",
         Dict{String,Any}("Arn" => Arn, "TagKeys" => TagKeys);
@@ -2479,7 +2481,7 @@ function untag_resource(
     Arn,
     TagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "UntagResource",
@@ -2556,7 +2558,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   access your resources when servicing your users' transfer requests.
 """
 function update_access(
-    ExternalId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    ExternalId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "UpdateAccess",
@@ -2569,7 +2571,7 @@ function update_access(
     ExternalId,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "UpdateAccess",
@@ -2632,7 +2634,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   agreement or the reverse.
 """
 function update_agreement(
-    AgreementId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    AgreementId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "UpdateAgreement",
@@ -2645,7 +2647,7 @@ function update_agreement(
     AgreementId,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "UpdateAgreement",
@@ -2677,7 +2679,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"InactiveDate"`: An optional date that specifies when the certificate becomes inactive.
 """
 function update_certificate(
-    CertificateId; aws_config::AbstractAWSConfig=global_aws_config()
+    CertificateId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "UpdateCertificate",
@@ -2689,7 +2691,7 @@ end
 function update_certificate(
     CertificateId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "UpdateCertificate",
@@ -2739,7 +2741,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"SftpConfig"`: A structure that contains the parameters for an SFTP connector object.
 - `"Url"`: The URL of the partner's AS2 or SFTP endpoint.
 """
-function update_connector(ConnectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_connector(ConnectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "UpdateConnector",
         Dict{String,Any}("ConnectorId" => ConnectorId);
@@ -2750,7 +2752,7 @@ end
 function update_connector(
     ConnectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "UpdateConnector",
@@ -2777,7 +2779,7 @@ parameters.
 
 """
 function update_host_key(
-    Description, HostKeyId, ServerId; aws_config::AbstractAWSConfig=global_aws_config()
+    Description, HostKeyId, ServerId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return transfer(
         "UpdateHostKey",
@@ -2793,7 +2795,7 @@ function update_host_key(
     HostKeyId,
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "UpdateHostKey",
@@ -2828,7 +2830,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"CertificateIds"`: An array of identifiers for the imported certificates. You use this
   identifier for working with profiles and partner profiles.
 """
-function update_profile(ProfileId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_profile(ProfileId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "UpdateProfile",
         Dict{String,Any}("ProfileId" => ProfileId);
@@ -2839,7 +2841,7 @@ end
 function update_profile(
     ProfileId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "UpdateProfile",
@@ -2972,7 +2974,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   following example.  aws transfer update-server --server-id s-01234567890abcdef
   --workflow-details '{\"OnUpload\":[]}'
 """
-function update_server(ServerId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_server(ServerId; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "UpdateServer",
         Dict{String,Any}("ServerId" => ServerId);
@@ -2983,7 +2985,7 @@ end
 function update_server(
     ServerId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "UpdateServer",
@@ -3069,7 +3071,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   system. The IAM role should also contain a trust relationship that allows the server to
   access your resources when servicing your users' transfer requests.
 """
-function update_user(ServerId, UserName; aws_config::AbstractAWSConfig=global_aws_config())
+function update_user(ServerId, UserName; aws_config::AbstractAWSConfig=current_aws_config())
     return transfer(
         "UpdateUser",
         Dict{String,Any}("ServerId" => ServerId, "UserName" => UserName);
@@ -3081,7 +3083,7 @@ function update_user(
     ServerId,
     UserName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return transfer(
         "UpdateUser",

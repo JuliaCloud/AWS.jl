@@ -23,7 +23,7 @@ function accept_administrator_invitation(
     administratorId,
     detectorId,
     invitationId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -40,7 +40,7 @@ function accept_administrator_invitation(
     detectorId,
     invitationId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -74,7 +74,7 @@ Accepts the invitation to be monitored by a GuardDuty administrator account.
 
 """
 function accept_invitation(
-    detectorId, invitationId, masterId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, invitationId, masterId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -89,7 +89,7 @@ function accept_invitation(
     invitationId,
     masterId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -121,7 +121,7 @@ archive findings from their accounts.
 
 """
 function archive_findings(
-    detectorId, findingIds; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, findingIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -135,7 +135,7 @@ function archive_findings(
     detectorId,
     findingIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -181,7 +181,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   are exported.
 - `"tags"`: The tags to be added to a new detector resource.
 """
-function create_detector(enable; aws_config::AbstractAWSConfig=global_aws_config())
+function create_detector(enable; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
         "/detector",
@@ -191,7 +191,7 @@ function create_detector(enable; aws_config::AbstractAWSConfig=global_aws_config
     )
 end
 function create_detector(
-    enable, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    enable, params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -311,7 +311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: The tags to be added to a new filter resource.
 """
 function create_filter(
-    detectorId, findingCriteria, name; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, findingCriteria, name; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -330,7 +330,7 @@ function create_filter(
     findingCriteria,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -382,7 +382,7 @@ function create_ipset(
     format,
     location,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -405,7 +405,7 @@ function create_ipset(
     location,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -452,7 +452,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"tags"`: Tags added to the Malware Protection plan resource.
 """
 function create_malware_protection_plan(
-    protectedResource, role; aws_config::AbstractAWSConfig=global_aws_config()
+    protectedResource, role; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -470,7 +470,7 @@ function create_malware_protection_plan(
     protectedResource,
     role,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -522,7 +522,7 @@ member accounts again only by calling the CreateMembers API.
 
 """
 function create_members(
-    accountDetails, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountDetails, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -536,7 +536,7 @@ function create_members(
     accountDetails,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -572,7 +572,7 @@ function create_publishing_destination(
     destinationProperties,
     destinationType,
     detectorId;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -591,7 +591,7 @@ function create_publishing_destination(
     destinationType,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -628,7 +628,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"findingTypes"`: The types of sample findings to generate.
 """
 function create_sample_findings(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -640,7 +640,7 @@ end
 function create_sample_findings(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -680,7 +680,7 @@ function create_threat_intel_set(
     format,
     location,
     name;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -703,7 +703,7 @@ function create_threat_intel_set(
     location,
     name,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -738,7 +738,7 @@ specified by their account IDs.
   invitations to the current member account that you want to decline invitations from.
 
 """
-function decline_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config())
+function decline_invitations(accountIds; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
         "/invitation/decline",
@@ -750,7 +750,7 @@ end
 function decline_invitations(
     accountIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -773,7 +773,7 @@ Deletes an Amazon GuardDuty detector that is specified by the detector ID.
 - `detector_id`: The unique ID of the detector that you want to delete.
 
 """
-function delete_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "DELETE",
         "/detector/$(detectorId)";
@@ -784,7 +784,7 @@ end
 function delete_detector(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "DELETE",
@@ -807,7 +807,7 @@ Deletes the filter specified by the filter name.
 
 """
 function delete_filter(
-    detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, filterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "DELETE",
@@ -820,7 +820,7 @@ function delete_filter(
     detectorId,
     filterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "DELETE",
@@ -843,7 +843,7 @@ specified by their account IDs.
   invitations to the current member account that you want to delete invitations from.
 
 """
-function delete_invitations(accountIds; aws_config::AbstractAWSConfig=global_aws_config())
+function delete_invitations(accountIds; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
         "/invitation/delete",
@@ -855,7 +855,7 @@ end
 function delete_invitations(
     accountIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -881,7 +881,7 @@ console user interface.
 
 """
 function delete_ipset(
-    detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, ipSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "DELETE",
@@ -894,7 +894,7 @@ function delete_ipset(
     detectorId,
     ipSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "DELETE",
@@ -919,7 +919,7 @@ this Malware Protection plan ID.
 
 """
 function delete_malware_protection_plan(
-    malwareProtectionPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    malwareProtectionPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "DELETE",
@@ -931,7 +931,7 @@ end
 function delete_malware_protection_plan(
     malwareProtectionPlanId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "DELETE",
@@ -959,7 +959,7 @@ member account in your organization.
 
 """
 function delete_members(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -973,7 +973,7 @@ function delete_members(
     accountIds,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -999,7 +999,7 @@ Deletes the publishing definition with the specified destinationId.
 
 """
 function delete_publishing_destination(
-    destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    destinationId, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "DELETE",
@@ -1012,7 +1012,7 @@ function delete_publishing_destination(
     destinationId,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "DELETE",
@@ -1035,7 +1035,7 @@ Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
 
 """
 function delete_threat_intel_set(
-    detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "DELETE",
@@ -1048,7 +1048,7 @@ function delete_threat_intel_set(
     detectorId,
     threatIntelSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "DELETE",
@@ -1086,7 +1086,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   attributeName  is required and it must be scanStartTime.
 """
 function describe_malware_scans(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1098,7 +1098,7 @@ end
 function describe_malware_scans(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1132,7 +1132,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 function describe_organization_configuration(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -1144,7 +1144,7 @@ end
 function describe_organization_configuration(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -1169,7 +1169,7 @@ destinationId.
 
 """
 function describe_publishing_destination(
-    destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    destinationId, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -1182,7 +1182,7 @@ function describe_publishing_destination(
     destinationId,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -1206,7 +1206,7 @@ organization's management account can run this API operation.
 
 """
 function disable_organization_admin_account(
-    adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    adminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1219,7 +1219,7 @@ end
 function disable_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1250,7 +1250,7 @@ receive an error if you attempt to disable GuardDuty in a member account.
 
 """
 function disassociate_from_administrator_account(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1262,7 +1262,7 @@ end
 function disassociate_from_administrator_account(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1289,7 +1289,7 @@ with a member account, the delegated administrator must invoke the DeleteMembers
 
 """
 function disassociate_from_master_account(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1301,7 +1301,7 @@ end
 function disassociate_from_master_account(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1342,7 +1342,7 @@ member accounts again only by calling the CreateMembers API.
 
 """
 function disassociate_members(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1356,7 +1356,7 @@ function disassociate_members(
     accountIds,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1383,7 +1383,7 @@ operation.
 
 """
 function enable_organization_admin_account(
-    adminAccountId; aws_config::AbstractAWSConfig=global_aws_config()
+    adminAccountId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1396,7 +1396,7 @@ end
 function enable_organization_admin_account(
     adminAccountId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1422,7 +1422,7 @@ administrator runs this API, it will return success (HTTP 200) but no content.
 
 """
 function get_administrator_account(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -1434,7 +1434,7 @@ end
 function get_administrator_account(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -1464,7 +1464,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"filterCriteria"`: Represents the criteria used to filter the coverage statistics
 """
 function get_coverage_statistics(
-    detectorId, statisticsType; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, statisticsType; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1478,7 +1478,7 @@ function get_coverage_statistics(
     detectorId,
     statisticsType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1504,7 +1504,7 @@ endpoints.
 - `detector_id`: The unique ID of the detector that you want to get.
 
 """
-function get_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
         "/detector/$(detectorId)";
@@ -1515,7 +1515,7 @@ end
 function get_detector(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -1538,7 +1538,7 @@ Returns the details of the filter specified by the filter name.
 
 """
 function get_filter(
-    detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, filterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -1551,7 +1551,7 @@ function get_filter(
     detectorId,
     filterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -1578,7 +1578,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"sortCriteria"`: Represents the criteria used for sorting findings.
 """
 function get_findings(
-    detectorId, findingIds; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, findingIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1592,7 +1592,7 @@ function get_findings(
     detectorId,
     findingIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1623,7 +1623,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"findingCriteria"`: Represents the criteria that is used for querying findings.
 """
 function get_findings_statistics(
-    detectorId, findingStatisticTypes; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, findingStatisticTypes; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1637,7 +1637,7 @@ function get_findings_statistics(
     detectorId,
     findingStatisticTypes,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1662,13 +1662,13 @@ Returns the count of all GuardDuty membership invitations that were sent to the 
 member account except the currently accepted invitation.
 
 """
-function get_invitations_count(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_invitations_count(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET", "/invitation/count"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function get_invitations_count(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -1690,7 +1690,7 @@ Retrieves the IPSet specified by the ipSetId.
 - `ip_set_id`: The unique ID of the IPSet to retrieve.
 
 """
-function get_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_ipset(detectorId, ipSetId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
         "/detector/$(detectorId)/ipset/$(ipSetId)";
@@ -1702,7 +1702,7 @@ function get_ipset(
     detectorId,
     ipSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -1725,7 +1725,7 @@ Retrieves the Malware Protection plan details associated with a Malware Protecti
 
 """
 function get_malware_protection_plan(
-    malwareProtectionPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    malwareProtectionPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -1737,7 +1737,7 @@ end
 function get_malware_protection_plan(
     malwareProtectionPlanId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -1761,7 +1761,7 @@ where GuardDuty is presently supported. For more information, see Regions and en
 
 """
 function get_malware_scan_settings(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -1773,7 +1773,7 @@ end
 function get_malware_scan_settings(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -1795,7 +1795,7 @@ GuardDuty member account.
 - `detector_id`: The unique ID of the detector of the GuardDuty member account.
 
 """
-function get_master_account(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function get_master_account(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
         "/detector/$(detectorId)/master";
@@ -1806,7 +1806,7 @@ end
 function get_master_account(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -1832,7 +1832,7 @@ and endpoints.
 
 """
 function get_member_detectors(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1846,7 +1846,7 @@ function get_member_detectors(
     accountIds,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1874,7 +1874,7 @@ specified by the account IDs.
 
 """
 function get_members(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1888,7 +1888,7 @@ function get_members(
     accountIds,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1911,7 +1911,7 @@ new organization, it might take up to 24 hours to generate the statistics for th
 organization.
 
 """
-function get_organization_statistics(; aws_config::AbstractAWSConfig=global_aws_config())
+function get_organization_statistics(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
         "/organization/statistics";
@@ -1920,7 +1920,7 @@ function get_organization_statistics(; aws_config::AbstractAWSConfig=global_aws_
     )
 end
 function get_organization_statistics(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -1945,7 +1945,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"accountIds"`: A list of account identifiers of the GuardDuty member account.
 """
 function get_remaining_free_trial_days(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -1957,7 +1957,7 @@ end
 function get_remaining_free_trial_days(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -1980,7 +1980,7 @@ Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
 
 """
 function get_threat_intel_set(
-    detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -1993,7 +1993,7 @@ function get_threat_intel_set(
     detectorId,
     threatIntelSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -2034,7 +2034,7 @@ function get_usage_statistics(
     detectorId,
     usageCriteria,
     usageStatisticsType;
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2051,7 +2051,7 @@ function get_usage_statistics(
     usageCriteria,
     usageStatisticsType,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2113,7 +2113,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   inviting to GuardDuty as members.
 """
 function invite_members(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -2127,7 +2127,7 @@ function invite_members(
     accountIds,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2162,7 +2162,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listing results after the first page.
 - `"sortCriteria"`: Represents the criteria used to sort the coverage details.
 """
-function list_coverage(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_coverage(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
         "/detector/$(detectorId)/coverage";
@@ -2173,7 +2173,7 @@ end
 function list_coverage(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2199,13 +2199,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_detectors(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_detectors(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET", "/detector"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_detectors(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET", "/detector", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2230,7 +2230,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_filters(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_filters(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
         "/detector/$(detectorId)/filter";
@@ -2241,7 +2241,7 @@ end
 function list_filters(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -2311,7 +2311,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 - `"sortCriteria"`: Represents the criteria used for sorting findings.
 """
-function list_findings(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_findings(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
         "/detector/$(detectorId)/findings";
@@ -2322,7 +2322,7 @@ end
 function list_findings(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2349,13 +2349,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_invitations(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_invitations(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET", "/invitation"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_invitations(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET", "/invitation", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2382,7 +2382,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_ipsets(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_ipsets(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
         "/detector/$(detectorId)/ipset";
@@ -2393,7 +2393,7 @@ end
 function list_ipsets(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -2418,7 +2418,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   action, fill nextToken in the request with the value of NextToken from the previous
   response to continue listing data.
 """
-function list_malware_protection_plans(; aws_config::AbstractAWSConfig=global_aws_config())
+function list_malware_protection_plans(; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
         "/malware-protection-plan";
@@ -2427,7 +2427,7 @@ function list_malware_protection_plans(; aws_config::AbstractAWSConfig=global_aw
     )
 end
 function list_malware_protection_plans(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -2460,7 +2460,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   accounts must have been previously associated with the GuardDuty administrator account
   using  Create Members .
 """
-function list_members(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function list_members(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "GET",
         "/detector/$(detectorId)/member";
@@ -2471,7 +2471,7 @@ end
 function list_members(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -2498,14 +2498,14 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listing results after the first page.
 """
 function list_organization_admin_accounts(;
-    aws_config::AbstractAWSConfig=global_aws_config()
+    aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET", "/admin"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
 end
 function list_organization_admin_accounts(
-    params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
+    params::AbstractDict{String}; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET", "/admin", params; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
@@ -2530,7 +2530,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   listing results after the first page.
 """
 function list_publishing_destinations(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -2542,7 +2542,7 @@ end
 function list_publishing_destinations(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -2566,7 +2566,7 @@ resource. When invoked, this operation returns all assigned tags for a given res
 
 """
 function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -2578,7 +2578,7 @@ end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -2610,7 +2610,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   response to continue listing data.
 """
 function list_threat_intel_sets(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "GET",
@@ -2622,7 +2622,7 @@ end
 function list_threat_intel_sets(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "GET",
@@ -2645,7 +2645,7 @@ scan ID to track the status of the scan. For more information, see DescribeMalwa
 - `resource_arn`: Amazon Resource Name (ARN) of the resource for which you invoked the API.
 
 """
-function start_malware_scan(resourceArn; aws_config::AbstractAWSConfig=global_aws_config())
+function start_malware_scan(resourceArn; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
         "/malware-scan/start",
@@ -2657,7 +2657,7 @@ end
 function start_malware_scan(
     resourceArn,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2685,7 +2685,7 @@ operation.
 
 """
 function start_monitoring_members(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -2699,7 +2699,7 @@ function start_monitoring_members(
     accountIds,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2728,7 +2728,7 @@ receive an error if you attempt to stop monitoring the member accounts in your o
 
 """
 function stop_monitoring_members(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -2742,7 +2742,7 @@ function stop_monitoring_members(
     accountIds,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2767,7 +2767,7 @@ Adds tags to a resource.
 - `tags`: The tags to be added to a resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
+function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
         "/tags/$(resourceArn)",
@@ -2780,7 +2780,7 @@ function tag_resource(
     resourceArn,
     tags,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2803,7 +2803,7 @@ Unarchives GuardDuty findings specified by the findingIds.
 
 """
 function unarchive_findings(
-    detectorId, findingIds; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, findingIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -2817,7 +2817,7 @@ function unarchive_findings(
     detectorId,
     findingIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2842,7 +2842,7 @@ Removes tags from a resource.
 
 """
 function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
+    resourceArn, tagKeys; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "DELETE",
@@ -2856,7 +2856,7 @@ function untag_resource(
     resourceArn,
     tagKeys,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "DELETE",
@@ -2893,7 +2893,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"findingPublishingFrequency"`: An enum value that specifies how frequently findings are
   exported, such as to CloudWatch Events.
 """
-function update_detector(detectorId; aws_config::AbstractAWSConfig=global_aws_config())
+function update_detector(detectorId; aws_config::AbstractAWSConfig=current_aws_config())
     return guardduty(
         "POST",
         "/detector/$(detectorId)";
@@ -2904,7 +2904,7 @@ end
 function update_detector(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2940,7 +2940,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   specifies the order in which this filter is applied to the findings.
 """
 function update_filter(
-    detectorId, filterName; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, filterName; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -2953,7 +2953,7 @@ function update_filter(
     detectorId,
     filterName,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -2980,7 +2980,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"comments"`: Additional feedback about the GuardDuty findings.
 """
 function update_findings_feedback(
-    detectorId, feedback, findingIds; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, feedback, findingIds; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -2995,7 +2995,7 @@ function update_findings_feedback(
     feedback,
     findingIds,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -3030,7 +3030,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The unique ID that specifies the IPSet that you want to update.
 """
 function update_ipset(
-    detectorId, ipSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, ipSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -3043,7 +3043,7 @@ function update_ipset(
     detectorId,
     ipSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -3075,7 +3075,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   protected resource.
 """
 function update_malware_protection_plan(
-    malwareProtectionPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+    malwareProtectionPlanId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "PATCH",
@@ -3087,7 +3087,7 @@ end
 function update_malware_protection_plan(
     malwareProtectionPlanId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "PATCH",
@@ -3118,7 +3118,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   resources to scan.
 """
 function update_malware_scan_settings(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -3130,7 +3130,7 @@ end
 function update_malware_scan_settings(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -3163,7 +3163,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"features"`: A list of features that will be updated for the specified member accounts.
 """
 function update_member_detectors(
-    accountIds, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    accountIds, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -3177,7 +3177,7 @@ function update_member_detectors(
     accountIds,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -3231,7 +3231,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"features"`: A list of features that will be configured for the organization.
 """
 function update_organization_configuration(
-    detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -3243,7 +3243,7 @@ end
 function update_organization_configuration(
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -3271,7 +3271,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   DestinationArn and KmsKeyArn of the publishing destination.
 """
 function update_publishing_destination(
-    destinationId, detectorId; aws_config::AbstractAWSConfig=global_aws_config()
+    destinationId, detectorId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -3284,7 +3284,7 @@ function update_publishing_destination(
     destinationId,
     detectorId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
@@ -3315,7 +3315,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"name"`: The unique ID that specifies the ThreatIntelSet that you want to update.
 """
 function update_threat_intel_set(
-    detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=global_aws_config()
+    detectorId, threatIntelSetId; aws_config::AbstractAWSConfig=current_aws_config()
 )
     return guardduty(
         "POST",
@@ -3328,7 +3328,7 @@ function update_threat_intel_set(
     detectorId,
     threatIntelSetId,
     params::AbstractDict{String};
-    aws_config::AbstractAWSConfig=global_aws_config(),
+    aws_config::AbstractAWSConfig=current_aws_config(),
 )
     return guardduty(
         "POST",
