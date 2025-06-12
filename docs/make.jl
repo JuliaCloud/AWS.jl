@@ -41,30 +41,31 @@ function _generate_high_level_services_docs(
             write(
                 md,
                 """
-          ```@meta
-          CurrentModule = Main.$service_module
-          ```
+                ```@meta
+                CurrentModule = Main.$service_module
+                ```
 
-          # $service_name
+                # $service_name
 
-          This page documents function available when using the `$service_module`
-          module, created with [`@service $service_module`](@ref AWS.@service).
+                This page documents function available when using the `$service_module`
+                module, created with [`@service $service_module`](@ref AWS.@service).
 
-          ### Index
-          ```@index
-          Pages   = ["$md_file"]
-          Modules = [$service_module]
-          ```
+                ### Index
+                ```@index
+                Pages   = ["$md_file"]
+                Modules = [$service_module]
+                ```
 
-          ### Documentation
-          ```@autodocs
-          Modules = [$service_module]
-          ```
-          """,
+                ### Documentation
+                ```@autodocs
+                Modules = [$service_module]
+                ```
+                """,
             )
         end
         push!(services_pages, service_name => joinpath("services", md_file))
     end
+
     return services_pages
 end
 
