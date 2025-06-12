@@ -35,10 +35,10 @@ _get_sso_session_value(ini::Inifile, sso_session::AbstractString, key::AbstractS
     _get_ini_value(ini, "sso-session", sso_session, key; kwargs...)
 
 function _get_ini_value(
-    ini::Inifile, type::AbstractString, type_value::AbstractString, key::AbstractString; default_value=nothing
+    ini::Inifile, section_value::AbstractString, section_name::AbstractString, key::AbstractString; default_value=nothing
 )
-    value = get(ini, "$type $type_value", key)
-    value === :notfound && (value = get(ini, type_value, key))
+    value = get(ini, "$section_value $section_name", key)
+    value === :notfound && (value = get(ini, section_name, key))
     value === :notfound && (value = default_value)
 
     return value
@@ -174,14 +174,14 @@ function _ec2_metadata(metadata_endpoint::String)
 end
 
 """
-Retrieve the SSO access token from cache.
-Pass the session name when using sso-session.
+Retrieve the SSO access token from cache using the SSO session name. The legacy IAM
+identity center uses the SSO start URL as the session name.
 """
-function _sso_cache_access_token(sso_start_url_or_session_name::Union{AbstractString,Nothing})
-    isnothing(sso_start_url_or_session_name) && return nothing
+function _sso_cache_access_token(session_name::Union{AbstractString,Nothing})
+    isnothing(session_name) && return nothing
 
     cache_path = joinpath(homedir(), ".aws", "sso", "cache")
-    cache_file = joinpath(cache_path, bytes2hex(sha1(sso_start_url_or_session_name)) * ".json")
+    cache_file = joinpath(cache_path, bytes2hex(sha1(session_name)) * ".json")
 
     !isfile(cache_file) && return nothing
 
@@ -196,32 +196,25 @@ Retrieve sso-specific details for the given `profile`.
 """
 function _aws_get_sso_credential_details(profile::AbstractString, ini::Inifile)
     sso_session = _get_profile_value(ini, profile, "sso_session")
-    sso_account_id = _get_profile_value(ini, profile, "sso_account_id") # optional but we require it
-    sso_role_name = _get_profile_value(ini, profile, "sso_role_name"; default_value="default") # optional but we require it
-    access_token = if sso_session !== nothing
+    sso_account_id = _get_profile_value(ini, profile, "sso_account_id") # Optional but AWS.jl requires it
+    sso_role_name = _get_profile_value(ini, profile, "sso_role_name"; default_value="default") # Optional but AWS.jl requires it
+    session_token = if sso_session !== nothing
         # new configuration
         # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html
         sso_region = _get_sso_session_value(ini, sso_session, "sso_region") # required
-        sso_role_name = _get_profile_value(ini, profile, "sso_role_name") # optional but we require it
         if sso_role_name === nothing
             error("AWS.jl requires sso_role_name is set in the profile section.")
         end
-        # I have no idea what sso_registration_scopes is supposed to do. It's an optional parameter. I can't find any
-        # documentation for it. Everything I've tested seems to work without it. Maybe the AWS CLI uses is to cache the
-        # access token, and then we don't need to use it? No idea.
-
-        # the new config uses the session name instead of the start url to index into the cache
-        @mock _sso_cache_access_token(sso_session)
+        sso_session
     else
         # legacy configuration
         # https://docs.aws.amazon.com/cli/latest/userguide/sso-configure-profile-legacy.html#sso-configure-profile-manual
         sso_start_url = _get_profile_value(ini, profile, "sso_start_url")
         sso_region = _get_profile_value(ini, profile, "sso_region"; default_value=DEFAULT_REGION)
-    
-        # sso cache access token
-        @mock _sso_cache_access_token(sso_start_url)
+        sso_start_url
     end
 
+    access_token = @mock _sso_cache_access_token(session_token)
     headers = Dict{String,Any}("x-amz-sso_bearer_token" => access_token)
     tmp_config = AWSConfig(; creds=nothing, region=sso_region)
 

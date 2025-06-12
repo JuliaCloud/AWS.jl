@@ -423,11 +423,11 @@ function sso_credentials(profile=nothing)
         settings = _aws_profile_config(ini, p)
         isempty(settings) && return nothing
 
-        # New SSO configuration
-        # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html
+        # IAM identity center authentication
+        # https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-sso.html#cli-configure-sso-manual
         sso_session = get(settings, "sso_session", nothing)
 
-        # Legacy SSO configuration
+        # Legacy IAM identity center authentication
         # https://docs.aws.amazon.com/cli/latest/userguide/sso-configure-profile-legacy.html#sso-configure-profile-manual
         sso_start_url = get(settings, "sso_start_url", nothing)
 
