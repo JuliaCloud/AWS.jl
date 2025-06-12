@@ -145,7 +145,7 @@ cannot).
 
 ## Examples
 
-```jldoctest service
+```julia
 julia> using AWS: @service
 
 julia> @service STS
@@ -159,7 +159,7 @@ OrderedCollections.LittleDict{Union{String, Symbol}, Any, Vector{Union{String, S
 
 Specify the module name and use a feature:
 
-```jldoctest service
+```julia
 julia> @service STS as SecurityTokenService use_response_type = true
 SecurityTokenService
 
@@ -172,7 +172,7 @@ OrderedCollections.LittleDict{Union{String, Symbol}, Any, Vector{Union{String, S
 
 Service IDs are case insensitive:
 
-```jldoctest service
+```jldoctest; setup = :(using AWS: @service)
 julia> @service Secrets_Manager
 Secrets_Manager
 
@@ -186,7 +186,7 @@ sECRETS_MANAGER
 Using an all lowercase service ID does not work as it conflicts with the low-level API
 binding name:
 
-```jldoctest service
+```jldoctest; setup = :(using AWS: @service)
 julia> @service sts
 WARNING: import of AWSServices.sts into sts conflicts with an existing identifier; ignored.
 sts
