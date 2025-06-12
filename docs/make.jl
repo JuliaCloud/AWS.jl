@@ -17,6 +17,13 @@ function _generate_high_level_services_docs()
     services_dir = joinpath(@__DIR__, "src", "services")
     mkpath(services_dir)
 
+    # Remove service doc files to ensure old services that no longer exist are removed.
+    for path in readdir(services_dir; join=true)
+        if isfile(path) && endswith(path, ".md")
+            rm(path)
+        end
+    end
+
     services_pages = Pair{String,String}[]
     for jl_file in readdir(joinpath(pkgdir(AWS), "src", "services"))
         service = first(splitext(jl_file))
