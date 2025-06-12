@@ -149,38 +149,38 @@ cannot).
 julia> using AWS: @service
 
 julia> @service STS
-Main.STS
+STS
 
 julia> STS.get_caller_identity()
 OrderedCollections.LittleDict{Union{String, Symbol}, Any, Vector{Union{String, Symbol}}, Vector{Any}} with 2 entries:
-  "GetCallerIdentityResult" => ...
-  "ResponseMetadata"        => ...
+  "GetCallerIdentityResult" => LittleDict{Union{String, Symbol}, Any, Vector{Un…
+  "ResponseMetadata"        => LittleDict{Union{String, Symbol}, Any, Vector{Un…
 ```
 
 Specify the module name and use a feature:
 
 ```jldoctest service
 julia> @service STS as SecurityTokenService use_response_type = true
-Main.SecurityTokenService
+SecurityTokenService
 
 julia> SecurityTokenService.get_caller_identity()
 AWS.Response: application/xml interpreted as:
 OrderedCollections.LittleDict{Union{String, Symbol}, Any, Vector{Union{String, Symbol}}, Vector{Any}} with 2 entries:
-  "GetCallerIdentityResult" => ...
-  "ResponseMetadata"        => ...
+  "GetCallerIdentityResult" => LittleDict{Union{String, Symbol}, Any, Vector{Un…
+  "ResponseMetadata"        => LittleDict{Union{String, Symbol}, Any, Vector{Un…
 ```
 
 Service IDs are case insensitive:
 
 ```jldoctest service
 julia> @service Secrets_Manager
-Main.Secrets_Manager
+Secrets_Manager
 
 julia> @service SECRETS_MANAGER
-Main.SECRETS_MANAGER
+SECRETS_MANAGER
 
 julia> @service sECRETS_MANAGER
-Main.sECRETS_MANAGER
+sECRETS_MANAGER
 ```
 
 Using an all lowercase service ID does not work as it conflicts with the low-level API
@@ -189,11 +189,11 @@ binding name:
 ```jldoctest service
 julia> @service sts
 WARNING: import of AWSServices.sts into sts conflicts with an existing identifier; ignored.
-Main.sts
+sts
 
 julia> sts.get_caller_identity()
 ERROR: MethodError: objects of type Module are not callable
-...
+[...]
 ```
 """
 macro service(exprs...)
