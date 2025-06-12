@@ -197,18 +197,17 @@ ERROR: MethodError: objects of type Module are not callable
 ```
 """
 macro service(exprs...)
-    # e.g. `@service Secrets_Manager as SM ...`. Note the expression structure here differs
-    # from what is used by `import` and `using`.
     if length(exprs) >= 3 && exprs[2] === :as
+        # e.g. `@service Secrets_Manager as SM ...`. Note the expression structure here differs
+        # from what is used by `import` and `using`.
         exprs[1] isa Symbol || throw(_expected_symbol_exception(:service_id, exprs[1]))
         exprs[3] isa Symbol || throw(_expected_symbol_exception(:module_name, exprs[3]))
 
         service_name = exprs[1]
         module_name = exprs[3]
         features = exprs[4:end]
-
-    # e.g. `@service Secrets_Manager ...`
     elseif length(exprs) >= 1
+        # e.g. `@service Secrets_Manager ...`
         exprs[1] isa Symbol || throw(_expected_symbol_exception(:service_id, exprs[1]))
 
         service_name = exprs[1]

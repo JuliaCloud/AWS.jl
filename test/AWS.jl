@@ -1,15 +1,18 @@
 @testset "@service" begin
     @testset "ID only" begin
+        #! format: off
         @eval baremodule __service_id_only
             using AWS: @service
             @service STS
         end
+        #! format: on
 
         @test :STS in names(__service_id_only; all=true)
         @test __service_id_only.STS isa Module
     end
 
     @testset "non-existent service" begin
+        #! format: off
         @eval module __service_non_existent_service
             using AWS: @service
             const ex = try
@@ -18,15 +21,19 @@
                 e
             end
         end
+        #! format: on
+
         @test __service_non_existent_service.ex isa SystemError
         @test :x in names(__service_non_existent_service; all=true)
     end
 
     @testset "returns module" begin
+        #! format: off
         @eval baremodule __service_returns_module
             using AWS: @service
             const M = @service STS
         end
+        #! format: on
 
         @test :STS in names(__service_returns_module; all=true)
         @test :M in names(__service_returns_module; all=true)
@@ -36,20 +43,25 @@
     end
 
     @testset "case-insensitive" begin
+        #! format: off
         @eval module __service_case_insenstive
             using AWS: @service
             @service Secrets_Manager
             @service SECRETS_MANAGER
             @service sECRETS_MANAGER
         end
+        #! format: on
 
         @test :Secrets_Manager in names(__service_case_insenstive; all=true)
         @test :SECRETS_MANAGER in names(__service_case_insenstive; all=true)
         @test :sECRETS_MANAGER in names(__service_case_insenstive; all=true)
 
-        @test __service_case_insenstive.Secrets_Manager !== __service_case_insenstive.SECRETS_MANAGER
-        @test __service_case_insenstive.Secrets_Manager !== __service_case_insenstive.sECRETS_MANAGER
-        @test __service_case_insenstive.SECRETS_MANAGER !== __service_case_insenstive.sECRETS_MANAGER
+        @test __service_case_insenstive.Secrets_Manager !==
+            __service_case_insenstive.SECRETS_MANAGER
+        @test __service_case_insenstive.Secrets_Manager !==
+            __service_case_insenstive.sECRETS_MANAGER
+        @test __service_case_insenstive.SECRETS_MANAGER !==
+            __service_case_insenstive.sECRETS_MANAGER
     end
 
     # The lowercase service ID conflicts with the low-level API binding name
@@ -57,10 +69,12 @@
     @testset "lowercase" begin
         # Produces this warning:
         # WARNING: import of AWSServices.sts into sts conflicts with an existing identifier; ignored
+        #! format: off
         @eval module __service_lowercase
             using AWS: @service
             @service sts
         end
+        #! format: on
 
         @test :sts in names(__service_lowercase; all=true)
         @test __service_lowercase.sts isa Module
@@ -68,10 +82,12 @@
     end
 
     @testset "as" begin
+        #! format: off
         @eval module __service_as
             using AWS: @service
             @service STS as SecurityTokenService
         end
+        #! format: on
 
         @test nameof(__service_as.SecurityTokenService) === :SecurityTokenService
         @test __service_as.SecurityTokenService isa Module
