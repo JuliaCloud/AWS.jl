@@ -186,7 +186,7 @@ sECRETS_MANAGER
 Using an all lowercase service ID does not work as it conflicts with the low-level API
 binding name:
 
-```jldoctest; setup = :(using AWS: @service)
+```julia
 julia> @service sts
 WARNING: import of AWSServices.sts into sts conflicts with an existing identifier; ignored.
 sts
