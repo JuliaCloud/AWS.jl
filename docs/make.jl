@@ -60,21 +60,24 @@ function _generate_high_level_services_docs()
     return services_pages
 end
 
+service_pages = _generate_high_level_services_docs()
+
 makedocs(;
     modules=[AWS],
     repo="https://github.com/JuliaCloud/AWS.jl/blob/{commit}{path}#{line}",
     sitename="AWS.jl",
     format=Documenter.HTML(;
-        prettyurls=false, canonical="https://juliacloud.github.io/AWS.jl"
+        canonical="https://juliacloud.github.io/AWS.jl",
+        prettyurls=false,
+        size_threshold_ignore=[last(page)::String for page in service_pages],
     ),
     pages=[
         "Home" => "index.md",
         "Backends" => "backends.md",
         "AWS" => "aws.md",
         "IMDS" => "imds.md",
-        "Services" => _generate_high_level_services_docs(),
+        "Services" => service_pages,
     ],
-    strict=true,
     checkdocs=:exports,
 )
 
