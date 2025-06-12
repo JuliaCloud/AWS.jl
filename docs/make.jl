@@ -5,7 +5,7 @@ using Documenter
 pascal_snake_case(s) = join(titlecase.(split(s, "_")), "_")
 
 """
-    _generate_high_level_services_docs() -> Vector{Pair{String,String}}
+    _generate_high_level_services_docs(service_dir) -> Vector{Pair{String,String}}
 
 Generate a documentation page for each high-level AWS Service API, and
 return a `Vector` of `"service name" => "docs/src/services/service_name.md"` pairs.
@@ -13,8 +13,9 @@ return a `Vector` of `"service name" => "docs/src/services/service_name.md"` pai
 Documentation pages are created at `docs/src/services/{service_name}.md`, and
 populated with all docstrings from a module created with `@service Service_Name`.
 """
-function _generate_high_level_services_docs()
-    services_dir = joinpath(@__DIR__, "src", "services")
+function _generate_high_level_services_docs(
+    services_dir=joinpath(@__DIR__, "src", "services")
+)
     mkpath(services_dir)
 
     # Remove service doc files to ensure old services that no longer exist are removed.
