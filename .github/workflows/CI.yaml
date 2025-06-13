@@ -12,7 +12,6 @@ on:
 jobs:
   test:
     name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }}
-    if: ${{ github.event_name != 'pull_request' }}  # Avoid running on PRs as OIDC will fail when running on a fork
     # These permissions are needed to:
     # - Checking out the repository (`contents: read`)
     # - Interact with GitHub's OIDC Token endpoint: https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services#adding-permissions-settings
@@ -35,6 +34,10 @@ jobs:
           - ubuntu-latest
         arch:
           - x64
+    env:
+      RUN_UNIT_TESTS: "true"
+      # Integration tests require OIDC which will fail when running on a PR from a fork.
+      RUN_INTEGRATION_TESTS: ${{ github.event_name == 'pull_request' && 'false' || 'true' }}
     steps:
       - uses: actions/checkout@v4
       - name: Debug OIDC Claims
@@ -43,12 +46,13 @@ jobs:
         with:
           audience: sts.amazonaws.com
       - name: Assume AWS role
+        if: ${{ env.RUN_INTEGRATION_TESTS == 'true' }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/AWS.jl
           aws-region: us-east-1
       - name: MinIO server setup
-        if: ${{ runner.os != 'Windows' }}
+        if: ${{ runner.os != 'Windows' && env.RUN_INTEGRATION_TESTS == 'true' }}
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: minio123
