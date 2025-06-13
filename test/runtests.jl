@@ -18,7 +18,7 @@ using AWS.AWSMetadata:
     _wraplines,
     _validindex
 using Base64
-using Compat: mergewith
+using Compat: mergewith, pkgversion
 using Dates
 using Downloads
 using GitHub

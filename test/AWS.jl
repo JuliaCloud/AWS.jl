@@ -139,7 +139,7 @@ end
     new_user_agent = "new user agent"
 
     try
-        @test AWS.user_agent[] == "AWS.jl/1.0.0"
+        @test AWS.user_agent[] == "AWS.jl/$(pkgversion(AWS))"
         set_user_agent(new_user_agent)
         @test AWS.user_agent[] == new_user_agent
     finally
