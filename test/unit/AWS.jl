@@ -96,14 +96,17 @@
 
     # These uses of the `@service` macro should not create a module
     @testset "invalid syntax" begin
-        @test_throws MethodError @macroexpand @service()
+        ex = VERSION >= v"1.7" ? MethodError : LoadError
+        @test_throws ex @macroexpand @service()
 
         # Service ID is an expression
-        @test_throws ArgumentError @macroexpand @service STS.X
+        ex = VERSION >= v"1.7" ? ArgumentError : LoadError
+        @test_throws ex @macroexpand @service STS.X
         @test !(Symbol("STS.X") in names(@__MODULE__; all=true))
 
         # Module name is an expression
-        @test_throws ArgumentError @macroexpand @service STS as STS.X
+        ex = VERSION >= v"1.7" ? ArgumentError : LoadError
+        @test_throws ex @macroexpand @service STS as STS.X
         @test !(:STS in names(@__MODULE__; all=true))
         @test !(Symbol("STS.X") in names(@__MODULE__; all=true))
     end
