@@ -164,16 +164,19 @@ end
 
 """
 Clean up the documentation to make it Julia compiler and human-readable.
-    * Remove any HTML tags
-    * Remove any dollar signs
-    * Remove any backslashes
-    * Escape any double-quotes
+
+- Remove any HTML tags
+- Remove any dollar signs
+- Remove any backslashes
+- Escape any double-quotes
+- Escape any patterns which would be interpreted as markdown links
 """
 function _clean_documentation(documentation::String)
     documentation = replace(documentation, r"\<.*?\>" => "")
     documentation = replace(documentation, '$' => "")
     documentation = replace(documentation, '\\' => "")
     documentation = replace(documentation, '"' => "\\\"")
+    documentation = replace(documentation, r"\[(.*?)\]\((.*?)\)" => s"\\\\[\1](\2)")
 
     return documentation
 end
