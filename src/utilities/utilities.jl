@@ -127,6 +127,10 @@ function _assignment_to_kw!(x)
     return throw(ArgumentError("Expected assignment expression, instead found: `$x`"))
 end
 
+function _expected_symbol_exception(name::Symbol, expr)
+    return ArgumentError("Expected `$name` to be a Symbol, instead found: `$expr`")
+end
+
 # https://docs.aws.amazon.com/sdkref/latest/guide/feature-retry-behavior.html
 # Default values for AWS's `standard` retry mode. Note: these can be overridden elsewhere.
 Base.@kwdef struct AWSExponentialBackoff

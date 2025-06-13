@@ -55,6 +55,7 @@ release. Each field of this struct contains a default which specifies uses the o
 non-breaking behavior.
 
 # Features
+
 - `use_response_type::Bool=false`: When enabled, service calls will return an `AWS.Response`
   which provides streaming/raw/parsed access to the response. When disabled, the service
   call response typically be parsed but will vary depending on the following parameters:
@@ -113,52 +114,116 @@ Set the global user agent when making HTTP requests.
 set_user_agent(new_user_agent::String) = return user_agent[] = new_user_agent
 
 """
-    @service module_name feature=val...
+    @service service_id feature=val...
+    @service service_id as module_name feature=val...
 
-Include a high-level service wrapper based off of the `module_name` parameter optionally
-supplying a list of `features`.
+Include the high-level service wrapper for `service_id` in a module. The module name will
+match the `service_id` or can be specified using the `as` syntax.
 
-When calling the macro you cannot match the predefined constant for the low-level API.
-The low-level API constants are named in all lowercase, and spaces replaced with underscores.
+An optional list of features can be specified for this service include. See
+[`FeatureSet`](@ref) for a list of available features.
 
-Examples:
-```julia
-using AWS.AWSServices: secrets_manager
-using AWS: @service
+The module name cannot match the binding name used for the low-level API. The low-level API
+binding name is equivalent to the lowercase `service_id` where spaces are replace with
+underscores (e.g. the service ID `Secrets_Manager` can be used but `secrets_manager`
+cannot).
 
-# This matches the constant and will error!
-@service secrets_manager
-> ERROR: cannot assign a value to variable AWSServices.secrets_manager from module Main
+# Extended Help
 
-# This does NOT match the filename structure and will error!
-@service secretsmanager
-> ERROR: could not open file /.julia/dev/AWS.jl/src/services/secretsmanager.jl
+## Arguments
 
-# All of the examples below are valid!
-@service Secrets_Manager
-@service SECRETS_MANAGER
-@service sECRETS_MANAGER
-
-# Using a feature
-@service Secrets_Manager use_response_type = true
-```
-
-# Arguments
-- `module_name::Symbol`: Name of the module and service to include high-level API wrappers in your namespace
+- `service_id::Symbol`: The high-level API wrappers service ID to include in the current
+  module. Note the service ID is case insensitive.
+- `module_name::Symbol`: The name of the module containing the high-level API wrappers.
+  Useful to avoiding name conflicts. Defaults to using `service_id`.
 - `features=val...`: A list of features to enable/disable for this high-level API include.
   See `FeatureSet` for a list of available features.
 
-# Return
-- `Expression`: Module which embeds the high-level service API wrapper functions in your namespace
+## Returns
+
+- `Module`: The module containging the high-level service API wrapper functions.
+
+## Examples
+
+```julia
+julia> using AWS: @service
+
+julia> @service STS
+STS
+
+julia> STS.get_caller_identity()
+OrderedCollections.LittleDict{Union{String, Symbol}, Any, Vector{Union{String, Symbol}}, Vector{Any}} with 2 entries:
+  "GetCallerIdentityResult" => LittleDict{Union{String, Symbol}, Any, Vector{Un…
+  "ResponseMetadata"        => LittleDict{Union{String, Symbol}, Any, Vector{Un…
+```
+
+Specify the module name and use a feature:
+
+```julia
+julia> @service STS as SecurityTokenService use_response_type = true
+SecurityTokenService
+
+julia> SecurityTokenService.get_caller_identity()
+AWS.Response: application/xml interpreted as:
+OrderedCollections.LittleDict{Union{String, Symbol}, Any, Vector{Union{String, Symbol}}, Vector{Any}} with 2 entries:
+  "GetCallerIdentityResult" => LittleDict{Union{String, Symbol}, Any, Vector{Un…
+  "ResponseMetadata"        => LittleDict{Union{String, Symbol}, Any, Vector{Un…
+```
+
+Service IDs are case insensitive:
+
+```jldoctest; setup = :(using AWS: @service)
+julia> @service Secrets_Manager
+Secrets_Manager
+
+julia> @service SECRETS_MANAGER
+SECRETS_MANAGER
+
+julia> @service sECRETS_MANAGER
+sECRETS_MANAGER
+```
+
+Using an all lowercase service ID does not work as it conflicts with the low-level API
+binding name:
+
+```julia
+julia> @service sts
+WARNING: import of AWSServices.sts into sts conflicts with an existing identifier; ignored.
+sts
+
+julia> sts.get_caller_identity()
+ERROR: MethodError: objects of type Module are not callable
+[...]
+```
 """
-macro service(module_name::Symbol, features...)
-    service_name = joinpath(@__DIR__, "services", lowercase(string(module_name)) * ".jl")
+macro service(exprs...)
+    if length(exprs) >= 3 && exprs[2] === :as
+        # e.g. `@service Secrets_Manager as SM ...`. Note the expression structure here differs
+        # from what is used by `import` and `using`.
+        exprs[1] isa Symbol || throw(_expected_symbol_exception(:service_id, exprs[1]))
+        exprs[3] isa Symbol || throw(_expected_symbol_exception(:module_name, exprs[3]))
+
+        service_name = exprs[1]
+        module_name = exprs[3]
+        features = exprs[4:end]
+    elseif length(exprs) >= 1
+        # e.g. `@service Secrets_Manager ...`
+        exprs[1] isa Symbol || throw(_expected_symbol_exception(:service_id, exprs[1]))
+
+        service_name = exprs[1]
+        module_name = exprs[1]
+        features = exprs[2:end]
+    else
+        throw(MethodError(var"@service", (__source__, __module__)))
+    end
+
+    service_file = joinpath(@__DIR__, "services", lowercase(string(service_name)) * ".jl")
     map(_assignment_to_kw!, features)
 
     module_block = quote
         using AWS: FeatureSet
         const SERVICE_FEATURE_SET = FeatureSet(; $(features...))
-        include($service_name)
+        include($service_file)
     end
 
     return Expr(:toplevel, Expr(:module, true, esc(module_name), esc(module_block)))

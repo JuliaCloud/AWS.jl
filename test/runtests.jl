@@ -45,32 +45,58 @@ const TEST_MINIO = begin
     all(k -> haskey(ENV, k), ("MINIO_ACCESS_KEY", "MINIO_SECRET_KEY", "MINIO_REGION_NAME"))
 end
 
-aws = AWSConfig()
-
 function _now_formatted()
     return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
 end
 
 testset_role(role_name) = "AWS.jl-$role_name"
 
+const RUN_UNIT_TESTS = get(ENV, "RUN_UNIT_TESTS", "true") == "true"
+const RUN_INTEGRATION_TESTS = get(ENV, "RUN_INTEGRATION_TESTS", "true") == "true"
+
+# Avoid the situation where we all tests are silently skipped. Most likely due to the wrong
+# environmental variables being used.
+if !RUN_UNIT_TESTS && !RUN_INTEGRATION_TESTS
+    error("All tests have been disabled")
+end
+
+const AWS_CONFIG = Ref{AbstractAWSConfig}()
+
 @testset "AWS.jl" begin
-    include("AWSExceptions.jl")
-    include("AWSMetadataUtilities.jl")
-    include("test_pkg.jl")
-    include("utilities.jl")
-    include("AWSConfig.jl")
+    @testset "Unit Tests" begin
+        if RUN_UNIT_TESTS
+            include("unit/AWS.jl")
+        else
+            @warn "Skipping unit tests"
+        end
+    end
 
-    backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
-    @testset "Backend: $(nameof(backend))" for backend in backends
-        AWS.DEFAULT_BACKEND[] = backend()
-        include("AWS.jl")
-        include("IMDS.jl")
-        include("AWSCredentials.jl")
-        include("role.jl")
-        include("issues.jl")
+    # TODO: Some of these tests are actually unit tests and need to be refactored
+    @testset "Integration Tests" begin
+        if RUN_INTEGRATION_TESTS
+            AWS_CONFIG[] = AWSConfig()
 
-        if TEST_MINIO
-            include("minio.jl")
+            include("AWSExceptions.jl")
+            include("AWSMetadataUtilities.jl")
+            include("test_pkg.jl")
+            include("utilities.jl")
+            include("AWSConfig.jl")
+
+            backends = [AWS.HTTPBackend, AWS.DownloadsBackend]
+            @testset "Backend: $(nameof(backend))" for backend in backends
+                AWS.DEFAULT_BACKEND[] = backend()
+                include("AWS.jl")
+                include("IMDS.jl")
+                include("AWSCredentials.jl")
+                include("role.jl")
+                include("issues.jl")
+
+                if TEST_MINIO
+                    include("minio.jl")
+                end
+            end
+        else
+            @warn "Skipping integration tests"
         end
     end
 end

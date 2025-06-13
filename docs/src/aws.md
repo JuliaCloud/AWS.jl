@@ -15,3 +15,7 @@ Modules = [AWS]
 Order = [:module, :macro, :type, :function, :constant]
 Private = false
 ```
+
+```@docs
+FeatureSet
+```
