@@ -45,8 +45,6 @@ const TEST_MINIO = begin
     all(k -> haskey(ENV, k), ("MINIO_ACCESS_KEY", "MINIO_SECRET_KEY", "MINIO_REGION_NAME"))
 end
 
-aws = AWSConfig()
-
 function _now_formatted()
     return lowercase(Dates.format(now(Dates.UTC), dateformat"yyyymmdd\THHMMSSsss\Z"))
 end
@@ -74,6 +72,8 @@ end
     # TODO: Some of these tests are actually unit tests and need to be refactored
     @testset "Integration Tests" begin
         if RUN_INTEGRATION_TESTS
+            aws = AWSConfig()
+
             include("AWSExceptions.jl")
             include("AWSMetadataUtilities.jl")
             include("test_pkg.jl")
