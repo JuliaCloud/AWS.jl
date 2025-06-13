@@ -19,9 +19,9 @@ http_header(h::Vector, k, d="") = get(Dict(h), k, d)
 http_header(args...) = HTTP.header(args...)
 
 @testset "Load Credentials" begin
-    user = aws_user_arn(aws)
+    user = aws_user_arn(AWS_CONFIG[])
     @test occursin(r"^arn:aws:(iam|sts)::[0-9]+:[^:]+$", user)
-    aws.region = "us-east-1"
+    AWS_CONFIG[].region = "us-east-1"
 
     @test_ecode("InvalidAction", AWSServices.iam("GetFoo"))
 
