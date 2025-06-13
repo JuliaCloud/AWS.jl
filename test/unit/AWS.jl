@@ -110,4 +110,16 @@
         @test !(:STS in names(@__MODULE__; all=true))
         @test !(Symbol("STS.X") in names(@__MODULE__; all=true))
     end
+
+    @testset "module redefinition" begin
+        #! format: off
+        @eval baremodule __service_module_redefinition
+            using AWS, Test
+            @service S3 use_response_type = true
+            features = S3.SERVICE_FEATURE_SET
+            @service S3
+            @test features === S3.SERVICE_FEATURE_SET  # ensures module wasn't replaced
+        end
+        #! format: on
+    end
 end
