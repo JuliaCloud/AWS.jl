@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Debug OIDC Claims
-        if: ${{ runner.os == 'Linux' }}
+        if: ${{ env.RUN_INTEGRATION_TESTS == 'true' && runner.os == 'Linux' }}
         uses: github/actions-oidc-debugger@main
         with:
           audience: sts.amazonaws.com
@@ -52,7 +52,7 @@ jobs:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/AWS.jl
           aws-region: us-east-1
       - name: MinIO server setup
-        if: ${{ runner.os != 'Windows' && env.RUN_INTEGRATION_TESTS == 'true' }}
+        if: ${{ env.RUN_INTEGRATION_TESTS == 'true' && runner.os != 'Windows' }}
         env:
           MINIO_ACCESS_KEY: minio
           MINIO_SECRET_KEY: minio123

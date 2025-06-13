@@ -62,7 +62,7 @@ end
 
 @testset "AWS.jl" begin
     @testset "Unit Tests" begin
-        if RUN_UNIT_TEST
+        if RUN_UNIT_TESTS
             include("unit/AWS.jl")
         else
             @warn "Skipping unit tests"
