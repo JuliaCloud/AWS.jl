@@ -19,17 +19,15 @@ CreateSuiteDefinition action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"tags"`: The tags to be attached to the suite definition.
 """
-function create_suite_definition(
+create_suite_definition(
     suiteDefinitionConfiguration; aws_config::AbstractAWSConfig=global_aws_config()
+) = iotdeviceadvisor(
+    "POST",
+    "/suiteDefinitions",
+    Dict{String,Any}("suiteDefinitionConfiguration" => suiteDefinitionConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotdeviceadvisor(
-        "POST",
-        "/suiteDefinitions",
-        Dict{String,Any}("suiteDefinitionConfiguration" => suiteDefinitionConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_suite_definition(
     suiteDefinitionConfiguration,
     params::AbstractDict{String};
@@ -63,16 +61,14 @@ DeleteSuiteDefinition action.
 - `suite_definition_id`: Suite definition ID of the test suite to be deleted.
 
 """
-function delete_suite_definition(
+delete_suite_definition(
     suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
+) = iotdeviceadvisor(
+    "DELETE",
+    "/suiteDefinitions/$(suiteDefinitionId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotdeviceadvisor(
-        "DELETE",
-        "/suiteDefinitions/$(suiteDefinitionId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_suite_definition(
     suiteDefinitionId,
     params::AbstractDict{String};
@@ -100,11 +96,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"deviceRoleArn"`: The device role ARN of the device. This is an optional parameter.
 - `"thingArn"`: The thing ARN of the device. This is an optional parameter.
 """
-function get_endpoint(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotdeviceadvisor(
-        "GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+get_endpoint(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor(
+    "GET", "/endpoint"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function get_endpoint(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -127,16 +121,13 @@ GetSuiteDefinition action.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"suiteDefinitionVersion"`: Suite definition version of the test suite to get.
 """
-function get_suite_definition(
-    suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return iotdeviceadvisor(
+get_suite_definition(suiteDefinitionId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    iotdeviceadvisor(
         "GET",
         "/suiteDefinitions/$(suiteDefinitionId)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_suite_definition(
     suiteDefinitionId,
     params::AbstractDict{String};
@@ -163,16 +154,14 @@ GetSuiteRun action.
 - `suite_run_id`: Suite run ID for the test suite run.
 
 """
-function get_suite_run(
+get_suite_run(
     suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = iotdeviceadvisor(
+    "GET",
+    "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotdeviceadvisor(
-        "GET",
-        "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_suite_run(
     suiteDefinitionId,
     suiteRunId,
@@ -200,16 +189,14 @@ Requires permission to access the GetSuiteRunReport action.
 - `suite_run_id`: Suite run ID of the test suite run.
 
 """
-function get_suite_run_report(
+get_suite_run_report(
     suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = iotdeviceadvisor(
+    "GET",
+    "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/report";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotdeviceadvisor(
-        "GET",
-        "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/report";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_suite_run_report(
     suiteDefinitionId,
     suiteRunId,
@@ -237,11 +224,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: The maximum number of results to return at once.
 - `"nextToken"`: A token used to get the next set of results.
 """
-function list_suite_definitions(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotdeviceadvisor(
+list_suite_definitions(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    iotdeviceadvisor(
         "GET", "/suiteDefinitions"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_suite_definitions(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -271,11 +257,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"suiteDefinitionVersion"`: Must be passed along with suiteDefinitionId. Lists the test
   suite runs of the specified test suite based on suite definition version.
 """
-function list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotdeviceadvisor(
-        "GET", "/suiteRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_suite_runs(; aws_config::AbstractAWSConfig=global_aws_config()) = iotdeviceadvisor(
+    "GET", "/suiteRuns"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_suite_runs(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -296,16 +280,13 @@ the ListTagsForResource action.
   SuiteDefinition ARN or SuiteRun ARN.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return iotdeviceadvisor(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    iotdeviceadvisor(
         "GET",
         "/tags/$(resourceArn)";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -336,19 +317,17 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"suiteDefinitionVersion"`: Suite definition version of the test suite.
 - `"tags"`: The tags to be attached to the suite run.
 """
-function start_suite_run(
+start_suite_run(
     suiteDefinitionId,
     suiteRunConfiguration;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = iotdeviceadvisor(
+    "POST",
+    "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns",
+    Dict{String,Any}("suiteRunConfiguration" => suiteRunConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotdeviceadvisor(
-        "POST",
-        "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns",
-        Dict{String,Any}("suiteRunConfiguration" => suiteRunConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function start_suite_run(
     suiteDefinitionId,
     suiteRunConfiguration,
@@ -382,16 +361,14 @@ access the StopSuiteRun action.
 - `suite_run_id`: Suite run ID of the test suite run to be stopped.
 
 """
-function stop_suite_run(
+stop_suite_run(
     suiteDefinitionId, suiteRunId; aws_config::AbstractAWSConfig=global_aws_config()
+) = iotdeviceadvisor(
+    "POST",
+    "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/stop";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotdeviceadvisor(
-        "POST",
-        "/suiteDefinitions/$(suiteDefinitionId)/suiteRuns/$(suiteRunId)/stop";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function stop_suite_run(
     suiteDefinitionId,
     suiteRunId,
@@ -420,15 +397,14 @@ to access the TagResource action.
 - `tags`: The tags to be attached to the IoT Device Advisor resource.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return iotdeviceadvisor(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    iotdeviceadvisor(
         "POST",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -457,17 +433,14 @@ UntagResource action.
 - `tag_keys`: List of tag keys to remove from the IoT Device Advisor resource.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return iotdeviceadvisor(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    iotdeviceadvisor(
         "DELETE",
         "/tags/$(resourceArn)",
         Dict{String,Any}("tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -496,19 +469,17 @@ UpdateSuiteDefinition action.
 - `suite_definition_id`: Suite definition ID of the test suite to be updated.
 
 """
-function update_suite_definition(
+update_suite_definition(
     suiteDefinitionConfiguration,
     suiteDefinitionId;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = iotdeviceadvisor(
+    "PATCH",
+    "/suiteDefinitions/$(suiteDefinitionId)",
+    Dict{String,Any}("suiteDefinitionConfiguration" => suiteDefinitionConfiguration);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return iotdeviceadvisor(
-        "PATCH",
-        "/suiteDefinitions/$(suiteDefinitionId)",
-        Dict{String,Any}("suiteDefinitionConfiguration" => suiteDefinitionConfiguration);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_suite_definition(
     suiteDefinitionConfiguration,
     suiteDefinitionId,

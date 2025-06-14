@@ -27,21 +27,19 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   and 99 percent of the total value of the Savings Plan. This parameter is only supported if
   the payment option is Partial Upfront.
 """
-function create_savings_plan(
+create_savings_plan(
     commitment, savingsPlanOfferingId; aws_config::AbstractAWSConfig=global_aws_config()
+) = savingsplans(
+    "POST",
+    "/CreateSavingsPlan",
+    Dict{String,Any}(
+        "commitment" => commitment,
+        "savingsPlanOfferingId" => savingsPlanOfferingId,
+        "clientToken" => string(uuid4()),
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return savingsplans(
-        "POST",
-        "/CreateSavingsPlan",
-        Dict{String,Any}(
-            "commitment" => commitment,
-            "savingsPlanOfferingId" => savingsPlanOfferingId,
-            "clientToken" => string(uuid4()),
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_savings_plan(
     commitment,
     savingsPlanOfferingId,
@@ -77,17 +75,15 @@ Deletes the queued purchase for the specified Savings Plan.
 - `savings_plan_id`: The ID of the Savings Plan.
 
 """
-function delete_queued_savings_plan(
+delete_queued_savings_plan(
     savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+) = savingsplans(
+    "POST",
+    "/DeleteQueuedSavingsPlan",
+    Dict{String,Any}("savingsPlanId" => savingsPlanId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return savingsplans(
-        "POST",
-        "/DeleteQueuedSavingsPlan",
-        Dict{String,Any}("savingsPlanId" => savingsPlanId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_queued_savings_plan(
     savingsPlanId,
     params::AbstractDict{String};
@@ -120,17 +116,15 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   additional results, make another call with the returned token value.
 - `"nextToken"`: The token for the next page of results.
 """
-function describe_savings_plan_rates(
+describe_savings_plan_rates(
     savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config()
+) = savingsplans(
+    "POST",
+    "/DescribeSavingsPlanRates",
+    Dict{String,Any}("savingsPlanId" => savingsPlanId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return savingsplans(
-        "POST",
-        "/DescribeSavingsPlanRates",
-        Dict{String,Any}("savingsPlanId" => savingsPlanId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_savings_plan_rates(
     savingsPlanId,
     params::AbstractDict{String};
@@ -163,14 +157,12 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"savingsPlanIds"`: The IDs of the Savings Plans.
 - `"states"`: The current states of the Savings Plans.
 """
-function describe_savings_plans(; aws_config::AbstractAWSConfig=global_aws_config())
-    return savingsplans(
-        "POST",
-        "/DescribeSavingsPlans";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+describe_savings_plans(; aws_config::AbstractAWSConfig=global_aws_config()) = savingsplans(
+    "POST",
+    "/DescribeSavingsPlans";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function describe_savings_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -204,16 +196,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceCodes"`: The services.
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
-function describe_savings_plans_offering_rates(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return savingsplans(
+describe_savings_plans_offering_rates(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    savingsplans(
         "POST",
         "/DescribeSavingsPlansOfferingRates";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_savings_plans_offering_rates(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -250,16 +239,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"serviceCodes"`: The services.
 - `"usageTypes"`: The usage details of the line item in the billing report.
 """
-function describe_savings_plans_offerings(;
-    aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return savingsplans(
+describe_savings_plans_offerings(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    savingsplans(
         "POST",
         "/DescribeSavingsPlansOfferings";
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function describe_savings_plans_offerings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -282,17 +268,14 @@ Lists the tags for the specified resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return savingsplans(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    savingsplans(
         "POST",
         "/ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -323,10 +306,8 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"clientToken"`: A unique, case-sensitive identifier that you provide to ensure the
   idempotency of the request.
 """
-function return_savings_plan(
-    savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return savingsplans(
+return_savings_plan(savingsPlanId; aws_config::AbstractAWSConfig=global_aws_config()) =
+    savingsplans(
         "POST",
         "/ReturnSavingsPlan",
         Dict{String,Any}(
@@ -335,7 +316,6 @@ function return_savings_plan(
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function return_savings_plan(
     savingsPlanId,
     params::AbstractDict{String};
@@ -370,15 +350,14 @@ Adds the specified tags to the specified resource.
   \"key2\":\"value2\"} }.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return savingsplans(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    savingsplans(
         "POST",
         "/TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -411,17 +390,14 @@ Removes the specified tags from the specified resource.
 - `tag_keys`: The tag keys.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return savingsplans(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    savingsplans(
         "POST",
         "/UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,

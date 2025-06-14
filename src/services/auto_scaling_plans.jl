@@ -20,23 +20,21 @@ Creates a scaling plan.
   colons, or forward slashes.
 
 """
-function create_scaling_plan(
+create_scaling_plan(
     ApplicationSource,
     ScalingInstructions,
     ScalingPlanName;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = auto_scaling_plans(
+    "CreateScalingPlan",
+    Dict{String,Any}(
+        "ApplicationSource" => ApplicationSource,
+        "ScalingInstructions" => ScalingInstructions,
+        "ScalingPlanName" => ScalingPlanName,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auto_scaling_plans(
-        "CreateScalingPlan",
-        Dict{String,Any}(
-            "ApplicationSource" => ApplicationSource,
-            "ScalingInstructions" => ScalingInstructions,
-            "ScalingPlanName" => ScalingPlanName,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_scaling_plan(
     ApplicationSource,
     ScalingInstructions,
@@ -77,18 +75,16 @@ resources separately.
   value is 1.
 
 """
-function delete_scaling_plan(
+delete_scaling_plan(
     ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = auto_scaling_plans(
+    "DeleteScalingPlan",
+    Dict{String,Any}(
+        "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auto_scaling_plans(
-        "DeleteScalingPlan",
-        Dict{String,Any}(
-            "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function delete_scaling_plan(
     ScalingPlanName,
     ScalingPlanVersion,
@@ -129,18 +125,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   between 1 and 50. The default value is 50.
 - `"NextToken"`: The token for the next set of results.
 """
-function describe_scaling_plan_resources(
+describe_scaling_plan_resources(
     ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = auto_scaling_plans(
+    "DescribeScalingPlanResources",
+    Dict{String,Any}(
+        "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auto_scaling_plans(
-        "DescribeScalingPlanResources",
-        Dict{String,Any}(
-            "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function describe_scaling_plan_resources(
     ScalingPlanName,
     ScalingPlanVersion,
@@ -183,11 +177,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   value is 1.  If you specify a scaling plan version, you must also specify a scaling plan
   name.
 """
-function describe_scaling_plans(; aws_config::AbstractAWSConfig=global_aws_config())
-    return auto_scaling_plans(
+describe_scaling_plans(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    auto_scaling_plans(
         "DescribeScalingPlans"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function describe_scaling_plans(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -234,7 +227,7 @@ specified CloudWatch load metric. Data points are available for up to 56 days.
   The date and time can be at most 56 days before the current date and time.
 
 """
-function get_scaling_plan_resource_forecast_data(
+get_scaling_plan_resource_forecast_data(
     EndTime,
     ForecastDataType,
     ResourceId,
@@ -244,23 +237,21 @@ function get_scaling_plan_resource_forecast_data(
     ServiceNamespace,
     StartTime;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = auto_scaling_plans(
+    "GetScalingPlanResourceForecastData",
+    Dict{String,Any}(
+        "EndTime" => EndTime,
+        "ForecastDataType" => ForecastDataType,
+        "ResourceId" => ResourceId,
+        "ScalableDimension" => ScalableDimension,
+        "ScalingPlanName" => ScalingPlanName,
+        "ScalingPlanVersion" => ScalingPlanVersion,
+        "ServiceNamespace" => ServiceNamespace,
+        "StartTime" => StartTime,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auto_scaling_plans(
-        "GetScalingPlanResourceForecastData",
-        Dict{String,Any}(
-            "EndTime" => EndTime,
-            "ForecastDataType" => ForecastDataType,
-            "ResourceId" => ResourceId,
-            "ScalableDimension" => ScalableDimension,
-            "ScalingPlanName" => ScalingPlanName,
-            "ScalingPlanVersion" => ScalingPlanVersion,
-            "ServiceNamespace" => ServiceNamespace,
-            "StartTime" => StartTime,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function get_scaling_plan_resource_forecast_data(
     EndTime,
     ForecastDataType,
@@ -315,18 +306,16 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"ScalingInstructions"`: The scaling instructions. For more information, see
   ScalingInstruction in the AWS Auto Scaling API Reference.
 """
-function update_scaling_plan(
+update_scaling_plan(
     ScalingPlanName, ScalingPlanVersion; aws_config::AbstractAWSConfig=global_aws_config()
+) = auto_scaling_plans(
+    "UpdateScalingPlan",
+    Dict{String,Any}(
+        "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return auto_scaling_plans(
-        "UpdateScalingPlan",
-        Dict{String,Any}(
-            "ScalingPlanName" => ScalingPlanName, "ScalingPlanVersion" => ScalingPlanVersion
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function update_scaling_plan(
     ScalingPlanName,
     ScalingPlanVersion,

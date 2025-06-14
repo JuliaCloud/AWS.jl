@@ -11,14 +11,12 @@ using AWS.UUIDs
 Get the account settings for Artifact.
 
 """
-function get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return artifact(
-        "GET",
-        "/v1/account-settings/get";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = artifact(
+    "GET",
+    "/v1/account-settings/get";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -45,15 +43,14 @@ Get the content for a single report.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"reportVersion"`: Version for the report resource.
 """
-function get_report(reportId, termToken; aws_config::AbstractAWSConfig=global_aws_config())
-    return artifact(
+get_report(reportId, termToken; aws_config::AbstractAWSConfig=global_aws_config()) =
+    artifact(
         "GET",
         "/v1/report/get",
         Dict{String,Any}("reportId" => reportId, "termToken" => termToken);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_report(
     reportId,
     termToken,
@@ -88,15 +85,13 @@ Get the metadata for a single report.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"reportVersion"`: Version for the report resource.
 """
-function get_report_metadata(reportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return artifact(
-        "GET",
-        "/v1/report/getMetadata",
-        Dict{String,Any}("reportId" => reportId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_report_metadata(reportId; aws_config::AbstractAWSConfig=global_aws_config()) = artifact(
+    "GET",
+    "/v1/report/getMetadata",
+    Dict{String,Any}("reportId" => reportId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_report_metadata(
     reportId,
     params::AbstractDict{String};
@@ -126,15 +121,13 @@ Get the Term content associated with a single report.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"reportVersion"`: Version for the report resource.
 """
-function get_term_for_report(reportId; aws_config::AbstractAWSConfig=global_aws_config())
-    return artifact(
-        "GET",
-        "/v1/report/getTermForReport",
-        Dict{String,Any}("reportId" => reportId);
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+get_term_for_report(reportId; aws_config::AbstractAWSConfig=global_aws_config()) = artifact(
+    "GET",
+    "/v1/report/getTermForReport",
+    Dict{String,Any}("reportId" => reportId);
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function get_term_for_report(
     reportId,
     params::AbstractDict{String};
@@ -162,11 +155,9 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"maxResults"`: Maximum number of resources to return in the paginated response.
 - `"nextToken"`: Pagination token to request the next page of resources.
 """
-function list_reports(; aws_config::AbstractAWSConfig=global_aws_config())
-    return artifact(
-        "GET", "/v1/report/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
-    )
-end
+list_reports(; aws_config::AbstractAWSConfig=global_aws_config()) = artifact(
+    "GET", "/v1/report/list"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
+)
 function list_reports(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -189,14 +180,12 @@ Put the account settings for Artifact.
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
 - `"notificationSubscriptionStatus"`: Desired notification subscription status.
 """
-function put_account_settings(; aws_config::AbstractAWSConfig=global_aws_config())
-    return artifact(
-        "PUT",
-        "/v1/account-settings/put";
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
+put_account_settings(; aws_config::AbstractAWSConfig=global_aws_config()) = artifact(
+    "PUT",
+    "/v1/account-settings/put";
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
+)
 function put_account_settings(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )

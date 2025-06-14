@@ -53,7 +53,7 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
   administrative tasks and also use the InfluxDB CLI to create an operator token. These
   attributes will be stored in a Secret created in Amazon Secrets Manager in your account.
 """
-function create_db_instance(
+create_db_instance(
     allocatedStorage,
     dbInstanceType,
     name,
@@ -61,21 +61,19 @@ function create_db_instance(
     vpcSecurityGroupIds,
     vpcSubnetIds;
     aws_config::AbstractAWSConfig=global_aws_config(),
+) = timestream_influxdb(
+    "CreateDbInstance",
+    Dict{String,Any}(
+        "allocatedStorage" => allocatedStorage,
+        "dbInstanceType" => dbInstanceType,
+        "name" => name,
+        "password" => password,
+        "vpcSecurityGroupIds" => vpcSecurityGroupIds,
+        "vpcSubnetIds" => vpcSubnetIds,
+    );
+    aws_config=aws_config,
+    feature_set=SERVICE_FEATURE_SET,
 )
-    return timestream_influxdb(
-        "CreateDbInstance",
-        Dict{String,Any}(
-            "allocatedStorage" => allocatedStorage,
-            "dbInstanceType" => dbInstanceType,
-            "name" => name,
-            "password" => password,
-            "vpcSecurityGroupIds" => vpcSecurityGroupIds,
-            "vpcSubnetIds" => vpcSubnetIds,
-        );
-        aws_config=aws_config,
-        feature_set=SERVICE_FEATURE_SET,
-    )
-end
 function create_db_instance(
     allocatedStorage,
     dbInstanceType,
@@ -123,14 +121,13 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"parameters"`: A list of the parameters that comprise the DB parameter group.
 - `"tags"`: A list of key-value pairs to associate with the DB parameter group.
 """
-function create_db_parameter_group(name; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_influxdb(
+create_db_parameter_group(name; aws_config::AbstractAWSConfig=global_aws_config()) =
+    timestream_influxdb(
         "CreateDbParameterGroup",
         Dict{String,Any}("name" => name);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function create_db_parameter_group(
     name, params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -152,14 +149,13 @@ Deletes a Timestream for InfluxDB DB instance.
 - `identifier`: The id of the DB instance.
 
 """
-function delete_db_instance(identifier; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_influxdb(
+delete_db_instance(identifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    timestream_influxdb(
         "DeleteDbInstance",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function delete_db_instance(
     identifier,
     params::AbstractDict{String};
@@ -185,14 +181,13 @@ Returns a Timestream for InfluxDB DB instance.
 - `identifier`: The id of the DB instance.
 
 """
-function get_db_instance(identifier; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_influxdb(
+get_db_instance(identifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    timestream_influxdb(
         "GetDbInstance",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_db_instance(
     identifier,
     params::AbstractDict{String};
@@ -218,16 +213,13 @@ Returns a Timestream for InfluxDB DB parameter group.
 - `identifier`: The id of the DB parameter group.
 
 """
-function get_db_parameter_group(
-    identifier; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return timestream_influxdb(
+get_db_parameter_group(identifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    timestream_influxdb(
         "GetDbParameterGroup",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function get_db_parameter_group(
     identifier,
     params::AbstractDict{String};
@@ -258,11 +250,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
-function list_db_instances(; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_influxdb(
+list_db_instances(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    timestream_influxdb(
         "ListDbInstances"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_db_instances(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -286,11 +277,10 @@ Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys 
 - `"nextToken"`: The pagination token. To resume pagination, provide the NextToken value as
   argument of a subsequent API invocation.
 """
-function list_db_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_influxdb(
+list_db_parameter_groups(; aws_config::AbstractAWSConfig=global_aws_config()) =
+    timestream_influxdb(
         "ListDbParameterGroups"; aws_config=aws_config, feature_set=SERVICE_FEATURE_SET
     )
-end
 function list_db_parameter_groups(
     params::AbstractDict{String}; aws_config::AbstractAWSConfig=global_aws_config()
 )
@@ -312,16 +302,13 @@ A list of tags applied to the resource.
 - `resource_arn`: The Amazon Resource Name (ARN) of the tagged resource.
 
 """
-function list_tags_for_resource(
-    resourceArn; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return timestream_influxdb(
+list_tags_for_resource(resourceArn; aws_config::AbstractAWSConfig=global_aws_config()) =
+    timestream_influxdb(
         "ListTagsForResource",
         Dict{String,Any}("resourceArn" => resourceArn);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function list_tags_for_resource(
     resourceArn,
     params::AbstractDict{String};
@@ -349,14 +336,13 @@ Timestream for InfluxDB resources.
 - `tags`: A list of tags used to categorize and track resources.
 
 """
-function tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_influxdb(
+tag_resource(resourceArn, tags; aws_config::AbstractAWSConfig=global_aws_config()) =
+    timestream_influxdb(
         "TagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tags" => tags);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function tag_resource(
     resourceArn,
     tags,
@@ -388,16 +374,13 @@ Removes the tag from the specified resource.
 - `tag_keys`: The keys used to identify the tags.
 
 """
-function untag_resource(
-    resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()
-)
-    return timestream_influxdb(
+untag_resource(resourceArn, tagKeys; aws_config::AbstractAWSConfig=global_aws_config()) =
+    timestream_influxdb(
         "UntagResource",
         Dict{String,Any}("resourceArn" => resourceArn, "tagKeys" => tagKeys);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function untag_resource(
     resourceArn,
     tagKeys,
@@ -429,20 +412,22 @@ Updates a Timestream for InfluxDB DB instance.
 
 # Optional Parameters
 Optional parameters can be passed as a `params::Dict{String,<:Any}`. Valid keys are:
+- `"dbInstanceType"`: The Timestream for InfluxDB DB instance type to run InfluxDB on.
 - `"dbParameterGroupIdentifier"`: The id of the DB parameter group to assign to your DB
   instance. DB parameter groups specify how the database is configured. For example, DB
   parameter groups can specify the limit for query concurrency.
+- `"deploymentType"`: Specifies whether the DB instance will be deployed as a standalone
+  instance or with a Multi-AZ standby for high availability.
 - `"logDeliveryConfiguration"`: Configuration for sending InfluxDB engine logs to send to
   specified S3 bucket.
 """
-function update_db_instance(identifier; aws_config::AbstractAWSConfig=global_aws_config())
-    return timestream_influxdb(
+update_db_instance(identifier; aws_config::AbstractAWSConfig=global_aws_config()) =
+    timestream_influxdb(
         "UpdateDbInstance",
         Dict{String,Any}("identifier" => identifier);
         aws_config=aws_config,
         feature_set=SERVICE_FEATURE_SET,
     )
-end
 function update_db_instance(
     identifier,
     params::AbstractDict{String};
